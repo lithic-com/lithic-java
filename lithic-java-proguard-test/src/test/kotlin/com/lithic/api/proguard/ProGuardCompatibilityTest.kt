@@ -5,12 +5,9 @@ package com.lithic.api.proguard
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.jsonMapper
-import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.CardSpendLimits
-import com.lithic.api.models.KybBusinessEntity
-import com.lithic.api.models.RequiredDocument
+import com.lithic.api.models.CardWebProvisionResponse
 import com.lithic.api.models.SpendLimitDuration
-import java.time.OffsetDateTime
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.jvm.javaMethod
 import org.assertj.core.api.Assertions.assertThat
@@ -124,168 +121,39 @@ internal class ProGuardCompatibilityTest {
     }
 
     @Test
-    fun accountHolderUpdateResponseRoundtrip() {
+    fun cardWebProvisionResponseRoundtrip() {
         val jsonMapper = jsonMapper()
-        val accountHolderUpdateResponse =
-            AccountHolderUpdateResponse.ofKybKycPatch(
-                AccountHolderUpdateResponse.KybKycPatchResponse.builder()
-                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addBeneficialOwnerEntity(
-                        KybBusinessEntity.builder()
-                            .address(
-                                KybBusinessEntity.Address.builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .governmentId("114-123-1513")
-                            .legalBusinessName("Acme, Inc.")
-                            .addPhoneNumber("+15555555555")
-                            .dbaBusinessName("dba_business_name")
-                            .parentCompany("parent_company")
-                            .build()
-                    )
-                    .addBeneficialOwnerIndividual(
-                        AccountHolderUpdateResponse.KybKycPatchResponse.Individual.builder()
-                            .address(
-                                AccountHolderUpdateResponse.KybKycPatchResponse.Individual.Address
-                                    .builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .dob("1991-03-08 08:00:00")
-                            .email("tom@middle-earth.com")
-                            .firstName("Tom")
-                            .governmentId("111-23-1412")
-                            .lastName("Bombadil")
-                            .phoneNumber("+15555555555")
-                            .build()
-                    )
-                    .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .businessEntity(
-                        KybBusinessEntity.builder()
-                            .address(
-                                KybBusinessEntity.Address.builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .governmentId("114-123-1513")
-                            .legalBusinessName("Acme, Inc.")
-                            .addPhoneNumber("+15555555555")
-                            .dbaBusinessName("dba_business_name")
-                            .parentCompany("parent_company")
-                            .build()
-                    )
-                    .controlPerson(
-                        AccountHolderUpdateResponse.KybKycPatchResponse.Individual.builder()
-                            .address(
-                                AccountHolderUpdateResponse.KybKycPatchResponse.Individual.Address
-                                    .builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .dob("1991-03-08 08:00:00")
-                            .email("tom@middle-earth.com")
-                            .firstName("Tom")
-                            .governmentId("111-23-1412")
-                            .lastName("Bombadil")
-                            .phoneNumber("+15555555555")
-                            .build()
-                    )
-                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .email("email")
-                    .exemptionType(
-                        AccountHolderUpdateResponse.KybKycPatchResponse.ExemptionType
-                            .AUTHORIZED_USER
-                    )
-                    .externalId("external_id")
-                    .individual(
-                        AccountHolderUpdateResponse.KybKycPatchResponse.Individual.builder()
-                            .address(
-                                AccountHolderUpdateResponse.KybKycPatchResponse.Individual.Address
-                                    .builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .dob("1991-03-08 08:00:00")
-                            .email("tom@middle-earth.com")
-                            .firstName("Tom")
-                            .governmentId("111-23-1412")
-                            .lastName("Bombadil")
-                            .phoneNumber("+15555555555")
-                            .build()
-                    )
-                    .natureOfBusiness("nature_of_business")
-                    .phoneNumber("phone_number")
-                    .addRequiredDocument(
-                        RequiredDocument.builder()
-                            .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .addStatusReason("string")
-                            .addValidDocument("string")
-                            .build()
-                    )
-                    .status(AccountHolderUpdateResponse.KybKycPatchResponse.Status.ACCEPTED)
-                    .addStatusReason(
-                        AccountHolderUpdateResponse.KybKycPatchResponse.StatusReasons
-                            .ADDRESS_VERIFICATION_FAILURE
-                    )
-                    .userType(AccountHolderUpdateResponse.KybKycPatchResponse.UserType.BUSINESS)
-                    .verificationApplication(
-                        AccountHolderUpdateResponse.KybKycPatchResponse.VerificationApplication
+        val cardWebProvisionResponse =
+            CardWebProvisionResponse.ofAppleWebPushProvisioning(
+                CardWebProvisionResponse.AppleWebPushProvisioningResponse.builder()
+                    .jws(
+                        CardWebProvisionResponse.AppleWebPushProvisioningResponse
+                            .WebPushProvisioningResponseJws
                             .builder()
-                            .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .status(
-                                AccountHolderUpdateResponse.KybKycPatchResponse
-                                    .VerificationApplication
-                                    .Status
-                                    .ACCEPTED
+                            .header(
+                                CardWebProvisionResponse.AppleWebPushProvisioningResponse
+                                    .WebPushProvisioningResponseJws
+                                    .WebPushProvisioningResponseHeader
+                                    .builder()
+                                    .kid("8dc7aed4-29e3-41e4-9cdb-673a05e6615c")
+                                    .build()
                             )
-                            .addStatusReason(
-                                AccountHolderUpdateResponse.KybKycPatchResponse
-                                    .VerificationApplication
-                                    .StatusReasons
-                                    .ADDRESS_VERIFICATION_FAILURE
-                            )
-                            .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .kyPassedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                            .payload("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9")
+                            .protected_("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9")
+                            .signature("SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")
                             .build()
                     )
-                    .websiteUrl("website_url")
+                    .state("3cc4c292-727b-4ca8-b9a8-f96c15485f4e")
                     .build()
             )
 
-        val roundtrippedAccountHolderUpdateResponse =
+        val roundtrippedCardWebProvisionResponse =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(accountHolderUpdateResponse),
-                jacksonTypeRef<AccountHolderUpdateResponse>(),
+                jsonMapper.writeValueAsString(cardWebProvisionResponse),
+                jacksonTypeRef<CardWebProvisionResponse>(),
             )
 
-        assertThat(roundtrippedAccountHolderUpdateResponse).isEqualTo(accountHolderUpdateResponse)
+        assertThat(roundtrippedCardWebProvisionResponse).isEqualTo(cardWebProvisionResponse)
     }
 
     @Test

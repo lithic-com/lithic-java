@@ -11,7 +11,10 @@ internal class CardWebProvisionParamsTest {
     fun create() {
         CardWebProvisionParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .clientDeviceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .clientWalletAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .digitalWallet(CardWebProvisionParams.DigitalWallet.APPLE_PAY)
+            .serverSessionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -32,12 +35,18 @@ internal class CardWebProvisionParamsTest {
         val params =
             CardWebProvisionParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .clientDeviceId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .clientWalletAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .digitalWallet(CardWebProvisionParams.DigitalWallet.APPLE_PAY)
+                .serverSessionId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val body = params._body()
 
+        assertThat(body.clientDeviceId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.clientWalletAccountId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.digitalWallet()).contains(CardWebProvisionParams.DigitalWallet.APPLE_PAY)
+        assertThat(body.serverSessionId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
