@@ -39,6 +39,24 @@ private constructor(
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
 
     /**
+     * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning device
+     * identifier required for the tokenization flow
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun clientDeviceId(): Optional<String> = body.clientDeviceId()
+
+    /**
+     * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning wallet
+     * account identifier required for the tokenization flow
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun clientWalletAccountId(): Optional<String> = body.clientWalletAccountId()
+
+    /**
      * Name of digital wallet provider.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -47,11 +65,42 @@ private constructor(
     fun digitalWallet(): Optional<DigitalWallet> = body.digitalWallet()
 
     /**
+     * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning session
+     * identifier required for the FPAN flow.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun serverSessionId(): Optional<String> = body.serverSessionId()
+
+    /**
+     * Returns the raw JSON value of [clientDeviceId].
+     *
+     * Unlike [clientDeviceId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _clientDeviceId(): JsonField<String> = body._clientDeviceId()
+
+    /**
+     * Returns the raw JSON value of [clientWalletAccountId].
+     *
+     * Unlike [clientWalletAccountId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _clientWalletAccountId(): JsonField<String> = body._clientWalletAccountId()
+
+    /**
      * Returns the raw JSON value of [digitalWallet].
      *
      * Unlike [digitalWallet], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _digitalWallet(): JsonField<DigitalWallet> = body._digitalWallet()
+
+    /**
+     * Returns the raw JSON value of [serverSessionId].
+     *
+     * Unlike [serverSessionId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _serverSessionId(): JsonField<String> = body._serverSessionId()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -97,9 +146,48 @@ private constructor(
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [clientDeviceId]
+         * - [clientWalletAccountId]
          * - [digitalWallet]
+         * - [serverSessionId]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /**
+         * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+         * device identifier required for the tokenization flow
+         */
+        fun clientDeviceId(clientDeviceId: String) = apply { body.clientDeviceId(clientDeviceId) }
+
+        /**
+         * Sets [Builder.clientDeviceId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientDeviceId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
+            body.clientDeviceId(clientDeviceId)
+        }
+
+        /**
+         * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+         * wallet account identifier required for the tokenization flow
+         */
+        fun clientWalletAccountId(clientWalletAccountId: String) = apply {
+            body.clientWalletAccountId(clientWalletAccountId)
+        }
+
+        /**
+         * Sets [Builder.clientWalletAccountId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientWalletAccountId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
+            body.clientWalletAccountId(clientWalletAccountId)
+        }
 
         /** Name of digital wallet provider. */
         fun digitalWallet(digitalWallet: DigitalWallet) = apply {
@@ -115,6 +203,25 @@ private constructor(
          */
         fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
             body.digitalWallet(digitalWallet)
+        }
+
+        /**
+         * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+         * session identifier required for the FPAN flow.
+         */
+        fun serverSessionId(serverSessionId: String) = apply {
+            body.serverSessionId(serverSessionId)
+        }
+
+        /**
+         * Sets [Builder.serverSessionId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.serverSessionId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun serverSessionId(serverSessionId: JsonField<String>) = apply {
+            body.serverSessionId(serverSessionId)
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
@@ -263,16 +370,53 @@ private constructor(
     class Body
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val clientDeviceId: JsonField<String>,
+        private val clientWalletAccountId: JsonField<String>,
         private val digitalWallet: JsonField<DigitalWallet>,
+        private val serverSessionId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
+            @JsonProperty("client_device_id")
+            @ExcludeMissing
+            clientDeviceId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("client_wallet_account_id")
+            @ExcludeMissing
+            clientWalletAccountId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("digital_wallet")
             @ExcludeMissing
-            digitalWallet: JsonField<DigitalWallet> = JsonMissing.of()
-        ) : this(digitalWallet, mutableMapOf())
+            digitalWallet: JsonField<DigitalWallet> = JsonMissing.of(),
+            @JsonProperty("server_session_id")
+            @ExcludeMissing
+            serverSessionId: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            clientDeviceId,
+            clientWalletAccountId,
+            digitalWallet,
+            serverSessionId,
+            mutableMapOf(),
+        )
+
+        /**
+         * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+         * device identifier required for the tokenization flow
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun clientDeviceId(): Optional<String> = clientDeviceId.getOptional("client_device_id")
+
+        /**
+         * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+         * wallet account identifier required for the tokenization flow
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun clientWalletAccountId(): Optional<String> =
+            clientWalletAccountId.getOptional("client_wallet_account_id")
 
         /**
          * Name of digital wallet provider.
@@ -283,6 +427,35 @@ private constructor(
         fun digitalWallet(): Optional<DigitalWallet> = digitalWallet.getOptional("digital_wallet")
 
         /**
+         * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+         * session identifier required for the FPAN flow.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun serverSessionId(): Optional<String> = serverSessionId.getOptional("server_session_id")
+
+        /**
+         * Returns the raw JSON value of [clientDeviceId].
+         *
+         * Unlike [clientDeviceId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("client_device_id")
+        @ExcludeMissing
+        fun _clientDeviceId(): JsonField<String> = clientDeviceId
+
+        /**
+         * Returns the raw JSON value of [clientWalletAccountId].
+         *
+         * Unlike [clientWalletAccountId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("client_wallet_account_id")
+        @ExcludeMissing
+        fun _clientWalletAccountId(): JsonField<String> = clientWalletAccountId
+
+        /**
          * Returns the raw JSON value of [digitalWallet].
          *
          * Unlike [digitalWallet], this method doesn't throw if the JSON field has an unexpected
@@ -291,6 +464,16 @@ private constructor(
         @JsonProperty("digital_wallet")
         @ExcludeMissing
         fun _digitalWallet(): JsonField<DigitalWallet> = digitalWallet
+
+        /**
+         * Returns the raw JSON value of [serverSessionId].
+         *
+         * Unlike [serverSessionId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("server_session_id")
+        @ExcludeMissing
+        fun _serverSessionId(): JsonField<String> = serverSessionId
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -313,13 +496,55 @@ private constructor(
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
+            private var clientDeviceId: JsonField<String> = JsonMissing.of()
+            private var clientWalletAccountId: JsonField<String> = JsonMissing.of()
             private var digitalWallet: JsonField<DigitalWallet> = JsonMissing.of()
+            private var serverSessionId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
+                clientDeviceId = body.clientDeviceId
+                clientWalletAccountId = body.clientWalletAccountId
                 digitalWallet = body.digitalWallet
+                serverSessionId = body.serverSessionId
                 additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+             * device identifier required for the tokenization flow
+             */
+            fun clientDeviceId(clientDeviceId: String) =
+                clientDeviceId(JsonField.of(clientDeviceId))
+
+            /**
+             * Sets [Builder.clientDeviceId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.clientDeviceId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
+                this.clientDeviceId = clientDeviceId
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+             * wallet account identifier required for the tokenization flow
+             */
+            fun clientWalletAccountId(clientWalletAccountId: String) =
+                clientWalletAccountId(JsonField.of(clientWalletAccountId))
+
+            /**
+             * Sets [Builder.clientWalletAccountId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.clientWalletAccountId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
+                this.clientWalletAccountId = clientWalletAccountId
             }
 
             /** Name of digital wallet provider. */
@@ -335,6 +560,24 @@ private constructor(
              */
             fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
                 this.digitalWallet = digitalWallet
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is GOOGLE_PAY. Google Pay Web Push Provisioning
+             * session identifier required for the FPAN flow.
+             */
+            fun serverSessionId(serverSessionId: String) =
+                serverSessionId(JsonField.of(serverSessionId))
+
+            /**
+             * Sets [Builder.serverSessionId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.serverSessionId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun serverSessionId(serverSessionId: JsonField<String>) = apply {
+                this.serverSessionId = serverSessionId
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -361,7 +604,14 @@ private constructor(
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              */
-            fun build(): Body = Body(digitalWallet, additionalProperties.toMutableMap())
+            fun build(): Body =
+                Body(
+                    clientDeviceId,
+                    clientWalletAccountId,
+                    digitalWallet,
+                    serverSessionId,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -371,7 +621,10 @@ private constructor(
                 return@apply
             }
 
+            clientDeviceId()
+            clientWalletAccountId()
             digitalWallet().ifPresent { it.validate() }
+            serverSessionId()
             validated = true
         }
 
@@ -390,7 +643,11 @@ private constructor(
          * Used for best match union deserialization.
          */
         @JvmSynthetic
-        internal fun validity(): Int = (digitalWallet.asKnown().getOrNull()?.validity() ?: 0)
+        internal fun validity(): Int =
+            (if (clientDeviceId.asKnown().isPresent) 1 else 0) +
+                (if (clientWalletAccountId.asKnown().isPresent) 1 else 0) +
+                (digitalWallet.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (serverSessionId.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -398,16 +655,27 @@ private constructor(
             }
 
             return other is Body &&
+                clientDeviceId == other.clientDeviceId &&
+                clientWalletAccountId == other.clientWalletAccountId &&
                 digitalWallet == other.digitalWallet &&
+                serverSessionId == other.serverSessionId &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy { Objects.hash(digitalWallet, additionalProperties) }
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                clientDeviceId,
+                clientWalletAccountId,
+                digitalWallet,
+                serverSessionId,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{digitalWallet=$digitalWallet, additionalProperties=$additionalProperties}"
+            "Body{clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, serverSessionId=$serverSessionId, additionalProperties=$additionalProperties}"
     }
 
     /** Name of digital wallet provider. */
@@ -428,12 +696,15 @@ private constructor(
 
             @JvmField val APPLE_PAY = of("APPLE_PAY")
 
+            @JvmField val GOOGLE_PAY = of("GOOGLE_PAY")
+
             @JvmStatic fun of(value: String) = DigitalWallet(JsonField.of(value))
         }
 
         /** An enum containing [DigitalWallet]'s known values. */
         enum class Known {
-            APPLE_PAY
+            APPLE_PAY,
+            GOOGLE_PAY,
         }
 
         /**
@@ -447,6 +718,7 @@ private constructor(
          */
         enum class Value {
             APPLE_PAY,
+            GOOGLE_PAY,
             /**
              * An enum member indicating that [DigitalWallet] was instantiated with an unknown
              * value.
@@ -464,6 +736,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 APPLE_PAY -> Value.APPLE_PAY
+                GOOGLE_PAY -> Value.GOOGLE_PAY
                 else -> Value._UNKNOWN
             }
 
@@ -479,6 +752,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 APPLE_PAY -> Known.APPLE_PAY
+                GOOGLE_PAY -> Known.GOOGLE_PAY
                 else -> throw LithicInvalidDataException("Unknown DigitalWallet: $value")
             }
 

@@ -16,6 +16,7 @@ import com.lithic.api.core.allMaxBy
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
@@ -27,6 +28,7 @@ private constructor(
     private val regex: String? = null,
     private val number: Long? = null,
     private val listOfStrings: List<String>? = null,
+    private val timestamp: OffsetDateTime? = null,
     private val _json: JsonValue? = null,
 ) {
 
@@ -42,11 +44,16 @@ private constructor(
     /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
     fun listOfStrings(): Optional<List<String>> = Optional.ofNullable(listOfStrings)
 
+    /** A timestamp, to be used with `IS_AFTER` or `IS_BEFORE` */
+    fun timestamp(): Optional<OffsetDateTime> = Optional.ofNullable(timestamp)
+
     fun isRegex(): Boolean = regex != null
 
     fun isNumber(): Boolean = number != null
 
     fun isListOfStrings(): Boolean = listOfStrings != null
+
+    fun isTimestamp(): Boolean = timestamp != null
 
     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
     fun asRegex(): String = regex.getOrThrow("regex")
@@ -60,6 +67,9 @@ private constructor(
     /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
     fun asListOfStrings(): List<String> = listOfStrings.getOrThrow("listOfStrings")
 
+    /** A timestamp, to be used with `IS_AFTER` or `IS_BEFORE` */
+    fun asTimestamp(): OffsetDateTime = timestamp.getOrThrow("timestamp")
+
     fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
     fun <T> accept(visitor: Visitor<T>): T =
@@ -67,6 +77,7 @@ private constructor(
             regex != null -> visitor.visitRegex(regex)
             number != null -> visitor.visitNumber(number)
             listOfStrings != null -> visitor.visitListOfStrings(listOfStrings)
+            timestamp != null -> visitor.visitTimestamp(timestamp)
             else -> visitor.unknown(_json)
         }
 
@@ -84,6 +95,8 @@ private constructor(
                 override fun visitNumber(number: Long) {}
 
                 override fun visitListOfStrings(listOfStrings: List<String>) {}
+
+                override fun visitTimestamp(timestamp: OffsetDateTime) {}
             }
         )
         validated = true
@@ -112,6 +125,8 @@ private constructor(
 
                 override fun visitListOfStrings(listOfStrings: List<String>) = listOfStrings.size
 
+                override fun visitTimestamp(timestamp: OffsetDateTime) = 1
+
                 override fun unknown(json: JsonValue?) = 0
             }
         )
@@ -124,16 +139,18 @@ private constructor(
         return other is ConditionalValue &&
             regex == other.regex &&
             number == other.number &&
-            listOfStrings == other.listOfStrings
+            listOfStrings == other.listOfStrings &&
+            timestamp == other.timestamp
     }
 
-    override fun hashCode(): Int = Objects.hash(regex, number, listOfStrings)
+    override fun hashCode(): Int = Objects.hash(regex, number, listOfStrings, timestamp)
 
     override fun toString(): String =
         when {
             regex != null -> "ConditionalValue{regex=$regex}"
             number != null -> "ConditionalValue{number=$number}"
             listOfStrings != null -> "ConditionalValue{listOfStrings=$listOfStrings}"
+            timestamp != null -> "ConditionalValue{timestamp=$timestamp}"
             _json != null -> "ConditionalValue{_unknown=$_json}"
             else -> throw IllegalStateException("Invalid ConditionalValue")
         }
@@ -153,6 +170,10 @@ private constructor(
         @JvmStatic
         fun ofListOfStrings(listOfStrings: List<String>) =
             ConditionalValue(listOfStrings = listOfStrings.toImmutable())
+
+        /** A timestamp, to be used with `IS_AFTER` or `IS_BEFORE` */
+        @JvmStatic
+        fun ofTimestamp(timestamp: OffsetDateTime) = ConditionalValue(timestamp = timestamp)
     }
 
     /**
@@ -172,6 +193,9 @@ private constructor(
 
         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
         fun visitListOfStrings(listOfStrings: List<String>): T
+
+        /** A timestamp, to be used with `IS_AFTER` or `IS_BEFORE` */
+        fun visitTimestamp(timestamp: OffsetDateTime): T
 
         /**
          * Maps an unknown variant of [ConditionalValue] to a value of type [T].
@@ -216,6 +240,9 @@ private constructor(
                         } else {
                             null
                         },
+                        tryDeserialize(node, jacksonTypeRef<OffsetDateTime>())?.let {
+                            ConditionalValue(timestamp = it, _json = json)
+                        },
                     )
                     .filterNotNull()
                     .allMaxBy { it.validity() }
@@ -243,6 +270,7 @@ private constructor(
                 value.regex != null -> generator.writeObject(value.regex)
                 value.number != null -> generator.writeObject(value.number)
                 value.listOfStrings != null -> generator.writeObject(value.listOfStrings)
+                value.timestamp != null -> generator.writeObject(value.timestamp)
                 value._json != null -> generator.writeObject(value._json)
                 else -> throw IllegalStateException("Invalid ConditionalValue")
             }
