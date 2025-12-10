@@ -81,6 +81,8 @@ import com.lithic.api.services.blocking.TransactionService
 import com.lithic.api.services.blocking.TransactionServiceImpl
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.TransferServiceImpl
+import com.lithic.api.services.blocking.WebhookService
+import com.lithic.api.services.blocking.WebhookServiceImpl
 import java.util.function.Consumer
 
 class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient {
@@ -210,6 +212,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         AccountActivityServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptionsWithUserAgent) }
+
     override fun async(): LithicClientAsync = async
 
     override fun withRawResponse(): LithicClient.WithRawResponse = withRawResponse
@@ -280,6 +284,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun networkPrograms(): NetworkProgramService = networkPrograms
 
     override fun accountActivity(): AccountActivityService = accountActivity
+
+    override fun webhooks(): WebhookService = webhooks
 
     override fun apiStatus(
         params: ClientApiStatusParams,
@@ -425,6 +431,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             AccountActivityServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val webhooks: WebhookService.WithRawResponse by lazy {
+            WebhookServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LithicClient.WithRawResponse =
@@ -503,6 +513,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         override fun networkPrograms(): NetworkProgramService.WithRawResponse = networkPrograms
 
         override fun accountActivity(): AccountActivityService.WithRawResponse = accountActivity
+
+        override fun webhooks(): WebhookService.WithRawResponse = webhooks
 
         private val apiStatusHandler: Handler<ApiStatus> =
             jsonHandler<ApiStatus>(clientOptions.jsonMapper)

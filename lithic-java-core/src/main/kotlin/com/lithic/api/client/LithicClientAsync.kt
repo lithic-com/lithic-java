@@ -39,6 +39,7 @@ import com.lithic.api.services.async.TokenizationDecisioningServiceAsync
 import com.lithic.api.services.async.TokenizationServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsync
 import com.lithic.api.services.async.TransferServiceAsync
+import com.lithic.api.services.async.WebhookServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -141,6 +142,8 @@ interface LithicClientAsync {
     fun networkPrograms(): NetworkProgramServiceAsync
 
     fun accountActivity(): AccountActivityServiceAsync
+
+    fun webhooks(): WebhookServiceAsync
 
     /** Status of api */
     fun apiStatus(): CompletableFuture<ApiStatus> = apiStatus(ClientApiStatusParams.none())
@@ -248,6 +251,8 @@ interface LithicClientAsync {
         fun networkPrograms(): NetworkProgramServiceAsync.WithRawResponse
 
         fun accountActivity(): AccountActivityServiceAsync.WithRawResponse
+
+        fun webhooks(): WebhookServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as

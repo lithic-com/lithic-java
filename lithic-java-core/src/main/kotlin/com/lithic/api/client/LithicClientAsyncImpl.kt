@@ -81,6 +81,8 @@ import com.lithic.api.services.async.TransactionServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsyncImpl
 import com.lithic.api.services.async.TransferServiceAsync
 import com.lithic.api.services.async.TransferServiceAsyncImpl
+import com.lithic.api.services.async.WebhookServiceAsync
+import com.lithic.api.services.async.WebhookServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -227,6 +229,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
         AccountActivityServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val webhooks: WebhookServiceAsync by lazy {
+        WebhookServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     override fun sync(): LithicClient = sync
 
     override fun withRawResponse(): LithicClientAsync.WithRawResponse = withRawResponse
@@ -298,6 +304,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
     override fun networkPrograms(): NetworkProgramServiceAsync = networkPrograms
 
     override fun accountActivity(): AccountActivityServiceAsync = accountActivity
+
+    override fun webhooks(): WebhookServiceAsync = webhooks
 
     override fun apiStatus(
         params: ClientApiStatusParams,
@@ -443,6 +451,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
             AccountActivityServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val webhooks: WebhookServiceAsync.WithRawResponse by lazy {
+            WebhookServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LithicClientAsync.WithRawResponse =
@@ -523,6 +535,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
         override fun accountActivity(): AccountActivityServiceAsync.WithRawResponse =
             accountActivity
+
+        override fun webhooks(): WebhookServiceAsync.WithRawResponse = webhooks
 
         private val apiStatusHandler: Handler<ApiStatus> =
             jsonHandler<ApiStatus>(clientOptions.jsonMapper)
