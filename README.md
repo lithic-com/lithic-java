@@ -354,15 +354,50 @@ Or to `debug` for more verbose logging:
 export LITHIC_LOG=debug
 ```
 
-## Webhook Verification
+## Webhooks
 
-We provide helper methods for verifying that a webhook request came from Lithic, and not a malicious third party.
+Lithic uses webhooks to notify your application when events happen. The SDK provides methods for verifying webhook signatures and parsing event payloads.
 
-You can use `lithic.webhooks().verifySignature(body, headers, secret?)` or `lithic.webhooks().unwrap(body, headers, secret?)`,
-both of which will raise an error if the signature is invalid.
+### Parsing and verifying webhooks
 
-Note that the "body" parameter must be the raw JSON string sent from the server (do not parse it first).
-The `.unwrap()` method can parse this JSON for you.
+Use `parse()` to verify the signature and return a typed event:
+
+```java
+import com.lithic.api.core.http.Headers;
+import com.lithic.api.models.ParsedWebhookEvent;
+
+// Convert request headers to Headers object
+Headers headers = Headers.builder().putAll(request.getHeaders()).build();
+
+// Verify signature and parse payload
+// Secret is optional if configured on client or set via LITHIC_WEBHOOK_SECRET env var
+ParsedWebhookEvent event = client.webhooks().parse(requestBody, headers, null);
+
+// Handle based on event type using isXxx() checks
+if (event.isCardCreated()) {
+    System.out.println("Card created: " + event.asCardCreated().cardToken());
+} else if (event.isCardTransactionUpdated()) {
+    String transactionToken = event.asCardTransactionUpdated().token();
+    System.out.println("Transaction updated: " + transactionToken);
+}
+
+```
+
+### Parsing without verification
+You can parse the webhook body without verifying the signature using `parseUnsafe()`. This is not recommended for production use:
+
+```
+// Parse only - skips signature verification (not recommended for production)
+ParsedWebhookEvent event = client.webhooks().parseUnsafe(body);
+```
+
+### Manual signature verification
+To verify the signature without parsing the body, use `verifySignature()`:
+
+```
+// Only verify signature, don't parse. Throws LithicException if signature is invalid
+client.webhooks().verifySignature(body, headers, null);
+```
 
 ## ProGuard and R8
 

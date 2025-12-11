@@ -3,20 +3,34 @@
 package com.lithic.api.services.blocking
 
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.getRequiredHeader
 import com.lithic.api.core.http.Headers
 import com.lithic.api.errors.LithicException
+import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.models.ParsedWebhookEvent
 import java.security.MessageDigest
 import java.time.Duration
 import java.time.Instant
 import java.util.Base64
+import java.util.function.Consumer
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import kotlin.jvm.optionals.getOrNull
 
-class WebhookServiceImpl(private val clientOptions: ClientOptions) : WebhookService {
+class WebhookServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    WebhookService {
+
+    private val withRawResponse: WebhookService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
+
+    override fun withRawResponse(): WebhookService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): WebhookService =
+        WebhookServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun unwrap(payload: String, headers: Headers, secret: String?): JsonValue {
         verifySignature(payload, headers, secret)
@@ -82,5 +96,42 @@ class WebhookServiceImpl(private val clientOptions: ClientOptions) : WebhookServ
         }
 
         throw LithicException("None of the given webhook signatures match the expected signature")
+    }
+
+    /**
+     * Unwraps a webhook event from its JSON representation.
+     *
+     * @throws LithicInvalidDataException if the body could not be parsed.
+     */
+    override fun parse(body: String, headers: Headers, secret: String?): ParsedWebhookEvent {
+        verifySignature(body, headers, secret)
+        return try {
+            clientOptions.jsonMapper.readValue(body, jacksonTypeRef<ParsedWebhookEvent>())
+        } catch (e: Exception) {
+            throw LithicInvalidDataException("Error parsing body", e)
+        }
+    }
+
+    /**
+     * Unwraps a webhook event from its JSON representation without verifying the signature.
+     *
+     * @throws LithicInvalidDataException if the body could not be parsed.
+     */
+    override fun parseUnsafe(body: String): ParsedWebhookEvent =
+        try {
+            clientOptions.jsonMapper.readValue(body, jacksonTypeRef<ParsedWebhookEvent>())
+        } catch (e: Exception) {
+            throw LithicInvalidDataException("Error parsing body", e)
+        }
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        WebhookService.WithRawResponse {
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WebhookService.WithRawResponse =
+            WebhookServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
     }
 }

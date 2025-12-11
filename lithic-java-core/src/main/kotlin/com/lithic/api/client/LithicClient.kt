@@ -113,8 +113,6 @@ interface LithicClient {
 
     fun responderEndpoints(): ResponderEndpointService
 
-    fun webhooks(): WebhookService
-
     fun externalBankAccounts(): ExternalBankAccountService
 
     fun payments(): PaymentService
@@ -144,6 +142,8 @@ interface LithicClient {
     fun networkPrograms(): NetworkProgramService
 
     fun accountActivity(): AccountActivityService
+
+    fun webhooks(): WebhookService
 
     /** Status of api */
     fun apiStatus(): ApiStatus = apiStatus(ClientApiStatusParams.none())
@@ -248,6 +248,8 @@ interface LithicClient {
         fun networkPrograms(): NetworkProgramService.WithRawResponse
 
         fun accountActivity(): AccountActivityService.WithRawResponse
+
+        fun webhooks(): WebhookService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as
