@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.114.0 (2025-12-11)
+
+Full Changelog: [v0.113.0...v0.114.0](https://github.com/lithic-com/lithic-java/compare/v0.113.0...v0.114.0)
+
+### Features
+
+* **api:** add bulk card creation APIs ([713f81e](https://github.com/lithic-com/lithic-java/commit/713f81e8e58763762f07358edda1fe0b97a041dc))
+* **api:** Add event_streams to auth rules APIs ([d0cd057](https://github.com/lithic-com/lithic-java/commit/d0cd05742ef5c0bc6c3ac80b3f94a2ade0be2d24))
+* **api:** add Google WPP to SDKs ([a8c6766](https://github.com/lithic-com/lithic-java/commit/a8c67666f0575c873d3f8c0244c1f7747861ba98))
+* **api:** add IS_AFTER / IS_BEFORE operators to Auth Rule APIs ([a8c6766](https://github.com/lithic-com/lithic-java/commit/a8c67666f0575c873d3f8c0244c1f7747861ba98))
+* **api:** Add new fee types ([d0cd057](https://github.com/lithic-com/lithic-java/commit/d0cd05742ef5c0bc6c3ac80b3f94a2ade0be2d24))
+* **api:** Add optional ach_hold_period ([d0cd057](https://github.com/lithic-com/lithic-java/commit/d0cd05742ef5c0bc6c3ac80b3f94a2ade0be2d24))
+* **api:** add parse/parseUnsafe webhook helpers and event schemas ([3c51183](https://github.com/lithic-com/lithic-java/commit/3c51183f40c0bf1caaf325d6b4a192a8f9417278))
+* **api:** add WALLET_RECOMMENDATION_REASONS attribute for tokenization rules ([7545f9b](https://github.com/lithic-com/lithic-java/commit/7545f9b4a91eff8e057133d099cf5aeb489adf7d))
+* **api:** add webhook schemas to SDKs - add parse and parse_unsafe ([1bac5f3](https://github.com/lithic-com/lithic-java/commit/1bac5f34b5826b4d5e11f601a4347377e0e46722))
+* **api:** provide a unified model for AuthRule ([7545f9b](https://github.com/lithic-com/lithic-java/commit/7545f9b4a91eff8e057133d099cf5aeb489adf7d))
+* **api:** support event_streams in auth_rules list endpoint ([c6cb655](https://github.com/lithic-com/lithic-java/commit/c6cb6550c60fac0c4e412505e86ecd45a5ca6031))
+
+
+### Bug Fixes
+
+* **api:** extract several common types to reduce duplication ([713f81e](https://github.com/lithic-com/lithic-java/commit/713f81e8e58763762f07358edda1fe0b97a041dc))
+* **api:** fix examples in spec that were not fully valid ([7545f9b](https://github.com/lithic-com/lithic-java/commit/7545f9b4a91eff8e057133d099cf5aeb489adf7d))
+* **api:** make certain payoff fields nullable ([7545f9b](https://github.com/lithic-com/lithic-java/commit/7545f9b4a91eff8e057133d099cf5aeb489adf7d))
+* **client:** cancel okhttp call when future cancelled ([99c266a](https://github.com/lithic-com/lithic-java/commit/99c266a62f1b3fcd92ea9cf0ad56c5c5e130fd06))
+* fix auth rule conditional value parsing ([08fd371](https://github.com/lithic-com/lithic-java/commit/08fd3715052ba80f9df989fea7530c28ee55fbaf))
+
+
+### Chores
+
+* replace custom webhook signature verification with standardwebhooks ([1bac5f3](https://github.com/lithic-com/lithic-java/commit/1bac5f34b5826b4d5e11f601a4347377e0e46722))
+
+
+### Documentation
+
+* **api:** clarify error 422 for 3DS challenge response ([a8c6766](https://github.com/lithic-com/lithic-java/commit/a8c67666f0575c873d3f8c0244c1f7747861ba98))
+* remove `$` for better copy-pasteabality ([7c3897e](https://github.com/lithic-com/lithic-java/commit/7c3897e8506a633273f462ddd7964b92ace98d3f))
+
 ## 0.113.0 (2025-11-20)
 
 Full Changelog: [v0.112.0...v0.113.0](https://github.com/lithic-com/lithic-java/compare/v0.112.0...v0.113.0)
