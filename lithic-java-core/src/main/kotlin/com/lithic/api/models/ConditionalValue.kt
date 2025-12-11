@@ -219,30 +219,28 @@ private constructor(
 
             val bestMatches =
                 sequenceOf(
-                        if (node.isTextual) {
-                            tryDeserialize(node, jacksonTypeRef<String>())?.let {
-                                ConditionalValue(regex = it, _json = json)
-                            }
-                        } else {
-                            null
-                        },
                         if (node.isNumber) {
                             tryDeserialize(node, jacksonTypeRef<Long>())?.let {
                                 ConditionalValue(number = it, _json = json)
                             }
-                        } else {
-                            null
-                        },
+                        } else null,
                         if (node.isArray) {
                             tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
                                 ConditionalValue(listOfStrings = it, _json = json)
                             }
-                        } else {
-                            null
-                        },
-                        tryDeserialize(node, jacksonTypeRef<OffsetDateTime>())?.let {
-                            ConditionalValue(timestamp = it, _json = json)
-                        },
+                        } else null,
+                        // Try timestamp before generic string, since timestamps serialize as
+                        // strings
+                        if (node.isTextual) {
+                            tryDeserialize(node, jacksonTypeRef<OffsetDateTime>())?.let {
+                                ConditionalValue(timestamp = it, _json = json)
+                            }
+                        } else null,
+                        if (node.isTextual) {
+                            tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                ConditionalValue(regex = it, _json = json)
+                            }
+                        } else null,
                     )
                     .filterNotNull()
                     .allMaxBy { it.validity() }
