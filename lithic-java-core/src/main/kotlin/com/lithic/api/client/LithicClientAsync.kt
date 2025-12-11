@@ -113,8 +113,6 @@ interface LithicClientAsync {
 
     fun responderEndpoints(): ResponderEndpointServiceAsync
 
-    fun webhooks(): WebhookServiceAsync
-
     fun externalBankAccounts(): ExternalBankAccountServiceAsync
 
     fun payments(): PaymentServiceAsync
@@ -144,6 +142,8 @@ interface LithicClientAsync {
     fun networkPrograms(): NetworkProgramServiceAsync
 
     fun accountActivity(): AccountActivityServiceAsync
+
+    fun webhooks(): WebhookServiceAsync
 
     /** Status of api */
     fun apiStatus(): CompletableFuture<ApiStatus> = apiStatus(ClientApiStatusParams.none())
@@ -251,6 +251,8 @@ interface LithicClientAsync {
         fun networkPrograms(): NetworkProgramServiceAsync.WithRawResponse
 
         fun accountActivity(): AccountActivityServiceAsync.WithRawResponse
+
+        fun webhooks(): WebhookServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /v1/status`, but is otherwise the same as

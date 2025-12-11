@@ -160,8 +160,6 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         ResponderEndpointServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptions) }
-
     private val externalBankAccounts: ExternalBankAccountService by lazy {
         ExternalBankAccountServiceImpl(clientOptionsWithUserAgent)
     }
@@ -214,6 +212,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         AccountActivityServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptionsWithUserAgent) }
+
     override fun async(): LithicClientAsync = async
 
     override fun withRawResponse(): LithicClient.WithRawResponse = withRawResponse
@@ -255,8 +255,6 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
 
     override fun responderEndpoints(): ResponderEndpointService = responderEndpoints
 
-    override fun webhooks(): WebhookService = webhooks
-
     override fun externalBankAccounts(): ExternalBankAccountService = externalBankAccounts
 
     override fun payments(): PaymentService = payments
@@ -286,6 +284,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun networkPrograms(): NetworkProgramService = networkPrograms
 
     override fun accountActivity(): AccountActivityService = accountActivity
+
+    override fun webhooks(): WebhookService = webhooks
 
     override fun apiStatus(
         params: ClientApiStatusParams,
@@ -431,6 +431,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             AccountActivityServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val webhooks: WebhookService.WithRawResponse by lazy {
+            WebhookServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): LithicClient.WithRawResponse =
@@ -509,6 +513,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         override fun networkPrograms(): NetworkProgramService.WithRawResponse = networkPrograms
 
         override fun accountActivity(): AccountActivityService.WithRawResponse = accountActivity
+
+        override fun webhooks(): WebhookService.WithRawResponse = webhooks
 
         private val apiStatusHandler: Handler<ApiStatus> =
             jsonHandler<ApiStatus>(clientOptions.jsonMapper)
