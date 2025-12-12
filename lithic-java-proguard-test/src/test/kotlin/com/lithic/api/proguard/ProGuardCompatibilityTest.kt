@@ -58,7 +58,6 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.cards()).isNotNull()
         assertThat(client.cardBulkOrders()).isNotNull()
         assertThat(client.balances()).isNotNull()
-        assertThat(client.aggregateBalances()).isNotNull()
         assertThat(client.disputes()).isNotNull()
         assertThat(client.disputesV2()).isNotNull()
         assertThat(client.events()).isNotNull()
