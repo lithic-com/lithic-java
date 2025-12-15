@@ -23,8 +23,6 @@ import com.lithic.api.services.async.AccountHolderServiceAsync
 import com.lithic.api.services.async.AccountHolderServiceAsyncImpl
 import com.lithic.api.services.async.AccountServiceAsync
 import com.lithic.api.services.async.AccountServiceAsyncImpl
-import com.lithic.api.services.async.AggregateBalanceServiceAsync
-import com.lithic.api.services.async.AggregateBalanceServiceAsyncImpl
 import com.lithic.api.services.async.AuthRuleServiceAsync
 import com.lithic.api.services.async.AuthRuleServiceAsyncImpl
 import com.lithic.api.services.async.AuthStreamEnrollmentServiceAsync
@@ -135,10 +133,6 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
     private val balances: BalanceServiceAsync by lazy {
         BalanceServiceAsyncImpl(clientOptionsWithUserAgent)
-    }
-
-    private val aggregateBalances: AggregateBalanceServiceAsync by lazy {
-        AggregateBalanceServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
     private val disputes: DisputeServiceAsync by lazy {
@@ -259,8 +253,6 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
     override fun balances(): BalanceServiceAsync = balances
 
-    override fun aggregateBalances(): AggregateBalanceServiceAsync = aggregateBalances
-
     override fun disputes(): DisputeServiceAsync = disputes
 
     override fun disputesV2(): DisputesV2ServiceAsync = disputesV2
@@ -357,10 +349,6 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
         private val balances: BalanceServiceAsync.WithRawResponse by lazy {
             BalanceServiceAsyncImpl.WithRawResponseImpl(clientOptions)
-        }
-
-        private val aggregateBalances: AggregateBalanceServiceAsync.WithRawResponse by lazy {
-            AggregateBalanceServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val disputes: DisputeServiceAsync.WithRawResponse by lazy {
@@ -481,9 +469,6 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
         override fun cardBulkOrders(): CardBulkOrderServiceAsync.WithRawResponse = cardBulkOrders
 
         override fun balances(): BalanceServiceAsync.WithRawResponse = balances
-
-        override fun aggregateBalances(): AggregateBalanceServiceAsync.WithRawResponse =
-            aggregateBalances
 
         override fun disputes(): DisputeServiceAsync.WithRawResponse = disputes
 
