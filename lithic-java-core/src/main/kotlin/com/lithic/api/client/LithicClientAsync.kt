@@ -37,6 +37,7 @@ import com.lithic.api.services.async.ThreeDSServiceAsync
 import com.lithic.api.services.async.TokenizationDecisioningServiceAsync
 import com.lithic.api.services.async.TokenizationServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsync
+import com.lithic.api.services.async.TransferLimitServiceAsync
 import com.lithic.api.services.async.TransferServiceAsync
 import com.lithic.api.services.async.WebhookServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -139,6 +140,8 @@ interface LithicClientAsync {
     fun networkPrograms(): NetworkProgramServiceAsync
 
     fun accountActivity(): AccountActivityServiceAsync
+
+    fun transferLimits(): TransferLimitServiceAsync
 
     fun webhooks(): WebhookServiceAsync
 
@@ -246,6 +249,8 @@ interface LithicClientAsync {
         fun networkPrograms(): NetworkProgramServiceAsync.WithRawResponse
 
         fun accountActivity(): AccountActivityServiceAsync.WithRawResponse
+
+        fun transferLimits(): TransferLimitServiceAsync.WithRawResponse
 
         fun webhooks(): WebhookServiceAsync.WithRawResponse
 

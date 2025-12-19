@@ -22,6 +22,7 @@ import com.lithic.api.models.BookTransferListPageResponse
 import com.lithic.api.models.BookTransferListParams
 import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
+import com.lithic.api.models.BookTransferRetryParams
 import com.lithic.api.models.BookTransferReverseParams
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -58,6 +59,13 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
     ): BookTransferListPage =
         // get /v1/book_transfers
         withRawResponse().list(params, requestOptions).parse()
+
+    override fun retry(
+        params: BookTransferRetryParams,
+        requestOptions: RequestOptions,
+    ): BookTransferResponse =
+        // post /v1/book_transfers/{book_transfer_token}/retry
+        withRawResponse().retry(params, requestOptions).parse()
 
     override fun reverse(
         params: BookTransferReverseParams,
@@ -167,6 +175,37 @@ class BookTransferServiceImpl internal constructor(private val clientOptions: Cl
                             .params(params)
                             .response(it)
                             .build()
+                    }
+            }
+        }
+
+        private val retryHandler: Handler<BookTransferResponse> =
+            jsonHandler<BookTransferResponse>(clientOptions.jsonMapper)
+
+        override fun retry(
+            params: BookTransferRetryParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BookTransferResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("bookTransferToken", params.bookTransferToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "book_transfers", params._pathParam(0), "retry")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retryHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
                     }
             }
         }

@@ -737,6 +737,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .addEvent(
@@ -747,6 +748,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .family(Payment.Family.PAYMENT)
@@ -813,6 +815,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                             .result(Payment.PaymentEvent.Result.APPROVED)
                             .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                             .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                            .externalId("external_id")
                             .build()
                     )
                     .addEvent(
@@ -823,6 +826,7 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                             .result(Payment.PaymentEvent.Result.APPROVED)
                             .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                             .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                            .externalId("external_id")
                             .build()
                     )
                     .family(Payment.Family.PAYMENT)
