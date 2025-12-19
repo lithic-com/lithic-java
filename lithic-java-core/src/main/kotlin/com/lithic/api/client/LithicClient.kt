@@ -38,6 +38,7 @@ import com.lithic.api.services.blocking.ThreeDSService
 import com.lithic.api.services.blocking.TokenizationDecisioningService
 import com.lithic.api.services.blocking.TokenizationService
 import com.lithic.api.services.blocking.TransactionService
+import com.lithic.api.services.blocking.TransferLimitService
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.WebhookService
 import java.util.function.Consumer
@@ -139,6 +140,8 @@ interface LithicClient {
     fun networkPrograms(): NetworkProgramService
 
     fun accountActivity(): AccountActivityService
+
+    fun transferLimits(): TransferLimitService
 
     fun webhooks(): WebhookService
 
@@ -243,6 +246,8 @@ interface LithicClient {
         fun networkPrograms(): NetworkProgramService.WithRawResponse
 
         fun accountActivity(): AccountActivityService.WithRawResponse
+
+        fun transferLimits(): TransferLimitService.WithRawResponse
 
         fun webhooks(): WebhookService.WithRawResponse
 

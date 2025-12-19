@@ -77,6 +77,8 @@ import com.lithic.api.services.async.TokenizationServiceAsync
 import com.lithic.api.services.async.TokenizationServiceAsyncImpl
 import com.lithic.api.services.async.TransactionServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsyncImpl
+import com.lithic.api.services.async.TransferLimitServiceAsync
+import com.lithic.api.services.async.TransferLimitServiceAsyncImpl
 import com.lithic.api.services.async.TransferServiceAsync
 import com.lithic.api.services.async.TransferServiceAsyncImpl
 import com.lithic.api.services.async.WebhookServiceAsync
@@ -223,6 +225,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
         AccountActivityServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val transferLimits: TransferLimitServiceAsync by lazy {
+        TransferLimitServiceAsyncImpl(clientOptionsWithUserAgent)
+    }
+
     private val webhooks: WebhookServiceAsync by lazy {
         WebhookServiceAsyncImpl(clientOptionsWithUserAgent)
     }
@@ -296,6 +302,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
     override fun networkPrograms(): NetworkProgramServiceAsync = networkPrograms
 
     override fun accountActivity(): AccountActivityServiceAsync = accountActivity
+
+    override fun transferLimits(): TransferLimitServiceAsync = transferLimits
 
     override fun webhooks(): WebhookServiceAsync = webhooks
 
@@ -439,6 +447,10 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
             AccountActivityServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val transferLimits: TransferLimitServiceAsync.WithRawResponse by lazy {
+            TransferLimitServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val webhooks: WebhookServiceAsync.WithRawResponse by lazy {
             WebhookServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -520,6 +532,8 @@ class LithicClientAsyncImpl(private val clientOptions: ClientOptions) : LithicCl
 
         override fun accountActivity(): AccountActivityServiceAsync.WithRawResponse =
             accountActivity
+
+        override fun transferLimits(): TransferLimitServiceAsync.WithRawResponse = transferLimits
 
         override fun webhooks(): WebhookServiceAsync.WithRawResponse = webhooks
 

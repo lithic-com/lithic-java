@@ -22,6 +22,7 @@ import com.lithic.api.models.BookTransferListPageResponse
 import com.lithic.api.models.BookTransferListParams
 import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
+import com.lithic.api.models.BookTransferRetryParams
 import com.lithic.api.models.BookTransferReverseParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -59,6 +60,13 @@ class BookTransferServiceAsyncImpl internal constructor(private val clientOption
     ): CompletableFuture<BookTransferListPageAsync> =
         // get /v1/book_transfers
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
+
+    override fun retry(
+        params: BookTransferRetryParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BookTransferResponse> =
+        // post /v1/book_transfers/{book_transfer_token}/retry
+        withRawResponse().retry(params, requestOptions).thenApply { it.parse() }
 
     override fun reverse(
         params: BookTransferReverseParams,
@@ -177,6 +185,40 @@ class BookTransferServiceAsyncImpl internal constructor(private val clientOption
                                     .params(params)
                                     .response(it)
                                     .build()
+                            }
+                    }
+                }
+        }
+
+        private val retryHandler: Handler<BookTransferResponse> =
+            jsonHandler<BookTransferResponse>(clientOptions.jsonMapper)
+
+        override fun retry(
+            params: BookTransferRetryParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BookTransferResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("bookTransferToken", params.bookTransferToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "book_transfers", params._pathParam(0), "retry")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retryHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
                             }
                     }
                 }
