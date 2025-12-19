@@ -27,6 +27,7 @@ internal class PaymentRetryResponseTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .addEvent(
@@ -37,6 +38,7 @@ internal class PaymentRetryResponseTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .family(Payment.Family.PAYMENT)
@@ -102,6 +104,7 @@ internal class PaymentRetryResponseTest {
                     .result(Payment.PaymentEvent.Result.APPROVED)
                     .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                     .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                    .externalId("external_id")
                     .build(),
                 Payment.PaymentEvent.builder()
                     .token("f9165477-7cfc-53c6-98f1-84e9ec856a60")
@@ -110,6 +113,7 @@ internal class PaymentRetryResponseTest {
                     .result(Payment.PaymentEvent.Result.APPROVED)
                     .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                     .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                    .externalId("external_id")
                     .build(),
             )
         assertThat(paymentRetryResponse.family()).isEqualTo(Payment.Family.PAYMENT)
@@ -186,6 +190,7 @@ internal class PaymentRetryResponseTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .addEvent(
@@ -196,6 +201,7 @@ internal class PaymentRetryResponseTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .family(Payment.Family.PAYMENT)

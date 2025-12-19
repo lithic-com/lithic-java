@@ -5,6 +5,7 @@ package com.lithic.api.services.async
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.BookTransferCreateParams
+import com.lithic.api.models.BookTransferRetryParams
 import com.lithic.api.models.BookTransferReverseParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -70,6 +71,27 @@ internal class BookTransferServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
+    }
+
+    @Test
+    fun retry() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val bookTransferServiceAsync = client.bookTransfers()
+
+        val bookTransferResponseFuture =
+            bookTransferServiceAsync.retry(
+                BookTransferRetryParams.builder()
+                    .bookTransferToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .retryToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val bookTransferResponse = bookTransferResponseFuture.get()
+        bookTransferResponse.validate()
     }
 
     @Test

@@ -27,6 +27,7 @@ internal class PaymentTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .addEvent(
@@ -37,6 +38,7 @@ internal class PaymentTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .family(Payment.Family.PAYMENT)
@@ -87,6 +89,7 @@ internal class PaymentTest {
                     .result(Payment.PaymentEvent.Result.APPROVED)
                     .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                     .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                    .externalId("external_id")
                     .build(),
                 Payment.PaymentEvent.builder()
                     .token("f9165477-7cfc-53c6-98f1-84e9ec856a60")
@@ -95,6 +98,7 @@ internal class PaymentTest {
                     .result(Payment.PaymentEvent.Result.APPROVED)
                     .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                     .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                    .externalId("external_id")
                     .build(),
             )
         assertThat(payment.family()).isEqualTo(Payment.Family.PAYMENT)
@@ -155,6 +159,7 @@ internal class PaymentTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .addEvent(
@@ -165,6 +170,7 @@ internal class PaymentTest {
                         .result(Payment.PaymentEvent.Result.APPROVED)
                         .type(Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED)
                         .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                        .externalId("external_id")
                         .build()
                 )
                 .family(Payment.Family.PAYMENT)
