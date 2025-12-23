@@ -475,7 +475,6 @@ private constructor(
             headers.put("X-Stainless-Package-Version", getPackageVersion())
             headers.put("X-Stainless-Runtime", "JRE")
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
-            headers.put("X-Lithic-Pagination", "cursor")
             apiKey.let {
                 if (!it.isEmpty()) {
                     headers.put("Authorization", it)
