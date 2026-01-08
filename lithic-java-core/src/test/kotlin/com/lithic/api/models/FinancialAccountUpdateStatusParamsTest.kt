@@ -15,6 +15,7 @@ internal class FinancialAccountUpdateStatusParamsTest {
             .substatus(
                 FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.END_USER_REQUEST
             )
+            .userDefinedStatus("26")
             .build()
     }
 
@@ -37,6 +38,30 @@ internal class FinancialAccountUpdateStatusParamsTest {
 
     @Test
     fun body() {
+        val params =
+            FinancialAccountUpdateStatusParams.builder()
+                .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .status(FinancialAccountUpdateStatusParams.FinancialAccountStatus.CLOSED)
+                .substatus(
+                    FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
+                        .END_USER_REQUEST
+                )
+                .userDefinedStatus("26")
+                .build()
+
+        val body = params._body()
+
+        assertThat(body.status())
+            .isEqualTo(FinancialAccountUpdateStatusParams.FinancialAccountStatus.CLOSED)
+        assertThat(body.substatus())
+            .contains(
+                FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus.END_USER_REQUEST
+            )
+        assertThat(body.userDefinedStatus()).contains("26")
+    }
+
+    @Test
+    fun bodyWithoutOptionalFields() {
         val params =
             FinancialAccountUpdateStatusParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

@@ -121,6 +121,7 @@ internal class FinancialAccountServiceTest {
                         FinancialAccountUpdateStatusParams.UpdateFinancialAccountSubstatus
                             .END_USER_REQUEST
                     )
+                    .userDefinedStatus("26")
                     .build()
             )
 
