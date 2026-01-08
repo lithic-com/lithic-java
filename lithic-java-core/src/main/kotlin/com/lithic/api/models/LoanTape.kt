@@ -37,7 +37,7 @@ private constructor(
     private val financialAccountToken: JsonField<String>,
     private val interestDetails: JsonField<InterestDetails>,
     private val minimumPaymentBalance: JsonField<BalanceDetails>,
-    private val paymentAllocation: JsonField<CategoryBalances>,
+    private val paymentAllocation: JsonField<PaymentAllocation>,
     private val periodTotals: JsonField<StatementTotals>,
     private val previousStatementBalance: JsonField<BalanceDetails>,
     private val startingBalance: JsonField<Long>,
@@ -88,7 +88,7 @@ private constructor(
         minimumPaymentBalance: JsonField<BalanceDetails> = JsonMissing.of(),
         @JsonProperty("payment_allocation")
         @ExcludeMissing
-        paymentAllocation: JsonField<CategoryBalances> = JsonMissing.of(),
+        paymentAllocation: JsonField<PaymentAllocation> = JsonMissing.of(),
         @JsonProperty("period_totals")
         @ExcludeMissing
         periodTotals: JsonField<StatementTotals> = JsonMissing.of(),
@@ -244,7 +244,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun paymentAllocation(): CategoryBalances = paymentAllocation.getRequired("payment_allocation")
+    fun paymentAllocation(): PaymentAllocation = paymentAllocation.getRequired("payment_allocation")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -424,7 +424,7 @@ private constructor(
      */
     @JsonProperty("payment_allocation")
     @ExcludeMissing
-    fun _paymentAllocation(): JsonField<CategoryBalances> = paymentAllocation
+    fun _paymentAllocation(): JsonField<PaymentAllocation> = paymentAllocation
 
     /**
      * Returns the raw JSON value of [periodTotals].
@@ -546,7 +546,7 @@ private constructor(
         private var financialAccountToken: JsonField<String>? = null
         private var interestDetails: JsonField<InterestDetails>? = null
         private var minimumPaymentBalance: JsonField<BalanceDetails>? = null
-        private var paymentAllocation: JsonField<CategoryBalances>? = null
+        private var paymentAllocation: JsonField<PaymentAllocation>? = null
         private var periodTotals: JsonField<StatementTotals>? = null
         private var previousStatementBalance: JsonField<BalanceDetails>? = null
         private var startingBalance: JsonField<Long>? = null
@@ -776,17 +776,17 @@ private constructor(
             this.minimumPaymentBalance = minimumPaymentBalance
         }
 
-        fun paymentAllocation(paymentAllocation: CategoryBalances) =
+        fun paymentAllocation(paymentAllocation: PaymentAllocation) =
             paymentAllocation(JsonField.of(paymentAllocation))
 
         /**
          * Sets [Builder.paymentAllocation] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.paymentAllocation] with a well-typed [CategoryBalances]
+         * You should usually call [Builder.paymentAllocation] with a well-typed [PaymentAllocation]
          * value instead. This method is primarily for setting the field to an undocumented or not
          * yet supported value.
          */
-        fun paymentAllocation(paymentAllocation: JsonField<CategoryBalances>) = apply {
+        fun paymentAllocation(paymentAllocation: JsonField<PaymentAllocation>) = apply {
             this.paymentAllocation = paymentAllocation
         }
 
@@ -3296,6 +3296,402 @@ private constructor(
 
         override fun toString() =
             "BalanceDetails{amount=$amount, remaining=$remaining, additionalProperties=$additionalProperties}"
+    }
+
+    class PaymentAllocation
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val feeDetails: JsonField<CategoryDetails>,
+        private val fees: JsonField<Long>,
+        private val interest: JsonField<Long>,
+        private val interestDetails: JsonField<CategoryDetails>,
+        private val principal: JsonField<Long>,
+        private val principalDetails: JsonField<CategoryDetails>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("fee_details")
+            @ExcludeMissing
+            feeDetails: JsonField<CategoryDetails> = JsonMissing.of(),
+            @JsonProperty("fees") @ExcludeMissing fees: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("interest") @ExcludeMissing interest: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("interest_details")
+            @ExcludeMissing
+            interestDetails: JsonField<CategoryDetails> = JsonMissing.of(),
+            @JsonProperty("principal")
+            @ExcludeMissing
+            principal: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("principal_details")
+            @ExcludeMissing
+            principalDetails: JsonField<CategoryDetails> = JsonMissing.of(),
+        ) : this(
+            feeDetails,
+            fees,
+            interest,
+            interestDetails,
+            principal,
+            principalDetails,
+            mutableMapOf(),
+        )
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun feeDetails(): Optional<CategoryDetails> = feeDetails.getOptional("fee_details")
+
+        /**
+         * Amount allocated to fees in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun fees(): Long = fees.getRequired("fees")
+
+        /**
+         * Amount allocated to interest in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun interest(): Long = interest.getRequired("interest")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun interestDetails(): Optional<CategoryDetails> =
+            interestDetails.getOptional("interest_details")
+
+        /**
+         * Amount allocated to principal in cents
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun principal(): Long = principal.getRequired("principal")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun principalDetails(): Optional<CategoryDetails> =
+            principalDetails.getOptional("principal_details")
+
+        /**
+         * Returns the raw JSON value of [feeDetails].
+         *
+         * Unlike [feeDetails], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("fee_details")
+        @ExcludeMissing
+        fun _feeDetails(): JsonField<CategoryDetails> = feeDetails
+
+        /**
+         * Returns the raw JSON value of [fees].
+         *
+         * Unlike [fees], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("fees") @ExcludeMissing fun _fees(): JsonField<Long> = fees
+
+        /**
+         * Returns the raw JSON value of [interest].
+         *
+         * Unlike [interest], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("interest") @ExcludeMissing fun _interest(): JsonField<Long> = interest
+
+        /**
+         * Returns the raw JSON value of [interestDetails].
+         *
+         * Unlike [interestDetails], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("interest_details")
+        @ExcludeMissing
+        fun _interestDetails(): JsonField<CategoryDetails> = interestDetails
+
+        /**
+         * Returns the raw JSON value of [principal].
+         *
+         * Unlike [principal], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("principal") @ExcludeMissing fun _principal(): JsonField<Long> = principal
+
+        /**
+         * Returns the raw JSON value of [principalDetails].
+         *
+         * Unlike [principalDetails], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("principal_details")
+        @ExcludeMissing
+        fun _principalDetails(): JsonField<CategoryDetails> = principalDetails
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [PaymentAllocation].
+             *
+             * The following fields are required:
+             * ```java
+             * .feeDetails()
+             * .fees()
+             * .interest()
+             * .interestDetails()
+             * .principal()
+             * .principalDetails()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [PaymentAllocation]. */
+        class Builder internal constructor() {
+
+            private var feeDetails: JsonField<CategoryDetails>? = null
+            private var fees: JsonField<Long>? = null
+            private var interest: JsonField<Long>? = null
+            private var interestDetails: JsonField<CategoryDetails>? = null
+            private var principal: JsonField<Long>? = null
+            private var principalDetails: JsonField<CategoryDetails>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(paymentAllocation: PaymentAllocation) = apply {
+                feeDetails = paymentAllocation.feeDetails
+                fees = paymentAllocation.fees
+                interest = paymentAllocation.interest
+                interestDetails = paymentAllocation.interestDetails
+                principal = paymentAllocation.principal
+                principalDetails = paymentAllocation.principalDetails
+                additionalProperties = paymentAllocation.additionalProperties.toMutableMap()
+            }
+
+            fun feeDetails(feeDetails: CategoryDetails?) =
+                feeDetails(JsonField.ofNullable(feeDetails))
+
+            /** Alias for calling [Builder.feeDetails] with `feeDetails.orElse(null)`. */
+            fun feeDetails(feeDetails: Optional<CategoryDetails>) =
+                feeDetails(feeDetails.getOrNull())
+
+            /**
+             * Sets [Builder.feeDetails] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.feeDetails] with a well-typed [CategoryDetails]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun feeDetails(feeDetails: JsonField<CategoryDetails>) = apply {
+                this.feeDetails = feeDetails
+            }
+
+            /** Amount allocated to fees in cents */
+            fun fees(fees: Long) = fees(JsonField.of(fees))
+
+            /**
+             * Sets [Builder.fees] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fees] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
+
+            /** Amount allocated to interest in cents */
+            fun interest(interest: Long) = interest(JsonField.of(interest))
+
+            /**
+             * Sets [Builder.interest] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.interest] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
+
+            fun interestDetails(interestDetails: CategoryDetails?) =
+                interestDetails(JsonField.ofNullable(interestDetails))
+
+            /** Alias for calling [Builder.interestDetails] with `interestDetails.orElse(null)`. */
+            fun interestDetails(interestDetails: Optional<CategoryDetails>) =
+                interestDetails(interestDetails.getOrNull())
+
+            /**
+             * Sets [Builder.interestDetails] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.interestDetails] with a well-typed [CategoryDetails]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun interestDetails(interestDetails: JsonField<CategoryDetails>) = apply {
+                this.interestDetails = interestDetails
+            }
+
+            /** Amount allocated to principal in cents */
+            fun principal(principal: Long) = principal(JsonField.of(principal))
+
+            /**
+             * Sets [Builder.principal] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.principal] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun principal(principal: JsonField<Long>) = apply { this.principal = principal }
+
+            fun principalDetails(principalDetails: CategoryDetails?) =
+                principalDetails(JsonField.ofNullable(principalDetails))
+
+            /**
+             * Alias for calling [Builder.principalDetails] with `principalDetails.orElse(null)`.
+             */
+            fun principalDetails(principalDetails: Optional<CategoryDetails>) =
+                principalDetails(principalDetails.getOrNull())
+
+            /**
+             * Sets [Builder.principalDetails] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.principalDetails] with a well-typed
+             * [CategoryDetails] value instead. This method is primarily for setting the field to an
+             * undocumented or not yet supported value.
+             */
+            fun principalDetails(principalDetails: JsonField<CategoryDetails>) = apply {
+                this.principalDetails = principalDetails
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [PaymentAllocation].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .feeDetails()
+             * .fees()
+             * .interest()
+             * .interestDetails()
+             * .principal()
+             * .principalDetails()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): PaymentAllocation =
+                PaymentAllocation(
+                    checkRequired("feeDetails", feeDetails),
+                    checkRequired("fees", fees),
+                    checkRequired("interest", interest),
+                    checkRequired("interestDetails", interestDetails),
+                    checkRequired("principal", principal),
+                    checkRequired("principalDetails", principalDetails),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): PaymentAllocation = apply {
+            if (validated) {
+                return@apply
+            }
+
+            feeDetails().ifPresent { it.validate() }
+            fees()
+            interest()
+            interestDetails().ifPresent { it.validate() }
+            principal()
+            principalDetails().ifPresent { it.validate() }
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (feeDetails.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (fees.asKnown().isPresent) 1 else 0) +
+                (if (interest.asKnown().isPresent) 1 else 0) +
+                (interestDetails.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (principal.asKnown().isPresent) 1 else 0) +
+                (principalDetails.asKnown().getOrNull()?.validity() ?: 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is PaymentAllocation &&
+                feeDetails == other.feeDetails &&
+                fees == other.fees &&
+                interest == other.interest &&
+                interestDetails == other.interestDetails &&
+                principal == other.principal &&
+                principalDetails == other.principalDetails &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                feeDetails,
+                fees,
+                interest,
+                interestDetails,
+                principal,
+                principalDetails,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "PaymentAllocation{feeDetails=$feeDetails, fees=$fees, interest=$interest, interestDetails=$interestDetails, principal=$principal, principalDetails=$principalDetails, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

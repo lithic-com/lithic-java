@@ -37,7 +37,7 @@ private constructor(
     private val financialAccountToken: JsonField<String>,
     private val interestDetails: JsonField<LoanTape.InterestDetails>,
     private val minimumPaymentBalance: JsonField<LoanTape.BalanceDetails>,
-    private val paymentAllocation: JsonField<CategoryBalances>,
+    private val paymentAllocation: JsonField<LoanTape.PaymentAllocation>,
     private val periodTotals: JsonField<StatementTotals>,
     private val previousStatementBalance: JsonField<LoanTape.BalanceDetails>,
     private val startingBalance: JsonField<Long>,
@@ -91,7 +91,7 @@ private constructor(
         minimumPaymentBalance: JsonField<LoanTape.BalanceDetails> = JsonMissing.of(),
         @JsonProperty("payment_allocation")
         @ExcludeMissing
-        paymentAllocation: JsonField<CategoryBalances> = JsonMissing.of(),
+        paymentAllocation: JsonField<LoanTape.PaymentAllocation> = JsonMissing.of(),
         @JsonProperty("period_totals")
         @ExcludeMissing
         periodTotals: JsonField<StatementTotals> = JsonMissing.of(),
@@ -278,7 +278,8 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun paymentAllocation(): CategoryBalances = paymentAllocation.getRequired("payment_allocation")
+    fun paymentAllocation(): LoanTape.PaymentAllocation =
+        paymentAllocation.getRequired("payment_allocation")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -468,7 +469,7 @@ private constructor(
      */
     @JsonProperty("payment_allocation")
     @ExcludeMissing
-    fun _paymentAllocation(): JsonField<CategoryBalances> = paymentAllocation
+    fun _paymentAllocation(): JsonField<LoanTape.PaymentAllocation> = paymentAllocation
 
     /**
      * Returns the raw JSON value of [periodTotals].
@@ -598,7 +599,7 @@ private constructor(
         private var financialAccountToken: JsonField<String>? = null
         private var interestDetails: JsonField<LoanTape.InterestDetails>? = null
         private var minimumPaymentBalance: JsonField<LoanTape.BalanceDetails>? = null
-        private var paymentAllocation: JsonField<CategoryBalances>? = null
+        private var paymentAllocation: JsonField<LoanTape.PaymentAllocation>? = null
         private var periodTotals: JsonField<StatementTotals>? = null
         private var previousStatementBalance: JsonField<LoanTape.BalanceDetails>? = null
         private var startingBalance: JsonField<Long>? = null
@@ -831,17 +832,17 @@ private constructor(
                 this.minimumPaymentBalance = minimumPaymentBalance
             }
 
-        fun paymentAllocation(paymentAllocation: CategoryBalances) =
+        fun paymentAllocation(paymentAllocation: LoanTape.PaymentAllocation) =
             paymentAllocation(JsonField.of(paymentAllocation))
 
         /**
          * Sets [Builder.paymentAllocation] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.paymentAllocation] with a well-typed [CategoryBalances]
-         * value instead. This method is primarily for setting the field to an undocumented or not
-         * yet supported value.
+         * You should usually call [Builder.paymentAllocation] with a well-typed
+         * [LoanTape.PaymentAllocation] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
          */
-        fun paymentAllocation(paymentAllocation: JsonField<CategoryBalances>) = apply {
+        fun paymentAllocation(paymentAllocation: JsonField<LoanTape.PaymentAllocation>) = apply {
             this.paymentAllocation = paymentAllocation
         }
 
