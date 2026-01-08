@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.115.1 (2026-01-08)
+
+Full Changelog: [v0.115.0...v0.115.1](https://github.com/lithic-com/lithic-java/compare/v0.115.0...v0.115.1)
+
+### Chores
+
+* configure new SDK language ([3dc7d3f](https://github.com/lithic-com/lithic-java/commit/3dc7d3f2903edec88f307dfa5d17e6b5f377e3f0))
+
 ## 0.115.0 (2026-01-08)
 
 Full Changelog: [v0.114.0...v0.115.0](https://github.com/lithic-com/lithic-java/compare/v0.114.0...v0.115.0)
