@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.115.0 (2026-01-08)
+
+Full Changelog: [v0.114.0...v0.115.0](https://github.com/lithic-com/lithic-java/compare/v0.114.0...v0.115.0)
+
+### Features
+
+* **api:** Add card state attribute to tokenization rules ([5d8ec28](https://github.com/lithic-com/lithic-java/commit/5d8ec284129e2b4440938ce752c6556701f4b394))
+* **api:** Add event_type to ASA request and 3DS decisioning request ([5d8ec28](https://github.com/lithic-com/lithic-java/commit/5d8ec284129e2b4440938ce752c6556701f4b394))
+* **api:** add external_id to payment_event ([7e8636d](https://github.com/lithic-com/lithic-java/commit/7e8636dfea36aff2e4bebc432f3d89375c2da25e))
+* **api:** add get /v1/transfer_limits endpoint ([7e8636d](https://github.com/lithic-com/lithic-java/commit/7e8636dfea36aff2e4bebc432f3d89375c2da25e))
+* **api:** add post /v1/book_transfers/{book_transfer_token}/retry endpoint ([7e8636d](https://github.com/lithic-com/lithic-java/commit/7e8636dfea36aff2e4bebc432f3d89375c2da25e))
+* **api:** Add user defined status to ledger accounts ([5d8ec28](https://github.com/lithic-com/lithic-java/commit/5d8ec284129e2b4440938ce752c6556701f4b394))
+* **api:** add WIRE_DRAWDOWN_REQUEST transfer type ([7d05a12](https://github.com/lithic-com/lithic-java/commit/7d05a12c19b115f9b3a7f7c410523e04c7a4c3c6))
+* **api:** Expose Payment Allocation Details ([5d8ec28](https://github.com/lithic-com/lithic-java/commit/5d8ec284129e2b4440938ce752c6556701f4b394))
+* **api:** remove unnecessary X-Lithic-Pagination header ([7d05a12](https://github.com/lithic-com/lithic-java/commit/7d05a12c19b115f9b3a7f7c410523e04c7a4c3c6))
+* **api:** remove v1/aggregate_balances and related models ([5af17d0](https://github.com/lithic-com/lithic-java/commit/5af17d0a2f9d70199ff755fffef3b5ef7f23ab41))
+* **client:** add `HttpRequest#url()` method ([fe27f93](https://github.com/lithic-com/lithic-java/commit/fe27f930f542aa2d772821f968923c9a341b081a))
+
+
+### Chores
+
+* update code formatting ([5d8ec28](https://github.com/lithic-com/lithic-java/commit/5d8ec284129e2b4440938ce752c6556701f4b394))
+
+
+### Documentation
+
+* **api:** clarify description of token /  retry_token when it serves as idempotency key ([7d05a12](https://github.com/lithic-com/lithic-java/commit/7d05a12c19b115f9b3a7f7c410523e04c7a4c3c6))
+* Update language for Google Web Push Provisioning docs ([5d8ec28](https://github.com/lithic-com/lithic-java/commit/5d8ec284129e2b4440938ce752c6556701f4b394))
+
 ## 0.114.0 (2025-12-11)
 
 Full Changelog: [v0.113.0...v0.114.0](https://github.com/lithic-com/lithic-java/compare/v0.113.0...v0.114.0)
