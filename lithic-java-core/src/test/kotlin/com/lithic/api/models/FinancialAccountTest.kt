@@ -35,11 +35,12 @@ internal class FinancialAccountTest {
                 .isForBenefitOf(true)
                 .nickname("nickname")
                 .status(FinancialAccount.FinancialAccountStatus.OPEN)
+                .substatus(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
                 .type(FinancialAccount.Type.ISSUING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .userDefinedStatus("user_defined_status")
                 .accountNumber("account_number")
                 .routingNumber("routing_number")
-                .substatus(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
                 .build()
 
         assertThat(financialAccount.token()).isEqualTo("b68b7424-aa69-4cbc-a946-30d90181b621")
@@ -66,13 +67,14 @@ internal class FinancialAccountTest {
         assertThat(financialAccount.nickname()).contains("nickname")
         assertThat(financialAccount.status())
             .isEqualTo(FinancialAccount.FinancialAccountStatus.OPEN)
+        assertThat(financialAccount.substatus())
+            .contains(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
         assertThat(financialAccount.type()).isEqualTo(FinancialAccount.Type.ISSUING)
         assertThat(financialAccount.updated())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(financialAccount.userDefinedStatus()).contains("user_defined_status")
         assertThat(financialAccount.accountNumber()).contains("account_number")
         assertThat(financialAccount.routingNumber()).contains("routing_number")
-        assertThat(financialAccount.substatus())
-            .contains(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
     }
 
     @Test
@@ -101,11 +103,12 @@ internal class FinancialAccountTest {
                 .isForBenefitOf(true)
                 .nickname("nickname")
                 .status(FinancialAccount.FinancialAccountStatus.OPEN)
+                .substatus(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
                 .type(FinancialAccount.Type.ISSUING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .userDefinedStatus("user_defined_status")
                 .accountNumber("account_number")
                 .routingNumber("routing_number")
-                .substatus(FinancialAccount.FinancialAccountSubstatus.CHARGED_OFF_DELINQUENT)
                 .build()
 
         val roundtrippedFinancialAccount =
