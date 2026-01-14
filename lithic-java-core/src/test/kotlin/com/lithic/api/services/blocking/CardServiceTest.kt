@@ -34,6 +34,7 @@ internal class CardServiceTest {
         val card =
             cardService.create(
                 CardCreateParams.builder()
+                    .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                     .type(CardCreateParams.Type.VIRTUAL)
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
