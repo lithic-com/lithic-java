@@ -75,6 +75,7 @@ internal class ErrorHandlingTest {
             assertThrows<BadRequestException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -132,6 +133,7 @@ internal class ErrorHandlingTest {
             assertThrows<BadRequestException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -189,6 +191,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnauthorizedException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -246,6 +249,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnauthorizedException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -303,6 +307,7 @@ internal class ErrorHandlingTest {
             assertThrows<PermissionDeniedException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -360,6 +365,7 @@ internal class ErrorHandlingTest {
             assertThrows<PermissionDeniedException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -417,6 +423,7 @@ internal class ErrorHandlingTest {
             assertThrows<NotFoundException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -474,6 +481,7 @@ internal class ErrorHandlingTest {
             assertThrows<NotFoundException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -531,6 +539,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnprocessableEntityException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -588,6 +597,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnprocessableEntityException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -645,6 +655,7 @@ internal class ErrorHandlingTest {
             assertThrows<RateLimitException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -702,6 +713,7 @@ internal class ErrorHandlingTest {
             assertThrows<RateLimitException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -759,6 +771,7 @@ internal class ErrorHandlingTest {
             assertThrows<InternalServerException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -816,6 +829,7 @@ internal class ErrorHandlingTest {
             assertThrows<InternalServerException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -873,6 +887,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnexpectedStatusCodeException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -930,6 +945,7 @@ internal class ErrorHandlingTest {
             assertThrows<UnexpectedStatusCodeException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -985,6 +1001,7 @@ internal class ErrorHandlingTest {
             assertThrows<LithicException> {
                 cardService.create(
                     CardCreateParams.builder()
+                        .idempotencyKey("65a9dad4-1b60-4686-83fd-65b25078a4b4")
                         .type(CardCreateParams.Type.VIRTUAL)
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
