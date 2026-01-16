@@ -10,6 +10,8 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 internal class ConditionalValueTest {
 
@@ -118,10 +120,17 @@ internal class ConditionalValueTest {
         assertThat(roundtrippedConditionalValue).isEqualTo(conditionalValue)
     }
 
-    @Test
-    fun incompatibleJsonShapeDeserializesToUnknown() {
-        val value = JsonValue.from(mapOf("invalid" to "object"))
-        val conditionalValue = jsonMapper().convertValue(value, jacksonTypeRef<ConditionalValue>())
+    enum class IncompatibleJsonShapeTestCase(val value: JsonValue) {
+        BOOLEAN(JsonValue.from(false)),
+        FLOAT(JsonValue.from(3.14)),
+        OBJECT(JsonValue.from(mapOf("invalid" to "object"))),
+    }
+
+    @ParameterizedTest
+    @EnumSource
+    fun incompatibleJsonShapeDeserializesToUnknown(testCase: IncompatibleJsonShapeTestCase) {
+        val conditionalValue =
+            jsonMapper().convertValue(testCase.value, jacksonTypeRef<ConditionalValue>())
 
         val e = assertThrows<LithicInvalidDataException> { conditionalValue.validate() }
         assertThat(e).hasMessageStartingWith("Unknown ")
