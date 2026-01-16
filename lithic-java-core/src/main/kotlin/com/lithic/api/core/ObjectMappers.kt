@@ -22,12 +22,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import java.io.InputStream
 import java.time.DateTimeException
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.OffsetDateTime
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
 
 fun jsonMapper(): JsonMapper =
     JsonMapper.builder()
@@ -37,7 +32,6 @@ fun jsonMapper(): JsonMapper =
         .addModule(
             SimpleModule()
                 .addSerializer(InputStreamSerializer)
-                .addDeserializer(LocalDateTime::class.java, LenientLocalDateTimeDeserializer())
                 .addDeserializer(OffsetDateTime::class.java, LenientOffsetDateTimeDeserializer())
         )
         .withCoercionConfig(LogicalType.Boolean) {
@@ -49,6 +43,7 @@ fun jsonMapper(): JsonMapper =
         }
         .withCoercionConfig(LogicalType.Integer) {
             it.setCoercion(CoercionInputShape.Boolean, CoercionAction.Fail)
+                .setCoercion(CoercionInputShape.Float, CoercionAction.Fail)
                 .setCoercion(CoercionInputShape.String, CoercionAction.Fail)
                 .setCoercion(CoercionInputShape.Array, CoercionAction.Fail)
                 .setCoercion(CoercionInputShape.Object, CoercionAction.Fail)
@@ -62,6 +57,12 @@ fun jsonMapper(): JsonMapper =
         .withCoercionConfig(LogicalType.Textual) {
             it.setCoercion(CoercionInputShape.Boolean, CoercionAction.Fail)
                 .setCoercion(CoercionInputShape.Integer, CoercionAction.Fail)
+                .setCoercion(CoercionInputShape.Float, CoercionAction.Fail)
+                .setCoercion(CoercionInputShape.Array, CoercionAction.Fail)
+                .setCoercion(CoercionInputShape.Object, CoercionAction.Fail)
+        }
+        .withCoercionConfig(LogicalType.DateTime) {
+            it.setCoercion(CoercionInputShape.Integer, CoercionAction.Fail)
                 .setCoercion(CoercionInputShape.Float, CoercionAction.Fail)
                 .setCoercion(CoercionInputShape.Array, CoercionAction.Fail)
                 .setCoercion(CoercionInputShape.Object, CoercionAction.Fail)
@@ -121,49 +122,6 @@ private object InputStreamSerializer : BaseSerializer<InputStream>(InputStream::
             gen?.writeNull()
         } else {
             value.use { gen?.writeBinary(it.readBytes()) }
-        }
-    }
-}
-
-/**
- * A deserializer that can deserialize [LocalDateTime] from datetimes, dates, and zoned datetimes.
- */
-private class LenientLocalDateTimeDeserializer :
-    StdDeserializer<LocalDateTime>(LocalDateTime::class.java) {
-
-    companion object {
-
-        private val DATE_TIME_FORMATTERS =
-            listOf(
-                DateTimeFormatter.ISO_LOCAL_DATE_TIME,
-                DateTimeFormatter.ISO_LOCAL_DATE,
-                DateTimeFormatter.ISO_ZONED_DATE_TIME,
-            )
-    }
-
-    override fun logicalType(): LogicalType = LogicalType.DateTime
-
-    override fun deserialize(p: JsonParser, context: DeserializationContext?): LocalDateTime {
-        val exceptions = mutableListOf<Exception>()
-
-        for (formatter in DATE_TIME_FORMATTERS) {
-            try {
-                val temporal = formatter.parse(p.text)
-
-                return when {
-                    !temporal.isSupported(ChronoField.HOUR_OF_DAY) ->
-                        LocalDate.from(temporal).atStartOfDay()
-                    !temporal.isSupported(ChronoField.OFFSET_SECONDS) ->
-                        LocalDateTime.from(temporal)
-                    else -> ZonedDateTime.from(temporal).toLocalDateTime()
-                }
-            } catch (e: DateTimeException) {
-                exceptions.add(e)
-            }
-        }
-
-        throw JsonParseException(p, "Cannot parse `LocalDateTime` from value: ${p.text}").apply {
-            exceptions.forEach { addSuppressed(it) }
         }
     }
 }

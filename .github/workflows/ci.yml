@@ -20,7 +20,7 @@ jobs:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.fork
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -40,11 +40,14 @@ jobs:
   build:
     timeout-minutes: 15
     name: build
+    permissions:
+      contents: read
+      id-token: write
     runs-on: ${{ github.repository == 'stainless-sdks/lithic-java' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     if: github.event_name == 'push' || github.event.pull_request.head.repo.fork
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -61,13 +64,28 @@ jobs:
       - name: Build SDK
         run: ./scripts/build
 
+      - name: Get GitHub OIDC Token
+        if: github.repository == 'stainless-sdks/lithic-java'
+        id: github-oidc
+        uses: actions/github-script@v6
+        with:
+          script: core.setOutput('github_token', await core.getIDToken());
+
+      - name: Build and upload Maven artifacts
+        if: github.repository == 'stainless-sdks/lithic-java'
+        env:
+          URL: https://pkg.stainless.com/s
+          AUTH: ${{ steps.github-oidc.outputs.github_token }}
+          SHA: ${{ github.sha }}
+          PROJECT: lithic-java
+        run: ./scripts/upload-artifacts
   test:
     timeout-minutes: 15
     name: test
     runs-on: ${{ github.repository == 'stainless-sdks/lithic-java' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     if: github.event_name == 'push' || github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Java
         uses: actions/setup-java@v4

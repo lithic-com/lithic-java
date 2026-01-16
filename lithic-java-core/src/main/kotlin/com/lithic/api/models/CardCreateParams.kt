@@ -27,10 +27,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class CardCreateParams
 private constructor(
+    private val idempotencyKey: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
+
+    fun idempotencyKey(): Optional<String> = Optional.ofNullable(idempotencyKey)
 
     /**
      * Card types:
@@ -437,16 +440,24 @@ private constructor(
     /** A builder for [CardCreateParams]. */
     class Builder internal constructor() {
 
+        private var idempotencyKey: String? = null
         private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(cardCreateParams: CardCreateParams) = apply {
+            idempotencyKey = cardCreateParams.idempotencyKey
             body = cardCreateParams.body.toBuilder()
             additionalHeaders = cardCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = cardCreateParams.additionalQueryParams.toBuilder()
         }
+
+        fun idempotencyKey(idempotencyKey: String?) = apply { this.idempotencyKey = idempotencyKey }
+
+        /** Alias for calling [Builder.idempotencyKey] with `idempotencyKey.orElse(null)`. */
+        fun idempotencyKey(idempotencyKey: Optional<String>) =
+            idempotencyKey(idempotencyKey.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -974,12 +985,23 @@ private constructor(
          * @throws IllegalStateException if any required field is unset.
          */
         fun build(): CardCreateParams =
-            CardCreateParams(body.build(), additionalHeaders.build(), additionalQueryParams.build())
+            CardCreateParams(
+                idempotencyKey,
+                body.build(),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
     }
 
     fun _body(): Body = body
 
-    override fun _headers(): Headers = additionalHeaders
+    override fun _headers(): Headers =
+        Headers.builder()
+            .apply {
+                idempotencyKey?.let { put("Idempotency-Key", it) }
+                putAll(additionalHeaders)
+            }
+            .build()
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
@@ -2835,13 +2857,15 @@ private constructor(
         }
 
         return other is CardCreateParams &&
+            idempotencyKey == other.idempotencyKey &&
             body == other.body &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
+    override fun hashCode(): Int =
+        Objects.hash(idempotencyKey, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "CardCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "CardCreateParams{idempotencyKey=$idempotencyKey, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

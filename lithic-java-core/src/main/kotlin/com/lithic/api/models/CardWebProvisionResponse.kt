@@ -20,6 +20,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.allMaxBy
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
@@ -256,18 +257,18 @@ private constructor(
         /**
          * JWS object required for handoff to Apple's script.
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun jws(): Optional<WebPushProvisioningResponseJws> = jws.getOptional("jws")
+        fun jws(): WebPushProvisioningResponseJws = jws.getRequired("jws")
 
         /**
          * A unique identifier for the JWS object.
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun state(): Optional<String> = state.getOptional("state")
+        fun state(): String = state.getRequired("state")
 
         /**
          * Returns the raw JSON value of [jws].
@@ -302,6 +303,12 @@ private constructor(
             /**
              * Returns a mutable builder for constructing an instance of
              * [AppleWebPushProvisioningResponse].
+             *
+             * The following fields are required:
+             * ```java
+             * .jws()
+             * .state()
+             * ```
              */
             @JvmStatic fun builder() = Builder()
         }
@@ -309,8 +316,8 @@ private constructor(
         /** A builder for [AppleWebPushProvisioningResponse]. */
         class Builder internal constructor() {
 
-            private var jws: JsonField<WebPushProvisioningResponseJws> = JsonMissing.of()
-            private var state: JsonField<String> = JsonMissing.of()
+            private var jws: JsonField<WebPushProvisioningResponseJws>? = null
+            private var state: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -369,9 +376,21 @@ private constructor(
              * Returns an immutable instance of [AppleWebPushProvisioningResponse].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .jws()
+             * .state()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
              */
             fun build(): AppleWebPushProvisioningResponse =
-                AppleWebPushProvisioningResponse(jws, state, additionalProperties.toMutableMap())
+                AppleWebPushProvisioningResponse(
+                    checkRequired("jws", jws),
+                    checkRequired("state", state),
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -381,7 +400,7 @@ private constructor(
                 return@apply
             }
 
-            jws().ifPresent { it.validate() }
+            jws().validate()
             state()
             validated = true
         }
