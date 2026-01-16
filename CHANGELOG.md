@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.116.0 (2026-01-16)
+
+Full Changelog: [v0.115.0...v0.116.0](https://github.com/lithic-com/lithic-java/compare/v0.115.0...v0.116.0)
+
+### Features
+
+* **api:** Add idempotency key to cards POST and PATCH endpoints ([e4de24f](https://github.com/lithic-com/lithic-java/commit/e4de24f1c5a533c8d8074fac447d64236d276dc4))
+* **api:** make filter optional for Spend Velocity Auth Rules ([6122ecc](https://github.com/lithic-com/lithic-java/commit/6122eccf30d48db7aaba2fd6f8e94bf76fc7ceb4))
+
+
+### Bug Fixes
+
+* **api:** Correct field name from ach_hold__period to ach_hold_period ([e9f3ae9](https://github.com/lithic-com/lithic-java/commit/e9f3ae9d5e5797a6458138d27e3b7a21fee0e9bd))
+* **api:** mark AppleWebPushProvisioningResponse fields required ([464fcae](https://github.com/lithic-com/lithic-java/commit/464fcaeefe3040303874976e8746601fb1d2cb0b))
+* **api:** rename WIRE_DRAWDOWN_REQUEST to WIRE_INBOUND_DRAWDOWN_REQUEST ([6122ecc](https://github.com/lithic-com/lithic-java/commit/6122eccf30d48db7aaba2fd6f8e94bf76fc7ceb4))
+* **client:** disallow coercion from float to int ([126f812](https://github.com/lithic-com/lithic-java/commit/126f8126438b97c2cc516aba5d85bf4abbe08352))
+* date time deserialization leniency ([ad467a4](https://github.com/lithic-com/lithic-java/commit/ad467a4ae4e51a2dfd5e9b7be5800ae9d4ca56fc))
+
+
+### Chores
+
+* configure new SDK language ([3dc7d3f](https://github.com/lithic-com/lithic-java/commit/3dc7d3f2903edec88f307dfa5d17e6b5f377e3f0))
+* fix build error ([d9046f9](https://github.com/lithic-com/lithic-java/commit/d9046f9a5eca4e5d4b8964c70a1c2144941d9b6a))
+* fix build error ([ee7c05b](https://github.com/lithic-com/lithic-java/commit/ee7c05b2ab02d8cef3e3283ef2b4a1007d997e95))
+* fix test ([29f6004](https://github.com/lithic-com/lithic-java/commit/29f6004a8cbba567f64ce4f0f681d4d5c7ef94f3))
+* **internal:** clean up maven repo artifact script and add html documentation to repo root ([7838ba8](https://github.com/lithic-com/lithic-java/commit/7838ba8e1c5a14df27507a5aa6b7fb6444531a98))
+* **internal:** codegen related update ([6b3f7ee](https://github.com/lithic-com/lithic-java/commit/6b3f7ee38b9f387e28cce9d19d5fec3a6718cfbf))
+* **internal:** improve maven repo docs ([737c025](https://github.com/lithic-com/lithic-java/commit/737c025a59820d23176d4e45c50f9ab0781a791c))
+* **internal:** support uploading Maven repo artifacts to stainless package server ([da51092](https://github.com/lithic-com/lithic-java/commit/da510920d18bdd6b4e2a655755e9fe21f145bf9f))
+* **internal:** update `actions/checkout` version ([6764fb4](https://github.com/lithic-com/lithic-java/commit/6764fb4c842d48cffa5a6742f4c0a9ef132e0329))
+* Rework event type generation to support spec splitting ([bb604fb](https://github.com/lithic-com/lithic-java/commit/bb604fbee3a368cfbe5c4e132f5974b691121255))
+* test on Jackson 2.14.0 to avoid encountering FasterXML/jackson-databind[#3240](https://github.com/lithic-com/lithic-java/issues/3240) in tests ([ad467a4](https://github.com/lithic-com/lithic-java/commit/ad467a4ae4e51a2dfd5e9b7be5800ae9d4ca56fc))
+
 ## 0.115.0 (2026-01-08)
 
 Full Changelog: [v0.114.0...v0.115.0](https://github.com/lithic-com/lithic-java/compare/v0.114.0...v0.115.0)
