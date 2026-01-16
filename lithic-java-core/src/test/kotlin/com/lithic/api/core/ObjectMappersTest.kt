@@ -91,19 +91,4 @@ internal class ObjectMappersTest {
 
         assertDoesNotThrow { jsonMapper().readValue<OffsetDateTime>(json) }
     }
-
-    enum class LenientOffsetDateTimeTestCase(val string: String) {
-        DATE_TIME("1998-04-21T04:00:00"),
-        ZONED_DATE_TIME_1("1998-04-21T04:00:00+03:00"),
-        ZONED_DATE_TIME_2("1998-04-21T04:00:00Z"),
-    }
-
-    @ParameterizedTest
-    @EnumSource
-    fun readOffsetDateTime_lenient(testCase: LenientOffsetDateTimeTestCase) {
-        val jsonMapper = jsonMapper()
-        val json = jsonMapper.writeValueAsString(testCase.string)
-
-        assertDoesNotThrow { jsonMapper().readValue<OffsetDateTime>(json) }
-    }
 }
