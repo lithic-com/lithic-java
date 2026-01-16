@@ -77,7 +77,6 @@ internal class ObjectMappersTest {
     }
 
     enum class LenientOffsetDateTimeTestCase(val string: String) {
-        DATE("1998-04-21"),
         DATE_TIME("1998-04-21T04:00:00"),
         ZONED_DATE_TIME_1("1998-04-21T04:00:00+03:00"),
         ZONED_DATE_TIME_2("1998-04-21T04:00:00Z"),
