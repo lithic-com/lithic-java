@@ -132,8 +132,9 @@ private constructor(
 
     /**
      * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
-     * any acquirer fees. The value of this field will go to zero over time once the financial
-     * transaction is settled.
+     * any acquirer fees.
+     *
+     * The value of this field will go to zero over time once the financial transaction is settled.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -423,8 +424,10 @@ private constructor(
 
         /**
          * Pending amount of the transaction in the currency's smallest unit (e.g., cents),
-         * including any acquirer fees. The value of this field will go to zero over time once the
-         * financial transaction is settled.
+         * including any acquirer fees.
+         *
+         * The value of this field will go to zero over time once the financial transaction is
+         * settled.
          */
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
