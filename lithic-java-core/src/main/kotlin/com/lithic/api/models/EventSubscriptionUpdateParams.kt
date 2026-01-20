@@ -687,6 +687,7 @@ private constructor(
      * - card.reissued: Occurs when a card is reissued.
      * - card.renewed: Occurs when a card is renewed.
      * - card.shipped: Occurs when a card is shipped.
+     * - card.updated: Occurs when a card is updated.
      * - digital_wallet.tokenization_approval_request: Occurs when a tokenization approval request
      *   is made. This event will be deprecated in the future. We recommend using
      *   `tokenization.approval_request` instead.
@@ -804,6 +805,8 @@ private constructor(
 
             @JvmField val CARD_SHIPPED = of("card.shipped")
 
+            @JvmField val CARD_UPDATED = of("card.updated")
+
             @JvmField
             val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
                 of("digital_wallet.tokenization_approval_request")
@@ -910,6 +913,7 @@ private constructor(
             CARD_REISSUED,
             CARD_RENEWED,
             CARD_SHIPPED,
+            CARD_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
             DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -974,6 +978,7 @@ private constructor(
             CARD_REISSUED,
             CARD_RENEWED,
             CARD_SHIPPED,
+            CARD_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
             DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -1043,6 +1048,7 @@ private constructor(
                 CARD_REISSUED -> Value.CARD_REISSUED
                 CARD_RENEWED -> Value.CARD_RENEWED
                 CARD_SHIPPED -> Value.CARD_SHIPPED
+                CARD_UPDATED -> Value.CARD_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
                 DIGITAL_WALLET_TOKENIZATION_RESULT -> Value.DIGITAL_WALLET_TOKENIZATION_RESULT
@@ -1116,6 +1122,7 @@ private constructor(
                 CARD_REISSUED -> Known.CARD_REISSUED
                 CARD_RENEWED -> Known.CARD_RENEWED
                 CARD_SHIPPED -> Known.CARD_SHIPPED
+                CARD_UPDATED -> Known.CARD_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
                 DIGITAL_WALLET_TOKENIZATION_RESULT -> Known.DIGITAL_WALLET_TOKENIZATION_RESULT
