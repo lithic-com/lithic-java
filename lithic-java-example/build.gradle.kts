@@ -8,7 +8,8 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":lithic-java"))
+    implementation(project(":lithic-java-core"))
+    implementation(project(":lithic-java-client-okhttp"))
 }
 
 tasks.withType<JavaCompile>().configureEach {
