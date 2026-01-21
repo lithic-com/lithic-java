@@ -2952,6 +2952,11 @@ internal class ParsedWebhookEventTest {
                 .result(Transaction.DeclineResult.APPROVED)
                 .settledAmount(0L)
                 .status(Transaction.Status.PENDING)
+                .tags(
+                    Transaction.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .tokenInfo(TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build())
                 .updated(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
                 .addEvent(
@@ -3240,6 +3245,11 @@ internal class ParsedWebhookEventTest {
                     .result(Transaction.DeclineResult.APPROVED)
                     .settledAmount(0L)
                     .status(Transaction.Status.PENDING)
+                    .tags(
+                        Transaction.Tags.builder()
+                            .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                            .build()
+                    )
                     .tokenInfo(
                         TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build()
                     )
