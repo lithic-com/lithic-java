@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
@@ -116,6 +117,11 @@ internal class CardTransactionUpdatedWebhookEventTest {
                 .result(Transaction.DeclineResult.APPROVED)
                 .settledAmount(0L)
                 .status(Transaction.Status.PENDING)
+                .tags(
+                    Transaction.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .tokenInfo(TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build())
                 .updated(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
                 .addEvent(
@@ -338,6 +344,12 @@ internal class CardTransactionUpdatedWebhookEventTest {
         assertThat(cardTransactionUpdatedWebhookEvent.settledAmount()).isEqualTo(0L)
         assertThat(cardTransactionUpdatedWebhookEvent.status())
             .isEqualTo(Transaction.Status.PENDING)
+        assertThat(cardTransactionUpdatedWebhookEvent.tags())
+            .isEqualTo(
+                Transaction.Tags.builder()
+                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                    .build()
+            )
         assertThat(cardTransactionUpdatedWebhookEvent.tokenInfo())
             .contains(TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build())
         assertThat(cardTransactionUpdatedWebhookEvent.updated())
@@ -559,6 +571,11 @@ internal class CardTransactionUpdatedWebhookEventTest {
                 .result(Transaction.DeclineResult.APPROVED)
                 .settledAmount(0L)
                 .status(Transaction.Status.PENDING)
+                .tags(
+                    Transaction.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .tokenInfo(TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build())
                 .updated(OffsetDateTime.parse("2023-08-03T18:42:30Z"))
                 .addEvent(

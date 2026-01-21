@@ -354,6 +354,11 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                 .result(Transaction.DeclineResult.APPROVED)
                 .settledAmount(0L)
                 .status(Transaction.Status.PENDING)
+                .tags(
+                    Transaction.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .tokenInfo(TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build())
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addEvent(
@@ -589,6 +594,11 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                     .result(Transaction.DeclineResult.APPROVED)
                     .settledAmount(0L)
                     .status(Transaction.Status.PENDING)
+                    .tags(
+                        Transaction.Tags.builder()
+                            .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                            .build()
+                    )
                     .tokenInfo(
                         TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build()
                     )

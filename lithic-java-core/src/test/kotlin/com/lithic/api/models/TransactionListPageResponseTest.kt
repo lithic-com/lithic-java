@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
@@ -124,6 +125,11 @@ internal class TransactionListPageResponseTest {
                         .result(Transaction.DeclineResult.APPROVED)
                         .settledAmount(0L)
                         .status(Transaction.Status.PENDING)
+                        .tags(
+                            Transaction.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .tokenInfo(
                             TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build()
                         )
@@ -359,6 +365,11 @@ internal class TransactionListPageResponseTest {
                     .result(Transaction.DeclineResult.APPROVED)
                     .settledAmount(0L)
                     .status(Transaction.Status.PENDING)
+                    .tags(
+                        Transaction.Tags.builder()
+                            .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                            .build()
+                    )
                     .tokenInfo(
                         TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build()
                     )
@@ -595,6 +606,11 @@ internal class TransactionListPageResponseTest {
                         .result(Transaction.DeclineResult.APPROVED)
                         .settledAmount(0L)
                         .status(Transaction.Status.PENDING)
+                        .tags(
+                            Transaction.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .tokenInfo(
                             TokenInfo.builder().walletType(TokenInfo.WalletType.APPLE_PAY).build()
                         )
