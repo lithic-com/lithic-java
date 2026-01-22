@@ -103,7 +103,14 @@ private constructor(
      */
     fun customerProductId(): Optional<String> = customerProductId.getOptional("customer_product_id")
 
-    /** Shipping address for all cards in this bulk order */
+    /**
+     * Shipping address for all cards in this bulk order
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = cardBulkOrder.shippingAddress().convert(MyClass.class);
+     * ```
+     */
     @JsonProperty("shipping_address")
     @ExcludeMissing
     fun _shippingAddress(): JsonValue = shippingAddress
