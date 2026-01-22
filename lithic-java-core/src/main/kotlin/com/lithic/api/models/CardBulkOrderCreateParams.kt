@@ -43,7 +43,14 @@ private constructor(
      */
     fun customerProductId(): String = body.customerProductId()
 
-    /** Shipping address for all cards in this bulk order */
+    /**
+     * Shipping address for all cards in this bulk order
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = cardBulkOrderCreateParams.shippingAddress().convert(MyClass.class);
+     * ```
+     */
     fun _shippingAddress(): JsonValue = body._shippingAddress()
 
     /**
@@ -340,7 +347,14 @@ private constructor(
          */
         fun customerProductId(): String = customerProductId.getRequired("customer_product_id")
 
-        /** Shipping address for all cards in this bulk order */
+        /**
+         * Shipping address for all cards in this bulk order
+         *
+         * This arbitrary value can be deserialized into a custom type using the `convert` method:
+         * ```java
+         * MyClass myObject = createBulkOrderRequest.shippingAddress().convert(MyClass.class);
+         * ```
+         */
         @JsonProperty("shipping_address")
         @ExcludeMissing
         fun _shippingAddress(): JsonValue = shippingAddress
