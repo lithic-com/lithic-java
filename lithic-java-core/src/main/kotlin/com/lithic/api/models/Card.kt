@@ -279,10 +279,10 @@ private constructor(
      * wallet like Apple Pay or Google Pay (if the card program is digital wallet-enabled). *
      * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding, credit,
      * ATM, PIN debit, chip/EMV, NFC and magstripe functionality. * `SINGLE_USE` - Card is closed
-     * upon first successful authorization. * `MERCHANT_LOCKED` - *[Deprecated]* Card is locked to
-     * the first merchant that successfully authorizes the card. * `UNLOCKED` - *[Deprecated]*
-     * Similar behavior to VIRTUAL cards, please use VIRTUAL instead. * `DIGITAL_WALLET` -
-     * *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
+     * upon first successful authorization. * `MERCHANT_LOCKED` - Card is locked to the first
+     * merchant that successfully authorizes the card. * `UNLOCKED` - *[Deprecated]* Similar
+     * behavior to VIRTUAL cards, please use VIRTUAL instead. * `DIGITAL_WALLET` - *[Deprecated]*
+     * Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -936,8 +936,8 @@ private constructor(
          * wallet-enabled). * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white
          * label branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. *
          * `SINGLE_USE` - Card is closed upon first successful authorization. * `MERCHANT_LOCKED` -
-         * *[Deprecated]* Card is locked to the first merchant that successfully authorizes the
-         * card. * `UNLOCKED` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
+         * Card is locked to the first merchant that successfully authorizes the card. *
+         * `UNLOCKED` - *[Deprecated]* Similar behavior to VIRTUAL cards, please use VIRTUAL
          * instead. * `DIGITAL_WALLET` - *[Deprecated]* Similar behavior to VIRTUAL cards, please
          * use VIRTUAL instead.
          */

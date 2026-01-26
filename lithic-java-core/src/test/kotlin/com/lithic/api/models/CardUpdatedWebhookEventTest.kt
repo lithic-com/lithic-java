@@ -14,13 +14,13 @@ internal class CardUpdatedWebhookEventTest {
     fun create() {
         val cardUpdatedWebhookEvent =
             CardUpdatedWebhookEvent.builder()
-                .token("00000000-0000-0000-0000-000000000000")
+                .cardToken("00000000-0000-0000-0000-000000000000")
                 .eventType(CardUpdatedWebhookEvent.EventType.CARD_UPDATED)
                 .previousFields(JsonValue.from(mapOf("state" to "PAUSED")))
                 .state("OPEN")
                 .build()
 
-        assertThat(cardUpdatedWebhookEvent.token())
+        assertThat(cardUpdatedWebhookEvent.cardToken())
             .isEqualTo("00000000-0000-0000-0000-000000000000")
         assertThat(cardUpdatedWebhookEvent.eventType())
             .isEqualTo(CardUpdatedWebhookEvent.EventType.CARD_UPDATED)
@@ -34,7 +34,7 @@ internal class CardUpdatedWebhookEventTest {
         val jsonMapper = jsonMapper()
         val cardUpdatedWebhookEvent =
             CardUpdatedWebhookEvent.builder()
-                .token("00000000-0000-0000-0000-000000000000")
+                .cardToken("00000000-0000-0000-0000-000000000000")
                 .eventType(CardUpdatedWebhookEvent.EventType.CARD_UPDATED)
                 .previousFields(JsonValue.from(mapOf("state" to "PAUSED")))
                 .state("OPEN")
