@@ -2755,7 +2755,7 @@ internal class ParsedWebhookEventTest {
     fun ofCardUpdated() {
         val cardUpdated =
             CardUpdatedWebhookEvent.builder()
-                .token("00000000-0000-0000-0000-000000000000")
+                .cardToken("00000000-0000-0000-0000-000000000000")
                 .eventType(CardUpdatedWebhookEvent.EventType.CARD_UPDATED)
                 .previousFields(JsonValue.from(mapOf("state" to "PAUSED")))
                 .state("OPEN")
@@ -2831,7 +2831,7 @@ internal class ParsedWebhookEventTest {
         val parsedWebhookEvent =
             ParsedWebhookEvent.ofCardUpdated(
                 CardUpdatedWebhookEvent.builder()
-                    .token("00000000-0000-0000-0000-000000000000")
+                    .cardToken("00000000-0000-0000-0000-000000000000")
                     .eventType(CardUpdatedWebhookEvent.EventType.CARD_UPDATED)
                     .previousFields(JsonValue.from(mapOf("state" to "PAUSED")))
                     .state("OPEN")
