@@ -22,7 +22,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import java.io.InputStream
 import java.time.DateTimeException
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoField
 
 fun jsonMapper(): JsonMapper =
     JsonMapper.builder()
@@ -127,25 +132,43 @@ private object InputStreamSerializer : BaseSerializer<InputStream>(InputStream::
 }
 
 /**
- * A deserializer that can deserialize [OffsetDateTime], assuming UTC when a timezone isn't given.
+ * A deserializer that can deserialize [OffsetDateTime] from datetimes, dates, and zoned datetimes.
  */
 private class LenientOffsetDateTimeDeserializer :
     StdDeserializer<OffsetDateTime>(OffsetDateTime::class.java) {
+
+    companion object {
+
+        private val DATE_TIME_FORMATTERS =
+            listOf(
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME,
+                DateTimeFormatter.ISO_LOCAL_DATE,
+                DateTimeFormatter.ISO_ZONED_DATE_TIME,
+            )
+    }
+
     override fun logicalType(): LogicalType = LogicalType.DateTime
 
-    override fun deserialize(p: JsonParser, context: DeserializationContext?): OffsetDateTime {
+    override fun deserialize(p: JsonParser, context: DeserializationContext): OffsetDateTime {
         val exceptions = mutableListOf<Exception>()
 
-        try {
-            return OffsetDateTime.parse(p.text)
-        } catch (e: DateTimeException) {
-            exceptions.add(e)
-        }
+        for (formatter in DATE_TIME_FORMATTERS) {
+            try {
+                val temporal = formatter.parse(p.text)
 
-        try {
-            return OffsetDateTime.parse(p.text + 'Z')
-        } catch (e: DateTimeException) {
-            exceptions.add(e)
+                return when {
+                    !temporal.isSupported(ChronoField.HOUR_OF_DAY) ->
+                        LocalDate.from(temporal)
+                            .atStartOfDay()
+                            .atZone(ZoneId.of("UTC"))
+                            .toOffsetDateTime()
+                    !temporal.isSupported(ChronoField.OFFSET_SECONDS) ->
+                        LocalDateTime.from(temporal).atZone(ZoneId.of("UTC")).toOffsetDateTime()
+                    else -> OffsetDateTime.from(temporal)
+                }
+            } catch (e: DateTimeException) {
+                exceptions.add(e)
+            }
         }
 
         throw JsonParseException(p, "Cannot parse `OffsetDateTime` from value: ${p.text}").apply {
