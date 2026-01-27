@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.116.0 (2026-01-27)
+
+Full Changelog: [v0.115.0...v0.116.0](https://github.com/lithic-com/lithic-java/compare/v0.115.0...v0.116.0)
+
+### Features
+
+* **api:** Add card.updated event ([08c0ec5](https://github.com/lithic-com/lithic-java/commit/08c0ec5b07c9904a446496fbef297c3958b33adf))
+* **api:** Add idempotency key to cards POST and PATCH endpoints ([e4de24f](https://github.com/lithic-com/lithic-java/commit/e4de24f1c5a533c8d8074fac447d64236d276dc4))
+* **api:** Add merchant location fields to simulator endpoints ([261c721](https://github.com/lithic-com/lithic-java/commit/261c7217cb9db99c252fbc73033b135289f3b71b))
+* **api:** Add tags field to card transactions ([746ee7f](https://github.com/lithic-com/lithic-java/commit/746ee7fd9f55ea61a20c2d14f2486036b7d6211a))
+* **api:** make filter optional for Spend Velocity Auth Rules ([6122ecc](https://github.com/lithic-com/lithic-java/commit/6122eccf30d48db7aaba2fd6f8e94bf76fc7ceb4))
+* **client:** send `X-Stainless-Kotlin-Version` header ([aa06e8d](https://github.com/lithic-com/lithic-java/commit/aa06e8dc2309292773fbd45a3f655709f3bdf550))
+
+
+### Bug Fixes
+
+* **api:** Correct field name from ach_hold__period to ach_hold_period ([e9f3ae9](https://github.com/lithic-com/lithic-java/commit/e9f3ae9d5e5797a6458138d27e3b7a21fee0e9bd))
+* **api:** mark AppleWebPushProvisioningResponse fields required ([464fcae](https://github.com/lithic-com/lithic-java/commit/464fcaeefe3040303874976e8746601fb1d2cb0b))
+* **api:** rename WIRE_DRAWDOWN_REQUEST to WIRE_INBOUND_DRAWDOWN_REQUEST ([6122ecc](https://github.com/lithic-com/lithic-java/commit/6122eccf30d48db7aaba2fd6f8e94bf76fc7ceb4))
+* **client:** disallow coercion from float to int ([126f812](https://github.com/lithic-com/lithic-java/commit/126f8126438b97c2cc516aba5d85bf4abbe08352))
+* **client:** fully respect max retries ([bd0a9da](https://github.com/lithic-com/lithic-java/commit/bd0a9da6fc8e2d9b4ed83a0c16b9e9afd5ceb42a))
+* **client:** preserve time zone in lenient date-time parsing ([b82b025](https://github.com/lithic-com/lithic-java/commit/b82b025bc29fc0454d1db1f790185309548cb4f0))
+* **client:** send retry count header for max retries 0 ([bd0a9da](https://github.com/lithic-com/lithic-java/commit/bd0a9da6fc8e2d9b4ed83a0c16b9e9afd5ceb42a))
+* date time deserialization leniency ([ad467a4](https://github.com/lithic-com/lithic-java/commit/ad467a4ae4e51a2dfd5e9b7be5800ae9d4ca56fc))
+* deserialization order ([0e39fef](https://github.com/lithic-com/lithic-java/commit/0e39fefef9ef8651a56b5689e24e7965be4fbcbf))
+
+
+### Chores
+
+* Add spec linter for YAML and folded style multiline strings ([b437e45](https://github.com/lithic-com/lithic-java/commit/b437e45c988dfb6b2844b2d02ca397b2688d3521))
+* **ci:** upgrade `actions/github-script` ([ccebfa3](https://github.com/lithic-com/lithic-java/commit/ccebfa38275538c52ef8c62041351abc1ec68c27))
+* **ci:** upgrade `actions/setup-java` ([4e7e0b2](https://github.com/lithic-com/lithic-java/commit/4e7e0b23375dcad5eda7626fd6f5dc83d774f4b7))
+* configure new SDK language ([3dc7d3f](https://github.com/lithic-com/lithic-java/commit/3dc7d3f2903edec88f307dfa5d17e6b5f377e3f0))
+* fix build error ([d9046f9](https://github.com/lithic-com/lithic-java/commit/d9046f9a5eca4e5d4b8964c70a1c2144941d9b6a))
+* fix build error ([ee7c05b](https://github.com/lithic-com/lithic-java/commit/ee7c05b2ab02d8cef3e3283ef2b4a1007d997e95))
+* fix test ([29f6004](https://github.com/lithic-com/lithic-java/commit/29f6004a8cbba567f64ce4f0f681d4d5c7ef94f3))
+* **internal:** clean up maven repo artifact script and add html documentation to repo root ([7838ba8](https://github.com/lithic-com/lithic-java/commit/7838ba8e1c5a14df27507a5aa6b7fb6444531a98))
+* **internal:** codegen related update ([4373405](https://github.com/lithic-com/lithic-java/commit/437340526d2b30ef5f07989118dfef51360dfa0c))
+* **internal:** codegen related update ([6b3f7ee](https://github.com/lithic-com/lithic-java/commit/6b3f7ee38b9f387e28cce9d19d5fec3a6718cfbf))
+* **internal:** correct cache invalidation for `SKIP_MOCK_TESTS` ([ad49965](https://github.com/lithic-com/lithic-java/commit/ad49965c5aad1d8d310cd5fc47a15557d2aa1aa6))
+* **internal:** depend on packages directly in example ([bd0a9da](https://github.com/lithic-com/lithic-java/commit/bd0a9da6fc8e2d9b4ed83a0c16b9e9afd5ceb42a))
+* **internal:** improve maven repo docs ([737c025](https://github.com/lithic-com/lithic-java/commit/737c025a59820d23176d4e45c50f9ab0781a791c))
+* **internal:** support uploading Maven repo artifacts to stainless package server ([da51092](https://github.com/lithic-com/lithic-java/commit/da510920d18bdd6b4e2a655755e9fe21f145bf9f))
+* **internal:** update `actions/checkout` version ([6764fb4](https://github.com/lithic-com/lithic-java/commit/6764fb4c842d48cffa5a6742f4c0a9ef132e0329))
+* **internal:** update maven repo doc to include authentication ([00cccfb](https://github.com/lithic-com/lithic-java/commit/00cccfb7f68e4216728dd54d98f1de1deaab35ed))
+* Rework event type generation to support spec splitting ([bb604fb](https://github.com/lithic-com/lithic-java/commit/bb604fbee3a368cfbe5c4e132f5974b691121255))
+* test on Jackson 2.14.0 to avoid encountering FasterXML/jackson-databind[#3240](https://github.com/lithic-com/lithic-java/issues/3240) in tests ([ad467a4](https://github.com/lithic-com/lithic-java/commit/ad467a4ae4e51a2dfd5e9b7be5800ae9d4ca56fc))
+
+
+### Documentation
+
+* add comment for arbitrary value fields ([da7b625](https://github.com/lithic-com/lithic-java/commit/da7b625d33dd3b68d657fbe34fd41e0b6f0aa564))
+* Remove deprecated tag from MERCHANT_LOCKED card type ([5bf8022](https://github.com/lithic-com/lithic-java/commit/5bf802286350906c6b6c27de3987bcce86a0090c))
+
 ## 0.115.0 (2026-01-08)
 
 Full Changelog: [v0.114.0...v0.115.0](https://github.com/lithic-com/lithic-java/compare/v0.114.0...v0.115.0)
