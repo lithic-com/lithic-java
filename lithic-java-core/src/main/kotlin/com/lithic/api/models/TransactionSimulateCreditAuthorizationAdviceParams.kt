@@ -67,12 +67,36 @@ private constructor(
     fun mcc(): Optional<String> = body.mcc()
 
     /**
+     * Merchant acceptor city
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun merchantAcceptorCity(): Optional<String> = body.merchantAcceptorCity()
+
+    /**
+     * Merchant acceptor country code (ISO 3166-1 alpha-3)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun merchantAcceptorCountry(): Optional<String> = body.merchantAcceptorCountry()
+
+    /**
      * Unique identifier to identify the payment card acceptor.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun merchantAcceptorId(): Optional<String> = body.merchantAcceptorId()
+
+    /**
+     * Merchant acceptor state/province (ISO 3166-2 subdivision code)
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun merchantAcceptorState(): Optional<String> = body.merchantAcceptorState()
 
     /**
      * Returns the raw JSON value of [amount].
@@ -103,12 +127,36 @@ private constructor(
     fun _mcc(): JsonField<String> = body._mcc()
 
     /**
+     * Returns the raw JSON value of [merchantAcceptorCity].
+     *
+     * Unlike [merchantAcceptorCity], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _merchantAcceptorCity(): JsonField<String> = body._merchantAcceptorCity()
+
+    /**
+     * Returns the raw JSON value of [merchantAcceptorCountry].
+     *
+     * Unlike [merchantAcceptorCountry], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    fun _merchantAcceptorCountry(): JsonField<String> = body._merchantAcceptorCountry()
+
+    /**
      * Returns the raw JSON value of [merchantAcceptorId].
      *
      * Unlike [merchantAcceptorId], this method doesn't throw if the JSON field has an unexpected
      * type.
      */
     fun _merchantAcceptorId(): JsonField<String> = body._merchantAcceptorId()
+
+    /**
+     * Returns the raw JSON value of [merchantAcceptorState].
+     *
+     * Unlike [merchantAcceptorState], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _merchantAcceptorState(): JsonField<String> = body._merchantAcceptorState()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -164,7 +212,7 @@ private constructor(
          * - [descriptor]
          * - [pan]
          * - [mcc]
-         * - [merchantAcceptorId]
+         * - [merchantAcceptorCity]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -222,6 +270,38 @@ private constructor(
          */
         fun mcc(mcc: JsonField<String>) = apply { body.mcc(mcc) }
 
+        /** Merchant acceptor city */
+        fun merchantAcceptorCity(merchantAcceptorCity: String) = apply {
+            body.merchantAcceptorCity(merchantAcceptorCity)
+        }
+
+        /**
+         * Sets [Builder.merchantAcceptorCity] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantAcceptorCity] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun merchantAcceptorCity(merchantAcceptorCity: JsonField<String>) = apply {
+            body.merchantAcceptorCity(merchantAcceptorCity)
+        }
+
+        /** Merchant acceptor country code (ISO 3166-1 alpha-3) */
+        fun merchantAcceptorCountry(merchantAcceptorCountry: String) = apply {
+            body.merchantAcceptorCountry(merchantAcceptorCountry)
+        }
+
+        /**
+         * Sets [Builder.merchantAcceptorCountry] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantAcceptorCountry] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun merchantAcceptorCountry(merchantAcceptorCountry: JsonField<String>) = apply {
+            body.merchantAcceptorCountry(merchantAcceptorCountry)
+        }
+
         /** Unique identifier to identify the payment card acceptor. */
         fun merchantAcceptorId(merchantAcceptorId: String) = apply {
             body.merchantAcceptorId(merchantAcceptorId)
@@ -236,6 +316,22 @@ private constructor(
          */
         fun merchantAcceptorId(merchantAcceptorId: JsonField<String>) = apply {
             body.merchantAcceptorId(merchantAcceptorId)
+        }
+
+        /** Merchant acceptor state/province (ISO 3166-2 subdivision code) */
+        fun merchantAcceptorState(merchantAcceptorState: String) = apply {
+            body.merchantAcceptorState(merchantAcceptorState)
+        }
+
+        /**
+         * Sets [Builder.merchantAcceptorState] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.merchantAcceptorState] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun merchantAcceptorState(merchantAcceptorState: JsonField<String>) = apply {
+            body.merchantAcceptorState(merchantAcceptorState)
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
@@ -390,7 +486,10 @@ private constructor(
         private val descriptor: JsonField<String>,
         private val pan: JsonField<String>,
         private val mcc: JsonField<String>,
+        private val merchantAcceptorCity: JsonField<String>,
+        private val merchantAcceptorCountry: JsonField<String>,
         private val merchantAcceptorId: JsonField<String>,
+        private val merchantAcceptorState: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -402,10 +501,29 @@ private constructor(
             descriptor: JsonField<String> = JsonMissing.of(),
             @JsonProperty("pan") @ExcludeMissing pan: JsonField<String> = JsonMissing.of(),
             @JsonProperty("mcc") @ExcludeMissing mcc: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("merchant_acceptor_city")
+            @ExcludeMissing
+            merchantAcceptorCity: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("merchant_acceptor_country")
+            @ExcludeMissing
+            merchantAcceptorCountry: JsonField<String> = JsonMissing.of(),
             @JsonProperty("merchant_acceptor_id")
             @ExcludeMissing
             merchantAcceptorId: JsonField<String> = JsonMissing.of(),
-        ) : this(amount, descriptor, pan, mcc, merchantAcceptorId, mutableMapOf())
+            @JsonProperty("merchant_acceptor_state")
+            @ExcludeMissing
+            merchantAcceptorState: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            amount,
+            descriptor,
+            pan,
+            mcc,
+            merchantAcceptorCity,
+            merchantAcceptorCountry,
+            merchantAcceptorId,
+            merchantAcceptorState,
+            mutableMapOf(),
+        )
 
         /**
          * Amount (in cents). Any value entered will be converted into a negative amount in the
@@ -444,6 +562,24 @@ private constructor(
         fun mcc(): Optional<String> = mcc.getOptional("mcc")
 
         /**
+         * Merchant acceptor city
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun merchantAcceptorCity(): Optional<String> =
+            merchantAcceptorCity.getOptional("merchant_acceptor_city")
+
+        /**
+         * Merchant acceptor country code (ISO 3166-1 alpha-3)
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun merchantAcceptorCountry(): Optional<String> =
+            merchantAcceptorCountry.getOptional("merchant_acceptor_country")
+
+        /**
          * Unique identifier to identify the payment card acceptor.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -451,6 +587,15 @@ private constructor(
          */
         fun merchantAcceptorId(): Optional<String> =
             merchantAcceptorId.getOptional("merchant_acceptor_id")
+
+        /**
+         * Merchant acceptor state/province (ISO 3166-2 subdivision code)
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun merchantAcceptorState(): Optional<String> =
+            merchantAcceptorState.getOptional("merchant_acceptor_state")
 
         /**
          * Returns the raw JSON value of [amount].
@@ -483,6 +628,26 @@ private constructor(
         @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
 
         /**
+         * Returns the raw JSON value of [merchantAcceptorCity].
+         *
+         * Unlike [merchantAcceptorCity], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("merchant_acceptor_city")
+        @ExcludeMissing
+        fun _merchantAcceptorCity(): JsonField<String> = merchantAcceptorCity
+
+        /**
+         * Returns the raw JSON value of [merchantAcceptorCountry].
+         *
+         * Unlike [merchantAcceptorCountry], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("merchant_acceptor_country")
+        @ExcludeMissing
+        fun _merchantAcceptorCountry(): JsonField<String> = merchantAcceptorCountry
+
+        /**
          * Returns the raw JSON value of [merchantAcceptorId].
          *
          * Unlike [merchantAcceptorId], this method doesn't throw if the JSON field has an
@@ -491,6 +656,16 @@ private constructor(
         @JsonProperty("merchant_acceptor_id")
         @ExcludeMissing
         fun _merchantAcceptorId(): JsonField<String> = merchantAcceptorId
+
+        /**
+         * Returns the raw JSON value of [merchantAcceptorState].
+         *
+         * Unlike [merchantAcceptorState], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("merchant_acceptor_state")
+        @ExcludeMissing
+        fun _merchantAcceptorState(): JsonField<String> = merchantAcceptorState
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -526,7 +701,10 @@ private constructor(
             private var descriptor: JsonField<String>? = null
             private var pan: JsonField<String>? = null
             private var mcc: JsonField<String> = JsonMissing.of()
+            private var merchantAcceptorCity: JsonField<String> = JsonMissing.of()
+            private var merchantAcceptorCountry: JsonField<String> = JsonMissing.of()
             private var merchantAcceptorId: JsonField<String> = JsonMissing.of()
+            private var merchantAcceptorState: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -535,7 +713,10 @@ private constructor(
                 descriptor = body.descriptor
                 pan = body.pan
                 mcc = body.mcc
+                merchantAcceptorCity = body.merchantAcceptorCity
+                merchantAcceptorCountry = body.merchantAcceptorCountry
                 merchantAcceptorId = body.merchantAcceptorId
+                merchantAcceptorState = body.merchantAcceptorState
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -595,6 +776,36 @@ private constructor(
              */
             fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
+            /** Merchant acceptor city */
+            fun merchantAcceptorCity(merchantAcceptorCity: String) =
+                merchantAcceptorCity(JsonField.of(merchantAcceptorCity))
+
+            /**
+             * Sets [Builder.merchantAcceptorCity] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchantAcceptorCity] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun merchantAcceptorCity(merchantAcceptorCity: JsonField<String>) = apply {
+                this.merchantAcceptorCity = merchantAcceptorCity
+            }
+
+            /** Merchant acceptor country code (ISO 3166-1 alpha-3) */
+            fun merchantAcceptorCountry(merchantAcceptorCountry: String) =
+                merchantAcceptorCountry(JsonField.of(merchantAcceptorCountry))
+
+            /**
+             * Sets [Builder.merchantAcceptorCountry] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchantAcceptorCountry] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun merchantAcceptorCountry(merchantAcceptorCountry: JsonField<String>) = apply {
+                this.merchantAcceptorCountry = merchantAcceptorCountry
+            }
+
             /** Unique identifier to identify the payment card acceptor. */
             fun merchantAcceptorId(merchantAcceptorId: String) =
                 merchantAcceptorId(JsonField.of(merchantAcceptorId))
@@ -608,6 +819,21 @@ private constructor(
              */
             fun merchantAcceptorId(merchantAcceptorId: JsonField<String>) = apply {
                 this.merchantAcceptorId = merchantAcceptorId
+            }
+
+            /** Merchant acceptor state/province (ISO 3166-2 subdivision code) */
+            fun merchantAcceptorState(merchantAcceptorState: String) =
+                merchantAcceptorState(JsonField.of(merchantAcceptorState))
+
+            /**
+             * Sets [Builder.merchantAcceptorState] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.merchantAcceptorState] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun merchantAcceptorState(merchantAcceptorState: JsonField<String>) = apply {
+                this.merchantAcceptorState = merchantAcceptorState
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -649,7 +875,10 @@ private constructor(
                     checkRequired("descriptor", descriptor),
                     checkRequired("pan", pan),
                     mcc,
+                    merchantAcceptorCity,
+                    merchantAcceptorCountry,
                     merchantAcceptorId,
+                    merchantAcceptorState,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -665,7 +894,10 @@ private constructor(
             descriptor()
             pan()
             mcc()
+            merchantAcceptorCity()
+            merchantAcceptorCountry()
             merchantAcceptorId()
+            merchantAcceptorState()
             validated = true
         }
 
@@ -689,7 +921,10 @@ private constructor(
                 (if (descriptor.asKnown().isPresent) 1 else 0) +
                 (if (pan.asKnown().isPresent) 1 else 0) +
                 (if (mcc.asKnown().isPresent) 1 else 0) +
-                (if (merchantAcceptorId.asKnown().isPresent) 1 else 0)
+                (if (merchantAcceptorCity.asKnown().isPresent) 1 else 0) +
+                (if (merchantAcceptorCountry.asKnown().isPresent) 1 else 0) +
+                (if (merchantAcceptorId.asKnown().isPresent) 1 else 0) +
+                (if (merchantAcceptorState.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -701,18 +936,31 @@ private constructor(
                 descriptor == other.descriptor &&
                 pan == other.pan &&
                 mcc == other.mcc &&
+                merchantAcceptorCity == other.merchantAcceptorCity &&
+                merchantAcceptorCountry == other.merchantAcceptorCountry &&
                 merchantAcceptorId == other.merchantAcceptorId &&
+                merchantAcceptorState == other.merchantAcceptorState &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalProperties)
+            Objects.hash(
+                amount,
+                descriptor,
+                pan,
+                mcc,
+                merchantAcceptorCity,
+                merchantAcceptorCountry,
+                merchantAcceptorId,
+                merchantAcceptorState,
+                additionalProperties,
+            )
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, additionalProperties=$additionalProperties}"
+            "Body{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorCity=$merchantAcceptorCity, merchantAcceptorCountry=$merchantAcceptorCountry, merchantAcceptorId=$merchantAcceptorId, merchantAcceptorState=$merchantAcceptorState, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
