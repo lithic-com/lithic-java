@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.116.1 (2026-01-28)
+
+Full Changelog: [v0.116.0...v0.116.1](https://github.com/lithic-com/lithic-java/compare/v0.116.0...v0.116.1)
+
+### Bug Fixes
+
+* add missing fields ([b075f58](https://github.com/lithic-com/lithic-java/commit/b075f58683c40bd097d18490992744526f74161a))
+
 ## 0.116.0 (2026-01-27)
 
 Full Changelog: [v0.115.0...v0.116.0](https://github.com/lithic-com/lithic-java/compare/v0.115.0...v0.116.0)
