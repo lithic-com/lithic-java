@@ -36,6 +36,7 @@ private constructor(
     private val exemptionType: JsonField<ExemptionType>,
     private val externalId: JsonField<String>,
     private val individual: JsonField<Individual>,
+    private val naicsCode: JsonField<String>,
     private val natureOfBusiness: JsonField<String>,
     private val phoneNumber: JsonField<String>,
     private val requiredDocuments: JsonField<List<RequiredDocument>>,
@@ -81,6 +82,7 @@ private constructor(
         @JsonProperty("individual")
         @ExcludeMissing
         individual: JsonField<Individual> = JsonMissing.of(),
+        @JsonProperty("naics_code") @ExcludeMissing naicsCode: JsonField<String> = JsonMissing.of(),
         @JsonProperty("nature_of_business")
         @ExcludeMissing
         natureOfBusiness: JsonField<String> = JsonMissing.of(),
@@ -114,6 +116,7 @@ private constructor(
         exemptionType,
         externalId,
         individual,
+        naicsCode,
         natureOfBusiness,
         phoneNumber,
         requiredDocuments,
@@ -247,6 +250,15 @@ private constructor(
     fun individual(): Optional<Individual> = individual.getOptional("individual")
 
     /**
+     * Only present when user_type == "BUSINESS". 6-digit North American Industry Classification
+     * System (NAICS) code for the business.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun naicsCode(): Optional<String> = naicsCode.getOptional("naics_code")
+
+    /**
      * Only present when user_type == "BUSINESS". User-submitted description of the business.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -298,8 +310,8 @@ private constructor(
      * present.
      *
      * If the type is "BUSINESS" then the "business_entity", "control_person",
-     * "beneficial_owner_individuals", "nature_of_business", and "website_url" attributes will be
-     * present.
+     * "beneficial_owner_individuals", "naics_code", "nature_of_business", and "website_url"
+     * attributes will be present.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -427,6 +439,13 @@ private constructor(
     fun _individual(): JsonField<Individual> = individual
 
     /**
+     * Returns the raw JSON value of [naicsCode].
+     *
+     * Unlike [naicsCode], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("naics_code") @ExcludeMissing fun _naicsCode(): JsonField<String> = naicsCode
+
+    /**
      * Returns the raw JSON value of [natureOfBusiness].
      *
      * Unlike [natureOfBusiness], this method doesn't throw if the JSON field has an unexpected
@@ -531,6 +550,7 @@ private constructor(
         private var exemptionType: JsonField<ExemptionType> = JsonMissing.of()
         private var externalId: JsonField<String> = JsonMissing.of()
         private var individual: JsonField<Individual> = JsonMissing.of()
+        private var naicsCode: JsonField<String> = JsonMissing.of()
         private var natureOfBusiness: JsonField<String> = JsonMissing.of()
         private var phoneNumber: JsonField<String> = JsonMissing.of()
         private var requiredDocuments: JsonField<MutableList<RequiredDocument>>? = null
@@ -565,6 +585,7 @@ private constructor(
             exemptionType = accountHolderSimulateEnrollmentReviewResponse.exemptionType
             externalId = accountHolderSimulateEnrollmentReviewResponse.externalId
             individual = accountHolderSimulateEnrollmentReviewResponse.individual
+            naicsCode = accountHolderSimulateEnrollmentReviewResponse.naicsCode
             natureOfBusiness = accountHolderSimulateEnrollmentReviewResponse.natureOfBusiness
             phoneNumber = accountHolderSimulateEnrollmentReviewResponse.phoneNumber
             requiredDocuments =
@@ -816,6 +837,21 @@ private constructor(
         fun individual(individual: JsonField<Individual>) = apply { this.individual = individual }
 
         /**
+         * Only present when user_type == "BUSINESS". 6-digit North American Industry Classification
+         * System (NAICS) code for the business.
+         */
+        fun naicsCode(naicsCode: String) = naicsCode(JsonField.of(naicsCode))
+
+        /**
+         * Sets [Builder.naicsCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.naicsCode] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun naicsCode(naicsCode: JsonField<String>) = apply { this.naicsCode = naicsCode }
+
+        /**
          * Only present when user_type == "BUSINESS". User-submitted description of the business.
          */
         fun natureOfBusiness(natureOfBusiness: String) =
@@ -929,8 +965,8 @@ private constructor(
          * be present.
          *
          * If the type is "BUSINESS" then the "business_entity", "control_person",
-         * "beneficial_owner_individuals", "nature_of_business", and "website_url" attributes will
-         * be present.
+         * "beneficial_owner_individuals", "naics_code", "nature_of_business", and "website_url"
+         * attributes will be present.
          */
         fun userType(userType: UserType) = userType(JsonField.of(userType))
 
@@ -1009,6 +1045,7 @@ private constructor(
                 exemptionType,
                 externalId,
                 individual,
+                naicsCode,
                 natureOfBusiness,
                 phoneNumber,
                 (requiredDocuments ?: JsonMissing.of()).map { it.toImmutable() },
@@ -1040,6 +1077,7 @@ private constructor(
         exemptionType().ifPresent { it.validate() }
         externalId()
         individual().ifPresent { it.validate() }
+        naicsCode()
         natureOfBusiness()
         phoneNumber()
         requiredDocuments().ifPresent { it.forEach { it.validate() } }
@@ -1079,6 +1117,7 @@ private constructor(
             (exemptionType.asKnown().getOrNull()?.validity() ?: 0) +
             (if (externalId.asKnown().isPresent) 1 else 0) +
             (individual.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (naicsCode.asKnown().isPresent) 1 else 0) +
             (if (natureOfBusiness.asKnown().isPresent) 1 else 0) +
             (if (phoneNumber.asKnown().isPresent) 1 else 0) +
             (requiredDocuments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
@@ -2483,8 +2522,8 @@ private constructor(
      * present.
      *
      * If the type is "BUSINESS" then the "business_entity", "control_person",
-     * "beneficial_owner_individuals", "nature_of_business", and "website_url" attributes will be
-     * present.
+     * "beneficial_owner_individuals", "naics_code", "nature_of_business", and "website_url"
+     * attributes will be present.
      */
     class UserType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -3444,6 +3483,7 @@ private constructor(
             exemptionType == other.exemptionType &&
             externalId == other.externalId &&
             individual == other.individual &&
+            naicsCode == other.naicsCode &&
             natureOfBusiness == other.natureOfBusiness &&
             phoneNumber == other.phoneNumber &&
             requiredDocuments == other.requiredDocuments &&
@@ -3469,6 +3509,7 @@ private constructor(
             exemptionType,
             externalId,
             individual,
+            naicsCode,
             natureOfBusiness,
             phoneNumber,
             requiredDocuments,
@@ -3484,5 +3525,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AccountHolderSimulateEnrollmentReviewResponse{token=$token, accountToken=$accountToken, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, created=$created, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, requiredDocuments=$requiredDocuments, status=$status, statusReasons=$statusReasons, userType=$userType, verificationApplication=$verificationApplication, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
+        "AccountHolderSimulateEnrollmentReviewResponse{token=$token, accountToken=$accountToken, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, created=$created, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, naicsCode=$naicsCode, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, requiredDocuments=$requiredDocuments, status=$status, statusReasons=$statusReasons, userType=$userType, verificationApplication=$verificationApplication, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 }

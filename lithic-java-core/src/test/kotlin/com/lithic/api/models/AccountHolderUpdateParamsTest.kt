@@ -98,6 +98,7 @@ internal class AccountHolderUpdateParamsTest {
                             .build()
                     )
                     .externalId("external_id")
+                    .naicsCode("541512")
                     .natureOfBusiness(
                         "Software company selling solutions to the restaurant industry"
                     )
@@ -212,6 +213,7 @@ internal class AccountHolderUpdateParamsTest {
                                 .build()
                         )
                         .externalId("external_id")
+                        .naicsCode("541512")
                         .natureOfBusiness(
                             "Software company selling solutions to the restaurant industry"
                         )
@@ -311,6 +313,7 @@ internal class AccountHolderUpdateParamsTest {
                                 .build()
                         )
                         .externalId("external_id")
+                        .naicsCode("541512")
                         .natureOfBusiness(
                             "Software company selling solutions to the restaurant industry"
                         )
