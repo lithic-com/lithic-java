@@ -129,6 +129,7 @@ internal class AccountHolderUpdateResponseTest {
                         .phoneNumber("+15555555555")
                         .build()
                 )
+                .naicsCode("naics_code")
                 .natureOfBusiness("nature_of_business")
                 .phoneNumber("phone_number")
                 .addRequiredDocument(
@@ -288,6 +289,7 @@ internal class AccountHolderUpdateResponseTest {
                             .phoneNumber("+15555555555")
                             .build()
                     )
+                    .naicsCode("naics_code")
                     .natureOfBusiness("nature_of_business")
                     .phoneNumber("phone_number")
                     .addRequiredDocument(

@@ -97,6 +97,7 @@ internal class KybTest {
                 )
                 .externalId("external_id")
                 .kybPassedTimestamp("2018-05-29T21:16:05Z")
+                .naicsCode("541512")
                 .websiteUrl("www.mybusiness.com")
                 .build()
 
@@ -188,6 +189,7 @@ internal class KybTest {
             )
         assertThat(kyb.externalId()).contains("external_id")
         assertThat(kyb.kybPassedTimestamp()).contains("2018-05-29T21:16:05Z")
+        assertThat(kyb.naicsCode()).contains("541512")
         assertThat(kyb.websiteUrl()).contains("www.mybusiness.com")
     }
 
@@ -279,6 +281,7 @@ internal class KybTest {
                 )
                 .externalId("external_id")
                 .kybPassedTimestamp("2018-05-29T21:16:05Z")
+                .naicsCode("541512")
                 .websiteUrl("www.mybusiness.com")
                 .build()
 
