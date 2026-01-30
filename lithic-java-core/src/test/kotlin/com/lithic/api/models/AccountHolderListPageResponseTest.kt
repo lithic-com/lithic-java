@@ -123,6 +123,7 @@ internal class AccountHolderListPageResponseTest {
                                 .phoneNumber("+15555555555")
                                 .build()
                         )
+                        .naicsCode("naics_code")
                         .natureOfBusiness("nature_of_business")
                         .phoneNumber("+15555555555")
                         .addRequiredDocument(
@@ -265,6 +266,7 @@ internal class AccountHolderListPageResponseTest {
                             .phoneNumber("+15555555555")
                             .build()
                     )
+                    .naicsCode("naics_code")
                     .natureOfBusiness("nature_of_business")
                     .phoneNumber("+15555555555")
                     .addRequiredDocument(
@@ -410,6 +412,7 @@ internal class AccountHolderListPageResponseTest {
                                 .phoneNumber("+15555555555")
                                 .build()
                         )
+                        .naicsCode("naics_code")
                         .natureOfBusiness("nature_of_business")
                         .phoneNumber("+15555555555")
                         .addRequiredDocument(
