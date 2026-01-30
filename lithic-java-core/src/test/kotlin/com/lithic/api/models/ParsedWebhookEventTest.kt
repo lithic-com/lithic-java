@@ -221,6 +221,7 @@ internal class ParsedWebhookEventTest {
                 )
                 .eventType(ParsedWebhookEvent.KybPayload.EventType.ACCOUNT_HOLDER_UPDATED)
                 .externalId("external_id")
+                .naicsCode("541512")
                 .natureOfBusiness("Software company selling solutions to the restaurant industry")
                 .websiteUrl("www.mybusiness.com")
                 .build()
@@ -384,6 +385,7 @@ internal class ParsedWebhookEventTest {
                     )
                     .eventType(ParsedWebhookEvent.KybPayload.EventType.ACCOUNT_HOLDER_UPDATED)
                     .externalId("external_id")
+                    .naicsCode("541512")
                     .natureOfBusiness(
                         "Software company selling solutions to the restaurant industry"
                     )

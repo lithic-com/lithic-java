@@ -118,6 +118,7 @@ internal class AccountHolderServiceTest {
                             )
                             .externalId("external_id")
                             .kybPassedTimestamp("2022-03-08T08:00:00Z")
+                            .naicsCode("541512")
                             .websiteUrl("https://www.mybusiness.com")
                             .build()
                     )
@@ -245,6 +246,7 @@ internal class AccountHolderServiceTest {
                                     .build()
                             )
                             .externalId("external_id")
+                            .naicsCode("541512")
                             .natureOfBusiness(
                                 "Software company selling solutions to the restaurant industry"
                             )

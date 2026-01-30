@@ -125,6 +125,7 @@ internal class AccountHolderSimulateEnrollmentReviewResponseTest {
                         .phoneNumber("+15555555555")
                         .build()
                 )
+                .naicsCode("naics_code")
                 .natureOfBusiness("nature_of_business")
                 .phoneNumber("phone_number")
                 .addRequiredDocument(
@@ -282,6 +283,7 @@ internal class AccountHolderSimulateEnrollmentReviewResponseTest {
                     .phoneNumber("+15555555555")
                     .build()
             )
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.naicsCode()).contains("naics_code")
         assertThat(accountHolderSimulateEnrollmentReviewResponse.natureOfBusiness())
             .contains("nature_of_business")
         assertThat(accountHolderSimulateEnrollmentReviewResponse.phoneNumber())
@@ -439,6 +441,7 @@ internal class AccountHolderSimulateEnrollmentReviewResponseTest {
                         .phoneNumber("+15555555555")
                         .build()
                 )
+                .naicsCode("naics_code")
                 .natureOfBusiness("nature_of_business")
                 .phoneNumber("phone_number")
                 .addRequiredDocument(
