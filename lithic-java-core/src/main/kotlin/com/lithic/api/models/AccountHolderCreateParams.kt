@@ -453,6 +453,7 @@ private constructor(
             private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>>,
             private val controlPerson: JsonField<KybIndividual>,
             private val externalId: JsonField<String>,
+            private val naicsCode: JsonField<String>,
             private val natureOfBusiness: JsonField<String>,
             private val tosTimestamp: JsonField<String>,
             private val websiteUrl: JsonField<String>,
@@ -474,6 +475,9 @@ private constructor(
                 @JsonProperty("external_id")
                 @ExcludeMissing
                 externalId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("naics_code")
+                @ExcludeMissing
+                naicsCode: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("nature_of_business")
                 @ExcludeMissing
                 natureOfBusiness: JsonField<String> = JsonMissing.of(),
@@ -491,6 +495,7 @@ private constructor(
                 beneficialOwnerIndividuals,
                 controlPerson,
                 externalId,
+                naicsCode,
                 natureOfBusiness,
                 tosTimestamp,
                 websiteUrl,
@@ -545,6 +550,14 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun externalId(): Optional<String> = externalId.getOptional("external_id")
+
+            /**
+             * 6-digit North American Industry Classification System (NAICS) code for the business.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun naicsCode(): Optional<String> = naicsCode.getOptional("naics_code")
 
             /**
              * Short description of the company's line of business (i.e., what does the company
@@ -624,6 +637,16 @@ private constructor(
             fun _externalId(): JsonField<String> = externalId
 
             /**
+             * Returns the raw JSON value of [naicsCode].
+             *
+             * Unlike [naicsCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("naics_code")
+            @ExcludeMissing
+            fun _naicsCode(): JsonField<String> = naicsCode
+
+            /**
              * Returns the raw JSON value of [natureOfBusiness].
              *
              * Unlike [natureOfBusiness], this method doesn't throw if the JSON field has an
@@ -696,6 +719,7 @@ private constructor(
                     null
                 private var controlPerson: JsonField<KybIndividual> = JsonMissing.of()
                 private var externalId: JsonField<String> = JsonMissing.of()
+                private var naicsCode: JsonField<String> = JsonMissing.of()
                 private var natureOfBusiness: JsonField<String> = JsonMissing.of()
                 private var tosTimestamp: JsonField<String> = JsonMissing.of()
                 private var websiteUrl: JsonField<String> = JsonMissing.of()
@@ -709,6 +733,7 @@ private constructor(
                         kybDelegated.beneficialOwnerIndividuals.map { it.toMutableList() }
                     controlPerson = kybDelegated.controlPerson
                     externalId = kybDelegated.externalId
+                    naicsCode = kybDelegated.naicsCode
                     natureOfBusiness = kybDelegated.natureOfBusiness
                     tosTimestamp = kybDelegated.tosTimestamp
                     websiteUrl = kybDelegated.websiteUrl
@@ -809,6 +834,21 @@ private constructor(
                 fun externalId(externalId: JsonField<String>) = apply {
                     this.externalId = externalId
                 }
+
+                /**
+                 * 6-digit North American Industry Classification System (NAICS) code for the
+                 * business.
+                 */
+                fun naicsCode(naicsCode: String) = naicsCode(JsonField.of(naicsCode))
+
+                /**
+                 * Sets [Builder.naicsCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.naicsCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun naicsCode(naicsCode: JsonField<String>) = apply { this.naicsCode = naicsCode }
 
                 /**
                  * Short description of the company's line of business (i.e., what does the company
@@ -912,6 +952,7 @@ private constructor(
                         (beneficialOwnerIndividuals ?: JsonMissing.of()).map { it.toImmutable() },
                         controlPerson,
                         externalId,
+                        naicsCode,
                         natureOfBusiness,
                         tosTimestamp,
                         websiteUrl,
@@ -931,6 +972,7 @@ private constructor(
                 beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
                 controlPerson().ifPresent { it.validate() }
                 externalId()
+                naicsCode()
                 natureOfBusiness()
                 tosTimestamp()
                 websiteUrl()
@@ -960,6 +1002,7 @@ private constructor(
                     } ?: 0) +
                     (controlPerson.asKnown().getOrNull()?.validity() ?: 0) +
                     (if (externalId.asKnown().isPresent) 1 else 0) +
+                    (if (naicsCode.asKnown().isPresent) 1 else 0) +
                     (if (natureOfBusiness.asKnown().isPresent) 1 else 0) +
                     (if (tosTimestamp.asKnown().isPresent) 1 else 0) +
                     (if (websiteUrl.asKnown().isPresent) 1 else 0) +
@@ -2014,6 +2057,7 @@ private constructor(
                     beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
                     controlPerson == other.controlPerson &&
                     externalId == other.externalId &&
+                    naicsCode == other.naicsCode &&
                     natureOfBusiness == other.natureOfBusiness &&
                     tosTimestamp == other.tosTimestamp &&
                     websiteUrl == other.websiteUrl &&
@@ -2027,6 +2071,7 @@ private constructor(
                     beneficialOwnerIndividuals,
                     controlPerson,
                     externalId,
+                    naicsCode,
                     natureOfBusiness,
                     tosTimestamp,
                     websiteUrl,
@@ -2038,7 +2083,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "KybDelegated{businessEntity=$businessEntity, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, controlPerson=$controlPerson, externalId=$externalId, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
+                "KybDelegated{businessEntity=$businessEntity, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, controlPerson=$controlPerson, externalId=$externalId, naicsCode=$naicsCode, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
         }
     }
 

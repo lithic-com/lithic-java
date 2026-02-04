@@ -60,6 +60,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                                 .dob("1991-03-08 08:00:00")
                                 .email("tom@middle-earth.com")
                                 .firstName("Tom")
+                                .governmentId("111-23-1412")
                                 .lastName("Bombadil")
                                 .phoneNumber("+15555555555")
                                 .build()
@@ -102,6 +103,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                                 .dob("1991-03-08 08:00:00")
                                 .email("tom@middle-earth.com")
                                 .firstName("Tom")
+                                .governmentId("111-23-1412")
                                 .lastName("Bombadil")
                                 .phoneNumber("+15555555555")
                                 .build()
@@ -112,6 +114,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                     AccountHolderUpdatedWebhookEvent.KybPayload.EventType.ACCOUNT_HOLDER_UPDATED
                 )
                 .externalId("external_id")
+                .naicsCode("541512")
                 .natureOfBusiness("Software company selling solutions to the restaurant industry")
                 .websiteUrl("www.mybusiness.com")
                 .build()
@@ -171,6 +174,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                                     .dob("1991-03-08 08:00:00")
                                     .email("tom@middle-earth.com")
                                     .firstName("Tom")
+                                    .governmentId("111-23-1412")
                                     .lastName("Bombadil")
                                     .phoneNumber("+15555555555")
                                     .build()
@@ -213,6 +217,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                                     .dob("1991-03-08 08:00:00")
                                     .email("tom@middle-earth.com")
                                     .firstName("Tom")
+                                    .governmentId("111-23-1412")
                                     .lastName("Bombadil")
                                     .phoneNumber("+15555555555")
                                     .build()
@@ -223,6 +228,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                         AccountHolderUpdatedWebhookEvent.KybPayload.EventType.ACCOUNT_HOLDER_UPDATED
                     )
                     .externalId("external_id")
+                    .naicsCode("541512")
                     .natureOfBusiness(
                         "Software company selling solutions to the restaurant industry"
                     )
@@ -266,6 +272,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                                 .dob("1991-03-08 08:00:00")
                                 .email("tom@middle-earth.com")
                                 .firstName("Tom")
+                                .governmentId("111-23-1412")
                                 .lastName("Bombadil")
                                 .phoneNumber("+15555555555")
                                 .build()
@@ -314,6 +321,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                                     .dob("1991-03-08 08:00:00")
                                     .email("tom@middle-earth.com")
                                     .firstName("Tom")
+                                    .governmentId("111-23-1412")
                                     .lastName("Bombadil")
                                     .phoneNumber("+15555555555")
                                     .build()
