@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.117.0 (2026-02-04)
+
+Full Changelog: [v0.116.0...v0.117.0](https://github.com/lithic-com/lithic-java/compare/v0.116.0...v0.117.0)
+
+### Features
+
+* **api:** Add naics_code to account holder requests/responses ([c9ff6da](https://github.com/lithic-com/lithic-java/commit/c9ff6daa033e4022ac9208f4ff81d18346f53695))
+
+
+### Bug Fixes
+
+* add missing fields ([b075f58](https://github.com/lithic-com/lithic-java/commit/b075f58683c40bd097d18490992744526f74161a))
+
+
+### Chores
+
+* configure new SDK language ([2ddf823](https://github.com/lithic-com/lithic-java/commit/2ddf82360b21d85b57231fafc022f10ef909df40))
+* Enable stainless MCP in config ([2f605c1](https://github.com/lithic-com/lithic-java/commit/2f605c19967c7c77dec0358e1ccbacbadf9fc632))
+* **internal:** allow passing args to `./scripts/test` ([b327fb6](https://github.com/lithic-com/lithic-java/commit/b327fb6b7736803c3fd6a0806fe528aeeb96f428))
+
+
+### Documentation
+
+* Fix documentation of tokenization channel and tokenization source for tokenization rules ([c863228](https://github.com/lithic-com/lithic-java/commit/c8632283a23548a67d038da60a064d70ef03d017))
+
 ## 0.116.0 (2026-01-27)
 
 Full Changelog: [v0.115.0...v0.116.0](https://github.com/lithic-com/lithic-java/compare/v0.115.0...v0.116.0)
