@@ -10,6 +10,7 @@ import com.lithic.api.core.getRequiredHeader
 import com.lithic.api.core.http.Headers
 import com.lithic.api.errors.LithicException
 import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.errors.LithicWebhookException
 import com.lithic.api.models.ParsedWebhookEvent
 import java.security.MessageDigest
 import java.time.Duration
@@ -19,6 +20,10 @@ import java.util.function.Consumer
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import kotlin.jvm.optionals.getOrNull
+import com.lithic.api.core.UnwrapWebhookParams
+import com.lithic.api.core.checkRequired
+import com.standardwebhooks.Webhook
+import com.standardwebhooks.exceptions.WebhookVerificationException
 
 class WebhookServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     WebhookService {
@@ -123,6 +128,28 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
         } catch (e: Exception) {
             throw LithicInvalidDataException("Error parsing body", e)
         }
+
+    override fun parsed(unwrapParams: UnwrapWebhookParams): ParsedWebhookEvent {
+        val headers = unwrapParams.headers().getOrNull()
+        if (headers != null) {
+            try {
+                val webhookSecret =
+                    checkRequired(
+                        "webhookSecret",
+                        unwrapParams.secret().getOrNull()
+                            ?: clientOptions.webhookSecret().getOrNull(),
+                    )
+                val headersMap =
+                    headers.names().associateWith { name -> headers.values(name) }.toMap()
+
+                val webhook = Webhook(webhookSecret)
+                webhook.verify(unwrapParams.body(), headersMap)
+            } catch (e: WebhookVerificationException) {
+                throw LithicWebhookException("Could not verify webhook event signature", e)
+            }
+        }
+        return parsed(unwrapParams.body())
+    }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WebhookService.WithRawResponse {
