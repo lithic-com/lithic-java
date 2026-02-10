@@ -49,7 +49,7 @@ private constructor(
     ) : this(action, conditions, mutableMapOf())
 
     /**
-     * The action to take if the conditions are met
+     * The action to take if the conditions are met.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -123,7 +123,7 @@ private constructor(
                 conditionalTokenizationActionParameters.additionalProperties.toMutableMap()
         }
 
-        /** The action to take if the conditions are met */
+        /** The action to take if the conditions are met. */
         fun action(action: Action) = action(JsonField.of(action))
 
         /**
@@ -235,7 +235,7 @@ private constructor(
         (action.asKnown().getOrNull()?.validity() ?: 0) +
             (conditions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
-    /** The action to take if the conditions are met */
+    /** The action to take if the conditions are met. */
     @JsonDeserialize(using = Action.Deserializer::class)
     @JsonSerialize(using = Action.Serializer::class)
     class Action
