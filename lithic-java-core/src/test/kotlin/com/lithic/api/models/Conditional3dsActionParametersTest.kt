@@ -13,7 +13,7 @@ internal class Conditional3dsActionParametersTest {
     fun create() {
         val conditional3dsActionParameters =
             Conditional3dsActionParameters.builder()
-                .action(Conditional3dsActionParameters.Action.DECLINE)
+                .action(Conditional3dsActionParameters.ThreeDSAction.DECLINE)
                 .addCondition(
                     Conditional3dsActionParameters.Condition.builder()
                         .attribute(Conditional3dsActionParameters.Condition.Attribute.MCC)
@@ -24,7 +24,7 @@ internal class Conditional3dsActionParametersTest {
                 .build()
 
         assertThat(conditional3dsActionParameters.action())
-            .isEqualTo(Conditional3dsActionParameters.Action.DECLINE)
+            .isEqualTo(Conditional3dsActionParameters.ThreeDSAction.DECLINE)
         assertThat(conditional3dsActionParameters.conditions())
             .containsExactly(
                 Conditional3dsActionParameters.Condition.builder()
@@ -40,7 +40,7 @@ internal class Conditional3dsActionParametersTest {
         val jsonMapper = jsonMapper()
         val conditional3dsActionParameters =
             Conditional3dsActionParameters.builder()
-                .action(Conditional3dsActionParameters.Action.DECLINE)
+                .action(Conditional3dsActionParameters.ThreeDSAction.DECLINE)
                 .addCondition(
                     Conditional3dsActionParameters.Condition.builder()
                         .attribute(Conditional3dsActionParameters.Condition.Attribute.MCC)

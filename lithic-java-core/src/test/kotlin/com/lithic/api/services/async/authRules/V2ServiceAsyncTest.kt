@@ -167,6 +167,21 @@ internal class V2ServiceAsyncTest {
     }
 
     @Test
+    fun listResults() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val v2ServiceAsync = client.authRules().v2()
+
+        val pageFuture = v2ServiceAsync.listResults()
+
+        val page = pageFuture.get()
+        page.response().validate()
+    }
+
+    @Test
     fun promote() {
         val client =
             LithicOkHttpClientAsync.builder()

@@ -160,6 +160,20 @@ internal class V2ServiceTest {
     }
 
     @Test
+    fun listResults() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val v2Service = client.authRules().v2()
+
+        val page = v2Service.listResults()
+
+        page.response().validate()
+    }
+
+    @Test
     fun promote() {
         val client =
             LithicOkHttpClient.builder()
