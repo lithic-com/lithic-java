@@ -14,14 +14,14 @@ import kotlin.jvm.optionals.getOrNull
  *
  * **Limitations:**
  * - Results are available for the past 3 months only
- * - At least one filter (`event_uuid` or `auth_rule_token`) must be provided
- * - When filtering by `event_uuid`, pagination is not supported
+ * - At least one filter (`event_token` or `auth_rule_token`) must be provided
+ * - When filtering by `event_token`, pagination is not supported
  */
 class AuthRuleV2ListResultsParams
 private constructor(
     private val authRuleToken: String?,
     private val endingBefore: String?,
-    private val eventUuid: String?,
+    private val eventToken: String?,
     private val hasActions: Boolean?,
     private val pageSize: Long?,
     private val startingAfter: String?,
@@ -38,8 +38,8 @@ private constructor(
      */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
-    /** Filter by event UUID */
-    fun eventUuid(): Optional<String> = Optional.ofNullable(eventUuid)
+    /** Filter by event token */
+    fun eventToken(): Optional<String> = Optional.ofNullable(eventToken)
 
     /**
      * Filter by whether the rule evaluation produced any actions. When not provided, all results
@@ -79,7 +79,7 @@ private constructor(
 
         private var authRuleToken: String? = null
         private var endingBefore: String? = null
-        private var eventUuid: String? = null
+        private var eventToken: String? = null
         private var hasActions: Boolean? = null
         private var pageSize: Long? = null
         private var startingAfter: String? = null
@@ -90,7 +90,7 @@ private constructor(
         internal fun from(authRuleV2ListResultsParams: AuthRuleV2ListResultsParams) = apply {
             authRuleToken = authRuleV2ListResultsParams.authRuleToken
             endingBefore = authRuleV2ListResultsParams.endingBefore
-            eventUuid = authRuleV2ListResultsParams.eventUuid
+            eventToken = authRuleV2ListResultsParams.eventToken
             hasActions = authRuleV2ListResultsParams.hasActions
             pageSize = authRuleV2ListResultsParams.pageSize
             startingAfter = authRuleV2ListResultsParams.startingAfter
@@ -114,11 +114,11 @@ private constructor(
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
-        /** Filter by event UUID */
-        fun eventUuid(eventUuid: String?) = apply { this.eventUuid = eventUuid }
+        /** Filter by event token */
+        fun eventToken(eventToken: String?) = apply { this.eventToken = eventToken }
 
-        /** Alias for calling [Builder.eventUuid] with `eventUuid.orElse(null)`. */
-        fun eventUuid(eventUuid: Optional<String>) = eventUuid(eventUuid.getOrNull())
+        /** Alias for calling [Builder.eventToken] with `eventToken.orElse(null)`. */
+        fun eventToken(eventToken: Optional<String>) = eventToken(eventToken.getOrNull())
 
         /**
          * Filter by whether the rule evaluation produced any actions. When not provided, all
@@ -266,7 +266,7 @@ private constructor(
             AuthRuleV2ListResultsParams(
                 authRuleToken,
                 endingBefore,
-                eventUuid,
+                eventToken,
                 hasActions,
                 pageSize,
                 startingAfter,
@@ -282,7 +282,7 @@ private constructor(
             .apply {
                 authRuleToken?.let { put("auth_rule_token", it) }
                 endingBefore?.let { put("ending_before", it) }
-                eventUuid?.let { put("event_uuid", it) }
+                eventToken?.let { put("event_token", it) }
                 hasActions?.let { put("has_actions", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
@@ -298,7 +298,7 @@ private constructor(
         return other is AuthRuleV2ListResultsParams &&
             authRuleToken == other.authRuleToken &&
             endingBefore == other.endingBefore &&
-            eventUuid == other.eventUuid &&
+            eventToken == other.eventToken &&
             hasActions == other.hasActions &&
             pageSize == other.pageSize &&
             startingAfter == other.startingAfter &&
@@ -310,7 +310,7 @@ private constructor(
         Objects.hash(
             authRuleToken,
             endingBefore,
-            eventUuid,
+            eventToken,
             hasActions,
             pageSize,
             startingAfter,
@@ -319,5 +319,5 @@ private constructor(
         )
 
     override fun toString() =
-        "AuthRuleV2ListResultsParams{authRuleToken=$authRuleToken, endingBefore=$endingBefore, eventUuid=$eventUuid, hasActions=$hasActions, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AuthRuleV2ListResultsParams{authRuleToken=$authRuleToken, endingBefore=$endingBefore, eventToken=$eventToken, hasActions=$hasActions, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
