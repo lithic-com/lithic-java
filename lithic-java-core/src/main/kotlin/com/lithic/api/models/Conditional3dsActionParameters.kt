@@ -23,14 +23,14 @@ import kotlin.jvm.optionals.getOrNull
 class Conditional3dsActionParameters
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val action: JsonField<Action>,
+    private val action: JsonField<ThreeDSAction>,
     private val conditions: JsonField<List<Condition>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("action") @ExcludeMissing action: JsonField<Action> = JsonMissing.of(),
+        @JsonProperty("action") @ExcludeMissing action: JsonField<ThreeDSAction> = JsonMissing.of(),
         @JsonProperty("conditions")
         @ExcludeMissing
         conditions: JsonField<List<Condition>> = JsonMissing.of(),
@@ -42,7 +42,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun action(): Action = action.getRequired("action")
+    fun action(): ThreeDSAction = action.getRequired("action")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -55,7 +55,7 @@ private constructor(
      *
      * Unlike [action], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("action") @ExcludeMissing fun _action(): JsonField<Action> = action
+    @JsonProperty("action") @ExcludeMissing fun _action(): JsonField<ThreeDSAction> = action
 
     /**
      * Returns the raw JSON value of [conditions].
@@ -96,7 +96,7 @@ private constructor(
     /** A builder for [Conditional3dsActionParameters]. */
     class Builder internal constructor() {
 
-        private var action: JsonField<Action>? = null
+        private var action: JsonField<ThreeDSAction>? = null
         private var conditions: JsonField<MutableList<Condition>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -109,15 +109,16 @@ private constructor(
         }
 
         /** The action to take if the conditions are met. */
-        fun action(action: Action) = action(JsonField.of(action))
+        fun action(action: ThreeDSAction) = action(JsonField.of(action))
 
         /**
          * Sets [Builder.action] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.action] with a well-typed [Action] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.action] with a well-typed [ThreeDSAction] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun action(action: JsonField<Action>) = apply { this.action = action }
+        fun action(action: JsonField<ThreeDSAction>) = apply { this.action = action }
 
         fun conditions(conditions: List<Condition>) = conditions(JsonField.of(conditions))
 
@@ -215,7 +216,8 @@ private constructor(
             (conditions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
     /** The action to take if the conditions are met. */
-    class Action @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+    class ThreeDSAction @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
 
         /**
          * Returns this class instance's raw value.
@@ -233,19 +235,19 @@ private constructor(
 
             @JvmField val CHALLENGE = of("CHALLENGE")
 
-            @JvmStatic fun of(value: String) = Action(JsonField.of(value))
+            @JvmStatic fun of(value: String) = ThreeDSAction(JsonField.of(value))
         }
 
-        /** An enum containing [Action]'s known values. */
+        /** An enum containing [ThreeDSAction]'s known values. */
         enum class Known {
             DECLINE,
             CHALLENGE,
         }
 
         /**
-         * An enum containing [Action]'s known values, as well as an [_UNKNOWN] member.
+         * An enum containing [ThreeDSAction]'s known values, as well as an [_UNKNOWN] member.
          *
-         * An instance of [Action] can contain an unknown value in a couple of cases:
+         * An instance of [ThreeDSAction] can contain an unknown value in a couple of cases:
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
@@ -254,7 +256,10 @@ private constructor(
         enum class Value {
             DECLINE,
             CHALLENGE,
-            /** An enum member indicating that [Action] was instantiated with an unknown value. */
+            /**
+             * An enum member indicating that [ThreeDSAction] was instantiated with an unknown
+             * value.
+             */
             _UNKNOWN,
         }
 
@@ -285,7 +290,7 @@ private constructor(
             when (this) {
                 DECLINE -> Known.DECLINE
                 CHALLENGE -> Known.CHALLENGE
-                else -> throw LithicInvalidDataException("Unknown Action: $value")
+                else -> throw LithicInvalidDataException("Unknown ThreeDSAction: $value")
             }
 
         /**
@@ -302,7 +307,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Action = apply {
+        fun validate(): ThreeDSAction = apply {
             if (validated) {
                 return@apply
             }
@@ -332,7 +337,7 @@ private constructor(
                 return true
             }
 
-            return other is Action && value == other.value
+            return other is ThreeDSAction && value == other.value
         }
 
         override fun hashCode() = value.hashCode()

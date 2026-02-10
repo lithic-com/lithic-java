@@ -24,6 +24,9 @@ import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2ListPageAsync
 import com.lithic.api.models.AuthRuleV2ListPageResponse
 import com.lithic.api.models.AuthRuleV2ListParams
+import com.lithic.api.models.AuthRuleV2ListResultsPageAsync
+import com.lithic.api.models.AuthRuleV2ListResultsPageResponse
+import com.lithic.api.models.AuthRuleV2ListResultsParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
@@ -94,6 +97,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     ): CompletableFuture<AuthRule> =
         // post /v2/auth_rules/{auth_rule_token}/draft
         withRawResponse().draft(params, requestOptions).thenApply { it.parse() }
+
+    override fun listResults(
+        params: AuthRuleV2ListResultsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AuthRuleV2ListResultsPageAsync> =
+        // get /v2/auth_rules/results
+        withRawResponse().listResults(params, requestOptions).thenApply { it.parse() }
 
     override fun promote(
         params: AuthRuleV2PromoteParams,
@@ -327,6 +337,44 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
                                 }
+                            }
+                    }
+                }
+        }
+
+        private val listResultsHandler: Handler<AuthRuleV2ListResultsPageResponse> =
+            jsonHandler<AuthRuleV2ListResultsPageResponse>(clientOptions.jsonMapper)
+
+        override fun listResults(
+            params: AuthRuleV2ListResultsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<AuthRuleV2ListResultsPageAsync>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v2", "auth_rules", "results")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { listResultsHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                            .let {
+                                AuthRuleV2ListResultsPageAsync.builder()
+                                    .service(V2ServiceAsyncImpl(clientOptions))
+                                    .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
+                                    .params(params)
+                                    .response(it)
+                                    .build()
                             }
                     }
                 }

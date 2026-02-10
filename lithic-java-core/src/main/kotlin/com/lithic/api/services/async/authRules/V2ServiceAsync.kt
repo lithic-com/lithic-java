@@ -12,6 +12,8 @@ import com.lithic.api.models.AuthRuleV2DeleteParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2ListPageAsync
 import com.lithic.api.models.AuthRuleV2ListParams
+import com.lithic.api.models.AuthRuleV2ListResultsPageAsync
+import com.lithic.api.models.AuthRuleV2ListResultsParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
@@ -197,6 +199,35 @@ interface V2ServiceAsync {
     /** @see draft */
     fun draft(authRuleToken: String, requestOptions: RequestOptions): CompletableFuture<AuthRule> =
         draft(authRuleToken, AuthRuleV2DraftParams.none(), requestOptions)
+
+    /**
+     * Lists Auth Rule evaluation results.
+     *
+     * **Limitations:**
+     * - Results are available for the past 3 months only
+     * - At least one filter (`event_uuid` or `auth_rule_token`) must be provided
+     * - When filtering by `event_uuid`, pagination is not supported
+     */
+    fun listResults(): CompletableFuture<AuthRuleV2ListResultsPageAsync> =
+        listResults(AuthRuleV2ListResultsParams.none())
+
+    /** @see listResults */
+    fun listResults(
+        params: AuthRuleV2ListResultsParams = AuthRuleV2ListResultsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AuthRuleV2ListResultsPageAsync>
+
+    /** @see listResults */
+    fun listResults(
+        params: AuthRuleV2ListResultsParams = AuthRuleV2ListResultsParams.none()
+    ): CompletableFuture<AuthRuleV2ListResultsPageAsync> =
+        listResults(params, RequestOptions.none())
+
+    /** @see listResults */
+    fun listResults(
+        requestOptions: RequestOptions
+    ): CompletableFuture<AuthRuleV2ListResultsPageAsync> =
+        listResults(AuthRuleV2ListResultsParams.none(), requestOptions)
 
     /**
      * Promotes the draft version of an Auth rule to the currently active version such that it is
@@ -514,6 +545,31 @@ interface V2ServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<AuthRule>> =
             draft(authRuleToken, AuthRuleV2DraftParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /v2/auth_rules/results`, but is otherwise the same
+         * as [V2ServiceAsync.listResults].
+         */
+        fun listResults(): CompletableFuture<HttpResponseFor<AuthRuleV2ListResultsPageAsync>> =
+            listResults(AuthRuleV2ListResultsParams.none())
+
+        /** @see listResults */
+        fun listResults(
+            params: AuthRuleV2ListResultsParams = AuthRuleV2ListResultsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AuthRuleV2ListResultsPageAsync>>
+
+        /** @see listResults */
+        fun listResults(
+            params: AuthRuleV2ListResultsParams = AuthRuleV2ListResultsParams.none()
+        ): CompletableFuture<HttpResponseFor<AuthRuleV2ListResultsPageAsync>> =
+            listResults(params, RequestOptions.none())
+
+        /** @see listResults */
+        fun listResults(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<AuthRuleV2ListResultsPageAsync>> =
+            listResults(AuthRuleV2ListResultsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/promote`, but is

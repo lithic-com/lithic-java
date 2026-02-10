@@ -13,7 +13,7 @@ internal class ConditionalAuthorizationActionParametersTest {
     fun create() {
         val conditionalAuthorizationActionParameters =
             ConditionalAuthorizationActionParameters.builder()
-                .action(ConditionalAuthorizationActionParameters.Action.DECLINE)
+                .action(ConditionalAuthorizationActionParameters.AuthorizationAction.DECLINE)
                 .addCondition(
                     ConditionalAuthorizationActionParameters.Condition.builder()
                         .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
@@ -24,7 +24,7 @@ internal class ConditionalAuthorizationActionParametersTest {
                 .build()
 
         assertThat(conditionalAuthorizationActionParameters.action())
-            .isEqualTo(ConditionalAuthorizationActionParameters.Action.DECLINE)
+            .isEqualTo(ConditionalAuthorizationActionParameters.AuthorizationAction.DECLINE)
         assertThat(conditionalAuthorizationActionParameters.conditions())
             .containsExactly(
                 ConditionalAuthorizationActionParameters.Condition.builder()
@@ -40,7 +40,7 @@ internal class ConditionalAuthorizationActionParametersTest {
         val jsonMapper = jsonMapper()
         val conditionalAuthorizationActionParameters =
             ConditionalAuthorizationActionParameters.builder()
-                .action(ConditionalAuthorizationActionParameters.Action.DECLINE)
+                .action(ConditionalAuthorizationActionParameters.AuthorizationAction.DECLINE)
                 .addCondition(
                     ConditionalAuthorizationActionParameters.Condition.builder()
                         .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)

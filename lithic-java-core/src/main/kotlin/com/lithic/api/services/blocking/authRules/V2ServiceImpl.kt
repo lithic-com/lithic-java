@@ -24,6 +24,9 @@ import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2ListPage
 import com.lithic.api.models.AuthRuleV2ListPageResponse
 import com.lithic.api.models.AuthRuleV2ListParams
+import com.lithic.api.models.AuthRuleV2ListResultsPage
+import com.lithic.api.models.AuthRuleV2ListResultsPageResponse
+import com.lithic.api.models.AuthRuleV2ListResultsParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
@@ -81,6 +84,13 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
     override fun draft(params: AuthRuleV2DraftParams, requestOptions: RequestOptions): AuthRule =
         // post /v2/auth_rules/{auth_rule_token}/draft
         withRawResponse().draft(params, requestOptions).parse()
+
+    override fun listResults(
+        params: AuthRuleV2ListResultsParams,
+        requestOptions: RequestOptions,
+    ): AuthRuleV2ListResultsPage =
+        // get /v2/auth_rules/results
+        withRawResponse().listResults(params, requestOptions).parse()
 
     override fun promote(
         params: AuthRuleV2PromoteParams,
@@ -296,6 +306,40 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                         if (requestOptions.responseValidation!!) {
                             it.validate()
                         }
+                    }
+            }
+        }
+
+        private val listResultsHandler: Handler<AuthRuleV2ListResultsPageResponse> =
+            jsonHandler<AuthRuleV2ListResultsPageResponse>(clientOptions.jsonMapper)
+
+        override fun listResults(
+            params: AuthRuleV2ListResultsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<AuthRuleV2ListResultsPage> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v2", "auth_rules", "results")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listResultsHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+                    .let {
+                        AuthRuleV2ListResultsPage.builder()
+                            .service(V2ServiceImpl(clientOptions))
+                            .params(params)
+                            .response(it)
+                            .build()
                     }
             }
         }
