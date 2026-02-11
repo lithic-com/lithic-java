@@ -39,22 +39,14 @@ interface ExternalBankAccountService {
     fun microDeposits(): MicroDepositService
 
     /** Creates an external bank account within a program or Lithic account. */
-    fun create(): ExternalBankAccountCreateResponse = create(ExternalBankAccountCreateParams.none())
+    fun create(params: ExternalBankAccountCreateParams): ExternalBankAccountCreateResponse =
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
-        params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
+        params: ExternalBankAccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountCreateResponse
-
-    /** @see create */
-    fun create(
-        params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
-    ): ExternalBankAccountCreateResponse = create(params, RequestOptions.none())
-
-    /** @see create */
-    fun create(requestOptions: RequestOptions): ExternalBankAccountCreateResponse =
-        create(ExternalBankAccountCreateParams.none(), requestOptions)
 
     /** Get the external bank account by token. */
     fun retrieve(externalBankAccountToken: String): ExternalBankAccountRetrieveResponse =
@@ -307,29 +299,17 @@ interface ExternalBankAccountService {
          * same as [ExternalBankAccountService.create].
          */
         @MustBeClosed
-        fun create(): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(ExternalBankAccountCreateParams.none())
-
-        /** @see create */
-        @MustBeClosed
         fun create(
-            params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<ExternalBankAccountCreateResponse>
-
-        /** @see create */
-        @MustBeClosed
-        fun create(
-            params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
+            params: ExternalBankAccountCreateParams
         ): HttpResponseFor<ExternalBankAccountCreateResponse> =
             create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
         fun create(
-            requestOptions: RequestOptions
-        ): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(ExternalBankAccountCreateParams.none(), requestOptions)
+            params: ExternalBankAccountCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalBankAccountCreateResponse>
 
         /**
          * Returns a raw HTTP response for `get

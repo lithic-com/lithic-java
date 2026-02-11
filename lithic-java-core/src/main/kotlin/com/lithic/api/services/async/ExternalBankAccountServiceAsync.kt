@@ -39,25 +39,15 @@ interface ExternalBankAccountServiceAsync {
     fun microDeposits(): MicroDepositServiceAsync
 
     /** Creates an external bank account within a program or Lithic account. */
-    fun create(): CompletableFuture<ExternalBankAccountCreateResponse> =
-        create(ExternalBankAccountCreateParams.none())
-
-    /** @see create */
     fun create(
-        params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<ExternalBankAccountCreateResponse>
-
-    /** @see create */
-    fun create(
-        params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
+        params: ExternalBankAccountCreateParams
     ): CompletableFuture<ExternalBankAccountCreateResponse> = create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
-        requestOptions: RequestOptions
-    ): CompletableFuture<ExternalBankAccountCreateResponse> =
-        create(ExternalBankAccountCreateParams.none(), requestOptions)
+        params: ExternalBankAccountCreateParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccountCreateResponse>
 
     /** Get the external bank account by token. */
     fun retrieve(
@@ -320,26 +310,16 @@ interface ExternalBankAccountServiceAsync {
          * Returns a raw HTTP response for `post /v1/external_bank_accounts`, but is otherwise the
          * same as [ExternalBankAccountServiceAsync.create].
          */
-        fun create(): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(ExternalBankAccountCreateParams.none())
-
-        /** @see create */
         fun create(
-            params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>>
-
-        /** @see create */
-        fun create(
-            params: ExternalBankAccountCreateParams = ExternalBankAccountCreateParams.none()
+            params: ExternalBankAccountCreateParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
-            requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(ExternalBankAccountCreateParams.none(), requestOptions)
+            params: ExternalBankAccountCreateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>>
 
         /**
          * Returns a raw HTTP response for `get
