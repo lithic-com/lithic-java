@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import java.time.LocalDate
-import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -92,7 +91,7 @@ internal class ExternalBankAccountCreateParamsTest {
                 )
                 .build()
 
-        val body = params._body().getOrNull()
+        val body = params._body()
 
         assertThat(body)
             .isEqualTo(
@@ -137,8 +136,52 @@ internal class ExternalBankAccountCreateParamsTest {
 
     @Test
     fun bodyWithoutOptionalFields() {
-        val params = ExternalBankAccountCreateParams.builder().build()
+        val params =
+            ExternalBankAccountCreateParams.builder()
+                .body(
+                    ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
+                        .builder()
+                        .accountNumber("13719713158835300")
+                        .country("USA")
+                        .currency("USD")
+                        .financialAccountToken("dabadb3b-700c-41e3-8801-d5dfc84ebea0")
+                        .owner("John Doe")
+                        .ownerType(OwnerType.BUSINESS)
+                        .routingNumber("011103093")
+                        .type(
+                            ExternalBankAccountCreateParams.Body
+                                .BankVerifiedCreateBankAccountApiRequest
+                                .AccountType
+                                .CHECKING
+                        )
+                        .verificationMethod(VerificationMethod.MICRO_DEPOSIT)
+                        .build()
+                )
+                .build()
 
-        val body = params._body().getOrNull()
+        val body = params._body()
+
+        assertThat(body)
+            .isEqualTo(
+                ExternalBankAccountCreateParams.Body.ofBankVerifiedCreateBankAccountApiRequest(
+                    ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
+                        .builder()
+                        .accountNumber("13719713158835300")
+                        .country("USA")
+                        .currency("USD")
+                        .financialAccountToken("dabadb3b-700c-41e3-8801-d5dfc84ebea0")
+                        .owner("John Doe")
+                        .ownerType(OwnerType.BUSINESS)
+                        .routingNumber("011103093")
+                        .type(
+                            ExternalBankAccountCreateParams.Body
+                                .BankVerifiedCreateBankAccountApiRequest
+                                .AccountType
+                                .CHECKING
+                        )
+                        .verificationMethod(VerificationMethod.MICRO_DEPOSIT)
+                        .build()
+                )
+            )
     }
 }
