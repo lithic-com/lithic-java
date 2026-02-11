@@ -42,9 +42,67 @@ private constructor(
 
     fun nextPageParams(): AuthRuleV2ListResultsParams =
         if (params.endingBefore().isPresent) {
-            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+            params
+                .toBuilder()
+                .endingBefore(
+                    items()
+                        .first()
+                        .accept(
+                            object : V2ListResultsResponse.Visitor<Optional<String>> {
+                                override fun visitAuthorizationResult(
+                                    authorizationResult: V2ListResultsResponse.AuthorizationResult
+                                ): Optional<String> =
+                                    authorizationResult._token().getOptional("token")
+
+                                override fun visitAuthentication3dsResult(
+                                    authentication3dsResult:
+                                        V2ListResultsResponse.Authentication3dsResult
+                                ): Optional<String> =
+                                    authentication3dsResult._token().getOptional("token")
+
+                                override fun visitTokenizationResult(
+                                    tokenizationResult: V2ListResultsResponse.TokenizationResult
+                                ): Optional<String> =
+                                    tokenizationResult._token().getOptional("token")
+
+                                override fun visitAchResult(
+                                    achResult: V2ListResultsResponse.AchResult
+                                ): Optional<String> = achResult._token().getOptional("token")
+                            }
+                        )
+                )
+                .build()
         } else {
-            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
+            params
+                .toBuilder()
+                .startingAfter(
+                    items()
+                        .last()
+                        .accept(
+                            object : V2ListResultsResponse.Visitor<Optional<String>> {
+                                override fun visitAuthorizationResult(
+                                    authorizationResult: V2ListResultsResponse.AuthorizationResult
+                                ): Optional<String> =
+                                    authorizationResult._token().getOptional("token")
+
+                                override fun visitAuthentication3dsResult(
+                                    authentication3dsResult:
+                                        V2ListResultsResponse.Authentication3dsResult
+                                ): Optional<String> =
+                                    authentication3dsResult._token().getOptional("token")
+
+                                override fun visitTokenizationResult(
+                                    tokenizationResult: V2ListResultsResponse.TokenizationResult
+                                ): Optional<String> =
+                                    tokenizationResult._token().getOptional("token")
+
+                                override fun visitAchResult(
+                                    achResult: V2ListResultsResponse.AchResult
+                                ): Optional<String> = achResult._token().getOptional("token")
+                            }
+                        )
+                )
+                .build()
         }
 
     override fun nextPage(): CompletableFuture<AuthRuleV2ListResultsPageAsync> =
