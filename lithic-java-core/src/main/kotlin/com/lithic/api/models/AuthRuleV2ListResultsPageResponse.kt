@@ -131,6 +131,31 @@ private constructor(
         }
 
         /**
+         * Alias for calling [addData] with
+         * `V2ListResultsResponse.ofAuthorizationResult(authorizationResult)`.
+         */
+        fun addData(authorizationResult: V2ListResultsResponse.AuthorizationResult) =
+            addData(V2ListResultsResponse.ofAuthorizationResult(authorizationResult))
+
+        /**
+         * Alias for calling [addData] with
+         * `V2ListResultsResponse.ofAuthentication3dsResult(authentication3dsResult)`.
+         */
+        fun addData(authentication3dsResult: V2ListResultsResponse.Authentication3dsResult) =
+            addData(V2ListResultsResponse.ofAuthentication3dsResult(authentication3dsResult))
+
+        /**
+         * Alias for calling [addData] with
+         * `V2ListResultsResponse.ofTokenizationResult(tokenizationResult)`.
+         */
+        fun addData(tokenizationResult: V2ListResultsResponse.TokenizationResult) =
+            addData(V2ListResultsResponse.ofTokenizationResult(tokenizationResult))
+
+        /** Alias for calling [addData] with `V2ListResultsResponse.ofAchResult(achResult)`. */
+        fun addData(achResult: V2ListResultsResponse.AchResult) =
+            addData(V2ListResultsResponse.ofAchResult(achResult))
+
+        /**
          * Indicates whether there are more results to be retrieved by paging through the results.
          */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))

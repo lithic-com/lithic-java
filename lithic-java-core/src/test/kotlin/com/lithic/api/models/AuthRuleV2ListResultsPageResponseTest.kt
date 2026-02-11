@@ -15,18 +15,25 @@ internal class AuthRuleV2ListResultsPageResponseTest {
         val authRuleV2ListResultsPageResponse =
             AuthRuleV2ListResultsPageResponse.builder()
                 .addData(
-                    V2ListResultsResponse.builder()
+                    V2ListResultsResponse.AuthorizationResult.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addAction(
-                            V2ListResultsResponse.Action.AuthorizationAction.builder()
+                            V2ListResultsResponse.AuthorizationResult.Action.builder()
+                                .type(
+                                    V2ListResultsResponse.AuthorizationResult.Action
+                                        .AuthorizationAction
+                                        .DECLINE
+                                )
                                 .explanation("explanation")
                                 .build()
                         )
                         .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .evaluationTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .eventStream(EventStream.AUTHORIZATION)
+                        .eventStream(
+                            V2ListResultsResponse.AuthorizationResult.EventStream.AUTHORIZATION
+                        )
                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .mode(V2ListResultsResponse.AuthRuleState.ACTIVE)
+                        .mode(V2ListResultsResponse.AuthorizationResult.AuthRuleState.ACTIVE)
                         .ruleVersion(0L)
                         .build()
                 )
@@ -35,20 +42,29 @@ internal class AuthRuleV2ListResultsPageResponseTest {
 
         assertThat(authRuleV2ListResultsPageResponse.data())
             .containsExactly(
-                V2ListResultsResponse.builder()
-                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addAction(
-                        V2ListResultsResponse.Action.AuthorizationAction.builder()
-                            .explanation("explanation")
-                            .build()
-                    )
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .evaluationTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .eventStream(EventStream.AUTHORIZATION)
-                    .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .mode(V2ListResultsResponse.AuthRuleState.ACTIVE)
-                    .ruleVersion(0L)
-                    .build()
+                V2ListResultsResponse.ofAuthorizationResult(
+                    V2ListResultsResponse.AuthorizationResult.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addAction(
+                            V2ListResultsResponse.AuthorizationResult.Action.builder()
+                                .type(
+                                    V2ListResultsResponse.AuthorizationResult.Action
+                                        .AuthorizationAction
+                                        .DECLINE
+                                )
+                                .explanation("explanation")
+                                .build()
+                        )
+                        .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .evaluationTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .eventStream(
+                            V2ListResultsResponse.AuthorizationResult.EventStream.AUTHORIZATION
+                        )
+                        .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .mode(V2ListResultsResponse.AuthorizationResult.AuthRuleState.ACTIVE)
+                        .ruleVersion(0L)
+                        .build()
+                )
             )
         assertThat(authRuleV2ListResultsPageResponse.hasMore()).isEqualTo(true)
     }
@@ -59,18 +75,25 @@ internal class AuthRuleV2ListResultsPageResponseTest {
         val authRuleV2ListResultsPageResponse =
             AuthRuleV2ListResultsPageResponse.builder()
                 .addData(
-                    V2ListResultsResponse.builder()
+                    V2ListResultsResponse.AuthorizationResult.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addAction(
-                            V2ListResultsResponse.Action.AuthorizationAction.builder()
+                            V2ListResultsResponse.AuthorizationResult.Action.builder()
+                                .type(
+                                    V2ListResultsResponse.AuthorizationResult.Action
+                                        .AuthorizationAction
+                                        .DECLINE
+                                )
                                 .explanation("explanation")
                                 .build()
                         )
                         .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .evaluationTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .eventStream(EventStream.AUTHORIZATION)
+                        .eventStream(
+                            V2ListResultsResponse.AuthorizationResult.EventStream.AUTHORIZATION
+                        )
                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .mode(V2ListResultsResponse.AuthRuleState.ACTIVE)
+                        .mode(V2ListResultsResponse.AuthorizationResult.AuthRuleState.ACTIVE)
                         .ruleVersion(0L)
                         .build()
                 )
