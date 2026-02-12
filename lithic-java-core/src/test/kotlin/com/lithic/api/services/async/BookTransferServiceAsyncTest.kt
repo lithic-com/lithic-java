@@ -33,6 +33,7 @@ internal class BookTransferServiceAsyncTest {
                     .type(BookTransferCreateParams.BookTransferType.ATM_BALANCE_INQUIRY)
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .externalId("external_id")
+                    .holdToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .memo("memo")
                     .onClosedAccount(BookTransferCreateParams.OnClosedAccount.FAIL)
                     .build()

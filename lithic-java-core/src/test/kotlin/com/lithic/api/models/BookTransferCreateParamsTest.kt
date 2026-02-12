@@ -18,6 +18,7 @@ internal class BookTransferCreateParamsTest {
             .type(BookTransferCreateParams.BookTransferType.ATM_BALANCE_INQUIRY)
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .externalId("external_id")
+            .holdToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .memo("memo")
             .onClosedAccount(BookTransferCreateParams.OnClosedAccount.FAIL)
             .build()
@@ -35,6 +36,7 @@ internal class BookTransferCreateParamsTest {
                 .type(BookTransferCreateParams.BookTransferType.ATM_BALANCE_INQUIRY)
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .externalId("external_id")
+                .holdToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .memo("memo")
                 .onClosedAccount(BookTransferCreateParams.OnClosedAccount.FAIL)
                 .build()
@@ -52,6 +54,7 @@ internal class BookTransferCreateParamsTest {
             .isEqualTo(BookTransferCreateParams.BookTransferType.ATM_BALANCE_INQUIRY)
         assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.externalId()).contains("external_id")
+        assertThat(body.holdToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.memo()).contains("memo")
         assertThat(body.onClosedAccount()).contains(BookTransferCreateParams.OnClosedAccount.FAIL)
     }
