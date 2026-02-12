@@ -96,6 +96,14 @@ private constructor(
     fun externalId(): Optional<String> = body.externalId()
 
     /**
+     * Token of an existing hold to settle when this transfer is initiated
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun holdToken(): Optional<String> = body.holdToken()
+
+    /**
      * Optional descriptor for the transfer.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -168,6 +176,13 @@ private constructor(
      * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _externalId(): JsonField<String> = body._externalId()
+
+    /**
+     * Returns the raw JSON value of [holdToken].
+     *
+     * Unlike [holdToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _holdToken(): JsonField<String> = body._holdToken()
 
     /**
      * Returns the raw JSON value of [memo].
@@ -350,6 +365,18 @@ private constructor(
          * value.
          */
         fun externalId(externalId: JsonField<String>) = apply { body.externalId(externalId) }
+
+        /** Token of an existing hold to settle when this transfer is initiated */
+        fun holdToken(holdToken: String) = apply { body.holdToken(holdToken) }
+
+        /**
+         * Sets [Builder.holdToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.holdToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun holdToken(holdToken: JsonField<String>) = apply { body.holdToken(holdToken) }
 
         /** Optional descriptor for the transfer. */
         fun memo(memo: String) = apply { body.memo(memo) }
@@ -537,6 +564,7 @@ private constructor(
         private val type: JsonField<BookTransferType>,
         private val token: JsonField<String>,
         private val externalId: JsonField<String>,
+        private val holdToken: JsonField<String>,
         private val memo: JsonField<String>,
         private val onClosedAccount: JsonField<OnClosedAccount>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -562,6 +590,9 @@ private constructor(
             @JsonProperty("external_id")
             @ExcludeMissing
             externalId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("hold_token")
+            @ExcludeMissing
+            holdToken: JsonField<String> = JsonMissing.of(),
             @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
             @JsonProperty("on_closed_account")
             @ExcludeMissing
@@ -575,6 +606,7 @@ private constructor(
             type,
             token,
             externalId,
+            holdToken,
             memo,
             onClosedAccount,
             mutableMapOf(),
@@ -647,6 +679,14 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun externalId(): Optional<String> = externalId.getOptional("external_id")
+
+        /**
+         * Token of an existing hold to settle when this transfer is initiated
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun holdToken(): Optional<String> = holdToken.getOptional("hold_token")
 
         /**
          * Optional descriptor for the transfer.
@@ -732,6 +772,13 @@ private constructor(
         fun _externalId(): JsonField<String> = externalId
 
         /**
+         * Returns the raw JSON value of [holdToken].
+         *
+         * Unlike [holdToken], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("hold_token") @ExcludeMissing fun _holdToken(): JsonField<String> = holdToken
+
+        /**
          * Returns the raw JSON value of [memo].
          *
          * Unlike [memo], this method doesn't throw if the JSON field has an unexpected type.
@@ -790,6 +837,7 @@ private constructor(
             private var type: JsonField<BookTransferType>? = null
             private var token: JsonField<String> = JsonMissing.of()
             private var externalId: JsonField<String> = JsonMissing.of()
+            private var holdToken: JsonField<String> = JsonMissing.of()
             private var memo: JsonField<String> = JsonMissing.of()
             private var onClosedAccount: JsonField<OnClosedAccount> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -804,6 +852,7 @@ private constructor(
                 type = createBookTransferRequest.type
                 token = createBookTransferRequest.token
                 externalId = createBookTransferRequest.externalId
+                holdToken = createBookTransferRequest.holdToken
                 memo = createBookTransferRequest.memo
                 onClosedAccount = createBookTransferRequest.onClosedAccount
                 additionalProperties = createBookTransferRequest.additionalProperties.toMutableMap()
@@ -924,6 +973,18 @@ private constructor(
              */
             fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
+            /** Token of an existing hold to settle when this transfer is initiated */
+            fun holdToken(holdToken: String) = holdToken(JsonField.of(holdToken))
+
+            /**
+             * Sets [Builder.holdToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.holdToken] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun holdToken(holdToken: JsonField<String>) = apply { this.holdToken = holdToken }
+
             /** Optional descriptor for the transfer. */
             fun memo(memo: String) = memo(JsonField.of(memo))
 
@@ -997,6 +1058,7 @@ private constructor(
                     checkRequired("type", type),
                     token,
                     externalId,
+                    holdToken,
                     memo,
                     onClosedAccount,
                     additionalProperties.toMutableMap(),
@@ -1018,6 +1080,7 @@ private constructor(
             type().validate()
             token()
             externalId()
+            holdToken()
             memo()
             onClosedAccount().ifPresent { it.validate() }
             validated = true
@@ -1047,6 +1110,7 @@ private constructor(
                 (type.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (token.asKnown().isPresent) 1 else 0) +
                 (if (externalId.asKnown().isPresent) 1 else 0) +
+                (if (holdToken.asKnown().isPresent) 1 else 0) +
                 (if (memo.asKnown().isPresent) 1 else 0) +
                 (onClosedAccount.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -1064,6 +1128,7 @@ private constructor(
                 type == other.type &&
                 token == other.token &&
                 externalId == other.externalId &&
+                holdToken == other.holdToken &&
                 memo == other.memo &&
                 onClosedAccount == other.onClosedAccount &&
                 additionalProperties == other.additionalProperties
@@ -1079,6 +1144,7 @@ private constructor(
                 type,
                 token,
                 externalId,
+                holdToken,
                 memo,
                 onClosedAccount,
                 additionalProperties,
@@ -1088,7 +1154,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateBookTransferRequest{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, externalId=$externalId, memo=$memo, onClosedAccount=$onClosedAccount, additionalProperties=$additionalProperties}"
+            "CreateBookTransferRequest{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, externalId=$externalId, holdToken=$holdToken, memo=$memo, onClosedAccount=$onClosedAccount, additionalProperties=$additionalProperties}"
     }
 
     class BookTransferCategory
