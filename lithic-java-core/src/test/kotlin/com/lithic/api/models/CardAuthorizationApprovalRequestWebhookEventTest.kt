@@ -17,6 +17,36 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .acquirerFee(0L)
                 .amount(0L)
+                .amounts(
+                    CardAuthorizationApprovalRequestWebhookEvent.Amounts.builder()
+                        .cardholder(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.ConvertedAmount
+                                .builder()
+                                .amount(0L)
+                                .conversionRate("1.000000")
+                                .currency("USD")
+                                .build()
+                        )
+                        .hold(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                                .amount(0L)
+                                .currency("USD")
+                                .build()
+                        )
+                        .merchant(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                                .amount(0L)
+                                .currency("USD")
+                                .build()
+                        )
+                        .settlement(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                                .amount(0L)
+                                .currency("USD")
+                                .build()
+                        )
+                        .build()
+                )
                 .authorizationAmount(0L)
                 .avs(
                     CardAuthorizationApprovalRequestWebhookEvent.Avs.builder()
@@ -208,6 +238,37 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.acquirerFee()).isEqualTo(0L)
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.amount()).isEqualTo(0L)
+        assertThat(cardAuthorizationApprovalRequestWebhookEvent.amounts())
+            .isEqualTo(
+                CardAuthorizationApprovalRequestWebhookEvent.Amounts.builder()
+                    .cardholder(
+                        CardAuthorizationApprovalRequestWebhookEvent.Amounts.ConvertedAmount
+                            .builder()
+                            .amount(0L)
+                            .conversionRate("1.000000")
+                            .currency("USD")
+                            .build()
+                    )
+                    .hold(
+                        CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                            .amount(0L)
+                            .currency("USD")
+                            .build()
+                    )
+                    .merchant(
+                        CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                            .amount(0L)
+                            .currency("USD")
+                            .build()
+                    )
+                    .settlement(
+                        CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                            .amount(0L)
+                            .currency("USD")
+                            .build()
+                    )
+                    .build()
+            )
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.authorizationAmount()).isEqualTo(0L)
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.avs())
             .isEqualTo(
@@ -413,6 +474,36 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .acquirerFee(0L)
                 .amount(0L)
+                .amounts(
+                    CardAuthorizationApprovalRequestWebhookEvent.Amounts.builder()
+                        .cardholder(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.ConvertedAmount
+                                .builder()
+                                .amount(0L)
+                                .conversionRate("1.000000")
+                                .currency("USD")
+                                .build()
+                        )
+                        .hold(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                                .amount(0L)
+                                .currency("USD")
+                                .build()
+                        )
+                        .merchant(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                                .amount(0L)
+                                .currency("USD")
+                                .build()
+                        )
+                        .settlement(
+                            CardAuthorizationApprovalRequestWebhookEvent.Amounts.Amount.builder()
+                                .amount(0L)
+                                .currency("USD")
+                                .build()
+                        )
+                        .build()
+                )
                 .authorizationAmount(0L)
                 .avs(
                     CardAuthorizationApprovalRequestWebhookEvent.Avs.builder()
