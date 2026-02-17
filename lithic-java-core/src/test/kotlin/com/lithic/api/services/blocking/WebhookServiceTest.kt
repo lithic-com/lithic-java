@@ -18,11 +18,7 @@ internal class WebhookServiceTest {
 
     @Test
     fun parsed() {
-        val client =
-            LithicOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
+        val client = LithicOkHttpClient.builder().apiKey("My Lithic API Key").build()
         val webhookService = client.webhooks()
 
         val payload =

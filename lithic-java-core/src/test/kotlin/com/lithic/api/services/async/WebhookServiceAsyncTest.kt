@@ -18,11 +18,7 @@ internal class WebhookServiceAsyncTest {
 
     @Test
     fun parsed() {
-        val client =
-            LithicOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
+        val client = LithicOkHttpClientAsync.builder().apiKey("My Lithic API Key").build()
         val webhookServiceAsync = client.webhooks()
 
         val payload =
