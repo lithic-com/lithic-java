@@ -45,8 +45,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
                 )
 
         try {
-            val headersMap =
-                headers.names().associateWith { name -> headers.values(name) }
+            val headersMap = headers.names().associateWith { name -> headers.values(name) }
 
             val webhook = Webhook(webhookSecret)
             webhook.verify(payload, headersMap)

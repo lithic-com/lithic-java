@@ -16,11 +16,7 @@ class WebhookServiceTest {
 
     private val webhookSecret = "whsec_zlFsbBZ8Xcodlpcu6NDTdSzZRLSdhkst"
 
-    private fun signPayload(
-        msgId: String,
-        timestamp: Long,
-        payload: String,
-    ): String {
+    private fun signPayload(msgId: String, timestamp: Long, payload: String): String {
         val webhook = Webhook(webhookSecret)
         return webhook.sign(msgId, timestamp, payload)
     }
@@ -29,10 +25,7 @@ class WebhookServiceTest {
     fun unwrap() {
         val timestamp = Instant.now().epochSecond
         val client =
-            LithicOkHttpClient.builder()
-                .apiKey("test-api-key")
-                .webhookSecret(webhookSecret)
-                .build()
+            LithicOkHttpClient.builder().apiKey("test-api-key").webhookSecret(webhookSecret).build()
 
         val payload =
             "{\"card_token\":\"sit Lorem ipsum, accusantium repellendus possimus\",\"created_at\":\"elit. placeat libero architecto molestias, sit\",\"account_token\":\"elit.\",\"issuer_decision\":\"magnam, libero esse Lorem ipsum magnam, magnam,\",\"tokenization_attempt_id\":\"illum dolor repellendus libero esse accusantium\",\"wallet_decisioning_info\":{\"device_score\":\"placeat architecto\"},\"digital_wallet_token_metadata\":{\"status\":\"reprehenderit dolor\",\"token_requestor_id\":\"possimus\",\"payment_account_info\":{\"account_holder_data\":{\"phone_number\":\"libero\",\"email_address\":\"nobis molestias, veniam culpa! quas elit. quas libero esse architecto placeat\"},\"pan_unique_reference\":\"adipisicing odit magnam, odit\"}}}"
@@ -54,10 +47,7 @@ class WebhookServiceTest {
     fun verifySignature() {
         val timestamp = Instant.now().epochSecond
         val client =
-            LithicOkHttpClient.builder()
-                .apiKey("test-api-key")
-                .webhookSecret(webhookSecret)
-                .build()
+            LithicOkHttpClient.builder().apiKey("test-api-key").webhookSecret(webhookSecret).build()
 
         val payload =
             "{\"card_token\":\"sit Lorem ipsum, accusantium repellendus possimus\",\"created_at\":\"elit. placeat libero architecto molestias, sit\",\"account_token\":\"elit.\",\"issuer_decision\":\"magnam, libero esse Lorem ipsum magnam, magnam,\",\"tokenization_attempt_id\":\"illum dolor repellendus libero esse accusantium\",\"wallet_decisioning_info\":{\"device_score\":\"placeat architecto\"},\"digital_wallet_token_metadata\":{\"status\":\"reprehenderit dolor\",\"token_requestor_id\":\"possimus\",\"payment_account_info\":{\"account_holder_data\":{\"phone_number\":\"libero\",\"email_address\":\"nobis molestias, veniam culpa! quas elit. quas libero esse architecto placeat\"},\"pan_unique_reference\":\"adipisicing odit magnam, odit\"}}}"
@@ -72,9 +62,7 @@ class WebhookServiceTest {
                 .build()
 
         // Valid signature should not throw
-        assertThatCode {
-                client.webhooks().verifySignature(payload, headers, null)
-            }
+        assertThatCode { client.webhooks().verifySignature(payload, headers, null) }
             .doesNotThrowAnyException()
 
         // Timestamp too old (> 5 minutes)
@@ -153,10 +141,7 @@ class WebhookServiceTest {
     fun parse() {
         val timestamp = Instant.now().epochSecond
         val client =
-            LithicOkHttpClient.builder()
-                .apiKey("test-api-key")
-                .webhookSecret(webhookSecret)
-                .build()
+            LithicOkHttpClient.builder().apiKey("test-api-key").webhookSecret(webhookSecret).build()
 
         val payload = """{"card_token":"card_Ao6kQgjenC6H2bSd","event_type":"card.created"}"""
         val msgId = "msg_2Lh9KRb0pzN4LePd3XiA4v12Axj"
