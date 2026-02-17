@@ -37,9 +37,7 @@ internal class WebhookServiceAsyncTest {
                 .build()
 
         // Valid signature should not throw
-        assertThatCode {
-                client.webhooks().verifySignature(payload, headers, null)
-            }
+        assertThatCode { client.webhooks().verifySignature(payload, headers, null) }
             .doesNotThrowAnyException()
 
         // Wrong key should throw
@@ -55,7 +53,10 @@ internal class WebhookServiceAsyncTest {
                     .webhooks()
                     .verifySignature(
                         payload,
-                        headers.toBuilder().replace("webhook-signature", listOf(badSignature)).build(),
+                        headers
+                            .toBuilder()
+                            .replace("webhook-signature", listOf(badSignature))
+                            .build(),
                         null,
                     )
             }
