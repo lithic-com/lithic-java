@@ -5,7 +5,6 @@ package com.lithic.api.services.async
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.UnwrapWebhookParams
 import com.lithic.api.core.http.Headers
 import com.lithic.api.errors.LithicException
 import com.lithic.api.models.ParsedWebhookEvent
@@ -52,9 +51,6 @@ class WebhookServiceAsyncImpl internal constructor(private val clientOptions: Cl
      */
     override fun parseUnsafe(body: String): ParsedWebhookEvent =
         WebhookServiceImpl(clientOptions).parseUnsafe(body)
-
-    override fun parsed(unwrapParams: UnwrapWebhookParams): ParsedWebhookEvent =
-        WebhookServiceImpl(clientOptions).parsed(unwrapParams)
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WebhookServiceAsync.WithRawResponse {
