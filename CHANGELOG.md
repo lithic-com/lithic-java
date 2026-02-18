@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.117.0 (2026-02-18)
+
+Full Changelog: [v0.116.0...v0.117.0](https://github.com/lithic-com/lithic-java/compare/v0.116.0...v0.117.0)
+
+### Features
+
+* **api:** Add /v2/auth_rules/results endpoint for listing rule evaluation data ([6064b3a](https://github.com/lithic-com/lithic-java/commit/6064b3a6c4481eeee5dd71091b9a8362134277f6))
+* **api:** Add amounts object to ASA request ([b7d7006](https://github.com/lithic-com/lithic-java/commit/b7d700661fd0c506e43229c04fd12d81cef3505c))
+* **api:** Add hold token field to book transfers ([7796bac](https://github.com/lithic-com/lithic-java/commit/7796bac615b7324cd9c50bc1c1b35c181d4ffce9))
+* **api:** Add naics_code to account holder requests/responses ([c9ff6da](https://github.com/lithic-com/lithic-java/commit/c9ff6daa033e4022ac9208f4ff81d18346f53695))
+* **api:** Add network specific wallet recommendation reasons ([56b15ff](https://github.com/lithic-com/lithic-java/commit/56b15ffec613c66071c67444273dc8ffd569bce5))
+* **api:** Add PENDING_REVIEW status to KYB enrollment simulation ([a0a4acc](https://github.com/lithic-com/lithic-java/commit/a0a4acc37ebbd6a40fc6769855f87e4b2e20ce30))
+* **api:** Add result schemas for Authorization and Authentication (3DS) actions ([61d743a](https://github.com/lithic-com/lithic-java/commit/61d743af0994d360aab6b9700c620809e0372bf3))
+* **api:** add webhook signature verification ([4e26f35](https://github.com/lithic-com/lithic-java/commit/4e26f350ebf038f7fa0562a484a6fea5a2d85de4))
+* **client:** add connection pooling option ([2b5bf16](https://github.com/lithic-com/lithic-java/commit/2b5bf16839b77bd880a73a2c4211176accc27864))
+* **client:** add more convenience service method overloads ([41826de](https://github.com/lithic-com/lithic-java/commit/41826de4dac92b85774ea9dcdb754a1bb58ada93))
+
+
+### Bug Fixes
+
+* add missing fields ([b075f58](https://github.com/lithic-com/lithic-java/commit/b075f58683c40bd097d18490992744526f74161a))
+* **api:** Update /v2/auth_rules/results endpoint parameter naming and action types ([74dcc48](https://github.com/lithic-com/lithic-java/commit/74dcc48075f54e964f4c8179a6121c53e6a28283))
+* **client:** mark request body as required ([bce1e00](https://github.com/lithic-com/lithic-java/commit/bce1e00834c884f5b930821c7a7949fad1f38f56))
+
+
+### Chores
+
+* configure new SDK language ([2ddf823](https://github.com/lithic-com/lithic-java/commit/2ddf82360b21d85b57231fafc022f10ef909df40))
+* Enable stainless MCP in config ([2f605c1](https://github.com/lithic-com/lithic-java/commit/2f605c19967c7c77dec0358e1ccbacbadf9fc632))
+* **internal:** allow passing args to `./scripts/test` ([b327fb6](https://github.com/lithic-com/lithic-java/commit/b327fb6b7736803c3fd6a0806fe528aeeb96f428))
+* **internal:** make `OkHttp` constructor internal ([92d0d62](https://github.com/lithic-com/lithic-java/commit/92d0d62f76d7eac438e901813dbce1fcf32c22fc))
+* **internal:** remove unnecessary base URL ([2146e4b](https://github.com/lithic-com/lithic-java/commit/2146e4bb9d84df595bcc204ca589f6a0e861dff8))
+* **internal:** update `TestServerExtension` comment ([1d44ad9](https://github.com/lithic-com/lithic-java/commit/1d44ad909ecfd24ab000cfcd3db3874bcf18e97e))
+* **internal:** upgrade AssertJ ([71b1a8b](https://github.com/lithic-com/lithic-java/commit/71b1a8bb689d8740ddf53c0b85745d240ea83981))
+
+
+### Documentation
+
+* Fix documentation of tokenization channel and tokenization source for tokenization rules ([c863228](https://github.com/lithic-com/lithic-java/commit/c8632283a23548a67d038da60a064d70ef03d017))
+
 ## 0.116.0 (2026-01-27)
 
 Full Changelog: [v0.115.0...v0.116.0](https://github.com/lithic-com/lithic-java/compare/v0.115.0...v0.116.0)
