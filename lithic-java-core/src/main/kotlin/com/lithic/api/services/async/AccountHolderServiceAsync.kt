@@ -21,6 +21,9 @@ import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
+import com.lithic.api.models.Kyb
+import com.lithic.api.models.Kyc
+import com.lithic.api.models.KycExempt
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -55,6 +58,63 @@ interface AccountHolderServiceAsync {
         params: AccountHolderCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderCreateResponse>
+
+    /** @see create */
+    fun create(
+        body: AccountHolderCreateParams.Body,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AccountHolderCreateResponse> =
+        create(AccountHolderCreateParams.builder().body(body).build(), requestOptions)
+
+    /** @see create */
+    fun create(
+        body: AccountHolderCreateParams.Body
+    ): CompletableFuture<AccountHolderCreateResponse> = create(body, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kyb: Kyb,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AccountHolderCreateResponse> =
+        create(AccountHolderCreateParams.Body.ofKyb(kyb), requestOptions)
+
+    /** @see create */
+    fun create(kyb: Kyb): CompletableFuture<AccountHolderCreateResponse> =
+        create(kyb, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kybDelegated: AccountHolderCreateParams.Body.KybDelegated,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AccountHolderCreateResponse> =
+        create(AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated), requestOptions)
+
+    /** @see create */
+    fun create(
+        kybDelegated: AccountHolderCreateParams.Body.KybDelegated
+    ): CompletableFuture<AccountHolderCreateResponse> = create(kybDelegated, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kyc: Kyc,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AccountHolderCreateResponse> =
+        create(AccountHolderCreateParams.Body.ofKyc(kyc), requestOptions)
+
+    /** @see create */
+    fun create(kyc: Kyc): CompletableFuture<AccountHolderCreateResponse> =
+        create(kyc, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kycExempt: KycExempt,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AccountHolderCreateResponse> =
+        create(AccountHolderCreateParams.Body.ofKycExempt(kycExempt), requestOptions)
+
+    /** @see create */
+    fun create(kycExempt: KycExempt): CompletableFuture<AccountHolderCreateResponse> =
+        create(kycExempt, RequestOptions.none())
 
     /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     fun retrieve(accountHolderToken: String): CompletableFuture<AccountHolder> =
@@ -355,6 +415,67 @@ interface AccountHolderServiceAsync {
             params: AccountHolderCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>>
+
+        /** @see create */
+        fun create(
+            body: AccountHolderCreateParams.Body,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(AccountHolderCreateParams.builder().body(body).build(), requestOptions)
+
+        /** @see create */
+        fun create(
+            body: AccountHolderCreateParams.Body
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(body, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            kyb: Kyb,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(AccountHolderCreateParams.Body.ofKyb(kyb), requestOptions)
+
+        /** @see create */
+        fun create(kyb: Kyb): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(kyb, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            kybDelegated: AccountHolderCreateParams.Body.KybDelegated,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated), requestOptions)
+
+        /** @see create */
+        fun create(
+            kybDelegated: AccountHolderCreateParams.Body.KybDelegated
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(kybDelegated, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            kyc: Kyc,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(AccountHolderCreateParams.Body.ofKyc(kyc), requestOptions)
+
+        /** @see create */
+        fun create(kyc: Kyc): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(kyc, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            kycExempt: KycExempt,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(AccountHolderCreateParams.Body.ofKycExempt(kycExempt), requestOptions)
+
+        /** @see create */
+        fun create(
+            kycExempt: KycExempt
+        ): CompletableFuture<HttpResponseFor<AccountHolderCreateResponse>> =
+            create(kycExempt, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /v1/account_holders/{account_holder_token}`, but is
