@@ -50,6 +50,47 @@ interface V2Service {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AuthRule
 
+    /** @see create */
+    fun create(
+        body: AuthRuleV2CreateParams.Body,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AuthRule = create(AuthRuleV2CreateParams.builder().body(body).build(), requestOptions)
+
+    /** @see create */
+    fun create(body: AuthRuleV2CreateParams.Body): AuthRule = create(body, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        accountLevelRule: AuthRuleV2CreateParams.Body.AccountLevelRule,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AuthRule =
+        create(AuthRuleV2CreateParams.Body.ofAccountLevelRule(accountLevelRule), requestOptions)
+
+    /** @see create */
+    fun create(accountLevelRule: AuthRuleV2CreateParams.Body.AccountLevelRule): AuthRule =
+        create(accountLevelRule, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        cardLevelRule: AuthRuleV2CreateParams.Body.CardLevelRule,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AuthRule = create(AuthRuleV2CreateParams.Body.ofCardLevelRule(cardLevelRule), requestOptions)
+
+    /** @see create */
+    fun create(cardLevelRule: AuthRuleV2CreateParams.Body.CardLevelRule): AuthRule =
+        create(cardLevelRule, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        programLevelRule: AuthRuleV2CreateParams.Body.ProgramLevelRule,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AuthRule =
+        create(AuthRuleV2CreateParams.Body.ofProgramLevelRule(programLevelRule), requestOptions)
+
+    /** @see create */
+    fun create(programLevelRule: AuthRuleV2CreateParams.Body.ProgramLevelRule): AuthRule =
+        create(programLevelRule, RequestOptions.none())
+
     /** Fetches a V2 Auth rule by its token */
     fun retrieve(authRuleToken: String): AuthRule =
         retrieve(authRuleToken, AuthRuleV2RetrieveParams.none())
@@ -349,6 +390,61 @@ interface V2Service {
             params: AuthRuleV2CreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AuthRule>
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            body: AuthRuleV2CreateParams.Body,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AuthRule> =
+            create(AuthRuleV2CreateParams.builder().body(body).build(), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(body: AuthRuleV2CreateParams.Body): HttpResponseFor<AuthRule> =
+            create(body, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            accountLevelRule: AuthRuleV2CreateParams.Body.AccountLevelRule,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AuthRule> =
+            create(AuthRuleV2CreateParams.Body.ofAccountLevelRule(accountLevelRule), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            accountLevelRule: AuthRuleV2CreateParams.Body.AccountLevelRule
+        ): HttpResponseFor<AuthRule> = create(accountLevelRule, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            cardLevelRule: AuthRuleV2CreateParams.Body.CardLevelRule,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AuthRule> =
+            create(AuthRuleV2CreateParams.Body.ofCardLevelRule(cardLevelRule), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            cardLevelRule: AuthRuleV2CreateParams.Body.CardLevelRule
+        ): HttpResponseFor<AuthRule> = create(cardLevelRule, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            programLevelRule: AuthRuleV2CreateParams.Body.ProgramLevelRule,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AuthRule> =
+            create(AuthRuleV2CreateParams.Body.ofProgramLevelRule(programLevelRule), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            programLevelRule: AuthRuleV2CreateParams.Body.ProgramLevelRule
+        ): HttpResponseFor<AuthRule> = create(programLevelRule, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}`, but is otherwise

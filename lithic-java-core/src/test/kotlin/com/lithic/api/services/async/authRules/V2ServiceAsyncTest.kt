@@ -32,30 +32,25 @@ internal class V2ServiceAsyncTest {
 
         val authRuleFuture =
             v2ServiceAsync.create(
-                AuthRuleV2CreateParams.builder()
-                    .body(
-                        AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
-                            .parameters(
-                                ConditionalBlockParameters.builder()
-                                    .addCondition(
-                                        AuthRuleCondition.builder()
-                                            .attribute(ConditionalAttribute.MCC)
-                                            .operation(ConditionalOperation.IS_ONE_OF)
-                                            .value("string")
-                                            .build()
-                                    )
+                AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
+                    .parameters(
+                        ConditionalBlockParameters.builder()
+                            .addCondition(
+                                AuthRuleCondition.builder()
+                                    .attribute(ConditionalAttribute.MCC)
+                                    .operation(ConditionalOperation.IS_ONE_OF)
+                                    .value("string")
                                     .build()
                             )
-                            .type(
-                                AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType
-                                    .CONDITIONAL_BLOCK
-                            )
-                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .eventStream(EventStream.AUTHORIZATION)
-                            .name("name")
                             .build()
                     )
+                    .type(
+                        AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.CONDITIONAL_BLOCK
+                    )
+                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .eventStream(EventStream.AUTHORIZATION)
+                    .name("name")
                     .build()
             )
 
