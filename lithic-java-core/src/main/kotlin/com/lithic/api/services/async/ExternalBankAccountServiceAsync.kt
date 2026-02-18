@@ -49,6 +49,69 @@ interface ExternalBankAccountServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountCreateResponse>
 
+    /** @see create */
+    fun create(
+        body: ExternalBankAccountCreateParams.Body,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(ExternalBankAccountCreateParams.builder().body(body).build(), requestOptions)
+
+    /** @see create */
+    fun create(
+        body: ExternalBankAccountCreateParams.Body
+    ): CompletableFuture<ExternalBankAccountCreateResponse> = create(body, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        bankVerifiedCreateBankAccountApiRequest:
+            ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(
+            ExternalBankAccountCreateParams.Body.ofBankVerifiedCreateBankAccountApiRequest(
+                bankVerifiedCreateBankAccountApiRequest
+            ),
+            requestOptions,
+        )
+
+    /** @see create */
+    fun create(
+        bankVerifiedCreateBankAccountApiRequest:
+            ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(bankVerifiedCreateBankAccountApiRequest, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        externallyVerified:
+            ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(
+            ExternalBankAccountCreateParams.Body.ofExternallyVerified(externallyVerified),
+            requestOptions,
+        )
+
+    /** @see create */
+    fun create(
+        externallyVerified:
+            ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(externallyVerified, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(ExternalBankAccountCreateParams.Body.ofUnverified(unverified), requestOptions)
+
+    /** @see create */
+    fun create(
+        unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(unverified, RequestOptions.none())
+
     /** Get the external bank account by token. */
     fun retrieve(
         externalBankAccountToken: String
@@ -320,6 +383,70 @@ interface ExternalBankAccountServiceAsync {
             params: ExternalBankAccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>>
+
+        /** @see create */
+        fun create(
+            body: ExternalBankAccountCreateParams.Body,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(ExternalBankAccountCreateParams.builder().body(body).build(), requestOptions)
+
+        /** @see create */
+        fun create(
+            body: ExternalBankAccountCreateParams.Body
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(body, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            bankVerifiedCreateBankAccountApiRequest:
+                ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(
+                ExternalBankAccountCreateParams.Body.ofBankVerifiedCreateBankAccountApiRequest(
+                    bankVerifiedCreateBankAccountApiRequest
+                ),
+                requestOptions,
+            )
+
+        /** @see create */
+        fun create(
+            bankVerifiedCreateBankAccountApiRequest:
+                ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(bankVerifiedCreateBankAccountApiRequest, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            externallyVerified:
+                ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(
+                ExternalBankAccountCreateParams.Body.ofExternallyVerified(externallyVerified),
+                requestOptions,
+            )
+
+        /** @see create */
+        fun create(
+            externallyVerified:
+                ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(externallyVerified, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(ExternalBankAccountCreateParams.Body.ofUnverified(unverified), requestOptions)
+
+        /** @see create */
+        fun create(
+            unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
+            create(unverified, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get

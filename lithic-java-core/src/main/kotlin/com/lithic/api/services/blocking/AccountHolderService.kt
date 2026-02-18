@@ -22,6 +22,9 @@ import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
+import com.lithic.api.models.Kyb
+import com.lithic.api.models.Kyc
+import com.lithic.api.models.KycExempt
 import java.util.function.Consumer
 
 interface AccountHolderService {
@@ -55,6 +58,60 @@ interface AccountHolderService {
         params: AccountHolderCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderCreateResponse
+
+    /** @see create */
+    fun create(
+        body: AccountHolderCreateParams.Body,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AccountHolderCreateResponse =
+        create(AccountHolderCreateParams.builder().body(body).build(), requestOptions)
+
+    /** @see create */
+    fun create(body: AccountHolderCreateParams.Body): AccountHolderCreateResponse =
+        create(body, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kyb: Kyb,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AccountHolderCreateResponse =
+        create(AccountHolderCreateParams.Body.ofKyb(kyb), requestOptions)
+
+    /** @see create */
+    fun create(kyb: Kyb): AccountHolderCreateResponse = create(kyb, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kybDelegated: AccountHolderCreateParams.Body.KybDelegated,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AccountHolderCreateResponse =
+        create(AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated), requestOptions)
+
+    /** @see create */
+    fun create(
+        kybDelegated: AccountHolderCreateParams.Body.KybDelegated
+    ): AccountHolderCreateResponse = create(kybDelegated, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kyc: Kyc,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AccountHolderCreateResponse =
+        create(AccountHolderCreateParams.Body.ofKyc(kyc), requestOptions)
+
+    /** @see create */
+    fun create(kyc: Kyc): AccountHolderCreateResponse = create(kyc, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        kycExempt: KycExempt,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AccountHolderCreateResponse =
+        create(AccountHolderCreateParams.Body.ofKycExempt(kycExempt), requestOptions)
+
+    /** @see create */
+    fun create(kycExempt: KycExempt): AccountHolderCreateResponse =
+        create(kycExempt, RequestOptions.none())
 
     /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     fun retrieve(accountHolderToken: String): AccountHolder =
@@ -345,6 +402,74 @@ interface AccountHolderService {
             params: AccountHolderCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountHolderCreateResponse>
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            body: AccountHolderCreateParams.Body,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(AccountHolderCreateParams.builder().body(body).build(), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            body: AccountHolderCreateParams.Body
+        ): HttpResponseFor<AccountHolderCreateResponse> = create(body, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            kyb: Kyb,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(AccountHolderCreateParams.Body.ofKyb(kyb), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(kyb: Kyb): HttpResponseFor<AccountHolderCreateResponse> =
+            create(kyb, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            kybDelegated: AccountHolderCreateParams.Body.KybDelegated,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            kybDelegated: AccountHolderCreateParams.Body.KybDelegated
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(kybDelegated, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            kyc: Kyc,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(AccountHolderCreateParams.Body.ofKyc(kyc), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(kyc: Kyc): HttpResponseFor<AccountHolderCreateResponse> =
+            create(kyc, RequestOptions.none())
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            kycExempt: KycExempt,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(AccountHolderCreateParams.Body.ofKycExempt(kycExempt), requestOptions)
+
+        /** @see create */
+        @MustBeClosed
+        fun create(kycExempt: KycExempt): HttpResponseFor<AccountHolderCreateResponse> =
+            create(kycExempt, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /v1/account_holders/{account_holder_token}`, but is
