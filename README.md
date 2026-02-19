@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.117.0)
-[![javadoc](https://javadoc.io/badge2/com.lithic.api/lithic-java/0.117.0/javadoc.svg)](https://javadoc.io/doc/com.lithic.api/lithic-java/0.117.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.118.0)
+[![javadoc](https://javadoc.io/badge2/com.lithic.api/lithic-java/0.118.0/javadoc.svg)](https://javadoc.io/doc/com.lithic.api/lithic-java/0.118.0)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Lithic MCP Server to enable AI assistants to interact with this API, all
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.lithic.com](https://docs.lithic.com). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.lithic.api/lithic-java/0.117.0).
+The REST API documentation can be found on [docs.lithic.com](https://docs.lithic.com). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.lithic.api/lithic-java/0.118.0).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [docs.lithic.com](https://docs.lithic
 ### Gradle
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.117.0")
+implementation("com.lithic.api:lithic-java:0.118.0")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("com.lithic.api:lithic-java:0.117.0")
 <dependency>
   <groupId>com.lithic.api</groupId>
   <artifactId>lithic-java</artifactId>
-  <version>0.117.0</version>
+  <version>0.118.0</version>
 </dependency>
 ```
 
