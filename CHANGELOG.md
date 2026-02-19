@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.118.0 (2026-02-19)
+
+Full Changelog: [v0.117.0...v0.118.0](https://github.com/lithic-com/lithic-java/compare/v0.117.0...v0.118.0)
+
+### Features
+
+* **api:** Add INTEREST_AND_FEES_PAUSED substatus to financial account ([b533580](https://github.com/lithic-com/lithic-java/commit/b5335809bcdb615e5f8b22f5b7f2b5ea81581219))
+
 ## 0.117.0 (2026-02-18)
 
 Full Changelog: [v0.116.0...v0.117.0](https://github.com/lithic-com/lithic-java/compare/v0.116.0...v0.117.0)
