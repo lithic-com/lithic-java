@@ -18,6 +18,8 @@ import com.lithic.api.models.FinancialAccountUpdateStatusParams
 import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import com.lithic.api.services.blocking.financialAccounts.CreditConfigurationService
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
+import com.lithic.api.services.blocking.financialAccounts.InterestTierScheduleService
+import com.lithic.api.services.blocking.financialAccounts.LoanTapeConfigurationService
 import com.lithic.api.services.blocking.financialAccounts.LoanTapeService
 import com.lithic.api.services.blocking.financialAccounts.StatementService
 import java.util.function.Consumer
@@ -45,6 +47,10 @@ interface FinancialAccountService {
     fun statements(): StatementService
 
     fun loanTapes(): LoanTapeService
+
+    fun loanTapeConfiguration(): LoanTapeConfigurationService
+
+    fun interestTierSchedule(): InterestTierScheduleService
 
     /** Create a new financial account */
     fun create(params: FinancialAccountCreateParams): FinancialAccount =
@@ -222,6 +228,10 @@ interface FinancialAccountService {
         fun statements(): StatementService.WithRawResponse
 
         fun loanTapes(): LoanTapeService.WithRawResponse
+
+        fun loanTapeConfiguration(): LoanTapeConfigurationService.WithRawResponse
+
+        fun interestTierSchedule(): InterestTierScheduleService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/financial_accounts`, but is otherwise the same
