@@ -591,6 +591,7 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
+                .baseUrl(clientOptions.baseUrl())
                 .addPathSegments("v1", "embed", "card")
                 .putQueryParam("embed_request", embed_request)
                 .putQueryParam("hmac", embed_request_hmac)
