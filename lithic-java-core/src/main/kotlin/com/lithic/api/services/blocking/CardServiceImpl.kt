@@ -41,13 +41,12 @@ import com.lithic.api.services.blocking.cards.BalanceService
 import com.lithic.api.services.blocking.cards.BalanceServiceImpl
 import com.lithic.api.services.blocking.cards.FinancialTransactionService
 import com.lithic.api.services.blocking.cards.FinancialTransactionServiceImpl
-import java.net.URI
+import java.net.URLEncoder
 import java.util.Base64
 import java.util.function.Consumer
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import kotlin.jvm.optionals.getOrNull
-import org.apache.hc.core5.net.URIBuilder
 
 class CardServiceImpl internal constructor(private val clientOptions: ClientOptions) : CardService {
 
@@ -528,6 +527,7 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
+                .baseUrl(clientOptions.baseUrl())
                 .addPathSegments("v1", "embed", "card")
                 .putQueryParam("embed_request", embed_request)
                 .putQueryParam("hmac", embed_request_hmac)
@@ -553,10 +553,14 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
         val embed_request_hmac =
             Base64.getEncoder().encodeToString(mac.doFinal(embed_request.toByteArray()))
 
-        return URIBuilder(URI.create(clientOptions.baseUrl()))
-            .appendPathSegments("embed", "card")
-            .addParameter("embed_request", embed_request)
-            .addParameter("hmac", embed_request_hmac)
-            .toString()
+        return buildString {
+            append(clientOptions.baseUrl())
+            if (!endsWith("/")) append("/")
+            append("embed/card")
+            append("?embed_request=")
+            append(URLEncoder.encode(embed_request, "UTF-8"))
+            append("&hmac=")
+            append(URLEncoder.encode(embed_request_hmac, "UTF-8"))
+        }
     }
 }
