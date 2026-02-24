@@ -41,14 +41,13 @@ import com.lithic.api.services.async.cards.BalanceServiceAsync
 import com.lithic.api.services.async.cards.BalanceServiceAsyncImpl
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
-import java.net.URI
+import java.net.URLEncoder
 import java.util.Base64
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import kotlin.jvm.optionals.getOrNull
-import org.apache.hc.core5.net.URIBuilder
 
 class CardServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     CardServiceAsync {
@@ -618,10 +617,14 @@ class CardServiceAsyncImpl internal constructor(private val clientOptions: Clien
         val embed_request_hmac =
             Base64.getEncoder().encodeToString(mac.doFinal(embed_request.toByteArray()))
 
-        return URIBuilder(URI.create(clientOptions.baseUrl()))
-            .appendPathSegments("embed", "card")
-            .addParameter("embed_request", embed_request)
-            .addParameter("hmac", embed_request_hmac)
-            .toString()
+        return buildString {
+            append(clientOptions.baseUrl())
+            if (!endsWith("/")) append("/")
+            append("embed/card")
+            append("?embed_request=")
+            append(URLEncoder.encode(embed_request, "UTF-8"))
+            append("&hmac=")
+            append(URLEncoder.encode(embed_request_hmac, "UTF-8"))
+        }
     }
 }
