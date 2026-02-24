@@ -526,6 +526,7 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
+                .baseUrl(clientOptions.baseUrl())
                 .addPathSegments("v1", "embed", "card")
                 .putQueryParam("embed_request", embed_request)
                 .putQueryParam("hmac", embed_request_hmac)
