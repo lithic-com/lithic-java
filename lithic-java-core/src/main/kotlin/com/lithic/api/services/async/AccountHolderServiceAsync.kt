@@ -24,6 +24,7 @@ import com.lithic.api.models.Document
 import com.lithic.api.models.Kyb
 import com.lithic.api.models.Kyc
 import com.lithic.api.models.KycExempt
+import com.lithic.api.services.async.accountHolders.EntityServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -40,6 +41,8 @@ interface AccountHolderServiceAsync {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountHolderServiceAsync
+
+    fun entities(): EntityServiceAsync
 
     /**
      * Create an account holder and initiate the appropriate onboarding workflow. Account holders
@@ -400,6 +403,8 @@ interface AccountHolderServiceAsync {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): AccountHolderServiceAsync.WithRawResponse
+
+        fun entities(): EntityServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/account_holders`, but is otherwise the same as
