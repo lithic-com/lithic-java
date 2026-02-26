@@ -33,6 +33,8 @@ import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 import com.lithic.api.models.Document
+import com.lithic.api.services.blocking.accountHolders.EntityService
+import com.lithic.api.services.blocking.accountHolders.EntityServiceImpl
 import java.time.Duration
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -44,10 +46,14 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         WithRawResponseImpl(clientOptions)
     }
 
+    private val entities: EntityService by lazy { EntityServiceImpl(clientOptions) }
+
     override fun withRawResponse(): AccountHolderService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountHolderService =
         AccountHolderServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
+    override fun entities(): EntityService = entities
 
     override fun create(
         params: AccountHolderCreateParams,
@@ -118,12 +124,18 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
+        private val entities: EntityService.WithRawResponse by lazy {
+            EntityServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): AccountHolderService.WithRawResponse =
             AccountHolderServiceImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
+
+        override fun entities(): EntityService.WithRawResponse = entities
 
         private val createHandler: Handler<AccountHolderCreateResponse> =
             jsonHandler<AccountHolderCreateResponse>(clientOptions.jsonMapper)

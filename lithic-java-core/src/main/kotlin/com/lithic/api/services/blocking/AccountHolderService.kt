@@ -25,6 +25,7 @@ import com.lithic.api.models.Document
 import com.lithic.api.models.Kyb
 import com.lithic.api.models.Kyc
 import com.lithic.api.models.KycExempt
+import com.lithic.api.services.blocking.accountHolders.EntityService
 import java.util.function.Consumer
 
 interface AccountHolderService {
@@ -40,6 +41,8 @@ interface AccountHolderService {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountHolderService
+
+    fun entities(): EntityService
 
     /**
      * Create an account holder and initiate the appropriate onboarding workflow. Account holders
@@ -386,6 +389,8 @@ interface AccountHolderService {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): AccountHolderService.WithRawResponse
+
+        fun entities(): EntityService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/account_holders`, but is otherwise the same as
