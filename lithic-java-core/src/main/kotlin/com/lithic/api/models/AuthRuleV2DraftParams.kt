@@ -128,6 +128,7 @@ private constructor(
         /**
          * Alias for calling [parameters] with `Parameters.ofConditionalBlock(conditionalBlock)`.
          */
+        @Deprecated("deprecated")
         fun parameters(conditionalBlock: ConditionalBlockParameters) = apply {
             body.parameters(conditionalBlock)
         }
@@ -404,6 +405,7 @@ private constructor(
              * Alias for calling [parameters] with
              * `Parameters.ofConditionalBlock(conditionalBlock)`.
              */
+            @Deprecated("deprecated")
             fun parameters(conditionalBlock: ConditionalBlockParameters) =
                 parameters(Parameters.ofConditionalBlock(conditionalBlock))
 
@@ -541,6 +543,8 @@ private constructor(
         private val _json: JsonValue? = null,
     ) {
 
+        /** Deprecated: Use CONDITIONAL_ACTION instead. */
+        @Deprecated("deprecated")
         fun conditionalBlock(): Optional<ConditionalBlockParameters> =
             Optional.ofNullable(conditionalBlock)
 
@@ -561,7 +565,7 @@ private constructor(
         fun conditionalTokenizationAction(): Optional<ConditionalTokenizationActionParameters> =
             Optional.ofNullable(conditionalTokenizationAction)
 
-        fun isConditionalBlock(): Boolean = conditionalBlock != null
+        @Deprecated("deprecated") fun isConditionalBlock(): Boolean = conditionalBlock != null
 
         fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
 
@@ -575,6 +579,8 @@ private constructor(
 
         fun isConditionalTokenizationAction(): Boolean = conditionalTokenizationAction != null
 
+        /** Deprecated: Use CONDITIONAL_ACTION instead. */
+        @Deprecated("deprecated")
         fun asConditionalBlock(): ConditionalBlockParameters =
             conditionalBlock.getOrThrow("conditionalBlock")
 
@@ -761,6 +767,8 @@ private constructor(
 
         companion object {
 
+            /** Deprecated: Use CONDITIONAL_ACTION instead. */
+            @Deprecated("deprecated")
             @JvmStatic
             fun ofConditionalBlock(conditionalBlock: ConditionalBlockParameters) =
                 Parameters(conditionalBlock = conditionalBlock)
@@ -797,6 +805,8 @@ private constructor(
          */
         interface Visitor<out T> {
 
+            /** Deprecated: Use CONDITIONAL_ACTION instead. */
+            @Deprecated("deprecated")
             fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
 
             fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
