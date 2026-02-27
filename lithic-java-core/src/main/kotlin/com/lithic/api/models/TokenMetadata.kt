@@ -19,7 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Contains the metadata for the digital wallet being tokenized. */
-class DigitalWalletTokenMetadata
+class TokenMetadata
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val paymentAccountInfo: JsonField<PaymentAccountInfo>,
@@ -160,7 +160,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [DigitalWalletTokenMetadata].
+         * Returns a mutable builder for constructing an instance of [TokenMetadata].
          *
          * The following fields are required:
          * ```java
@@ -171,7 +171,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [DigitalWalletTokenMetadata]. */
+    /** A builder for [TokenMetadata]. */
     class Builder internal constructor() {
 
         private var paymentAccountInfo: JsonField<PaymentAccountInfo>? = null
@@ -182,13 +182,13 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(digitalWalletTokenMetadata: DigitalWalletTokenMetadata) = apply {
-            paymentAccountInfo = digitalWalletTokenMetadata.paymentAccountInfo
-            status = digitalWalletTokenMetadata.status
-            paymentAppInstanceId = digitalWalletTokenMetadata.paymentAppInstanceId
-            tokenRequestorId = digitalWalletTokenMetadata.tokenRequestorId
-            tokenRequestorName = digitalWalletTokenMetadata.tokenRequestorName
-            additionalProperties = digitalWalletTokenMetadata.additionalProperties.toMutableMap()
+        internal fun from(tokenMetadata: TokenMetadata) = apply {
+            paymentAccountInfo = tokenMetadata.paymentAccountInfo
+            status = tokenMetadata.status
+            paymentAppInstanceId = tokenMetadata.paymentAppInstanceId
+            tokenRequestorId = tokenMetadata.tokenRequestorId
+            tokenRequestorName = tokenMetadata.tokenRequestorName
+            additionalProperties = tokenMetadata.additionalProperties.toMutableMap()
         }
 
         /** Contains the information of the account responsible for the payment. */
@@ -292,7 +292,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [DigitalWalletTokenMetadata].
+         * Returns an immutable instance of [TokenMetadata].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -304,8 +304,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): DigitalWalletTokenMetadata =
-            DigitalWalletTokenMetadata(
+        fun build(): TokenMetadata =
+            TokenMetadata(
                 checkRequired("paymentAccountInfo", paymentAccountInfo),
                 checkRequired("status", status),
                 paymentAppInstanceId,
@@ -317,7 +317,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): DigitalWalletTokenMetadata = apply {
+    fun validate(): TokenMetadata = apply {
         if (validated) {
             return@apply
         }
@@ -894,6 +894,8 @@ private constructor(
 
             @JvmField val GARMIN_PAY = of("GARMIN_PAY")
 
+            @JvmField val GOOGLE_PAY = of("GOOGLE_PAY")
+
             @JvmField val MICROSOFT_PAY = of("MICROSOFT_PAY")
 
             @JvmField val NETFLIX = of("NETFLIX")
@@ -915,6 +917,7 @@ private constructor(
             FACEBOOK,
             FITBIT_PAY,
             GARMIN_PAY,
+            GOOGLE_PAY,
             MICROSOFT_PAY,
             NETFLIX,
             SAMSUNG_PAY,
@@ -938,6 +941,7 @@ private constructor(
             FACEBOOK,
             FITBIT_PAY,
             GARMIN_PAY,
+            GOOGLE_PAY,
             MICROSOFT_PAY,
             NETFLIX,
             SAMSUNG_PAY,
@@ -965,6 +969,7 @@ private constructor(
                 FACEBOOK -> Value.FACEBOOK
                 FITBIT_PAY -> Value.FITBIT_PAY
                 GARMIN_PAY -> Value.GARMIN_PAY
+                GOOGLE_PAY -> Value.GOOGLE_PAY
                 MICROSOFT_PAY -> Value.MICROSOFT_PAY
                 NETFLIX -> Value.NETFLIX
                 SAMSUNG_PAY -> Value.SAMSUNG_PAY
@@ -990,6 +995,7 @@ private constructor(
                 FACEBOOK -> Known.FACEBOOK
                 FITBIT_PAY -> Known.FITBIT_PAY
                 GARMIN_PAY -> Known.GARMIN_PAY
+                GOOGLE_PAY -> Known.GOOGLE_PAY
                 MICROSOFT_PAY -> Known.MICROSOFT_PAY
                 NETFLIX -> Known.NETFLIX
                 SAMSUNG_PAY -> Known.SAMSUNG_PAY
@@ -1055,7 +1061,7 @@ private constructor(
             return true
         }
 
-        return other is DigitalWalletTokenMetadata &&
+        return other is TokenMetadata &&
             paymentAccountInfo == other.paymentAccountInfo &&
             status == other.status &&
             paymentAppInstanceId == other.paymentAppInstanceId &&
@@ -1078,5 +1084,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DigitalWalletTokenMetadata{paymentAccountInfo=$paymentAccountInfo, status=$status, paymentAppInstanceId=$paymentAppInstanceId, tokenRequestorId=$tokenRequestorId, tokenRequestorName=$tokenRequestorName, additionalProperties=$additionalProperties}"
+        "TokenMetadata{paymentAccountInfo=$paymentAccountInfo, status=$status, paymentAppInstanceId=$paymentAppInstanceId, tokenRequestorId=$tokenRequestorId, tokenRequestorName=$tokenRequestorName, additionalProperties=$additionalProperties}"
 }
