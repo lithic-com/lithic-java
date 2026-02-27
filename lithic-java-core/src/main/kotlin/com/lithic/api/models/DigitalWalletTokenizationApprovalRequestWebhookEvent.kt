@@ -28,13 +28,13 @@ private constructor(
     private val cardToken: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
     private val customerTokenizationDecision: JsonField<CustomerTokenizationDecision>,
+    private val digitalWalletTokenMetadata: JsonField<TokenMetadata>,
     private val eventType: JsonField<EventType>,
     private val issuerDecision: JsonField<IssuerDecision>,
     private val tokenizationChannel: JsonField<TokenizationChannel>,
     private val tokenizationToken: JsonField<String>,
     private val walletDecisioningInfo: JsonField<WalletDecisioningInfo>,
     private val device: JsonField<Device>,
-    private val digitalWalletTokenMetadata: JsonField<DigitalWalletTokenMetadata>,
     private val ruleResults: JsonField<List<TokenizationRuleResult>>,
     private val tokenizationDeclineReasons: JsonField<List<TokenizationDeclineReason>>,
     private val tokenizationSource: JsonField<TokenizationSource>,
@@ -54,6 +54,9 @@ private constructor(
         @JsonProperty("customer_tokenization_decision")
         @ExcludeMissing
         customerTokenizationDecision: JsonField<CustomerTokenizationDecision> = JsonMissing.of(),
+        @JsonProperty("digital_wallet_token_metadata")
+        @ExcludeMissing
+        digitalWalletTokenMetadata: JsonField<TokenMetadata> = JsonMissing.of(),
         @JsonProperty("event_type")
         @ExcludeMissing
         eventType: JsonField<EventType> = JsonMissing.of(),
@@ -70,9 +73,6 @@ private constructor(
         @ExcludeMissing
         walletDecisioningInfo: JsonField<WalletDecisioningInfo> = JsonMissing.of(),
         @JsonProperty("device") @ExcludeMissing device: JsonField<Device> = JsonMissing.of(),
-        @JsonProperty("digital_wallet_token_metadata")
-        @ExcludeMissing
-        digitalWalletTokenMetadata: JsonField<DigitalWalletTokenMetadata> = JsonMissing.of(),
         @JsonProperty("rule_results")
         @ExcludeMissing
         ruleResults: JsonField<List<TokenizationRuleResult>> = JsonMissing.of(),
@@ -90,13 +90,13 @@ private constructor(
         cardToken,
         created,
         customerTokenizationDecision,
+        digitalWalletTokenMetadata,
         eventType,
         issuerDecision,
         tokenizationChannel,
         tokenizationToken,
         walletDecisioningInfo,
         device,
-        digitalWalletTokenMetadata,
         ruleResults,
         tokenizationDeclineReasons,
         tokenizationSource,
@@ -136,6 +136,15 @@ private constructor(
      */
     fun customerTokenizationDecision(): Optional<CustomerTokenizationDecision> =
         customerTokenizationDecision.getOptional("customer_tokenization_decision")
+
+    /**
+     * Contains the metadata for the digital wallet being tokenized.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun digitalWalletTokenMetadata(): TokenMetadata =
+        digitalWalletTokenMetadata.getRequired("digital_wallet_token_metadata")
 
     /**
      * The name of this event
@@ -183,15 +192,6 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun device(): Optional<Device> = device.getOptional("device")
-
-    /**
-     * Contains the metadata for the digital wallet being tokenized.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun digitalWalletTokenMetadata(): Optional<DigitalWalletTokenMetadata> =
-        digitalWalletTokenMetadata.getOptional("digital_wallet_token_metadata")
 
     /**
      * Results from rules that were evaluated for this tokenization
@@ -264,6 +264,16 @@ private constructor(
         customerTokenizationDecision
 
     /**
+     * Returns the raw JSON value of [digitalWalletTokenMetadata].
+     *
+     * Unlike [digitalWalletTokenMetadata], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("digital_wallet_token_metadata")
+    @ExcludeMissing
+    fun _digitalWalletTokenMetadata(): JsonField<TokenMetadata> = digitalWalletTokenMetadata
+
+    /**
      * Returns the raw JSON value of [eventType].
      *
      * Unlike [eventType], this method doesn't throw if the JSON field has an unexpected type.
@@ -315,17 +325,6 @@ private constructor(
      * Unlike [device], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("device") @ExcludeMissing fun _device(): JsonField<Device> = device
-
-    /**
-     * Returns the raw JSON value of [digitalWalletTokenMetadata].
-     *
-     * Unlike [digitalWalletTokenMetadata], this method doesn't throw if the JSON field has an
-     * unexpected type.
-     */
-    @JsonProperty("digital_wallet_token_metadata")
-    @ExcludeMissing
-    fun _digitalWalletTokenMetadata(): JsonField<DigitalWalletTokenMetadata> =
-        digitalWalletTokenMetadata
 
     /**
      * Returns the raw JSON value of [ruleResults].
@@ -391,6 +390,7 @@ private constructor(
          * .cardToken()
          * .created()
          * .customerTokenizationDecision()
+         * .digitalWalletTokenMetadata()
          * .eventType()
          * .issuerDecision()
          * .tokenizationChannel()
@@ -408,14 +408,13 @@ private constructor(
         private var cardToken: JsonField<String>? = null
         private var created: JsonField<OffsetDateTime>? = null
         private var customerTokenizationDecision: JsonField<CustomerTokenizationDecision>? = null
+        private var digitalWalletTokenMetadata: JsonField<TokenMetadata>? = null
         private var eventType: JsonField<EventType>? = null
         private var issuerDecision: JsonField<IssuerDecision>? = null
         private var tokenizationChannel: JsonField<TokenizationChannel>? = null
         private var tokenizationToken: JsonField<String>? = null
         private var walletDecisioningInfo: JsonField<WalletDecisioningInfo>? = null
         private var device: JsonField<Device> = JsonMissing.of()
-        private var digitalWalletTokenMetadata: JsonField<DigitalWalletTokenMetadata> =
-            JsonMissing.of()
         private var ruleResults: JsonField<MutableList<TokenizationRuleResult>>? = null
         private var tokenizationDeclineReasons: JsonField<MutableList<TokenizationDeclineReason>>? =
             null
@@ -433,6 +432,8 @@ private constructor(
             created = digitalWalletTokenizationApprovalRequestWebhookEvent.created
             customerTokenizationDecision =
                 digitalWalletTokenizationApprovalRequestWebhookEvent.customerTokenizationDecision
+            digitalWalletTokenMetadata =
+                digitalWalletTokenizationApprovalRequestWebhookEvent.digitalWalletTokenMetadata
             eventType = digitalWalletTokenizationApprovalRequestWebhookEvent.eventType
             issuerDecision = digitalWalletTokenizationApprovalRequestWebhookEvent.issuerDecision
             tokenizationChannel =
@@ -442,8 +443,6 @@ private constructor(
             walletDecisioningInfo =
                 digitalWalletTokenizationApprovalRequestWebhookEvent.walletDecisioningInfo
             device = digitalWalletTokenizationApprovalRequestWebhookEvent.device
-            digitalWalletTokenMetadata =
-                digitalWalletTokenizationApprovalRequestWebhookEvent.digitalWalletTokenMetadata
             ruleResults =
                 digitalWalletTokenizationApprovalRequestWebhookEvent.ruleResults.map {
                     it.toMutableList()
@@ -523,6 +522,22 @@ private constructor(
         fun customerTokenizationDecision(
             customerTokenizationDecision: JsonField<CustomerTokenizationDecision>
         ) = apply { this.customerTokenizationDecision = customerTokenizationDecision }
+
+        /** Contains the metadata for the digital wallet being tokenized. */
+        fun digitalWalletTokenMetadata(digitalWalletTokenMetadata: TokenMetadata) =
+            digitalWalletTokenMetadata(JsonField.of(digitalWalletTokenMetadata))
+
+        /**
+         * Sets [Builder.digitalWalletTokenMetadata] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.digitalWalletTokenMetadata] with a well-typed
+         * [TokenMetadata] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
+        fun digitalWalletTokenMetadata(digitalWalletTokenMetadata: JsonField<TokenMetadata>) =
+            apply {
+                this.digitalWalletTokenMetadata = digitalWalletTokenMetadata
+            }
 
         /** The name of this event */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -607,21 +622,6 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun device(device: JsonField<Device>) = apply { this.device = device }
-
-        /** Contains the metadata for the digital wallet being tokenized. */
-        fun digitalWalletTokenMetadata(digitalWalletTokenMetadata: DigitalWalletTokenMetadata) =
-            digitalWalletTokenMetadata(JsonField.of(digitalWalletTokenMetadata))
-
-        /**
-         * Sets [Builder.digitalWalletTokenMetadata] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.digitalWalletTokenMetadata] with a well-typed
-         * [DigitalWalletTokenMetadata] value instead. This method is primarily for setting the
-         * field to an undocumented or not yet supported value.
-         */
-        fun digitalWalletTokenMetadata(
-            digitalWalletTokenMetadata: JsonField<DigitalWalletTokenMetadata>
-        ) = apply { this.digitalWalletTokenMetadata = digitalWalletTokenMetadata }
 
         /** Results from rules that were evaluated for this tokenization */
         fun ruleResults(ruleResults: List<TokenizationRuleResult>) =
@@ -754,6 +754,7 @@ private constructor(
          * .cardToken()
          * .created()
          * .customerTokenizationDecision()
+         * .digitalWalletTokenMetadata()
          * .eventType()
          * .issuerDecision()
          * .tokenizationChannel()
@@ -769,13 +770,13 @@ private constructor(
                 checkRequired("cardToken", cardToken),
                 checkRequired("created", created),
                 checkRequired("customerTokenizationDecision", customerTokenizationDecision),
+                checkRequired("digitalWalletTokenMetadata", digitalWalletTokenMetadata),
                 checkRequired("eventType", eventType),
                 checkRequired("issuerDecision", issuerDecision),
                 checkRequired("tokenizationChannel", tokenizationChannel),
                 checkRequired("tokenizationToken", tokenizationToken),
                 checkRequired("walletDecisioningInfo", walletDecisioningInfo),
                 device,
-                digitalWalletTokenMetadata,
                 (ruleResults ?: JsonMissing.of()).map { it.toImmutable() },
                 (tokenizationDeclineReasons ?: JsonMissing.of()).map { it.toImmutable() },
                 tokenizationSource,
@@ -795,13 +796,13 @@ private constructor(
         cardToken()
         created()
         customerTokenizationDecision().ifPresent { it.validate() }
+        digitalWalletTokenMetadata().validate()
         eventType().validate()
         issuerDecision().validate()
         tokenizationChannel().validate()
         tokenizationToken()
         walletDecisioningInfo().validate()
         device().ifPresent { it.validate() }
-        digitalWalletTokenMetadata().ifPresent { it.validate() }
         ruleResults().ifPresent { it.forEach { it.validate() } }
         tokenizationDeclineReasons().ifPresent { it.forEach { it.validate() } }
         tokenizationSource().ifPresent { it.validate() }
@@ -828,13 +829,13 @@ private constructor(
             (if (cardToken.asKnown().isPresent) 1 else 0) +
             (if (created.asKnown().isPresent) 1 else 0) +
             (customerTokenizationDecision.asKnown().getOrNull()?.validity() ?: 0) +
+            (digitalWalletTokenMetadata.asKnown().getOrNull()?.validity() ?: 0) +
             (eventType.asKnown().getOrNull()?.validity() ?: 0) +
             (issuerDecision.asKnown().getOrNull()?.validity() ?: 0) +
             (tokenizationChannel.asKnown().getOrNull()?.validity() ?: 0) +
             (if (tokenizationToken.asKnown().isPresent) 1 else 0) +
             (walletDecisioningInfo.asKnown().getOrNull()?.validity() ?: 0) +
             (device.asKnown().getOrNull()?.validity() ?: 0) +
-            (digitalWalletTokenMetadata.asKnown().getOrNull()?.validity() ?: 0) +
             (ruleResults.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (tokenizationDeclineReasons.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
                 ?: 0) +
@@ -1845,13 +1846,13 @@ private constructor(
             cardToken == other.cardToken &&
             created == other.created &&
             customerTokenizationDecision == other.customerTokenizationDecision &&
+            digitalWalletTokenMetadata == other.digitalWalletTokenMetadata &&
             eventType == other.eventType &&
             issuerDecision == other.issuerDecision &&
             tokenizationChannel == other.tokenizationChannel &&
             tokenizationToken == other.tokenizationToken &&
             walletDecisioningInfo == other.walletDecisioningInfo &&
             device == other.device &&
-            digitalWalletTokenMetadata == other.digitalWalletTokenMetadata &&
             ruleResults == other.ruleResults &&
             tokenizationDeclineReasons == other.tokenizationDeclineReasons &&
             tokenizationSource == other.tokenizationSource &&
@@ -1865,13 +1866,13 @@ private constructor(
             cardToken,
             created,
             customerTokenizationDecision,
+            digitalWalletTokenMetadata,
             eventType,
             issuerDecision,
             tokenizationChannel,
             tokenizationToken,
             walletDecisioningInfo,
             device,
-            digitalWalletTokenMetadata,
             ruleResults,
             tokenizationDeclineReasons,
             tokenizationSource,
@@ -1883,5 +1884,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DigitalWalletTokenizationApprovalRequestWebhookEvent{accountToken=$accountToken, cardToken=$cardToken, created=$created, customerTokenizationDecision=$customerTokenizationDecision, eventType=$eventType, issuerDecision=$issuerDecision, tokenizationChannel=$tokenizationChannel, tokenizationToken=$tokenizationToken, walletDecisioningInfo=$walletDecisioningInfo, device=$device, digitalWalletTokenMetadata=$digitalWalletTokenMetadata, ruleResults=$ruleResults, tokenizationDeclineReasons=$tokenizationDeclineReasons, tokenizationSource=$tokenizationSource, tokenizationTfaReasons=$tokenizationTfaReasons, additionalProperties=$additionalProperties}"
+        "DigitalWalletTokenizationApprovalRequestWebhookEvent{accountToken=$accountToken, cardToken=$cardToken, created=$created, customerTokenizationDecision=$customerTokenizationDecision, digitalWalletTokenMetadata=$digitalWalletTokenMetadata, eventType=$eventType, issuerDecision=$issuerDecision, tokenizationChannel=$tokenizationChannel, tokenizationToken=$tokenizationToken, walletDecisioningInfo=$walletDecisioningInfo, device=$device, ruleResults=$ruleResults, tokenizationDeclineReasons=$tokenizationDeclineReasons, tokenizationSource=$tokenizationSource, tokenizationTfaReasons=$tokenizationTfaReasons, additionalProperties=$additionalProperties}"
 }

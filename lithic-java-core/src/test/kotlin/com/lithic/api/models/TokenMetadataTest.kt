@@ -7,17 +7,16 @@ import com.lithic.api.core.jsonMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class DigitalWalletTokenMetadataTest {
+internal class TokenMetadataTest {
 
     @Test
     fun create() {
-        val digitalWalletTokenMetadata =
-            DigitalWalletTokenMetadata.builder()
+        val tokenMetadata =
+            TokenMetadata.builder()
                 .paymentAccountInfo(
-                    DigitalWalletTokenMetadata.PaymentAccountInfo.builder()
+                    TokenMetadata.PaymentAccountInfo.builder()
                         .accountHolderData(
-                            DigitalWalletTokenMetadata.PaymentAccountInfo.AccountHolderData
-                                .builder()
+                            TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
                                 .phoneNumber("phone_number")
                                 .build()
                         )
@@ -29,14 +28,14 @@ internal class DigitalWalletTokenMetadataTest {
                 .status("status")
                 .paymentAppInstanceId("payment_app_instance_id")
                 .tokenRequestorId("xxxxxxxxxxx")
-                .tokenRequestorName(DigitalWalletTokenMetadata.TokenRequestorName.APPLE_PAY)
+                .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
                 .build()
 
-        assertThat(digitalWalletTokenMetadata.paymentAccountInfo())
+        assertThat(tokenMetadata.paymentAccountInfo())
             .isEqualTo(
-                DigitalWalletTokenMetadata.PaymentAccountInfo.builder()
+                TokenMetadata.PaymentAccountInfo.builder()
                     .accountHolderData(
-                        DigitalWalletTokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
+                        TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
                             .phoneNumber("phone_number")
                             .build()
                     )
@@ -45,24 +44,22 @@ internal class DigitalWalletTokenMetadataTest {
                     .tokenUniqueReference("token_unique_reference")
                     .build()
             )
-        assertThat(digitalWalletTokenMetadata.status()).isEqualTo("status")
-        assertThat(digitalWalletTokenMetadata.paymentAppInstanceId())
-            .contains("payment_app_instance_id")
-        assertThat(digitalWalletTokenMetadata.tokenRequestorId()).contains("xxxxxxxxxxx")
-        assertThat(digitalWalletTokenMetadata.tokenRequestorName())
-            .contains(DigitalWalletTokenMetadata.TokenRequestorName.APPLE_PAY)
+        assertThat(tokenMetadata.status()).isEqualTo("status")
+        assertThat(tokenMetadata.paymentAppInstanceId()).contains("payment_app_instance_id")
+        assertThat(tokenMetadata.tokenRequestorId()).contains("xxxxxxxxxxx")
+        assertThat(tokenMetadata.tokenRequestorName())
+            .contains(TokenMetadata.TokenRequestorName.APPLE_PAY)
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val digitalWalletTokenMetadata =
-            DigitalWalletTokenMetadata.builder()
+        val tokenMetadata =
+            TokenMetadata.builder()
                 .paymentAccountInfo(
-                    DigitalWalletTokenMetadata.PaymentAccountInfo.builder()
+                    TokenMetadata.PaymentAccountInfo.builder()
                         .accountHolderData(
-                            DigitalWalletTokenMetadata.PaymentAccountInfo.AccountHolderData
-                                .builder()
+                            TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
                                 .phoneNumber("phone_number")
                                 .build()
                         )
@@ -74,15 +71,15 @@ internal class DigitalWalletTokenMetadataTest {
                 .status("status")
                 .paymentAppInstanceId("payment_app_instance_id")
                 .tokenRequestorId("xxxxxxxxxxx")
-                .tokenRequestorName(DigitalWalletTokenMetadata.TokenRequestorName.APPLE_PAY)
+                .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
                 .build()
 
-        val roundtrippedDigitalWalletTokenMetadata =
+        val roundtrippedTokenMetadata =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(digitalWalletTokenMetadata),
-                jacksonTypeRef<DigitalWalletTokenMetadata>(),
+                jsonMapper.writeValueAsString(tokenMetadata),
+                jacksonTypeRef<TokenMetadata>(),
             )
 
-        assertThat(roundtrippedDigitalWalletTokenMetadata).isEqualTo(digitalWalletTokenMetadata)
+        assertThat(roundtrippedTokenMetadata).isEqualTo(tokenMetadata)
     }
 }
