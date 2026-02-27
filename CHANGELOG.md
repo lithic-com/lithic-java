@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.118.0 (2026-02-27)
+
+Full Changelog: [v0.117.0...v0.118.0](https://github.com/lithic-com/lithic-java/compare/v0.117.0...v0.118.0)
+
+### Features
+
+* **api:** Add account holder entity endpoints ([04b301b](https://github.com/lithic-com/lithic-java/commit/04b301b3bfc4669821fb0555bdcea4b5f8484310))
+* **api:** Add INTEREST_AND_FEES_PAUSED substatus to financial account ([b533580](https://github.com/lithic-com/lithic-java/commit/b5335809bcdb615e5f8b22f5b7f2b5ea81581219))
+* **api:** Expose MIL interest schedules and loan tape configuration endpoints ([54ea41f](https://github.com/lithic-com/lithic-java/commit/54ea41f7aa89aae69fc1120ae232b110fc64b15d))
+
+
+### Bug Fixes
+
+* **api:** Correct token_metadata field name in tokenization.approval_request schema ([03083cf](https://github.com/lithic-com/lithic-java/commit/03083cf4804c6fa056d0636c516b9037b811cc3a))
+* set Accept header in more places ([13de846](https://github.com/lithic-com/lithic-java/commit/13de84622f05d951233a64bf00528f9aa80dc8e1))
+
+
+### Chores
+
+* drop apache dependency ([6f437cc](https://github.com/lithic-com/lithic-java/commit/6f437cc3dd1cac56e147714a789d1c767284bea6))
+* fix card embed endpoints after removing apache dependency ([3d05137](https://github.com/lithic-com/lithic-java/commit/3d051375f098f6c0efc2b24e1cfd08c5f237129b))
+* fix card embed endpoints after removing apache dependency ([c64c472](https://github.com/lithic-com/lithic-java/commit/c64c4722e902a963f62ad90526717aa38360dd6b))
+* fix card embed endpoints after removing apache dependency [#1567](https://github.com/lithic-com/lithic-java/issues/1567) ([3d05137](https://github.com/lithic-com/lithic-java/commit/3d051375f098f6c0efc2b24e1cfd08c5f237129b))
+* **internal:** expand imports ([c03db70](https://github.com/lithic-com/lithic-java/commit/c03db70d19686cd85e06e89b4b134a53ca7fb965))
+* make `Properties` more resilient to `null` ([40426af](https://github.com/lithic-com/lithic-java/commit/40426afe752ec8a8bc77e3791deb1376a2efea9b))
+
+
+### Documentation
+
+* Remove CONDITIONAL_BLOCK from docs ([66d75ce](https://github.com/lithic-com/lithic-java/commit/66d75cea630ef7eac569511680f0666458f5cdfb))
+
 ## 0.117.0 (2026-02-18)
 
 Full Changelog: [v0.116.0...v0.117.0](https://github.com/lithic-com/lithic-java/compare/v0.116.0...v0.117.0)
