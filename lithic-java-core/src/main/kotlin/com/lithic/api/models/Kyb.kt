@@ -29,7 +29,6 @@ private constructor(
     private val natureOfBusiness: JsonField<String>,
     private val tosTimestamp: JsonField<String>,
     private val workflow: JsonField<Workflow>,
-    private val beneficialOwnerEntities: JsonField<List<BusinessEntity>>,
     private val externalId: JsonField<String>,
     private val kybPassedTimestamp: JsonField<String>,
     private val naicsCode: JsonField<String>,
@@ -55,9 +54,6 @@ private constructor(
         @ExcludeMissing
         tosTimestamp: JsonField<String> = JsonMissing.of(),
         @JsonProperty("workflow") @ExcludeMissing workflow: JsonField<Workflow> = JsonMissing.of(),
-        @JsonProperty("beneficial_owner_entities")
-        @ExcludeMissing
-        beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of(),
         @JsonProperty("external_id")
         @ExcludeMissing
         externalId: JsonField<String> = JsonMissing.of(),
@@ -75,7 +71,6 @@ private constructor(
         natureOfBusiness,
         tosTimestamp,
         workflow,
-        beneficialOwnerEntities,
         externalId,
         kybPassedTimestamp,
         naicsCode,
@@ -143,16 +138,6 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun workflow(): Workflow = workflow.getRequired("workflow")
-
-    /**
-     * Deprecated.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    @Deprecated("deprecated")
-    fun beneficialOwnerEntities(): Optional<List<BusinessEntity>> =
-        beneficialOwnerEntities.getOptional("beneficial_owner_entities")
 
     /**
      * A user provided id that can be used to link an account holder with an external system
@@ -245,17 +230,6 @@ private constructor(
     @JsonProperty("workflow") @ExcludeMissing fun _workflow(): JsonField<Workflow> = workflow
 
     /**
-     * Returns the raw JSON value of [beneficialOwnerEntities].
-     *
-     * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
-     * unexpected type.
-     */
-    @Deprecated("deprecated")
-    @JsonProperty("beneficial_owner_entities")
-    @ExcludeMissing
-    fun _beneficialOwnerEntities(): JsonField<List<BusinessEntity>> = beneficialOwnerEntities
-
-    /**
      * Returns the raw JSON value of [externalId].
      *
      * Unlike [externalId], this method doesn't throw if the JSON field has an unexpected type.
@@ -325,7 +299,6 @@ private constructor(
         private var natureOfBusiness: JsonField<String>? = null
         private var tosTimestamp: JsonField<String>? = null
         private var workflow: JsonField<Workflow>? = null
-        private var beneficialOwnerEntities: JsonField<MutableList<BusinessEntity>>? = null
         private var externalId: JsonField<String> = JsonMissing.of()
         private var kybPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var naicsCode: JsonField<String> = JsonMissing.of()
@@ -340,7 +313,6 @@ private constructor(
             natureOfBusiness = kyb.natureOfBusiness
             tosTimestamp = kyb.tosTimestamp
             workflow = kyb.workflow
-            beneficialOwnerEntities = kyb.beneficialOwnerEntities.map { it.toMutableList() }
             externalId = kyb.externalId
             kybPassedTimestamp = kyb.kybPassedTimestamp
             naicsCode = kyb.naicsCode
@@ -468,37 +440,6 @@ private constructor(
          */
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
-        /** Deprecated. */
-        @Deprecated("deprecated")
-        fun beneficialOwnerEntities(beneficialOwnerEntities: List<BusinessEntity>) =
-            beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
-
-        /**
-         * Sets [Builder.beneficialOwnerEntities] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.beneficialOwnerEntities] with a well-typed
-         * `List<BusinessEntity>` value instead. This method is primarily for setting the field to
-         * an undocumented or not yet supported value.
-         */
-        @Deprecated("deprecated")
-        fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<BusinessEntity>>) =
-            apply {
-                this.beneficialOwnerEntities = beneficialOwnerEntities.map { it.toMutableList() }
-            }
-
-        /**
-         * Adds a single [BusinessEntity] to [beneficialOwnerEntities].
-         *
-         * @throws IllegalStateException if the field was previously set to a non-list.
-         */
-        @Deprecated("deprecated")
-        fun addBeneficialOwnerEntity(beneficialOwnerEntity: BusinessEntity) = apply {
-            beneficialOwnerEntities =
-                (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).also {
-                    checkKnown("beneficialOwnerEntities", it).add(beneficialOwnerEntity)
-                }
-        }
-
         /** A user provided id that can be used to link an account holder with an external system */
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
@@ -601,7 +542,6 @@ private constructor(
                 checkRequired("natureOfBusiness", natureOfBusiness),
                 checkRequired("tosTimestamp", tosTimestamp),
                 checkRequired("workflow", workflow),
-                (beneficialOwnerEntities ?: JsonMissing.of()).map { it.toImmutable() },
                 externalId,
                 kybPassedTimestamp,
                 naicsCode,
@@ -623,7 +563,6 @@ private constructor(
         natureOfBusiness()
         tosTimestamp()
         workflow().validate()
-        beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
         externalId()
         kybPassedTimestamp()
         naicsCode()
@@ -652,7 +591,6 @@ private constructor(
             (if (natureOfBusiness.asKnown().isPresent) 1 else 0) +
             (if (tosTimestamp.asKnown().isPresent) 1 else 0) +
             (workflow.asKnown().getOrNull()?.validity() ?: 0) +
-            (beneficialOwnerEntities.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (externalId.asKnown().isPresent) 1 else 0) +
             (if (kybPassedTimestamp.asKnown().isPresent) 1 else 0) +
             (if (naicsCode.asKnown().isPresent) 1 else 0) +
@@ -1653,7 +1591,6 @@ private constructor(
             natureOfBusiness == other.natureOfBusiness &&
             tosTimestamp == other.tosTimestamp &&
             workflow == other.workflow &&
-            beneficialOwnerEntities == other.beneficialOwnerEntities &&
             externalId == other.externalId &&
             kybPassedTimestamp == other.kybPassedTimestamp &&
             naicsCode == other.naicsCode &&
@@ -1669,7 +1606,6 @@ private constructor(
             natureOfBusiness,
             tosTimestamp,
             workflow,
-            beneficialOwnerEntities,
             externalId,
             kybPassedTimestamp,
             naicsCode,
@@ -1681,5 +1617,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Kyb{beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, workflow=$workflow, beneficialOwnerEntities=$beneficialOwnerEntities, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, naicsCode=$naicsCode, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
+        "Kyb{beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, workflow=$workflow, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, naicsCode=$naicsCode, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 }
