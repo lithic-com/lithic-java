@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.http.QueryParams
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -12,6 +13,8 @@ internal class AuthRuleV2ListResultsParamsTest {
     fun create() {
         AuthRuleV2ListResultsParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .endingBefore("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .hasActions(true)
@@ -25,6 +28,8 @@ internal class AuthRuleV2ListResultsParamsTest {
         val params =
             AuthRuleV2ListResultsParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .endingBefore("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .hasActions(true)
@@ -38,6 +43,8 @@ internal class AuthRuleV2ListResultsParamsTest {
             .isEqualTo(
                 QueryParams.builder()
                     .put("auth_rule_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("begin", "2019-12-27T18:11:19.117Z")
+                    .put("end", "2019-12-27T18:11:19.117Z")
                     .put("ending_before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("event_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("has_actions", "true")

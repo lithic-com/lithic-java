@@ -21,9 +21,18 @@ internal class V2ListResultsResponseTest {
             V2ListResultsResponse.AuthorizationResult.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addAction(
-                    V2ListResultsResponse.AuthorizationResult.Action.builder()
+                    V2ListResultsResponse.AuthorizationResult.Action.DeclineActionAuthorization
+                        .builder()
+                        .code(
+                            V2ListResultsResponse.AuthorizationResult.Action
+                                .DeclineActionAuthorization
+                                .DetailedResult
+                                .APPROVED
+                        )
                         .type(
-                            V2ListResultsResponse.AuthorizationResult.Action.AuthorizationAction
+                            V2ListResultsResponse.AuthorizationResult.Action
+                                .DeclineActionAuthorization
+                                .Type
                                 .DECLINE
                         )
                         .explanation("explanation")
@@ -53,9 +62,18 @@ internal class V2ListResultsResponseTest {
                 V2ListResultsResponse.AuthorizationResult.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addAction(
-                        V2ListResultsResponse.AuthorizationResult.Action.builder()
+                        V2ListResultsResponse.AuthorizationResult.Action.DeclineActionAuthorization
+                            .builder()
+                            .code(
+                                V2ListResultsResponse.AuthorizationResult.Action
+                                    .DeclineActionAuthorization
+                                    .DetailedResult
+                                    .APPROVED
+                            )
                             .type(
-                                V2ListResultsResponse.AuthorizationResult.Action.AuthorizationAction
+                                V2ListResultsResponse.AuthorizationResult.Action
+                                    .DeclineActionAuthorization
+                                    .Type
                                     .DECLINE
                             )
                             .explanation("explanation")
@@ -161,14 +179,19 @@ internal class V2ListResultsResponseTest {
             V2ListResultsResponse.TokenizationResult.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addAction(
-                    V2ListResultsResponse.TokenizationResult.Action.DeclineAction.builder()
+                    V2ListResultsResponse.TokenizationResult.Action.DeclineActionTokenization
+                        .builder()
                         .type(
-                            V2ListResultsResponse.TokenizationResult.Action.DeclineAction.Type
+                            V2ListResultsResponse.TokenizationResult.Action
+                                .DeclineActionTokenization
+                                .Type
                                 .DECLINE
                         )
                         .explanation("explanation")
                         .reason(
-                            V2ListResultsResponse.TokenizationResult.Action.DeclineAction.Reason
+                            V2ListResultsResponse.TokenizationResult.Action
+                                .DeclineActionTokenization
+                                .Reason
                                 .ACCOUNT_SCORE_1
                         )
                         .build()
@@ -197,14 +220,19 @@ internal class V2ListResultsResponseTest {
                 V2ListResultsResponse.TokenizationResult.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addAction(
-                        V2ListResultsResponse.TokenizationResult.Action.DeclineAction.builder()
+                        V2ListResultsResponse.TokenizationResult.Action.DeclineActionTokenization
+                            .builder()
                             .type(
-                                V2ListResultsResponse.TokenizationResult.Action.DeclineAction.Type
+                                V2ListResultsResponse.TokenizationResult.Action
+                                    .DeclineActionTokenization
+                                    .Type
                                     .DECLINE
                             )
                             .explanation("explanation")
                             .reason(
-                                V2ListResultsResponse.TokenizationResult.Action.DeclineAction.Reason
+                                V2ListResultsResponse.TokenizationResult.Action
+                                    .DeclineActionTokenization
+                                    .Reason
                                     .ACCOUNT_SCORE_1
                             )
                             .build()
@@ -233,8 +261,8 @@ internal class V2ListResultsResponseTest {
             V2ListResultsResponse.AchResult.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .addAction(
-                    V2ListResultsResponse.AchResult.Action.ApproveAction.builder()
-                        .type(V2ListResultsResponse.AchResult.Action.ApproveAction.Type.APPROVE)
+                    V2ListResultsResponse.AchResult.Action.ApproveActionAch.builder()
+                        .type(V2ListResultsResponse.AchResult.Action.ApproveActionAch.Type.APPROVE)
                         .explanation("explanation")
                         .build()
                 )
@@ -262,8 +290,10 @@ internal class V2ListResultsResponseTest {
                 V2ListResultsResponse.AchResult.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addAction(
-                        V2ListResultsResponse.AchResult.Action.ApproveAction.builder()
-                            .type(V2ListResultsResponse.AchResult.Action.ApproveAction.Type.APPROVE)
+                        V2ListResultsResponse.AchResult.Action.ApproveActionAch.builder()
+                            .type(
+                                V2ListResultsResponse.AchResult.Action.ApproveActionAch.Type.APPROVE
+                            )
                             .explanation("explanation")
                             .build()
                     )

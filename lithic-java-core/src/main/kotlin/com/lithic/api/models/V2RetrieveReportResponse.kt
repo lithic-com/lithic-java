@@ -296,9 +296,9 @@ private constructor(
     class DailyStatistic
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val currentVersionStatistics: JsonField<RuleStats>,
+        private val currentVersionStatistics: JsonField<ReportStats>,
         private val date: JsonField<LocalDate>,
-        private val draftVersionStatistics: JsonField<RuleStats>,
+        private val draftVersionStatistics: JsonField<ReportStats>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -306,11 +306,11 @@ private constructor(
         private constructor(
             @JsonProperty("current_version_statistics")
             @ExcludeMissing
-            currentVersionStatistics: JsonField<RuleStats> = JsonMissing.of(),
+            currentVersionStatistics: JsonField<ReportStats> = JsonMissing.of(),
             @JsonProperty("date") @ExcludeMissing date: JsonField<LocalDate> = JsonMissing.of(),
             @JsonProperty("draft_version_statistics")
             @ExcludeMissing
-            draftVersionStatistics: JsonField<RuleStats> = JsonMissing.of(),
+            draftVersionStatistics: JsonField<ReportStats> = JsonMissing.of(),
         ) : this(currentVersionStatistics, date, draftVersionStatistics, mutableMapOf())
 
         /**
@@ -319,7 +319,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun currentVersionStatistics(): Optional<RuleStats> =
+        fun currentVersionStatistics(): Optional<ReportStats> =
             currentVersionStatistics.getOptional("current_version_statistics")
 
         /**
@@ -336,7 +336,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun draftVersionStatistics(): Optional<RuleStats> =
+        fun draftVersionStatistics(): Optional<ReportStats> =
             draftVersionStatistics.getOptional("draft_version_statistics")
 
         /**
@@ -347,7 +347,7 @@ private constructor(
          */
         @JsonProperty("current_version_statistics")
         @ExcludeMissing
-        fun _currentVersionStatistics(): JsonField<RuleStats> = currentVersionStatistics
+        fun _currentVersionStatistics(): JsonField<ReportStats> = currentVersionStatistics
 
         /**
          * Returns the raw JSON value of [date].
@@ -364,7 +364,7 @@ private constructor(
          */
         @JsonProperty("draft_version_statistics")
         @ExcludeMissing
-        fun _draftVersionStatistics(): JsonField<RuleStats> = draftVersionStatistics
+        fun _draftVersionStatistics(): JsonField<ReportStats> = draftVersionStatistics
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -396,9 +396,9 @@ private constructor(
         /** A builder for [DailyStatistic]. */
         class Builder internal constructor() {
 
-            private var currentVersionStatistics: JsonField<RuleStats>? = null
+            private var currentVersionStatistics: JsonField<ReportStats>? = null
             private var date: JsonField<LocalDate>? = null
-            private var draftVersionStatistics: JsonField<RuleStats>? = null
+            private var draftVersionStatistics: JsonField<ReportStats>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -410,24 +410,24 @@ private constructor(
             }
 
             /** Detailed statistics for the current version of the rule. */
-            fun currentVersionStatistics(currentVersionStatistics: RuleStats?) =
+            fun currentVersionStatistics(currentVersionStatistics: ReportStats?) =
                 currentVersionStatistics(JsonField.ofNullable(currentVersionStatistics))
 
             /**
              * Alias for calling [Builder.currentVersionStatistics] with
              * `currentVersionStatistics.orElse(null)`.
              */
-            fun currentVersionStatistics(currentVersionStatistics: Optional<RuleStats>) =
+            fun currentVersionStatistics(currentVersionStatistics: Optional<ReportStats>) =
                 currentVersionStatistics(currentVersionStatistics.getOrNull())
 
             /**
              * Sets [Builder.currentVersionStatistics] to an arbitrary JSON value.
              *
              * You should usually call [Builder.currentVersionStatistics] with a well-typed
-             * [RuleStats] value instead. This method is primarily for setting the field to an
+             * [ReportStats] value instead. This method is primarily for setting the field to an
              * undocumented or not yet supported value.
              */
-            fun currentVersionStatistics(currentVersionStatistics: JsonField<RuleStats>) = apply {
+            fun currentVersionStatistics(currentVersionStatistics: JsonField<ReportStats>) = apply {
                 this.currentVersionStatistics = currentVersionStatistics
             }
 
@@ -444,24 +444,24 @@ private constructor(
             fun date(date: JsonField<LocalDate>) = apply { this.date = date }
 
             /** Detailed statistics for the draft version of the rule. */
-            fun draftVersionStatistics(draftVersionStatistics: RuleStats?) =
+            fun draftVersionStatistics(draftVersionStatistics: ReportStats?) =
                 draftVersionStatistics(JsonField.ofNullable(draftVersionStatistics))
 
             /**
              * Alias for calling [Builder.draftVersionStatistics] with
              * `draftVersionStatistics.orElse(null)`.
              */
-            fun draftVersionStatistics(draftVersionStatistics: Optional<RuleStats>) =
+            fun draftVersionStatistics(draftVersionStatistics: Optional<ReportStats>) =
                 draftVersionStatistics(draftVersionStatistics.getOrNull())
 
             /**
              * Sets [Builder.draftVersionStatistics] to an arbitrary JSON value.
              *
              * You should usually call [Builder.draftVersionStatistics] with a well-typed
-             * [RuleStats] value instead. This method is primarily for setting the field to an
+             * [ReportStats] value instead. This method is primarily for setting the field to an
              * undocumented or not yet supported value.
              */
-            fun draftVersionStatistics(draftVersionStatistics: JsonField<RuleStats>) = apply {
+            fun draftVersionStatistics(draftVersionStatistics: JsonField<ReportStats>) = apply {
                 this.draftVersionStatistics = draftVersionStatistics
             }
 

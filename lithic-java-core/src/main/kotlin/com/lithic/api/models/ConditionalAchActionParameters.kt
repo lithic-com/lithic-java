@@ -131,8 +131,9 @@ private constructor(
          */
         fun action(action: JsonField<Action>) = apply { this.action = action }
 
-        /** Alias for calling [action] with `Action.ofApprove(approve)`. */
-        fun action(approve: Action.ApproveAction) = action(Action.ofApprove(approve))
+        /** Alias for calling [action] with `Action.ofApproveActionAch(approveActionAch)`. */
+        fun action(approveActionAch: Action.ApproveActionAch) =
+            action(Action.ofApproveActionAch(approveActionAch))
 
         /** Alias for calling [action] with `Action.ofReturnAction(returnAction)`. */
         fun action(returnAction: Action.ReturnAction) = action(Action.ofReturnAction(returnAction))
@@ -237,20 +238,20 @@ private constructor(
     @JsonSerialize(using = Action.Serializer::class)
     class Action
     private constructor(
-        private val approve: ApproveAction? = null,
+        private val approveActionAch: ApproveActionAch? = null,
         private val returnAction: ReturnAction? = null,
         private val _json: JsonValue? = null,
     ) {
 
-        fun approve(): Optional<ApproveAction> = Optional.ofNullable(approve)
+        fun approveActionAch(): Optional<ApproveActionAch> = Optional.ofNullable(approveActionAch)
 
         fun returnAction(): Optional<ReturnAction> = Optional.ofNullable(returnAction)
 
-        fun isApprove(): Boolean = approve != null
+        fun isApproveActionAch(): Boolean = approveActionAch != null
 
         fun isReturnAction(): Boolean = returnAction != null
 
-        fun asApprove(): ApproveAction = approve.getOrThrow("approve")
+        fun asApproveActionAch(): ApproveActionAch = approveActionAch.getOrThrow("approveActionAch")
 
         fun asReturnAction(): ReturnAction = returnAction.getOrThrow("returnAction")
 
@@ -258,7 +259,7 @@ private constructor(
 
         fun <T> accept(visitor: Visitor<T>): T =
             when {
-                approve != null -> visitor.visitApprove(approve)
+                approveActionAch != null -> visitor.visitApproveActionAch(approveActionAch)
                 returnAction != null -> visitor.visitReturnAction(returnAction)
                 else -> visitor.unknown(_json)
             }
@@ -272,8 +273,8 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitApprove(approve: ApproveAction) {
-                        approve.validate()
+                    override fun visitApproveActionAch(approveActionAch: ApproveActionAch) {
+                        approveActionAch.validate()
                     }
 
                     override fun visitReturnAction(returnAction: ReturnAction) {
@@ -302,7 +303,8 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
-                    override fun visitApprove(approve: ApproveAction) = approve.validity()
+                    override fun visitApproveActionAch(approveActionAch: ApproveActionAch) =
+                        approveActionAch.validity()
 
                     override fun visitReturnAction(returnAction: ReturnAction) =
                         returnAction.validity()
@@ -316,14 +318,16 @@ private constructor(
                 return true
             }
 
-            return other is Action && approve == other.approve && returnAction == other.returnAction
+            return other is Action &&
+                approveActionAch == other.approveActionAch &&
+                returnAction == other.returnAction
         }
 
-        override fun hashCode(): Int = Objects.hash(approve, returnAction)
+        override fun hashCode(): Int = Objects.hash(approveActionAch, returnAction)
 
         override fun toString(): String =
             when {
-                approve != null -> "Action{approve=$approve}"
+                approveActionAch != null -> "Action{approveActionAch=$approveActionAch}"
                 returnAction != null -> "Action{returnAction=$returnAction}"
                 _json != null -> "Action{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Action")
@@ -331,7 +335,9 @@ private constructor(
 
         companion object {
 
-            @JvmStatic fun ofApprove(approve: ApproveAction) = Action(approve = approve)
+            @JvmStatic
+            fun ofApproveActionAch(approveActionAch: ApproveActionAch) =
+                Action(approveActionAch = approveActionAch)
 
             @JvmStatic
             fun ofReturnAction(returnAction: ReturnAction) = Action(returnAction = returnAction)
@@ -340,7 +346,7 @@ private constructor(
         /** An interface that defines how to map each variant of [Action] to a value of type [T]. */
         interface Visitor<out T> {
 
-            fun visitApprove(approve: ApproveAction): T
+            fun visitApproveActionAch(approveActionAch: ApproveActionAch): T
 
             fun visitReturnAction(returnAction: ReturnAction): T
 
@@ -366,8 +372,8 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<ApproveAction>())?.let {
-                                Action(approve = it, _json = json)
+                            tryDeserialize(node, jacksonTypeRef<ApproveActionAch>())?.let {
+                                Action(approveActionAch = it, _json = json)
                             },
                             tryDeserialize(node, jacksonTypeRef<ReturnAction>())?.let {
                                 Action(returnAction = it, _json = json)
@@ -397,7 +403,7 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
-                    value.approve != null -> generator.writeObject(value.approve)
+                    value.approveActionAch != null -> generator.writeObject(value.approveActionAch)
                     value.returnAction != null -> generator.writeObject(value.returnAction)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Action")
@@ -405,7 +411,7 @@ private constructor(
             }
         }
 
-        class ApproveAction
+        class ApproveActionAch
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val type: JsonField<Type>,
@@ -448,7 +454,7 @@ private constructor(
             companion object {
 
                 /**
-                 * Returns a mutable builder for constructing an instance of [ApproveAction].
+                 * Returns a mutable builder for constructing an instance of [ApproveActionAch].
                  *
                  * The following fields are required:
                  * ```java
@@ -458,16 +464,16 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [ApproveAction]. */
+            /** A builder for [ApproveActionAch]. */
             class Builder internal constructor() {
 
                 private var type: JsonField<Type>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(approveAction: ApproveAction) = apply {
-                    type = approveAction.type
-                    additionalProperties = approveAction.additionalProperties.toMutableMap()
+                internal fun from(approveActionAch: ApproveActionAch) = apply {
+                    type = approveActionAch.type
+                    additionalProperties = approveActionAch.additionalProperties.toMutableMap()
                 }
 
                 /** Approve the ACH transaction */
@@ -505,7 +511,7 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [ApproveAction].
+                 * Returns an immutable instance of [ApproveActionAch].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  *
@@ -516,13 +522,16 @@ private constructor(
                  *
                  * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): ApproveAction =
-                    ApproveAction(checkRequired("type", type), additionalProperties.toMutableMap())
+                fun build(): ApproveActionAch =
+                    ApproveActionAch(
+                        checkRequired("type", type),
+                        additionalProperties.toMutableMap(),
+                    )
             }
 
             private var validated: Boolean = false
 
-            fun validate(): ApproveAction = apply {
+            fun validate(): ApproveActionAch = apply {
                 if (validated) {
                     return@apply
                 }
@@ -678,7 +687,7 @@ private constructor(
                     return true
                 }
 
-                return other is ApproveAction &&
+                return other is ApproveActionAch &&
                     type == other.type &&
                     additionalProperties == other.additionalProperties
             }
@@ -688,7 +697,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "ApproveAction{type=$type, additionalProperties=$additionalProperties}"
+                "ApproveActionAch{type=$type, additionalProperties=$additionalProperties}"
         }
 
         class ReturnAction

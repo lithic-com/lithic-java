@@ -1661,14 +1661,13 @@ internal class ParsedWebhookEventTest {
                 .results(
                     BacktestResults.Results.builder()
                         .currentVersion(
-                            RuleStats.builder()
+                            BacktestStats.builder()
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    RuleStats.Example.builder()
-                                        .approved(true)
-                                        .decision(RuleStats.Example.Decision.APPROVED)
+                                    BacktestStats.Example.builder()
+                                        .decision(BacktestStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
@@ -1677,14 +1676,13 @@ internal class ParsedWebhookEventTest {
                                 .build()
                         )
                         .draftVersion(
-                            RuleStats.builder()
+                            BacktestStats.builder()
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    RuleStats.Example.builder()
-                                        .approved(true)
-                                        .decision(RuleStats.Example.Decision.APPROVED)
+                                    BacktestStats.Example.builder()
+                                        .decision(BacktestStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
@@ -1783,14 +1781,13 @@ internal class ParsedWebhookEventTest {
                     .results(
                         BacktestResults.Results.builder()
                             .currentVersion(
-                                RuleStats.builder()
+                                BacktestStats.builder()
                                     .approved(0L)
                                     .challenged(0L)
                                     .declined(0L)
                                     .addExample(
-                                        RuleStats.Example.builder()
-                                            .approved(true)
-                                            .decision(RuleStats.Example.Decision.APPROVED)
+                                        BacktestStats.Example.builder()
+                                            .decision(BacktestStats.Example.Decision.APPROVED)
                                             .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                             .timestamp(
                                                 OffsetDateTime.parse("2019-12-27T18:11:19.117Z")
@@ -1801,14 +1798,13 @@ internal class ParsedWebhookEventTest {
                                     .build()
                             )
                             .draftVersion(
-                                RuleStats.builder()
+                                BacktestStats.builder()
                                     .approved(0L)
                                     .challenged(0L)
                                     .declined(0L)
                                     .addExample(
-                                        RuleStats.Example.builder()
-                                            .approved(true)
-                                            .decision(RuleStats.Example.Decision.APPROVED)
+                                        BacktestStats.Example.builder()
+                                            .decision(BacktestStats.Example.Decision.APPROVED)
                                             .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                             .timestamp(
                                                 OffsetDateTime.parse("2019-12-27T18:11:19.117Z")

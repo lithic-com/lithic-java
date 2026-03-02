@@ -14,8 +14,8 @@ internal class ConditionalAchActionParametersTest {
         val conditionalAchActionParameters =
             ConditionalAchActionParameters.builder()
                 .action(
-                    ConditionalAchActionParameters.Action.ApproveAction.builder()
-                        .type(ConditionalAchActionParameters.Action.ApproveAction.Type.APPROVE)
+                    ConditionalAchActionParameters.Action.ApproveActionAch.builder()
+                        .type(ConditionalAchActionParameters.Action.ApproveActionAch.Type.APPROVE)
                         .build()
                 )
                 .addCondition(
@@ -29,9 +29,9 @@ internal class ConditionalAchActionParametersTest {
 
         assertThat(conditionalAchActionParameters.action())
             .isEqualTo(
-                ConditionalAchActionParameters.Action.ofApprove(
-                    ConditionalAchActionParameters.Action.ApproveAction.builder()
-                        .type(ConditionalAchActionParameters.Action.ApproveAction.Type.APPROVE)
+                ConditionalAchActionParameters.Action.ofApproveActionAch(
+                    ConditionalAchActionParameters.Action.ApproveActionAch.builder()
+                        .type(ConditionalAchActionParameters.Action.ApproveActionAch.Type.APPROVE)
                         .build()
                 )
             )
@@ -51,8 +51,8 @@ internal class ConditionalAchActionParametersTest {
         val conditionalAchActionParameters =
             ConditionalAchActionParameters.builder()
                 .action(
-                    ConditionalAchActionParameters.Action.ApproveAction.builder()
-                        .type(ConditionalAchActionParameters.Action.ApproveAction.Type.APPROVE)
+                    ConditionalAchActionParameters.Action.ApproveActionAch.builder()
+                        .type(ConditionalAchActionParameters.Action.ApproveActionAch.Type.APPROVE)
                         .build()
                 )
                 .addCondition(

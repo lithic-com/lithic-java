@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.LocalDate
 import java.time.OffsetDateTime
@@ -20,36 +21,78 @@ internal class V2RetrieveReportResponseTest {
                 .addDailyStatistic(
                     V2RetrieveReportResponse.DailyStatistic.builder()
                         .currentVersionStatistics(
-                            RuleStats.builder()
+                            ReportStats.builder()
+                                .actionCounts(
+                                    ReportStats.ActionCounts.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from(0))
+                                        .build()
+                                )
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    RuleStats.Example.builder()
+                                    ReportStats.Example.builder()
+                                        .addAction(
+                                            ReportStats.Example.Action.DeclineActionAuthorization
+                                                .builder()
+                                                .code(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .DetailedResult
+                                                        .APPROVED
+                                                )
+                                                .type(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .Type
+                                                        .DECLINE
+                                                )
+                                                .build()
+                                        )
                                         .approved(true)
-                                        .decision(RuleStats.Example.Decision.APPROVED)
+                                        .decision(ReportStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
                                 )
-                                .version(0L)
                                 .build()
                         )
                         .date(LocalDate.parse("2019-12-27"))
                         .draftVersionStatistics(
-                            RuleStats.builder()
+                            ReportStats.builder()
+                                .actionCounts(
+                                    ReportStats.ActionCounts.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from(0))
+                                        .build()
+                                )
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    RuleStats.Example.builder()
+                                    ReportStats.Example.builder()
+                                        .addAction(
+                                            ReportStats.Example.Action.DeclineActionAuthorization
+                                                .builder()
+                                                .code(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .DetailedResult
+                                                        .APPROVED
+                                                )
+                                                .type(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .Type
+                                                        .DECLINE
+                                                )
+                                                .build()
+                                        )
                                         .approved(true)
-                                        .decision(RuleStats.Example.Decision.APPROVED)
+                                        .decision(ReportStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
                                 )
-                                .version(0L)
                                 .build()
                         )
                         .build()
@@ -64,36 +107,78 @@ internal class V2RetrieveReportResponseTest {
             .containsExactly(
                 V2RetrieveReportResponse.DailyStatistic.builder()
                     .currentVersionStatistics(
-                        RuleStats.builder()
+                        ReportStats.builder()
+                            .actionCounts(
+                                ReportStats.ActionCounts.builder()
+                                    .putAdditionalProperty("foo", JsonValue.from(0))
+                                    .build()
+                            )
                             .approved(0L)
                             .challenged(0L)
                             .declined(0L)
                             .addExample(
-                                RuleStats.Example.builder()
+                                ReportStats.Example.builder()
+                                    .addAction(
+                                        ReportStats.Example.Action.DeclineActionAuthorization
+                                            .builder()
+                                            .code(
+                                                ReportStats.Example.Action
+                                                    .DeclineActionAuthorization
+                                                    .DetailedResult
+                                                    .APPROVED
+                                            )
+                                            .type(
+                                                ReportStats.Example.Action
+                                                    .DeclineActionAuthorization
+                                                    .Type
+                                                    .DECLINE
+                                            )
+                                            .build()
+                                    )
                                     .approved(true)
-                                    .decision(RuleStats.Example.Decision.APPROVED)
+                                    .decision(ReportStats.Example.Decision.APPROVED)
                                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                     .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                     .build()
                             )
-                            .version(0L)
                             .build()
                     )
                     .date(LocalDate.parse("2019-12-27"))
                     .draftVersionStatistics(
-                        RuleStats.builder()
+                        ReportStats.builder()
+                            .actionCounts(
+                                ReportStats.ActionCounts.builder()
+                                    .putAdditionalProperty("foo", JsonValue.from(0))
+                                    .build()
+                            )
                             .approved(0L)
                             .challenged(0L)
                             .declined(0L)
                             .addExample(
-                                RuleStats.Example.builder()
+                                ReportStats.Example.builder()
+                                    .addAction(
+                                        ReportStats.Example.Action.DeclineActionAuthorization
+                                            .builder()
+                                            .code(
+                                                ReportStats.Example.Action
+                                                    .DeclineActionAuthorization
+                                                    .DetailedResult
+                                                    .APPROVED
+                                            )
+                                            .type(
+                                                ReportStats.Example.Action
+                                                    .DeclineActionAuthorization
+                                                    .Type
+                                                    .DECLINE
+                                            )
+                                            .build()
+                                    )
                                     .approved(true)
-                                    .decision(RuleStats.Example.Decision.APPROVED)
+                                    .decision(ReportStats.Example.Decision.APPROVED)
                                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                     .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                     .build()
                             )
-                            .version(0L)
                             .build()
                     )
                     .build()
@@ -111,36 +196,78 @@ internal class V2RetrieveReportResponseTest {
                 .addDailyStatistic(
                     V2RetrieveReportResponse.DailyStatistic.builder()
                         .currentVersionStatistics(
-                            RuleStats.builder()
+                            ReportStats.builder()
+                                .actionCounts(
+                                    ReportStats.ActionCounts.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from(0))
+                                        .build()
+                                )
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    RuleStats.Example.builder()
+                                    ReportStats.Example.builder()
+                                        .addAction(
+                                            ReportStats.Example.Action.DeclineActionAuthorization
+                                                .builder()
+                                                .code(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .DetailedResult
+                                                        .APPROVED
+                                                )
+                                                .type(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .Type
+                                                        .DECLINE
+                                                )
+                                                .build()
+                                        )
                                         .approved(true)
-                                        .decision(RuleStats.Example.Decision.APPROVED)
+                                        .decision(ReportStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
                                 )
-                                .version(0L)
                                 .build()
                         )
                         .date(LocalDate.parse("2019-12-27"))
                         .draftVersionStatistics(
-                            RuleStats.builder()
+                            ReportStats.builder()
+                                .actionCounts(
+                                    ReportStats.ActionCounts.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from(0))
+                                        .build()
+                                )
                                 .approved(0L)
                                 .challenged(0L)
                                 .declined(0L)
                                 .addExample(
-                                    RuleStats.Example.builder()
+                                    ReportStats.Example.builder()
+                                        .addAction(
+                                            ReportStats.Example.Action.DeclineActionAuthorization
+                                                .builder()
+                                                .code(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .DetailedResult
+                                                        .APPROVED
+                                                )
+                                                .type(
+                                                    ReportStats.Example.Action
+                                                        .DeclineActionAuthorization
+                                                        .Type
+                                                        .DECLINE
+                                                )
+                                                .build()
+                                        )
                                         .approved(true)
-                                        .decision(RuleStats.Example.Decision.APPROVED)
+                                        .decision(ReportStats.Example.Decision.APPROVED)
                                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
                                 )
-                                .version(0L)
                                 .build()
                         )
                         .build()
