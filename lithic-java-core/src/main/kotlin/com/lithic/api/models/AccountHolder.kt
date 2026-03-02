@@ -27,7 +27,6 @@ private constructor(
     private val token: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
     private val accountToken: JsonField<String>,
-    private val beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>>,
     private val beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>>,
     private val businessAccountToken: JsonField<String>,
     private val businessEntity: JsonField<AccountHolderBusinessResponse>,
@@ -57,9 +56,6 @@ private constructor(
         @JsonProperty("account_token")
         @ExcludeMissing
         accountToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("beneficial_owner_entities")
-        @ExcludeMissing
-        beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>> = JsonMissing.of(),
         @JsonProperty("beneficial_owner_individuals")
         @ExcludeMissing
         beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>> =
@@ -108,7 +104,6 @@ private constructor(
         token,
         created,
         accountToken,
-        beneficialOwnerEntities,
         beneficialOwnerIndividuals,
         businessAccountToken,
         businessEntity,
@@ -152,16 +147,6 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
-
-    /**
-     * Deprecated.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    @Deprecated("deprecated")
-    fun beneficialOwnerEntities(): Optional<List<AccountHolderBusinessResponse>> =
-        beneficialOwnerEntities.getOptional("beneficial_owner_entities")
 
     /**
      * Only present when user_type == "BUSINESS". You must submit a list of all direct and indirect
@@ -360,18 +345,6 @@ private constructor(
     fun _accountToken(): JsonField<String> = accountToken
 
     /**
-     * Returns the raw JSON value of [beneficialOwnerEntities].
-     *
-     * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
-     * unexpected type.
-     */
-    @Deprecated("deprecated")
-    @JsonProperty("beneficial_owner_entities")
-    @ExcludeMissing
-    fun _beneficialOwnerEntities(): JsonField<List<AccountHolderBusinessResponse>> =
-        beneficialOwnerEntities
-
-    /**
      * Returns the raw JSON value of [beneficialOwnerIndividuals].
      *
      * Unlike [beneficialOwnerIndividuals], this method doesn't throw if the JSON field has an
@@ -551,9 +524,6 @@ private constructor(
         private var token: JsonField<String>? = null
         private var created: JsonField<OffsetDateTime>? = null
         private var accountToken: JsonField<String> = JsonMissing.of()
-        private var beneficialOwnerEntities:
-            JsonField<MutableList<AccountHolderBusinessResponse>>? =
-            null
         private var beneficialOwnerIndividuals:
             JsonField<MutableList<AccountHolderIndividualResponse>>? =
             null
@@ -581,8 +551,6 @@ private constructor(
             token = accountHolder.token
             created = accountHolder.created
             accountToken = accountHolder.accountToken
-            beneficialOwnerEntities =
-                accountHolder.beneficialOwnerEntities.map { it.toMutableList() }
             beneficialOwnerIndividuals =
                 accountHolder.beneficialOwnerIndividuals.map { it.toMutableList() }
             businessAccountToken = accountHolder.businessAccountToken
@@ -639,38 +607,6 @@ private constructor(
          */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
-        }
-
-        /** Deprecated. */
-        @Deprecated("deprecated")
-        fun beneficialOwnerEntities(beneficialOwnerEntities: List<AccountHolderBusinessResponse>) =
-            beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
-
-        /**
-         * Sets [Builder.beneficialOwnerEntities] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.beneficialOwnerEntities] with a well-typed
-         * `List<AccountHolderBusinessResponse>` value instead. This method is primarily for setting
-         * the field to an undocumented or not yet supported value.
-         */
-        @Deprecated("deprecated")
-        fun beneficialOwnerEntities(
-            beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>>
-        ) = apply {
-            this.beneficialOwnerEntities = beneficialOwnerEntities.map { it.toMutableList() }
-        }
-
-        /**
-         * Adds a single [AccountHolderBusinessResponse] to [beneficialOwnerEntities].
-         *
-         * @throws IllegalStateException if the field was previously set to a non-list.
-         */
-        @Deprecated("deprecated")
-        fun addBeneficialOwnerEntity(beneficialOwnerEntity: AccountHolderBusinessResponse) = apply {
-            beneficialOwnerEntities =
-                (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).also {
-                    checkKnown("beneficialOwnerEntities", it).add(beneficialOwnerEntity)
-                }
         }
 
         /**
@@ -1040,7 +976,6 @@ private constructor(
                 checkRequired("token", token),
                 checkRequired("created", created),
                 accountToken,
-                (beneficialOwnerEntities ?: JsonMissing.of()).map { it.toImmutable() },
                 (beneficialOwnerIndividuals ?: JsonMissing.of()).map { it.toImmutable() },
                 businessAccountToken,
                 businessEntity,
@@ -1072,7 +1007,6 @@ private constructor(
         token()
         created()
         accountToken()
-        beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
         beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
         businessAccountToken()
         businessEntity().ifPresent { it.validate() }
@@ -1111,7 +1045,6 @@ private constructor(
         (if (token.asKnown().isPresent) 1 else 0) +
             (if (created.asKnown().isPresent) 1 else 0) +
             (if (accountToken.asKnown().isPresent) 1 else 0) +
-            (beneficialOwnerEntities.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (beneficialOwnerIndividuals.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
                 ?: 0) +
             (if (businessAccountToken.asKnown().isPresent) 1 else 0) +
@@ -1131,6 +1064,427 @@ private constructor(
             (verificationApplication.asKnown().getOrNull()?.validity() ?: 0) +
             (if (websiteUrl.asKnown().isPresent) 1 else 0)
 
+    /**
+     * Information about an individual associated with an account holder. A subset of the
+     * information provided via KYC. For example, we do not return the government id.
+     */
+    class AccountHolderIndividualResponse
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val address: JsonField<Address>,
+        private val dob: JsonField<String>,
+        private val email: JsonField<String>,
+        private val entityToken: JsonField<String>,
+        private val firstName: JsonField<String>,
+        private val lastName: JsonField<String>,
+        private val phoneNumber: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
+            @JsonProperty("dob") @ExcludeMissing dob: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("entity_token")
+            @ExcludeMissing
+            entityToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("first_name")
+            @ExcludeMissing
+            firstName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("last_name")
+            @ExcludeMissing
+            lastName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone_number")
+            @ExcludeMissing
+            phoneNumber: JsonField<String> = JsonMissing.of(),
+        ) : this(address, dob, email, entityToken, firstName, lastName, phoneNumber, mutableMapOf())
+
+        /**
+         * Individual's current address
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun address(): Address = address.getRequired("address")
+
+        /**
+         * Individual's date of birth, as an RFC 3339 date.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun dob(): String = dob.getRequired("dob")
+
+        /**
+         * Individual's email address.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun email(): String = email.getRequired("email")
+
+        /**
+         * Globally unique identifier for the entity.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun entityToken(): String = entityToken.getRequired("entity_token")
+
+        /**
+         * Individual's first name, as it appears on government-issued identity documents.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun firstName(): String = firstName.getRequired("first_name")
+
+        /**
+         * Individual's last name, as it appears on government-issued identity documents.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun lastName(): String = lastName.getRequired("last_name")
+
+        /**
+         * Individual's phone number, entered in E.164 format.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
+
+        /**
+         * Returns the raw JSON value of [address].
+         *
+         * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
+
+        /**
+         * Returns the raw JSON value of [dob].
+         *
+         * Unlike [dob], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<String> = dob
+
+        /**
+         * Returns the raw JSON value of [email].
+         *
+         * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
+
+        /**
+         * Returns the raw JSON value of [entityToken].
+         *
+         * Unlike [entityToken], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("entity_token")
+        @ExcludeMissing
+        fun _entityToken(): JsonField<String> = entityToken
+
+        /**
+         * Returns the raw JSON value of [firstName].
+         *
+         * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
+
+        /**
+         * Returns the raw JSON value of [lastName].
+         *
+         * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
+
+        /**
+         * Returns the raw JSON value of [phoneNumber].
+         *
+         * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        fun _phoneNumber(): JsonField<String> = phoneNumber
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [AccountHolderIndividualResponse].
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .dob()
+             * .email()
+             * .entityToken()
+             * .firstName()
+             * .lastName()
+             * .phoneNumber()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [AccountHolderIndividualResponse]. */
+        class Builder internal constructor() {
+
+            private var address: JsonField<Address>? = null
+            private var dob: JsonField<String>? = null
+            private var email: JsonField<String>? = null
+            private var entityToken: JsonField<String>? = null
+            private var firstName: JsonField<String>? = null
+            private var lastName: JsonField<String>? = null
+            private var phoneNumber: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(accountHolderIndividualResponse: AccountHolderIndividualResponse) =
+                apply {
+                    address = accountHolderIndividualResponse.address
+                    dob = accountHolderIndividualResponse.dob
+                    email = accountHolderIndividualResponse.email
+                    entityToken = accountHolderIndividualResponse.entityToken
+                    firstName = accountHolderIndividualResponse.firstName
+                    lastName = accountHolderIndividualResponse.lastName
+                    phoneNumber = accountHolderIndividualResponse.phoneNumber
+                    additionalProperties =
+                        accountHolderIndividualResponse.additionalProperties.toMutableMap()
+                }
+
+            /** Individual's current address */
+            fun address(address: Address) = address(JsonField.of(address))
+
+            /**
+             * Sets [Builder.address] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.address] with a well-typed [Address] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun address(address: JsonField<Address>) = apply { this.address = address }
+
+            /** Individual's date of birth, as an RFC 3339 date. */
+            fun dob(dob: String) = dob(JsonField.of(dob))
+
+            /**
+             * Sets [Builder.dob] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.dob] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun dob(dob: JsonField<String>) = apply { this.dob = dob }
+
+            /** Individual's email address. */
+            fun email(email: String) = email(JsonField.of(email))
+
+            /**
+             * Sets [Builder.email] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.email] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun email(email: JsonField<String>) = apply { this.email = email }
+
+            /** Globally unique identifier for the entity. */
+            fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
+
+            /**
+             * Sets [Builder.entityToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.entityToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun entityToken(entityToken: JsonField<String>) = apply {
+                this.entityToken = entityToken
+            }
+
+            /** Individual's first name, as it appears on government-issued identity documents. */
+            fun firstName(firstName: String) = firstName(JsonField.of(firstName))
+
+            /**
+             * Sets [Builder.firstName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.firstName] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
+
+            /** Individual's last name, as it appears on government-issued identity documents. */
+            fun lastName(lastName: String) = lastName(JsonField.of(lastName))
+
+            /**
+             * Sets [Builder.lastName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lastName] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
+
+            /** Individual's phone number, entered in E.164 format. */
+            fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
+
+            /**
+             * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.phoneNumber] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+                this.phoneNumber = phoneNumber
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [AccountHolderIndividualResponse].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .address()
+             * .dob()
+             * .email()
+             * .entityToken()
+             * .firstName()
+             * .lastName()
+             * .phoneNumber()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): AccountHolderIndividualResponse =
+                AccountHolderIndividualResponse(
+                    checkRequired("address", address),
+                    checkRequired("dob", dob),
+                    checkRequired("email", email),
+                    checkRequired("entityToken", entityToken),
+                    checkRequired("firstName", firstName),
+                    checkRequired("lastName", lastName),
+                    checkRequired("phoneNumber", phoneNumber),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountHolderIndividualResponse = apply {
+            if (validated) {
+                return@apply
+            }
+
+            address().validate()
+            dob()
+            email()
+            entityToken()
+            firstName()
+            lastName()
+            phoneNumber()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (address.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (dob.asKnown().isPresent) 1 else 0) +
+                (if (email.asKnown().isPresent) 1 else 0) +
+                (if (entityToken.asKnown().isPresent) 1 else 0) +
+                (if (firstName.asKnown().isPresent) 1 else 0) +
+                (if (lastName.asKnown().isPresent) 1 else 0) +
+                (if (phoneNumber.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolderIndividualResponse &&
+                address == other.address &&
+                dob == other.dob &&
+                email == other.email &&
+                entityToken == other.entityToken &&
+                firstName == other.firstName &&
+                lastName == other.lastName &&
+                phoneNumber == other.phoneNumber &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                address,
+                dob,
+                email,
+                entityToken,
+                firstName,
+                lastName,
+                phoneNumber,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "AccountHolderIndividualResponse{address=$address, dob=$dob, email=$email, entityToken=$entityToken, firstName=$firstName, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * Only present when user_type == "BUSINESS". Information about the business for which the
+     * account is being opened and KYB is being run.
+     */
     class AccountHolderBusinessResponse
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
@@ -1601,423 +1955,6 @@ private constructor(
 
         override fun toString() =
             "AccountHolderBusinessResponse{address=$address, dbaBusinessName=$dbaBusinessName, entityToken=$entityToken, governmentId=$governmentId, legalBusinessName=$legalBusinessName, phoneNumbers=$phoneNumbers, parentCompany=$parentCompany, additionalProperties=$additionalProperties}"
-    }
-
-    /**
-     * Information about an individual associated with an account holder. A subset of the
-     * information provided via KYC. For example, we do not return the government id.
-     */
-    class AccountHolderIndividualResponse
-    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-    private constructor(
-        private val address: JsonField<Address>,
-        private val dob: JsonField<String>,
-        private val email: JsonField<String>,
-        private val entityToken: JsonField<String>,
-        private val firstName: JsonField<String>,
-        private val lastName: JsonField<String>,
-        private val phoneNumber: JsonField<String>,
-        private val additionalProperties: MutableMap<String, JsonValue>,
-    ) {
-
-        @JsonCreator
-        private constructor(
-            @JsonProperty("address") @ExcludeMissing address: JsonField<Address> = JsonMissing.of(),
-            @JsonProperty("dob") @ExcludeMissing dob: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("entity_token")
-            @ExcludeMissing
-            entityToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("first_name")
-            @ExcludeMissing
-            firstName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("last_name")
-            @ExcludeMissing
-            lastName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("phone_number")
-            @ExcludeMissing
-            phoneNumber: JsonField<String> = JsonMissing.of(),
-        ) : this(address, dob, email, entityToken, firstName, lastName, phoneNumber, mutableMapOf())
-
-        /**
-         * Individual's current address
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun address(): Address = address.getRequired("address")
-
-        /**
-         * Individual's date of birth, as an RFC 3339 date.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun dob(): String = dob.getRequired("dob")
-
-        /**
-         * Individual's email address.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun email(): String = email.getRequired("email")
-
-        /**
-         * Globally unique identifier for the entity.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun entityToken(): String = entityToken.getRequired("entity_token")
-
-        /**
-         * Individual's first name, as it appears on government-issued identity documents.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun firstName(): String = firstName.getRequired("first_name")
-
-        /**
-         * Individual's last name, as it appears on government-issued identity documents.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun lastName(): String = lastName.getRequired("last_name")
-
-        /**
-         * Individual's phone number, entered in E.164 format.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
-
-        /**
-         * Returns the raw JSON value of [address].
-         *
-         * Unlike [address], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
-
-        /**
-         * Returns the raw JSON value of [dob].
-         *
-         * Unlike [dob], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<String> = dob
-
-        /**
-         * Returns the raw JSON value of [email].
-         *
-         * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
-
-        /**
-         * Returns the raw JSON value of [entityToken].
-         *
-         * Unlike [entityToken], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("entity_token")
-        @ExcludeMissing
-        fun _entityToken(): JsonField<String> = entityToken
-
-        /**
-         * Returns the raw JSON value of [firstName].
-         *
-         * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
-
-        /**
-         * Returns the raw JSON value of [lastName].
-         *
-         * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
-
-        /**
-         * Returns the raw JSON value of [phoneNumber].
-         *
-         * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("phone_number")
-        @ExcludeMissing
-        fun _phoneNumber(): JsonField<String> = phoneNumber
-
-        @JsonAnySetter
-        private fun putAdditionalProperty(key: String, value: JsonValue) {
-            additionalProperties.put(key, value)
-        }
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> =
-            Collections.unmodifiableMap(additionalProperties)
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of
-             * [AccountHolderIndividualResponse].
-             *
-             * The following fields are required:
-             * ```java
-             * .address()
-             * .dob()
-             * .email()
-             * .entityToken()
-             * .firstName()
-             * .lastName()
-             * .phoneNumber()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [AccountHolderIndividualResponse]. */
-        class Builder internal constructor() {
-
-            private var address: JsonField<Address>? = null
-            private var dob: JsonField<String>? = null
-            private var email: JsonField<String>? = null
-            private var entityToken: JsonField<String>? = null
-            private var firstName: JsonField<String>? = null
-            private var lastName: JsonField<String>? = null
-            private var phoneNumber: JsonField<String>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(accountHolderIndividualResponse: AccountHolderIndividualResponse) =
-                apply {
-                    address = accountHolderIndividualResponse.address
-                    dob = accountHolderIndividualResponse.dob
-                    email = accountHolderIndividualResponse.email
-                    entityToken = accountHolderIndividualResponse.entityToken
-                    firstName = accountHolderIndividualResponse.firstName
-                    lastName = accountHolderIndividualResponse.lastName
-                    phoneNumber = accountHolderIndividualResponse.phoneNumber
-                    additionalProperties =
-                        accountHolderIndividualResponse.additionalProperties.toMutableMap()
-                }
-
-            /** Individual's current address */
-            fun address(address: Address) = address(JsonField.of(address))
-
-            /**
-             * Sets [Builder.address] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.address] with a well-typed [Address] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun address(address: JsonField<Address>) = apply { this.address = address }
-
-            /** Individual's date of birth, as an RFC 3339 date. */
-            fun dob(dob: String) = dob(JsonField.of(dob))
-
-            /**
-             * Sets [Builder.dob] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.dob] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun dob(dob: JsonField<String>) = apply { this.dob = dob }
-
-            /** Individual's email address. */
-            fun email(email: String) = email(JsonField.of(email))
-
-            /**
-             * Sets [Builder.email] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.email] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun email(email: JsonField<String>) = apply { this.email = email }
-
-            /** Globally unique identifier for the entity. */
-            fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
-
-            /**
-             * Sets [Builder.entityToken] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.entityToken] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun entityToken(entityToken: JsonField<String>) = apply {
-                this.entityToken = entityToken
-            }
-
-            /** Individual's first name, as it appears on government-issued identity documents. */
-            fun firstName(firstName: String) = firstName(JsonField.of(firstName))
-
-            /**
-             * Sets [Builder.firstName] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.firstName] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
-
-            /** Individual's last name, as it appears on government-issued identity documents. */
-            fun lastName(lastName: String) = lastName(JsonField.of(lastName))
-
-            /**
-             * Sets [Builder.lastName] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.lastName] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
-
-            /** Individual's phone number, entered in E.164 format. */
-            fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
-
-            /**
-             * Sets [Builder.phoneNumber] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.phoneNumber] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun phoneNumber(phoneNumber: JsonField<String>) = apply {
-                this.phoneNumber = phoneNumber
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [AccountHolderIndividualResponse].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .address()
-             * .dob()
-             * .email()
-             * .entityToken()
-             * .firstName()
-             * .lastName()
-             * .phoneNumber()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): AccountHolderIndividualResponse =
-                AccountHolderIndividualResponse(
-                    checkRequired("address", address),
-                    checkRequired("dob", dob),
-                    checkRequired("email", email),
-                    checkRequired("entityToken", entityToken),
-                    checkRequired("firstName", firstName),
-                    checkRequired("lastName", lastName),
-                    checkRequired("phoneNumber", phoneNumber),
-                    additionalProperties.toMutableMap(),
-                )
-        }
-
-        private var validated: Boolean = false
-
-        fun validate(): AccountHolderIndividualResponse = apply {
-            if (validated) {
-                return@apply
-            }
-
-            address().validate()
-            dob()
-            email()
-            entityToken()
-            firstName()
-            lastName()
-            phoneNumber()
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: LithicInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic
-        internal fun validity(): Int =
-            (address.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (dob.asKnown().isPresent) 1 else 0) +
-                (if (email.asKnown().isPresent) 1 else 0) +
-                (if (entityToken.asKnown().isPresent) 1 else 0) +
-                (if (firstName.asKnown().isPresent) 1 else 0) +
-                (if (lastName.asKnown().isPresent) 1 else 0) +
-                (if (phoneNumber.asKnown().isPresent) 1 else 0)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolderIndividualResponse &&
-                address == other.address &&
-                dob == other.dob &&
-                email == other.email &&
-                entityToken == other.entityToken &&
-                firstName == other.firstName &&
-                lastName == other.lastName &&
-                phoneNumber == other.phoneNumber &&
-                additionalProperties == other.additionalProperties
-        }
-
-        private val hashCode: Int by lazy {
-            Objects.hash(
-                address,
-                dob,
-                email,
-                entityToken,
-                firstName,
-                lastName,
-                phoneNumber,
-                additionalProperties,
-            )
-        }
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "AccountHolderIndividualResponse{address=$address, dob=$dob, email=$email, entityToken=$entityToken, firstName=$firstName, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
     /** The type of KYC exemption for a KYC-Exempt Account Holder. */
@@ -3256,7 +3193,6 @@ private constructor(
             token == other.token &&
             created == other.created &&
             accountToken == other.accountToken &&
-            beneficialOwnerEntities == other.beneficialOwnerEntities &&
             beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
             businessAccountToken == other.businessAccountToken &&
             businessEntity == other.businessEntity &&
@@ -3282,7 +3218,6 @@ private constructor(
             token,
             created,
             accountToken,
-            beneficialOwnerEntities,
             beneficialOwnerIndividuals,
             businessAccountToken,
             businessEntity,
@@ -3307,5 +3242,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AccountHolder{token=$token, created=$created, accountToken=$accountToken, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, naicsCode=$naicsCode, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, requiredDocuments=$requiredDocuments, status=$status, statusReasons=$statusReasons, userType=$userType, verificationApplication=$verificationApplication, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
+        "AccountHolder{token=$token, created=$created, accountToken=$accountToken, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, naicsCode=$naicsCode, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, requiredDocuments=$requiredDocuments, status=$status, statusReasons=$statusReasons, userType=$userType, verificationApplication=$verificationApplication, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 }

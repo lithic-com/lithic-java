@@ -21,25 +21,6 @@ internal class AccountHolderUpdateResponseTest {
             AccountHolderUpdateResponse.KybKycPatchResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .addBeneficialOwnerEntity(
-                    KybBusinessEntity.builder()
-                        .address(
-                            KybBusinessEntity.Address.builder()
-                                .address1("123 Old Forest Way")
-                                .city("Omaha")
-                                .country("USA")
-                                .postalCode("68022")
-                                .state("NE")
-                                .address2("address2")
-                                .build()
-                        )
-                        .governmentId("114-123-1513")
-                        .legalBusinessName("Acme, Inc.")
-                        .addPhoneNumber("+15555555555")
-                        .dbaBusinessName("dba_business_name")
-                        .parentCompany("parent_company")
-                        .build()
-                )
                 .addBeneficialOwnerIndividual(
                     AccountHolderUpdateResponse.KybKycPatchResponse.Individual.builder()
                         .address(
@@ -180,25 +161,6 @@ internal class AccountHolderUpdateResponseTest {
                 AccountHolderUpdateResponse.KybKycPatchResponse.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addBeneficialOwnerEntity(
-                        KybBusinessEntity.builder()
-                            .address(
-                                KybBusinessEntity.Address.builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .governmentId("114-123-1513")
-                            .legalBusinessName("Acme, Inc.")
-                            .addPhoneNumber("+15555555555")
-                            .dbaBusinessName("dba_business_name")
-                            .parentCompany("parent_company")
-                            .build()
-                    )
                     .addBeneficialOwnerIndividual(
                         AccountHolderUpdateResponse.KybKycPatchResponse.Individual.builder()
                             .address(

@@ -22,10 +22,10 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Create a new beneficial owner or replace the control person entity on an existing KYB account
- * holder. This endpoint is only applicable for account holders enrolled through a KYB workflow with
- * the Persona KYB provider. A new control person can only replace the existing one. A maximum of 4
- * beneficial owners can be associated with an account holder.
+ * Create a new beneficial owner individual or replace the control person entity on an existing KYB
+ * account holder. This endpoint is only applicable for account holders enrolled through a KYB
+ * workflow with the Persona KYB provider. A new control person can only replace the existing one. A
+ * maximum of 4 beneficial owners can be associated with an account holder.
  */
 class AccountHolderEntityCreateParams
 private constructor(
