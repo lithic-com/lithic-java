@@ -23,6 +23,11 @@ internal class PaymentCreateParamsTest {
             )
             .type(PaymentCreateParams.Type.COLLECTION)
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .hold(
+                PaymentCreateParams.Hold.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
             .memo("memo")
             .userDefinedId("user_defined_id")
             .build()
@@ -45,6 +50,11 @@ internal class PaymentCreateParamsTest {
                 )
                 .type(PaymentCreateParams.Type.COLLECTION)
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .hold(
+                    PaymentCreateParams.Hold.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
                 .memo("memo")
                 .userDefinedId("user_defined_id")
                 .build()
@@ -66,6 +76,12 @@ internal class PaymentCreateParamsTest {
             )
         assertThat(body.type()).isEqualTo(PaymentCreateParams.Type.COLLECTION)
         assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.hold())
+            .contains(
+                PaymentCreateParams.Hold.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
         assertThat(body.memo()).contains("memo")
         assertThat(body.userDefinedId()).contains("user_defined_id")
     }

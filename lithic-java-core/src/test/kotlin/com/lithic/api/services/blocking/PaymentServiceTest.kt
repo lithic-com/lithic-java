@@ -42,6 +42,11 @@ internal class PaymentServiceTest {
                     )
                     .type(PaymentCreateParams.Type.COLLECTION)
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .hold(
+                        PaymentCreateParams.Hold.builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
                     .memo("memo")
                     .userDefinedId("user_defined_id")
                     .build()
