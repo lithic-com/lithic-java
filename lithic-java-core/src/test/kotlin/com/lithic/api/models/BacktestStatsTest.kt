@@ -9,19 +9,18 @@ import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class RuleStatsTest {
+internal class BacktestStatsTest {
 
     @Test
     fun create() {
-        val ruleStats =
-            RuleStats.builder()
+        val backtestStats =
+            BacktestStats.builder()
                 .approved(0L)
                 .challenged(0L)
                 .declined(0L)
                 .addExample(
-                    RuleStats.Example.builder()
-                        .approved(true)
-                        .decision(RuleStats.Example.Decision.APPROVED)
+                    BacktestStats.Example.builder()
+                        .decision(BacktestStats.Example.Decision.APPROVED)
                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
@@ -29,33 +28,31 @@ internal class RuleStatsTest {
                 .version(0L)
                 .build()
 
-        assertThat(ruleStats.approved()).contains(0L)
-        assertThat(ruleStats.challenged()).contains(0L)
-        assertThat(ruleStats.declined()).contains(0L)
-        assertThat(ruleStats.examples().getOrNull())
+        assertThat(backtestStats.approved()).contains(0L)
+        assertThat(backtestStats.challenged()).contains(0L)
+        assertThat(backtestStats.declined()).contains(0L)
+        assertThat(backtestStats.examples().getOrNull())
             .containsExactly(
-                RuleStats.Example.builder()
-                    .approved(true)
-                    .decision(RuleStats.Example.Decision.APPROVED)
+                BacktestStats.Example.builder()
+                    .decision(BacktestStats.Example.Decision.APPROVED)
                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
-        assertThat(ruleStats.version()).contains(0L)
+        assertThat(backtestStats.version()).contains(0L)
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val ruleStats =
-            RuleStats.builder()
+        val backtestStats =
+            BacktestStats.builder()
                 .approved(0L)
                 .challenged(0L)
                 .declined(0L)
                 .addExample(
-                    RuleStats.Example.builder()
-                        .approved(true)
-                        .decision(RuleStats.Example.Decision.APPROVED)
+                    BacktestStats.Example.builder()
+                        .decision(BacktestStats.Example.Decision.APPROVED)
                         .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
@@ -63,12 +60,12 @@ internal class RuleStatsTest {
                 .version(0L)
                 .build()
 
-        val roundtrippedRuleStats =
+        val roundtrippedBacktestStats =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(ruleStats),
-                jacksonTypeRef<RuleStats>(),
+                jsonMapper.writeValueAsString(backtestStats),
+                jacksonTypeRef<BacktestStats>(),
             )
 
-        assertThat(roundtrippedRuleStats).isEqualTo(ruleStats)
+        assertThat(roundtrippedBacktestStats).isEqualTo(backtestStats)
     }
 }

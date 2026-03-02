@@ -134,8 +134,12 @@ private constructor(
          */
         fun action(action: JsonField<Action>) = apply { this.action = action }
 
-        /** Alias for calling [action] with `Action.ofDecline(decline)`. */
-        fun action(decline: Action.DeclineAction) = action(Action.ofDecline(decline))
+        /**
+         * Alias for calling [action] with
+         * `Action.ofDeclineActionTokenization(declineActionTokenization)`.
+         */
+        fun action(declineActionTokenization: Action.DeclineActionTokenization) =
+            action(Action.ofDeclineActionTokenization(declineActionTokenization))
 
         /** Alias for calling [action] with `Action.ofRequireTfa(requireTfa)`. */
         fun action(requireTfa: Action.RequireTfaAction) = action(Action.ofRequireTfa(requireTfa))
@@ -240,20 +244,22 @@ private constructor(
     @JsonSerialize(using = Action.Serializer::class)
     class Action
     private constructor(
-        private val decline: DeclineAction? = null,
+        private val declineActionTokenization: DeclineActionTokenization? = null,
         private val requireTfa: RequireTfaAction? = null,
         private val _json: JsonValue? = null,
     ) {
 
-        fun decline(): Optional<DeclineAction> = Optional.ofNullable(decline)
+        fun declineActionTokenization(): Optional<DeclineActionTokenization> =
+            Optional.ofNullable(declineActionTokenization)
 
         fun requireTfa(): Optional<RequireTfaAction> = Optional.ofNullable(requireTfa)
 
-        fun isDecline(): Boolean = decline != null
+        fun isDeclineActionTokenization(): Boolean = declineActionTokenization != null
 
         fun isRequireTfa(): Boolean = requireTfa != null
 
-        fun asDecline(): DeclineAction = decline.getOrThrow("decline")
+        fun asDeclineActionTokenization(): DeclineActionTokenization =
+            declineActionTokenization.getOrThrow("declineActionTokenization")
 
         fun asRequireTfa(): RequireTfaAction = requireTfa.getOrThrow("requireTfa")
 
@@ -261,7 +267,8 @@ private constructor(
 
         fun <T> accept(visitor: Visitor<T>): T =
             when {
-                decline != null -> visitor.visitDecline(decline)
+                declineActionTokenization != null ->
+                    visitor.visitDeclineActionTokenization(declineActionTokenization)
                 requireTfa != null -> visitor.visitRequireTfa(requireTfa)
                 else -> visitor.unknown(_json)
             }
@@ -275,8 +282,10 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitDecline(decline: DeclineAction) {
-                        decline.validate()
+                    override fun visitDeclineActionTokenization(
+                        declineActionTokenization: DeclineActionTokenization
+                    ) {
+                        declineActionTokenization.validate()
                     }
 
                     override fun visitRequireTfa(requireTfa: RequireTfaAction) {
@@ -305,7 +314,9 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
-                    override fun visitDecline(decline: DeclineAction) = decline.validity()
+                    override fun visitDeclineActionTokenization(
+                        declineActionTokenization: DeclineActionTokenization
+                    ) = declineActionTokenization.validity()
 
                     override fun visitRequireTfa(requireTfa: RequireTfaAction) =
                         requireTfa.validity()
@@ -319,14 +330,17 @@ private constructor(
                 return true
             }
 
-            return other is Action && decline == other.decline && requireTfa == other.requireTfa
+            return other is Action &&
+                declineActionTokenization == other.declineActionTokenization &&
+                requireTfa == other.requireTfa
         }
 
-        override fun hashCode(): Int = Objects.hash(decline, requireTfa)
+        override fun hashCode(): Int = Objects.hash(declineActionTokenization, requireTfa)
 
         override fun toString(): String =
             when {
-                decline != null -> "Action{decline=$decline}"
+                declineActionTokenization != null ->
+                    "Action{declineActionTokenization=$declineActionTokenization}"
                 requireTfa != null -> "Action{requireTfa=$requireTfa}"
                 _json != null -> "Action{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Action")
@@ -334,7 +348,9 @@ private constructor(
 
         companion object {
 
-            @JvmStatic fun ofDecline(decline: DeclineAction) = Action(decline = decline)
+            @JvmStatic
+            fun ofDeclineActionTokenization(declineActionTokenization: DeclineActionTokenization) =
+                Action(declineActionTokenization = declineActionTokenization)
 
             @JvmStatic
             fun ofRequireTfa(requireTfa: RequireTfaAction) = Action(requireTfa = requireTfa)
@@ -343,7 +359,9 @@ private constructor(
         /** An interface that defines how to map each variant of [Action] to a value of type [T]. */
         interface Visitor<out T> {
 
-            fun visitDecline(decline: DeclineAction): T
+            fun visitDeclineActionTokenization(
+                declineActionTokenization: DeclineActionTokenization
+            ): T
 
             fun visitRequireTfa(requireTfa: RequireTfaAction): T
 
@@ -369,8 +387,8 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<DeclineAction>())?.let {
-                                Action(decline = it, _json = json)
+                            tryDeserialize(node, jacksonTypeRef<DeclineActionTokenization>())?.let {
+                                Action(declineActionTokenization = it, _json = json)
                             },
                             tryDeserialize(node, jacksonTypeRef<RequireTfaAction>())?.let {
                                 Action(requireTfa = it, _json = json)
@@ -400,7 +418,8 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
-                    value.decline != null -> generator.writeObject(value.decline)
+                    value.declineActionTokenization != null ->
+                        generator.writeObject(value.declineActionTokenization)
                     value.requireTfa != null -> generator.writeObject(value.requireTfa)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Action")
@@ -408,7 +427,7 @@ private constructor(
             }
         }
 
-        class DeclineAction
+        class DeclineActionTokenization
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val type: JsonField<Type>,
@@ -468,7 +487,8 @@ private constructor(
             companion object {
 
                 /**
-                 * Returns a mutable builder for constructing an instance of [DeclineAction].
+                 * Returns a mutable builder for constructing an instance of
+                 * [DeclineActionTokenization].
                  *
                  * The following fields are required:
                  * ```java
@@ -478,7 +498,7 @@ private constructor(
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [DeclineAction]. */
+            /** A builder for [DeclineActionTokenization]. */
             class Builder internal constructor() {
 
                 private var type: JsonField<Type>? = null
@@ -486,10 +506,11 @@ private constructor(
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(declineAction: DeclineAction) = apply {
-                    type = declineAction.type
-                    reason = declineAction.reason
-                    additionalProperties = declineAction.additionalProperties.toMutableMap()
+                internal fun from(declineActionTokenization: DeclineActionTokenization) = apply {
+                    type = declineActionTokenization.type
+                    reason = declineActionTokenization.reason
+                    additionalProperties =
+                        declineActionTokenization.additionalProperties.toMutableMap()
                 }
 
                 /** Decline the tokenization request */
@@ -539,7 +560,7 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [DeclineAction].
+                 * Returns an immutable instance of [DeclineActionTokenization].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  *
@@ -550,8 +571,8 @@ private constructor(
                  *
                  * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): DeclineAction =
-                    DeclineAction(
+                fun build(): DeclineActionTokenization =
+                    DeclineActionTokenization(
                         checkRequired("type", type),
                         reason,
                         additionalProperties.toMutableMap(),
@@ -560,7 +581,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): DeclineAction = apply {
+            fun validate(): DeclineActionTokenization = apply {
                 if (validated) {
                     return@apply
                 }
@@ -922,7 +943,7 @@ private constructor(
                     return true
                 }
 
-                return other is DeclineAction &&
+                return other is DeclineActionTokenization &&
                     type == other.type &&
                     reason == other.reason &&
                     additionalProperties == other.additionalProperties
@@ -933,7 +954,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "DeclineAction{type=$type, reason=$reason, additionalProperties=$additionalProperties}"
+                "DeclineActionTokenization{type=$type, reason=$reason, additionalProperties=$additionalProperties}"
         }
 
         class RequireTfaAction

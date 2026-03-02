@@ -14,13 +14,16 @@ internal class ConditionalTokenizationActionParametersTest {
         val conditionalTokenizationActionParameters =
             ConditionalTokenizationActionParameters.builder()
                 .action(
-                    ConditionalTokenizationActionParameters.Action.DeclineAction.builder()
+                    ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                        .builder()
                         .type(
-                            ConditionalTokenizationActionParameters.Action.DeclineAction.Type
+                            ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                                .Type
                                 .DECLINE
                         )
                         .reason(
-                            ConditionalTokenizationActionParameters.Action.DeclineAction.Reason
+                            ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                                .Reason
                                 .ACCOUNT_SCORE_1
                         )
                         .build()
@@ -38,14 +41,17 @@ internal class ConditionalTokenizationActionParametersTest {
 
         assertThat(conditionalTokenizationActionParameters.action())
             .isEqualTo(
-                ConditionalTokenizationActionParameters.Action.ofDecline(
-                    ConditionalTokenizationActionParameters.Action.DeclineAction.builder()
+                ConditionalTokenizationActionParameters.Action.ofDeclineActionTokenization(
+                    ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                        .builder()
                         .type(
-                            ConditionalTokenizationActionParameters.Action.DeclineAction.Type
+                            ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                                .Type
                                 .DECLINE
                         )
                         .reason(
-                            ConditionalTokenizationActionParameters.Action.DeclineAction.Reason
+                            ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                                .Reason
                                 .ACCOUNT_SCORE_1
                         )
                         .build()
@@ -69,13 +75,16 @@ internal class ConditionalTokenizationActionParametersTest {
         val conditionalTokenizationActionParameters =
             ConditionalTokenizationActionParameters.builder()
                 .action(
-                    ConditionalTokenizationActionParameters.Action.DeclineAction.builder()
+                    ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                        .builder()
                         .type(
-                            ConditionalTokenizationActionParameters.Action.DeclineAction.Type
+                            ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                                .Type
                                 .DECLINE
                         )
                         .reason(
-                            ConditionalTokenizationActionParameters.Action.DeclineAction.Reason
+                            ConditionalTokenizationActionParameters.Action.DeclineActionTokenization
+                                .Reason
                                 .ACCOUNT_SCORE_1
                         )
                         .build()

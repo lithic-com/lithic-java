@@ -18,10 +18,19 @@ internal class AuthRuleV2ListResultsPageResponseTest {
                     V2ListResultsResponse.AuthorizationResult.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addAction(
-                            V2ListResultsResponse.AuthorizationResult.Action.builder()
+                            V2ListResultsResponse.AuthorizationResult.Action
+                                .DeclineActionAuthorization
+                                .builder()
+                                .code(
+                                    V2ListResultsResponse.AuthorizationResult.Action
+                                        .DeclineActionAuthorization
+                                        .DetailedResult
+                                        .APPROVED
+                                )
                                 .type(
                                     V2ListResultsResponse.AuthorizationResult.Action
-                                        .AuthorizationAction
+                                        .DeclineActionAuthorization
+                                        .Type
                                         .DECLINE
                                 )
                                 .explanation("explanation")
@@ -46,10 +55,19 @@ internal class AuthRuleV2ListResultsPageResponseTest {
                     V2ListResultsResponse.AuthorizationResult.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addAction(
-                            V2ListResultsResponse.AuthorizationResult.Action.builder()
+                            V2ListResultsResponse.AuthorizationResult.Action
+                                .DeclineActionAuthorization
+                                .builder()
+                                .code(
+                                    V2ListResultsResponse.AuthorizationResult.Action
+                                        .DeclineActionAuthorization
+                                        .DetailedResult
+                                        .APPROVED
+                                )
                                 .type(
                                     V2ListResultsResponse.AuthorizationResult.Action
-                                        .AuthorizationAction
+                                        .DeclineActionAuthorization
+                                        .Type
                                         .DECLINE
                                 )
                                 .explanation("explanation")
@@ -78,10 +96,19 @@ internal class AuthRuleV2ListResultsPageResponseTest {
                     V2ListResultsResponse.AuthorizationResult.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addAction(
-                            V2ListResultsResponse.AuthorizationResult.Action.builder()
+                            V2ListResultsResponse.AuthorizationResult.Action
+                                .DeclineActionAuthorization
+                                .builder()
+                                .code(
+                                    V2ListResultsResponse.AuthorizationResult.Action
+                                        .DeclineActionAuthorization
+                                        .DetailedResult
+                                        .APPROVED
+                                )
                                 .type(
                                     V2ListResultsResponse.AuthorizationResult.Action
-                                        .AuthorizationAction
+                                        .DeclineActionAuthorization
+                                        .Type
                                         .DECLINE
                                 )
                                 .explanation("explanation")
