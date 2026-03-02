@@ -13,27 +13,6 @@ internal class AccountHolderUpdateParamsTest {
             .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .body(
                 AccountHolderUpdateParams.Body.KybPatchRequest.builder()
-                    .addBeneficialOwnerEntity(
-                        AccountHolderUpdateParams.Body.KybPatchRequest.KybBusinessEntityPatch
-                            .builder()
-                            .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .address(
-                                AddressUpdate.builder()
-                                    .address1("123 Old Forest Way")
-                                    .address2("address2")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .build()
-                            )
-                            .dbaBusinessName("dba_business_name")
-                            .governmentId("114-123-1513")
-                            .legalBusinessName("Acme, Inc.")
-                            .parentCompany("parent_company")
-                            .addPhoneNumber("+15555555555")
-                            .build()
-                    )
                     .addBeneficialOwnerIndividual(
                         AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch.builder()
                             .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -128,27 +107,6 @@ internal class AccountHolderUpdateParamsTest {
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .body(
                     AccountHolderUpdateParams.Body.KybPatchRequest.builder()
-                        .addBeneficialOwnerEntity(
-                            AccountHolderUpdateParams.Body.KybPatchRequest.KybBusinessEntityPatch
-                                .builder()
-                                .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                .address(
-                                    AddressUpdate.builder()
-                                        .address1("123 Old Forest Way")
-                                        .address2("address2")
-                                        .city("Omaha")
-                                        .country("USA")
-                                        .postalCode("68022")
-                                        .state("NE")
-                                        .build()
-                                )
-                                .dbaBusinessName("dba_business_name")
-                                .governmentId("114-123-1513")
-                                .legalBusinessName("Acme, Inc.")
-                                .parentCompany("parent_company")
-                                .addPhoneNumber("+15555555555")
-                                .build()
-                        )
                         .addBeneficialOwnerIndividual(
                             AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch.builder()
                                 .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -228,27 +186,6 @@ internal class AccountHolderUpdateParamsTest {
             .isEqualTo(
                 AccountHolderUpdateParams.Body.ofKybPatchRequest(
                     AccountHolderUpdateParams.Body.KybPatchRequest.builder()
-                        .addBeneficialOwnerEntity(
-                            AccountHolderUpdateParams.Body.KybPatchRequest.KybBusinessEntityPatch
-                                .builder()
-                                .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                .address(
-                                    AddressUpdate.builder()
-                                        .address1("123 Old Forest Way")
-                                        .address2("address2")
-                                        .city("Omaha")
-                                        .country("USA")
-                                        .postalCode("68022")
-                                        .state("NE")
-                                        .build()
-                                )
-                                .dbaBusinessName("dba_business_name")
-                                .governmentId("114-123-1513")
-                                .legalBusinessName("Acme, Inc.")
-                                .parentCompany("parent_company")
-                                .addPhoneNumber("+15555555555")
-                                .build()
-                        )
                         .addBeneficialOwnerIndividual(
                             AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch.builder()
                                 .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

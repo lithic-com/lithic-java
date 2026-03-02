@@ -26,7 +26,6 @@ class AccountHolderSimulateEnrollmentReviewResponse
 private constructor(
     private val token: JsonField<String>,
     private val accountToken: JsonField<String>,
-    private val beneficialOwnerEntities: JsonField<List<KybBusinessEntity>>,
     private val beneficialOwnerIndividuals: JsonField<List<Individual>>,
     private val businessAccountToken: JsonField<String>,
     private val businessEntity: JsonField<KybBusinessEntity>,
@@ -54,9 +53,6 @@ private constructor(
         @JsonProperty("account_token")
         @ExcludeMissing
         accountToken: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("beneficial_owner_entities")
-        @ExcludeMissing
-        beneficialOwnerEntities: JsonField<List<KybBusinessEntity>> = JsonMissing.of(),
         @JsonProperty("beneficial_owner_individuals")
         @ExcludeMissing
         beneficialOwnerIndividuals: JsonField<List<Individual>> = JsonMissing.of(),
@@ -106,7 +102,6 @@ private constructor(
     ) : this(
         token,
         accountToken,
-        beneficialOwnerEntities,
         beneficialOwnerIndividuals,
         businessAccountToken,
         businessEntity,
@@ -143,15 +138,6 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
-
-    /**
-     * Deprecated.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun beneficialOwnerEntities(): Optional<List<KybBusinessEntity>> =
-        beneficialOwnerEntities.getOptional("beneficial_owner_entities")
 
     /**
      * Only present when user_type == "BUSINESS". You must submit a list of all direct and indirect
@@ -352,16 +338,6 @@ private constructor(
     fun _accountToken(): JsonField<String> = accountToken
 
     /**
-     * Returns the raw JSON value of [beneficialOwnerEntities].
-     *
-     * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
-     * unexpected type.
-     */
-    @JsonProperty("beneficial_owner_entities")
-    @ExcludeMissing
-    fun _beneficialOwnerEntities(): JsonField<List<KybBusinessEntity>> = beneficialOwnerEntities
-
-    /**
      * Returns the raw JSON value of [beneficialOwnerIndividuals].
      *
      * Unlike [beneficialOwnerIndividuals], this method doesn't throw if the JSON field has an
@@ -540,7 +516,6 @@ private constructor(
 
         private var token: JsonField<String> = JsonMissing.of()
         private var accountToken: JsonField<String> = JsonMissing.of()
-        private var beneficialOwnerEntities: JsonField<MutableList<KybBusinessEntity>>? = null
         private var beneficialOwnerIndividuals: JsonField<MutableList<Individual>>? = null
         private var businessAccountToken: JsonField<String> = JsonMissing.of()
         private var businessEntity: JsonField<KybBusinessEntity> = JsonMissing.of()
@@ -568,10 +543,6 @@ private constructor(
         ) = apply {
             token = accountHolderSimulateEnrollmentReviewResponse.token
             accountToken = accountHolderSimulateEnrollmentReviewResponse.accountToken
-            beneficialOwnerEntities =
-                accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerEntities.map {
-                    it.toMutableList()
-                }
             beneficialOwnerIndividuals =
                 accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerIndividuals.map {
                     it.toMutableList()
@@ -628,34 +599,6 @@ private constructor(
          */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
-        }
-
-        /** Deprecated. */
-        fun beneficialOwnerEntities(beneficialOwnerEntities: List<KybBusinessEntity>) =
-            beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
-
-        /**
-         * Sets [Builder.beneficialOwnerEntities] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.beneficialOwnerEntities] with a well-typed
-         * `List<KybBusinessEntity>` value instead. This method is primarily for setting the field
-         * to an undocumented or not yet supported value.
-         */
-        fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<KybBusinessEntity>>) =
-            apply {
-                this.beneficialOwnerEntities = beneficialOwnerEntities.map { it.toMutableList() }
-            }
-
-        /**
-         * Adds a single [KybBusinessEntity] to [beneficialOwnerEntities].
-         *
-         * @throws IllegalStateException if the field was previously set to a non-list.
-         */
-        fun addBeneficialOwnerEntity(beneficialOwnerEntity: KybBusinessEntity) = apply {
-            beneficialOwnerEntities =
-                (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).also {
-                    checkKnown("beneficialOwnerEntities", it).add(beneficialOwnerEntity)
-                }
         }
 
         /**
@@ -1035,7 +978,6 @@ private constructor(
             AccountHolderSimulateEnrollmentReviewResponse(
                 token,
                 accountToken,
-                (beneficialOwnerEntities ?: JsonMissing.of()).map { it.toImmutable() },
                 (beneficialOwnerIndividuals ?: JsonMissing.of()).map { it.toImmutable() },
                 businessAccountToken,
                 businessEntity,
@@ -1067,7 +1009,6 @@ private constructor(
 
         token()
         accountToken()
-        beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
         beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
         businessAccountToken()
         businessEntity().ifPresent { it.validate() }
@@ -1106,7 +1047,6 @@ private constructor(
     internal fun validity(): Int =
         (if (token.asKnown().isPresent) 1 else 0) +
             (if (accountToken.asKnown().isPresent) 1 else 0) +
-            (beneficialOwnerEntities.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (beneficialOwnerIndividuals.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
                 ?: 0) +
             (if (businessAccountToken.asKnown().isPresent) 1 else 0) +
@@ -3473,7 +3413,6 @@ private constructor(
         return other is AccountHolderSimulateEnrollmentReviewResponse &&
             token == other.token &&
             accountToken == other.accountToken &&
-            beneficialOwnerEntities == other.beneficialOwnerEntities &&
             beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
             businessAccountToken == other.businessAccountToken &&
             businessEntity == other.businessEntity &&
@@ -3499,7 +3438,6 @@ private constructor(
         Objects.hash(
             token,
             accountToken,
-            beneficialOwnerEntities,
             beneficialOwnerIndividuals,
             businessAccountToken,
             businessEntity,
@@ -3525,5 +3463,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AccountHolderSimulateEnrollmentReviewResponse{token=$token, accountToken=$accountToken, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, created=$created, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, naicsCode=$naicsCode, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, requiredDocuments=$requiredDocuments, status=$status, statusReasons=$statusReasons, userType=$userType, verificationApplication=$verificationApplication, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
+        "AccountHolderSimulateEnrollmentReviewResponse{token=$token, accountToken=$accountToken, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, created=$created, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, naicsCode=$naicsCode, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, requiredDocuments=$requiredDocuments, status=$status, statusReasons=$statusReasons, userType=$userType, verificationApplication=$verificationApplication, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 }

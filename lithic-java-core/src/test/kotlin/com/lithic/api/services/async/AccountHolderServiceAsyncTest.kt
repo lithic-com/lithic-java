@@ -94,25 +94,6 @@ internal class AccountHolderServiceAsyncTest {
                     )
                     .tosTimestamp("2022-03-08T08:00:00Z")
                     .workflow(Kyb.Workflow.KYB_BYO)
-                    .addBeneficialOwnerEntity(
-                        Kyb.BusinessEntity.builder()
-                            .address(
-                                Address.builder()
-                                    .address1("300 Normal Forest Way")
-                                    .city("Portland")
-                                    .country("USA")
-                                    .postalCode("90210")
-                                    .state("OR")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .governmentId("98-7654321")
-                            .legalBusinessName("Majority Holdings LLC")
-                            .addPhoneNumber("+15555555555")
-                            .dbaBusinessName("MHoldings")
-                            .parentCompany("parent_company")
-                            .build()
-                    )
                     .externalId("external_id")
                     .kybPassedTimestamp("2022-03-08T08:00:00Z")
                     .naicsCode("541512")
@@ -155,28 +136,6 @@ internal class AccountHolderServiceAsyncTest {
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .body(
                         AccountHolderUpdateParams.Body.KybPatchRequest.builder()
-                            .addBeneficialOwnerEntity(
-                                AccountHolderUpdateParams.Body.KybPatchRequest
-                                    .KybBusinessEntityPatch
-                                    .builder()
-                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                    .address(
-                                        AddressUpdate.builder()
-                                            .address1("123 Old Forest Way")
-                                            .address2("address2")
-                                            .city("Omaha")
-                                            .country("USA")
-                                            .postalCode("68022")
-                                            .state("NE")
-                                            .build()
-                                    )
-                                    .dbaBusinessName("dba_business_name")
-                                    .governmentId("114-123-1513")
-                                    .legalBusinessName("Acme, Inc.")
-                                    .parentCompany("parent_company")
-                                    .addPhoneNumber("+15555555555")
-                                    .build()
-                            )
                             .addBeneficialOwnerIndividual(
                                 AccountHolderUpdateParams.Body.KybPatchRequest.IndividualPatch
                                     .builder()

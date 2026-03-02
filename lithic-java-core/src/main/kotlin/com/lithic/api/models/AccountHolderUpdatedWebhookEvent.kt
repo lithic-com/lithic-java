@@ -657,7 +657,6 @@ private constructor(
         class UpdateRequest
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
-            private val beneficialOwnerEntities: JsonField<List<KybBusinessEntity>>,
             private val beneficialOwnerIndividuals: JsonField<List<Individual>>,
             private val businessEntity: JsonField<KybBusinessEntity>,
             private val controlPerson: JsonField<Individual>,
@@ -666,9 +665,6 @@ private constructor(
 
             @JsonCreator
             private constructor(
-                @JsonProperty("beneficial_owner_entities")
-                @ExcludeMissing
-                beneficialOwnerEntities: JsonField<List<KybBusinessEntity>> = JsonMissing.of(),
                 @JsonProperty("beneficial_owner_individuals")
                 @ExcludeMissing
                 beneficialOwnerIndividuals: JsonField<List<Individual>> = JsonMissing.of(),
@@ -678,23 +674,7 @@ private constructor(
                 @JsonProperty("control_person")
                 @ExcludeMissing
                 controlPerson: JsonField<Individual> = JsonMissing.of(),
-            ) : this(
-                beneficialOwnerEntities,
-                beneficialOwnerIndividuals,
-                businessEntity,
-                controlPerson,
-                mutableMapOf(),
-            )
-
-            /**
-             * Deprecated.
-             *
-             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
-             *   the server responded with an unexpected value).
-             */
-            @Deprecated("deprecated")
-            fun beneficialOwnerEntities(): Optional<List<KybBusinessEntity>> =
-                beneficialOwnerEntities.getOptional("beneficial_owner_entities")
+            ) : this(beneficialOwnerIndividuals, businessEntity, controlPerson, mutableMapOf())
 
             /**
              * You must submit a list of all direct and indirect individuals with 25% or more
@@ -733,18 +713,6 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun controlPerson(): Optional<Individual> = controlPerson.getOptional("control_person")
-
-            /**
-             * Returns the raw JSON value of [beneficialOwnerEntities].
-             *
-             * Unlike [beneficialOwnerEntities], this method doesn't throw if the JSON field has an
-             * unexpected type.
-             */
-            @Deprecated("deprecated")
-            @JsonProperty("beneficial_owner_entities")
-            @ExcludeMissing
-            fun _beneficialOwnerEntities(): JsonField<List<KybBusinessEntity>> =
-                beneficialOwnerEntities
 
             /**
              * Returns the raw JSON value of [beneficialOwnerIndividuals].
@@ -798,8 +766,6 @@ private constructor(
             /** A builder for [UpdateRequest]. */
             class Builder internal constructor() {
 
-                private var beneficialOwnerEntities: JsonField<MutableList<KybBusinessEntity>>? =
-                    null
                 private var beneficialOwnerIndividuals: JsonField<MutableList<Individual>>? = null
                 private var businessEntity: JsonField<KybBusinessEntity> = JsonMissing.of()
                 private var controlPerson: JsonField<Individual> = JsonMissing.of()
@@ -807,46 +773,11 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(updateRequest: UpdateRequest) = apply {
-                    beneficialOwnerEntities =
-                        updateRequest.beneficialOwnerEntities.map { it.toMutableList() }
                     beneficialOwnerIndividuals =
                         updateRequest.beneficialOwnerIndividuals.map { it.toMutableList() }
                     businessEntity = updateRequest.businessEntity
                     controlPerson = updateRequest.controlPerson
                     additionalProperties = updateRequest.additionalProperties.toMutableMap()
-                }
-
-                /** Deprecated. */
-                @Deprecated("deprecated")
-                fun beneficialOwnerEntities(beneficialOwnerEntities: List<KybBusinessEntity>) =
-                    beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
-
-                /**
-                 * Sets [Builder.beneficialOwnerEntities] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.beneficialOwnerEntities] with a well-typed
-                 * `List<KybBusinessEntity>` value instead. This method is primarily for setting the
-                 * field to an undocumented or not yet supported value.
-                 */
-                @Deprecated("deprecated")
-                fun beneficialOwnerEntities(
-                    beneficialOwnerEntities: JsonField<List<KybBusinessEntity>>
-                ) = apply {
-                    this.beneficialOwnerEntities =
-                        beneficialOwnerEntities.map { it.toMutableList() }
-                }
-
-                /**
-                 * Adds a single [KybBusinessEntity] to [beneficialOwnerEntities].
-                 *
-                 * @throws IllegalStateException if the field was previously set to a non-list.
-                 */
-                @Deprecated("deprecated")
-                fun addBeneficialOwnerEntity(beneficialOwnerEntity: KybBusinessEntity) = apply {
-                    beneficialOwnerEntities =
-                        (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).also {
-                            checkKnown("beneficialOwnerEntities", it).add(beneficialOwnerEntity)
-                        }
                 }
 
                 /**
@@ -958,7 +889,6 @@ private constructor(
                  */
                 fun build(): UpdateRequest =
                     UpdateRequest(
-                        (beneficialOwnerEntities ?: JsonMissing.of()).map { it.toImmutable() },
                         (beneficialOwnerIndividuals ?: JsonMissing.of()).map { it.toImmutable() },
                         businessEntity,
                         controlPerson,
@@ -973,7 +903,6 @@ private constructor(
                     return@apply
                 }
 
-                beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
                 beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
                 businessEntity().ifPresent { it.validate() }
                 controlPerson().ifPresent { it.validate() }
@@ -996,11 +925,8 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (beneficialOwnerEntities.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
+                (beneficialOwnerIndividuals.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
                     ?: 0) +
-                    (beneficialOwnerIndividuals.asKnown().getOrNull()?.sumOf {
-                        it.validity().toInt()
-                    } ?: 0) +
                     (businessEntity.asKnown().getOrNull()?.validity() ?: 0) +
                     (controlPerson.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -1860,7 +1786,6 @@ private constructor(
                 }
 
                 return other is UpdateRequest &&
-                    beneficialOwnerEntities == other.beneficialOwnerEntities &&
                     beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
                     businessEntity == other.businessEntity &&
                     controlPerson == other.controlPerson &&
@@ -1869,7 +1794,6 @@ private constructor(
 
             private val hashCode: Int by lazy {
                 Objects.hash(
-                    beneficialOwnerEntities,
                     beneficialOwnerIndividuals,
                     businessEntity,
                     controlPerson,
@@ -1880,7 +1804,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "UpdateRequest{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, additionalProperties=$additionalProperties}"
+                "UpdateRequest{beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, additionalProperties=$additionalProperties}"
         }
 
         /** The type of event that occurred. */

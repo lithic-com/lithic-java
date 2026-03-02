@@ -13,8 +13,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Deactivate a beneficial owner entity on an existing KYB account holder. Only beneficial owner
- * entities can be deactivated.
+ * Deactivate a beneficial owner individual on an existing KYB account holder. Only beneficial owner
+ * individuals can be deactivated.
  */
 class AccountHolderEntityDeleteParams
 private constructor(

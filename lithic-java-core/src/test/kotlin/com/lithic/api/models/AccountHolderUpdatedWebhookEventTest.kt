@@ -22,25 +22,6 @@ internal class AccountHolderUpdatedWebhookEventTest {
                 .token("00000000-0000-0000-0000-000000000001")
                 .updateRequest(
                     AccountHolderUpdatedWebhookEvent.KybPayload.UpdateRequest.builder()
-                        .addBeneficialOwnerEntity(
-                            KybBusinessEntity.builder()
-                                .address(
-                                    KybBusinessEntity.Address.builder()
-                                        .address1("123 Old Forest Way")
-                                        .city("Omaha")
-                                        .country("USA")
-                                        .postalCode("68022")
-                                        .state("NE")
-                                        .address2("address2")
-                                        .build()
-                                )
-                                .governmentId("114-123-1513")
-                                .legalBusinessName("Acme, Inc.")
-                                .addPhoneNumber("+15555555555")
-                                .dbaBusinessName("dba_business_name")
-                                .parentCompany("parent_company")
-                                .build()
-                        )
                         .addBeneficialOwnerIndividual(
                             AccountHolderUpdatedWebhookEvent.KybPayload.UpdateRequest.Individual
                                 .builder()
@@ -136,25 +117,6 @@ internal class AccountHolderUpdatedWebhookEventTest {
                     .token("00000000-0000-0000-0000-000000000001")
                     .updateRequest(
                         AccountHolderUpdatedWebhookEvent.KybPayload.UpdateRequest.builder()
-                            .addBeneficialOwnerEntity(
-                                KybBusinessEntity.builder()
-                                    .address(
-                                        KybBusinessEntity.Address.builder()
-                                            .address1("123 Old Forest Way")
-                                            .city("Omaha")
-                                            .country("USA")
-                                            .postalCode("68022")
-                                            .state("NE")
-                                            .address2("address2")
-                                            .build()
-                                    )
-                                    .governmentId("114-123-1513")
-                                    .legalBusinessName("Acme, Inc.")
-                                    .addPhoneNumber("+15555555555")
-                                    .dbaBusinessName("dba_business_name")
-                                    .parentCompany("parent_company")
-                                    .build()
-                            )
                             .addBeneficialOwnerIndividual(
                                 AccountHolderUpdatedWebhookEvent.KybPayload.UpdateRequest.Individual
                                     .builder()
