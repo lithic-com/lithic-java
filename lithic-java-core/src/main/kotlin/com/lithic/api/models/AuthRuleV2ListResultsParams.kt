@@ -5,6 +5,8 @@ package com.lithic.api.models
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -20,6 +22,8 @@ import kotlin.jvm.optionals.getOrNull
 class AuthRuleV2ListResultsParams
 private constructor(
     private val authRuleToken: String?,
+    private val begin: OffsetDateTime?,
+    private val end: OffsetDateTime?,
     private val endingBefore: String?,
     private val eventToken: String?,
     private val hasActions: Boolean?,
@@ -31,6 +35,18 @@ private constructor(
 
     /** Filter by Auth Rule token */
     fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
+
+    /**
+     * Date string in RFC 3339 format. Only events evaluated after the specified time will be
+     * included. UTC time zone.
+     */
+    fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
+
+    /**
+     * Date string in RFC 3339 format. Only events evaluated before the specified time will be
+     * included. UTC time zone.
+     */
+    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
     /**
      * A cursor representing an item's token before which a page of results should end. Used to
@@ -78,6 +94,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var authRuleToken: String? = null
+        private var begin: OffsetDateTime? = null
+        private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
         private var eventToken: String? = null
         private var hasActions: Boolean? = null
@@ -89,6 +107,8 @@ private constructor(
         @JvmSynthetic
         internal fun from(authRuleV2ListResultsParams: AuthRuleV2ListResultsParams) = apply {
             authRuleToken = authRuleV2ListResultsParams.authRuleToken
+            begin = authRuleV2ListResultsParams.begin
+            end = authRuleV2ListResultsParams.end
             endingBefore = authRuleV2ListResultsParams.endingBefore
             eventToken = authRuleV2ListResultsParams.eventToken
             hasActions = authRuleV2ListResultsParams.hasActions
@@ -104,6 +124,24 @@ private constructor(
         /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
         fun authRuleToken(authRuleToken: Optional<String>) =
             authRuleToken(authRuleToken.getOrNull())
+
+        /**
+         * Date string in RFC 3339 format. Only events evaluated after the specified time will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
+
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
+
+        /**
+         * Date string in RFC 3339 format. Only events evaluated before the specified time will be
+         * included. UTC time zone.
+         */
+        fun end(end: OffsetDateTime?) = apply { this.end = end }
+
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -265,6 +303,8 @@ private constructor(
         fun build(): AuthRuleV2ListResultsParams =
             AuthRuleV2ListResultsParams(
                 authRuleToken,
+                begin,
+                end,
                 endingBefore,
                 eventToken,
                 hasActions,
@@ -281,6 +321,8 @@ private constructor(
         QueryParams.builder()
             .apply {
                 authRuleToken?.let { put("auth_rule_token", it) }
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
                 eventToken?.let { put("event_token", it) }
                 hasActions?.let { put("has_actions", it.toString()) }
@@ -297,6 +339,8 @@ private constructor(
 
         return other is AuthRuleV2ListResultsParams &&
             authRuleToken == other.authRuleToken &&
+            begin == other.begin &&
+            end == other.end &&
             endingBefore == other.endingBefore &&
             eventToken == other.eventToken &&
             hasActions == other.hasActions &&
@@ -309,6 +353,8 @@ private constructor(
     override fun hashCode(): Int =
         Objects.hash(
             authRuleToken,
+            begin,
+            end,
             endingBefore,
             eventToken,
             hasActions,
@@ -319,5 +365,5 @@ private constructor(
         )
 
     override fun toString() =
-        "AuthRuleV2ListResultsParams{authRuleToken=$authRuleToken, endingBefore=$endingBefore, eventToken=$eventToken, hasActions=$hasActions, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AuthRuleV2ListResultsParams{authRuleToken=$authRuleToken, begin=$begin, end=$end, endingBefore=$endingBefore, eventToken=$eventToken, hasActions=$hasActions, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

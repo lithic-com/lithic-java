@@ -20,7 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-class RuleStats
+class BacktestStats
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val approved: JsonField<Long>,
@@ -43,7 +43,7 @@ private constructor(
     ) : this(approved, challenged, declined, examples, version, mutableMapOf())
 
     /**
-     * The total number of historical transactions approved by this rule during the relevant period,
+     * The total number of historical transactions approved by this rule during the backtest period,
      * or the number of transactions that would have been approved if the rule was evaluated in
      * shadow mode.
      *
@@ -53,7 +53,7 @@ private constructor(
     fun approved(): Optional<Long> = approved.getOptional("approved")
 
     /**
-     * The total number of historical transactions challenged by this rule during the relevant
+     * The total number of historical transactions challenged by this rule during the backtest
      * period, or the number of transactions that would have been challenged if the rule was
      * evaluated in shadow mode. Currently applicable only for 3DS Auth Rules.
      *
@@ -63,7 +63,7 @@ private constructor(
     fun challenged(): Optional<Long> = challenged.getOptional("challenged")
 
     /**
-     * The total number of historical transactions declined by this rule during the relevant period,
+     * The total number of historical transactions declined by this rule during the backtest period,
      * or the number of transactions that would have been declined if the rule was evaluated in
      * shadow mode.
      *
@@ -137,11 +137,11 @@ private constructor(
 
     companion object {
 
-        /** Returns a mutable builder for constructing an instance of [RuleStats]. */
+        /** Returns a mutable builder for constructing an instance of [BacktestStats]. */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [RuleStats]. */
+    /** A builder for [BacktestStats]. */
     class Builder internal constructor() {
 
         private var approved: JsonField<Long> = JsonMissing.of()
@@ -152,17 +152,17 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(ruleStats: RuleStats) = apply {
-            approved = ruleStats.approved
-            challenged = ruleStats.challenged
-            declined = ruleStats.declined
-            examples = ruleStats.examples.map { it.toMutableList() }
-            version = ruleStats.version
-            additionalProperties = ruleStats.additionalProperties.toMutableMap()
+        internal fun from(backtestStats: BacktestStats) = apply {
+            approved = backtestStats.approved
+            challenged = backtestStats.challenged
+            declined = backtestStats.declined
+            examples = backtestStats.examples.map { it.toMutableList() }
+            version = backtestStats.version
+            additionalProperties = backtestStats.additionalProperties.toMutableMap()
         }
 
         /**
-         * The total number of historical transactions approved by this rule during the relevant
+         * The total number of historical transactions approved by this rule during the backtest
          * period, or the number of transactions that would have been approved if the rule was
          * evaluated in shadow mode.
          */
@@ -177,7 +177,7 @@ private constructor(
         fun approved(approved: JsonField<Long>) = apply { this.approved = approved }
 
         /**
-         * The total number of historical transactions challenged by this rule during the relevant
+         * The total number of historical transactions challenged by this rule during the backtest
          * period, or the number of transactions that would have been challenged if the rule was
          * evaluated in shadow mode. Currently applicable only for 3DS Auth Rules.
          */
@@ -192,7 +192,7 @@ private constructor(
         fun challenged(challenged: JsonField<Long>) = apply { this.challenged = challenged }
 
         /**
-         * The total number of historical transactions declined by this rule during the relevant
+         * The total number of historical transactions declined by this rule during the backtest
          * period, or the number of transactions that would have been declined if the rule was
          * evaluated in shadow mode.
          */
@@ -263,12 +263,12 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [RuleStats].
+         * Returns an immutable instance of [BacktestStats].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): RuleStats =
-            RuleStats(
+        fun build(): BacktestStats =
+            BacktestStats(
                 approved,
                 challenged,
                 declined,
@@ -280,7 +280,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): RuleStats = apply {
+    fun validate(): BacktestStats = apply {
         if (validated) {
             return@apply
         }
@@ -317,7 +317,6 @@ private constructor(
     class Example
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val approved: JsonField<Boolean>,
         private val decision: JsonField<Decision>,
         private val eventToken: JsonField<String>,
         private val timestamp: JsonField<OffsetDateTime>,
@@ -326,9 +325,6 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("approved")
-            @ExcludeMissing
-            approved: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("decision")
             @ExcludeMissing
             decision: JsonField<Decision> = JsonMissing.of(),
@@ -338,15 +334,7 @@ private constructor(
             @JsonProperty("timestamp")
             @ExcludeMissing
             timestamp: JsonField<OffsetDateTime> = JsonMissing.of(),
-        ) : this(approved, decision, eventToken, timestamp, mutableMapOf())
-
-        /**
-         * Whether the rule would have approved the request.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun approved(): Optional<Boolean> = approved.getOptional("approved")
+        ) : this(decision, eventToken, timestamp, mutableMapOf())
 
         /**
          * The decision made by the rule for this event.
@@ -371,13 +359,6 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun timestamp(): Optional<OffsetDateTime> = timestamp.getOptional("timestamp")
-
-        /**
-         * Returns the raw JSON value of [approved].
-         *
-         * Unlike [approved], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("approved") @ExcludeMissing fun _approved(): JsonField<Boolean> = approved
 
         /**
          * Returns the raw JSON value of [decision].
@@ -425,7 +406,6 @@ private constructor(
         /** A builder for [Example]. */
         class Builder internal constructor() {
 
-            private var approved: JsonField<Boolean> = JsonMissing.of()
             private var decision: JsonField<Decision> = JsonMissing.of()
             private var eventToken: JsonField<String> = JsonMissing.of()
             private var timestamp: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -433,24 +413,11 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(example: Example) = apply {
-                approved = example.approved
                 decision = example.decision
                 eventToken = example.eventToken
                 timestamp = example.timestamp
                 additionalProperties = example.additionalProperties.toMutableMap()
             }
-
-            /** Whether the rule would have approved the request. */
-            fun approved(approved: Boolean) = approved(JsonField.of(approved))
-
-            /**
-             * Sets [Builder.approved] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.approved] with a well-typed [Boolean] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun approved(approved: JsonField<Boolean>) = apply { this.approved = approved }
 
             /** The decision made by the rule for this event. */
             fun decision(decision: Decision) = decision(JsonField.of(decision))
@@ -515,13 +482,7 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): Example =
-                Example(
-                    approved,
-                    decision,
-                    eventToken,
-                    timestamp,
-                    additionalProperties.toMutableMap(),
-                )
+                Example(decision, eventToken, timestamp, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -531,7 +492,6 @@ private constructor(
                 return@apply
             }
 
-            approved()
             decision().ifPresent { it.validate() }
             eventToken()
             timestamp()
@@ -554,8 +514,7 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (approved.asKnown().isPresent) 1 else 0) +
-                (decision.asKnown().getOrNull()?.validity() ?: 0) +
+            (decision.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (eventToken.asKnown().isPresent) 1 else 0) +
                 (if (timestamp.asKnown().isPresent) 1 else 0)
 
@@ -702,7 +661,6 @@ private constructor(
             }
 
             return other is Example &&
-                approved == other.approved &&
                 decision == other.decision &&
                 eventToken == other.eventToken &&
                 timestamp == other.timestamp &&
@@ -710,13 +668,13 @@ private constructor(
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(approved, decision, eventToken, timestamp, additionalProperties)
+            Objects.hash(decision, eventToken, timestamp, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Example{approved=$approved, decision=$decision, eventToken=$eventToken, timestamp=$timestamp, additionalProperties=$additionalProperties}"
+            "Example{decision=$decision, eventToken=$eventToken, timestamp=$timestamp, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -724,7 +682,7 @@ private constructor(
             return true
         }
 
-        return other is RuleStats &&
+        return other is BacktestStats &&
             approved == other.approved &&
             challenged == other.challenged &&
             declined == other.declined &&
@@ -740,5 +698,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "RuleStats{approved=$approved, challenged=$challenged, declined=$declined, examples=$examples, version=$version, additionalProperties=$additionalProperties}"
+        "BacktestStats{approved=$approved, challenged=$challenged, declined=$declined, examples=$examples, version=$version, additionalProperties=$additionalProperties}"
 }

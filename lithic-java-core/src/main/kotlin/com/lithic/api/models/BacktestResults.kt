@@ -243,8 +243,8 @@ private constructor(
     class Results
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val currentVersion: JsonField<RuleStats>,
-        private val draftVersion: JsonField<RuleStats>,
+        private val currentVersion: JsonField<BacktestStats>,
+        private val draftVersion: JsonField<BacktestStats>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -252,23 +252,24 @@ private constructor(
         private constructor(
             @JsonProperty("current_version")
             @ExcludeMissing
-            currentVersion: JsonField<RuleStats> = JsonMissing.of(),
+            currentVersion: JsonField<BacktestStats> = JsonMissing.of(),
             @JsonProperty("draft_version")
             @ExcludeMissing
-            draftVersion: JsonField<RuleStats> = JsonMissing.of(),
+            draftVersion: JsonField<BacktestStats> = JsonMissing.of(),
         ) : this(currentVersion, draftVersion, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun currentVersion(): Optional<RuleStats> = currentVersion.getOptional("current_version")
+        fun currentVersion(): Optional<BacktestStats> =
+            currentVersion.getOptional("current_version")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun draftVersion(): Optional<RuleStats> = draftVersion.getOptional("draft_version")
+        fun draftVersion(): Optional<BacktestStats> = draftVersion.getOptional("draft_version")
 
         /**
          * Returns the raw JSON value of [currentVersion].
@@ -278,7 +279,7 @@ private constructor(
          */
         @JsonProperty("current_version")
         @ExcludeMissing
-        fun _currentVersion(): JsonField<RuleStats> = currentVersion
+        fun _currentVersion(): JsonField<BacktestStats> = currentVersion
 
         /**
          * Returns the raw JSON value of [draftVersion].
@@ -288,7 +289,7 @@ private constructor(
          */
         @JsonProperty("draft_version")
         @ExcludeMissing
-        fun _draftVersion(): JsonField<RuleStats> = draftVersion
+        fun _draftVersion(): JsonField<BacktestStats> = draftVersion
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -311,8 +312,8 @@ private constructor(
         /** A builder for [Results]. */
         class Builder internal constructor() {
 
-            private var currentVersion: JsonField<RuleStats> = JsonMissing.of()
-            private var draftVersion: JsonField<RuleStats> = JsonMissing.of()
+            private var currentVersion: JsonField<BacktestStats> = JsonMissing.of()
+            private var draftVersion: JsonField<BacktestStats> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -322,39 +323,39 @@ private constructor(
                 additionalProperties = results.additionalProperties.toMutableMap()
             }
 
-            fun currentVersion(currentVersion: RuleStats?) =
+            fun currentVersion(currentVersion: BacktestStats?) =
                 currentVersion(JsonField.ofNullable(currentVersion))
 
             /** Alias for calling [Builder.currentVersion] with `currentVersion.orElse(null)`. */
-            fun currentVersion(currentVersion: Optional<RuleStats>) =
+            fun currentVersion(currentVersion: Optional<BacktestStats>) =
                 currentVersion(currentVersion.getOrNull())
 
             /**
              * Sets [Builder.currentVersion] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.currentVersion] with a well-typed [RuleStats] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.currentVersion] with a well-typed [BacktestStats]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
-            fun currentVersion(currentVersion: JsonField<RuleStats>) = apply {
+            fun currentVersion(currentVersion: JsonField<BacktestStats>) = apply {
                 this.currentVersion = currentVersion
             }
 
-            fun draftVersion(draftVersion: RuleStats?) =
+            fun draftVersion(draftVersion: BacktestStats?) =
                 draftVersion(JsonField.ofNullable(draftVersion))
 
             /** Alias for calling [Builder.draftVersion] with `draftVersion.orElse(null)`. */
-            fun draftVersion(draftVersion: Optional<RuleStats>) =
+            fun draftVersion(draftVersion: Optional<BacktestStats>) =
                 draftVersion(draftVersion.getOrNull())
 
             /**
              * Sets [Builder.draftVersion] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.draftVersion] with a well-typed [RuleStats] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.draftVersion] with a well-typed [BacktestStats]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
              */
-            fun draftVersion(draftVersion: JsonField<RuleStats>) = apply {
+            fun draftVersion(draftVersion: JsonField<BacktestStats>) = apply {
                 this.draftVersion = draftVersion
             }
 
