@@ -39,7 +39,29 @@ internal class WebhookServiceTest {
                 )
                 .build()
 
-        webhookService.parsed(payload).validate()
+        // Correct key should not throw
+        webhookService.parsed(
+            UnwrapWebhookParams.builder()
+                .body(payload)
+                .headers(headers)
+                .secret(webhookSecret)
+                .build()
+        )
+        webhookService
+            .withOptions { it.webhookSecret(webhookSecret) }
+            .parsed(UnwrapWebhookParams.builder().body(payload).headers(headers).build())
+
+        // Secret in method takes precedence to secret on client
+        val wrongKey = "whsec_aaaaaaaaaa"
+        webhookService
+            .withOptions { it.webhookSecret(wrongKey) }
+            .parsed(
+                UnwrapWebhookParams.builder()
+                    .body(payload)
+                    .headers(headers)
+                    .secret(webhookSecret)
+                    .build()
+            )
 
         // Wrong key should throw
         assertThrows<LithicWebhookException> {
@@ -51,6 +73,29 @@ internal class WebhookServiceTest {
                     .secret(wrongKey)
                     .build()
             )
+        }
+        assertThrows<LithicWebhookException> {
+            val wrongKey = "whsec_aaaaaaaaaa"
+            webhookService
+                .withOptions { it.webhookSecret(wrongKey) }
+                .parsed(UnwrapWebhookParams.builder().body(payload).headers(headers).build())
+        }
+
+        assertThrows<LithicWebhookException> {
+            val wrongKey = "whsec_aaaaaaaaaa"
+            webhookService.parsed(
+                UnwrapWebhookParams.builder()
+                    .body(payload)
+                    .headers(headers)
+                    .secret(wrongKey)
+                    .build()
+            )
+        }
+        assertThrows<LithicWebhookException> {
+            val wrongKey = "whsec_aaaaaaaaaa"
+            webhookService
+                .withOptions { it.webhookSecret(wrongKey) }
+                .parsed(UnwrapWebhookParams.builder().body(payload).headers(headers).build())
         }
 
         // Bad signature should throw
@@ -66,6 +111,14 @@ internal class WebhookServiceTest {
                     .build()
             )
         }
+        assertThrows<LithicWebhookException> {
+            val badSig = webhook.sign(messageId, timestampSeconds, "some other payload")
+            val badHeaders =
+                headers.toBuilder().replace("webhook-signature", listOf(badSig)).build()
+            webhookService
+                .withOptions { it.webhookSecret(webhookSecret) }
+                .parsed(UnwrapWebhookParams.builder().body(payload).headers(badHeaders).build())
+        }
 
         // Old timestamp should throw
         assertThrows<LithicWebhookException> {
@@ -78,6 +131,12 @@ internal class WebhookServiceTest {
                     .build()
             )
         }
+        assertThrows<LithicWebhookException> {
+            val oldHeaders = headers.toBuilder().replace("webhook-timestamp", listOf("5")).build()
+            webhookService
+                .withOptions { it.webhookSecret(webhookSecret) }
+                .parsed(UnwrapWebhookParams.builder().body(payload).headers(oldHeaders).build())
+        }
 
         // Wrong message ID should throw
         assertThrows<LithicWebhookException> {
@@ -89,6 +148,12 @@ internal class WebhookServiceTest {
                     .secret(webhookSecret)
                     .build()
             )
+        }
+        assertThrows<LithicWebhookException> {
+            val wrongIdHeaders = headers.toBuilder().replace("webhook-id", listOf("wrong")).build()
+            webhookService
+                .withOptions { it.webhookSecret(webhookSecret) }
+                .parsed(UnwrapWebhookParams.builder().body(payload).headers(wrongIdHeaders).build())
         }
     }
 }
