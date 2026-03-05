@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.119.0 (2026-03-05)
+
+Full Changelog: [v0.118.0...v0.119.0](https://github.com/lithic-com/lithic-java/compare/v0.118.0...v0.119.0)
+
+### Features
+
+* **api:** add action_counts to rule performance reports and code to authorization actions ([20e681f](https://github.com/lithic-com/lithic-java/commit/20e681f87cc67eb4aaad477acf4f5a00ef664834))
+* **api:** Add Hold API for financial account fund reservations ([e84bda4](https://github.com/lithic-com/lithic-java/commit/e84bda4371688459b68621dfe8defc0688da69bd))
+* **api:** Remove deprecated beneficial owner entities field ([9208b91](https://github.com/lithic-com/lithic-java/commit/9208b918e410d7829e59cba6e43304eb0f3489b3))
+
+
+### Chores
+
+* **internal:** codegen related update ([c308799](https://github.com/lithic-com/lithic-java/commit/c3087996b1eded5d7072dcc496a25eb1a8a4cfd2))
+* **internal:** codegen related update ([e6b968b](https://github.com/lithic-com/lithic-java/commit/e6b968b0729d68b7b59b4044cb5beac9a97fddda))
+
 ## 0.118.0 (2026-02-27)
 
 Full Changelog: [v0.117.0...v0.118.0](https://github.com/lithic-com/lithic-java/compare/v0.117.0...v0.118.0)
