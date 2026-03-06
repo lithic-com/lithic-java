@@ -11,52 +11,46 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.checkKnown
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
-import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** A response containing a list of transactions */
-class AccountActivityListPageResponse
+/** Paginated response containing hold transactions */
+class HoldListPageResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val data: JsonField<List<AccountActivityListResponse>>,
+    private val data: JsonField<List<Hold>>,
     private val hasMore: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("data")
-        @ExcludeMissing
-        data: JsonField<List<AccountActivityListResponse>> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<List<Hold>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
     ) : this(data, hasMore, mutableMapOf())
 
     /**
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun data(): Optional<List<AccountActivityListResponse>> = data.getOptional("data")
+    fun data(): List<Hold> = data.getRequired("data")
 
     /**
-     * Indicates if there are more transactions available for pagination
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun hasMore(): Optional<Boolean> = hasMore.getOptional("has_more")
+    fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
     /**
      * Returns the raw JSON value of [data].
      *
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("data")
-    @ExcludeMissing
-    fun _data(): JsonField<List<AccountActivityListResponse>> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Hold>> = data
 
     /**
      * Returns the raw JSON value of [hasMore].
@@ -80,86 +74,55 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of
-         * [AccountActivityListPageResponse].
+         * Returns a mutable builder for constructing an instance of [HoldListPageResponse].
+         *
+         * The following fields are required:
+         * ```java
+         * .data()
+         * .hasMore()
+         * ```
          */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [AccountActivityListPageResponse]. */
+    /** A builder for [HoldListPageResponse]. */
     class Builder internal constructor() {
 
-        private var data: JsonField<MutableList<AccountActivityListResponse>>? = null
-        private var hasMore: JsonField<Boolean> = JsonMissing.of()
+        private var data: JsonField<MutableList<Hold>>? = null
+        private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(accountActivityListPageResponse: AccountActivityListPageResponse) =
-            apply {
-                data = accountActivityListPageResponse.data.map { it.toMutableList() }
-                hasMore = accountActivityListPageResponse.hasMore
-                additionalProperties =
-                    accountActivityListPageResponse.additionalProperties.toMutableMap()
-            }
+        internal fun from(holdListPageResponse: HoldListPageResponse) = apply {
+            data = holdListPageResponse.data.map { it.toMutableList() }
+            hasMore = holdListPageResponse.hasMore
+            additionalProperties = holdListPageResponse.additionalProperties.toMutableMap()
+        }
 
-        fun data(data: List<AccountActivityListResponse>) = data(JsonField.of(data))
+        fun data(data: List<Hold>) = data(JsonField.of(data))
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.data] with a well-typed
-         * `List<AccountActivityListResponse>` value instead. This method is primarily for setting
-         * the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.data] with a well-typed `List<Hold>` value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun data(data: JsonField<List<AccountActivityListResponse>>) = apply {
+        fun data(data: JsonField<List<Hold>>) = apply {
             this.data = data.map { it.toMutableList() }
         }
 
         /**
-         * Adds a single [AccountActivityListResponse] to [Builder.data].
+         * Adds a single [Hold] to [Builder.data].
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addData(data: AccountActivityListResponse) = apply {
+        fun addData(data: Hold) = apply {
             this.data =
                 (this.data ?: JsonField.of(mutableListOf())).also {
                     checkKnown("data", it).add(data)
                 }
         }
 
-        /** Alias for calling [addData] with `AccountActivityListResponse.ofInternal(internal_)`. */
-        fun addData(internal_: AccountActivityListResponse.FinancialTransaction) =
-            addData(AccountActivityListResponse.ofInternal(internal_))
-
-        /** Alias for calling [addData] with `AccountActivityListResponse.ofTransfer(transfer)`. */
-        fun addData(transfer: BookTransferResponse) =
-            addData(AccountActivityListResponse.ofTransfer(transfer))
-
-        /** Alias for calling [addData] with `AccountActivityListResponse.ofCard(card)`. */
-        fun addData(card: AccountActivityListResponse.CardTransaction) =
-            addData(AccountActivityListResponse.ofCard(card))
-
-        /** Alias for calling [addData] with `AccountActivityListResponse.ofPayment(payment)`. */
-        fun addData(payment: Payment) = addData(AccountActivityListResponse.ofPayment(payment))
-
-        /**
-         * Alias for calling [addData] with
-         * `AccountActivityListResponse.ofExternalPayment(externalPayment)`.
-         */
-        fun addData(externalPayment: ExternalPayment) =
-            addData(AccountActivityListResponse.ofExternalPayment(externalPayment))
-
-        /**
-         * Alias for calling [addData] with
-         * `AccountActivityListResponse.ofManagementOperation(managementOperation)`.
-         */
-        fun addData(managementOperation: ManagementOperationTransaction) =
-            addData(AccountActivityListResponse.ofManagementOperation(managementOperation))
-
-        /** Alias for calling [addData] with `AccountActivityListResponse.ofHold(hold)`. */
-        fun addData(hold: Hold) = addData(AccountActivityListResponse.ofHold(hold))
-
-        /** Indicates if there are more transactions available for pagination */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
         /**
@@ -190,26 +153,34 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [AccountActivityListPageResponse].
+         * Returns an immutable instance of [HoldListPageResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .data()
+         * .hasMore()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): AccountActivityListPageResponse =
-            AccountActivityListPageResponse(
-                (data ?: JsonMissing.of()).map { it.toImmutable() },
-                hasMore,
+        fun build(): HoldListPageResponse =
+            HoldListPageResponse(
+                checkRequired("data", data).map { it.toImmutable() },
+                checkRequired("hasMore", hasMore),
                 additionalProperties.toMutableMap(),
             )
     }
 
     private var validated: Boolean = false
 
-    fun validate(): AccountActivityListPageResponse = apply {
+    fun validate(): HoldListPageResponse = apply {
         if (validated) {
             return@apply
         }
 
-        data().ifPresent { it.forEach { it.validate() } }
+        data().forEach { it.validate() }
         hasMore()
         validated = true
     }
@@ -237,7 +208,7 @@ private constructor(
             return true
         }
 
-        return other is AccountActivityListPageResponse &&
+        return other is HoldListPageResponse &&
             data == other.data &&
             hasMore == other.hasMore &&
             additionalProperties == other.additionalProperties
@@ -248,5 +219,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AccountActivityListPageResponse{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+        "HoldListPageResponse{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 }

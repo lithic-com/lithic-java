@@ -28,6 +28,7 @@ import com.lithic.api.services.blocking.ExternalPaymentService
 import com.lithic.api.services.blocking.FinancialAccountService
 import com.lithic.api.services.blocking.FraudService
 import com.lithic.api.services.blocking.FundingEventService
+import com.lithic.api.services.blocking.HoldService
 import com.lithic.api.services.blocking.InternalTransactionService
 import com.lithic.api.services.blocking.ManagementOperationService
 import com.lithic.api.services.blocking.NetworkProgramService
@@ -139,6 +140,8 @@ interface LithicClient {
 
     fun networkPrograms(): NetworkProgramService
 
+    fun holds(): HoldService
+
     fun accountActivity(): AccountActivityService
 
     fun transferLimits(): TransferLimitService
@@ -244,6 +247,8 @@ interface LithicClient {
         fun fraud(): FraudService.WithRawResponse
 
         fun networkPrograms(): NetworkProgramService.WithRawResponse
+
+        fun holds(): HoldService.WithRawResponse
 
         fun accountActivity(): AccountActivityService.WithRawResponse
 

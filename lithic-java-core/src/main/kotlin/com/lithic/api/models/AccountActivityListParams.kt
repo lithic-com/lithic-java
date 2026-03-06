@@ -424,6 +424,8 @@ private constructor(
 
             @JvmField val MANAGEMENT_DISBURSEMENT = of("MANAGEMENT_DISBURSEMENT")
 
+            @JvmField val HOLD = of("HOLD")
+
             @JvmField val PROGRAM_FUNDING = of("PROGRAM_FUNDING")
 
             @JvmStatic fun of(value: String) = TransactionCategory(JsonField.of(value))
@@ -450,6 +452,7 @@ private constructor(
             MANAGEMENT_FEE,
             MANAGEMENT_REWARD,
             MANAGEMENT_DISBURSEMENT,
+            HOLD,
             PROGRAM_FUNDING,
         }
 
@@ -482,6 +485,7 @@ private constructor(
             MANAGEMENT_FEE,
             MANAGEMENT_REWARD,
             MANAGEMENT_DISBURSEMENT,
+            HOLD,
             PROGRAM_FUNDING,
             /**
              * An enum member indicating that [TransactionCategory] was instantiated with an unknown
@@ -518,6 +522,7 @@ private constructor(
                 MANAGEMENT_FEE -> Value.MANAGEMENT_FEE
                 MANAGEMENT_REWARD -> Value.MANAGEMENT_REWARD
                 MANAGEMENT_DISBURSEMENT -> Value.MANAGEMENT_DISBURSEMENT
+                HOLD -> Value.HOLD
                 PROGRAM_FUNDING -> Value.PROGRAM_FUNDING
                 else -> Value._UNKNOWN
             }
@@ -552,6 +557,7 @@ private constructor(
                 MANAGEMENT_FEE -> Known.MANAGEMENT_FEE
                 MANAGEMENT_REWARD -> Known.MANAGEMENT_REWARD
                 MANAGEMENT_DISBURSEMENT -> Known.MANAGEMENT_DISBURSEMENT
+                HOLD -> Known.HOLD
                 PROGRAM_FUNDING -> Known.PROGRAM_FUNDING
                 else -> throw LithicInvalidDataException("Unknown TransactionCategory: $value")
             }
