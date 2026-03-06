@@ -27,6 +27,7 @@ import com.lithic.api.services.async.ExternalPaymentServiceAsync
 import com.lithic.api.services.async.FinancialAccountServiceAsync
 import com.lithic.api.services.async.FraudServiceAsync
 import com.lithic.api.services.async.FundingEventServiceAsync
+import com.lithic.api.services.async.HoldServiceAsync
 import com.lithic.api.services.async.InternalTransactionServiceAsync
 import com.lithic.api.services.async.ManagementOperationServiceAsync
 import com.lithic.api.services.async.NetworkProgramServiceAsync
@@ -139,6 +140,8 @@ interface LithicClientAsync {
 
     fun networkPrograms(): NetworkProgramServiceAsync
 
+    fun holds(): HoldServiceAsync
+
     fun accountActivity(): AccountActivityServiceAsync
 
     fun transferLimits(): TransferLimitServiceAsync
@@ -247,6 +250,8 @@ interface LithicClientAsync {
         fun fraud(): FraudServiceAsync.WithRawResponse
 
         fun networkPrograms(): NetworkProgramServiceAsync.WithRawResponse
+
+        fun holds(): HoldServiceAsync.WithRawResponse
 
         fun accountActivity(): AccountActivityServiceAsync.WithRawResponse
 

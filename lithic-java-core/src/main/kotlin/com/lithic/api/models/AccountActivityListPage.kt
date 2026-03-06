@@ -69,6 +69,9 @@ private constructor(
                                     managementOperation: ManagementOperationTransaction
                                 ): Optional<String> =
                                     managementOperation._token().getOptional("token")
+
+                                override fun visitHold(hold: Hold): Optional<String> =
+                                    hold._token().getOptional("token")
                             }
                         )
                 )
@@ -104,6 +107,9 @@ private constructor(
                                     managementOperation: ManagementOperationTransaction
                                 ): Optional<String> =
                                     managementOperation._token().getOptional("token")
+
+                                override fun visitHold(hold: Hold): Optional<String> =
+                                    hold._token().getOptional("token")
                             }
                         )
                 )
