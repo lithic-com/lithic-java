@@ -57,6 +57,8 @@ import com.lithic.api.services.blocking.FraudService
 import com.lithic.api.services.blocking.FraudServiceImpl
 import com.lithic.api.services.blocking.FundingEventService
 import com.lithic.api.services.blocking.FundingEventServiceImpl
+import com.lithic.api.services.blocking.HoldService
+import com.lithic.api.services.blocking.HoldServiceImpl
 import com.lithic.api.services.blocking.InternalTransactionService
 import com.lithic.api.services.blocking.InternalTransactionServiceImpl
 import com.lithic.api.services.blocking.ManagementOperationService
@@ -204,6 +206,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         NetworkProgramServiceImpl(clientOptionsWithUserAgent)
     }
 
+    private val holds: HoldService by lazy { HoldServiceImpl(clientOptionsWithUserAgent) }
+
     private val accountActivity: AccountActivityService by lazy {
         AccountActivityServiceImpl(clientOptionsWithUserAgent)
     }
@@ -280,6 +284,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     override fun fraud(): FraudService = fraud
 
     override fun networkPrograms(): NetworkProgramService = networkPrograms
+
+    override fun holds(): HoldService = holds
 
     override fun accountActivity(): AccountActivityService = accountActivity
 
@@ -423,6 +429,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
             NetworkProgramServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val holds: HoldService.WithRawResponse by lazy {
+            HoldServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val accountActivity: AccountActivityService.WithRawResponse by lazy {
             AccountActivityServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -508,6 +518,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         override fun fraud(): FraudService.WithRawResponse = fraud
 
         override fun networkPrograms(): NetworkProgramService.WithRawResponse = networkPrograms
+
+        override fun holds(): HoldService.WithRawResponse = holds
 
         override fun accountActivity(): AccountActivityService.WithRawResponse = accountActivity
 
