@@ -79,6 +79,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.fundingEvents()).isNotNull()
         assertThat(client.fraud()).isNotNull()
         assertThat(client.networkPrograms()).isNotNull()
+        assertThat(client.holds()).isNotNull()
         assertThat(client.accountActivity()).isNotNull()
         assertThat(client.transferLimits()).isNotNull()
         assertThat(client.webhooks()).isNotNull()
