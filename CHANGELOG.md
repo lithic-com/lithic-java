@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.120.0 (2026-03-07)
+
+Full Changelog: [v0.119.0...v0.120.0](https://github.com/lithic-com/lithic-java/compare/v0.119.0...v0.120.0)
+
+### Features
+
+* **api:** add EARLY_DIRECT_DEPOSIT_FLOAT type to financial account ([e333879](https://github.com/lithic-com/lithic-java/commit/e333879612c488e74effb36cca27da4fe9ed134f))
+
+
+### Chores
+
+* **internal:** codegen related update ([10b1473](https://github.com/lithic-com/lithic-java/commit/10b14732a71e84708c2da1234a47664b19354c97))
+
 ## 0.119.0 (2026-03-05)
 
 Full Changelog: [v0.118.0...v0.119.0](https://github.com/lithic-com/lithic-java/compare/v0.118.0...v0.119.0)
