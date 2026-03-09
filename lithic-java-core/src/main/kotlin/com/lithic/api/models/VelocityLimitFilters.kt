@@ -1,0 +1,672 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.lithic.api.models
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.lithic.api.core.Enum
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.checkKnown
+import com.lithic.api.core.toImmutable
+import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Collections
+import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
+
+class VelocityLimitFilters
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
+private constructor(
+    private val excludeCountries: JsonField<List<String>>,
+    private val excludeMccs: JsonField<List<String>>,
+    private val includeCountries: JsonField<List<String>>,
+    private val includeMccs: JsonField<List<String>>,
+    private val includePanEntryModes: JsonField<List<IncludePanEntryMode>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
+) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("exclude_countries")
+        @ExcludeMissing
+        excludeCountries: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("exclude_mccs")
+        @ExcludeMissing
+        excludeMccs: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("include_countries")
+        @ExcludeMissing
+        includeCountries: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("include_mccs")
+        @ExcludeMissing
+        includeMccs: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("include_pan_entry_modes")
+        @ExcludeMissing
+        includePanEntryModes: JsonField<List<IncludePanEntryMode>> = JsonMissing.of(),
+    ) : this(
+        excludeCountries,
+        excludeMccs,
+        includeCountries,
+        includeMccs,
+        includePanEntryModes,
+        mutableMapOf(),
+    )
+
+    /**
+     * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
+     * matching any of the provided will be excluded from the calculated velocity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun excludeCountries(): Optional<List<String>> =
+        excludeCountries.getOptional("exclude_countries")
+
+    /**
+     * Merchant Category Codes to exclude from the velocity calculation. Transactions matching this
+     * MCC will be excluded from the calculated velocity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun excludeMccs(): Optional<List<String>> = excludeMccs.getOptional("exclude_mccs")
+
+    /**
+     * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions not
+     * matching any of the provided will not be included in the calculated velocity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun includeCountries(): Optional<List<String>> =
+        includeCountries.getOptional("include_countries")
+
+    /**
+     * Merchant Category Codes to include in the velocity calculation. Transactions not matching
+     * this MCC will not be included in the calculated velocity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun includeMccs(): Optional<List<String>> = includeMccs.getOptional("include_mccs")
+
+    /**
+     * PAN entry modes to include in the velocity calculation. Transactions not matching any of the
+     * provided will not be included in the calculated velocity.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun includePanEntryModes(): Optional<List<IncludePanEntryMode>> =
+        includePanEntryModes.getOptional("include_pan_entry_modes")
+
+    /**
+     * Returns the raw JSON value of [excludeCountries].
+     *
+     * Unlike [excludeCountries], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("exclude_countries")
+    @ExcludeMissing
+    fun _excludeCountries(): JsonField<List<String>> = excludeCountries
+
+    /**
+     * Returns the raw JSON value of [excludeMccs].
+     *
+     * Unlike [excludeMccs], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("exclude_mccs")
+    @ExcludeMissing
+    fun _excludeMccs(): JsonField<List<String>> = excludeMccs
+
+    /**
+     * Returns the raw JSON value of [includeCountries].
+     *
+     * Unlike [includeCountries], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("include_countries")
+    @ExcludeMissing
+    fun _includeCountries(): JsonField<List<String>> = includeCountries
+
+    /**
+     * Returns the raw JSON value of [includeMccs].
+     *
+     * Unlike [includeMccs], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("include_mccs")
+    @ExcludeMissing
+    fun _includeMccs(): JsonField<List<String>> = includeMccs
+
+    /**
+     * Returns the raw JSON value of [includePanEntryModes].
+     *
+     * Unlike [includePanEntryModes], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("include_pan_entry_modes")
+    @ExcludeMissing
+    fun _includePanEntryModes(): JsonField<List<IncludePanEntryMode>> = includePanEntryModes
+
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
+    @JsonAnyGetter
+    @ExcludeMissing
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
+
+    fun toBuilder() = Builder().from(this)
+
+    companion object {
+
+        /** Returns a mutable builder for constructing an instance of [VelocityLimitFilters]. */
+        @JvmStatic fun builder() = Builder()
+    }
+
+    /** A builder for [VelocityLimitFilters]. */
+    class Builder internal constructor() {
+
+        private var excludeCountries: JsonField<MutableList<String>>? = null
+        private var excludeMccs: JsonField<MutableList<String>>? = null
+        private var includeCountries: JsonField<MutableList<String>>? = null
+        private var includeMccs: JsonField<MutableList<String>>? = null
+        private var includePanEntryModes: JsonField<MutableList<IncludePanEntryMode>>? = null
+        private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+        @JvmSynthetic
+        internal fun from(velocityLimitFilters: VelocityLimitFilters) = apply {
+            excludeCountries = velocityLimitFilters.excludeCountries.map { it.toMutableList() }
+            excludeMccs = velocityLimitFilters.excludeMccs.map { it.toMutableList() }
+            includeCountries = velocityLimitFilters.includeCountries.map { it.toMutableList() }
+            includeMccs = velocityLimitFilters.includeMccs.map { it.toMutableList() }
+            includePanEntryModes =
+                velocityLimitFilters.includePanEntryModes.map { it.toMutableList() }
+            additionalProperties = velocityLimitFilters.additionalProperties.toMutableMap()
+        }
+
+        /**
+         * ISO-3166-1 alpha-3 Country Codes to exclude from the velocity calculation. Transactions
+         * matching any of the provided will be excluded from the calculated velocity.
+         */
+        fun excludeCountries(excludeCountries: List<String>?) =
+            excludeCountries(JsonField.ofNullable(excludeCountries))
+
+        /** Alias for calling [Builder.excludeCountries] with `excludeCountries.orElse(null)`. */
+        fun excludeCountries(excludeCountries: Optional<List<String>>) =
+            excludeCountries(excludeCountries.getOrNull())
+
+        /**
+         * Sets [Builder.excludeCountries] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.excludeCountries] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun excludeCountries(excludeCountries: JsonField<List<String>>) = apply {
+            this.excludeCountries = excludeCountries.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [excludeCountries].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addExcludeCountry(excludeCountry: String) = apply {
+            excludeCountries =
+                (excludeCountries ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("excludeCountries", it).add(excludeCountry)
+                }
+        }
+
+        /**
+         * Merchant Category Codes to exclude from the velocity calculation. Transactions matching
+         * this MCC will be excluded from the calculated velocity.
+         */
+        fun excludeMccs(excludeMccs: List<String>?) = excludeMccs(JsonField.ofNullable(excludeMccs))
+
+        /** Alias for calling [Builder.excludeMccs] with `excludeMccs.orElse(null)`. */
+        fun excludeMccs(excludeMccs: Optional<List<String>>) = excludeMccs(excludeMccs.getOrNull())
+
+        /**
+         * Sets [Builder.excludeMccs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.excludeMccs] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun excludeMccs(excludeMccs: JsonField<List<String>>) = apply {
+            this.excludeMccs = excludeMccs.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [excludeMccs].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addExcludeMcc(excludeMcc: String) = apply {
+            excludeMccs =
+                (excludeMccs ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("excludeMccs", it).add(excludeMcc)
+                }
+        }
+
+        /**
+         * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions not
+         * matching any of the provided will not be included in the calculated velocity.
+         */
+        fun includeCountries(includeCountries: List<String>?) =
+            includeCountries(JsonField.ofNullable(includeCountries))
+
+        /** Alias for calling [Builder.includeCountries] with `includeCountries.orElse(null)`. */
+        fun includeCountries(includeCountries: Optional<List<String>>) =
+            includeCountries(includeCountries.getOrNull())
+
+        /**
+         * Sets [Builder.includeCountries] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.includeCountries] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun includeCountries(includeCountries: JsonField<List<String>>) = apply {
+            this.includeCountries = includeCountries.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [includeCountries].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addIncludeCountry(includeCountry: String) = apply {
+            includeCountries =
+                (includeCountries ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("includeCountries", it).add(includeCountry)
+                }
+        }
+
+        /**
+         * Merchant Category Codes to include in the velocity calculation. Transactions not matching
+         * this MCC will not be included in the calculated velocity.
+         */
+        fun includeMccs(includeMccs: List<String>?) = includeMccs(JsonField.ofNullable(includeMccs))
+
+        /** Alias for calling [Builder.includeMccs] with `includeMccs.orElse(null)`. */
+        fun includeMccs(includeMccs: Optional<List<String>>) = includeMccs(includeMccs.getOrNull())
+
+        /**
+         * Sets [Builder.includeMccs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.includeMccs] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun includeMccs(includeMccs: JsonField<List<String>>) = apply {
+            this.includeMccs = includeMccs.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [includeMccs].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addIncludeMcc(includeMcc: String) = apply {
+            includeMccs =
+                (includeMccs ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("includeMccs", it).add(includeMcc)
+                }
+        }
+
+        /**
+         * PAN entry modes to include in the velocity calculation. Transactions not matching any of
+         * the provided will not be included in the calculated velocity.
+         */
+        fun includePanEntryModes(includePanEntryModes: List<IncludePanEntryMode>?) =
+            includePanEntryModes(JsonField.ofNullable(includePanEntryModes))
+
+        /**
+         * Alias for calling [Builder.includePanEntryModes] with
+         * `includePanEntryModes.orElse(null)`.
+         */
+        fun includePanEntryModes(includePanEntryModes: Optional<List<IncludePanEntryMode>>) =
+            includePanEntryModes(includePanEntryModes.getOrNull())
+
+        /**
+         * Sets [Builder.includePanEntryModes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.includePanEntryModes] with a well-typed
+         * `List<IncludePanEntryMode>` value instead. This method is primarily for setting the field
+         * to an undocumented or not yet supported value.
+         */
+        fun includePanEntryModes(includePanEntryModes: JsonField<List<IncludePanEntryMode>>) =
+            apply {
+                this.includePanEntryModes = includePanEntryModes.map { it.toMutableList() }
+            }
+
+        /**
+         * Adds a single [IncludePanEntryMode] to [includePanEntryModes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addIncludePanEntryMode(includePanEntryMode: IncludePanEntryMode) = apply {
+            includePanEntryModes =
+                (includePanEntryModes ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("includePanEntryModes", it).add(includePanEntryMode)
+                }
+        }
+
+        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.clear()
+            putAllAdditionalProperties(additionalProperties)
+        }
+
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+            additionalProperties.put(key, value)
+        }
+
+        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
+        }
+
+        /**
+         * Returns an immutable instance of [VelocityLimitFilters].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
+        fun build(): VelocityLimitFilters =
+            VelocityLimitFilters(
+                (excludeCountries ?: JsonMissing.of()).map { it.toImmutable() },
+                (excludeMccs ?: JsonMissing.of()).map { it.toImmutable() },
+                (includeCountries ?: JsonMissing.of()).map { it.toImmutable() },
+                (includeMccs ?: JsonMissing.of()).map { it.toImmutable() },
+                (includePanEntryModes ?: JsonMissing.of()).map { it.toImmutable() },
+                additionalProperties.toMutableMap(),
+            )
+    }
+
+    private var validated: Boolean = false
+
+    fun validate(): VelocityLimitFilters = apply {
+        if (validated) {
+            return@apply
+        }
+
+        excludeCountries()
+        excludeMccs()
+        includeCountries()
+        includeMccs()
+        includePanEntryModes().ifPresent { it.forEach { it.validate() } }
+        validated = true
+    }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: LithicInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    @JvmSynthetic
+    internal fun validity(): Int =
+        (excludeCountries.asKnown().getOrNull()?.size ?: 0) +
+            (excludeMccs.asKnown().getOrNull()?.size ?: 0) +
+            (includeCountries.asKnown().getOrNull()?.size ?: 0) +
+            (includeMccs.asKnown().getOrNull()?.size ?: 0) +
+            (includePanEntryModes.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+
+    class IncludePanEntryMode
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val AUTO_ENTRY = of("AUTO_ENTRY")
+
+            @JvmField val BAR_CODE = of("BAR_CODE")
+
+            @JvmField val CONTACTLESS = of("CONTACTLESS")
+
+            @JvmField val CREDENTIAL_ON_FILE = of("CREDENTIAL_ON_FILE")
+
+            @JvmField val ECOMMERCE = of("ECOMMERCE")
+
+            @JvmField val ERROR_KEYED = of("ERROR_KEYED")
+
+            @JvmField val ERROR_MAGNETIC_STRIPE = of("ERROR_MAGNETIC_STRIPE")
+
+            @JvmField val ICC = of("ICC")
+
+            @JvmField val KEY_ENTERED = of("KEY_ENTERED")
+
+            @JvmField val MAGNETIC_STRIPE = of("MAGNETIC_STRIPE")
+
+            @JvmField val MANUAL = of("MANUAL")
+
+            @JvmField val OCR = of("OCR")
+
+            @JvmField val SECURE_CARDLESS = of("SECURE_CARDLESS")
+
+            @JvmField val UNSPECIFIED = of("UNSPECIFIED")
+
+            @JvmField val UNKNOWN = of("UNKNOWN")
+
+            @JvmStatic fun of(value: String) = IncludePanEntryMode(JsonField.of(value))
+        }
+
+        /** An enum containing [IncludePanEntryMode]'s known values. */
+        enum class Known {
+            AUTO_ENTRY,
+            BAR_CODE,
+            CONTACTLESS,
+            CREDENTIAL_ON_FILE,
+            ECOMMERCE,
+            ERROR_KEYED,
+            ERROR_MAGNETIC_STRIPE,
+            ICC,
+            KEY_ENTERED,
+            MAGNETIC_STRIPE,
+            MANUAL,
+            OCR,
+            SECURE_CARDLESS,
+            UNSPECIFIED,
+            UNKNOWN,
+        }
+
+        /**
+         * An enum containing [IncludePanEntryMode]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [IncludePanEntryMode] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            AUTO_ENTRY,
+            BAR_CODE,
+            CONTACTLESS,
+            CREDENTIAL_ON_FILE,
+            ECOMMERCE,
+            ERROR_KEYED,
+            ERROR_MAGNETIC_STRIPE,
+            ICC,
+            KEY_ENTERED,
+            MAGNETIC_STRIPE,
+            MANUAL,
+            OCR,
+            SECURE_CARDLESS,
+            UNSPECIFIED,
+            UNKNOWN,
+            /**
+             * An enum member indicating that [IncludePanEntryMode] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                AUTO_ENTRY -> Value.AUTO_ENTRY
+                BAR_CODE -> Value.BAR_CODE
+                CONTACTLESS -> Value.CONTACTLESS
+                CREDENTIAL_ON_FILE -> Value.CREDENTIAL_ON_FILE
+                ECOMMERCE -> Value.ECOMMERCE
+                ERROR_KEYED -> Value.ERROR_KEYED
+                ERROR_MAGNETIC_STRIPE -> Value.ERROR_MAGNETIC_STRIPE
+                ICC -> Value.ICC
+                KEY_ENTERED -> Value.KEY_ENTERED
+                MAGNETIC_STRIPE -> Value.MAGNETIC_STRIPE
+                MANUAL -> Value.MANUAL
+                OCR -> Value.OCR
+                SECURE_CARDLESS -> Value.SECURE_CARDLESS
+                UNSPECIFIED -> Value.UNSPECIFIED
+                UNKNOWN -> Value.UNKNOWN
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                AUTO_ENTRY -> Known.AUTO_ENTRY
+                BAR_CODE -> Known.BAR_CODE
+                CONTACTLESS -> Known.CONTACTLESS
+                CREDENTIAL_ON_FILE -> Known.CREDENTIAL_ON_FILE
+                ECOMMERCE -> Known.ECOMMERCE
+                ERROR_KEYED -> Known.ERROR_KEYED
+                ERROR_MAGNETIC_STRIPE -> Known.ERROR_MAGNETIC_STRIPE
+                ICC -> Known.ICC
+                KEY_ENTERED -> Known.KEY_ENTERED
+                MAGNETIC_STRIPE -> Known.MAGNETIC_STRIPE
+                MANUAL -> Known.MANUAL
+                OCR -> Known.OCR
+                SECURE_CARDLESS -> Known.SECURE_CARDLESS
+                UNSPECIFIED -> Known.UNSPECIFIED
+                UNKNOWN -> Known.UNKNOWN
+                else -> throw LithicInvalidDataException("Unknown IncludePanEntryMode: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): IncludePanEntryMode = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is IncludePanEntryMode && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is VelocityLimitFilters &&
+            excludeCountries == other.excludeCountries &&
+            excludeMccs == other.excludeMccs &&
+            includeCountries == other.includeCountries &&
+            includeMccs == other.includeMccs &&
+            includePanEntryModes == other.includePanEntryModes &&
+            additionalProperties == other.additionalProperties
+    }
+
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            excludeCountries,
+            excludeMccs,
+            includeCountries,
+            includeMccs,
+            includePanEntryModes,
+            additionalProperties,
+        )
+    }
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "VelocityLimitFilters{excludeCountries=$excludeCountries, excludeMccs=$excludeMccs, includeCountries=$includeCountries, includeMccs=$includeMccs, includePanEntryModes=$includePanEntryModes, additionalProperties=$additionalProperties}"
+}

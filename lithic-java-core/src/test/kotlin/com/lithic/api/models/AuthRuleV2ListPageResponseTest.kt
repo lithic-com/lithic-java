@@ -37,6 +37,7 @@ internal class AuthRuleV2ListPageResponseTest {
                         )
                         .draftVersion(
                             AuthRule.DraftVersion.builder()
+                                .error("error")
                                 .parameters(
                                     ConditionalBlockParameters.builder()
                                         .addCondition(
@@ -48,6 +49,7 @@ internal class AuthRuleV2ListPageResponseTest {
                                         )
                                         .build()
                                 )
+                                .state(AuthRule.DraftVersion.State.PENDING)
                                 .version(0L)
                                 .build()
                         )
@@ -88,6 +90,7 @@ internal class AuthRuleV2ListPageResponseTest {
                     )
                     .draftVersion(
                         AuthRule.DraftVersion.builder()
+                            .error("error")
                             .parameters(
                                 ConditionalBlockParameters.builder()
                                     .addCondition(
@@ -99,6 +102,7 @@ internal class AuthRuleV2ListPageResponseTest {
                                     )
                                     .build()
                             )
+                            .state(AuthRule.DraftVersion.State.PENDING)
                             .version(0L)
                             .build()
                     )
@@ -143,6 +147,7 @@ internal class AuthRuleV2ListPageResponseTest {
                         )
                         .draftVersion(
                             AuthRule.DraftVersion.builder()
+                                .error("error")
                                 .parameters(
                                     ConditionalBlockParameters.builder()
                                         .addCondition(
@@ -154,6 +159,7 @@ internal class AuthRuleV2ListPageResponseTest {
                                         )
                                         .build()
                                 )
+                                .state(AuthRule.DraftVersion.State.PENDING)
                                 .version(0L)
                                 .build()
                         )
