@@ -180,6 +180,11 @@ private constructor(
                 body.parameters(conditionalTokenizationAction)
             }
 
+        /** Alias for calling [parameters] with `Parameters.ofTypescriptCode(typescriptCode)`. */
+        fun parameters(typescriptCode: TypescriptCodeParameters) = apply {
+            body.parameters(typescriptCode)
+        }
+
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
@@ -454,6 +459,12 @@ private constructor(
                     Parameters.ofConditionalTokenizationAction(conditionalTokenizationAction)
                 )
 
+            /**
+             * Alias for calling [parameters] with `Parameters.ofTypescriptCode(typescriptCode)`.
+             */
+            fun parameters(typescriptCode: TypescriptCodeParameters) =
+                parameters(Parameters.ofTypescriptCode(typescriptCode))
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -540,6 +551,7 @@ private constructor(
             null,
         private val conditionalAchAction: ConditionalAchActionParameters? = null,
         private val conditionalTokenizationAction: ConditionalTokenizationActionParameters? = null,
+        private val typescriptCode: TypescriptCodeParameters? = null,
         private val _json: JsonValue? = null,
     ) {
 
@@ -565,6 +577,10 @@ private constructor(
         fun conditionalTokenizationAction(): Optional<ConditionalTokenizationActionParameters> =
             Optional.ofNullable(conditionalTokenizationAction)
 
+        /** Parameters for defining a TypeScript code rule */
+        fun typescriptCode(): Optional<TypescriptCodeParameters> =
+            Optional.ofNullable(typescriptCode)
+
         @Deprecated("deprecated") fun isConditionalBlock(): Boolean = conditionalBlock != null
 
         fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
@@ -578,6 +594,8 @@ private constructor(
         fun isConditionalAchAction(): Boolean = conditionalAchAction != null
 
         fun isConditionalTokenizationAction(): Boolean = conditionalTokenizationAction != null
+
+        fun isTypescriptCode(): Boolean = typescriptCode != null
 
         /** Deprecated: Use CONDITIONAL_ACTION instead. */
         @Deprecated("deprecated")
@@ -601,6 +619,10 @@ private constructor(
         fun asConditionalTokenizationAction(): ConditionalTokenizationActionParameters =
             conditionalTokenizationAction.getOrThrow("conditionalTokenizationAction")
 
+        /** Parameters for defining a TypeScript code rule */
+        fun asTypescriptCode(): TypescriptCodeParameters =
+            typescriptCode.getOrThrow("typescriptCode")
+
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
         fun <T> accept(visitor: Visitor<T>): T =
@@ -616,6 +638,7 @@ private constructor(
                     visitor.visitConditionalAchAction(conditionalAchAction)
                 conditionalTokenizationAction != null ->
                     visitor.visitConditionalTokenizationAction(conditionalTokenizationAction)
+                typescriptCode != null -> visitor.visitTypescriptCode(typescriptCode)
                 else -> visitor.unknown(_json)
             }
 
@@ -667,6 +690,10 @@ private constructor(
                     ) {
                         conditionalTokenizationAction.validate()
                     }
+
+                    override fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters) {
+                        typescriptCode.validate()
+                    }
                 }
             )
             validated = true
@@ -717,6 +744,9 @@ private constructor(
                         conditionalTokenizationAction: ConditionalTokenizationActionParameters
                     ) = conditionalTokenizationAction.validity()
 
+                    override fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                        typescriptCode.validity()
+
                     override fun unknown(json: JsonValue?) = 0
                 }
             )
@@ -733,7 +763,8 @@ private constructor(
                 conditional3dsAction == other.conditional3dsAction &&
                 conditionalAuthorizationAction == other.conditionalAuthorizationAction &&
                 conditionalAchAction == other.conditionalAchAction &&
-                conditionalTokenizationAction == other.conditionalTokenizationAction
+                conditionalTokenizationAction == other.conditionalTokenizationAction &&
+                typescriptCode == other.typescriptCode
         }
 
         override fun hashCode(): Int =
@@ -745,6 +776,7 @@ private constructor(
                 conditionalAuthorizationAction,
                 conditionalAchAction,
                 conditionalTokenizationAction,
+                typescriptCode,
             )
 
         override fun toString(): String =
@@ -761,6 +793,7 @@ private constructor(
                     "Parameters{conditionalAchAction=$conditionalAchAction}"
                 conditionalTokenizationAction != null ->
                     "Parameters{conditionalTokenizationAction=$conditionalTokenizationAction}"
+                typescriptCode != null -> "Parameters{typescriptCode=$typescriptCode}"
                 _json != null -> "Parameters{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Parameters")
             }
@@ -798,6 +831,11 @@ private constructor(
             fun ofConditionalTokenizationAction(
                 conditionalTokenizationAction: ConditionalTokenizationActionParameters
             ) = Parameters(conditionalTokenizationAction = conditionalTokenizationAction)
+
+            /** Parameters for defining a TypeScript code rule */
+            @JvmStatic
+            fun ofTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                Parameters(typescriptCode = typescriptCode)
         }
 
         /**
@@ -824,6 +862,9 @@ private constructor(
             fun visitConditionalTokenizationAction(
                 conditionalTokenizationAction: ConditionalTokenizationActionParameters
             ): T
+
+            /** Parameters for defining a TypeScript code rule */
+            fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters): T
 
             /**
              * Maps an unknown variant of [Parameters] to a value of type [T].
@@ -873,6 +914,9 @@ private constructor(
                                 ?.let {
                                     Parameters(conditionalTokenizationAction = it, _json = json)
                                 },
+                            tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())?.let {
+                                Parameters(typescriptCode = it, _json = json)
+                            },
                         )
                         .filterNotNull()
                         .allMaxBy { it.validity() }
@@ -910,6 +954,7 @@ private constructor(
                         generator.writeObject(value.conditionalAchAction)
                     value.conditionalTokenizationAction != null ->
                         generator.writeObject(value.conditionalTokenizationAction)
+                    value.typescriptCode != null -> generator.writeObject(value.typescriptCode)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Parameters")
                 }
