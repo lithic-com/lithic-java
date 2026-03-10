@@ -227,6 +227,7 @@ private constructor(
         private val cardToken: JsonField<String>,
         private val descriptor: JsonField<String>,
         private val eventSubtype: JsonField<String>,
+        private val loanTapeDate: JsonField<LocalDate>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -267,6 +268,9 @@ private constructor(
             @JsonProperty("event_subtype")
             @ExcludeMissing
             eventSubtype: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("loan_tape_date")
+            @ExcludeMissing
+            loanTapeDate: JsonField<LocalDate> = JsonMissing.of(),
         ) : this(
             token,
             amount,
@@ -281,6 +285,7 @@ private constructor(
             cardToken,
             descriptor,
             eventSubtype,
+            loanTapeDate,
             mutableMapOf(),
         )
 
@@ -384,6 +389,14 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun eventSubtype(): Optional<String> = eventSubtype.getOptional("event_subtype")
+
+        /**
+         * Date of the loan tape that generated this line item
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun loanTapeDate(): Optional<LocalDate> = loanTapeDate.getOptional("loan_tape_date")
 
         /**
          * Returns the raw JSON value of [token].
@@ -497,6 +510,16 @@ private constructor(
         @ExcludeMissing
         fun _eventSubtype(): JsonField<String> = eventSubtype
 
+        /**
+         * Returns the raw JSON value of [loanTapeDate].
+         *
+         * Unlike [loanTapeDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("loan_tape_date")
+        @ExcludeMissing
+        fun _loanTapeDate(): JsonField<LocalDate> = loanTapeDate
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -548,6 +571,7 @@ private constructor(
             private var cardToken: JsonField<String> = JsonMissing.of()
             private var descriptor: JsonField<String> = JsonMissing.of()
             private var eventSubtype: JsonField<String> = JsonMissing.of()
+            private var loanTapeDate: JsonField<LocalDate> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -566,6 +590,7 @@ private constructor(
                 cardToken = statementLineItemResponse.cardToken
                 descriptor = statementLineItemResponse.descriptor
                 eventSubtype = statementLineItemResponse.eventSubtype
+                loanTapeDate = statementLineItemResponse.loanTapeDate
                 additionalProperties = statementLineItemResponse.additionalProperties.toMutableMap()
             }
 
@@ -745,6 +770,25 @@ private constructor(
                 this.eventSubtype = eventSubtype
             }
 
+            /** Date of the loan tape that generated this line item */
+            fun loanTapeDate(loanTapeDate: LocalDate?) =
+                loanTapeDate(JsonField.ofNullable(loanTapeDate))
+
+            /** Alias for calling [Builder.loanTapeDate] with `loanTapeDate.orElse(null)`. */
+            fun loanTapeDate(loanTapeDate: Optional<LocalDate>) =
+                loanTapeDate(loanTapeDate.getOrNull())
+
+            /**
+             * Sets [Builder.loanTapeDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.loanTapeDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun loanTapeDate(loanTapeDate: JsonField<LocalDate>) = apply {
+                this.loanTapeDate = loanTapeDate
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -800,6 +844,7 @@ private constructor(
                     cardToken,
                     descriptor,
                     eventSubtype,
+                    loanTapeDate,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -824,6 +869,7 @@ private constructor(
             cardToken()
             descriptor()
             eventSubtype()
+            loanTapeDate()
             validated = true
         }
 
@@ -855,7 +901,8 @@ private constructor(
                 (if (financialTransactionToken.asKnown().isPresent) 1 else 0) +
                 (if (cardToken.asKnown().isPresent) 1 else 0) +
                 (if (descriptor.asKnown().isPresent) 1 else 0) +
-                (if (eventSubtype.asKnown().isPresent) 1 else 0)
+                (if (eventSubtype.asKnown().isPresent) 1 else 0) +
+                (if (loanTapeDate.asKnown().isPresent) 1 else 0)
 
         class TransactionCategory
         @JsonCreator
@@ -1768,6 +1815,7 @@ private constructor(
                 cardToken == other.cardToken &&
                 descriptor == other.descriptor &&
                 eventSubtype == other.eventSubtype &&
+                loanTapeDate == other.loanTapeDate &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -1786,6 +1834,7 @@ private constructor(
                 cardToken,
                 descriptor,
                 eventSubtype,
+                loanTapeDate,
                 additionalProperties,
             )
         }
@@ -1793,7 +1842,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "StatementLineItemResponse{token=$token, amount=$amount, category=$category, created=$created, currency=$currency, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, financialTransactionEventToken=$financialTransactionEventToken, financialTransactionToken=$financialTransactionToken, cardToken=$cardToken, descriptor=$descriptor, eventSubtype=$eventSubtype, additionalProperties=$additionalProperties}"
+            "StatementLineItemResponse{token=$token, amount=$amount, category=$category, created=$created, currency=$currency, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, financialTransactionEventToken=$financialTransactionEventToken, financialTransactionToken=$financialTransactionToken, cardToken=$cardToken, descriptor=$descriptor, eventSubtype=$eventSubtype, loanTapeDate=$loanTapeDate, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
