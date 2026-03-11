@@ -14,6 +14,7 @@ internal class FinancialAccountInterestTierScheduleUpdateParamsTest {
         FinancialAccountInterestTierScheduleUpdateParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .effectiveDate(LocalDate.parse("2019-12-27"))
+            .penaltyRates(JsonValue.from(mapOf<String, Any>()))
             .tierName("tier_name")
             .tierRates(JsonValue.from(mapOf<String, Any>()))
             .build()
@@ -39,12 +40,14 @@ internal class FinancialAccountInterestTierScheduleUpdateParamsTest {
             FinancialAccountInterestTierScheduleUpdateParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .effectiveDate(LocalDate.parse("2019-12-27"))
+                .penaltyRates(JsonValue.from(mapOf<String, Any>()))
                 .tierName("tier_name")
                 .tierRates(JsonValue.from(mapOf<String, Any>()))
                 .build()
 
         val body = params._body()
 
+        assertThat(body._penaltyRates()).isEqualTo(JsonValue.from(mapOf<String, Any>()))
         assertThat(body.tierName()).contains("tier_name")
         assertThat(body._tierRates()).isEqualTo(JsonValue.from(mapOf<String, Any>()))
     }
