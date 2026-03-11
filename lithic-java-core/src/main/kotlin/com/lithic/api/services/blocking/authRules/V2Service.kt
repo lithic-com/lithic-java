@@ -125,8 +125,9 @@ interface V2Service {
     /**
      * Updates a V2 Auth rule's properties
      *
-     * If `account_tokens`, `card_tokens`, `program_level`, or `excluded_card_tokens` is provided,
-     * this will replace existing associations with the provided list of entities.
+     * If `account_tokens`, `card_tokens`, `program_level`, `excluded_card_tokens`,
+     * `excluded_account_tokens`, or `excluded_business_account_tokens` is provided, this will
+     * replace existing associations with the provided list of entities.
      */
     fun update(authRuleToken: String, params: AuthRuleV2UpdateParams): AuthRule =
         update(authRuleToken, params, RequestOptions.none())
