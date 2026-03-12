@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Withdraw dispute. */
+/** Withdraw chargeback request. */
 class DisputeDeleteParams
 private constructor(
     private val disputeToken: String?,
