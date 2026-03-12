@@ -1086,6 +1086,8 @@ private constructor(
 
                 @JvmField val ACH = of("ACH")
 
+                @JvmField val WIRE = of("WIRE")
+
                 @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
                 @JvmField val FEE = of("FEE")
@@ -1132,6 +1134,7 @@ private constructor(
             /** An enum containing [TransactionCategory]'s known values. */
             enum class Known {
                 ACH,
+                WIRE,
                 BALANCE_OR_FUNDING,
                 FEE,
                 REWARD,
@@ -1167,6 +1170,7 @@ private constructor(
              */
             enum class Value {
                 ACH,
+                WIRE,
                 BALANCE_OR_FUNDING,
                 FEE,
                 REWARD,
@@ -1204,6 +1208,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     ACH -> Value.ACH
+                    WIRE -> Value.WIRE
                     BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
                     FEE -> Value.FEE
                     REWARD -> Value.REWARD
@@ -1239,6 +1244,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     ACH -> Known.ACH
+                    WIRE -> Known.WIRE
                     BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
                     FEE -> Known.FEE
                     REWARD -> Known.REWARD
