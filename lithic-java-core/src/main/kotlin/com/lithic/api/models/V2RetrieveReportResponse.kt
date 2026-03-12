@@ -614,7 +614,7 @@ private constructor(
         private constructor(
             private val actionCounts: JsonField<ActionCounts>,
             private val examples: JsonField<List<Example>>,
-            private val state: JsonField<State>,
+            private val state: JsonField<AuthRuleVersionState>,
             private val version: JsonField<Long>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
@@ -627,7 +627,9 @@ private constructor(
                 @JsonProperty("examples")
                 @ExcludeMissing
                 examples: JsonField<List<Example>> = JsonMissing.of(),
-                @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+                @JsonProperty("state")
+                @ExcludeMissing
+                state: JsonField<AuthRuleVersionState> = JsonMissing.of(),
                 @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
             ) : this(actionCounts, examples, state, version, mutableMapOf())
 
@@ -659,7 +661,7 @@ private constructor(
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
              */
-            fun state(): State = state.getRequired("state")
+            fun state(): AuthRuleVersionState = state.getRequired("state")
 
             /**
              * The rule version number.
@@ -695,7 +697,9 @@ private constructor(
              *
              * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
              */
-            @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
+            @JsonProperty("state")
+            @ExcludeMissing
+            fun _state(): JsonField<AuthRuleVersionState> = state
 
             /**
              * Returns the raw JSON value of [version].
@@ -737,7 +741,7 @@ private constructor(
 
                 private var actionCounts: JsonField<ActionCounts>? = null
                 private var examples: JsonField<MutableList<Example>>? = null
-                private var state: JsonField<State>? = null
+                private var state: JsonField<AuthRuleVersionState>? = null
                 private var version: JsonField<Long>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -797,16 +801,16 @@ private constructor(
                 }
 
                 /** The evaluation mode of this version during the reported period. */
-                fun state(state: State) = state(JsonField.of(state))
+                fun state(state: AuthRuleVersionState) = state(JsonField.of(state))
 
                 /**
                  * Sets [Builder.state] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.state] with a well-typed [State] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
+                 * You should usually call [Builder.state] with a well-typed [AuthRuleVersionState]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
                  */
-                fun state(state: JsonField<State>) = apply { this.state = state }
+                fun state(state: JsonField<AuthRuleVersionState>) = apply { this.state = state }
 
                 /** The rule version number. */
                 fun version(version: Long) = version(JsonField.of(version))
@@ -5580,8 +5584,9 @@ private constructor(
             }
 
             /** The evaluation mode of this version during the reported period. */
-            class State @JsonCreator private constructor(private val value: JsonField<String>) :
-                Enum {
+            class AuthRuleVersionState
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
 
                 /**
                  * Returns this class instance's raw value.
@@ -5601,10 +5606,10 @@ private constructor(
 
                     @JvmField val INACTIVE = of("INACTIVE")
 
-                    @JvmStatic fun of(value: String) = State(JsonField.of(value))
+                    @JvmStatic fun of(value: String) = AuthRuleVersionState(JsonField.of(value))
                 }
 
-                /** An enum containing [State]'s known values. */
+                /** An enum containing [AuthRuleVersionState]'s known values. */
                 enum class Known {
                     ACTIVE,
                     SHADOW,
@@ -5612,9 +5617,11 @@ private constructor(
                 }
 
                 /**
-                 * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
+                 * An enum containing [AuthRuleVersionState]'s known values, as well as an
+                 * [_UNKNOWN] member.
                  *
-                 * An instance of [State] can contain an unknown value in a couple of cases:
+                 * An instance of [AuthRuleVersionState] can contain an unknown value in a couple of
+                 * cases:
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
@@ -5625,8 +5632,8 @@ private constructor(
                     SHADOW,
                     INACTIVE,
                     /**
-                     * An enum member indicating that [State] was instantiated with an unknown
-                     * value.
+                     * An enum member indicating that [AuthRuleVersionState] was instantiated with
+                     * an unknown value.
                      */
                     _UNKNOWN,
                 }
@@ -5660,7 +5667,8 @@ private constructor(
                         ACTIVE -> Known.ACTIVE
                         SHADOW -> Known.SHADOW
                         INACTIVE -> Known.INACTIVE
-                        else -> throw LithicInvalidDataException("Unknown State: $value")
+                        else ->
+                            throw LithicInvalidDataException("Unknown AuthRuleVersionState: $value")
                     }
 
                 /**
@@ -5679,7 +5687,7 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                fun validate(): State = apply {
+                fun validate(): AuthRuleVersionState = apply {
                     if (validated) {
                         return@apply
                     }
@@ -5709,7 +5717,7 @@ private constructor(
                         return true
                     }
 
-                    return other is State && value == other.value
+                    return other is AuthRuleVersionState && value == other.value
                 }
 
                 override fun hashCode() = value.hashCode()
