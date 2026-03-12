@@ -16,7 +16,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** List disputes. */
+/** List chargeback requests. */
 class DisputeListParams
 private constructor(
     private val begin: OffsetDateTime?,
@@ -57,7 +57,7 @@ private constructor(
      */
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
-    /** List disputes of a specific status. */
+    /** Filter by status. */
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
     /** Transaction tokens to filter by. */
@@ -155,7 +155,7 @@ private constructor(
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
-        /** List disputes of a specific status. */
+        /** Filter by status. */
         fun status(status: Status?) = apply { this.status = status }
 
         /** Alias for calling [Builder.status] with `status.orElse(null)`. */
@@ -313,7 +313,7 @@ private constructor(
             }
             .build()
 
-    /** List disputes of a specific status. */
+    /** Filter by status. */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
