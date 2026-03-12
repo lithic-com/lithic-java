@@ -95,6 +95,55 @@ internal class V2RetrieveReportResponseTest {
                                 )
                                 .build()
                         )
+                        .addVersion(
+                            V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.builder()
+                                .actionCounts(
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                        .ActionCounts
+                                        .builder()
+                                        .putAdditionalProperty("foo", JsonValue.from(0))
+                                        .build()
+                                )
+                                .addExample(
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.Example
+                                        .builder()
+                                        .addAction(
+                                            V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                                .Example
+                                                .Action
+                                                .DeclineActionAuthorization
+                                                .builder()
+                                                .code(
+                                                    V2RetrieveReportResponse.DailyStatistic
+                                                        .ReportStatsV2
+                                                        .Example
+                                                        .Action
+                                                        .DeclineActionAuthorization
+                                                        .DetailedResult
+                                                        .APPROVED
+                                                )
+                                                .type(
+                                                    V2RetrieveReportResponse.DailyStatistic
+                                                        .ReportStatsV2
+                                                        .Example
+                                                        .Action
+                                                        .DeclineActionAuthorization
+                                                        .Type
+                                                        .DECLINE
+                                                )
+                                                .build()
+                                        )
+                                        .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                        .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                        .build()
+                                )
+                                .state(
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.State
+                                        .ACTIVE
+                                )
+                                .version(0L)
+                                .build()
+                        )
                         .build()
                 )
                 .end(LocalDate.parse("2019-12-27"))
@@ -179,6 +228,53 @@ internal class V2RetrieveReportResponseTest {
                                     .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                     .build()
                             )
+                            .build()
+                    )
+                    .addVersion(
+                        V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.builder()
+                            .actionCounts(
+                                V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.ActionCounts
+                                    .builder()
+                                    .putAdditionalProperty("foo", JsonValue.from(0))
+                                    .build()
+                            )
+                            .addExample(
+                                V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.Example
+                                    .builder()
+                                    .addAction(
+                                        V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                            .Example
+                                            .Action
+                                            .DeclineActionAuthorization
+                                            .builder()
+                                            .code(
+                                                V2RetrieveReportResponse.DailyStatistic
+                                                    .ReportStatsV2
+                                                    .Example
+                                                    .Action
+                                                    .DeclineActionAuthorization
+                                                    .DetailedResult
+                                                    .APPROVED
+                                            )
+                                            .type(
+                                                V2RetrieveReportResponse.DailyStatistic
+                                                    .ReportStatsV2
+                                                    .Example
+                                                    .Action
+                                                    .DeclineActionAuthorization
+                                                    .Type
+                                                    .DECLINE
+                                            )
+                                            .build()
+                                    )
+                                    .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                    .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                    .build()
+                            )
+                            .state(
+                                V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.State.ACTIVE
+                            )
+                            .version(0L)
                             .build()
                     )
                     .build()
@@ -268,6 +364,55 @@ internal class V2RetrieveReportResponseTest {
                                         .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .build()
                                 )
+                                .build()
+                        )
+                        .addVersion(
+                            V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.builder()
+                                .actionCounts(
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                        .ActionCounts
+                                        .builder()
+                                        .putAdditionalProperty("foo", JsonValue.from(0))
+                                        .build()
+                                )
+                                .addExample(
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.Example
+                                        .builder()
+                                        .addAction(
+                                            V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                                .Example
+                                                .Action
+                                                .DeclineActionAuthorization
+                                                .builder()
+                                                .code(
+                                                    V2RetrieveReportResponse.DailyStatistic
+                                                        .ReportStatsV2
+                                                        .Example
+                                                        .Action
+                                                        .DeclineActionAuthorization
+                                                        .DetailedResult
+                                                        .APPROVED
+                                                )
+                                                .type(
+                                                    V2RetrieveReportResponse.DailyStatistic
+                                                        .ReportStatsV2
+                                                        .Example
+                                                        .Action
+                                                        .DeclineActionAuthorization
+                                                        .Type
+                                                        .DECLINE
+                                                )
+                                                .build()
+                                        )
+                                        .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                        .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                        .build()
+                                )
+                                .state(
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.State
+                                        .ACTIVE
+                                )
+                                .version(0L)
                                 .build()
                         )
                         .build()
