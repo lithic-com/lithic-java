@@ -23,7 +23,7 @@ class BacktestResults
 private constructor(
     private val backtestToken: JsonField<String>,
     private val results: JsonField<Results>,
-    private val simulationParameters: JsonField<SimulationParameters>,
+    private val simulationParameters: JsonField<BacktestSimulationParameters>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -35,7 +35,7 @@ private constructor(
         @JsonProperty("results") @ExcludeMissing results: JsonField<Results> = JsonMissing.of(),
         @JsonProperty("simulation_parameters")
         @ExcludeMissing
-        simulationParameters: JsonField<SimulationParameters> = JsonMissing.of(),
+        simulationParameters: JsonField<BacktestSimulationParameters> = JsonMissing.of(),
     ) : this(backtestToken, results, simulationParameters, mutableMapOf())
 
     /**
@@ -56,7 +56,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun simulationParameters(): SimulationParameters =
+    fun simulationParameters(): BacktestSimulationParameters =
         simulationParameters.getRequired("simulation_parameters")
 
     /**
@@ -83,7 +83,7 @@ private constructor(
      */
     @JsonProperty("simulation_parameters")
     @ExcludeMissing
-    fun _simulationParameters(): JsonField<SimulationParameters> = simulationParameters
+    fun _simulationParameters(): JsonField<BacktestSimulationParameters> = simulationParameters
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -117,7 +117,7 @@ private constructor(
 
         private var backtestToken: JsonField<String>? = null
         private var results: JsonField<Results>? = null
-        private var simulationParameters: JsonField<SimulationParameters>? = null
+        private var simulationParameters: JsonField<BacktestSimulationParameters>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -152,19 +152,20 @@ private constructor(
          */
         fun results(results: JsonField<Results>) = apply { this.results = results }
 
-        fun simulationParameters(simulationParameters: SimulationParameters) =
+        fun simulationParameters(simulationParameters: BacktestSimulationParameters) =
             simulationParameters(JsonField.of(simulationParameters))
 
         /**
          * Sets [Builder.simulationParameters] to an arbitrary JSON value.
          *
          * You should usually call [Builder.simulationParameters] with a well-typed
-         * [SimulationParameters] value instead. This method is primarily for setting the field to
-         * an undocumented or not yet supported value.
+         * [BacktestSimulationParameters] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
          */
-        fun simulationParameters(simulationParameters: JsonField<SimulationParameters>) = apply {
-            this.simulationParameters = simulationParameters
-        }
+        fun simulationParameters(simulationParameters: JsonField<BacktestSimulationParameters>) =
+            apply {
+                this.simulationParameters = simulationParameters
+            }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -439,10 +440,9 @@ private constructor(
             "Results{currentVersion=$currentVersion, draftVersion=$draftVersion, additionalProperties=$additionalProperties}"
     }
 
-    class SimulationParameters
+    class BacktestSimulationParameters
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val authRuleToken: JsonField<String>,
         private val end: JsonField<OffsetDateTime>,
         private val start: JsonField<OffsetDateTime>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -450,48 +450,27 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("auth_rule_token")
-            @ExcludeMissing
-            authRuleToken: JsonField<String> = JsonMissing.of(),
             @JsonProperty("end") @ExcludeMissing end: JsonField<OffsetDateTime> = JsonMissing.of(),
             @JsonProperty("start")
             @ExcludeMissing
             start: JsonField<OffsetDateTime> = JsonMissing.of(),
-        ) : this(authRuleToken, end, start, mutableMapOf())
+        ) : this(end, start, mutableMapOf())
 
         /**
-         * Auth Rule Token
+         * The end time of the simulation
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun authRuleToken(): Optional<String> = authRuleToken.getOptional("auth_rule_token")
+        fun end(): OffsetDateTime = end.getRequired("end")
 
         /**
-         * The end time of the simulation.
+         * The start time of the simulation
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun end(): Optional<OffsetDateTime> = end.getOptional("end")
-
-        /**
-         * The start time of the simulation.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun start(): Optional<OffsetDateTime> = start.getOptional("start")
-
-        /**
-         * Returns the raw JSON value of [authRuleToken].
-         *
-         * Unlike [authRuleToken], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("auth_rule_token")
-        @ExcludeMissing
-        fun _authRuleToken(): JsonField<String> = authRuleToken
+        fun start(): OffsetDateTime = start.getRequired("start")
 
         /**
          * Returns the raw JSON value of [end].
@@ -521,41 +500,35 @@ private constructor(
 
         companion object {
 
-            /** Returns a mutable builder for constructing an instance of [SimulationParameters]. */
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [BacktestSimulationParameters].
+             *
+             * The following fields are required:
+             * ```java
+             * .end()
+             * .start()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [SimulationParameters]. */
+        /** A builder for [BacktestSimulationParameters]. */
         class Builder internal constructor() {
 
-            private var authRuleToken: JsonField<String> = JsonMissing.of()
-            private var end: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var start: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var end: JsonField<OffsetDateTime>? = null
+            private var start: JsonField<OffsetDateTime>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(simulationParameters: SimulationParameters) = apply {
-                authRuleToken = simulationParameters.authRuleToken
-                end = simulationParameters.end
-                start = simulationParameters.start
-                additionalProperties = simulationParameters.additionalProperties.toMutableMap()
+            internal fun from(backtestSimulationParameters: BacktestSimulationParameters) = apply {
+                end = backtestSimulationParameters.end
+                start = backtestSimulationParameters.start
+                additionalProperties =
+                    backtestSimulationParameters.additionalProperties.toMutableMap()
             }
 
-            /** Auth Rule Token */
-            fun authRuleToken(authRuleToken: String) = authRuleToken(JsonField.of(authRuleToken))
-
-            /**
-             * Sets [Builder.authRuleToken] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.authRuleToken] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun authRuleToken(authRuleToken: JsonField<String>) = apply {
-                this.authRuleToken = authRuleToken
-            }
-
-            /** The end time of the simulation. */
+            /** The end time of the simulation */
             fun end(end: OffsetDateTime) = end(JsonField.of(end))
 
             /**
@@ -567,7 +540,7 @@ private constructor(
              */
             fun end(end: JsonField<OffsetDateTime>) = apply { this.end = end }
 
-            /** The start time of the simulation. */
+            /** The start time of the simulation */
             fun start(start: OffsetDateTime) = start(JsonField.of(start))
 
             /**
@@ -599,22 +572,33 @@ private constructor(
             }
 
             /**
-             * Returns an immutable instance of [SimulationParameters].
+             * Returns an immutable instance of [BacktestSimulationParameters].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .end()
+             * .start()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
              */
-            fun build(): SimulationParameters =
-                SimulationParameters(authRuleToken, end, start, additionalProperties.toMutableMap())
+            fun build(): BacktestSimulationParameters =
+                BacktestSimulationParameters(
+                    checkRequired("end", end),
+                    checkRequired("start", start),
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
 
-        fun validate(): SimulationParameters = apply {
+        fun validate(): BacktestSimulationParameters = apply {
             if (validated) {
                 return@apply
             }
 
-            authRuleToken()
             end()
             start()
             validated = true
@@ -636,30 +620,25 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (authRuleToken.asKnown().isPresent) 1 else 0) +
-                (if (end.asKnown().isPresent) 1 else 0) +
-                (if (start.asKnown().isPresent) 1 else 0)
+            (if (end.asKnown().isPresent) 1 else 0) + (if (start.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return other is SimulationParameters &&
-                authRuleToken == other.authRuleToken &&
+            return other is BacktestSimulationParameters &&
                 end == other.end &&
                 start == other.start &&
                 additionalProperties == other.additionalProperties
         }
 
-        private val hashCode: Int by lazy {
-            Objects.hash(authRuleToken, end, start, additionalProperties)
-        }
+        private val hashCode: Int by lazy { Objects.hash(end, start, additionalProperties) }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "SimulationParameters{authRuleToken=$authRuleToken, end=$end, start=$start, additionalProperties=$additionalProperties}"
+            "BacktestSimulationParameters{end=$end, start=$start, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
