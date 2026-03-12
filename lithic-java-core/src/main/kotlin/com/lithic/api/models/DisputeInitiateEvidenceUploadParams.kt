@@ -20,8 +20,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Use this endpoint to upload evidences for the dispute. It will return a URL to upload your
- * documents to. The URL will expire in 30 minutes.
+ * Use this endpoint to upload evidence for a chargeback request. It will return a URL to upload
+ * your documents to. The URL will expire in 30 minutes.
  *
  * Uploaded documents must either be a `jpg`, `png` or `pdf` file, and each must be less than 5 GiB.
  */

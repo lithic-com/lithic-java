@@ -13,8 +13,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Soft delete evidence for a dispute. Evidence will not be reviewed or submitted by Lithic after it
- * is withdrawn.
+ * Soft delete evidence for a chargeback request. Evidence will not be reviewed or submitted by
+ * Lithic after it is withdrawn.
  */
 class DisputeDeleteEvidenceParams
 private constructor(
