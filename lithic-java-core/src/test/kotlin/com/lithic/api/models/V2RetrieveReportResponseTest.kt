@@ -138,7 +138,8 @@ internal class V2RetrieveReportResponseTest {
                                         .build()
                                 )
                                 .state(
-                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.State
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                        .AuthRuleVersionState
                                         .ACTIVE
                                 )
                                 .version(0L)
@@ -272,7 +273,9 @@ internal class V2RetrieveReportResponseTest {
                                     .build()
                             )
                             .state(
-                                V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.State.ACTIVE
+                                V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                    .AuthRuleVersionState
+                                    .ACTIVE
                             )
                             .version(0L)
                             .build()
@@ -409,7 +412,8 @@ internal class V2RetrieveReportResponseTest {
                                         .build()
                                 )
                                 .state(
-                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2.State
+                                    V2RetrieveReportResponse.DailyStatistic.ReportStatsV2
+                                        .AuthRuleVersionState
                                         .ACTIVE
                                 )
                                 .version(0L)
