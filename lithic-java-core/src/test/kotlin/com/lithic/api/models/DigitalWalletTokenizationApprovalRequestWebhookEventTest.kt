@@ -17,7 +17,49 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
             DigitalWalletTokenizationApprovalRequestWebhookEvent.builder()
                 .accountToken("00000000-0000-0000-0000-000000000002")
                 .cardToken("00000000-0000-0000-0000-000000000001")
-                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .created(OffsetDateTime.parse("2023-09-18T12:34:56Z"))
+                .digitalWalletTokenMetadata(
+                    TokenMetadata.builder()
+                        .paymentAccountInfo(
+                            TokenMetadata.PaymentAccountInfo.builder()
+                                .accountHolderData(
+                                    TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
+                                        .phoneNumber("+15555555555")
+                                        .build()
+                                )
+                                .panUniqueReference("pan_unique_ref_1234567890123456789012345678")
+                                .paymentAccountReference("ref_1234567890123456789012")
+                                .tokenUniqueReference(
+                                    "token_unique_ref_1234567890123456789012345678"
+                                )
+                                .build()
+                        )
+                        .status("Pending")
+                        .paymentAppInstanceId("app_instance_123456789012345678901234567890")
+                        .tokenRequestorId("12345678901")
+                        .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
+                        .build()
+                )
+                .eventType(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
+                        .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                )
+                .issuerDecision(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
+                )
+                .tokenizationChannel(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
+                        .DIGITAL_WALLET
+                )
+                .tokenizationToken("tok_1234567890abcdef")
+                .walletDecisioningInfo(
+                    WalletDecisioningInfo.builder()
+                        .accountScore("100")
+                        .deviceScore("100")
+                        .recommendedDecision("Decision1")
+                        .addRecommendationReason("Reason1")
+                        .build()
+                )
                 .customerTokenizationDecision(
                     DigitalWalletTokenizationApprovalRequestWebhookEvent
                         .CustomerTokenizationDecision
@@ -33,46 +75,6 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
                         .responseCode("123456")
                         .build()
                 )
-                .digitalWalletTokenMetadata(
-                    TokenMetadata.builder()
-                        .paymentAccountInfo(
-                            TokenMetadata.PaymentAccountInfo.builder()
-                                .accountHolderData(
-                                    TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
-                                        .phoneNumber("phone_number")
-                                        .build()
-                                )
-                                .panUniqueReference("pan_unique_reference")
-                                .paymentAccountReference("payment_account_reference")
-                                .tokenUniqueReference("token_unique_reference")
-                                .build()
-                        )
-                        .status("status")
-                        .paymentAppInstanceId("payment_app_instance_id")
-                        .tokenRequestorId("xxxxxxxxxxx")
-                        .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
-                        .build()
-                )
-                .eventType(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
-                        .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                )
-                .issuerDecision(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
-                )
-                .tokenizationChannel(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
-                        .DIGITAL_WALLET
-                )
-                .tokenizationToken("tokenization_token")
-                .walletDecisioningInfo(
-                    WalletDecisioningInfo.builder()
-                        .accountScore("100")
-                        .deviceScore("100")
-                        .recommendedDecision("Decision1")
-                        .addRecommendationReason("string")
-                        .build()
-                )
                 .device(
                     Device.builder()
                         .imei("123456789012345")
@@ -82,10 +84,10 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
                 )
                 .addRuleResult(
                     TokenizationRuleResult.builder()
-                        .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .explanation("explanation")
-                        .name("name")
-                        .result(TokenizationRuleResult.Result.APPROVED)
+                        .authRuleToken("550e8400-e29b-41d4-a716-446655440003")
+                        .explanation("Account risk too high")
+                        .name("CustomerAccountRule")
+                        .result(TokenizationRuleResult.Result.DECLINED)
                         .build()
                 )
                 .addTokenizationDeclineReason(TokenizationDeclineReason.ACCOUNT_SCORE_1)
@@ -101,7 +103,53 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
         assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.cardToken())
             .isEqualTo("00000000-0000-0000-0000-000000000001")
         assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.created())
-            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .isEqualTo(OffsetDateTime.parse("2023-09-18T12:34:56Z"))
+        assertThat(
+                digitalWalletTokenizationApprovalRequestWebhookEvent.digitalWalletTokenMetadata()
+            )
+            .isEqualTo(
+                TokenMetadata.builder()
+                    .paymentAccountInfo(
+                        TokenMetadata.PaymentAccountInfo.builder()
+                            .accountHolderData(
+                                TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
+                                    .phoneNumber("+15555555555")
+                                    .build()
+                            )
+                            .panUniqueReference("pan_unique_ref_1234567890123456789012345678")
+                            .paymentAccountReference("ref_1234567890123456789012")
+                            .tokenUniqueReference("token_unique_ref_1234567890123456789012345678")
+                            .build()
+                    )
+                    .status("Pending")
+                    .paymentAppInstanceId("app_instance_123456789012345678901234567890")
+                    .tokenRequestorId("12345678901")
+                    .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
+                    .build()
+            )
+        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.eventType())
+            .isEqualTo(
+                DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
+                    .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+            )
+        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.issuerDecision())
+            .isEqualTo(DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED)
+        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.tokenizationChannel())
+            .isEqualTo(
+                DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
+                    .DIGITAL_WALLET
+            )
+        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.tokenizationToken())
+            .isEqualTo("tok_1234567890abcdef")
+        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.walletDecisioningInfo())
+            .isEqualTo(
+                WalletDecisioningInfo.builder()
+                    .accountScore("100")
+                    .deviceScore("100")
+                    .recommendedDecision("Decision1")
+                    .addRecommendationReason("Reason1")
+                    .build()
+            )
         assertThat(
                 digitalWalletTokenizationApprovalRequestWebhookEvent.customerTokenizationDecision()
             )
@@ -119,52 +167,6 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
                     .responseCode("123456")
                     .build()
             )
-        assertThat(
-                digitalWalletTokenizationApprovalRequestWebhookEvent.digitalWalletTokenMetadata()
-            )
-            .isEqualTo(
-                TokenMetadata.builder()
-                    .paymentAccountInfo(
-                        TokenMetadata.PaymentAccountInfo.builder()
-                            .accountHolderData(
-                                TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
-                                    .phoneNumber("phone_number")
-                                    .build()
-                            )
-                            .panUniqueReference("pan_unique_reference")
-                            .paymentAccountReference("payment_account_reference")
-                            .tokenUniqueReference("token_unique_reference")
-                            .build()
-                    )
-                    .status("status")
-                    .paymentAppInstanceId("payment_app_instance_id")
-                    .tokenRequestorId("xxxxxxxxxxx")
-                    .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
-                    .build()
-            )
-        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.eventType())
-            .isEqualTo(
-                DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
-                    .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-            )
-        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.issuerDecision())
-            .isEqualTo(DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED)
-        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.tokenizationChannel())
-            .isEqualTo(
-                DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
-                    .DIGITAL_WALLET
-            )
-        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.tokenizationToken())
-            .isEqualTo("tokenization_token")
-        assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.walletDecisioningInfo())
-            .isEqualTo(
-                WalletDecisioningInfo.builder()
-                    .accountScore("100")
-                    .deviceScore("100")
-                    .recommendedDecision("Decision1")
-                    .addRecommendationReason("string")
-                    .build()
-            )
         assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.device())
             .contains(
                 Device.builder()
@@ -176,10 +178,10 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
         assertThat(digitalWalletTokenizationApprovalRequestWebhookEvent.ruleResults().getOrNull())
             .containsExactly(
                 TokenizationRuleResult.builder()
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .explanation("explanation")
-                    .name("name")
-                    .result(TokenizationRuleResult.Result.APPROVED)
+                    .authRuleToken("550e8400-e29b-41d4-a716-446655440003")
+                    .explanation("Account risk too high")
+                    .name("CustomerAccountRule")
+                    .result(TokenizationRuleResult.Result.DECLINED)
                     .build()
             )
         assertThat(
@@ -208,7 +210,49 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
             DigitalWalletTokenizationApprovalRequestWebhookEvent.builder()
                 .accountToken("00000000-0000-0000-0000-000000000002")
                 .cardToken("00000000-0000-0000-0000-000000000001")
-                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .created(OffsetDateTime.parse("2023-09-18T12:34:56Z"))
+                .digitalWalletTokenMetadata(
+                    TokenMetadata.builder()
+                        .paymentAccountInfo(
+                            TokenMetadata.PaymentAccountInfo.builder()
+                                .accountHolderData(
+                                    TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
+                                        .phoneNumber("+15555555555")
+                                        .build()
+                                )
+                                .panUniqueReference("pan_unique_ref_1234567890123456789012345678")
+                                .paymentAccountReference("ref_1234567890123456789012")
+                                .tokenUniqueReference(
+                                    "token_unique_ref_1234567890123456789012345678"
+                                )
+                                .build()
+                        )
+                        .status("Pending")
+                        .paymentAppInstanceId("app_instance_123456789012345678901234567890")
+                        .tokenRequestorId("12345678901")
+                        .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
+                        .build()
+                )
+                .eventType(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
+                        .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                )
+                .issuerDecision(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
+                )
+                .tokenizationChannel(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
+                        .DIGITAL_WALLET
+                )
+                .tokenizationToken("tok_1234567890abcdef")
+                .walletDecisioningInfo(
+                    WalletDecisioningInfo.builder()
+                        .accountScore("100")
+                        .deviceScore("100")
+                        .recommendedDecision("Decision1")
+                        .addRecommendationReason("Reason1")
+                        .build()
+                )
                 .customerTokenizationDecision(
                     DigitalWalletTokenizationApprovalRequestWebhookEvent
                         .CustomerTokenizationDecision
@@ -224,46 +268,6 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
                         .responseCode("123456")
                         .build()
                 )
-                .digitalWalletTokenMetadata(
-                    TokenMetadata.builder()
-                        .paymentAccountInfo(
-                            TokenMetadata.PaymentAccountInfo.builder()
-                                .accountHolderData(
-                                    TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
-                                        .phoneNumber("phone_number")
-                                        .build()
-                                )
-                                .panUniqueReference("pan_unique_reference")
-                                .paymentAccountReference("payment_account_reference")
-                                .tokenUniqueReference("token_unique_reference")
-                                .build()
-                        )
-                        .status("status")
-                        .paymentAppInstanceId("payment_app_instance_id")
-                        .tokenRequestorId("xxxxxxxxxxx")
-                        .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
-                        .build()
-                )
-                .eventType(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
-                        .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                )
-                .issuerDecision(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
-                )
-                .tokenizationChannel(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
-                        .DIGITAL_WALLET
-                )
-                .tokenizationToken("tokenization_token")
-                .walletDecisioningInfo(
-                    WalletDecisioningInfo.builder()
-                        .accountScore("100")
-                        .deviceScore("100")
-                        .recommendedDecision("Decision1")
-                        .addRecommendationReason("string")
-                        .build()
-                )
                 .device(
                     Device.builder()
                         .imei("123456789012345")
@@ -273,10 +277,10 @@ internal class DigitalWalletTokenizationApprovalRequestWebhookEventTest {
                 )
                 .addRuleResult(
                     TokenizationRuleResult.builder()
-                        .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .explanation("explanation")
-                        .name("name")
-                        .result(TokenizationRuleResult.Result.APPROVED)
+                        .authRuleToken("550e8400-e29b-41d4-a716-446655440003")
+                        .explanation("Account risk too high")
+                        .name("CustomerAccountRule")
+                        .result(TokenizationRuleResult.Result.DECLINED)
                         .build()
                 )
                 .addTokenizationDeclineReason(TokenizationDeclineReason.ACCOUNT_SCORE_1)

@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Get chargeback request. */
+/** Get dispute. */
 class DisputeRetrieveParams
 private constructor(
     private val disputeToken: String?,
