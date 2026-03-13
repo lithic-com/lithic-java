@@ -36,16 +36,6 @@ private constructor(
     fun effectiveDate(): Optional<LocalDate> = Optional.ofNullable(effectiveDate)
 
     /**
-     * Custom rates per category for penalties
-     *
-     * This arbitrary value can be deserialized into a custom type using the `convert` method:
-     * ```java
-     * MyClass myObject = financialAccountInterestTierScheduleUpdateParams.penaltyRates().convert(MyClass.class);
-     * ```
-     */
-    fun _penaltyRates(): JsonValue = body._penaltyRates()
-
-    /**
      * Name of a tier contained in the credit product. Mutually exclusive with tier_rates
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -134,14 +124,10 @@ private constructor(
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
-         * - [penaltyRates]
          * - [tierName]
          * - [tierRates]
          */
         fun body(body: UpdateTierScheduleEntryRequest) = apply { this.body = body.toBuilder() }
-
-        /** Custom rates per category for penalties */
-        fun penaltyRates(penaltyRates: JsonValue) = apply { body.penaltyRates(penaltyRates) }
 
         /** Name of a tier contained in the credit product. Mutually exclusive with tier_rates */
         fun tierName(tierName: String) = apply { body.tierName(tierName) }
@@ -313,7 +299,6 @@ private constructor(
     class UpdateTierScheduleEntryRequest
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val penaltyRates: JsonValue,
         private val tierName: JsonField<String>,
         private val tierRates: JsonValue,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -321,24 +306,11 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("penalty_rates")
-            @ExcludeMissing
-            penaltyRates: JsonValue = JsonMissing.of(),
             @JsonProperty("tier_name")
             @ExcludeMissing
             tierName: JsonField<String> = JsonMissing.of(),
             @JsonProperty("tier_rates") @ExcludeMissing tierRates: JsonValue = JsonMissing.of(),
-        ) : this(penaltyRates, tierName, tierRates, mutableMapOf())
-
-        /**
-         * Custom rates per category for penalties
-         *
-         * This arbitrary value can be deserialized into a custom type using the `convert` method:
-         * ```java
-         * MyClass myObject = updateTierScheduleEntryRequest.penaltyRates().convert(MyClass.class);
-         * ```
-         */
-        @JsonProperty("penalty_rates") @ExcludeMissing fun _penaltyRates(): JsonValue = penaltyRates
+        ) : this(tierName, tierRates, mutableMapOf())
 
         /**
          * Name of a tier contained in the credit product. Mutually exclusive with tier_rates
@@ -389,7 +361,6 @@ private constructor(
         /** A builder for [UpdateTierScheduleEntryRequest]. */
         class Builder internal constructor() {
 
-            private var penaltyRates: JsonValue = JsonMissing.of()
             private var tierName: JsonField<String> = JsonMissing.of()
             private var tierRates: JsonValue = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -397,15 +368,11 @@ private constructor(
             @JvmSynthetic
             internal fun from(updateTierScheduleEntryRequest: UpdateTierScheduleEntryRequest) =
                 apply {
-                    penaltyRates = updateTierScheduleEntryRequest.penaltyRates
                     tierName = updateTierScheduleEntryRequest.tierName
                     tierRates = updateTierScheduleEntryRequest.tierRates
                     additionalProperties =
                         updateTierScheduleEntryRequest.additionalProperties.toMutableMap()
                 }
-
-            /** Custom rates per category for penalties */
-            fun penaltyRates(penaltyRates: JsonValue) = apply { this.penaltyRates = penaltyRates }
 
             /**
              * Name of a tier contained in the credit product. Mutually exclusive with tier_rates
@@ -450,7 +417,6 @@ private constructor(
              */
             fun build(): UpdateTierScheduleEntryRequest =
                 UpdateTierScheduleEntryRequest(
-                    penaltyRates,
                     tierName,
                     tierRates,
                     additionalProperties.toMutableMap(),
@@ -490,20 +456,19 @@ private constructor(
             }
 
             return other is UpdateTierScheduleEntryRequest &&
-                penaltyRates == other.penaltyRates &&
                 tierName == other.tierName &&
                 tierRates == other.tierRates &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(penaltyRates, tierName, tierRates, additionalProperties)
+            Objects.hash(tierName, tierRates, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "UpdateTierScheduleEntryRequest{penaltyRates=$penaltyRates, tierName=$tierName, tierRates=$tierRates, additionalProperties=$additionalProperties}"
+            "UpdateTierScheduleEntryRequest{tierName=$tierName, tierRates=$tierRates, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

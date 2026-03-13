@@ -22,7 +22,7 @@ class AuthRulesBacktestReportCreatedWebhookEvent
 private constructor(
     private val backtestToken: JsonField<String>,
     private val results: JsonField<BacktestResults.Results>,
-    private val simulationParameters: JsonField<BacktestResults.BacktestSimulationParameters>,
+    private val simulationParameters: JsonField<BacktestResults.SimulationParameters>,
     private val eventType: JsonField<EventType>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -37,8 +37,7 @@ private constructor(
         results: JsonField<BacktestResults.Results> = JsonMissing.of(),
         @JsonProperty("simulation_parameters")
         @ExcludeMissing
-        simulationParameters: JsonField<BacktestResults.BacktestSimulationParameters> =
-            JsonMissing.of(),
+        simulationParameters: JsonField<BacktestResults.SimulationParameters> = JsonMissing.of(),
         @JsonProperty("event_type")
         @ExcludeMissing
         eventType: JsonField<EventType> = JsonMissing.of(),
@@ -69,7 +68,7 @@ private constructor(
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun simulationParameters(): BacktestResults.BacktestSimulationParameters =
+    fun simulationParameters(): BacktestResults.SimulationParameters =
         simulationParameters.getRequired("simulation_parameters")
 
     /**
@@ -106,7 +105,7 @@ private constructor(
      */
     @JsonProperty("simulation_parameters")
     @ExcludeMissing
-    fun _simulationParameters(): JsonField<BacktestResults.BacktestSimulationParameters> =
+    fun _simulationParameters(): JsonField<BacktestResults.SimulationParameters> =
         simulationParameters
 
     /**
@@ -150,8 +149,7 @@ private constructor(
 
         private var backtestToken: JsonField<String>? = null
         private var results: JsonField<BacktestResults.Results>? = null
-        private var simulationParameters: JsonField<BacktestResults.BacktestSimulationParameters>? =
-            null
+        private var simulationParameters: JsonField<BacktestResults.SimulationParameters>? = null
         private var eventType: JsonField<EventType>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -192,19 +190,18 @@ private constructor(
          */
         fun results(results: JsonField<BacktestResults.Results>) = apply { this.results = results }
 
-        fun simulationParameters(
-            simulationParameters: BacktestResults.BacktestSimulationParameters
-        ) = simulationParameters(JsonField.of(simulationParameters))
+        fun simulationParameters(simulationParameters: BacktestResults.SimulationParameters) =
+            simulationParameters(JsonField.of(simulationParameters))
 
         /**
          * Sets [Builder.simulationParameters] to an arbitrary JSON value.
          *
          * You should usually call [Builder.simulationParameters] with a well-typed
-         * [BacktestResults.BacktestSimulationParameters] value instead. This method is primarily
-         * for setting the field to an undocumented or not yet supported value.
+         * [BacktestResults.SimulationParameters] value instead. This method is primarily for
+         * setting the field to an undocumented or not yet supported value.
          */
         fun simulationParameters(
-            simulationParameters: JsonField<BacktestResults.BacktestSimulationParameters>
+            simulationParameters: JsonField<BacktestResults.SimulationParameters>
         ) = apply { this.simulationParameters = simulationParameters }
 
         /** The type of event that occurred. */

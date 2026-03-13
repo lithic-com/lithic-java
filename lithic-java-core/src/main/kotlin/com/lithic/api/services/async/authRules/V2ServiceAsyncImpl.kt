@@ -27,13 +27,11 @@ import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2ListResultsPageAsync
 import com.lithic.api.models.AuthRuleV2ListResultsPageResponse
 import com.lithic.api.models.AuthRuleV2ListResultsParams
-import com.lithic.api.models.AuthRuleV2ListVersionsParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
-import com.lithic.api.models.V2ListVersionsResponse
 import com.lithic.api.models.V2RetrieveFeaturesResponse
 import com.lithic.api.models.V2RetrieveReportResponse
 import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
@@ -106,13 +104,6 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     ): CompletableFuture<AuthRuleV2ListResultsPageAsync> =
         // get /v2/auth_rules/results
         withRawResponse().listResults(params, requestOptions).thenApply { it.parse() }
-
-    override fun listVersions(
-        params: AuthRuleV2ListVersionsParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<V2ListVersionsResponse> =
-        // get /v2/auth_rules/{auth_rule_token}/versions
-        withRawResponse().listVersions(params, requestOptions).thenApply { it.parse() }
 
     override fun promote(
         params: AuthRuleV2PromoteParams,
@@ -384,39 +375,6 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                                     .params(params)
                                     .response(it)
                                     .build()
-                            }
-                    }
-                }
-        }
-
-        private val listVersionsHandler: Handler<V2ListVersionsResponse> =
-            jsonHandler<V2ListVersionsResponse>(clientOptions.jsonMapper)
-
-        override fun listVersions(
-            params: AuthRuleV2ListVersionsParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<V2ListVersionsResponse>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("v2", "auth_rules", params._pathParam(0), "versions")
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { listVersionsHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
                             }
                     }
                 }

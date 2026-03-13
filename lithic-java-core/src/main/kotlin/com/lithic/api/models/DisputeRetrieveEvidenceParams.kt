@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Get evidence for a chargeback request. */
+/** Get a dispute's evidence metadata. */
 class DisputeRetrieveEvidenceParams
 private constructor(
     private val disputeToken: String,

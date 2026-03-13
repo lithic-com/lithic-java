@@ -35,7 +35,7 @@ interface DisputeServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): DisputeServiceAsync
 
-    /** Request a chargeback. */
+    /** Initiate a dispute. */
     fun create(params: DisputeCreateParams): CompletableFuture<Dispute> =
         create(params, RequestOptions.none())
 
@@ -45,7 +45,7 @@ interface DisputeServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Dispute>
 
-    /** Get chargeback request. */
+    /** Get dispute. */
     fun retrieve(disputeToken: String): CompletableFuture<Dispute> =
         retrieve(disputeToken, DisputeRetrieveParams.none())
 
@@ -77,7 +77,7 @@ interface DisputeServiceAsync {
     fun retrieve(disputeToken: String, requestOptions: RequestOptions): CompletableFuture<Dispute> =
         retrieve(disputeToken, DisputeRetrieveParams.none(), requestOptions)
 
-    /** Update chargeback request. Can only be modified if status is `NEW`. */
+    /** Update dispute. Can only be modified if status is `NEW`. */
     fun update(disputeToken: String): CompletableFuture<Dispute> =
         update(disputeToken, DisputeUpdateParams.none())
 
@@ -109,7 +109,7 @@ interface DisputeServiceAsync {
     fun update(disputeToken: String, requestOptions: RequestOptions): CompletableFuture<Dispute> =
         update(disputeToken, DisputeUpdateParams.none(), requestOptions)
 
-    /** List chargeback requests. */
+    /** List disputes. */
     fun list(): CompletableFuture<DisputeListPageAsync> = list(DisputeListParams.none())
 
     /** @see list */
@@ -127,7 +127,7 @@ interface DisputeServiceAsync {
     fun list(requestOptions: RequestOptions): CompletableFuture<DisputeListPageAsync> =
         list(DisputeListParams.none(), requestOptions)
 
-    /** Withdraw chargeback request. */
+    /** Withdraw dispute. */
     fun delete(disputeToken: String): CompletableFuture<Dispute> =
         delete(disputeToken, DisputeDeleteParams.none())
 
@@ -160,8 +160,8 @@ interface DisputeServiceAsync {
         delete(disputeToken, DisputeDeleteParams.none(), requestOptions)
 
     /**
-     * Soft delete evidence for a chargeback request. Evidence will not be reviewed or submitted by
-     * Lithic after it is withdrawn.
+     * Soft delete evidence for a dispute. Evidence will not be reviewed or submitted by Lithic
+     * after it is withdrawn.
      */
     fun deleteEvidence(
         evidenceToken: String,
@@ -188,8 +188,8 @@ interface DisputeServiceAsync {
     ): CompletableFuture<DisputeEvidence>
 
     /**
-     * Use this endpoint to upload evidence for a chargeback request. It will return a URL to upload
-     * your documents to. The URL will expire in 30 minutes.
+     * Use this endpoint to upload evidences for the dispute. It will return a URL to upload your
+     * documents to. The URL will expire in 30 minutes.
      *
      * Uploaded documents must either be a `jpg`, `png` or `pdf` file, and each must be less than 5
      * GiB.
@@ -237,7 +237,7 @@ interface DisputeServiceAsync {
             requestOptions,
         )
 
-    /** List evidence for a chargeback request. */
+    /** List evidence metadata for a dispute. */
     fun listEvidences(disputeToken: String): CompletableFuture<DisputeListEvidencesPageAsync> =
         listEvidences(disputeToken, DisputeListEvidencesParams.none())
 
@@ -275,7 +275,7 @@ interface DisputeServiceAsync {
     ): CompletableFuture<DisputeListEvidencesPageAsync> =
         listEvidences(disputeToken, DisputeListEvidencesParams.none(), requestOptions)
 
-    /** Get evidence for a chargeback request. */
+    /** Get a dispute's evidence metadata. */
     fun retrieveEvidence(
         evidenceToken: String,
         params: DisputeRetrieveEvidenceParams,
