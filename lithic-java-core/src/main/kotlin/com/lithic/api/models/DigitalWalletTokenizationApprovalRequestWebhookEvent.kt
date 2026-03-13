@@ -21,19 +21,26 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * Payload for digital wallet tokenization approval requests. Used for both the decisioning
+ * responder request (sent to the customer's endpoint for a real-time decision) and the subsequent
+ * webhook event (sent after the decision is made). Fields like customer_tokenization_decision,
+ * tokenization_decline_reasons, tokenization_tfa_reasons, and rule_results are only populated in
+ * the webhook event, not in the initial decisioning request.
+ */
 class DigitalWalletTokenizationApprovalRequestWebhookEvent
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val accountToken: JsonField<String>,
     private val cardToken: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
-    private val customerTokenizationDecision: JsonField<CustomerTokenizationDecision>,
     private val digitalWalletTokenMetadata: JsonField<TokenMetadata>,
     private val eventType: JsonField<EventType>,
     private val issuerDecision: JsonField<IssuerDecision>,
     private val tokenizationChannel: JsonField<TokenizationChannel>,
     private val tokenizationToken: JsonField<String>,
     private val walletDecisioningInfo: JsonField<WalletDecisioningInfo>,
+    private val customerTokenizationDecision: JsonField<CustomerTokenizationDecision>,
     private val device: JsonField<Device>,
     private val ruleResults: JsonField<List<TokenizationRuleResult>>,
     private val tokenizationDeclineReasons: JsonField<List<TokenizationDeclineReason>>,
@@ -51,9 +58,6 @@ private constructor(
         @JsonProperty("created")
         @ExcludeMissing
         created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("customer_tokenization_decision")
-        @ExcludeMissing
-        customerTokenizationDecision: JsonField<CustomerTokenizationDecision> = JsonMissing.of(),
         @JsonProperty("digital_wallet_token_metadata")
         @ExcludeMissing
         digitalWalletTokenMetadata: JsonField<TokenMetadata> = JsonMissing.of(),
@@ -72,6 +76,9 @@ private constructor(
         @JsonProperty("wallet_decisioning_info")
         @ExcludeMissing
         walletDecisioningInfo: JsonField<WalletDecisioningInfo> = JsonMissing.of(),
+        @JsonProperty("customer_tokenization_decision")
+        @ExcludeMissing
+        customerTokenizationDecision: JsonField<CustomerTokenizationDecision> = JsonMissing.of(),
         @JsonProperty("device") @ExcludeMissing device: JsonField<Device> = JsonMissing.of(),
         @JsonProperty("rule_results")
         @ExcludeMissing
@@ -89,13 +96,13 @@ private constructor(
         accountToken,
         cardToken,
         created,
-        customerTokenizationDecision,
         digitalWalletTokenMetadata,
         eventType,
         issuerDecision,
         tokenizationChannel,
         tokenizationToken,
         walletDecisioningInfo,
+        customerTokenizationDecision,
         device,
         ruleResults,
         tokenizationDeclineReasons,
@@ -127,15 +134,6 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun created(): OffsetDateTime = created.getRequired("created")
-
-    /**
-     * Contains the metadata for the customer tokenization decision.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun customerTokenizationDecision(): Optional<CustomerTokenizationDecision> =
-        customerTokenizationDecision.getOptional("customer_tokenization_decision")
 
     /**
      * Contains the metadata for the digital wallet being tokenized.
@@ -188,13 +186,23 @@ private constructor(
         walletDecisioningInfo.getRequired("wallet_decisioning_info")
 
     /**
+     * Contains the metadata for the customer tokenization decision.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun customerTokenizationDecision(): Optional<CustomerTokenizationDecision> =
+        customerTokenizationDecision.getOptional("customer_tokenization_decision")
+
+    /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun device(): Optional<Device> = device.getOptional("device")
 
     /**
-     * Results from rules that were evaluated for this tokenization
+     * Results from rules that were evaluated for this tokenization. Only populated in webhook
+     * events, not in the initial decisioning request
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -203,7 +211,8 @@ private constructor(
         ruleResults.getOptional("rule_results")
 
     /**
-     * List of reasons why the tokenization was declined
+     * List of reasons why the tokenization was declined. Only populated in webhook events, not in
+     * the initial decisioning request
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -221,7 +230,8 @@ private constructor(
         tokenizationSource.getOptional("tokenization_source")
 
     /**
-     * List of reasons why two-factor authentication was required
+     * List of reasons why two-factor authentication was required. Only populated in webhook events,
+     * not in the initial decisioning request
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -251,17 +261,6 @@ private constructor(
      * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
-
-    /**
-     * Returns the raw JSON value of [customerTokenizationDecision].
-     *
-     * Unlike [customerTokenizationDecision], this method doesn't throw if the JSON field has an
-     * unexpected type.
-     */
-    @JsonProperty("customer_tokenization_decision")
-    @ExcludeMissing
-    fun _customerTokenizationDecision(): JsonField<CustomerTokenizationDecision> =
-        customerTokenizationDecision
 
     /**
      * Returns the raw JSON value of [digitalWalletTokenMetadata].
@@ -318,6 +317,17 @@ private constructor(
     @JsonProperty("wallet_decisioning_info")
     @ExcludeMissing
     fun _walletDecisioningInfo(): JsonField<WalletDecisioningInfo> = walletDecisioningInfo
+
+    /**
+     * Returns the raw JSON value of [customerTokenizationDecision].
+     *
+     * Unlike [customerTokenizationDecision], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("customer_tokenization_decision")
+    @ExcludeMissing
+    fun _customerTokenizationDecision(): JsonField<CustomerTokenizationDecision> =
+        customerTokenizationDecision
 
     /**
      * Returns the raw JSON value of [device].
@@ -389,7 +399,6 @@ private constructor(
          * .accountToken()
          * .cardToken()
          * .created()
-         * .customerTokenizationDecision()
          * .digitalWalletTokenMetadata()
          * .eventType()
          * .issuerDecision()
@@ -407,13 +416,14 @@ private constructor(
         private var accountToken: JsonField<String>? = null
         private var cardToken: JsonField<String>? = null
         private var created: JsonField<OffsetDateTime>? = null
-        private var customerTokenizationDecision: JsonField<CustomerTokenizationDecision>? = null
         private var digitalWalletTokenMetadata: JsonField<TokenMetadata>? = null
         private var eventType: JsonField<EventType>? = null
         private var issuerDecision: JsonField<IssuerDecision>? = null
         private var tokenizationChannel: JsonField<TokenizationChannel>? = null
         private var tokenizationToken: JsonField<String>? = null
         private var walletDecisioningInfo: JsonField<WalletDecisioningInfo>? = null
+        private var customerTokenizationDecision: JsonField<CustomerTokenizationDecision> =
+            JsonMissing.of()
         private var device: JsonField<Device> = JsonMissing.of()
         private var ruleResults: JsonField<MutableList<TokenizationRuleResult>>? = null
         private var tokenizationDeclineReasons: JsonField<MutableList<TokenizationDeclineReason>>? =
@@ -430,8 +440,6 @@ private constructor(
             accountToken = digitalWalletTokenizationApprovalRequestWebhookEvent.accountToken
             cardToken = digitalWalletTokenizationApprovalRequestWebhookEvent.cardToken
             created = digitalWalletTokenizationApprovalRequestWebhookEvent.created
-            customerTokenizationDecision =
-                digitalWalletTokenizationApprovalRequestWebhookEvent.customerTokenizationDecision
             digitalWalletTokenMetadata =
                 digitalWalletTokenizationApprovalRequestWebhookEvent.digitalWalletTokenMetadata
             eventType = digitalWalletTokenizationApprovalRequestWebhookEvent.eventType
@@ -442,6 +450,8 @@ private constructor(
                 digitalWalletTokenizationApprovalRequestWebhookEvent.tokenizationToken
             walletDecisioningInfo =
                 digitalWalletTokenizationApprovalRequestWebhookEvent.walletDecisioningInfo
+            customerTokenizationDecision =
+                digitalWalletTokenizationApprovalRequestWebhookEvent.customerTokenizationDecision
             device = digitalWalletTokenizationApprovalRequestWebhookEvent.device
             ruleResults =
                 digitalWalletTokenizationApprovalRequestWebhookEvent.ruleResults.map {
@@ -498,30 +508,6 @@ private constructor(
          * supported value.
          */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-        /** Contains the metadata for the customer tokenization decision. */
-        fun customerTokenizationDecision(
-            customerTokenizationDecision: CustomerTokenizationDecision?
-        ) = customerTokenizationDecision(JsonField.ofNullable(customerTokenizationDecision))
-
-        /**
-         * Alias for calling [Builder.customerTokenizationDecision] with
-         * `customerTokenizationDecision.orElse(null)`.
-         */
-        fun customerTokenizationDecision(
-            customerTokenizationDecision: Optional<CustomerTokenizationDecision>
-        ) = customerTokenizationDecision(customerTokenizationDecision.getOrNull())
-
-        /**
-         * Sets [Builder.customerTokenizationDecision] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.customerTokenizationDecision] with a well-typed
-         * [CustomerTokenizationDecision] value instead. This method is primarily for setting the
-         * field to an undocumented or not yet supported value.
-         */
-        fun customerTokenizationDecision(
-            customerTokenizationDecision: JsonField<CustomerTokenizationDecision>
-        ) = apply { this.customerTokenizationDecision = customerTokenizationDecision }
 
         /** Contains the metadata for the digital wallet being tokenized. */
         fun digitalWalletTokenMetadata(digitalWalletTokenMetadata: TokenMetadata) =
@@ -613,6 +599,30 @@ private constructor(
             this.walletDecisioningInfo = walletDecisioningInfo
         }
 
+        /** Contains the metadata for the customer tokenization decision. */
+        fun customerTokenizationDecision(
+            customerTokenizationDecision: CustomerTokenizationDecision?
+        ) = customerTokenizationDecision(JsonField.ofNullable(customerTokenizationDecision))
+
+        /**
+         * Alias for calling [Builder.customerTokenizationDecision] with
+         * `customerTokenizationDecision.orElse(null)`.
+         */
+        fun customerTokenizationDecision(
+            customerTokenizationDecision: Optional<CustomerTokenizationDecision>
+        ) = customerTokenizationDecision(customerTokenizationDecision.getOrNull())
+
+        /**
+         * Sets [Builder.customerTokenizationDecision] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.customerTokenizationDecision] with a well-typed
+         * [CustomerTokenizationDecision] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
+        fun customerTokenizationDecision(
+            customerTokenizationDecision: JsonField<CustomerTokenizationDecision>
+        ) = apply { this.customerTokenizationDecision = customerTokenizationDecision }
+
         fun device(device: Device) = device(JsonField.of(device))
 
         /**
@@ -623,7 +633,10 @@ private constructor(
          */
         fun device(device: JsonField<Device>) = apply { this.device = device }
 
-        /** Results from rules that were evaluated for this tokenization */
+        /**
+         * Results from rules that were evaluated for this tokenization. Only populated in webhook
+         * events, not in the initial decisioning request
+         */
         fun ruleResults(ruleResults: List<TokenizationRuleResult>) =
             ruleResults(JsonField.of(ruleResults))
 
@@ -650,7 +663,10 @@ private constructor(
                 }
         }
 
-        /** List of reasons why the tokenization was declined */
+        /**
+         * List of reasons why the tokenization was declined. Only populated in webhook events, not
+         * in the initial decisioning request
+         */
         fun tokenizationDeclineReasons(
             tokenizationDeclineReasons: List<TokenizationDeclineReason>
         ) = tokenizationDeclineReasons(JsonField.of(tokenizationDeclineReasons))
@@ -696,7 +712,10 @@ private constructor(
             this.tokenizationSource = tokenizationSource
         }
 
-        /** List of reasons why two-factor authentication was required */
+        /**
+         * List of reasons why two-factor authentication was required. Only populated in webhook
+         * events, not in the initial decisioning request
+         */
         fun tokenizationTfaReasons(tokenizationTfaReasons: List<TokenizationTfaReason>) =
             tokenizationTfaReasons(JsonField.of(tokenizationTfaReasons))
 
@@ -753,7 +772,6 @@ private constructor(
          * .accountToken()
          * .cardToken()
          * .created()
-         * .customerTokenizationDecision()
          * .digitalWalletTokenMetadata()
          * .eventType()
          * .issuerDecision()
@@ -769,13 +787,13 @@ private constructor(
                 checkRequired("accountToken", accountToken),
                 checkRequired("cardToken", cardToken),
                 checkRequired("created", created),
-                checkRequired("customerTokenizationDecision", customerTokenizationDecision),
                 checkRequired("digitalWalletTokenMetadata", digitalWalletTokenMetadata),
                 checkRequired("eventType", eventType),
                 checkRequired("issuerDecision", issuerDecision),
                 checkRequired("tokenizationChannel", tokenizationChannel),
                 checkRequired("tokenizationToken", tokenizationToken),
                 checkRequired("walletDecisioningInfo", walletDecisioningInfo),
+                customerTokenizationDecision,
                 device,
                 (ruleResults ?: JsonMissing.of()).map { it.toImmutable() },
                 (tokenizationDeclineReasons ?: JsonMissing.of()).map { it.toImmutable() },
@@ -795,13 +813,13 @@ private constructor(
         accountToken()
         cardToken()
         created()
-        customerTokenizationDecision().ifPresent { it.validate() }
         digitalWalletTokenMetadata().validate()
         eventType().validate()
         issuerDecision().validate()
         tokenizationChannel().validate()
         tokenizationToken()
         walletDecisioningInfo().validate()
+        customerTokenizationDecision().ifPresent { it.validate() }
         device().ifPresent { it.validate() }
         ruleResults().ifPresent { it.forEach { it.validate() } }
         tokenizationDeclineReasons().ifPresent { it.forEach { it.validate() } }
@@ -828,19 +846,415 @@ private constructor(
         (if (accountToken.asKnown().isPresent) 1 else 0) +
             (if (cardToken.asKnown().isPresent) 1 else 0) +
             (if (created.asKnown().isPresent) 1 else 0) +
-            (customerTokenizationDecision.asKnown().getOrNull()?.validity() ?: 0) +
             (digitalWalletTokenMetadata.asKnown().getOrNull()?.validity() ?: 0) +
             (eventType.asKnown().getOrNull()?.validity() ?: 0) +
             (issuerDecision.asKnown().getOrNull()?.validity() ?: 0) +
             (tokenizationChannel.asKnown().getOrNull()?.validity() ?: 0) +
             (if (tokenizationToken.asKnown().isPresent) 1 else 0) +
             (walletDecisioningInfo.asKnown().getOrNull()?.validity() ?: 0) +
+            (customerTokenizationDecision.asKnown().getOrNull()?.validity() ?: 0) +
             (device.asKnown().getOrNull()?.validity() ?: 0) +
             (ruleResults.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (tokenizationDeclineReasons.asKnown().getOrNull()?.sumOf { it.validity().toInt() }
                 ?: 0) +
             (tokenizationSource.asKnown().getOrNull()?.validity() ?: 0) +
             (tokenizationTfaReasons.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+
+    /** The name of this event */
+    class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
+                of("digital_wallet.tokenization_approval_request")
+
+            @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
+        }
+
+        /** An enum containing [EventType]'s known values. */
+        enum class Known {
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+        }
+
+        /**
+         * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [EventType] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
+            /**
+             * An enum member indicating that [EventType] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                else -> throw LithicInvalidDataException("Unknown EventType: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): EventType = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is EventType && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /**
+     * Whether Lithic decisioned on the token, and if so, what the decision was.
+     * APPROVED/VERIFICATION_REQUIRED/DENIED.
+     */
+    class IssuerDecision @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val APPROVED = of("APPROVED")
+
+            @JvmField val DENIED = of("DENIED")
+
+            @JvmField val VERIFICATION_REQUIRED = of("VERIFICATION_REQUIRED")
+
+            @JvmStatic fun of(value: String) = IssuerDecision(JsonField.of(value))
+        }
+
+        /** An enum containing [IssuerDecision]'s known values. */
+        enum class Known {
+            APPROVED,
+            DENIED,
+            VERIFICATION_REQUIRED,
+        }
+
+        /**
+         * An enum containing [IssuerDecision]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [IssuerDecision] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            APPROVED,
+            DENIED,
+            VERIFICATION_REQUIRED,
+            /**
+             * An enum member indicating that [IssuerDecision] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                APPROVED -> Value.APPROVED
+                DENIED -> Value.DENIED
+                VERIFICATION_REQUIRED -> Value.VERIFICATION_REQUIRED
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                APPROVED -> Known.APPROVED
+                DENIED -> Known.DENIED
+                VERIFICATION_REQUIRED -> Known.VERIFICATION_REQUIRED
+                else -> throw LithicInvalidDataException("Unknown IssuerDecision: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): IssuerDecision = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is IssuerDecision && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** The channel through which the tokenization was made. */
+    class TokenizationChannel
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val DIGITAL_WALLET = of("DIGITAL_WALLET")
+
+            @JvmField val MERCHANT = of("MERCHANT")
+
+            @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
+        }
+
+        /** An enum containing [TokenizationChannel]'s known values. */
+        enum class Known {
+            DIGITAL_WALLET,
+            MERCHANT,
+        }
+
+        /**
+         * An enum containing [TokenizationChannel]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [TokenizationChannel] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            DIGITAL_WALLET,
+            MERCHANT,
+            /**
+             * An enum member indicating that [TokenizationChannel] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                DIGITAL_WALLET -> Value.DIGITAL_WALLET
+                MERCHANT -> Value.MERCHANT
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                DIGITAL_WALLET -> Known.DIGITAL_WALLET
+                MERCHANT -> Known.MERCHANT
+                else -> throw LithicInvalidDataException("Unknown TokenizationChannel: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): TokenizationChannel = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TokenizationChannel && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
 
     /** Contains the metadata for the customer tokenization decision. */
     class CustomerTokenizationDecision
@@ -1285,402 +1699,6 @@ private constructor(
             "CustomerTokenizationDecision{outcome=$outcome, responderUrl=$responderUrl, latency=$latency, responseCode=$responseCode, additionalProperties=$additionalProperties}"
     }
 
-    /** The name of this event */
-    class EventType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
-
-        /**
-         * Returns this class instance's raw value.
-         *
-         * This is usually only useful if this instance was deserialized from data that doesn't
-         * match any known member, and you want to know that value. For example, if the SDK is on an
-         * older version than the API, then the API may respond with new members that the SDK is
-         * unaware of.
-         */
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        companion object {
-
-            @JvmField
-            val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
-                of("digital_wallet.tokenization_approval_request")
-
-            @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
-        }
-
-        /** An enum containing [EventType]'s known values. */
-        enum class Known {
-            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-        }
-
-        /**
-         * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
-         *
-         * An instance of [EventType] can contain an unknown value in a couple of cases:
-         * - It was deserialized from data that doesn't match any known member. For example, if the
-         *   SDK is on an older version than the API, then the API may respond with new members that
-         *   the SDK is unaware of.
-         * - It was constructed with an arbitrary value using the [of] method.
-         */
-        enum class Value {
-            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
-            /**
-             * An enum member indicating that [EventType] was instantiated with an unknown value.
-             */
-            _UNKNOWN,
-        }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
-         * if the class was instantiated with an unknown value.
-         *
-         * Use the [known] method instead if you're certain the value is always known or if you want
-         * to throw for the unknown case.
-         */
-        fun value(): Value =
-            when (this) {
-                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
-                    Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                else -> Value._UNKNOWN
-            }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value.
-         *
-         * Use the [value] method instead if you're uncertain the value is always known and don't
-         * want to throw for the unknown case.
-         *
-         * @throws LithicInvalidDataException if this class instance's value is a not a known
-         *   member.
-         */
-        fun known(): Known =
-            when (this) {
-                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
-                    Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                else -> throw LithicInvalidDataException("Unknown EventType: $value")
-            }
-
-        /**
-         * Returns this class instance's primitive wire representation.
-         *
-         * This differs from the [toString] method because that method is primarily for debugging
-         * and generally doesn't throw.
-         *
-         * @throws LithicInvalidDataException if this class instance's value does not have the
-         *   expected primitive type.
-         */
-        fun asString(): String =
-            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
-
-        private var validated: Boolean = false
-
-        fun validate(): EventType = apply {
-            if (validated) {
-                return@apply
-            }
-
-            known()
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: LithicInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is EventType && value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-    }
-
-    /**
-     * Whether Lithic decisioned on the token, and if so, what the decision was.
-     * APPROVED/VERIFICATION_REQUIRED/DENIED.
-     */
-    class IssuerDecision @JsonCreator private constructor(private val value: JsonField<String>) :
-        Enum {
-
-        /**
-         * Returns this class instance's raw value.
-         *
-         * This is usually only useful if this instance was deserialized from data that doesn't
-         * match any known member, and you want to know that value. For example, if the SDK is on an
-         * older version than the API, then the API may respond with new members that the SDK is
-         * unaware of.
-         */
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        companion object {
-
-            @JvmField val APPROVED = of("APPROVED")
-
-            @JvmField val DENIED = of("DENIED")
-
-            @JvmField val VERIFICATION_REQUIRED = of("VERIFICATION_REQUIRED")
-
-            @JvmStatic fun of(value: String) = IssuerDecision(JsonField.of(value))
-        }
-
-        /** An enum containing [IssuerDecision]'s known values. */
-        enum class Known {
-            APPROVED,
-            DENIED,
-            VERIFICATION_REQUIRED,
-        }
-
-        /**
-         * An enum containing [IssuerDecision]'s known values, as well as an [_UNKNOWN] member.
-         *
-         * An instance of [IssuerDecision] can contain an unknown value in a couple of cases:
-         * - It was deserialized from data that doesn't match any known member. For example, if the
-         *   SDK is on an older version than the API, then the API may respond with new members that
-         *   the SDK is unaware of.
-         * - It was constructed with an arbitrary value using the [of] method.
-         */
-        enum class Value {
-            APPROVED,
-            DENIED,
-            VERIFICATION_REQUIRED,
-            /**
-             * An enum member indicating that [IssuerDecision] was instantiated with an unknown
-             * value.
-             */
-            _UNKNOWN,
-        }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
-         * if the class was instantiated with an unknown value.
-         *
-         * Use the [known] method instead if you're certain the value is always known or if you want
-         * to throw for the unknown case.
-         */
-        fun value(): Value =
-            when (this) {
-                APPROVED -> Value.APPROVED
-                DENIED -> Value.DENIED
-                VERIFICATION_REQUIRED -> Value.VERIFICATION_REQUIRED
-                else -> Value._UNKNOWN
-            }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value.
-         *
-         * Use the [value] method instead if you're uncertain the value is always known and don't
-         * want to throw for the unknown case.
-         *
-         * @throws LithicInvalidDataException if this class instance's value is a not a known
-         *   member.
-         */
-        fun known(): Known =
-            when (this) {
-                APPROVED -> Known.APPROVED
-                DENIED -> Known.DENIED
-                VERIFICATION_REQUIRED -> Known.VERIFICATION_REQUIRED
-                else -> throw LithicInvalidDataException("Unknown IssuerDecision: $value")
-            }
-
-        /**
-         * Returns this class instance's primitive wire representation.
-         *
-         * This differs from the [toString] method because that method is primarily for debugging
-         * and generally doesn't throw.
-         *
-         * @throws LithicInvalidDataException if this class instance's value does not have the
-         *   expected primitive type.
-         */
-        fun asString(): String =
-            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
-
-        private var validated: Boolean = false
-
-        fun validate(): IssuerDecision = apply {
-            if (validated) {
-                return@apply
-            }
-
-            known()
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: LithicInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is IssuerDecision && value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-    }
-
-    /** The channel through which the tokenization was made. */
-    class TokenizationChannel
-    @JsonCreator
-    private constructor(private val value: JsonField<String>) : Enum {
-
-        /**
-         * Returns this class instance's raw value.
-         *
-         * This is usually only useful if this instance was deserialized from data that doesn't
-         * match any known member, and you want to know that value. For example, if the SDK is on an
-         * older version than the API, then the API may respond with new members that the SDK is
-         * unaware of.
-         */
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        companion object {
-
-            @JvmField val DIGITAL_WALLET = of("DIGITAL_WALLET")
-
-            @JvmField val MERCHANT = of("MERCHANT")
-
-            @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
-        }
-
-        /** An enum containing [TokenizationChannel]'s known values. */
-        enum class Known {
-            DIGITAL_WALLET,
-            MERCHANT,
-        }
-
-        /**
-         * An enum containing [TokenizationChannel]'s known values, as well as an [_UNKNOWN] member.
-         *
-         * An instance of [TokenizationChannel] can contain an unknown value in a couple of cases:
-         * - It was deserialized from data that doesn't match any known member. For example, if the
-         *   SDK is on an older version than the API, then the API may respond with new members that
-         *   the SDK is unaware of.
-         * - It was constructed with an arbitrary value using the [of] method.
-         */
-        enum class Value {
-            DIGITAL_WALLET,
-            MERCHANT,
-            /**
-             * An enum member indicating that [TokenizationChannel] was instantiated with an unknown
-             * value.
-             */
-            _UNKNOWN,
-        }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
-         * if the class was instantiated with an unknown value.
-         *
-         * Use the [known] method instead if you're certain the value is always known or if you want
-         * to throw for the unknown case.
-         */
-        fun value(): Value =
-            when (this) {
-                DIGITAL_WALLET -> Value.DIGITAL_WALLET
-                MERCHANT -> Value.MERCHANT
-                else -> Value._UNKNOWN
-            }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value.
-         *
-         * Use the [value] method instead if you're uncertain the value is always known and don't
-         * want to throw for the unknown case.
-         *
-         * @throws LithicInvalidDataException if this class instance's value is a not a known
-         *   member.
-         */
-        fun known(): Known =
-            when (this) {
-                DIGITAL_WALLET -> Known.DIGITAL_WALLET
-                MERCHANT -> Known.MERCHANT
-                else -> throw LithicInvalidDataException("Unknown TokenizationChannel: $value")
-            }
-
-        /**
-         * Returns this class instance's primitive wire representation.
-         *
-         * This differs from the [toString] method because that method is primarily for debugging
-         * and generally doesn't throw.
-         *
-         * @throws LithicInvalidDataException if this class instance's value does not have the
-         *   expected primitive type.
-         */
-        fun asString(): String =
-            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
-
-        private var validated: Boolean = false
-
-        fun validate(): TokenizationChannel = apply {
-            if (validated) {
-                return@apply
-            }
-
-            known()
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: LithicInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is TokenizationChannel && value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-    }
-
     /** The source of the tokenization. */
     class TokenizationSource
     @JsonCreator
@@ -1845,13 +1863,13 @@ private constructor(
             accountToken == other.accountToken &&
             cardToken == other.cardToken &&
             created == other.created &&
-            customerTokenizationDecision == other.customerTokenizationDecision &&
             digitalWalletTokenMetadata == other.digitalWalletTokenMetadata &&
             eventType == other.eventType &&
             issuerDecision == other.issuerDecision &&
             tokenizationChannel == other.tokenizationChannel &&
             tokenizationToken == other.tokenizationToken &&
             walletDecisioningInfo == other.walletDecisioningInfo &&
+            customerTokenizationDecision == other.customerTokenizationDecision &&
             device == other.device &&
             ruleResults == other.ruleResults &&
             tokenizationDeclineReasons == other.tokenizationDeclineReasons &&
@@ -1865,13 +1883,13 @@ private constructor(
             accountToken,
             cardToken,
             created,
-            customerTokenizationDecision,
             digitalWalletTokenMetadata,
             eventType,
             issuerDecision,
             tokenizationChannel,
             tokenizationToken,
             walletDecisioningInfo,
+            customerTokenizationDecision,
             device,
             ruleResults,
             tokenizationDeclineReasons,
@@ -1884,5 +1902,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DigitalWalletTokenizationApprovalRequestWebhookEvent{accountToken=$accountToken, cardToken=$cardToken, created=$created, customerTokenizationDecision=$customerTokenizationDecision, digitalWalletTokenMetadata=$digitalWalletTokenMetadata, eventType=$eventType, issuerDecision=$issuerDecision, tokenizationChannel=$tokenizationChannel, tokenizationToken=$tokenizationToken, walletDecisioningInfo=$walletDecisioningInfo, device=$device, ruleResults=$ruleResults, tokenizationDeclineReasons=$tokenizationDeclineReasons, tokenizationSource=$tokenizationSource, tokenizationTfaReasons=$tokenizationTfaReasons, additionalProperties=$additionalProperties}"
+        "DigitalWalletTokenizationApprovalRequestWebhookEvent{accountToken=$accountToken, cardToken=$cardToken, created=$created, digitalWalletTokenMetadata=$digitalWalletTokenMetadata, eventType=$eventType, issuerDecision=$issuerDecision, tokenizationChannel=$tokenizationChannel, tokenizationToken=$tokenizationToken, walletDecisioningInfo=$walletDecisioningInfo, customerTokenizationDecision=$customerTokenizationDecision, device=$device, ruleResults=$ruleResults, tokenizationDeclineReasons=$tokenizationDeclineReasons, tokenizationSource=$tokenizationSource, tokenizationTfaReasons=$tokenizationTfaReasons, additionalProperties=$additionalProperties}"
 }

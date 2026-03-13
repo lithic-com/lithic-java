@@ -15,13 +15,11 @@ import com.lithic.api.models.AuthRuleV2ListPage
 import com.lithic.api.models.AuthRuleV2ListParams
 import com.lithic.api.models.AuthRuleV2ListResultsPage
 import com.lithic.api.models.AuthRuleV2ListResultsParams
-import com.lithic.api.models.AuthRuleV2ListVersionsParams
 import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
-import com.lithic.api.models.V2ListVersionsResponse
 import com.lithic.api.models.V2RetrieveFeaturesResponse
 import com.lithic.api.models.V2RetrieveReportResponse
 import com.lithic.api.services.blocking.authRules.v2.BacktestService
@@ -254,41 +252,6 @@ interface V2Service {
     /** @see listResults */
     fun listResults(requestOptions: RequestOptions): AuthRuleV2ListResultsPage =
         listResults(AuthRuleV2ListResultsParams.none(), requestOptions)
-
-    /** Returns all versions of an auth rule, sorted by version number descending (newest first). */
-    fun listVersions(authRuleToken: String): V2ListVersionsResponse =
-        listVersions(authRuleToken, AuthRuleV2ListVersionsParams.none())
-
-    /** @see listVersions */
-    fun listVersions(
-        authRuleToken: String,
-        params: AuthRuleV2ListVersionsParams = AuthRuleV2ListVersionsParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): V2ListVersionsResponse =
-        listVersions(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
-
-    /** @see listVersions */
-    fun listVersions(
-        authRuleToken: String,
-        params: AuthRuleV2ListVersionsParams = AuthRuleV2ListVersionsParams.none(),
-    ): V2ListVersionsResponse = listVersions(authRuleToken, params, RequestOptions.none())
-
-    /** @see listVersions */
-    fun listVersions(
-        params: AuthRuleV2ListVersionsParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): V2ListVersionsResponse
-
-    /** @see listVersions */
-    fun listVersions(params: AuthRuleV2ListVersionsParams): V2ListVersionsResponse =
-        listVersions(params, RequestOptions.none())
-
-    /** @see listVersions */
-    fun listVersions(
-        authRuleToken: String,
-        requestOptions: RequestOptions,
-    ): V2ListVersionsResponse =
-        listVersions(authRuleToken, AuthRuleV2ListVersionsParams.none(), requestOptions)
 
     /**
      * Promotes the draft version of an Auth rule to the currently active version such that it is
@@ -696,52 +659,6 @@ interface V2Service {
             requestOptions: RequestOptions
         ): HttpResponseFor<AuthRuleV2ListResultsPage> =
             listResults(AuthRuleV2ListResultsParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `get /v2/auth_rules/{auth_rule_token}/versions`, but is
-         * otherwise the same as [V2Service.listVersions].
-         */
-        @MustBeClosed
-        fun listVersions(authRuleToken: String): HttpResponseFor<V2ListVersionsResponse> =
-            listVersions(authRuleToken, AuthRuleV2ListVersionsParams.none())
-
-        /** @see listVersions */
-        @MustBeClosed
-        fun listVersions(
-            authRuleToken: String,
-            params: AuthRuleV2ListVersionsParams = AuthRuleV2ListVersionsParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<V2ListVersionsResponse> =
-            listVersions(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
-
-        /** @see listVersions */
-        @MustBeClosed
-        fun listVersions(
-            authRuleToken: String,
-            params: AuthRuleV2ListVersionsParams = AuthRuleV2ListVersionsParams.none(),
-        ): HttpResponseFor<V2ListVersionsResponse> =
-            listVersions(authRuleToken, params, RequestOptions.none())
-
-        /** @see listVersions */
-        @MustBeClosed
-        fun listVersions(
-            params: AuthRuleV2ListVersionsParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<V2ListVersionsResponse>
-
-        /** @see listVersions */
-        @MustBeClosed
-        fun listVersions(
-            params: AuthRuleV2ListVersionsParams
-        ): HttpResponseFor<V2ListVersionsResponse> = listVersions(params, RequestOptions.none())
-
-        /** @see listVersions */
-        @MustBeClosed
-        fun listVersions(
-            authRuleToken: String,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<V2ListVersionsResponse> =
-            listVersions(authRuleToken, AuthRuleV2ListVersionsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v2/auth_rules/{auth_rule_token}/promote`, but is

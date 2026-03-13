@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** List evidence for a chargeback request. */
+/** List evidence metadata for a dispute. */
 class DisputeListEvidencesParams
 private constructor(
     private val disputeToken: String?,
