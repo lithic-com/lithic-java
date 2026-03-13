@@ -1120,6 +1120,8 @@ private constructor(
 
             @JvmField val MANAGEMENT_DISBURSEMENT = of("MANAGEMENT_DISBURSEMENT")
 
+            @JvmField val HOLD = of("HOLD")
+
             @JvmField val PROGRAM_FUNDING = of("PROGRAM_FUNDING")
 
             @JvmStatic fun of(value: String) = TransactionCategory(JsonField.of(value))
@@ -1146,6 +1148,7 @@ private constructor(
             MANAGEMENT_FEE,
             MANAGEMENT_REWARD,
             MANAGEMENT_DISBURSEMENT,
+            HOLD,
             PROGRAM_FUNDING,
         }
 
@@ -1178,6 +1181,7 @@ private constructor(
             MANAGEMENT_FEE,
             MANAGEMENT_REWARD,
             MANAGEMENT_DISBURSEMENT,
+            HOLD,
             PROGRAM_FUNDING,
             /**
              * An enum member indicating that [TransactionCategory] was instantiated with an unknown
@@ -1214,6 +1218,7 @@ private constructor(
                 MANAGEMENT_FEE -> Value.MANAGEMENT_FEE
                 MANAGEMENT_REWARD -> Value.MANAGEMENT_REWARD
                 MANAGEMENT_DISBURSEMENT -> Value.MANAGEMENT_DISBURSEMENT
+                HOLD -> Value.HOLD
                 PROGRAM_FUNDING -> Value.PROGRAM_FUNDING
                 else -> Value._UNKNOWN
             }
@@ -1248,6 +1253,7 @@ private constructor(
                 MANAGEMENT_FEE -> Known.MANAGEMENT_FEE
                 MANAGEMENT_REWARD -> Known.MANAGEMENT_REWARD
                 MANAGEMENT_DISBURSEMENT -> Known.MANAGEMENT_DISBURSEMENT
+                HOLD -> Known.HOLD
                 PROGRAM_FUNDING -> Known.PROGRAM_FUNDING
                 else -> throw LithicInvalidDataException("Unknown TransactionCategory: $value")
             }
@@ -1515,6 +1521,8 @@ private constructor(
          * * `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
          * * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * * `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         * * `ACH_RECEIPT_RELEASED_EARLY` - ACH receipt released early from pending to available
+         *   balance.
          * * `ACH_RETURN_INITIATED` - ACH initiated return for an ACH receipt.
          * * `ACH_RETURN_PROCESSED` - ACH receipt returned by the Receiving Depository Financial
          *   Institution.
@@ -1722,6 +1730,8 @@ private constructor(
              * * `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
              * * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
              * * `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+             * * `ACH_RECEIPT_RELEASED_EARLY` - ACH receipt released early from pending to available
+             *   balance.
              * * `ACH_RETURN_INITIATED` - ACH initiated return for an ACH receipt.
              * * `ACH_RETURN_PROCESSED` - ACH receipt returned by the Receiving Depository Financial
              *   Institution.
@@ -2021,6 +2031,8 @@ private constructor(
          * * `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
          * * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * * `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         * * `ACH_RECEIPT_RELEASED_EARLY` - ACH receipt released early from pending to available
+         *   balance.
          * * `ACH_RETURN_INITIATED` - ACH initiated return for an ACH receipt.
          * * `ACH_RETURN_PROCESSED` - ACH receipt returned by the Receiving Depository Financial
          *   Institution.
@@ -2063,6 +2075,8 @@ private constructor(
 
                 @JvmField val ACH_RECEIPT_RELEASED = of("ACH_RECEIPT_RELEASED")
 
+                @JvmField val ACH_RECEIPT_RELEASED_EARLY = of("ACH_RECEIPT_RELEASED_EARLY")
+
                 @JvmField val ACH_RECEIPT_SETTLED = of("ACH_RECEIPT_SETTLED")
 
                 @JvmField val ACH_RETURN_INITIATED = of("ACH_RETURN_INITIATED")
@@ -2087,6 +2101,7 @@ private constructor(
                 ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
                 ACH_RECEIPT_RELEASED,
+                ACH_RECEIPT_RELEASED_EARLY,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
@@ -2114,6 +2129,7 @@ private constructor(
                 ACH_ORIGINATION_SETTLED,
                 ACH_RECEIPT_PROCESSED,
                 ACH_RECEIPT_RELEASED,
+                ACH_RECEIPT_RELEASED_EARLY,
                 ACH_RECEIPT_SETTLED,
                 ACH_RETURN_INITIATED,
                 ACH_RETURN_PROCESSED,
@@ -2144,6 +2160,7 @@ private constructor(
                     ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Value.ACH_RECEIPT_PROCESSED
                     ACH_RECEIPT_RELEASED -> Value.ACH_RECEIPT_RELEASED
+                    ACH_RECEIPT_RELEASED_EARLY -> Value.ACH_RECEIPT_RELEASED_EARLY
                     ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
@@ -2172,6 +2189,7 @@ private constructor(
                     ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
                     ACH_RECEIPT_PROCESSED -> Known.ACH_RECEIPT_PROCESSED
                     ACH_RECEIPT_RELEASED -> Known.ACH_RECEIPT_RELEASED
+                    ACH_RECEIPT_RELEASED_EARLY -> Known.ACH_RECEIPT_RELEASED_EARLY
                     ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
                     ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                     ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED

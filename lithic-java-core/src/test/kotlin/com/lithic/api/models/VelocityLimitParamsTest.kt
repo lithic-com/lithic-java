@@ -21,14 +21,12 @@ internal class VelocityLimitParamsTest {
                 )
                 .scope(VelocityLimitParams.VelocityScope.CARD)
                 .filters(
-                    VelocityLimitParams.VelocityLimitFilters.builder()
+                    VelocityLimitFilters.builder()
                         .addExcludeCountry("USD")
                         .addExcludeMcc("5542")
                         .addIncludeCountry("USD")
                         .addIncludeMcc("5542")
-                        .addIncludePanEntryMode(
-                            VelocityLimitParams.VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
-                        )
+                        .addIncludePanEntryMode(VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY)
                         .build()
                 )
                 .limitAmount(10000L)
@@ -47,14 +45,12 @@ internal class VelocityLimitParamsTest {
         assertThat(velocityLimitParams.scope()).isEqualTo(VelocityLimitParams.VelocityScope.CARD)
         assertThat(velocityLimitParams.filters())
             .contains(
-                VelocityLimitParams.VelocityLimitFilters.builder()
+                VelocityLimitFilters.builder()
                     .addExcludeCountry("USD")
                     .addExcludeMcc("5542")
                     .addIncludeCountry("USD")
                     .addIncludeMcc("5542")
-                    .addIncludePanEntryMode(
-                        VelocityLimitParams.VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
-                    )
+                    .addIncludePanEntryMode(VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY)
                     .build()
             )
         assertThat(velocityLimitParams.limitAmount()).contains(10000L)
@@ -74,14 +70,12 @@ internal class VelocityLimitParamsTest {
                 )
                 .scope(VelocityLimitParams.VelocityScope.CARD)
                 .filters(
-                    VelocityLimitParams.VelocityLimitFilters.builder()
+                    VelocityLimitFilters.builder()
                         .addExcludeCountry("USD")
                         .addExcludeMcc("5542")
                         .addIncludeCountry("USD")
                         .addIncludeMcc("5542")
-                        .addIncludePanEntryMode(
-                            VelocityLimitParams.VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
-                        )
+                        .addIncludePanEntryMode(VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY)
                         .build()
                 )
                 .limitAmount(10000L)

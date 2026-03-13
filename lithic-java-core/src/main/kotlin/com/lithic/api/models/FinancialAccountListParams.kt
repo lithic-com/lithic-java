@@ -240,6 +240,8 @@ private constructor(
 
             @JvmField val SECURITY = of("SECURITY")
 
+            @JvmField val EARLY_DIRECT_DEPOSIT_FLOAT = of("EARLY_DIRECT_DEPOSIT_FLOAT")
+
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
@@ -249,6 +251,7 @@ private constructor(
             OPERATING,
             RESERVE,
             SECURITY,
+            EARLY_DIRECT_DEPOSIT_FLOAT,
         }
 
         /**
@@ -265,6 +268,7 @@ private constructor(
             OPERATING,
             RESERVE,
             SECURITY,
+            EARLY_DIRECT_DEPOSIT_FLOAT,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -282,6 +286,7 @@ private constructor(
                 OPERATING -> Value.OPERATING
                 RESERVE -> Value.RESERVE
                 SECURITY -> Value.SECURITY
+                EARLY_DIRECT_DEPOSIT_FLOAT -> Value.EARLY_DIRECT_DEPOSIT_FLOAT
                 else -> Value._UNKNOWN
             }
 
@@ -300,6 +305,7 @@ private constructor(
                 OPERATING -> Known.OPERATING
                 RESERVE -> Known.RESERVE
                 SECURITY -> Known.SECURITY
+                EARLY_DIRECT_DEPOSIT_FLOAT -> Known.EARLY_DIRECT_DEPOSIT_FLOAT
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 

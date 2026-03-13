@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.120.0 (2026-03-13)
+
+Full Changelog: [v0.119.0...v0.120.0](https://github.com/lithic-com/lithic-java/compare/v0.119.0...v0.120.0)
+
+### Features
+
+* **api:** add EARLY_DIRECT_DEPOSIT_FLOAT type to financial account ([e333879](https://github.com/lithic-com/lithic-java/commit/e333879612c488e74effb36cca27da4fe9ed134f))
+* **api:** Add event_subtype to statement line items ([b79d216](https://github.com/lithic-com/lithic-java/commit/b79d216cc18514631e585e04478ff35b0d04756e))
+* **api:** add excluded_account_tokens to auth rules v2 create/update/response ([48172eb](https://github.com/lithic-com/lithic-java/commit/48172eb32c967897424c5ede57ab13db79816ad5))
+* **api:** add loan_tape_date field to statement line items ([be3f3fb](https://github.com/lithic-com/lithic-java/commit/be3f3fb90c7492fc1a6707f217c4fc1bf8e45211))
+* **api:** add penaltyRates field to InterestTierSchedule ([d76bd05](https://github.com/lithic-com/lithic-java/commit/d76bd05f0683bc7b2ff959b761206f165fb7a9ab))
+* **api:** Add support for early direct deposit ([de8c713](https://github.com/lithic-com/lithic-java/commit/de8c71325409c0b70285dba8100289872d835c72))
+* **api:** add TypeScript rules, RuleFeature model, draft version state fields ([f57cd63](https://github.com/lithic-com/lithic-java/commit/f57cd63e55e1331e79cd7f4bdea8b64bf5d05582))
+* **api:** add versions field to V2RetrieveReportResponse DailyStatistic ([3cfb7a6](https://github.com/lithic-com/lithic-java/commit/3cfb7a679a5398aeebcbf72c7b50278ab1e527ab))
+* **api:** add wire event types/category, remove remittance field from wire attributes ([e0279aa](https://github.com/lithic-com/lithic-java/commit/e0279aaffec5a2304524b9a96e4ed468af0647df))
+
+
+### Bug Fixes
+
+* **api:** [breaking] unify webhook schemas for digital_wallet.tokenization_approval_request webhooks ([bb93367](https://github.com/lithic-com/lithic-java/commit/bb93367ad5ca32a3a113c2d358cc198d2c588dfc))
+* **api:** Disable MCP server to fix TypeScript SDK package publishing ([1e30690](https://github.com/lithic-com/lithic-java/commit/1e30690af36ee4c265fd3e772680ee3bf8878091))
+* **client:** incorrect `Retry-After` parsing ([42c61b6](https://github.com/lithic-com/lithic-java/commit/42c61b6534cff16b5e45a4b8ca15f5e8e3f4dacd))
+* **types:** rename SimulationParameters, remove auth_rule_token, require end/start fields ([3d97da0](https://github.com/lithic-com/lithic-java/commit/3d97da075d03155088bc9b7a7a6f832f87ea73dc))
+
+
+### Chores
+
+* **internal:** codegen related update ([10b1473](https://github.com/lithic-com/lithic-java/commit/10b14732a71e84708c2da1234a47664b19354c97))
+* **internal:** regenerate SDK with no functional changes ([56d8344](https://github.com/lithic-com/lithic-java/commit/56d834455da97e0514bb52bb3a8e0a7c60d6ca73))
+
+
+### Documentation
+
+* **api:** update dispute resource documentation to use chargeback terminology ([0540f6c](https://github.com/lithic-com/lithic-java/commit/0540f6cc8a567d830da50ddbde8d5066b79305ec))
+
 ## 0.119.0 (2026-03-05)
 
 Full Changelog: [v0.118.0...v0.119.0](https://github.com/lithic-com/lithic-java/compare/v0.118.0...v0.119.0)

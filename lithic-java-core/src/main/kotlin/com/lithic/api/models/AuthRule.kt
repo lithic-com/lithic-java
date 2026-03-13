@@ -46,6 +46,8 @@ private constructor(
     private val programLevel: JsonField<Boolean>,
     private val state: JsonField<AuthRuleState>,
     private val type: JsonField<AuthRuleType>,
+    private val excludedAccountTokens: JsonField<List<String>>,
+    private val excludedBusinessAccountTokens: JsonField<List<String>>,
     private val excludedCardTokens: JsonField<List<String>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -80,6 +82,12 @@ private constructor(
         programLevel: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("state") @ExcludeMissing state: JsonField<AuthRuleState> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing type: JsonField<AuthRuleType> = JsonMissing.of(),
+        @JsonProperty("excluded_account_tokens")
+        @ExcludeMissing
+        excludedAccountTokens: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("excluded_business_account_tokens")
+        @ExcludeMissing
+        excludedBusinessAccountTokens: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("excluded_card_tokens")
         @ExcludeMissing
         excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
@@ -96,6 +104,8 @@ private constructor(
         programLevel,
         state,
         type,
+        excludedAccountTokens,
+        excludedBusinessAccountTokens,
         excludedCardTokens,
         mutableMapOf(),
     )
@@ -196,11 +206,31 @@ private constructor(
      * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
      * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
      *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+     * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+     *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun type(): AuthRuleType = type.getRequired("type")
+
+    /**
+     * Account tokens to which the Auth Rule does not apply.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun excludedAccountTokens(): Optional<List<String>> =
+        excludedAccountTokens.getOptional("excluded_account_tokens")
+
+    /**
+     * Business account tokens to which the Auth Rule does not apply.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun excludedBusinessAccountTokens(): Optional<List<String>> =
+        excludedBusinessAccountTokens.getOptional("excluded_business_account_tokens")
 
     /**
      * Card tokens to which the Auth Rule does not apply.
@@ -313,6 +343,26 @@ private constructor(
     @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
 
     /**
+     * Returns the raw JSON value of [excludedAccountTokens].
+     *
+     * Unlike [excludedAccountTokens], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("excluded_account_tokens")
+    @ExcludeMissing
+    fun _excludedAccountTokens(): JsonField<List<String>> = excludedAccountTokens
+
+    /**
+     * Returns the raw JSON value of [excludedBusinessAccountTokens].
+     *
+     * Unlike [excludedBusinessAccountTokens], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("excluded_business_account_tokens")
+    @ExcludeMissing
+    fun _excludedBusinessAccountTokens(): JsonField<List<String>> = excludedBusinessAccountTokens
+
+    /**
      * Returns the raw JSON value of [excludedCardTokens].
      *
      * Unlike [excludedCardTokens], this method doesn't throw if the JSON field has an unexpected
@@ -373,6 +423,8 @@ private constructor(
         private var programLevel: JsonField<Boolean>? = null
         private var state: JsonField<AuthRuleState>? = null
         private var type: JsonField<AuthRuleType>? = null
+        private var excludedAccountTokens: JsonField<MutableList<String>>? = null
+        private var excludedBusinessAccountTokens: JsonField<MutableList<String>>? = null
         private var excludedCardTokens: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -390,6 +442,9 @@ private constructor(
             programLevel = authRule.programLevel
             state = authRule.state
             type = authRule.type
+            excludedAccountTokens = authRule.excludedAccountTokens.map { it.toMutableList() }
+            excludedBusinessAccountTokens =
+                authRule.excludedBusinessAccountTokens.map { it.toMutableList() }
             excludedCardTokens = authRule.excludedCardTokens.map { it.toMutableList() }
             additionalProperties = authRule.additionalProperties.toMutableMap()
         }
@@ -601,6 +656,8 @@ private constructor(
          * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
          * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
          *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+         * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+         *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
          */
         fun type(type: AuthRuleType) = type(JsonField.of(type))
 
@@ -612,6 +669,63 @@ private constructor(
          * value.
          */
         fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
+
+        /** Account tokens to which the Auth Rule does not apply. */
+        fun excludedAccountTokens(excludedAccountTokens: List<String>) =
+            excludedAccountTokens(JsonField.of(excludedAccountTokens))
+
+        /**
+         * Sets [Builder.excludedAccountTokens] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.excludedAccountTokens] with a well-typed `List<String>`
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun excludedAccountTokens(excludedAccountTokens: JsonField<List<String>>) = apply {
+            this.excludedAccountTokens = excludedAccountTokens.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [excludedAccountTokens].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addExcludedAccountToken(excludedAccountToken: String) = apply {
+            excludedAccountTokens =
+                (excludedAccountTokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("excludedAccountTokens", it).add(excludedAccountToken)
+                }
+        }
+
+        /** Business account tokens to which the Auth Rule does not apply. */
+        fun excludedBusinessAccountTokens(excludedBusinessAccountTokens: List<String>) =
+            excludedBusinessAccountTokens(JsonField.of(excludedBusinessAccountTokens))
+
+        /**
+         * Sets [Builder.excludedBusinessAccountTokens] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.excludedBusinessAccountTokens] with a well-typed
+         * `List<String>` value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
+        fun excludedBusinessAccountTokens(excludedBusinessAccountTokens: JsonField<List<String>>) =
+            apply {
+                this.excludedBusinessAccountTokens =
+                    excludedBusinessAccountTokens.map { it.toMutableList() }
+            }
+
+        /**
+         * Adds a single [String] to [excludedBusinessAccountTokens].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addExcludedBusinessAccountToken(excludedBusinessAccountToken: String) = apply {
+            excludedBusinessAccountTokens =
+                (excludedBusinessAccountTokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("excludedBusinessAccountTokens", it)
+                        .add(excludedBusinessAccountToken)
+                }
+        }
 
         /** Card tokens to which the Auth Rule does not apply. */
         fun excludedCardTokens(excludedCardTokens: List<String>) =
@@ -698,6 +812,8 @@ private constructor(
                 checkRequired("programLevel", programLevel),
                 checkRequired("state", state),
                 checkRequired("type", type),
+                (excludedAccountTokens ?: JsonMissing.of()).map { it.toImmutable() },
+                (excludedBusinessAccountTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
@@ -722,6 +838,8 @@ private constructor(
         programLevel()
         state().validate()
         type().validate()
+        excludedAccountTokens()
+        excludedBusinessAccountTokens()
         excludedCardTokens()
         validated = true
     }
@@ -753,6 +871,8 @@ private constructor(
             (if (programLevel.asKnown().isPresent) 1 else 0) +
             (state.asKnown().getOrNull()?.validity() ?: 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0) +
+            (excludedAccountTokens.asKnown().getOrNull()?.size ?: 0) +
+            (excludedBusinessAccountTokens.asKnown().getOrNull()?.size ?: 0) +
             (excludedCardTokens.asKnown().getOrNull()?.size ?: 0)
 
     class CurrentVersion
@@ -911,6 +1031,12 @@ private constructor(
                 )
 
             /**
+             * Alias for calling [parameters] with `Parameters.ofTypescriptCode(typescriptCode)`.
+             */
+            fun parameters(typescriptCode: TypescriptCodeParameters) =
+                parameters(Parameters.ofTypescriptCode(typescriptCode))
+
+            /**
              * The version of the rule, this is incremented whenever the rule's parameters change.
              */
             fun version(version: Long) = version(JsonField.of(version))
@@ -1009,6 +1135,7 @@ private constructor(
             private val conditionalAchAction: ConditionalAchActionParameters? = null,
             private val conditionalTokenizationAction: ConditionalTokenizationActionParameters? =
                 null,
+            private val typescriptCode: TypescriptCodeParameters? = null,
             private val _json: JsonValue? = null,
         ) {
 
@@ -1035,6 +1162,10 @@ private constructor(
             fun conditionalTokenizationAction(): Optional<ConditionalTokenizationActionParameters> =
                 Optional.ofNullable(conditionalTokenizationAction)
 
+            /** Parameters for defining a TypeScript code rule */
+            fun typescriptCode(): Optional<TypescriptCodeParameters> =
+                Optional.ofNullable(typescriptCode)
+
             @Deprecated("deprecated") fun isConditionalBlock(): Boolean = conditionalBlock != null
 
             fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
@@ -1048,6 +1179,8 @@ private constructor(
             fun isConditionalAchAction(): Boolean = conditionalAchAction != null
 
             fun isConditionalTokenizationAction(): Boolean = conditionalTokenizationAction != null
+
+            fun isTypescriptCode(): Boolean = typescriptCode != null
 
             /** Deprecated: Use CONDITIONAL_ACTION instead. */
             @Deprecated("deprecated")
@@ -1071,6 +1204,10 @@ private constructor(
             fun asConditionalTokenizationAction(): ConditionalTokenizationActionParameters =
                 conditionalTokenizationAction.getOrThrow("conditionalTokenizationAction")
 
+            /** Parameters for defining a TypeScript code rule */
+            fun asTypescriptCode(): TypescriptCodeParameters =
+                typescriptCode.getOrThrow("typescriptCode")
+
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
             fun <T> accept(visitor: Visitor<T>): T =
@@ -1087,6 +1224,7 @@ private constructor(
                         visitor.visitConditionalAchAction(conditionalAchAction)
                     conditionalTokenizationAction != null ->
                         visitor.visitConditionalTokenizationAction(conditionalTokenizationAction)
+                    typescriptCode != null -> visitor.visitTypescriptCode(typescriptCode)
                     else -> visitor.unknown(_json)
                 }
 
@@ -1138,6 +1276,10 @@ private constructor(
                         ) {
                             conditionalTokenizationAction.validate()
                         }
+
+                        override fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters) {
+                            typescriptCode.validate()
+                        }
                     }
                 )
                 validated = true
@@ -1188,6 +1330,9 @@ private constructor(
                             conditionalTokenizationAction: ConditionalTokenizationActionParameters
                         ) = conditionalTokenizationAction.validity()
 
+                        override fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                            typescriptCode.validity()
+
                         override fun unknown(json: JsonValue?) = 0
                     }
                 )
@@ -1204,7 +1349,8 @@ private constructor(
                     conditional3dsAction == other.conditional3dsAction &&
                     conditionalAuthorizationAction == other.conditionalAuthorizationAction &&
                     conditionalAchAction == other.conditionalAchAction &&
-                    conditionalTokenizationAction == other.conditionalTokenizationAction
+                    conditionalTokenizationAction == other.conditionalTokenizationAction &&
+                    typescriptCode == other.typescriptCode
             }
 
             override fun hashCode(): Int =
@@ -1216,6 +1362,7 @@ private constructor(
                     conditionalAuthorizationAction,
                     conditionalAchAction,
                     conditionalTokenizationAction,
+                    typescriptCode,
                 )
 
             override fun toString(): String =
@@ -1232,6 +1379,7 @@ private constructor(
                         "Parameters{conditionalAchAction=$conditionalAchAction}"
                     conditionalTokenizationAction != null ->
                         "Parameters{conditionalTokenizationAction=$conditionalTokenizationAction}"
+                    typescriptCode != null -> "Parameters{typescriptCode=$typescriptCode}"
                     _json != null -> "Parameters{_unknown=$_json}"
                     else -> throw IllegalStateException("Invalid Parameters")
                 }
@@ -1269,6 +1417,11 @@ private constructor(
                 fun ofConditionalTokenizationAction(
                     conditionalTokenizationAction: ConditionalTokenizationActionParameters
                 ) = Parameters(conditionalTokenizationAction = conditionalTokenizationAction)
+
+                /** Parameters for defining a TypeScript code rule */
+                @JvmStatic
+                fun ofTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                    Parameters(typescriptCode = typescriptCode)
             }
 
             /**
@@ -1300,6 +1453,9 @@ private constructor(
                 fun visitConditionalTokenizationAction(
                     conditionalTokenizationAction: ConditionalTokenizationActionParameters
                 ): T
+
+                /** Parameters for defining a TypeScript code rule */
+                fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters): T
 
                 /**
                  * Maps an unknown variant of [Parameters] to a value of type [T].
@@ -1357,6 +1513,8 @@ private constructor(
                                     ?.let {
                                         Parameters(conditionalTokenizationAction = it, _json = json)
                                     },
+                                tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
+                                    ?.let { Parameters(typescriptCode = it, _json = json) },
                             )
                             .filterNotNull()
                             .allMaxBy { it.validity() }
@@ -1395,6 +1553,7 @@ private constructor(
                             generator.writeObject(value.conditionalAchAction)
                         value.conditionalTokenizationAction != null ->
                             generator.writeObject(value.conditionalTokenizationAction)
+                        value.typescriptCode != null -> generator.writeObject(value.typescriptCode)
                         value._json != null -> generator.writeObject(value._json)
                         else -> throw IllegalStateException("Invalid Parameters")
                     }
@@ -1426,18 +1585,31 @@ private constructor(
     class DraftVersion
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val error: JsonField<String>,
         private val parameters: JsonField<Parameters>,
+        private val state: JsonField<State>,
         private val version: JsonField<Long>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
+            @JsonProperty("error") @ExcludeMissing error: JsonField<String> = JsonMissing.of(),
             @JsonProperty("parameters")
             @ExcludeMissing
             parameters: JsonField<Parameters> = JsonMissing.of(),
+            @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
             @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
-        ) : this(parameters, version, mutableMapOf())
+        ) : this(error, parameters, state, version, mutableMapOf())
+
+        /**
+         * An error message if the draft version failed compilation. Populated when `state` is
+         * `ERROR`, `null` otherwise.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun error(): Optional<String> = error.getOptional("error")
 
         /**
          * Parameters for the Auth Rule
@@ -1448,12 +1620,34 @@ private constructor(
         fun parameters(): Parameters = parameters.getRequired("parameters")
 
         /**
+         * The state of the draft version. Most rules are created synchronously and the state is
+         * immediately `SHADOWING`. Rules backed by TypeScript code are compiled asynchronously —
+         * the state starts as `PENDING` and transitions to `SHADOWING` on success or `ERROR` on
+         * failure.
+         * - `PENDING`: Compilation of the rule is in progress (TypeScript rules only).
+         * - `SHADOWING`: The draft version is ready and evaluating in shadow mode alongside the
+         *   current active version. It can be promoted to the active version.
+         * - `ERROR`: Compilation of the rule failed. Check the `error` field for details.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun state(): State = state.getRequired("state")
+
+        /**
          * The version of the rule, this is incremented whenever the rule's parameters change.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun version(): Long = version.getRequired("version")
+
+        /**
+         * Returns the raw JSON value of [error].
+         *
+         * Unlike [error], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("error") @ExcludeMissing fun _error(): JsonField<String> = error
 
         /**
          * Returns the raw JSON value of [parameters].
@@ -1463,6 +1657,13 @@ private constructor(
         @JsonProperty("parameters")
         @ExcludeMissing
         fun _parameters(): JsonField<Parameters> = parameters
+
+        /**
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
         /**
          * Returns the raw JSON value of [version].
@@ -1490,7 +1691,9 @@ private constructor(
              *
              * The following fields are required:
              * ```java
+             * .error()
              * .parameters()
+             * .state()
              * .version()
              * ```
              */
@@ -1500,16 +1703,38 @@ private constructor(
         /** A builder for [DraftVersion]. */
         class Builder internal constructor() {
 
+            private var error: JsonField<String>? = null
             private var parameters: JsonField<Parameters>? = null
+            private var state: JsonField<State>? = null
             private var version: JsonField<Long>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(draftVersion: DraftVersion) = apply {
+                error = draftVersion.error
                 parameters = draftVersion.parameters
+                state = draftVersion.state
                 version = draftVersion.version
                 additionalProperties = draftVersion.additionalProperties.toMutableMap()
             }
+
+            /**
+             * An error message if the draft version failed compilation. Populated when `state` is
+             * `ERROR`, `null` otherwise.
+             */
+            fun error(error: String?) = error(JsonField.ofNullable(error))
+
+            /** Alias for calling [Builder.error] with `error.orElse(null)`. */
+            fun error(error: Optional<String>) = error(error.getOrNull())
+
+            /**
+             * Sets [Builder.error] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.error] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun error(error: JsonField<String>) = apply { this.error = error }
 
             /** Parameters for the Auth Rule */
             fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
@@ -1579,6 +1804,33 @@ private constructor(
                 )
 
             /**
+             * Alias for calling [parameters] with `Parameters.ofTypescriptCode(typescriptCode)`.
+             */
+            fun parameters(typescriptCode: TypescriptCodeParameters) =
+                parameters(Parameters.ofTypescriptCode(typescriptCode))
+
+            /**
+             * The state of the draft version. Most rules are created synchronously and the state is
+             * immediately `SHADOWING`. Rules backed by TypeScript code are compiled asynchronously
+             * — the state starts as `PENDING` and transitions to `SHADOWING` on success or `ERROR`
+             * on failure.
+             * - `PENDING`: Compilation of the rule is in progress (TypeScript rules only).
+             * - `SHADOWING`: The draft version is ready and evaluating in shadow mode alongside the
+             *   current active version. It can be promoted to the active version.
+             * - `ERROR`: Compilation of the rule failed. Check the `error` field for details.
+             */
+            fun state(state: State) = state(JsonField.of(state))
+
+            /**
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [State] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun state(state: JsonField<State>) = apply { this.state = state }
+
+            /**
              * The version of the rule, this is incremented whenever the rule's parameters change.
              */
             fun version(version: Long) = version(JsonField.of(version))
@@ -1618,7 +1870,9 @@ private constructor(
              *
              * The following fields are required:
              * ```java
+             * .error()
              * .parameters()
+             * .state()
              * .version()
              * ```
              *
@@ -1626,7 +1880,9 @@ private constructor(
              */
             fun build(): DraftVersion =
                 DraftVersion(
+                    checkRequired("error", error),
                     checkRequired("parameters", parameters),
+                    checkRequired("state", state),
                     checkRequired("version", version),
                     additionalProperties.toMutableMap(),
                 )
@@ -1639,7 +1895,9 @@ private constructor(
                 return@apply
             }
 
+            error()
             parameters().validate()
+            state().validate()
             version()
             validated = true
         }
@@ -1660,7 +1918,9 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (parameters.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (error.asKnown().isPresent) 1 else 0) +
+                (parameters.asKnown().getOrNull()?.validity() ?: 0) +
+                (state.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (version.asKnown().isPresent) 1 else 0)
 
         /** Parameters for the Auth Rule */
@@ -1677,6 +1937,7 @@ private constructor(
             private val conditionalAchAction: ConditionalAchActionParameters? = null,
             private val conditionalTokenizationAction: ConditionalTokenizationActionParameters? =
                 null,
+            private val typescriptCode: TypescriptCodeParameters? = null,
             private val _json: JsonValue? = null,
         ) {
 
@@ -1703,6 +1964,10 @@ private constructor(
             fun conditionalTokenizationAction(): Optional<ConditionalTokenizationActionParameters> =
                 Optional.ofNullable(conditionalTokenizationAction)
 
+            /** Parameters for defining a TypeScript code rule */
+            fun typescriptCode(): Optional<TypescriptCodeParameters> =
+                Optional.ofNullable(typescriptCode)
+
             @Deprecated("deprecated") fun isConditionalBlock(): Boolean = conditionalBlock != null
 
             fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
@@ -1716,6 +1981,8 @@ private constructor(
             fun isConditionalAchAction(): Boolean = conditionalAchAction != null
 
             fun isConditionalTokenizationAction(): Boolean = conditionalTokenizationAction != null
+
+            fun isTypescriptCode(): Boolean = typescriptCode != null
 
             /** Deprecated: Use CONDITIONAL_ACTION instead. */
             @Deprecated("deprecated")
@@ -1739,6 +2006,10 @@ private constructor(
             fun asConditionalTokenizationAction(): ConditionalTokenizationActionParameters =
                 conditionalTokenizationAction.getOrThrow("conditionalTokenizationAction")
 
+            /** Parameters for defining a TypeScript code rule */
+            fun asTypescriptCode(): TypescriptCodeParameters =
+                typescriptCode.getOrThrow("typescriptCode")
+
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
             fun <T> accept(visitor: Visitor<T>): T =
@@ -1755,6 +2026,7 @@ private constructor(
                         visitor.visitConditionalAchAction(conditionalAchAction)
                     conditionalTokenizationAction != null ->
                         visitor.visitConditionalTokenizationAction(conditionalTokenizationAction)
+                    typescriptCode != null -> visitor.visitTypescriptCode(typescriptCode)
                     else -> visitor.unknown(_json)
                 }
 
@@ -1806,6 +2078,10 @@ private constructor(
                         ) {
                             conditionalTokenizationAction.validate()
                         }
+
+                        override fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters) {
+                            typescriptCode.validate()
+                        }
                     }
                 )
                 validated = true
@@ -1856,6 +2132,9 @@ private constructor(
                             conditionalTokenizationAction: ConditionalTokenizationActionParameters
                         ) = conditionalTokenizationAction.validity()
 
+                        override fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                            typescriptCode.validity()
+
                         override fun unknown(json: JsonValue?) = 0
                     }
                 )
@@ -1872,7 +2151,8 @@ private constructor(
                     conditional3dsAction == other.conditional3dsAction &&
                     conditionalAuthorizationAction == other.conditionalAuthorizationAction &&
                     conditionalAchAction == other.conditionalAchAction &&
-                    conditionalTokenizationAction == other.conditionalTokenizationAction
+                    conditionalTokenizationAction == other.conditionalTokenizationAction &&
+                    typescriptCode == other.typescriptCode
             }
 
             override fun hashCode(): Int =
@@ -1884,6 +2164,7 @@ private constructor(
                     conditionalAuthorizationAction,
                     conditionalAchAction,
                     conditionalTokenizationAction,
+                    typescriptCode,
                 )
 
             override fun toString(): String =
@@ -1900,6 +2181,7 @@ private constructor(
                         "Parameters{conditionalAchAction=$conditionalAchAction}"
                     conditionalTokenizationAction != null ->
                         "Parameters{conditionalTokenizationAction=$conditionalTokenizationAction}"
+                    typescriptCode != null -> "Parameters{typescriptCode=$typescriptCode}"
                     _json != null -> "Parameters{_unknown=$_json}"
                     else -> throw IllegalStateException("Invalid Parameters")
                 }
@@ -1937,6 +2219,11 @@ private constructor(
                 fun ofConditionalTokenizationAction(
                     conditionalTokenizationAction: ConditionalTokenizationActionParameters
                 ) = Parameters(conditionalTokenizationAction = conditionalTokenizationAction)
+
+                /** Parameters for defining a TypeScript code rule */
+                @JvmStatic
+                fun ofTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                    Parameters(typescriptCode = typescriptCode)
             }
 
             /**
@@ -1968,6 +2255,9 @@ private constructor(
                 fun visitConditionalTokenizationAction(
                     conditionalTokenizationAction: ConditionalTokenizationActionParameters
                 ): T
+
+                /** Parameters for defining a TypeScript code rule */
+                fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters): T
 
                 /**
                  * Maps an unknown variant of [Parameters] to a value of type [T].
@@ -2025,6 +2315,8 @@ private constructor(
                                     ?.let {
                                         Parameters(conditionalTokenizationAction = it, _json = json)
                                     },
+                                tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
+                                    ?.let { Parameters(typescriptCode = it, _json = json) },
                             )
                             .filterNotNull()
                             .allMaxBy { it.validity() }
@@ -2063,11 +2355,157 @@ private constructor(
                             generator.writeObject(value.conditionalAchAction)
                         value.conditionalTokenizationAction != null ->
                             generator.writeObject(value.conditionalTokenizationAction)
+                        value.typescriptCode != null -> generator.writeObject(value.typescriptCode)
                         value._json != null -> generator.writeObject(value._json)
                         else -> throw IllegalStateException("Invalid Parameters")
                     }
                 }
             }
+        }
+
+        /**
+         * The state of the draft version. Most rules are created synchronously and the state is
+         * immediately `SHADOWING`. Rules backed by TypeScript code are compiled asynchronously —
+         * the state starts as `PENDING` and transitions to `SHADOWING` on success or `ERROR` on
+         * failure.
+         * - `PENDING`: Compilation of the rule is in progress (TypeScript rules only).
+         * - `SHADOWING`: The draft version is ready and evaluating in shadow mode alongside the
+         *   current active version. It can be promoted to the active version.
+         * - `ERROR`: Compilation of the rule failed. Check the `error` field for details.
+         */
+        class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val PENDING = of("PENDING")
+
+                @JvmField val SHADOWING = of("SHADOWING")
+
+                @JvmField val ERROR = of("ERROR")
+
+                @JvmStatic fun of(value: String) = State(JsonField.of(value))
+            }
+
+            /** An enum containing [State]'s known values. */
+            enum class Known {
+                PENDING,
+                SHADOWING,
+                ERROR,
+            }
+
+            /**
+             * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [State] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                PENDING,
+                SHADOWING,
+                ERROR,
+                /**
+                 * An enum member indicating that [State] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    PENDING -> Value.PENDING
+                    SHADOWING -> Value.SHADOWING
+                    ERROR -> Value.ERROR
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    PENDING -> Known.PENDING
+                    SHADOWING -> Known.SHADOWING
+                    ERROR -> Known.ERROR
+                    else -> throw LithicInvalidDataException("Unknown State: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): State = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is State && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
@@ -2076,19 +2514,21 @@ private constructor(
             }
 
             return other is DraftVersion &&
+                error == other.error &&
                 parameters == other.parameters &&
+                state == other.state &&
                 version == other.version &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(parameters, version, additionalProperties)
+            Objects.hash(error, parameters, state, version, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "DraftVersion{parameters=$parameters, version=$version, additionalProperties=$additionalProperties}"
+            "DraftVersion{error=$error, parameters=$parameters, state=$state, version=$version, additionalProperties=$additionalProperties}"
     }
 
     /** The state of the Auth Rule */
@@ -2231,6 +2671,8 @@ private constructor(
      * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
      * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
      *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+     * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+     *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
      */
     class AuthRuleType @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
@@ -2255,6 +2697,8 @@ private constructor(
 
             @JvmField val CONDITIONAL_ACTION = of("CONDITIONAL_ACTION")
 
+            @JvmField val TYPESCRIPT_CODE = of("TYPESCRIPT_CODE")
+
             @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
         }
 
@@ -2264,6 +2708,7 @@ private constructor(
             VELOCITY_LIMIT,
             MERCHANT_LOCK,
             CONDITIONAL_ACTION,
+            TYPESCRIPT_CODE,
         }
 
         /**
@@ -2280,6 +2725,7 @@ private constructor(
             VELOCITY_LIMIT,
             MERCHANT_LOCK,
             CONDITIONAL_ACTION,
+            TYPESCRIPT_CODE,
             /**
              * An enum member indicating that [AuthRuleType] was instantiated with an unknown value.
              */
@@ -2299,6 +2745,7 @@ private constructor(
                 VELOCITY_LIMIT -> Value.VELOCITY_LIMIT
                 MERCHANT_LOCK -> Value.MERCHANT_LOCK
                 CONDITIONAL_ACTION -> Value.CONDITIONAL_ACTION
+                TYPESCRIPT_CODE -> Value.TYPESCRIPT_CODE
                 else -> Value._UNKNOWN
             }
 
@@ -2317,6 +2764,7 @@ private constructor(
                 VELOCITY_LIMIT -> Known.VELOCITY_LIMIT
                 MERCHANT_LOCK -> Known.MERCHANT_LOCK
                 CONDITIONAL_ACTION -> Known.CONDITIONAL_ACTION
+                TYPESCRIPT_CODE -> Known.TYPESCRIPT_CODE
                 else -> throw LithicInvalidDataException("Unknown AuthRuleType: $value")
             }
 
@@ -2390,6 +2838,8 @@ private constructor(
             programLevel == other.programLevel &&
             state == other.state &&
             type == other.type &&
+            excludedAccountTokens == other.excludedAccountTokens &&
+            excludedBusinessAccountTokens == other.excludedBusinessAccountTokens &&
             excludedCardTokens == other.excludedCardTokens &&
             additionalProperties == other.additionalProperties
     }
@@ -2408,6 +2858,8 @@ private constructor(
             programLevel,
             state,
             type,
+            excludedAccountTokens,
+            excludedBusinessAccountTokens,
             excludedCardTokens,
             additionalProperties,
         )
@@ -2416,5 +2868,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AuthRule{token=$token, accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, cardTokens=$cardTokens, currentVersion=$currentVersion, draftVersion=$draftVersion, eventStream=$eventStream, lithicManaged=$lithicManaged, name=$name, programLevel=$programLevel, state=$state, type=$type, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
+        "AuthRule{token=$token, accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, cardTokens=$cardTokens, currentVersion=$currentVersion, draftVersion=$draftVersion, eventStream=$eventStream, lithicManaged=$lithicManaged, name=$name, programLevel=$programLevel, state=$state, type=$type, excludedAccountTokens=$excludedAccountTokens, excludedBusinessAccountTokens=$excludedBusinessAccountTokens, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
 }

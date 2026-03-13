@@ -43,6 +43,8 @@ private constructor(private val value: JsonField<String>) : Enum {
 
         @JvmField val PROGRAM_BANK_ACCOUNTS_PAYABLE = of("PROGRAM_BANK_ACCOUNTS_PAYABLE")
 
+        @JvmField val EARLY_DIRECT_DEPOSIT_FLOAT = of("EARLY_DIRECT_DEPOSIT_FLOAT")
+
         @JvmStatic fun of(value: String) = InstanceFinancialAccountType(JsonField.of(value))
     }
 
@@ -58,6 +60,7 @@ private constructor(private val value: JsonField<String>) : Enum {
         PROGRAM_RECEIVABLES,
         COLLECTION,
         PROGRAM_BANK_ACCOUNTS_PAYABLE,
+        EARLY_DIRECT_DEPOSIT_FLOAT,
     }
 
     /**
@@ -82,6 +85,7 @@ private constructor(private val value: JsonField<String>) : Enum {
         PROGRAM_RECEIVABLES,
         COLLECTION,
         PROGRAM_BANK_ACCOUNTS_PAYABLE,
+        EARLY_DIRECT_DEPOSIT_FLOAT,
         /**
          * An enum member indicating that [InstanceFinancialAccountType] was instantiated with an
          * unknown value.
@@ -108,6 +112,7 @@ private constructor(private val value: JsonField<String>) : Enum {
             PROGRAM_RECEIVABLES -> Value.PROGRAM_RECEIVABLES
             COLLECTION -> Value.COLLECTION
             PROGRAM_BANK_ACCOUNTS_PAYABLE -> Value.PROGRAM_BANK_ACCOUNTS_PAYABLE
+            EARLY_DIRECT_DEPOSIT_FLOAT -> Value.EARLY_DIRECT_DEPOSIT_FLOAT
             else -> Value._UNKNOWN
         }
 
@@ -131,6 +136,7 @@ private constructor(private val value: JsonField<String>) : Enum {
             PROGRAM_RECEIVABLES -> Known.PROGRAM_RECEIVABLES
             COLLECTION -> Known.COLLECTION
             PROGRAM_BANK_ACCOUNTS_PAYABLE -> Known.PROGRAM_BANK_ACCOUNTS_PAYABLE
+            EARLY_DIRECT_DEPOSIT_FLOAT -> Known.EARLY_DIRECT_DEPOSIT_FLOAT
             else -> throw LithicInvalidDataException("Unknown InstanceFinancialAccountType: $value")
         }
 

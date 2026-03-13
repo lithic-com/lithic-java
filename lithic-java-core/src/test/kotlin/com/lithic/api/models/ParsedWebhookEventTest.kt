@@ -44,7 +44,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -216,7 +215,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -407,7 +405,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -534,7 +531,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -642,7 +638,6 @@ internal class ParsedWebhookEventTest {
             .contains(accountHolderVerification)
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -769,7 +764,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated())
             .contains(accountHolderDocumentUpdated)
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -1108,7 +1102,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest())
             .contains(cardAuthorizationApprovalRequest)
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -1417,205 +1410,6 @@ internal class ParsedWebhookEventTest {
     }
 
     @Test
-    fun ofTokenizationDecisioningRequest() {
-        val tokenizationDecisioningRequest =
-            TokenizationDecisioningRequestWebhookEvent.builder()
-                .accountToken("00000000-0000-0000-0000-000000000002")
-                .cardToken("00000000-0000-0000-0000-000000000001")
-                .created(OffsetDateTime.parse("2023-09-18T12:34:56Z"))
-                .digitalWalletTokenMetadata(
-                    TokenMetadata.builder()
-                        .paymentAccountInfo(
-                            TokenMetadata.PaymentAccountInfo.builder()
-                                .accountHolderData(
-                                    TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
-                                        .phoneNumber("+15555555555")
-                                        .build()
-                                )
-                                .panUniqueReference("pan_unique_ref_1234567890123456789012345678")
-                                .paymentAccountReference("ref_1234567890123456789012")
-                                .tokenUniqueReference(
-                                    "token_unique_ref_1234567890123456789012345678"
-                                )
-                                .build()
-                        )
-                        .status("Pending")
-                        .paymentAppInstanceId("app_instance_123456789012345678901234567890")
-                        .tokenRequestorId("12345678901")
-                        .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
-                        .build()
-                )
-                .eventType(
-                    TokenizationDecisioningRequestWebhookEvent.EventType
-                        .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                )
-                .issuerDecision(TokenizationDecisioningRequestWebhookEvent.IssuerDecision.APPROVED)
-                .tokenizationChannel(
-                    TokenizationDecisioningRequestWebhookEvent.TokenizationChannel.DIGITAL_WALLET
-                )
-                .tokenizationToken("tok_1234567890abcdef")
-                .walletDecisioningInfo(
-                    WalletDecisioningInfo.builder()
-                        .accountScore("100")
-                        .deviceScore("100")
-                        .recommendedDecision("Decision1")
-                        .addRecommendationReason("Reason1")
-                        .build()
-                )
-                .device(
-                    Device.builder()
-                        .imei("123456789012345")
-                        .ipAddress("1.1.1.1")
-                        .location("37.3860517/-122.0838511")
-                        .build()
-                )
-                .tokenizationSource(
-                    TokenizationDecisioningRequestWebhookEvent.TokenizationSource.PUSH_PROVISION
-                )
-                .build()
-
-        val parsedWebhookEvent =
-            ParsedWebhookEvent.ofTokenizationDecisioningRequest(tokenizationDecisioningRequest)
-
-        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
-        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
-        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
-        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
-        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
-        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest())
-            .contains(tokenizationDecisioningRequest)
-        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
-        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
-        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
-        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
-        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
-        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
-        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
-        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
-        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
-        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
-            .isEmpty
-        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
-            .isEmpty
-        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
-        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
-        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
-        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
-        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
-        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
-        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
-        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
-        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
-        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
-        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
-        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
-        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
-        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
-        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
-    }
-
-    @Test
-    fun ofTokenizationDecisioningRequestRoundtrip() {
-        val jsonMapper = jsonMapper()
-        val parsedWebhookEvent =
-            ParsedWebhookEvent.ofTokenizationDecisioningRequest(
-                TokenizationDecisioningRequestWebhookEvent.builder()
-                    .accountToken("00000000-0000-0000-0000-000000000002")
-                    .cardToken("00000000-0000-0000-0000-000000000001")
-                    .created(OffsetDateTime.parse("2023-09-18T12:34:56Z"))
-                    .digitalWalletTokenMetadata(
-                        TokenMetadata.builder()
-                            .paymentAccountInfo(
-                                TokenMetadata.PaymentAccountInfo.builder()
-                                    .accountHolderData(
-                                        TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
-                                            .phoneNumber("+15555555555")
-                                            .build()
-                                    )
-                                    .panUniqueReference(
-                                        "pan_unique_ref_1234567890123456789012345678"
-                                    )
-                                    .paymentAccountReference("ref_1234567890123456789012")
-                                    .tokenUniqueReference(
-                                        "token_unique_ref_1234567890123456789012345678"
-                                    )
-                                    .build()
-                            )
-                            .status("Pending")
-                            .paymentAppInstanceId("app_instance_123456789012345678901234567890")
-                            .tokenRequestorId("12345678901")
-                            .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
-                            .build()
-                    )
-                    .eventType(
-                        TokenizationDecisioningRequestWebhookEvent.EventType
-                            .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                    )
-                    .issuerDecision(
-                        TokenizationDecisioningRequestWebhookEvent.IssuerDecision.APPROVED
-                    )
-                    .tokenizationChannel(
-                        TokenizationDecisioningRequestWebhookEvent.TokenizationChannel
-                            .DIGITAL_WALLET
-                    )
-                    .tokenizationToken("tok_1234567890abcdef")
-                    .walletDecisioningInfo(
-                        WalletDecisioningInfo.builder()
-                            .accountScore("100")
-                            .deviceScore("100")
-                            .recommendedDecision("Decision1")
-                            .addRecommendationReason("Reason1")
-                            .build()
-                    )
-                    .device(
-                        Device.builder()
-                            .imei("123456789012345")
-                            .ipAddress("1.1.1.1")
-                            .location("37.3860517/-122.0838511")
-                            .build()
-                    )
-                    .tokenizationSource(
-                        TokenizationDecisioningRequestWebhookEvent.TokenizationSource.PUSH_PROVISION
-                    )
-                    .build()
-            )
-
-        val roundtrippedParsedWebhookEvent =
-            jsonMapper.readValue(
-                jsonMapper.writeValueAsString(parsedWebhookEvent),
-                jacksonTypeRef<ParsedWebhookEvent>(),
-            )
-
-        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
-    }
-
-    @Test
     fun ofAuthRulesBacktestReportCreated() {
         val authRulesBacktestReportCreated =
             AuthRulesBacktestReportCreatedWebhookEvent.builder()
@@ -1677,7 +1471,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated())
             .contains(authRulesBacktestReportCreated)
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
@@ -1831,7 +1624,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).contains(balanceUpdated)
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -1984,7 +1776,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated())
@@ -2172,7 +1963,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2313,7 +2103,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2406,7 +2195,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2502,7 +2290,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2598,7 +2385,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2695,7 +2481,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2794,7 +2579,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3103,7 +2887,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3480,7 +3263,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3685,7 +3467,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3822,7 +3603,49 @@ internal class ParsedWebhookEventTest {
             DigitalWalletTokenizationApprovalRequestWebhookEvent.builder()
                 .accountToken("00000000-0000-0000-0000-000000000002")
                 .cardToken("00000000-0000-0000-0000-000000000001")
-                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .created(OffsetDateTime.parse("2023-09-18T12:34:56Z"))
+                .digitalWalletTokenMetadata(
+                    TokenMetadata.builder()
+                        .paymentAccountInfo(
+                            TokenMetadata.PaymentAccountInfo.builder()
+                                .accountHolderData(
+                                    TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
+                                        .phoneNumber("+15555555555")
+                                        .build()
+                                )
+                                .panUniqueReference("pan_unique_ref_1234567890123456789012345678")
+                                .paymentAccountReference("ref_1234567890123456789012")
+                                .tokenUniqueReference(
+                                    "token_unique_ref_1234567890123456789012345678"
+                                )
+                                .build()
+                        )
+                        .status("Pending")
+                        .paymentAppInstanceId("app_instance_123456789012345678901234567890")
+                        .tokenRequestorId("12345678901")
+                        .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
+                        .build()
+                )
+                .eventType(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
+                        .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                )
+                .issuerDecision(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
+                )
+                .tokenizationChannel(
+                    DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
+                        .DIGITAL_WALLET
+                )
+                .tokenizationToken("tok_1234567890abcdef")
+                .walletDecisioningInfo(
+                    WalletDecisioningInfo.builder()
+                        .accountScore("100")
+                        .deviceScore("100")
+                        .recommendedDecision("Decision1")
+                        .addRecommendationReason("Reason1")
+                        .build()
+                )
                 .customerTokenizationDecision(
                     DigitalWalletTokenizationApprovalRequestWebhookEvent
                         .CustomerTokenizationDecision
@@ -3838,46 +3661,6 @@ internal class ParsedWebhookEventTest {
                         .responseCode("123456")
                         .build()
                 )
-                .digitalWalletTokenMetadata(
-                    TokenMetadata.builder()
-                        .paymentAccountInfo(
-                            TokenMetadata.PaymentAccountInfo.builder()
-                                .accountHolderData(
-                                    TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
-                                        .phoneNumber("phone_number")
-                                        .build()
-                                )
-                                .panUniqueReference("pan_unique_reference")
-                                .paymentAccountReference("payment_account_reference")
-                                .tokenUniqueReference("token_unique_reference")
-                                .build()
-                        )
-                        .status("status")
-                        .paymentAppInstanceId("payment_app_instance_id")
-                        .tokenRequestorId("xxxxxxxxxxx")
-                        .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
-                        .build()
-                )
-                .eventType(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
-                        .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                )
-                .issuerDecision(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
-                )
-                .tokenizationChannel(
-                    DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
-                        .DIGITAL_WALLET
-                )
-                .tokenizationToken("tokenization_token")
-                .walletDecisioningInfo(
-                    WalletDecisioningInfo.builder()
-                        .accountScore("100")
-                        .deviceScore("100")
-                        .recommendedDecision("Decision1")
-                        .addRecommendationReason("string")
-                        .build()
-                )
                 .device(
                     Device.builder()
                         .imei("123456789012345")
@@ -3887,10 +3670,10 @@ internal class ParsedWebhookEventTest {
                 )
                 .addRuleResult(
                     TokenizationRuleResult.builder()
-                        .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .explanation("explanation")
-                        .name("name")
-                        .result(TokenizationRuleResult.Result.APPROVED)
+                        .authRuleToken("550e8400-e29b-41d4-a716-446655440003")
+                        .explanation("Account risk too high")
+                        .name("CustomerAccountRule")
+                        .result(TokenizationRuleResult.Result.DECLINED)
                         .build()
                 )
                 .addTokenizationDeclineReason(TokenizationDeclineReason.ACCOUNT_SCORE_1)
@@ -3913,7 +3696,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3977,7 +3759,51 @@ internal class ParsedWebhookEventTest {
                 DigitalWalletTokenizationApprovalRequestWebhookEvent.builder()
                     .accountToken("00000000-0000-0000-0000-000000000002")
                     .cardToken("00000000-0000-0000-0000-000000000001")
-                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .created(OffsetDateTime.parse("2023-09-18T12:34:56Z"))
+                    .digitalWalletTokenMetadata(
+                        TokenMetadata.builder()
+                            .paymentAccountInfo(
+                                TokenMetadata.PaymentAccountInfo.builder()
+                                    .accountHolderData(
+                                        TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
+                                            .phoneNumber("+15555555555")
+                                            .build()
+                                    )
+                                    .panUniqueReference(
+                                        "pan_unique_ref_1234567890123456789012345678"
+                                    )
+                                    .paymentAccountReference("ref_1234567890123456789012")
+                                    .tokenUniqueReference(
+                                        "token_unique_ref_1234567890123456789012345678"
+                                    )
+                                    .build()
+                            )
+                            .status("Pending")
+                            .paymentAppInstanceId("app_instance_123456789012345678901234567890")
+                            .tokenRequestorId("12345678901")
+                            .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
+                            .build()
+                    )
+                    .eventType(
+                        DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
+                            .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                    )
+                    .issuerDecision(
+                        DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
+                    )
+                    .tokenizationChannel(
+                        DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
+                            .DIGITAL_WALLET
+                    )
+                    .tokenizationToken("tok_1234567890abcdef")
+                    .walletDecisioningInfo(
+                        WalletDecisioningInfo.builder()
+                            .accountScore("100")
+                            .deviceScore("100")
+                            .recommendedDecision("Decision1")
+                            .addRecommendationReason("Reason1")
+                            .build()
+                    )
                     .customerTokenizationDecision(
                         DigitalWalletTokenizationApprovalRequestWebhookEvent
                             .CustomerTokenizationDecision
@@ -3993,46 +3819,6 @@ internal class ParsedWebhookEventTest {
                             .responseCode("123456")
                             .build()
                     )
-                    .digitalWalletTokenMetadata(
-                        TokenMetadata.builder()
-                            .paymentAccountInfo(
-                                TokenMetadata.PaymentAccountInfo.builder()
-                                    .accountHolderData(
-                                        TokenMetadata.PaymentAccountInfo.AccountHolderData.builder()
-                                            .phoneNumber("phone_number")
-                                            .build()
-                                    )
-                                    .panUniqueReference("pan_unique_reference")
-                                    .paymentAccountReference("payment_account_reference")
-                                    .tokenUniqueReference("token_unique_reference")
-                                    .build()
-                            )
-                            .status("status")
-                            .paymentAppInstanceId("payment_app_instance_id")
-                            .tokenRequestorId("xxxxxxxxxxx")
-                            .tokenRequestorName(TokenMetadata.TokenRequestorName.APPLE_PAY)
-                            .build()
-                    )
-                    .eventType(
-                        DigitalWalletTokenizationApprovalRequestWebhookEvent.EventType
-                            .DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                    )
-                    .issuerDecision(
-                        DigitalWalletTokenizationApprovalRequestWebhookEvent.IssuerDecision.APPROVED
-                    )
-                    .tokenizationChannel(
-                        DigitalWalletTokenizationApprovalRequestWebhookEvent.TokenizationChannel
-                            .DIGITAL_WALLET
-                    )
-                    .tokenizationToken("tokenization_token")
-                    .walletDecisioningInfo(
-                        WalletDecisioningInfo.builder()
-                            .accountScore("100")
-                            .deviceScore("100")
-                            .recommendedDecision("Decision1")
-                            .addRecommendationReason("string")
-                            .build()
-                    )
                     .device(
                         Device.builder()
                             .imei("123456789012345")
@@ -4042,10 +3828,10 @@ internal class ParsedWebhookEventTest {
                     )
                     .addRuleResult(
                         TokenizationRuleResult.builder()
-                            .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .explanation("explanation")
-                            .name("name")
-                            .result(TokenizationRuleResult.Result.APPROVED)
+                            .authRuleToken("550e8400-e29b-41d4-a716-446655440003")
+                            .explanation("Account risk too high")
+                            .name("CustomerAccountRule")
+                            .result(TokenizationRuleResult.Result.DECLINED)
                             .build()
                     )
                     .addTokenizationDeclineReason(TokenizationDeclineReason.ACCOUNT_SCORE_1)
@@ -4117,7 +3903,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4269,7 +4054,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4403,7 +4187,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4562,7 +4345,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4719,7 +4501,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4837,7 +4618,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4972,7 +4752,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5131,7 +4910,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5286,7 +5064,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5438,7 +5215,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5588,7 +5364,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5735,7 +5510,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5867,7 +5641,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -6132,7 +5905,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -6564,7 +6336,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -6888,7 +6659,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7090,7 +6860,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7262,7 +7031,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7404,7 +7172,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7541,7 +7308,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7669,7 +7435,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7840,7 +7605,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -8054,7 +7818,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -8229,7 +7992,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -8455,7 +8217,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -8795,7 +8556,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -9169,7 +8929,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -9572,7 +9331,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -9905,7 +9663,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10099,7 +9856,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10241,7 +9997,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10372,7 +10127,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10526,7 +10280,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10801,7 +10554,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -11094,7 +10846,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -11300,7 +11051,6 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
-        assertThat(parsedWebhookEvent.tokenizationDecisioningRequest()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty

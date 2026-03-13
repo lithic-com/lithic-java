@@ -226,6 +226,8 @@ private constructor(
         private val financialTransactionToken: JsonField<String>,
         private val cardToken: JsonField<String>,
         private val descriptor: JsonField<String>,
+        private val eventSubtype: JsonField<String>,
+        private val loanTapeDate: JsonField<LocalDate>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -263,6 +265,12 @@ private constructor(
             @JsonProperty("descriptor")
             @ExcludeMissing
             descriptor: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("event_subtype")
+            @ExcludeMissing
+            eventSubtype: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("loan_tape_date")
+            @ExcludeMissing
+            loanTapeDate: JsonField<LocalDate> = JsonMissing.of(),
         ) : this(
             token,
             amount,
@@ -276,6 +284,8 @@ private constructor(
             financialTransactionToken,
             cardToken,
             descriptor,
+            eventSubtype,
+            loanTapeDate,
             mutableMapOf(),
         )
 
@@ -371,6 +381,22 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun descriptor(): Optional<String> = descriptor.getOptional("descriptor")
+
+        /**
+         * Subtype of the event that generated the line items
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun eventSubtype(): Optional<String> = eventSubtype.getOptional("event_subtype")
+
+        /**
+         * Date of the loan tape that generated this line item
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun loanTapeDate(): Optional<LocalDate> = loanTapeDate.getOptional("loan_tape_date")
 
         /**
          * Returns the raw JSON value of [token].
@@ -474,6 +500,26 @@ private constructor(
         @ExcludeMissing
         fun _descriptor(): JsonField<String> = descriptor
 
+        /**
+         * Returns the raw JSON value of [eventSubtype].
+         *
+         * Unlike [eventSubtype], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("event_subtype")
+        @ExcludeMissing
+        fun _eventSubtype(): JsonField<String> = eventSubtype
+
+        /**
+         * Returns the raw JSON value of [loanTapeDate].
+         *
+         * Unlike [loanTapeDate], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("loan_tape_date")
+        @ExcludeMissing
+        fun _loanTapeDate(): JsonField<LocalDate> = loanTapeDate
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -524,6 +570,8 @@ private constructor(
             private var financialTransactionToken: JsonField<String>? = null
             private var cardToken: JsonField<String> = JsonMissing.of()
             private var descriptor: JsonField<String> = JsonMissing.of()
+            private var eventSubtype: JsonField<String> = JsonMissing.of()
+            private var loanTapeDate: JsonField<LocalDate> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -541,6 +589,8 @@ private constructor(
                 financialTransactionToken = statementLineItemResponse.financialTransactionToken
                 cardToken = statementLineItemResponse.cardToken
                 descriptor = statementLineItemResponse.descriptor
+                eventSubtype = statementLineItemResponse.eventSubtype
+                loanTapeDate = statementLineItemResponse.loanTapeDate
                 additionalProperties = statementLineItemResponse.additionalProperties.toMutableMap()
             }
 
@@ -701,6 +751,44 @@ private constructor(
              */
             fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
+            /** Subtype of the event that generated the line items */
+            fun eventSubtype(eventSubtype: String?) =
+                eventSubtype(JsonField.ofNullable(eventSubtype))
+
+            /** Alias for calling [Builder.eventSubtype] with `eventSubtype.orElse(null)`. */
+            fun eventSubtype(eventSubtype: Optional<String>) =
+                eventSubtype(eventSubtype.getOrNull())
+
+            /**
+             * Sets [Builder.eventSubtype] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.eventSubtype] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun eventSubtype(eventSubtype: JsonField<String>) = apply {
+                this.eventSubtype = eventSubtype
+            }
+
+            /** Date of the loan tape that generated this line item */
+            fun loanTapeDate(loanTapeDate: LocalDate?) =
+                loanTapeDate(JsonField.ofNullable(loanTapeDate))
+
+            /** Alias for calling [Builder.loanTapeDate] with `loanTapeDate.orElse(null)`. */
+            fun loanTapeDate(loanTapeDate: Optional<LocalDate>) =
+                loanTapeDate(loanTapeDate.getOrNull())
+
+            /**
+             * Sets [Builder.loanTapeDate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.loanTapeDate] with a well-typed [LocalDate] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun loanTapeDate(loanTapeDate: JsonField<LocalDate>) = apply {
+                this.loanTapeDate = loanTapeDate
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -755,6 +843,8 @@ private constructor(
                     checkRequired("financialTransactionToken", financialTransactionToken),
                     cardToken,
                     descriptor,
+                    eventSubtype,
+                    loanTapeDate,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -778,6 +868,8 @@ private constructor(
             financialTransactionToken()
             cardToken()
             descriptor()
+            eventSubtype()
+            loanTapeDate()
             validated = true
         }
 
@@ -808,7 +900,9 @@ private constructor(
                 (if (financialTransactionEventToken.asKnown().isPresent) 1 else 0) +
                 (if (financialTransactionToken.asKnown().isPresent) 1 else 0) +
                 (if (cardToken.asKnown().isPresent) 1 else 0) +
-                (if (descriptor.asKnown().isPresent) 1 else 0)
+                (if (descriptor.asKnown().isPresent) 1 else 0) +
+                (if (eventSubtype.asKnown().isPresent) 1 else 0) +
+                (if (loanTapeDate.asKnown().isPresent) 1 else 0)
 
         class TransactionCategory
         @JsonCreator
@@ -864,6 +958,8 @@ private constructor(
 
                 @JvmField val MANAGEMENT_DISBURSEMENT = of("MANAGEMENT_DISBURSEMENT")
 
+                @JvmField val HOLD = of("HOLD")
+
                 @JvmField val PROGRAM_FUNDING = of("PROGRAM_FUNDING")
 
                 @JvmStatic fun of(value: String) = TransactionCategory(JsonField.of(value))
@@ -890,6 +986,7 @@ private constructor(
                 MANAGEMENT_FEE,
                 MANAGEMENT_REWARD,
                 MANAGEMENT_DISBURSEMENT,
+                HOLD,
                 PROGRAM_FUNDING,
             }
 
@@ -924,6 +1021,7 @@ private constructor(
                 MANAGEMENT_FEE,
                 MANAGEMENT_REWARD,
                 MANAGEMENT_DISBURSEMENT,
+                HOLD,
                 PROGRAM_FUNDING,
                 /**
                  * An enum member indicating that [TransactionCategory] was instantiated with an
@@ -960,6 +1058,7 @@ private constructor(
                     MANAGEMENT_FEE -> Value.MANAGEMENT_FEE
                     MANAGEMENT_REWARD -> Value.MANAGEMENT_REWARD
                     MANAGEMENT_DISBURSEMENT -> Value.MANAGEMENT_DISBURSEMENT
+                    HOLD -> Value.HOLD
                     PROGRAM_FUNDING -> Value.PROGRAM_FUNDING
                     else -> Value._UNKNOWN
                 }
@@ -994,6 +1093,7 @@ private constructor(
                     MANAGEMENT_FEE -> Known.MANAGEMENT_FEE
                     MANAGEMENT_REWARD -> Known.MANAGEMENT_REWARD
                     MANAGEMENT_DISBURSEMENT -> Known.MANAGEMENT_DISBURSEMENT
+                    HOLD -> Known.HOLD
                     PROGRAM_FUNDING -> Known.PROGRAM_FUNDING
                     else -> throw LithicInvalidDataException("Unknown TransactionCategory: $value")
                 }
@@ -1714,6 +1814,8 @@ private constructor(
                 financialTransactionToken == other.financialTransactionToken &&
                 cardToken == other.cardToken &&
                 descriptor == other.descriptor &&
+                eventSubtype == other.eventSubtype &&
+                loanTapeDate == other.loanTapeDate &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -1731,6 +1833,8 @@ private constructor(
                 financialTransactionToken,
                 cardToken,
                 descriptor,
+                eventSubtype,
+                loanTapeDate,
                 additionalProperties,
             )
         }
@@ -1738,7 +1842,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "StatementLineItemResponse{token=$token, amount=$amount, category=$category, created=$created, currency=$currency, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, financialTransactionEventToken=$financialTransactionEventToken, financialTransactionToken=$financialTransactionToken, cardToken=$cardToken, descriptor=$descriptor, additionalProperties=$additionalProperties}"
+            "StatementLineItemResponse{token=$token, amount=$amount, category=$category, created=$created, currency=$currency, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, financialTransactionEventToken=$financialTransactionEventToken, financialTransactionToken=$financialTransactionToken, cardToken=$cardToken, descriptor=$descriptor, eventSubtype=$eventSubtype, loanTapeDate=$loanTapeDate, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

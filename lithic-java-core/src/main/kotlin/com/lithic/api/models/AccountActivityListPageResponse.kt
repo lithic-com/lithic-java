@@ -156,6 +156,9 @@ private constructor(
         fun addData(managementOperation: ManagementOperationTransaction) =
             addData(AccountActivityListResponse.ofManagementOperation(managementOperation))
 
+        /** Alias for calling [addData] with `AccountActivityListResponse.ofHold(hold)`. */
+        fun addData(hold: Hold) = addData(AccountActivityListResponse.ofHold(hold))
+
         /** Indicates if there are more transactions available for pagination */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 

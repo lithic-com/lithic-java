@@ -37,8 +37,9 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Updates a V2 Auth rule's properties
  *
- * If `account_tokens`, `card_tokens`, `program_level`, or `excluded_card_tokens` is provided, this
- * will replace existing associations with the provided list of entities.
+ * If `account_tokens`, `card_tokens`, `program_level`, `excluded_card_tokens`,
+ * `excluded_account_tokens`, or `excluded_business_account_tokens` is provided, this will replace
+ * existing associations with the provided list of entities.
  */
 class AuthRuleV2UpdateParams
 private constructor(
@@ -1283,6 +1284,8 @@ private constructor(
         class ProgramLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
+            private val excludedAccountTokens: JsonField<List<String>>,
+            private val excludedBusinessAccountTokens: JsonField<List<String>>,
             private val excludedCardTokens: JsonField<List<String>>,
             private val name: JsonField<String>,
             private val programLevel: JsonField<Boolean>,
@@ -1292,6 +1295,12 @@ private constructor(
 
             @JsonCreator
             private constructor(
+                @JsonProperty("excluded_account_tokens")
+                @ExcludeMissing
+                excludedAccountTokens: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("excluded_business_account_tokens")
+                @ExcludeMissing
+                excludedBusinessAccountTokens: JsonField<List<String>> = JsonMissing.of(),
                 @JsonProperty("excluded_card_tokens")
                 @ExcludeMissing
                 excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
@@ -1300,7 +1309,33 @@ private constructor(
                 @ExcludeMissing
                 programLevel: JsonField<Boolean> = JsonMissing.of(),
                 @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
-            ) : this(excludedCardTokens, name, programLevel, state, mutableMapOf())
+            ) : this(
+                excludedAccountTokens,
+                excludedBusinessAccountTokens,
+                excludedCardTokens,
+                name,
+                programLevel,
+                state,
+                mutableMapOf(),
+            )
+
+            /**
+             * Account tokens to which the Auth Rule does not apply.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun excludedAccountTokens(): Optional<List<String>> =
+                excludedAccountTokens.getOptional("excluded_account_tokens")
+
+            /**
+             * Business account tokens to which the Auth Rule does not apply.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun excludedBusinessAccountTokens(): Optional<List<String>> =
+                excludedBusinessAccountTokens.getOptional("excluded_business_account_tokens")
 
             /**
              * Card tokens to which the Auth Rule does not apply.
@@ -1338,6 +1373,27 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun state(): Optional<State> = state.getOptional("state")
+
+            /**
+             * Returns the raw JSON value of [excludedAccountTokens].
+             *
+             * Unlike [excludedAccountTokens], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("excluded_account_tokens")
+            @ExcludeMissing
+            fun _excludedAccountTokens(): JsonField<List<String>> = excludedAccountTokens
+
+            /**
+             * Returns the raw JSON value of [excludedBusinessAccountTokens].
+             *
+             * Unlike [excludedBusinessAccountTokens], this method doesn't throw if the JSON field
+             * has an unexpected type.
+             */
+            @JsonProperty("excluded_business_account_tokens")
+            @ExcludeMissing
+            fun _excludedBusinessAccountTokens(): JsonField<List<String>> =
+                excludedBusinessAccountTokens
 
             /**
              * Returns the raw JSON value of [excludedCardTokens].
@@ -1394,6 +1450,8 @@ private constructor(
             /** A builder for [ProgramLevelRule]. */
             class Builder internal constructor() {
 
+                private var excludedAccountTokens: JsonField<MutableList<String>>? = null
+                private var excludedBusinessAccountTokens: JsonField<MutableList<String>>? = null
                 private var excludedCardTokens: JsonField<MutableList<String>>? = null
                 private var name: JsonField<String> = JsonMissing.of()
                 private var programLevel: JsonField<Boolean> = JsonMissing.of()
@@ -1402,12 +1460,74 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(programLevelRule: ProgramLevelRule) = apply {
+                    excludedAccountTokens =
+                        programLevelRule.excludedAccountTokens.map { it.toMutableList() }
+                    excludedBusinessAccountTokens =
+                        programLevelRule.excludedBusinessAccountTokens.map { it.toMutableList() }
                     excludedCardTokens =
                         programLevelRule.excludedCardTokens.map { it.toMutableList() }
                     name = programLevelRule.name
                     programLevel = programLevelRule.programLevel
                     state = programLevelRule.state
                     additionalProperties = programLevelRule.additionalProperties.toMutableMap()
+                }
+
+                /** Account tokens to which the Auth Rule does not apply. */
+                fun excludedAccountTokens(excludedAccountTokens: List<String>) =
+                    excludedAccountTokens(JsonField.of(excludedAccountTokens))
+
+                /**
+                 * Sets [Builder.excludedAccountTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.excludedAccountTokens] with a well-typed
+                 * `List<String>` value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
+                fun excludedAccountTokens(excludedAccountTokens: JsonField<List<String>>) = apply {
+                    this.excludedAccountTokens = excludedAccountTokens.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [String] to [excludedAccountTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addExcludedAccountToken(excludedAccountToken: String) = apply {
+                    excludedAccountTokens =
+                        (excludedAccountTokens ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("excludedAccountTokens", it).add(excludedAccountToken)
+                        }
+                }
+
+                /** Business account tokens to which the Auth Rule does not apply. */
+                fun excludedBusinessAccountTokens(excludedBusinessAccountTokens: List<String>) =
+                    excludedBusinessAccountTokens(JsonField.of(excludedBusinessAccountTokens))
+
+                /**
+                 * Sets [Builder.excludedBusinessAccountTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.excludedBusinessAccountTokens] with a well-typed
+                 * `List<String>` value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
+                fun excludedBusinessAccountTokens(
+                    excludedBusinessAccountTokens: JsonField<List<String>>
+                ) = apply {
+                    this.excludedBusinessAccountTokens =
+                        excludedBusinessAccountTokens.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [String] to [excludedBusinessAccountTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addExcludedBusinessAccountToken(excludedBusinessAccountToken: String) = apply {
+                    excludedBusinessAccountTokens =
+                        (excludedBusinessAccountTokens ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("excludedBusinessAccountTokens", it)
+                                .add(excludedBusinessAccountToken)
+                        }
                 }
 
                 /** Card tokens to which the Auth Rule does not apply. */
@@ -1513,6 +1633,10 @@ private constructor(
                  */
                 fun build(): ProgramLevelRule =
                     ProgramLevelRule(
+                        (excludedAccountTokens ?: JsonMissing.of()).map { it.toImmutable() },
+                        (excludedBusinessAccountTokens ?: JsonMissing.of()).map {
+                            it.toImmutable()
+                        },
                         (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
                         name,
                         programLevel,
@@ -1528,6 +1652,8 @@ private constructor(
                     return@apply
                 }
 
+                excludedAccountTokens()
+                excludedBusinessAccountTokens()
                 excludedCardTokens()
                 name()
                 programLevel()
@@ -1551,7 +1677,9 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                (excludedCardTokens.asKnown().getOrNull()?.size ?: 0) +
+                (excludedAccountTokens.asKnown().getOrNull()?.size ?: 0) +
+                    (excludedBusinessAccountTokens.asKnown().getOrNull()?.size ?: 0) +
+                    (excludedCardTokens.asKnown().getOrNull()?.size ?: 0) +
                     (if (name.asKnown().isPresent) 1 else 0) +
                     (if (programLevel.asKnown().isPresent) 1 else 0) +
                     (state.asKnown().getOrNull()?.validity() ?: 0)
@@ -1694,6 +1822,8 @@ private constructor(
                 }
 
                 return other is ProgramLevelRule &&
+                    excludedAccountTokens == other.excludedAccountTokens &&
+                    excludedBusinessAccountTokens == other.excludedBusinessAccountTokens &&
                     excludedCardTokens == other.excludedCardTokens &&
                     name == other.name &&
                     programLevel == other.programLevel &&
@@ -1702,13 +1832,21 @@ private constructor(
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(excludedCardTokens, name, programLevel, state, additionalProperties)
+                Objects.hash(
+                    excludedAccountTokens,
+                    excludedBusinessAccountTokens,
+                    excludedCardTokens,
+                    name,
+                    programLevel,
+                    state,
+                    additionalProperties,
+                )
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "ProgramLevelRule{excludedCardTokens=$excludedCardTokens, name=$name, programLevel=$programLevel, state=$state, additionalProperties=$additionalProperties}"
+                "ProgramLevelRule{excludedAccountTokens=$excludedAccountTokens, excludedBusinessAccountTokens=$excludedBusinessAccountTokens, excludedCardTokens=$excludedCardTokens, name=$name, programLevel=$programLevel, state=$state, additionalProperties=$additionalProperties}"
         }
     }
 

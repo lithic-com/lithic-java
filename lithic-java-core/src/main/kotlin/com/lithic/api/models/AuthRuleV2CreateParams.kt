@@ -479,6 +479,8 @@ private constructor(
              * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
              * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
              *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
@@ -695,6 +697,13 @@ private constructor(
                     )
 
                 /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofTypescriptCode(typescriptCode)`.
+                 */
+                fun parameters(typescriptCode: TypescriptCodeParameters) =
+                    parameters(Parameters.ofTypescriptCode(typescriptCode))
+
+                /**
                  * The type of Auth Rule. For certain rule types, this determines the event stream
                  * during which it will be evaluated. For rules that can be applied to one of
                  * several event streams, the effective one is defined by the separate
@@ -704,6 +713,8 @@ private constructor(
                  * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
                  * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
                  * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+                 *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+                 * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
                  *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
                  */
                 fun type(type: AuthRuleType) = type(JsonField.of(type))
@@ -902,6 +913,7 @@ private constructor(
                 private val conditionalTokenizationAction:
                     ConditionalTokenizationActionParameters? =
                     null,
+                private val typescriptCode: TypescriptCodeParameters? = null,
                 private val _json: JsonValue? = null,
             ) {
 
@@ -930,6 +942,10 @@ private constructor(
                     Optional<ConditionalTokenizationActionParameters> =
                     Optional.ofNullable(conditionalTokenizationAction)
 
+                /** Parameters for defining a TypeScript code rule */
+                fun typescriptCode(): Optional<TypescriptCodeParameters> =
+                    Optional.ofNullable(typescriptCode)
+
                 @Deprecated("deprecated")
                 fun isConditionalBlock(): Boolean = conditionalBlock != null
 
@@ -946,6 +962,8 @@ private constructor(
 
                 fun isConditionalTokenizationAction(): Boolean =
                     conditionalTokenizationAction != null
+
+                fun isTypescriptCode(): Boolean = typescriptCode != null
 
                 /** Deprecated: Use CONDITIONAL_ACTION instead. */
                 @Deprecated("deprecated")
@@ -970,6 +988,10 @@ private constructor(
                 fun asConditionalTokenizationAction(): ConditionalTokenizationActionParameters =
                     conditionalTokenizationAction.getOrThrow("conditionalTokenizationAction")
 
+                /** Parameters for defining a TypeScript code rule */
+                fun asTypescriptCode(): TypescriptCodeParameters =
+                    typescriptCode.getOrThrow("typescriptCode")
+
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
                 fun <T> accept(visitor: Visitor<T>): T =
@@ -990,6 +1012,7 @@ private constructor(
                             visitor.visitConditionalTokenizationAction(
                                 conditionalTokenizationAction
                             )
+                        typescriptCode != null -> visitor.visitTypescriptCode(typescriptCode)
                         else -> visitor.unknown(_json)
                     }
 
@@ -1043,6 +1066,12 @@ private constructor(
                             ) {
                                 conditionalTokenizationAction.validate()
                             }
+
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) {
+                                typescriptCode.validate()
+                            }
                         }
                     )
                     validated = true
@@ -1095,6 +1124,10 @@ private constructor(
                                     ConditionalTokenizationActionParameters
                             ) = conditionalTokenizationAction.validity()
 
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) = typescriptCode.validity()
+
                             override fun unknown(json: JsonValue?) = 0
                         }
                     )
@@ -1111,7 +1144,8 @@ private constructor(
                         conditional3dsAction == other.conditional3dsAction &&
                         conditionalAuthorizationAction == other.conditionalAuthorizationAction &&
                         conditionalAchAction == other.conditionalAchAction &&
-                        conditionalTokenizationAction == other.conditionalTokenizationAction
+                        conditionalTokenizationAction == other.conditionalTokenizationAction &&
+                        typescriptCode == other.typescriptCode
                 }
 
                 override fun hashCode(): Int =
@@ -1123,6 +1157,7 @@ private constructor(
                         conditionalAuthorizationAction,
                         conditionalAchAction,
                         conditionalTokenizationAction,
+                        typescriptCode,
                     )
 
                 override fun toString(): String =
@@ -1139,6 +1174,7 @@ private constructor(
                             "Parameters{conditionalAchAction=$conditionalAchAction}"
                         conditionalTokenizationAction != null ->
                             "Parameters{conditionalTokenizationAction=$conditionalTokenizationAction}"
+                        typescriptCode != null -> "Parameters{typescriptCode=$typescriptCode}"
                         _json != null -> "Parameters{_unknown=$_json}"
                         else -> throw IllegalStateException("Invalid Parameters")
                     }
@@ -1178,6 +1214,11 @@ private constructor(
                     fun ofConditionalTokenizationAction(
                         conditionalTokenizationAction: ConditionalTokenizationActionParameters
                     ) = Parameters(conditionalTokenizationAction = conditionalTokenizationAction)
+
+                    /** Parameters for defining a TypeScript code rule */
+                    @JvmStatic
+                    fun ofTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                        Parameters(typescriptCode = typescriptCode)
                 }
 
                 /**
@@ -1209,6 +1250,9 @@ private constructor(
                     fun visitConditionalTokenizationAction(
                         conditionalTokenizationAction: ConditionalTokenizationActionParameters
                     ): T
+
+                    /** Parameters for defining a TypeScript code rule */
+                    fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters): T
 
                     /**
                      * Maps an unknown variant of [Parameters] to a value of type [T].
@@ -1281,6 +1325,8 @@ private constructor(
                                                 _json = json,
                                             )
                                         },
+                                    tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
+                                        ?.let { Parameters(typescriptCode = it, _json = json) },
                                 )
                                 .filterNotNull()
                                 .allMaxBy { it.validity() }
@@ -1320,6 +1366,8 @@ private constructor(
                                 generator.writeObject(value.conditionalAchAction)
                             value.conditionalTokenizationAction != null ->
                                 generator.writeObject(value.conditionalTokenizationAction)
+                            value.typescriptCode != null ->
+                                generator.writeObject(value.typescriptCode)
                             value._json != null -> generator.writeObject(value._json)
                             else -> throw IllegalStateException("Invalid Parameters")
                         }
@@ -1336,6 +1384,8 @@ private constructor(
              * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
              * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
              * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
              *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
              */
             class AuthRuleType
@@ -1362,6 +1412,8 @@ private constructor(
 
                     @JvmField val CONDITIONAL_ACTION = of("CONDITIONAL_ACTION")
 
+                    @JvmField val TYPESCRIPT_CODE = of("TYPESCRIPT_CODE")
+
                     @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
                 }
 
@@ -1371,6 +1423,7 @@ private constructor(
                     VELOCITY_LIMIT,
                     MERCHANT_LOCK,
                     CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
                 }
 
                 /**
@@ -1388,6 +1441,7 @@ private constructor(
                     VELOCITY_LIMIT,
                     MERCHANT_LOCK,
                     CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
                     /**
                      * An enum member indicating that [AuthRuleType] was instantiated with an
                      * unknown value.
@@ -1408,6 +1462,7 @@ private constructor(
                         VELOCITY_LIMIT -> Value.VELOCITY_LIMIT
                         MERCHANT_LOCK -> Value.MERCHANT_LOCK
                         CONDITIONAL_ACTION -> Value.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Value.TYPESCRIPT_CODE
                         else -> Value._UNKNOWN
                     }
 
@@ -1426,6 +1481,7 @@ private constructor(
                         VELOCITY_LIMIT -> Known.VELOCITY_LIMIT
                         MERCHANT_LOCK -> Known.MERCHANT_LOCK
                         CONDITIONAL_ACTION -> Known.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Known.TYPESCRIPT_CODE
                         else -> throw LithicInvalidDataException("Unknown AuthRuleType: $value")
                     }
 
@@ -1571,6 +1627,8 @@ private constructor(
              * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
              * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
              * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
              *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1784,6 +1842,13 @@ private constructor(
                     )
 
                 /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofTypescriptCode(typescriptCode)`.
+                 */
+                fun parameters(typescriptCode: TypescriptCodeParameters) =
+                    parameters(Parameters.ofTypescriptCode(typescriptCode))
+
+                /**
                  * The type of Auth Rule. For certain rule types, this determines the event stream
                  * during which it will be evaluated. For rules that can be applied to one of
                  * several event streams, the effective one is defined by the separate
@@ -1793,6 +1858,8 @@ private constructor(
                  * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
                  * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
                  * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+                 *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+                 * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
                  *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
                  */
                 fun type(type: AuthRuleType) = type(JsonField.of(type))
@@ -1935,6 +2002,7 @@ private constructor(
                 private val conditionalTokenizationAction:
                     ConditionalTokenizationActionParameters? =
                     null,
+                private val typescriptCode: TypescriptCodeParameters? = null,
                 private val _json: JsonValue? = null,
             ) {
 
@@ -1963,6 +2031,10 @@ private constructor(
                     Optional<ConditionalTokenizationActionParameters> =
                     Optional.ofNullable(conditionalTokenizationAction)
 
+                /** Parameters for defining a TypeScript code rule */
+                fun typescriptCode(): Optional<TypescriptCodeParameters> =
+                    Optional.ofNullable(typescriptCode)
+
                 @Deprecated("deprecated")
                 fun isConditionalBlock(): Boolean = conditionalBlock != null
 
@@ -1979,6 +2051,8 @@ private constructor(
 
                 fun isConditionalTokenizationAction(): Boolean =
                     conditionalTokenizationAction != null
+
+                fun isTypescriptCode(): Boolean = typescriptCode != null
 
                 /** Deprecated: Use CONDITIONAL_ACTION instead. */
                 @Deprecated("deprecated")
@@ -2003,6 +2077,10 @@ private constructor(
                 fun asConditionalTokenizationAction(): ConditionalTokenizationActionParameters =
                     conditionalTokenizationAction.getOrThrow("conditionalTokenizationAction")
 
+                /** Parameters for defining a TypeScript code rule */
+                fun asTypescriptCode(): TypescriptCodeParameters =
+                    typescriptCode.getOrThrow("typescriptCode")
+
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
                 fun <T> accept(visitor: Visitor<T>): T =
@@ -2023,6 +2101,7 @@ private constructor(
                             visitor.visitConditionalTokenizationAction(
                                 conditionalTokenizationAction
                             )
+                        typescriptCode != null -> visitor.visitTypescriptCode(typescriptCode)
                         else -> visitor.unknown(_json)
                     }
 
@@ -2076,6 +2155,12 @@ private constructor(
                             ) {
                                 conditionalTokenizationAction.validate()
                             }
+
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) {
+                                typescriptCode.validate()
+                            }
                         }
                     )
                     validated = true
@@ -2128,6 +2213,10 @@ private constructor(
                                     ConditionalTokenizationActionParameters
                             ) = conditionalTokenizationAction.validity()
 
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) = typescriptCode.validity()
+
                             override fun unknown(json: JsonValue?) = 0
                         }
                     )
@@ -2144,7 +2233,8 @@ private constructor(
                         conditional3dsAction == other.conditional3dsAction &&
                         conditionalAuthorizationAction == other.conditionalAuthorizationAction &&
                         conditionalAchAction == other.conditionalAchAction &&
-                        conditionalTokenizationAction == other.conditionalTokenizationAction
+                        conditionalTokenizationAction == other.conditionalTokenizationAction &&
+                        typescriptCode == other.typescriptCode
                 }
 
                 override fun hashCode(): Int =
@@ -2156,6 +2246,7 @@ private constructor(
                         conditionalAuthorizationAction,
                         conditionalAchAction,
                         conditionalTokenizationAction,
+                        typescriptCode,
                     )
 
                 override fun toString(): String =
@@ -2172,6 +2263,7 @@ private constructor(
                             "Parameters{conditionalAchAction=$conditionalAchAction}"
                         conditionalTokenizationAction != null ->
                             "Parameters{conditionalTokenizationAction=$conditionalTokenizationAction}"
+                        typescriptCode != null -> "Parameters{typescriptCode=$typescriptCode}"
                         _json != null -> "Parameters{_unknown=$_json}"
                         else -> throw IllegalStateException("Invalid Parameters")
                     }
@@ -2211,6 +2303,11 @@ private constructor(
                     fun ofConditionalTokenizationAction(
                         conditionalTokenizationAction: ConditionalTokenizationActionParameters
                     ) = Parameters(conditionalTokenizationAction = conditionalTokenizationAction)
+
+                    /** Parameters for defining a TypeScript code rule */
+                    @JvmStatic
+                    fun ofTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                        Parameters(typescriptCode = typescriptCode)
                 }
 
                 /**
@@ -2242,6 +2339,9 @@ private constructor(
                     fun visitConditionalTokenizationAction(
                         conditionalTokenizationAction: ConditionalTokenizationActionParameters
                     ): T
+
+                    /** Parameters for defining a TypeScript code rule */
+                    fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters): T
 
                     /**
                      * Maps an unknown variant of [Parameters] to a value of type [T].
@@ -2314,6 +2414,8 @@ private constructor(
                                                 _json = json,
                                             )
                                         },
+                                    tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
+                                        ?.let { Parameters(typescriptCode = it, _json = json) },
                                 )
                                 .filterNotNull()
                                 .allMaxBy { it.validity() }
@@ -2353,6 +2455,8 @@ private constructor(
                                 generator.writeObject(value.conditionalAchAction)
                             value.conditionalTokenizationAction != null ->
                                 generator.writeObject(value.conditionalTokenizationAction)
+                            value.typescriptCode != null ->
+                                generator.writeObject(value.typescriptCode)
                             value._json != null -> generator.writeObject(value._json)
                             else -> throw IllegalStateException("Invalid Parameters")
                         }
@@ -2369,6 +2473,8 @@ private constructor(
              * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
              * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
              * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
              *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
              */
             class AuthRuleType
@@ -2395,6 +2501,8 @@ private constructor(
 
                     @JvmField val CONDITIONAL_ACTION = of("CONDITIONAL_ACTION")
 
+                    @JvmField val TYPESCRIPT_CODE = of("TYPESCRIPT_CODE")
+
                     @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
                 }
 
@@ -2404,6 +2512,7 @@ private constructor(
                     VELOCITY_LIMIT,
                     MERCHANT_LOCK,
                     CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
                 }
 
                 /**
@@ -2421,6 +2530,7 @@ private constructor(
                     VELOCITY_LIMIT,
                     MERCHANT_LOCK,
                     CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
                     /**
                      * An enum member indicating that [AuthRuleType] was instantiated with an
                      * unknown value.
@@ -2441,6 +2551,7 @@ private constructor(
                         VELOCITY_LIMIT -> Value.VELOCITY_LIMIT
                         MERCHANT_LOCK -> Value.MERCHANT_LOCK
                         CONDITIONAL_ACTION -> Value.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Value.TYPESCRIPT_CODE
                         else -> Value._UNKNOWN
                     }
 
@@ -2459,6 +2570,7 @@ private constructor(
                         VELOCITY_LIMIT -> Known.VELOCITY_LIMIT
                         MERCHANT_LOCK -> Known.MERCHANT_LOCK
                         CONDITIONAL_ACTION -> Known.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Known.TYPESCRIPT_CODE
                         else -> throw LithicInvalidDataException("Unknown AuthRuleType: $value")
                     }
 
@@ -2547,6 +2659,8 @@ private constructor(
             private val programLevel: JsonField<Boolean>,
             private val type: JsonField<AuthRuleType>,
             private val eventStream: JsonField<EventStream>,
+            private val excludedAccountTokens: JsonField<List<String>>,
+            private val excludedBusinessAccountTokens: JsonField<List<String>>,
             private val excludedCardTokens: JsonField<List<String>>,
             private val name: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -2566,6 +2680,12 @@ private constructor(
                 @JsonProperty("event_stream")
                 @ExcludeMissing
                 eventStream: JsonField<EventStream> = JsonMissing.of(),
+                @JsonProperty("excluded_account_tokens")
+                @ExcludeMissing
+                excludedAccountTokens: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("excluded_business_account_tokens")
+                @ExcludeMissing
+                excludedBusinessAccountTokens: JsonField<List<String>> = JsonMissing.of(),
                 @JsonProperty("excluded_card_tokens")
                 @ExcludeMissing
                 excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
@@ -2575,6 +2695,8 @@ private constructor(
                 programLevel,
                 type,
                 eventStream,
+                excludedAccountTokens,
+                excludedBusinessAccountTokens,
                 excludedCardTokens,
                 name,
                 mutableMapOf(),
@@ -2608,6 +2730,8 @@ private constructor(
              * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
              * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
              *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
@@ -2622,6 +2746,24 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun eventStream(): Optional<EventStream> = eventStream.getOptional("event_stream")
+
+            /**
+             * Account tokens to which the Auth Rule does not apply.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun excludedAccountTokens(): Optional<List<String>> =
+                excludedAccountTokens.getOptional("excluded_account_tokens")
+
+            /**
+             * Business account tokens to which the Auth Rule does not apply.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun excludedBusinessAccountTokens(): Optional<List<String>> =
+                excludedBusinessAccountTokens.getOptional("excluded_business_account_tokens")
 
             /**
              * Card tokens to which the Auth Rule does not apply.
@@ -2678,6 +2820,27 @@ private constructor(
             fun _eventStream(): JsonField<EventStream> = eventStream
 
             /**
+             * Returns the raw JSON value of [excludedAccountTokens].
+             *
+             * Unlike [excludedAccountTokens], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("excluded_account_tokens")
+            @ExcludeMissing
+            fun _excludedAccountTokens(): JsonField<List<String>> = excludedAccountTokens
+
+            /**
+             * Returns the raw JSON value of [excludedBusinessAccountTokens].
+             *
+             * Unlike [excludedBusinessAccountTokens], this method doesn't throw if the JSON field
+             * has an unexpected type.
+             */
+            @JsonProperty("excluded_business_account_tokens")
+            @ExcludeMissing
+            fun _excludedBusinessAccountTokens(): JsonField<List<String>> =
+                excludedBusinessAccountTokens
+
+            /**
              * Returns the raw JSON value of [excludedCardTokens].
              *
              * Unlike [excludedCardTokens], this method doesn't throw if the JSON field has an
@@ -2728,6 +2891,8 @@ private constructor(
                 private var programLevel: JsonField<Boolean>? = null
                 private var type: JsonField<AuthRuleType>? = null
                 private var eventStream: JsonField<EventStream> = JsonMissing.of()
+                private var excludedAccountTokens: JsonField<MutableList<String>>? = null
+                private var excludedBusinessAccountTokens: JsonField<MutableList<String>>? = null
                 private var excludedCardTokens: JsonField<MutableList<String>>? = null
                 private var name: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -2738,6 +2903,10 @@ private constructor(
                     programLevel = programLevelRule.programLevel
                     type = programLevelRule.type
                     eventStream = programLevelRule.eventStream
+                    excludedAccountTokens =
+                        programLevelRule.excludedAccountTokens.map { it.toMutableList() }
+                    excludedBusinessAccountTokens =
+                        programLevelRule.excludedBusinessAccountTokens.map { it.toMutableList() }
                     excludedCardTokens =
                         programLevelRule.excludedCardTokens.map { it.toMutableList() }
                     name = programLevelRule.name
@@ -2815,6 +2984,13 @@ private constructor(
                         Parameters.ofConditionalTokenizationAction(conditionalTokenizationAction)
                     )
 
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofTypescriptCode(typescriptCode)`.
+                 */
+                fun parameters(typescriptCode: TypescriptCodeParameters) =
+                    parameters(Parameters.ofTypescriptCode(typescriptCode))
+
                 /** Whether the Auth Rule applies to all authorizations on the card program. */
                 fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
 
@@ -2840,6 +3016,8 @@ private constructor(
                  * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
                  * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
                  *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+                 * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+                 *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
                  */
                 fun type(type: AuthRuleType) = type(JsonField.of(type))
 
@@ -2864,6 +3042,64 @@ private constructor(
                  */
                 fun eventStream(eventStream: JsonField<EventStream>) = apply {
                     this.eventStream = eventStream
+                }
+
+                /** Account tokens to which the Auth Rule does not apply. */
+                fun excludedAccountTokens(excludedAccountTokens: List<String>) =
+                    excludedAccountTokens(JsonField.of(excludedAccountTokens))
+
+                /**
+                 * Sets [Builder.excludedAccountTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.excludedAccountTokens] with a well-typed
+                 * `List<String>` value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
+                fun excludedAccountTokens(excludedAccountTokens: JsonField<List<String>>) = apply {
+                    this.excludedAccountTokens = excludedAccountTokens.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [String] to [excludedAccountTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addExcludedAccountToken(excludedAccountToken: String) = apply {
+                    excludedAccountTokens =
+                        (excludedAccountTokens ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("excludedAccountTokens", it).add(excludedAccountToken)
+                        }
+                }
+
+                /** Business account tokens to which the Auth Rule does not apply. */
+                fun excludedBusinessAccountTokens(excludedBusinessAccountTokens: List<String>) =
+                    excludedBusinessAccountTokens(JsonField.of(excludedBusinessAccountTokens))
+
+                /**
+                 * Sets [Builder.excludedBusinessAccountTokens] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.excludedBusinessAccountTokens] with a well-typed
+                 * `List<String>` value instead. This method is primarily for setting the field to
+                 * an undocumented or not yet supported value.
+                 */
+                fun excludedBusinessAccountTokens(
+                    excludedBusinessAccountTokens: JsonField<List<String>>
+                ) = apply {
+                    this.excludedBusinessAccountTokens =
+                        excludedBusinessAccountTokens.map { it.toMutableList() }
+                }
+
+                /**
+                 * Adds a single [String] to [excludedBusinessAccountTokens].
+                 *
+                 * @throws IllegalStateException if the field was previously set to a non-list.
+                 */
+                fun addExcludedBusinessAccountToken(excludedBusinessAccountToken: String) = apply {
+                    excludedBusinessAccountTokens =
+                        (excludedBusinessAccountTokens ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("excludedBusinessAccountTokens", it)
+                                .add(excludedBusinessAccountToken)
+                        }
                 }
 
                 /** Card tokens to which the Auth Rule does not apply. */
@@ -2950,6 +3186,10 @@ private constructor(
                         checkRequired("programLevel", programLevel),
                         checkRequired("type", type),
                         eventStream,
+                        (excludedAccountTokens ?: JsonMissing.of()).map { it.toImmutable() },
+                        (excludedBusinessAccountTokens ?: JsonMissing.of()).map {
+                            it.toImmutable()
+                        },
                         (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
                         name,
                         additionalProperties.toMutableMap(),
@@ -2967,6 +3207,8 @@ private constructor(
                 programLevel()
                 type().validate()
                 eventStream().ifPresent { it.validate() }
+                excludedAccountTokens()
+                excludedBusinessAccountTokens()
                 excludedCardTokens()
                 name()
                 validated = true
@@ -2992,6 +3234,8 @@ private constructor(
                     (if (programLevel.asKnown().isPresent) 1 else 0) +
                     (type.asKnown().getOrNull()?.validity() ?: 0) +
                     (eventStream.asKnown().getOrNull()?.validity() ?: 0) +
+                    (excludedAccountTokens.asKnown().getOrNull()?.size ?: 0) +
+                    (excludedBusinessAccountTokens.asKnown().getOrNull()?.size ?: 0) +
                     (excludedCardTokens.asKnown().getOrNull()?.size ?: 0) +
                     (if (name.asKnown().isPresent) 1 else 0)
 
@@ -3011,6 +3255,7 @@ private constructor(
                 private val conditionalTokenizationAction:
                     ConditionalTokenizationActionParameters? =
                     null,
+                private val typescriptCode: TypescriptCodeParameters? = null,
                 private val _json: JsonValue? = null,
             ) {
 
@@ -3039,6 +3284,10 @@ private constructor(
                     Optional<ConditionalTokenizationActionParameters> =
                     Optional.ofNullable(conditionalTokenizationAction)
 
+                /** Parameters for defining a TypeScript code rule */
+                fun typescriptCode(): Optional<TypescriptCodeParameters> =
+                    Optional.ofNullable(typescriptCode)
+
                 @Deprecated("deprecated")
                 fun isConditionalBlock(): Boolean = conditionalBlock != null
 
@@ -3055,6 +3304,8 @@ private constructor(
 
                 fun isConditionalTokenizationAction(): Boolean =
                     conditionalTokenizationAction != null
+
+                fun isTypescriptCode(): Boolean = typescriptCode != null
 
                 /** Deprecated: Use CONDITIONAL_ACTION instead. */
                 @Deprecated("deprecated")
@@ -3079,6 +3330,10 @@ private constructor(
                 fun asConditionalTokenizationAction(): ConditionalTokenizationActionParameters =
                     conditionalTokenizationAction.getOrThrow("conditionalTokenizationAction")
 
+                /** Parameters for defining a TypeScript code rule */
+                fun asTypescriptCode(): TypescriptCodeParameters =
+                    typescriptCode.getOrThrow("typescriptCode")
+
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
                 fun <T> accept(visitor: Visitor<T>): T =
@@ -3099,6 +3354,7 @@ private constructor(
                             visitor.visitConditionalTokenizationAction(
                                 conditionalTokenizationAction
                             )
+                        typescriptCode != null -> visitor.visitTypescriptCode(typescriptCode)
                         else -> visitor.unknown(_json)
                     }
 
@@ -3152,6 +3408,12 @@ private constructor(
                             ) {
                                 conditionalTokenizationAction.validate()
                             }
+
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) {
+                                typescriptCode.validate()
+                            }
                         }
                     )
                     validated = true
@@ -3204,6 +3466,10 @@ private constructor(
                                     ConditionalTokenizationActionParameters
                             ) = conditionalTokenizationAction.validity()
 
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) = typescriptCode.validity()
+
                             override fun unknown(json: JsonValue?) = 0
                         }
                     )
@@ -3220,7 +3486,8 @@ private constructor(
                         conditional3dsAction == other.conditional3dsAction &&
                         conditionalAuthorizationAction == other.conditionalAuthorizationAction &&
                         conditionalAchAction == other.conditionalAchAction &&
-                        conditionalTokenizationAction == other.conditionalTokenizationAction
+                        conditionalTokenizationAction == other.conditionalTokenizationAction &&
+                        typescriptCode == other.typescriptCode
                 }
 
                 override fun hashCode(): Int =
@@ -3232,6 +3499,7 @@ private constructor(
                         conditionalAuthorizationAction,
                         conditionalAchAction,
                         conditionalTokenizationAction,
+                        typescriptCode,
                     )
 
                 override fun toString(): String =
@@ -3248,6 +3516,7 @@ private constructor(
                             "Parameters{conditionalAchAction=$conditionalAchAction}"
                         conditionalTokenizationAction != null ->
                             "Parameters{conditionalTokenizationAction=$conditionalTokenizationAction}"
+                        typescriptCode != null -> "Parameters{typescriptCode=$typescriptCode}"
                         _json != null -> "Parameters{_unknown=$_json}"
                         else -> throw IllegalStateException("Invalid Parameters")
                     }
@@ -3287,6 +3556,11 @@ private constructor(
                     fun ofConditionalTokenizationAction(
                         conditionalTokenizationAction: ConditionalTokenizationActionParameters
                     ) = Parameters(conditionalTokenizationAction = conditionalTokenizationAction)
+
+                    /** Parameters for defining a TypeScript code rule */
+                    @JvmStatic
+                    fun ofTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                        Parameters(typescriptCode = typescriptCode)
                 }
 
                 /**
@@ -3318,6 +3592,9 @@ private constructor(
                     fun visitConditionalTokenizationAction(
                         conditionalTokenizationAction: ConditionalTokenizationActionParameters
                     ): T
+
+                    /** Parameters for defining a TypeScript code rule */
+                    fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters): T
 
                     /**
                      * Maps an unknown variant of [Parameters] to a value of type [T].
@@ -3390,6 +3667,8 @@ private constructor(
                                                 _json = json,
                                             )
                                         },
+                                    tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
+                                        ?.let { Parameters(typescriptCode = it, _json = json) },
                                 )
                                 .filterNotNull()
                                 .allMaxBy { it.validity() }
@@ -3429,6 +3708,8 @@ private constructor(
                                 generator.writeObject(value.conditionalAchAction)
                             value.conditionalTokenizationAction != null ->
                                 generator.writeObject(value.conditionalTokenizationAction)
+                            value.typescriptCode != null ->
+                                generator.writeObject(value.typescriptCode)
                             value._json != null -> generator.writeObject(value._json)
                             else -> throw IllegalStateException("Invalid Parameters")
                         }
@@ -3445,6 +3726,8 @@ private constructor(
              * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
              * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
              * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
              *   ACH_CREDIT_RECEIPT, or ACH_DEBIT_RECEIPT event stream.
              */
             class AuthRuleType
@@ -3471,6 +3754,8 @@ private constructor(
 
                     @JvmField val CONDITIONAL_ACTION = of("CONDITIONAL_ACTION")
 
+                    @JvmField val TYPESCRIPT_CODE = of("TYPESCRIPT_CODE")
+
                     @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
                 }
 
@@ -3480,6 +3765,7 @@ private constructor(
                     VELOCITY_LIMIT,
                     MERCHANT_LOCK,
                     CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
                 }
 
                 /**
@@ -3497,6 +3783,7 @@ private constructor(
                     VELOCITY_LIMIT,
                     MERCHANT_LOCK,
                     CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
                     /**
                      * An enum member indicating that [AuthRuleType] was instantiated with an
                      * unknown value.
@@ -3517,6 +3804,7 @@ private constructor(
                         VELOCITY_LIMIT -> Value.VELOCITY_LIMIT
                         MERCHANT_LOCK -> Value.MERCHANT_LOCK
                         CONDITIONAL_ACTION -> Value.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Value.TYPESCRIPT_CODE
                         else -> Value._UNKNOWN
                     }
 
@@ -3535,6 +3823,7 @@ private constructor(
                         VELOCITY_LIMIT -> Known.VELOCITY_LIMIT
                         MERCHANT_LOCK -> Known.MERCHANT_LOCK
                         CONDITIONAL_ACTION -> Known.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Known.TYPESCRIPT_CODE
                         else -> throw LithicInvalidDataException("Unknown AuthRuleType: $value")
                     }
 
@@ -3602,6 +3891,8 @@ private constructor(
                     programLevel == other.programLevel &&
                     type == other.type &&
                     eventStream == other.eventStream &&
+                    excludedAccountTokens == other.excludedAccountTokens &&
+                    excludedBusinessAccountTokens == other.excludedBusinessAccountTokens &&
                     excludedCardTokens == other.excludedCardTokens &&
                     name == other.name &&
                     additionalProperties == other.additionalProperties
@@ -3613,6 +3904,8 @@ private constructor(
                     programLevel,
                     type,
                     eventStream,
+                    excludedAccountTokens,
+                    excludedBusinessAccountTokens,
                     excludedCardTokens,
                     name,
                     additionalProperties,
@@ -3622,7 +3915,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "ProgramLevelRule{parameters=$parameters, programLevel=$programLevel, type=$type, eventStream=$eventStream, excludedCardTokens=$excludedCardTokens, name=$name, additionalProperties=$additionalProperties}"
+                "ProgramLevelRule{parameters=$parameters, programLevel=$programLevel, type=$type, eventStream=$eventStream, excludedAccountTokens=$excludedAccountTokens, excludedBusinessAccountTokens=$excludedBusinessAccountTokens, excludedCardTokens=$excludedCardTokens, name=$name, additionalProperties=$additionalProperties}"
         }
     }
 

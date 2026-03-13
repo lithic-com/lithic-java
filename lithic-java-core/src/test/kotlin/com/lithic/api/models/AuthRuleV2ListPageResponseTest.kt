@@ -37,6 +37,7 @@ internal class AuthRuleV2ListPageResponseTest {
                         )
                         .draftVersion(
                             AuthRule.DraftVersion.builder()
+                                .error("error")
                                 .parameters(
                                     ConditionalBlockParameters.builder()
                                         .addCondition(
@@ -48,6 +49,7 @@ internal class AuthRuleV2ListPageResponseTest {
                                         )
                                         .build()
                                 )
+                                .state(AuthRule.DraftVersion.State.PENDING)
                                 .version(0L)
                                 .build()
                         )
@@ -57,6 +59,8 @@ internal class AuthRuleV2ListPageResponseTest {
                         .programLevel(true)
                         .state(AuthRule.AuthRuleState.ACTIVE)
                         .type(AuthRule.AuthRuleType.CONDITIONAL_BLOCK)
+                        .addExcludedAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addExcludedBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addExcludedCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )
@@ -88,6 +92,7 @@ internal class AuthRuleV2ListPageResponseTest {
                     )
                     .draftVersion(
                         AuthRule.DraftVersion.builder()
+                            .error("error")
                             .parameters(
                                 ConditionalBlockParameters.builder()
                                     .addCondition(
@@ -99,6 +104,7 @@ internal class AuthRuleV2ListPageResponseTest {
                                     )
                                     .build()
                             )
+                            .state(AuthRule.DraftVersion.State.PENDING)
                             .version(0L)
                             .build()
                     )
@@ -108,6 +114,8 @@ internal class AuthRuleV2ListPageResponseTest {
                     .programLevel(true)
                     .state(AuthRule.AuthRuleState.ACTIVE)
                     .type(AuthRule.AuthRuleType.CONDITIONAL_BLOCK)
+                    .addExcludedAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addExcludedBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addExcludedCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
@@ -143,6 +151,7 @@ internal class AuthRuleV2ListPageResponseTest {
                         )
                         .draftVersion(
                             AuthRule.DraftVersion.builder()
+                                .error("error")
                                 .parameters(
                                     ConditionalBlockParameters.builder()
                                         .addCondition(
@@ -154,6 +163,7 @@ internal class AuthRuleV2ListPageResponseTest {
                                         )
                                         .build()
                                 )
+                                .state(AuthRule.DraftVersion.State.PENDING)
                                 .version(0L)
                                 .build()
                         )
@@ -163,6 +173,8 @@ internal class AuthRuleV2ListPageResponseTest {
                         .programLevel(true)
                         .state(AuthRule.AuthRuleState.ACTIVE)
                         .type(AuthRule.AuthRuleType.CONDITIONAL_BLOCK)
+                        .addExcludedAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addExcludedBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addExcludedCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )

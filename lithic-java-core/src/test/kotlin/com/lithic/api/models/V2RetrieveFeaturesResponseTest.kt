@@ -18,17 +18,13 @@ internal class V2RetrieveFeaturesResponseTest {
                 .addFeature(
                     V2RetrieveFeaturesResponse.SpendFeatureState.builder()
                         .filters(
-                            V2RetrieveFeaturesResponse.SpendFeatureState.VelocityLimitFilters
-                                .builder()
+                            VelocityLimitFilters.builder()
                                 .addExcludeCountry("USD")
                                 .addExcludeMcc("5542")
                                 .addIncludeCountry("USD")
                                 .addIncludeMcc("5542")
                                 .addIncludePanEntryMode(
-                                    V2RetrieveFeaturesResponse.SpendFeatureState
-                                        .VelocityLimitFilters
-                                        .IncludePanEntryMode
-                                        .AUTO_ENTRY
+                                    VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
                                 )
                                 .build()
                         )
@@ -55,15 +51,13 @@ internal class V2RetrieveFeaturesResponseTest {
             .containsExactly(
                 V2RetrieveFeaturesResponse.SpendFeatureState.builder()
                     .filters(
-                        V2RetrieveFeaturesResponse.SpendFeatureState.VelocityLimitFilters.builder()
+                        VelocityLimitFilters.builder()
                             .addExcludeCountry("USD")
                             .addExcludeMcc("5542")
                             .addIncludeCountry("USD")
                             .addIncludeMcc("5542")
                             .addIncludePanEntryMode(
-                                V2RetrieveFeaturesResponse.SpendFeatureState.VelocityLimitFilters
-                                    .IncludePanEntryMode
-                                    .AUTO_ENTRY
+                                VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
                             )
                             .build()
                     )
@@ -93,17 +87,13 @@ internal class V2RetrieveFeaturesResponseTest {
                 .addFeature(
                     V2RetrieveFeaturesResponse.SpendFeatureState.builder()
                         .filters(
-                            V2RetrieveFeaturesResponse.SpendFeatureState.VelocityLimitFilters
-                                .builder()
+                            VelocityLimitFilters.builder()
                                 .addExcludeCountry("USD")
                                 .addExcludeMcc("5542")
                                 .addIncludeCountry("USD")
                                 .addIncludeMcc("5542")
                                 .addIncludePanEntryMode(
-                                    V2RetrieveFeaturesResponse.SpendFeatureState
-                                        .VelocityLimitFilters
-                                        .IncludePanEntryMode
-                                        .AUTO_ENTRY
+                                    VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
                                 )
                                 .build()
                         )
