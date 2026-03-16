@@ -23,6 +23,7 @@ class InterestTierSchedule
 private constructor(
     private val creditProductToken: JsonField<String>,
     private val effectiveDate: JsonField<LocalDate>,
+    private val penaltyRates: JsonValue,
     private val tierName: JsonField<String>,
     private val tierRates: JsonValue,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -36,9 +37,10 @@ private constructor(
         @JsonProperty("effective_date")
         @ExcludeMissing
         effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("penalty_rates") @ExcludeMissing penaltyRates: JsonValue = JsonMissing.of(),
         @JsonProperty("tier_name") @ExcludeMissing tierName: JsonField<String> = JsonMissing.of(),
         @JsonProperty("tier_rates") @ExcludeMissing tierRates: JsonValue = JsonMissing.of(),
-    ) : this(creditProductToken, effectiveDate, tierName, tierRates, mutableMapOf())
+    ) : this(creditProductToken, effectiveDate, penaltyRates, tierName, tierRates, mutableMapOf())
 
     /**
      * Globally unique identifier for a credit product
@@ -55,6 +57,16 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
+
+    /**
+     * Custom rates per category for penalties
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = interestTierSchedule.penaltyRates().convert(MyClass.class);
+     * ```
+     */
+    @JsonProperty("penalty_rates") @ExcludeMissing fun _penaltyRates(): JsonValue = penaltyRates
 
     /**
      * Name of a tier contained in the credit product. Mutually exclusive with tier_rates
@@ -131,6 +143,7 @@ private constructor(
 
         private var creditProductToken: JsonField<String>? = null
         private var effectiveDate: JsonField<LocalDate>? = null
+        private var penaltyRates: JsonValue = JsonMissing.of()
         private var tierName: JsonField<String> = JsonMissing.of()
         private var tierRates: JsonValue = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -139,6 +152,7 @@ private constructor(
         internal fun from(interestTierSchedule: InterestTierSchedule) = apply {
             creditProductToken = interestTierSchedule.creditProductToken
             effectiveDate = interestTierSchedule.effectiveDate
+            penaltyRates = interestTierSchedule.penaltyRates
             tierName = interestTierSchedule.tierName
             tierRates = interestTierSchedule.tierRates
             additionalProperties = interestTierSchedule.additionalProperties.toMutableMap()
@@ -172,6 +186,9 @@ private constructor(
         fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
             this.effectiveDate = effectiveDate
         }
+
+        /** Custom rates per category for penalties */
+        fun penaltyRates(penaltyRates: JsonValue) = apply { this.penaltyRates = penaltyRates }
 
         /** Name of a tier contained in the credit product. Mutually exclusive with tier_rates */
         fun tierName(tierName: String) = tierName(JsonField.of(tierName))
@@ -223,6 +240,7 @@ private constructor(
             InterestTierSchedule(
                 checkRequired("creditProductToken", creditProductToken),
                 checkRequired("effectiveDate", effectiveDate),
+                penaltyRates,
                 tierName,
                 tierRates,
                 additionalProperties.toMutableMap(),
@@ -269,17 +287,25 @@ private constructor(
         return other is InterestTierSchedule &&
             creditProductToken == other.creditProductToken &&
             effectiveDate == other.effectiveDate &&
+            penaltyRates == other.penaltyRates &&
             tierName == other.tierName &&
             tierRates == other.tierRates &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(creditProductToken, effectiveDate, tierName, tierRates, additionalProperties)
+        Objects.hash(
+            creditProductToken,
+            effectiveDate,
+            penaltyRates,
+            tierName,
+            tierRates,
+            additionalProperties,
+        )
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "InterestTierSchedule{creditProductToken=$creditProductToken, effectiveDate=$effectiveDate, tierName=$tierName, tierRates=$tierRates, additionalProperties=$additionalProperties}"
+        "InterestTierSchedule{creditProductToken=$creditProductToken, effectiveDate=$effectiveDate, penaltyRates=$penaltyRates, tierName=$tierName, tierRates=$tierRates, additionalProperties=$additionalProperties}"
 }

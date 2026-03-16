@@ -21,7 +21,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Update dispute. Can only be modified if status is `NEW`. */
+/** Update chargeback request. Can only be modified if status is `NEW`. */
 class DisputeUpdateParams
 private constructor(
     private val disputeToken: String?,
@@ -33,7 +33,7 @@ private constructor(
     fun disputeToken(): Optional<String> = Optional.ofNullable(disputeToken)
 
     /**
-     * Amount to dispute
+     * Amount for chargeback
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -41,7 +41,7 @@ private constructor(
     fun amount(): Optional<Long> = body.amount()
 
     /**
-     * Date the customer filed the dispute
+     * Date the customer filed the chargeback request
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -49,7 +49,7 @@ private constructor(
     fun customerFiledDate(): Optional<OffsetDateTime> = body.customerFiledDate()
 
     /**
-     * Customer description of dispute
+     * Customer description
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -57,7 +57,7 @@ private constructor(
     fun customerNote(): Optional<String> = body.customerNote()
 
     /**
-     * Reason for dispute
+     * Reason for chargeback
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -144,7 +144,7 @@ private constructor(
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** Amount to dispute */
+        /** Amount for chargeback */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
@@ -155,7 +155,7 @@ private constructor(
          */
         fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
-        /** Date the customer filed the dispute */
+        /** Date the customer filed the chargeback request */
         fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
             body.customerFiledDate(customerFiledDate)
         }
@@ -171,7 +171,7 @@ private constructor(
             body.customerFiledDate(customerFiledDate)
         }
 
-        /** Customer description of dispute */
+        /** Customer description */
         fun customerNote(customerNote: String) = apply { body.customerNote(customerNote) }
 
         /**
@@ -185,7 +185,7 @@ private constructor(
             body.customerNote(customerNote)
         }
 
-        /** Reason for dispute */
+        /** Reason for chargeback */
         fun reason(reason: Reason) = apply { body.reason(reason) }
 
         /**
@@ -362,7 +362,7 @@ private constructor(
         ) : this(amount, customerFiledDate, customerNote, reason, mutableMapOf())
 
         /**
-         * Amount to dispute
+         * Amount for chargeback
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -370,7 +370,7 @@ private constructor(
         fun amount(): Optional<Long> = amount.getOptional("amount")
 
         /**
-         * Date the customer filed the dispute
+         * Date the customer filed the chargeback request
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -379,7 +379,7 @@ private constructor(
             customerFiledDate.getOptional("customer_filed_date")
 
         /**
-         * Customer description of dispute
+         * Customer description
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -387,7 +387,7 @@ private constructor(
         fun customerNote(): Optional<String> = customerNote.getOptional("customer_note")
 
         /**
-         * Reason for dispute
+         * Reason for chargeback
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -464,7 +464,7 @@ private constructor(
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** Amount to dispute */
+            /** Amount for chargeback */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
@@ -476,7 +476,7 @@ private constructor(
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            /** Date the customer filed the dispute */
+            /** Date the customer filed the chargeback request */
             fun customerFiledDate(customerFiledDate: OffsetDateTime) =
                 customerFiledDate(JsonField.of(customerFiledDate))
 
@@ -491,7 +491,7 @@ private constructor(
                 this.customerFiledDate = customerFiledDate
             }
 
-            /** Customer description of dispute */
+            /** Customer description */
             fun customerNote(customerNote: String) = customerNote(JsonField.of(customerNote))
 
             /**
@@ -505,7 +505,7 @@ private constructor(
                 this.customerNote = customerNote
             }
 
-            /** Reason for dispute */
+            /** Reason for chargeback */
             fun reason(reason: Reason) = reason(JsonField.of(reason))
 
             /**
@@ -609,7 +609,7 @@ private constructor(
             "Body{amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalProperties=$additionalProperties}"
     }
 
-    /** Reason for dispute */
+    /** Reason for chargeback */
     class Reason @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**

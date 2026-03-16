@@ -2,28 +2,22 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Withdraw chargeback request. */
-class DisputeDeleteParams
+/** Returns all versions of an auth rule, sorted by version number descending (newest first). */
+class AuthRuleV2ListVersionsParams
 private constructor(
-    private val disputeToken: String?,
+    private val authRuleToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun disputeToken(): Optional<String> = Optional.ofNullable(disputeToken)
-
-    /** Additional body properties to send with the request. */
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -35,32 +29,33 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): DisputeDeleteParams = builder().build()
+        @JvmStatic fun none(): AuthRuleV2ListVersionsParams = builder().build()
 
-        /** Returns a mutable builder for constructing an instance of [DisputeDeleteParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [AuthRuleV2ListVersionsParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [DisputeDeleteParams]. */
+    /** A builder for [AuthRuleV2ListVersionsParams]. */
     class Builder internal constructor() {
 
-        private var disputeToken: String? = null
+        private var authRuleToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(disputeDeleteParams: DisputeDeleteParams) = apply {
-            disputeToken = disputeDeleteParams.disputeToken
-            additionalHeaders = disputeDeleteParams.additionalHeaders.toBuilder()
-            additionalQueryParams = disputeDeleteParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = disputeDeleteParams.additionalBodyProperties.toMutableMap()
+        internal fun from(authRuleV2ListVersionsParams: AuthRuleV2ListVersionsParams) = apply {
+            authRuleToken = authRuleV2ListVersionsParams.authRuleToken
+            additionalHeaders = authRuleV2ListVersionsParams.additionalHeaders.toBuilder()
+            additionalQueryParams = authRuleV2ListVersionsParams.additionalQueryParams.toBuilder()
         }
 
-        fun disputeToken(disputeToken: String?) = apply { this.disputeToken = disputeToken }
+        fun authRuleToken(authRuleToken: String?) = apply { this.authRuleToken = authRuleToken }
 
-        /** Alias for calling [Builder.disputeToken] with `disputeToken.orElse(null)`. */
-        fun disputeToken(disputeToken: Optional<String>) = disputeToken(disputeToken.getOrNull())
+        /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
+        fun authRuleToken(authRuleToken: Optional<String>) =
+            authRuleToken(authRuleToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -160,48 +155,22 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
-        }
-
         /**
-         * Returns an immutable instance of [DisputeDeleteParams].
+         * Returns an immutable instance of [AuthRuleV2ListVersionsParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): DisputeDeleteParams =
-            DisputeDeleteParams(
-                disputeToken,
+        fun build(): AuthRuleV2ListVersionsParams =
+            AuthRuleV2ListVersionsParams(
+                authRuleToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
-    fun _body(): Optional<Map<String, JsonValue>> =
-        Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
-
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> disputeToken ?: ""
+            0 -> authRuleToken ?: ""
             else -> ""
         }
 
@@ -214,21 +183,15 @@ private constructor(
             return true
         }
 
-        return other is DisputeDeleteParams &&
-            disputeToken == other.disputeToken &&
+        return other is AuthRuleV2ListVersionsParams &&
+            authRuleToken == other.authRuleToken &&
             additionalHeaders == other.additionalHeaders &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalBodyProperties == other.additionalBodyProperties
+            additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(
-            disputeToken,
-            additionalHeaders,
-            additionalQueryParams,
-            additionalBodyProperties,
-        )
+        Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "DisputeDeleteParams{disputeToken=$disputeToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "AuthRuleV2ListVersionsParams{authRuleToken=$authRuleToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
