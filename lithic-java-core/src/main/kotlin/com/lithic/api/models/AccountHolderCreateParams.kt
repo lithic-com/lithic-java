@@ -450,8 +450,8 @@ private constructor(
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val businessEntity: JsonField<KybDelegatedBusinessEntity>,
-            private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>>,
-            private val controlPerson: JsonField<KybIndividual>,
+            private val beneficialOwnerIndividuals: JsonField<List<KybDelegatedIndividual>>,
+            private val controlPerson: JsonField<KybDelegatedIndividual>,
             private val externalId: JsonField<String>,
             private val naicsCode: JsonField<String>,
             private val natureOfBusiness: JsonField<String>,
@@ -468,10 +468,11 @@ private constructor(
                 businessEntity: JsonField<KybDelegatedBusinessEntity> = JsonMissing.of(),
                 @JsonProperty("beneficial_owner_individuals")
                 @ExcludeMissing
-                beneficialOwnerIndividuals: JsonField<List<KybIndividual>> = JsonMissing.of(),
+                beneficialOwnerIndividuals: JsonField<List<KybDelegatedIndividual>> =
+                    JsonMissing.of(),
                 @JsonProperty("control_person")
                 @ExcludeMissing
-                controlPerson: JsonField<KybIndividual> = JsonMissing.of(),
+                controlPerson: JsonField<KybDelegatedIndividual> = JsonMissing.of(),
                 @JsonProperty("external_id")
                 @ExcludeMissing
                 externalId: JsonField<String> = JsonMissing.of(),
@@ -524,7 +525,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun beneficialOwnerIndividuals(): Optional<List<KybIndividual>> =
+            fun beneficialOwnerIndividuals(): Optional<List<KybDelegatedIndividual>> =
                 beneficialOwnerIndividuals.getOptional("beneficial_owner_individuals")
 
             /**
@@ -540,7 +541,7 @@ private constructor(
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun controlPerson(): Optional<KybIndividual> =
+            fun controlPerson(): Optional<KybDelegatedIndividual> =
                 controlPerson.getOptional("control_person")
 
             /**
@@ -613,7 +614,7 @@ private constructor(
              */
             @JsonProperty("beneficial_owner_individuals")
             @ExcludeMissing
-            fun _beneficialOwnerIndividuals(): JsonField<List<KybIndividual>> =
+            fun _beneficialOwnerIndividuals(): JsonField<List<KybDelegatedIndividual>> =
                 beneficialOwnerIndividuals
 
             /**
@@ -624,7 +625,7 @@ private constructor(
              */
             @JsonProperty("control_person")
             @ExcludeMissing
-            fun _controlPerson(): JsonField<KybIndividual> = controlPerson
+            fun _controlPerson(): JsonField<KybDelegatedIndividual> = controlPerson
 
             /**
              * Returns the raw JSON value of [externalId].
@@ -715,9 +716,10 @@ private constructor(
             class Builder internal constructor() {
 
                 private var businessEntity: JsonField<KybDelegatedBusinessEntity>? = null
-                private var beneficialOwnerIndividuals: JsonField<MutableList<KybIndividual>>? =
+                private var beneficialOwnerIndividuals:
+                    JsonField<MutableList<KybDelegatedIndividual>>? =
                     null
-                private var controlPerson: JsonField<KybIndividual> = JsonMissing.of()
+                private var controlPerson: JsonField<KybDelegatedIndividual> = JsonMissing.of()
                 private var externalId: JsonField<String> = JsonMissing.of()
                 private var naicsCode: JsonField<String> = JsonMissing.of()
                 private var natureOfBusiness: JsonField<String> = JsonMissing.of()
@@ -764,29 +766,32 @@ private constructor(
                  * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
                  * (Section I) for more background on individuals that should be included.
                  */
-                fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: List<KybIndividual>) =
-                    beneficialOwnerIndividuals(JsonField.of(beneficialOwnerIndividuals))
+                fun beneficialOwnerIndividuals(
+                    beneficialOwnerIndividuals: List<KybDelegatedIndividual>
+                ) = beneficialOwnerIndividuals(JsonField.of(beneficialOwnerIndividuals))
 
                 /**
                  * Sets [Builder.beneficialOwnerIndividuals] to an arbitrary JSON value.
                  *
                  * You should usually call [Builder.beneficialOwnerIndividuals] with a well-typed
-                 * `List<KybIndividual>` value instead. This method is primarily for setting the
-                 * field to an undocumented or not yet supported value.
+                 * `List<KybDelegatedIndividual>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
                 fun beneficialOwnerIndividuals(
-                    beneficialOwnerIndividuals: JsonField<List<KybIndividual>>
+                    beneficialOwnerIndividuals: JsonField<List<KybDelegatedIndividual>>
                 ) = apply {
                     this.beneficialOwnerIndividuals =
                         beneficialOwnerIndividuals.map { it.toMutableList() }
                 }
 
                 /**
-                 * Adds a single [KybIndividual] to [beneficialOwnerIndividuals].
+                 * Adds a single [KybDelegatedIndividual] to [beneficialOwnerIndividuals].
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
-                fun addBeneficialOwnerIndividual(beneficialOwnerIndividual: KybIndividual) = apply {
+                fun addBeneficialOwnerIndividual(
+                    beneficialOwnerIndividual: KybDelegatedIndividual
+                ) = apply {
                     beneficialOwnerIndividuals =
                         (beneficialOwnerIndividuals ?: JsonField.of(mutableListOf())).also {
                             checkKnown("beneficialOwnerIndividuals", it)
@@ -804,17 +809,17 @@ private constructor(
                  * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
                  * (Section II) for more background.
                  */
-                fun controlPerson(controlPerson: KybIndividual) =
+                fun controlPerson(controlPerson: KybDelegatedIndividual) =
                     controlPerson(JsonField.of(controlPerson))
 
                 /**
                  * Sets [Builder.controlPerson] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.controlPerson] with a well-typed [KybIndividual]
-                 * value instead. This method is primarily for setting the field to an undocumented
-                 * or not yet supported value.
+                 * You should usually call [Builder.controlPerson] with a well-typed
+                 * [KybDelegatedIndividual] value instead. This method is primarily for setting the
+                 * field to an undocumented or not yet supported value.
                  */
-                fun controlPerson(controlPerson: JsonField<KybIndividual>) = apply {
+                fun controlPerson(controlPerson: JsonField<KybDelegatedIndividual>) = apply {
                     this.controlPerson = controlPerson
                 }
 
@@ -1451,22 +1456,31 @@ private constructor(
                     "KybDelegatedBusinessEntity{address=$address, legalBusinessName=$legalBusinessName, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, additionalProperties=$additionalProperties}"
             }
 
-            /** Individuals associated with a KYB application. Phone number is optional. */
-            class KybIndividual
+            /**
+             * Individuals associated with a KYB_DELEGATED application. Only first and last name are
+             * required.
+             */
+            class KybDelegatedIndividual
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
+                private val firstName: JsonField<String>,
+                private val lastName: JsonField<String>,
                 private val address: JsonField<Address>,
                 private val dob: JsonField<String>,
                 private val email: JsonField<String>,
-                private val firstName: JsonField<String>,
                 private val governmentId: JsonField<String>,
-                private val lastName: JsonField<String>,
                 private val phoneNumber: JsonField<String>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
                 @JsonCreator
                 private constructor(
+                    @JsonProperty("first_name")
+                    @ExcludeMissing
+                    firstName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("last_name")
+                    @ExcludeMissing
+                    lastName: JsonField<String> = JsonMissing.of(),
                     @JsonProperty("address")
                     @ExcludeMissing
                     address: JsonField<Address> = JsonMissing.of(),
@@ -1474,57 +1488,22 @@ private constructor(
                     @JsonProperty("email")
                     @ExcludeMissing
                     email: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("first_name")
-                    @ExcludeMissing
-                    firstName: JsonField<String> = JsonMissing.of(),
                     @JsonProperty("government_id")
                     @ExcludeMissing
                     governmentId: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("last_name")
-                    @ExcludeMissing
-                    lastName: JsonField<String> = JsonMissing.of(),
                     @JsonProperty("phone_number")
                     @ExcludeMissing
                     phoneNumber: JsonField<String> = JsonMissing.of(),
                 ) : this(
+                    firstName,
+                    lastName,
                     address,
                     dob,
                     email,
-                    firstName,
                     governmentId,
-                    lastName,
                     phoneNumber,
                     mutableMapOf(),
                 )
-
-                /**
-                 * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-                 * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
-                 */
-                fun address(): Address = address.getRequired("address")
-
-                /**
-                 * Individual's date of birth, as an RFC 3339 date.
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
-                 */
-                fun dob(): String = dob.getRequired("dob")
-
-                /**
-                 * Individual's email address. If utilizing Lithic for chargeback processing, this
-                 * customer email address may be used to communicate dispute status and resolution.
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
-                 */
-                fun email(): String = email.getRequired("email")
 
                 /**
                  * Individual's first name, as it appears on government-issued identity documents.
@@ -1536,18 +1515,6 @@ private constructor(
                 fun firstName(): String = firstName.getRequired("first_name")
 
                 /**
-                 * Government-issued identification number (required for identity verification and
-                 * compliance with banking regulations). Social Security Numbers (SSN) and
-                 * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
-                 * entered as full nine-digits, with or without hyphens
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
-                 */
-                fun governmentId(): String = governmentId.getRequired("government_id")
-
-                /**
                  * Individual's last name, as it appears on government-issued identity documents.
                  *
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1557,12 +1524,69 @@ private constructor(
                 fun lastName(): String = lastName.getRequired("last_name")
 
                 /**
+                 * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
+                 * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun address(): Optional<Address> = address.getOptional("address")
+
+                /**
+                 * Individual's date of birth, as an RFC 3339 date.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun dob(): Optional<String> = dob.getOptional("dob")
+
+                /**
+                 * Individual's email address. If utilizing Lithic for chargeback processing, this
+                 * customer email address may be used to communicate dispute status and resolution.
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun email(): Optional<String> = email.getOptional("email")
+
+                /**
+                 * Government-issued identification number (required for identity verification and
+                 * compliance with banking regulations). Social Security Numbers (SSN) and
+                 * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
+                 * entered as full nine-digits, with or without hyphens
+                 *
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
+                 */
+                fun governmentId(): Optional<String> = governmentId.getOptional("government_id")
+
+                /**
                  * Individual's phone number, entered in E.164 format.
                  *
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
                  */
                 fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
+
+                /**
+                 * Returns the raw JSON value of [firstName].
+                 *
+                 * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("first_name")
+                @ExcludeMissing
+                fun _firstName(): JsonField<String> = firstName
+
+                /**
+                 * Returns the raw JSON value of [lastName].
+                 *
+                 * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected
+                 * type.
+                 */
+                @JsonProperty("last_name")
+                @ExcludeMissing
+                fun _lastName(): JsonField<String> = lastName
 
                 /**
                  * Returns the raw JSON value of [address].
@@ -1590,16 +1614,6 @@ private constructor(
                 @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
                 /**
-                 * Returns the raw JSON value of [firstName].
-                 *
-                 * Unlike [firstName], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("first_name")
-                @ExcludeMissing
-                fun _firstName(): JsonField<String> = firstName
-
-                /**
                  * Returns the raw JSON value of [governmentId].
                  *
                  * Unlike [governmentId], this method doesn't throw if the JSON field has an
@@ -1608,16 +1622,6 @@ private constructor(
                 @JsonProperty("government_id")
                 @ExcludeMissing
                 fun _governmentId(): JsonField<String> = governmentId
-
-                /**
-                 * Returns the raw JSON value of [lastName].
-                 *
-                 * Unlike [lastName], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("last_name")
-                @ExcludeMissing
-                fun _lastName(): JsonField<String> = lastName
 
                 /**
                  * Returns the raw JSON value of [phoneNumber].
@@ -1644,44 +1648,74 @@ private constructor(
                 companion object {
 
                     /**
-                     * Returns a mutable builder for constructing an instance of [KybIndividual].
+                     * Returns a mutable builder for constructing an instance of
+                     * [KybDelegatedIndividual].
                      *
                      * The following fields are required:
                      * ```java
-                     * .address()
-                     * .dob()
-                     * .email()
                      * .firstName()
-                     * .governmentId()
                      * .lastName()
                      * ```
                      */
                     @JvmStatic fun builder() = Builder()
                 }
 
-                /** A builder for [KybIndividual]. */
+                /** A builder for [KybDelegatedIndividual]. */
                 class Builder internal constructor() {
 
-                    private var address: JsonField<Address>? = null
-                    private var dob: JsonField<String>? = null
-                    private var email: JsonField<String>? = null
                     private var firstName: JsonField<String>? = null
-                    private var governmentId: JsonField<String>? = null
                     private var lastName: JsonField<String>? = null
+                    private var address: JsonField<Address> = JsonMissing.of()
+                    private var dob: JsonField<String> = JsonMissing.of()
+                    private var email: JsonField<String> = JsonMissing.of()
+                    private var governmentId: JsonField<String> = JsonMissing.of()
                     private var phoneNumber: JsonField<String> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
-                    internal fun from(kybIndividual: KybIndividual) = apply {
-                        address = kybIndividual.address
-                        dob = kybIndividual.dob
-                        email = kybIndividual.email
-                        firstName = kybIndividual.firstName
-                        governmentId = kybIndividual.governmentId
-                        lastName = kybIndividual.lastName
-                        phoneNumber = kybIndividual.phoneNumber
-                        additionalProperties = kybIndividual.additionalProperties.toMutableMap()
+                    internal fun from(kybDelegatedIndividual: KybDelegatedIndividual) = apply {
+                        firstName = kybDelegatedIndividual.firstName
+                        lastName = kybDelegatedIndividual.lastName
+                        address = kybDelegatedIndividual.address
+                        dob = kybDelegatedIndividual.dob
+                        email = kybDelegatedIndividual.email
+                        governmentId = kybDelegatedIndividual.governmentId
+                        phoneNumber = kybDelegatedIndividual.phoneNumber
+                        additionalProperties =
+                            kybDelegatedIndividual.additionalProperties.toMutableMap()
                     }
+
+                    /**
+                     * Individual's first name, as it appears on government-issued identity
+                     * documents.
+                     */
+                    fun firstName(firstName: String) = firstName(JsonField.of(firstName))
+
+                    /**
+                     * Sets [Builder.firstName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.firstName] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun firstName(firstName: JsonField<String>) = apply {
+                        this.firstName = firstName
+                    }
+
+                    /**
+                     * Individual's last name, as it appears on government-issued identity
+                     * documents.
+                     */
+                    fun lastName(lastName: String) = lastName(JsonField.of(lastName))
+
+                    /**
+                     * Sets [Builder.lastName] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.lastName] with a well-typed [String] value
+                     * instead. This method is primarily for setting the field to an undocumented or
+                     * not yet supported value.
+                     */
+                    fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                     /**
                      * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
@@ -1728,23 +1762,6 @@ private constructor(
                     fun email(email: JsonField<String>) = apply { this.email = email }
 
                     /**
-                     * Individual's first name, as it appears on government-issued identity
-                     * documents.
-                     */
-                    fun firstName(firstName: String) = firstName(JsonField.of(firstName))
-
-                    /**
-                     * Sets [Builder.firstName] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.firstName] with a well-typed [String] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun firstName(firstName: JsonField<String>) = apply {
-                        this.firstName = firstName
-                    }
-
-                    /**
                      * Government-issued identification number (required for identity verification
                      * and compliance with banking regulations). Social Security Numbers (SSN) and
                      * Individual Taxpayer Identification Numbers (ITIN) are currently supported,
@@ -1763,21 +1780,6 @@ private constructor(
                     fun governmentId(governmentId: JsonField<String>) = apply {
                         this.governmentId = governmentId
                     }
-
-                    /**
-                     * Individual's last name, as it appears on government-issued identity
-                     * documents.
-                     */
-                    fun lastName(lastName: String) = lastName(JsonField.of(lastName))
-
-                    /**
-                     * Sets [Builder.lastName] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.lastName] with a well-typed [String] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                     /** Individual's phone number, entered in E.164 format. */
                     fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -1816,30 +1818,26 @@ private constructor(
                     }
 
                     /**
-                     * Returns an immutable instance of [KybIndividual].
+                     * Returns an immutable instance of [KybDelegatedIndividual].
                      *
                      * Further updates to this [Builder] will not mutate the returned instance.
                      *
                      * The following fields are required:
                      * ```java
-                     * .address()
-                     * .dob()
-                     * .email()
                      * .firstName()
-                     * .governmentId()
                      * .lastName()
                      * ```
                      *
                      * @throws IllegalStateException if any required field is unset.
                      */
-                    fun build(): KybIndividual =
-                        KybIndividual(
-                            checkRequired("address", address),
-                            checkRequired("dob", dob),
-                            checkRequired("email", email),
+                    fun build(): KybDelegatedIndividual =
+                        KybDelegatedIndividual(
                             checkRequired("firstName", firstName),
-                            checkRequired("governmentId", governmentId),
                             checkRequired("lastName", lastName),
+                            address,
+                            dob,
+                            email,
+                            governmentId,
                             phoneNumber,
                             additionalProperties.toMutableMap(),
                         )
@@ -1847,17 +1845,17 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                fun validate(): KybIndividual = apply {
+                fun validate(): KybDelegatedIndividual = apply {
                     if (validated) {
                         return@apply
                     }
 
-                    address().validate()
+                    firstName()
+                    lastName()
+                    address().ifPresent { it.validate() }
                     dob()
                     email()
-                    firstName()
                     governmentId()
-                    lastName()
                     phoneNumber()
                     validated = true
                 }
@@ -1878,12 +1876,12 @@ private constructor(
                  */
                 @JvmSynthetic
                 internal fun validity(): Int =
-                    (address.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (firstName.asKnown().isPresent) 1 else 0) +
+                        (if (lastName.asKnown().isPresent) 1 else 0) +
+                        (address.asKnown().getOrNull()?.validity() ?: 0) +
                         (if (dob.asKnown().isPresent) 1 else 0) +
                         (if (email.asKnown().isPresent) 1 else 0) +
-                        (if (firstName.asKnown().isPresent) 1 else 0) +
                         (if (governmentId.asKnown().isPresent) 1 else 0) +
-                        (if (lastName.asKnown().isPresent) 1 else 0) +
                         (if (phoneNumber.asKnown().isPresent) 1 else 0)
 
                 override fun equals(other: Any?): Boolean {
@@ -1891,25 +1889,25 @@ private constructor(
                         return true
                     }
 
-                    return other is KybIndividual &&
+                    return other is KybDelegatedIndividual &&
+                        firstName == other.firstName &&
+                        lastName == other.lastName &&
                         address == other.address &&
                         dob == other.dob &&
                         email == other.email &&
-                        firstName == other.firstName &&
                         governmentId == other.governmentId &&
-                        lastName == other.lastName &&
                         phoneNumber == other.phoneNumber &&
                         additionalProperties == other.additionalProperties
                 }
 
                 private val hashCode: Int by lazy {
                     Objects.hash(
+                        firstName,
+                        lastName,
                         address,
                         dob,
                         email,
-                        firstName,
                         governmentId,
-                        lastName,
                         phoneNumber,
                         additionalProperties,
                     )
@@ -1918,7 +1916,7 @@ private constructor(
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "KybIndividual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+                    "KybDelegatedIndividual{firstName=$firstName, lastName=$lastName, address=$address, dob=$dob, email=$email, governmentId=$governmentId, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
             }
 
             /** Specifies the type of KYB workflow to run. */
