@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.121.0 (2026-03-17)
+
+Full Changelog: [v0.120.0...v0.121.0](https://github.com/lithic-com/lithic-java/compare/v0.120.0...v0.121.0)
+
+### Features
+
+* **api:** add remittanceInformation field to Payment WireMethodAttributes ([5376d36](https://github.com/lithic-com/lithic-java/commit/5376d363c37079d13071d48914b445005aa5fedc))
+
+
+### Bug Fixes
+
+* add missing /v1/ prefix in getEmbedUrl URL path ([#645](https://github.com/lithic-com/lithic-java/issues/645)) ([fd56a40](https://github.com/lithic-com/lithic-java/commit/fd56a40d9ff25da51cf04e2f0600a7a0ae9ae284))
+* **client:** allow updating header/query affecting fields in `toBuilder()` ([17c55c1](https://github.com/lithic-com/lithic-java/commit/17c55c114f06e01c1027dc2867aeb5658b975cc1))
+* **types:** make address/dob/email/governmentId optional in KybDelegatedIndividual ([4b5460b](https://github.com/lithic-com/lithic-java/commit/4b5460bf47b1dab23891327c73370eaa05c71c1c))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([0953db7](https://github.com/lithic-com/lithic-java/commit/0953db7ad2ef68b7de4d7158c4f64cafea9d94e5))
+* **internal:** update retry delay tests ([7232af2](https://github.com/lithic-com/lithic-java/commit/7232af2db25568bde898084260ce6f56c46f70c3))
+
+
+### Documentation
+
+* **api:** update supported file types in account holder upload document method ([50f96cd](https://github.com/lithic-com/lithic-java/commit/50f96cd53f37fa58a2b933c35568719e9f2b540f))
+
 ## 0.120.0 (2026-03-16)
 
 Full Changelog: [v0.119.0...v0.120.0](https://github.com/lithic-com/lithic-java/compare/v0.119.0...v0.120.0)
