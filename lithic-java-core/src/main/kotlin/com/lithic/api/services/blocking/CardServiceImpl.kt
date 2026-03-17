@@ -556,7 +556,7 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
         return buildString {
             append(clientOptions.baseUrl())
             if (!endsWith("/")) append("/")
-            append("embed/card")
+            append("v1/embed/card")
             append("?embed_request=")
             append(URLEncoder.encode(embed_request, "UTF-8"))
             append("&hmac=")
