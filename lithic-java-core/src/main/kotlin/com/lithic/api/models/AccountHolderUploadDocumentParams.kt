@@ -28,7 +28,7 @@ import kotlin.jvm.optionals.getOrNull
  *
  * This endpoint is only valid for evaluations in a `PENDING_DOCUMENT` state.
  *
- * Uploaded images must either be a `jpg` or `png` file, and each must be less than 15 MiB. Once
+ * Supported file types include `jpg`, `png`, and `pdf`. Each file must be less than 15 MiB. Once
  * both required uploads have been successfully completed, your document will be run through KYC
  * verification.
  *
