@@ -17,6 +17,29 @@ internal class ClientOptionsTest {
     private val httpClient = mock<HttpClient>()
 
     @Test
+    fun putHeader_canOverwriteDefaultHeader() {
+        val clientOptions =
+            ClientOptions.builder()
+                .httpClient(httpClient)
+                .putHeader("User-Agent", "My User Agent")
+                .apiKey("My Lithic API Key")
+                .build()
+
+        assertThat(clientOptions.headers.values("User-Agent")).containsExactly("My User Agent")
+    }
+
+    @Test
+    fun toBuilder_apiKeyAuthCanBeUpdated() {
+        var clientOptions =
+            ClientOptions.builder().httpClient(httpClient).apiKey("My Lithic API Key").build()
+
+        clientOptions = clientOptions.toBuilder().apiKey("another My Lithic API Key").build()
+
+        assertThat(clientOptions.headers.values("Authorization"))
+            .containsExactly("another My Lithic API Key")
+    }
+
+    @Test
     fun toBuilder_whenOriginalClientOptionsGarbageCollected_doesNotCloseOriginalClient() {
         var clientOptions =
             ClientOptions.builder().httpClient(httpClient).apiKey("My Lithic API Key").build()
