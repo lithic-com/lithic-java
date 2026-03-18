@@ -1802,7 +1802,7 @@ private constructor(
         private val cardholderAuthentication: JsonField<CardholderAuthentication>,
         private val created: JsonField<OffsetDateTime>,
         private val financialAccountToken: JsonField<String>,
-        private val merchant: JsonField<Merchant>,
+        private val merchant: JsonField<Transaction.TransactionMerchant>,
         private val merchantAmount: JsonField<Long>,
         private val merchantAuthorizationAmount: JsonField<Long>,
         private val merchantCurrency: JsonField<String>,
@@ -1810,6 +1810,7 @@ private constructor(
         private val networkRiskScore: JsonField<Long>,
         private val pos: JsonField<Transaction.Pos>,
         private val result: JsonField<Transaction.DeclineResult>,
+        private val serviceLocation: JsonField<Transaction.ServiceLocation>,
         private val settledAmount: JsonField<Long>,
         private val status: JsonField<Transaction.Status>,
         private val tags: JsonField<Transaction.Tags>,
@@ -1857,7 +1858,7 @@ private constructor(
             financialAccountToken: JsonField<String> = JsonMissing.of(),
             @JsonProperty("merchant")
             @ExcludeMissing
-            merchant: JsonField<Merchant> = JsonMissing.of(),
+            merchant: JsonField<Transaction.TransactionMerchant> = JsonMissing.of(),
             @JsonProperty("merchant_amount")
             @ExcludeMissing
             merchantAmount: JsonField<Long> = JsonMissing.of(),
@@ -1877,6 +1878,9 @@ private constructor(
             @JsonProperty("result")
             @ExcludeMissing
             result: JsonField<Transaction.DeclineResult> = JsonMissing.of(),
+            @JsonProperty("service_location")
+            @ExcludeMissing
+            serviceLocation: JsonField<Transaction.ServiceLocation> = JsonMissing.of(),
             @JsonProperty("settled_amount")
             @ExcludeMissing
             settledAmount: JsonField<Long> = JsonMissing.of(),
@@ -1918,6 +1922,7 @@ private constructor(
             networkRiskScore,
             pos,
             result,
+            serviceLocation,
             settledAmount,
             status,
             tags,
@@ -1951,6 +1956,7 @@ private constructor(
                 .networkRiskScore(networkRiskScore)
                 .pos(pos)
                 .result(result)
+                .serviceLocation(serviceLocation)
                 .settledAmount(settledAmount)
                 .status(status)
                 .tags(tags)
@@ -2070,10 +2076,12 @@ private constructor(
             financialAccountToken.getOptional("financial_account_token")
 
         /**
+         * Merchant information including full location details.
+         *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun merchant(): Merchant = merchant.getRequired("merchant")
+        fun merchant(): Transaction.TransactionMerchant = merchant.getRequired("merchant")
 
         /**
          * Analogous to the 'amount', but in the merchant currency.
@@ -2134,6 +2142,17 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun result(): Transaction.DeclineResult = result.getRequired("result")
+
+        /**
+         * Where the cardholder received the service, when different from the card acceptor
+         * location. This is populated from network data elements such as Mastercard DE-122 SE1
+         * SF9-14 and Visa F34 DS02.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun serviceLocation(): Optional<Transaction.ServiceLocation> =
+            serviceLocation.getOptional("service_location")
 
         /**
          * The settled amount of the transaction in the settlement currency.
@@ -2313,7 +2332,9 @@ private constructor(
          *
          * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
+        @JsonProperty("merchant")
+        @ExcludeMissing
+        fun _merchant(): JsonField<Transaction.TransactionMerchant> = merchant
 
         /**
          * Returns the raw JSON value of [merchantAmount].
@@ -2382,6 +2403,16 @@ private constructor(
         @JsonProperty("result")
         @ExcludeMissing
         fun _result(): JsonField<Transaction.DeclineResult> = result
+
+        /**
+         * Returns the raw JSON value of [serviceLocation].
+         *
+         * Unlike [serviceLocation], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("service_location")
+        @ExcludeMissing
+        fun _serviceLocation(): JsonField<Transaction.ServiceLocation> = serviceLocation
 
         /**
          * Returns the raw JSON value of [settledAmount].
@@ -2482,6 +2513,7 @@ private constructor(
              * .networkRiskScore()
              * .pos()
              * .result()
+             * .serviceLocation()
              * .settledAmount()
              * .status()
              * .tags()
@@ -2509,7 +2541,7 @@ private constructor(
             private var cardholderAuthentication: JsonField<CardholderAuthentication>? = null
             private var created: JsonField<OffsetDateTime>? = null
             private var financialAccountToken: JsonField<String>? = null
-            private var merchant: JsonField<Merchant>? = null
+            private var merchant: JsonField<Transaction.TransactionMerchant>? = null
             private var merchantAmount: JsonField<Long>? = null
             private var merchantAuthorizationAmount: JsonField<Long>? = null
             private var merchantCurrency: JsonField<String>? = null
@@ -2517,6 +2549,7 @@ private constructor(
             private var networkRiskScore: JsonField<Long>? = null
             private var pos: JsonField<Transaction.Pos>? = null
             private var result: JsonField<Transaction.DeclineResult>? = null
+            private var serviceLocation: JsonField<Transaction.ServiceLocation>? = null
             private var settledAmount: JsonField<Long>? = null
             private var status: JsonField<Transaction.Status>? = null
             private var tags: JsonField<Transaction.Tags>? = null
@@ -2549,6 +2582,7 @@ private constructor(
                 networkRiskScore = cardTransaction.networkRiskScore
                 pos = cardTransaction.pos
                 result = cardTransaction.result
+                serviceLocation = cardTransaction.serviceLocation
                 settledAmount = cardTransaction.settledAmount
                 status = cardTransaction.status
                 tags = cardTransaction.tags
@@ -2811,16 +2845,20 @@ private constructor(
                 this.financialAccountToken = financialAccountToken
             }
 
-            fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
+            /** Merchant information including full location details. */
+            fun merchant(merchant: Transaction.TransactionMerchant) =
+                merchant(JsonField.of(merchant))
 
             /**
              * Sets [Builder.merchant] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.merchant] with a well-typed [Merchant] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.merchant] with a well-typed
+             * [Transaction.TransactionMerchant] value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
-            fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
+            fun merchant(merchant: JsonField<Transaction.TransactionMerchant>) = apply {
+                this.merchant = merchant
+            }
 
             /** Analogous to the 'amount', but in the merchant currency. */
             @Deprecated("deprecated")
@@ -2979,6 +3017,29 @@ private constructor(
                 this.result = result
             }
 
+            /**
+             * Where the cardholder received the service, when different from the card acceptor
+             * location. This is populated from network data elements such as Mastercard DE-122 SE1
+             * SF9-14 and Visa F34 DS02.
+             */
+            fun serviceLocation(serviceLocation: Transaction.ServiceLocation?) =
+                serviceLocation(JsonField.ofNullable(serviceLocation))
+
+            /** Alias for calling [Builder.serviceLocation] with `serviceLocation.orElse(null)`. */
+            fun serviceLocation(serviceLocation: Optional<Transaction.ServiceLocation>) =
+                serviceLocation(serviceLocation.getOrNull())
+
+            /**
+             * Sets [Builder.serviceLocation] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.serviceLocation] with a well-typed
+             * [Transaction.ServiceLocation] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
+            fun serviceLocation(serviceLocation: JsonField<Transaction.ServiceLocation>) = apply {
+                this.serviceLocation = serviceLocation
+            }
+
             /** The settled amount of the transaction in the settlement currency. */
             @Deprecated("deprecated")
             fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
@@ -3132,6 +3193,7 @@ private constructor(
              * .networkRiskScore()
              * .pos()
              * .result()
+             * .serviceLocation()
              * .settledAmount()
              * .status()
              * .tags()
@@ -3165,6 +3227,7 @@ private constructor(
                     checkRequired("networkRiskScore", networkRiskScore),
                     checkRequired("pos", pos),
                     checkRequired("result", result),
+                    checkRequired("serviceLocation", serviceLocation),
                     checkRequired("settledAmount", settledAmount),
                     checkRequired("status", status),
                     checkRequired("tags", tags),
@@ -3204,6 +3267,7 @@ private constructor(
             networkRiskScore()
             pos().validate()
             result().validate()
+            serviceLocation().ifPresent { it.validate() }
             settledAmount()
             status().validate()
             tags().validate()
@@ -3251,6 +3315,7 @@ private constructor(
                 (if (networkRiskScore.asKnown().isPresent) 1 else 0) +
                 (pos.asKnown().getOrNull()?.validity() ?: 0) +
                 (result.asKnown().getOrNull()?.validity() ?: 0) +
+                (serviceLocation.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (settledAmount.asKnown().isPresent) 1 else 0) +
                 (status.asKnown().getOrNull()?.validity() ?: 0) +
                 (tags.asKnown().getOrNull()?.validity() ?: 0) +
@@ -3568,6 +3633,7 @@ private constructor(
                 networkRiskScore == other.networkRiskScore &&
                 pos == other.pos &&
                 result == other.result &&
+                serviceLocation == other.serviceLocation &&
                 settledAmount == other.settledAmount &&
                 status == other.status &&
                 tags == other.tags &&
@@ -3601,6 +3667,7 @@ private constructor(
                 networkRiskScore,
                 pos,
                 result,
+                serviceLocation,
                 settledAmount,
                 status,
                 tags,
@@ -3615,6 +3682,6 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CardTransaction{token=$token, accountToken=$accountToken, acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, avs=$avs, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, financialAccountToken=$financialAccountToken, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, networkRiskScore=$networkRiskScore, pos=$pos, result=$result, settledAmount=$settledAmount, status=$status, tags=$tags, tokenInfo=$tokenInfo, updated=$updated, events=$events, family=$family, additionalProperties=$additionalProperties}"
+            "CardTransaction{token=$token, accountToken=$accountToken, acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, avs=$avs, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, financialAccountToken=$financialAccountToken, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, networkRiskScore=$networkRiskScore, pos=$pos, result=$result, serviceLocation=$serviceLocation, settledAmount=$settledAmount, status=$status, tags=$tags, tokenInfo=$tokenInfo, updated=$updated, events=$events, family=$family, additionalProperties=$additionalProperties}"
     }
 }
