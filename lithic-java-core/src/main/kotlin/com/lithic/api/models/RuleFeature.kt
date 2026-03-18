@@ -43,7 +43,7 @@ import kotlin.jvm.optionals.getOrNull
  *   ACH_DEBIT_RECEIPT event stream rules.
  * - `CARD`: The card associated with the event. Available for AUTHORIZATION and
  *   THREE_DS_AUTHENTICATION event stream rules.
- * - `ACCOUNT_HOLDER`: The account holder associated with the card. Available for
+ * - `ACCOUNT_HOLDER`: The account holder associated with the card. Available for AUTHORIZATION and
  *   THREE_DS_AUTHENTICATION event stream rules.
  * - `IP_METADATA`: IP address metadata for the request. Available for THREE_DS_AUTHENTICATION event
  *   stream rules.
