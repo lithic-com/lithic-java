@@ -35,9 +35,10 @@ private constructor(
     private val cashAmount: JsonField<Long>,
     private val created: JsonField<OffsetDateTime>,
     private val eventType: JsonField<EventType>,
-    private val merchant: JsonField<Merchant>,
+    private val merchant: JsonField<TransactionMerchant>,
     private val merchantAmount: JsonField<Long>,
     private val merchantCurrency: JsonField<String>,
+    private val serviceLocation: JsonField<ServiceLocation>,
     private val settledAmount: JsonField<Long>,
     private val status: JsonField<AsaRequestStatus>,
     private val transactionInitiator: JsonField<TransactionInitiator>,
@@ -80,13 +81,18 @@ private constructor(
         @JsonProperty("event_type")
         @ExcludeMissing
         eventType: JsonField<EventType> = JsonMissing.of(),
-        @JsonProperty("merchant") @ExcludeMissing merchant: JsonField<Merchant> = JsonMissing.of(),
+        @JsonProperty("merchant")
+        @ExcludeMissing
+        merchant: JsonField<TransactionMerchant> = JsonMissing.of(),
         @JsonProperty("merchant_amount")
         @ExcludeMissing
         merchantAmount: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("merchant_currency")
         @ExcludeMissing
         merchantCurrency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("service_location")
+        @ExcludeMissing
+        serviceLocation: JsonField<ServiceLocation> = JsonMissing.of(),
         @JsonProperty("settled_amount")
         @ExcludeMissing
         settledAmount: JsonField<Long> = JsonMissing.of(),
@@ -142,6 +148,7 @@ private constructor(
         merchant,
         merchantAmount,
         merchantCurrency,
+        serviceLocation,
         settledAmount,
         status,
         transactionInitiator,
@@ -262,10 +269,12 @@ private constructor(
     fun eventType(): EventType = eventType.getRequired("event_type")
 
     /**
+     * Merchant information including full location details.
+     *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun merchant(): Merchant = merchant.getRequired("merchant")
+    fun merchant(): TransactionMerchant = merchant.getRequired("merchant")
 
     /**
      * Deprecated, use `amounts`. The amount that the merchant will receive, denominated in
@@ -287,6 +296,17 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun merchantCurrency(): String = merchantCurrency.getRequired("merchant_currency")
+
+    /**
+     * Where the cardholder received the service, when different from the card acceptor location.
+     * This is populated from network data elements such as Mastercard DE-122 SE1 SF9-14 and Visa
+     * F34 DS02.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun serviceLocation(): Optional<ServiceLocation> =
+        serviceLocation.getOptional("service_location")
 
     /**
      * Deprecated, use `amounts`. Amount (in cents) of the transaction that has been settled,
@@ -523,7 +543,9 @@ private constructor(
      *
      * Unlike [merchant], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
+    @JsonProperty("merchant")
+    @ExcludeMissing
+    fun _merchant(): JsonField<TransactionMerchant> = merchant
 
     /**
      * Returns the raw JSON value of [merchantAmount].
@@ -545,6 +567,15 @@ private constructor(
     @JsonProperty("merchant_currency")
     @ExcludeMissing
     fun _merchantCurrency(): JsonField<String> = merchantCurrency
+
+    /**
+     * Returns the raw JSON value of [serviceLocation].
+     *
+     * Unlike [serviceLocation], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("service_location")
+    @ExcludeMissing
+    fun _serviceLocation(): JsonField<ServiceLocation> = serviceLocation
 
     /**
      * Returns the raw JSON value of [settledAmount].
@@ -716,6 +747,7 @@ private constructor(
          * .merchant()
          * .merchantAmount()
          * .merchantCurrency()
+         * .serviceLocation()
          * .settledAmount()
          * .status()
          * .transactionInitiator()
@@ -738,9 +770,10 @@ private constructor(
         private var cashAmount: JsonField<Long>? = null
         private var created: JsonField<OffsetDateTime>? = null
         private var eventType: JsonField<EventType>? = null
-        private var merchant: JsonField<Merchant>? = null
+        private var merchant: JsonField<TransactionMerchant>? = null
         private var merchantAmount: JsonField<Long>? = null
         private var merchantCurrency: JsonField<String>? = null
+        private var serviceLocation: JsonField<ServiceLocation>? = null
         private var settledAmount: JsonField<Long>? = null
         private var status: JsonField<AsaRequestStatus>? = null
         private var transactionInitiator: JsonField<TransactionInitiator>? = null
@@ -778,6 +811,7 @@ private constructor(
             merchant = cardAuthorizationApprovalRequestWebhookEvent.merchant
             merchantAmount = cardAuthorizationApprovalRequestWebhookEvent.merchantAmount
             merchantCurrency = cardAuthorizationApprovalRequestWebhookEvent.merchantCurrency
+            serviceLocation = cardAuthorizationApprovalRequestWebhookEvent.serviceLocation
             settledAmount = cardAuthorizationApprovalRequestWebhookEvent.settledAmount
             status = cardAuthorizationApprovalRequestWebhookEvent.status
             transactionInitiator = cardAuthorizationApprovalRequestWebhookEvent.transactionInitiator
@@ -962,16 +996,17 @@ private constructor(
          */
         fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
-        fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
+        /** Merchant information including full location details. */
+        fun merchant(merchant: TransactionMerchant) = merchant(JsonField.of(merchant))
 
         /**
          * Sets [Builder.merchant] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.merchant] with a well-typed [Merchant] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
+         * You should usually call [Builder.merchant] with a well-typed [TransactionMerchant] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
+        fun merchant(merchant: JsonField<TransactionMerchant>) = apply { this.merchant = merchant }
 
         /**
          * Deprecated, use `amounts`. The amount that the merchant will receive, denominated in
@@ -1009,6 +1044,29 @@ private constructor(
         @Deprecated("deprecated")
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             this.merchantCurrency = merchantCurrency
+        }
+
+        /**
+         * Where the cardholder received the service, when different from the card acceptor
+         * location. This is populated from network data elements such as Mastercard DE-122 SE1
+         * SF9-14 and Visa F34 DS02.
+         */
+        fun serviceLocation(serviceLocation: ServiceLocation?) =
+            serviceLocation(JsonField.ofNullable(serviceLocation))
+
+        /** Alias for calling [Builder.serviceLocation] with `serviceLocation.orElse(null)`. */
+        fun serviceLocation(serviceLocation: Optional<ServiceLocation>) =
+            serviceLocation(serviceLocation.getOrNull())
+
+        /**
+         * Sets [Builder.serviceLocation] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.serviceLocation] with a well-typed [ServiceLocation]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun serviceLocation(serviceLocation: JsonField<ServiceLocation>) = apply {
+            this.serviceLocation = serviceLocation
         }
 
         /**
@@ -1318,6 +1376,7 @@ private constructor(
          * .merchant()
          * .merchantAmount()
          * .merchantCurrency()
+         * .serviceLocation()
          * .settledAmount()
          * .status()
          * .transactionInitiator()
@@ -1341,6 +1400,7 @@ private constructor(
                 checkRequired("merchant", merchant),
                 checkRequired("merchantAmount", merchantAmount),
                 checkRequired("merchantCurrency", merchantCurrency),
+                checkRequired("serviceLocation", serviceLocation),
                 checkRequired("settledAmount", settledAmount),
                 checkRequired("status", status),
                 checkRequired("transactionInitiator", transactionInitiator),
@@ -1382,6 +1442,7 @@ private constructor(
         merchant().validate()
         merchantAmount()
         merchantCurrency()
+        serviceLocation().ifPresent { it.validate() }
         settledAmount()
         status().validate()
         transactionInitiator().validate()
@@ -1430,6 +1491,7 @@ private constructor(
             (merchant.asKnown().getOrNull()?.validity() ?: 0) +
             (if (merchantAmount.asKnown().isPresent) 1 else 0) +
             (if (merchantCurrency.asKnown().isPresent) 1 else 0) +
+            (serviceLocation.asKnown().getOrNull()?.validity() ?: 0) +
             (if (settledAmount.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (transactionInitiator.asKnown().getOrNull()?.validity() ?: 0) +
@@ -3626,6 +3688,939 @@ private constructor(
         override fun hashCode() = value.hashCode()
 
         override fun toString() = value.toString()
+    }
+
+    /** Merchant information including full location details. */
+    class TransactionMerchant
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val acceptorId: JsonField<String>,
+        private val acquiringInstitutionId: JsonField<String>,
+        private val city: JsonField<String>,
+        private val country: JsonField<String>,
+        private val descriptor: JsonField<String>,
+        private val mcc: JsonField<String>,
+        private val state: JsonField<String>,
+        private val phoneNumber: JsonField<String>,
+        private val postalCode: JsonField<String>,
+        private val streetAddress: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("acceptor_id")
+            @ExcludeMissing
+            acceptorId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("acquiring_institution_id")
+            @ExcludeMissing
+            acquiringInstitutionId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("city") @ExcludeMissing city: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("descriptor")
+            @ExcludeMissing
+            descriptor: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("mcc") @ExcludeMissing mcc: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone_number")
+            @ExcludeMissing
+            phoneNumber: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("postal_code")
+            @ExcludeMissing
+            postalCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("street_address")
+            @ExcludeMissing
+            streetAddress: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            acceptorId,
+            acquiringInstitutionId,
+            city,
+            country,
+            descriptor,
+            mcc,
+            state,
+            phoneNumber,
+            postalCode,
+            streetAddress,
+            mutableMapOf(),
+        )
+
+        fun toMerchant(): Merchant =
+            Merchant.builder()
+                .acceptorId(acceptorId)
+                .acquiringInstitutionId(acquiringInstitutionId)
+                .city(city)
+                .country(country)
+                .descriptor(descriptor)
+                .mcc(mcc)
+                .state(state)
+                .build()
+
+        /**
+         * Unique alphanumeric identifier for the payment card acceptor (merchant).
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun acceptorId(): String = acceptorId.getRequired("acceptor_id")
+
+        /**
+         * Unique numeric identifier of the acquiring institution.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun acquiringInstitutionId(): String =
+            acquiringInstitutionId.getRequired("acquiring_institution_id")
+
+        /**
+         * City of card acceptor. Note that in many cases, particularly in card-not-present
+         * transactions, merchants may send through a phone number or URL in this field.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun city(): String = city.getRequired("city")
+
+        /**
+         * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
+         * country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun country(): String = country.getRequired("country")
+
+        /**
+         * Short description of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun descriptor(): String = descriptor.getRequired("descriptor")
+
+        /**
+         * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used to
+         * classify a business by the types of goods or services it provides.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun mcc(): String = mcc.getRequired("mcc")
+
+        /**
+         * Geographic state of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun state(): String = state.getRequired("state")
+
+        /**
+         * Phone number of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
+
+        /**
+         * Postal code of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun postalCode(): Optional<String> = postalCode.getOptional("postal_code")
+
+        /**
+         * Street address of card acceptor.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun streetAddress(): Optional<String> = streetAddress.getOptional("street_address")
+
+        /**
+         * Returns the raw JSON value of [acceptorId].
+         *
+         * Unlike [acceptorId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("acceptor_id")
+        @ExcludeMissing
+        fun _acceptorId(): JsonField<String> = acceptorId
+
+        /**
+         * Returns the raw JSON value of [acquiringInstitutionId].
+         *
+         * Unlike [acquiringInstitutionId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("acquiring_institution_id")
+        @ExcludeMissing
+        fun _acquiringInstitutionId(): JsonField<String> = acquiringInstitutionId
+
+        /**
+         * Returns the raw JSON value of [city].
+         *
+         * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
+
+        /**
+         * Returns the raw JSON value of [country].
+         *
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
+
+        /**
+         * Returns the raw JSON value of [descriptor].
+         *
+         * Unlike [descriptor], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("descriptor")
+        @ExcludeMissing
+        fun _descriptor(): JsonField<String> = descriptor
+
+        /**
+         * Returns the raw JSON value of [mcc].
+         *
+         * Unlike [mcc], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
+
+        /**
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
+
+        /**
+         * Returns the raw JSON value of [phoneNumber].
+         *
+         * Unlike [phoneNumber], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        fun _phoneNumber(): JsonField<String> = phoneNumber
+
+        /**
+         * Returns the raw JSON value of [postalCode].
+         *
+         * Unlike [postalCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("postal_code")
+        @ExcludeMissing
+        fun _postalCode(): JsonField<String> = postalCode
+
+        /**
+         * Returns the raw JSON value of [streetAddress].
+         *
+         * Unlike [streetAddress], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("street_address")
+        @ExcludeMissing
+        fun _streetAddress(): JsonField<String> = streetAddress
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [TransactionMerchant].
+             *
+             * The following fields are required:
+             * ```java
+             * .acceptorId()
+             * .acquiringInstitutionId()
+             * .city()
+             * .country()
+             * .descriptor()
+             * .mcc()
+             * .state()
+             * .phoneNumber()
+             * .postalCode()
+             * .streetAddress()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [TransactionMerchant]. */
+        class Builder internal constructor() {
+
+            private var acceptorId: JsonField<String>? = null
+            private var acquiringInstitutionId: JsonField<String>? = null
+            private var city: JsonField<String>? = null
+            private var country: JsonField<String>? = null
+            private var descriptor: JsonField<String>? = null
+            private var mcc: JsonField<String>? = null
+            private var state: JsonField<String>? = null
+            private var phoneNumber: JsonField<String>? = null
+            private var postalCode: JsonField<String>? = null
+            private var streetAddress: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(transactionMerchant: TransactionMerchant) = apply {
+                acceptorId = transactionMerchant.acceptorId
+                acquiringInstitutionId = transactionMerchant.acquiringInstitutionId
+                city = transactionMerchant.city
+                country = transactionMerchant.country
+                descriptor = transactionMerchant.descriptor
+                mcc = transactionMerchant.mcc
+                state = transactionMerchant.state
+                phoneNumber = transactionMerchant.phoneNumber
+                postalCode = transactionMerchant.postalCode
+                streetAddress = transactionMerchant.streetAddress
+                additionalProperties = transactionMerchant.additionalProperties.toMutableMap()
+            }
+
+            /** Unique alphanumeric identifier for the payment card acceptor (merchant). */
+            fun acceptorId(acceptorId: String) = acceptorId(JsonField.of(acceptorId))
+
+            /**
+             * Sets [Builder.acceptorId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acceptorId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun acceptorId(acceptorId: JsonField<String>) = apply { this.acceptorId = acceptorId }
+
+            /** Unique numeric identifier of the acquiring institution. */
+            fun acquiringInstitutionId(acquiringInstitutionId: String) =
+                acquiringInstitutionId(JsonField.of(acquiringInstitutionId))
+
+            /**
+             * Sets [Builder.acquiringInstitutionId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acquiringInstitutionId] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun acquiringInstitutionId(acquiringInstitutionId: JsonField<String>) = apply {
+                this.acquiringInstitutionId = acquiringInstitutionId
+            }
+
+            /**
+             * City of card acceptor. Note that in many cases, particularly in card-not-present
+             * transactions, merchants may send through a phone number or URL in this field.
+             */
+            fun city(city: String) = city(JsonField.of(city))
+
+            /**
+             * Sets [Builder.city] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.city] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun city(city: JsonField<String>) = apply { this.city = city }
+
+            /**
+             * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
+             * country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands Antilles.
+             */
+            fun country(country: String) = country(JsonField.of(country))
+
+            /**
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun country(country: JsonField<String>) = apply { this.country = country }
+
+            /** Short description of card acceptor. */
+            fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
+
+            /**
+             * Sets [Builder.descriptor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.descriptor] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
+
+            /**
+             * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used
+             * to classify a business by the types of goods or services it provides.
+             */
+            fun mcc(mcc: String) = mcc(JsonField.of(mcc))
+
+            /**
+             * Sets [Builder.mcc] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
+
+            /** Geographic state of card acceptor. */
+            fun state(state: String) = state(JsonField.of(state))
+
+            /**
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun state(state: JsonField<String>) = apply { this.state = state }
+
+            /** Phone number of card acceptor. */
+            fun phoneNumber(phoneNumber: String?) = phoneNumber(JsonField.ofNullable(phoneNumber))
+
+            /** Alias for calling [Builder.phoneNumber] with `phoneNumber.orElse(null)`. */
+            fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.getOrNull())
+
+            /**
+             * Sets [Builder.phoneNumber] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.phoneNumber] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+                this.phoneNumber = phoneNumber
+            }
+
+            /** Postal code of card acceptor. */
+            fun postalCode(postalCode: String?) = postalCode(JsonField.ofNullable(postalCode))
+
+            /** Alias for calling [Builder.postalCode] with `postalCode.orElse(null)`. */
+            fun postalCode(postalCode: Optional<String>) = postalCode(postalCode.getOrNull())
+
+            /**
+             * Sets [Builder.postalCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.postalCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
+
+            /** Street address of card acceptor. */
+            fun streetAddress(streetAddress: String?) =
+                streetAddress(JsonField.ofNullable(streetAddress))
+
+            /** Alias for calling [Builder.streetAddress] with `streetAddress.orElse(null)`. */
+            fun streetAddress(streetAddress: Optional<String>) =
+                streetAddress(streetAddress.getOrNull())
+
+            /**
+             * Sets [Builder.streetAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.streetAddress] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun streetAddress(streetAddress: JsonField<String>) = apply {
+                this.streetAddress = streetAddress
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [TransactionMerchant].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .acceptorId()
+             * .acquiringInstitutionId()
+             * .city()
+             * .country()
+             * .descriptor()
+             * .mcc()
+             * .state()
+             * .phoneNumber()
+             * .postalCode()
+             * .streetAddress()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): TransactionMerchant =
+                TransactionMerchant(
+                    checkRequired("acceptorId", acceptorId),
+                    checkRequired("acquiringInstitutionId", acquiringInstitutionId),
+                    checkRequired("city", city),
+                    checkRequired("country", country),
+                    checkRequired("descriptor", descriptor),
+                    checkRequired("mcc", mcc),
+                    checkRequired("state", state),
+                    checkRequired("phoneNumber", phoneNumber),
+                    checkRequired("postalCode", postalCode),
+                    checkRequired("streetAddress", streetAddress),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionMerchant = apply {
+            if (validated) {
+                return@apply
+            }
+
+            acceptorId()
+            acquiringInstitutionId()
+            city()
+            country()
+            descriptor()
+            mcc()
+            state()
+            phoneNumber()
+            postalCode()
+            streetAddress()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (acceptorId.asKnown().isPresent) 1 else 0) +
+                (if (acquiringInstitutionId.asKnown().isPresent) 1 else 0) +
+                (if (city.asKnown().isPresent) 1 else 0) +
+                (if (country.asKnown().isPresent) 1 else 0) +
+                (if (descriptor.asKnown().isPresent) 1 else 0) +
+                (if (mcc.asKnown().isPresent) 1 else 0) +
+                (if (state.asKnown().isPresent) 1 else 0) +
+                (if (phoneNumber.asKnown().isPresent) 1 else 0) +
+                (if (postalCode.asKnown().isPresent) 1 else 0) +
+                (if (streetAddress.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TransactionMerchant &&
+                acceptorId == other.acceptorId &&
+                acquiringInstitutionId == other.acquiringInstitutionId &&
+                city == other.city &&
+                country == other.country &&
+                descriptor == other.descriptor &&
+                mcc == other.mcc &&
+                state == other.state &&
+                phoneNumber == other.phoneNumber &&
+                postalCode == other.postalCode &&
+                streetAddress == other.streetAddress &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                acceptorId,
+                acquiringInstitutionId,
+                city,
+                country,
+                descriptor,
+                mcc,
+                state,
+                phoneNumber,
+                postalCode,
+                streetAddress,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "TransactionMerchant{acceptorId=$acceptorId, acquiringInstitutionId=$acquiringInstitutionId, city=$city, country=$country, descriptor=$descriptor, mcc=$mcc, state=$state, phoneNumber=$phoneNumber, postalCode=$postalCode, streetAddress=$streetAddress, additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * Where the cardholder received the service, when different from the card acceptor location.
+     * This is populated from network data elements such as Mastercard DE-122 SE1 SF9-14 and Visa
+     * F34 DS02.
+     */
+    class ServiceLocation
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val city: JsonField<String>,
+        private val country: JsonField<String>,
+        private val postalCode: JsonField<String>,
+        private val state: JsonField<String>,
+        private val streetAddress: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("city") @ExcludeMissing city: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("postal_code")
+            @ExcludeMissing
+            postalCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("street_address")
+            @ExcludeMissing
+            streetAddress: JsonField<String> = JsonMissing.of(),
+        ) : this(city, country, postalCode, state, streetAddress, mutableMapOf())
+
+        /**
+         * City of service location.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun city(): Optional<String> = city.getOptional("city")
+
+        /**
+         * Country code of service location, ISO 3166-1 alpha-3.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun country(): Optional<String> = country.getOptional("country")
+
+        /**
+         * Postal code of service location.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun postalCode(): Optional<String> = postalCode.getOptional("postal_code")
+
+        /**
+         * State/province code of service location, ISO 3166-2.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun state(): Optional<String> = state.getOptional("state")
+
+        /**
+         * Street address of service location.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun streetAddress(): Optional<String> = streetAddress.getOptional("street_address")
+
+        /**
+         * Returns the raw JSON value of [city].
+         *
+         * Unlike [city], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
+
+        /**
+         * Returns the raw JSON value of [country].
+         *
+         * Unlike [country], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
+
+        /**
+         * Returns the raw JSON value of [postalCode].
+         *
+         * Unlike [postalCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("postal_code")
+        @ExcludeMissing
+        fun _postalCode(): JsonField<String> = postalCode
+
+        /**
+         * Returns the raw JSON value of [state].
+         *
+         * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
+
+        /**
+         * Returns the raw JSON value of [streetAddress].
+         *
+         * Unlike [streetAddress], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("street_address")
+        @ExcludeMissing
+        fun _streetAddress(): JsonField<String> = streetAddress
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [ServiceLocation].
+             *
+             * The following fields are required:
+             * ```java
+             * .city()
+             * .country()
+             * .postalCode()
+             * .state()
+             * .streetAddress()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [ServiceLocation]. */
+        class Builder internal constructor() {
+
+            private var city: JsonField<String>? = null
+            private var country: JsonField<String>? = null
+            private var postalCode: JsonField<String>? = null
+            private var state: JsonField<String>? = null
+            private var streetAddress: JsonField<String>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(serviceLocation: ServiceLocation) = apply {
+                city = serviceLocation.city
+                country = serviceLocation.country
+                postalCode = serviceLocation.postalCode
+                state = serviceLocation.state
+                streetAddress = serviceLocation.streetAddress
+                additionalProperties = serviceLocation.additionalProperties.toMutableMap()
+            }
+
+            /** City of service location. */
+            fun city(city: String?) = city(JsonField.ofNullable(city))
+
+            /** Alias for calling [Builder.city] with `city.orElse(null)`. */
+            fun city(city: Optional<String>) = city(city.getOrNull())
+
+            /**
+             * Sets [Builder.city] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.city] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun city(city: JsonField<String>) = apply { this.city = city }
+
+            /** Country code of service location, ISO 3166-1 alpha-3. */
+            fun country(country: String?) = country(JsonField.ofNullable(country))
+
+            /** Alias for calling [Builder.country] with `country.orElse(null)`. */
+            fun country(country: Optional<String>) = country(country.getOrNull())
+
+            /**
+             * Sets [Builder.country] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.country] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun country(country: JsonField<String>) = apply { this.country = country }
+
+            /** Postal code of service location. */
+            fun postalCode(postalCode: String?) = postalCode(JsonField.ofNullable(postalCode))
+
+            /** Alias for calling [Builder.postalCode] with `postalCode.orElse(null)`. */
+            fun postalCode(postalCode: Optional<String>) = postalCode(postalCode.getOrNull())
+
+            /**
+             * Sets [Builder.postalCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.postalCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
+
+            /** State/province code of service location, ISO 3166-2. */
+            fun state(state: String?) = state(JsonField.ofNullable(state))
+
+            /** Alias for calling [Builder.state] with `state.orElse(null)`. */
+            fun state(state: Optional<String>) = state(state.getOrNull())
+
+            /**
+             * Sets [Builder.state] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.state] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun state(state: JsonField<String>) = apply { this.state = state }
+
+            /** Street address of service location. */
+            fun streetAddress(streetAddress: String?) =
+                streetAddress(JsonField.ofNullable(streetAddress))
+
+            /** Alias for calling [Builder.streetAddress] with `streetAddress.orElse(null)`. */
+            fun streetAddress(streetAddress: Optional<String>) =
+                streetAddress(streetAddress.getOrNull())
+
+            /**
+             * Sets [Builder.streetAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.streetAddress] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun streetAddress(streetAddress: JsonField<String>) = apply {
+                this.streetAddress = streetAddress
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [ServiceLocation].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .city()
+             * .country()
+             * .postalCode()
+             * .state()
+             * .streetAddress()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): ServiceLocation =
+                ServiceLocation(
+                    checkRequired("city", city),
+                    checkRequired("country", country),
+                    checkRequired("postalCode", postalCode),
+                    checkRequired("state", state),
+                    checkRequired("streetAddress", streetAddress),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): ServiceLocation = apply {
+            if (validated) {
+                return@apply
+            }
+
+            city()
+            country()
+            postalCode()
+            state()
+            streetAddress()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (city.asKnown().isPresent) 1 else 0) +
+                (if (country.asKnown().isPresent) 1 else 0) +
+                (if (postalCode.asKnown().isPresent) 1 else 0) +
+                (if (state.asKnown().isPresent) 1 else 0) +
+                (if (streetAddress.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ServiceLocation &&
+                city == other.city &&
+                country == other.country &&
+                postalCode == other.postalCode &&
+                state == other.state &&
+                streetAddress == other.streetAddress &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(city, country, postalCode, state, streetAddress, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "ServiceLocation{city=$city, country=$country, postalCode=$postalCode, state=$state, streetAddress=$streetAddress, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -8252,6 +9247,7 @@ private constructor(
             merchant == other.merchant &&
             merchantAmount == other.merchantAmount &&
             merchantCurrency == other.merchantCurrency &&
+            serviceLocation == other.serviceLocation &&
             settledAmount == other.settledAmount &&
             status == other.status &&
             transactionInitiator == other.transactionInitiator &&
@@ -8287,6 +9283,7 @@ private constructor(
             merchant,
             merchantAmount,
             merchantCurrency,
+            serviceLocation,
             settledAmount,
             status,
             transactionInitiator,
@@ -8310,5 +9307,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CardAuthorizationApprovalRequestWebhookEvent{token=$token, acquirerFee=$acquirerFee, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, avs=$avs, card=$card, cardholderCurrency=$cardholderCurrency, cashAmount=$cashAmount, created=$created, eventType=$eventType, merchant=$merchant, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, settledAmount=$settledAmount, status=$status, transactionInitiator=$transactionInitiator, accountType=$accountType, cardholderAuthentication=$cardholderAuthentication, cashback=$cashback, conversionRate=$conversionRate, eventToken=$eventToken, fleetInfo=$fleetInfo, latestChallenge=$latestChallenge, network=$network, networkRiskScore=$networkRiskScore, networkSpecificData=$networkSpecificData, pos=$pos, tokenInfo=$tokenInfo, ttl=$ttl, additionalProperties=$additionalProperties}"
+        "CardAuthorizationApprovalRequestWebhookEvent{token=$token, acquirerFee=$acquirerFee, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, avs=$avs, card=$card, cardholderCurrency=$cardholderCurrency, cashAmount=$cashAmount, created=$created, eventType=$eventType, merchant=$merchant, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, serviceLocation=$serviceLocation, settledAmount=$settledAmount, status=$status, transactionInitiator=$transactionInitiator, accountType=$accountType, cardholderAuthentication=$cardholderAuthentication, cashback=$cashback, conversionRate=$conversionRate, eventToken=$eventToken, fleetInfo=$fleetInfo, latestChallenge=$latestChallenge, network=$network, networkRiskScore=$networkRiskScore, networkSpecificData=$networkSpecificData, pos=$pos, tokenInfo=$tokenInfo, ttl=$ttl, additionalProperties=$additionalProperties}"
 }
