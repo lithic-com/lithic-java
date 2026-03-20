@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.122.0 (2026-03-20)
+
+Full Changelog: [v0.121.0...v0.122.0](https://github.com/lithic-com/lithic-java/compare/v0.121.0...v0.122.0)
+
+### Features
+
+* **api:** add CARD_AGE and ACCOUNT_AGE attributes to conditional authorization ([aa189f8](https://github.com/lithic-com/lithic-java/commit/aa189f84c9fa9753c28d42a9dca13a53c36ba54d))
+* **api:** add merchant location/service fields, SERVICE_LOCATION authorization attributes ([94423c4](https://github.com/lithic-com/lithic-java/commit/94423c4928f5ff4fcf987abf908bc22429bfde29))
+
+
+### Chores
+
+* **tests:** bump steady to v0.19.4 ([652cb78](https://github.com/lithic-com/lithic-java/commit/652cb7870ecddd6ac42da9eecfcee80e719014e9))
+* **tests:** bump steady to v0.19.5 ([acbcb0e](https://github.com/lithic-com/lithic-java/commit/acbcb0e1360e72c1c2aab659d3574a02091ae76b))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([d4a050b](https://github.com/lithic-com/lithic-java/commit/d4a050baf1470935fbaa0e715a3240c035691f2b))
+
 ## 0.121.0 (2026-03-17)
 
 Full Changelog: [v0.120.0...v0.121.0](https://github.com/lithic-com/lithic-java/compare/v0.120.0...v0.121.0)
