@@ -343,6 +343,7 @@ private constructor(
 
         /**
          * Short description of the company's line of business (i.e., what does the company do?).
+         * Values longer than 255 characters will be truncated before KYB verification
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -539,7 +540,7 @@ private constructor(
 
             /**
              * Short description of the company's line of business (i.e., what does the company
-             * do?).
+             * do?). Values longer than 255 characters will be truncated before KYB verification
              */
             fun natureOfBusiness(natureOfBusiness: String) =
                 natureOfBusiness(JsonField.of(natureOfBusiness))
