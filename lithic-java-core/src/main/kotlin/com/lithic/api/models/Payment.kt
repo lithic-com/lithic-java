@@ -3011,6 +3011,7 @@ private constructor(
             private val achHoldPeriod: JsonField<Long>,
             private val addenda: JsonField<String>,
             private val companyId: JsonField<String>,
+            private val overrideCompanyName: JsonField<String>,
             private val receiptRoutingNumber: JsonField<String>,
             private val retries: JsonField<Long>,
             private val returnReasonCode: JsonField<String>,
@@ -3032,6 +3033,9 @@ private constructor(
                 @JsonProperty("company_id")
                 @ExcludeMissing
                 companyId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("override_company_name")
+                @ExcludeMissing
+                overrideCompanyName: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("receipt_routing_number")
                 @ExcludeMissing
                 receiptRoutingNumber: JsonField<String> = JsonMissing.of(),
@@ -3049,6 +3053,7 @@ private constructor(
                 achHoldPeriod,
                 addenda,
                 companyId,
+                overrideCompanyName,
                 receiptRoutingNumber,
                 retries,
                 returnReasonCode,
@@ -3088,6 +3093,16 @@ private constructor(
              *   the server responded with an unexpected value).
              */
             fun companyId(): Optional<String> = companyId.getOptional("company_id")
+
+            /**
+             * Value to override the configured company name with. Can only be used if allowed to
+             * override
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun overrideCompanyName(): Optional<String> =
+                overrideCompanyName.getOptional("override_company_name")
 
             /**
              * Receipt routing number
@@ -3158,6 +3173,16 @@ private constructor(
             fun _companyId(): JsonField<String> = companyId
 
             /**
+             * Returns the raw JSON value of [overrideCompanyName].
+             *
+             * Unlike [overrideCompanyName], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("override_company_name")
+            @ExcludeMissing
+            fun _overrideCompanyName(): JsonField<String> = overrideCompanyName
+
+            /**
              * Returns the raw JSON value of [receiptRoutingNumber].
              *
              * Unlike [receiptRoutingNumber], this method doesn't throw if the JSON field has an
@@ -3226,6 +3251,7 @@ private constructor(
                 private var achHoldPeriod: JsonField<Long> = JsonMissing.of()
                 private var addenda: JsonField<String> = JsonMissing.of()
                 private var companyId: JsonField<String> = JsonMissing.of()
+                private var overrideCompanyName: JsonField<String> = JsonMissing.of()
                 private var receiptRoutingNumber: JsonField<String> = JsonMissing.of()
                 private var retries: JsonField<Long> = JsonMissing.of()
                 private var returnReasonCode: JsonField<String> = JsonMissing.of()
@@ -3238,6 +3264,7 @@ private constructor(
                     achHoldPeriod = achMethodAttributes.achHoldPeriod
                     addenda = achMethodAttributes.addenda
                     companyId = achMethodAttributes.companyId
+                    overrideCompanyName = achMethodAttributes.overrideCompanyName
                     receiptRoutingNumber = achMethodAttributes.receiptRoutingNumber
                     retries = achMethodAttributes.retries
                     returnReasonCode = achMethodAttributes.returnReasonCode
@@ -3312,6 +3339,31 @@ private constructor(
                  * yet supported value.
                  */
                 fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
+
+                /**
+                 * Value to override the configured company name with. Can only be used if allowed
+                 * to override
+                 */
+                fun overrideCompanyName(overrideCompanyName: String?) =
+                    overrideCompanyName(JsonField.ofNullable(overrideCompanyName))
+
+                /**
+                 * Alias for calling [Builder.overrideCompanyName] with
+                 * `overrideCompanyName.orElse(null)`.
+                 */
+                fun overrideCompanyName(overrideCompanyName: Optional<String>) =
+                    overrideCompanyName(overrideCompanyName.getOrNull())
+
+                /**
+                 * Sets [Builder.overrideCompanyName] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.overrideCompanyName] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun overrideCompanyName(overrideCompanyName: JsonField<String>) = apply {
+                    this.overrideCompanyName = overrideCompanyName
+                }
 
                 /** Receipt routing number */
                 fun receiptRoutingNumber(receiptRoutingNumber: String?) =
@@ -3446,6 +3498,7 @@ private constructor(
                         achHoldPeriod,
                         addenda,
                         companyId,
+                        overrideCompanyName,
                         receiptRoutingNumber,
                         retries,
                         returnReasonCode,
@@ -3465,6 +3518,7 @@ private constructor(
                 achHoldPeriod()
                 addenda()
                 companyId()
+                overrideCompanyName()
                 receiptRoutingNumber()
                 retries()
                 returnReasonCode()
@@ -3492,6 +3546,7 @@ private constructor(
                     (if (achHoldPeriod.asKnown().isPresent) 1 else 0) +
                     (if (addenda.asKnown().isPresent) 1 else 0) +
                     (if (companyId.asKnown().isPresent) 1 else 0) +
+                    (if (overrideCompanyName.asKnown().isPresent) 1 else 0) +
                     (if (receiptRoutingNumber.asKnown().isPresent) 1 else 0) +
                     (if (retries.asKnown().isPresent) 1 else 0) +
                     (if (returnReasonCode.asKnown().isPresent) 1 else 0) +
@@ -3663,6 +3718,7 @@ private constructor(
                     achHoldPeriod == other.achHoldPeriod &&
                     addenda == other.addenda &&
                     companyId == other.companyId &&
+                    overrideCompanyName == other.overrideCompanyName &&
                     receiptRoutingNumber == other.receiptRoutingNumber &&
                     retries == other.retries &&
                     returnReasonCode == other.returnReasonCode &&
@@ -3676,6 +3732,7 @@ private constructor(
                     achHoldPeriod,
                     addenda,
                     companyId,
+                    overrideCompanyName,
                     receiptRoutingNumber,
                     retries,
                     returnReasonCode,
@@ -3687,7 +3744,7 @@ private constructor(
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "AchMethodAttributes{secCode=$secCode, achHoldPeriod=$achHoldPeriod, addenda=$addenda, companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, traceNumbers=$traceNumbers, additionalProperties=$additionalProperties}"
+                "AchMethodAttributes{secCode=$secCode, achHoldPeriod=$achHoldPeriod, addenda=$addenda, companyId=$companyId, overrideCompanyName=$overrideCompanyName, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, traceNumbers=$traceNumbers, additionalProperties=$additionalProperties}"
         }
 
         class WireMethodAttributes
