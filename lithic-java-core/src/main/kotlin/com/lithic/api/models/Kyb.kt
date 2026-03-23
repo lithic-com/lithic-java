@@ -114,7 +114,8 @@ private constructor(
     fun controlPerson(): KybIndividual = controlPerson.getRequired("control_person")
 
     /**
-     * Short description of the company's line of business (i.e., what does the company do?).
+     * Short description of the company's line of business (i.e., what does the company do?). Values
+     * longer than 255 characters will be truncated before KYB verification
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -395,6 +396,7 @@ private constructor(
 
         /**
          * Short description of the company's line of business (i.e., what does the company do?).
+         * Values longer than 255 characters will be truncated before KYB verification
          */
         fun natureOfBusiness(natureOfBusiness: String) =
             natureOfBusiness(JsonField.of(natureOfBusiness))

@@ -28,7 +28,8 @@ private constructor(
     ) : this(qrCodeUrl, mutableMapOf())
 
     /**
-     * QR code url to display on the card carrier
+     * QR code URL to display on the card carrier. The `qr_code_url` field requires your domain to
+     * be allowlisted by Lithic before use. Contact Support to configure your QR code domain
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -72,7 +73,10 @@ private constructor(
             additionalProperties = carrier.additionalProperties.toMutableMap()
         }
 
-        /** QR code url to display on the card carrier */
+        /**
+         * QR code URL to display on the card carrier. The `qr_code_url` field requires your domain
+         * to be allowlisted by Lithic before use. Contact Support to configure your QR code domain
+         */
         fun qrCodeUrl(qrCodeUrl: String) = qrCodeUrl(JsonField.of(qrCodeUrl))
 
         /**
