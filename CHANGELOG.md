@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.122.0 (2026-03-23)
+
+Full Changelog: [v0.121.0...v0.122.0](https://github.com/lithic-com/lithic-java/compare/v0.121.0...v0.122.0)
+
+### Features
+
+* **api:** add CARD_AGE and ACCOUNT_AGE attributes to conditional authorization ([aa189f8](https://github.com/lithic-com/lithic-java/commit/aa189f84c9fa9753c28d42a9dca13a53c36ba54d))
+* **api:** add merchant location/service fields, SERVICE_LOCATION authorization attributes ([94423c4](https://github.com/lithic-com/lithic-java/commit/94423c4928f5ff4fcf987abf908bc22429bfde29))
+
+
+### Chores
+
+* **internal:** switch mock server from steady to prism ([d30a983](https://github.com/lithic-com/lithic-java/commit/d30a9834c4c5def14710340369160fc0b663d4b9))
+* **internal:** update gitignore ([d4c610f](https://github.com/lithic-com/lithic-java/commit/d4c610fea4cb7c00c182a76100e0d4db052d5a20))
+* **tests:** bump steady to v0.19.4 ([652cb78](https://github.com/lithic-com/lithic-java/commit/652cb7870ecddd6ac42da9eecfcee80e719014e9))
+* **tests:** bump steady to v0.19.5 ([acbcb0e](https://github.com/lithic-com/lithic-java/commit/acbcb0e1360e72c1c2aab659d3574a02091ae76b))
+* **tests:** bump steady to v0.19.6 ([5b25ba2](https://github.com/lithic-com/lithic-java/commit/5b25ba2f06b6c65c054f4cac82f7be71fdef98bc))
+
+
+### Documentation
+
+* **api:** add character limit to natureOfBusiness, allowlisting info to qrCodeUrl ([0c513cd](https://github.com/lithic-com/lithic-java/commit/0c513cd1f4928472c9713179b16fa4bea1193cb5))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([d4a050b](https://github.com/lithic-com/lithic-java/commit/d4a050baf1470935fbaa0e715a3240c035691f2b))
+
 ## 0.121.0 (2026-03-17)
 
 Full Changelog: [v0.120.0...v0.121.0](https://github.com/lithic-com/lithic-java/compare/v0.120.0...v0.121.0)
