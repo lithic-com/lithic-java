@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.123.0 (2026-03-25)
+
+Full Changelog: [v0.122.0...v0.123.0](https://github.com/lithic-com/lithic-java/compare/v0.122.0...v0.123.0)
+
+### Features
+
+* **api:** add override_company_name parameter to payment create ([899a3be](https://github.com/lithic-com/lithic-java/commit/899a3be4a06965cf3a37cf4ddf6f8581fac9351a))
+
+
+### Bug Fixes
+
+* **types:** make data and has_more required in AccountActivityListPageResponse ([5feba92](https://github.com/lithic-com/lithic-java/commit/5feba92cc13a3877fb2769d8808e65959b4b12b9))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([c266aa2](https://github.com/lithic-com/lithic-java/commit/c266aa2a776ae772b05a025dab383477ec5c2d0d))
+
+
+### Documentation
+
+* **api:** update natureOfBusiness and qrCodeUrl parameter descriptions ([2fe328d](https://github.com/lithic-com/lithic-java/commit/2fe328dff29b7df2d9096274e5725e1bf37df25f))
+
 ## 0.122.0 (2026-03-23)
 
 Full Changelog: [v0.121.0...v0.122.0](https://github.com/lithic-com/lithic-java/compare/v0.121.0...v0.122.0)
