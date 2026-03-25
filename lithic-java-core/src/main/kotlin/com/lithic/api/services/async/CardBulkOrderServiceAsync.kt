@@ -29,9 +29,9 @@ interface CardBulkOrderServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): CardBulkOrderServiceAsync
 
     /**
-     * Create a new bulk order for physical card shipments **[BETA]**. Cards can be added to the
-     * order via the POST /v1/cards endpoint by specifying the bulk_order_token. Lock the order via
-     * PATCH /v1/card_bulk_orders/{bulk_order_token} to prepare for shipment. Please work with your
+     * Create a new bulk order for physical card shipments. Cards can be added to the order via the
+     * POST /v1/cards endpoint by specifying the bulk_order_token. Lock the order via PATCH
+     * /v1/card_bulk_orders/{bulk_order_token} to prepare for shipment. Please work with your
      * Customer Success Manager and card personalization bureau to ensure bulk shipping is supported
      * for your program.
      */
@@ -44,7 +44,7 @@ interface CardBulkOrderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardBulkOrder>
 
-    /** Retrieve a specific bulk order by token **[BETA]** */
+    /** Retrieve a specific bulk order by token */
     fun retrieve(bulkOrderToken: String): CompletableFuture<CardBulkOrder> =
         retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none())
 
@@ -80,8 +80,8 @@ interface CardBulkOrderServiceAsync {
         retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none(), requestOptions)
 
     /**
-     * Update a bulk order **[BETA]**. Primarily used to lock the order, preventing additional cards
-     * from being added
+     * Update a bulk order. Primarily used to lock the order, preventing additional cards from being
+     * added
      */
     fun update(
         bulkOrderToken: String,
@@ -106,7 +106,7 @@ interface CardBulkOrderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardBulkOrder>
 
-    /** List bulk orders for physical card shipments **[BETA]** */
+    /** List bulk orders for physical card shipments */
     fun list(): CompletableFuture<CardBulkOrderListPageAsync> = list(CardBulkOrderListParams.none())
 
     /** @see list */
