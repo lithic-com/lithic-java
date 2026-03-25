@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieve a specific bulk order by token **[BETA]** */
+/** Retrieve a specific bulk order by token */
 class CardBulkOrderRetrieveParams
 private constructor(
     private val bulkOrderToken: String?,
