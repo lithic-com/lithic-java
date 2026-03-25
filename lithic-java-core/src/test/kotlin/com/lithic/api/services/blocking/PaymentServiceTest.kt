@@ -38,6 +38,7 @@ internal class PaymentServiceTest {
                             .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
                             .achHoldPeriod(0L)
                             .addenda("addenda")
+                            .overrideCompanyName("override_company_name")
                             .build()
                     )
                     .type(PaymentCreateParams.Type.COLLECTION)

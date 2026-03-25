@@ -1152,6 +1152,7 @@ private constructor(
         private val secCode: JsonField<SecCode>,
         private val achHoldPeriod: JsonField<Long>,
         private val addenda: JsonField<String>,
+        private val overrideCompanyName: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -1164,7 +1165,10 @@ private constructor(
             @ExcludeMissing
             achHoldPeriod: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("addenda") @ExcludeMissing addenda: JsonField<String> = JsonMissing.of(),
-        ) : this(secCode, achHoldPeriod, addenda, mutableMapOf())
+            @JsonProperty("override_company_name")
+            @ExcludeMissing
+            overrideCompanyName: JsonField<String> = JsonMissing.of(),
+        ) : this(secCode, achHoldPeriod, addenda, overrideCompanyName, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1185,6 +1189,16 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun addenda(): Optional<String> = addenda.getOptional("addenda")
+
+        /**
+         * Value to override the configured company name with. Can only be used if allowed to
+         * override
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun overrideCompanyName(): Optional<String> =
+            overrideCompanyName.getOptional("override_company_name")
 
         /**
          * Returns the raw JSON value of [secCode].
@@ -1209,6 +1223,16 @@ private constructor(
          * Unlike [addenda], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("addenda") @ExcludeMissing fun _addenda(): JsonField<String> = addenda
+
+        /**
+         * Returns the raw JSON value of [overrideCompanyName].
+         *
+         * Unlike [overrideCompanyName], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("override_company_name")
+        @ExcludeMissing
+        fun _overrideCompanyName(): JsonField<String> = overrideCompanyName
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1242,6 +1266,7 @@ private constructor(
             private var secCode: JsonField<SecCode>? = null
             private var achHoldPeriod: JsonField<Long> = JsonMissing.of()
             private var addenda: JsonField<String> = JsonMissing.of()
+            private var overrideCompanyName: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1250,6 +1275,7 @@ private constructor(
                     secCode = paymentMethodRequestAttributes.secCode
                     achHoldPeriod = paymentMethodRequestAttributes.achHoldPeriod
                     addenda = paymentMethodRequestAttributes.addenda
+                    overrideCompanyName = paymentMethodRequestAttributes.overrideCompanyName
                     additionalProperties =
                         paymentMethodRequestAttributes.additionalProperties.toMutableMap()
                 }
@@ -1293,6 +1319,31 @@ private constructor(
              */
             fun addenda(addenda: JsonField<String>) = apply { this.addenda = addenda }
 
+            /**
+             * Value to override the configured company name with. Can only be used if allowed to
+             * override
+             */
+            fun overrideCompanyName(overrideCompanyName: String?) =
+                overrideCompanyName(JsonField.ofNullable(overrideCompanyName))
+
+            /**
+             * Alias for calling [Builder.overrideCompanyName] with
+             * `overrideCompanyName.orElse(null)`.
+             */
+            fun overrideCompanyName(overrideCompanyName: Optional<String>) =
+                overrideCompanyName(overrideCompanyName.getOrNull())
+
+            /**
+             * Sets [Builder.overrideCompanyName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.overrideCompanyName] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun overrideCompanyName(overrideCompanyName: JsonField<String>) = apply {
+                this.overrideCompanyName = overrideCompanyName
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -1329,6 +1380,7 @@ private constructor(
                     checkRequired("secCode", secCode),
                     achHoldPeriod,
                     addenda,
+                    overrideCompanyName,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1343,6 +1395,7 @@ private constructor(
             secCode().validate()
             achHoldPeriod()
             addenda()
+            overrideCompanyName()
             validated = true
         }
 
@@ -1364,7 +1417,8 @@ private constructor(
         internal fun validity(): Int =
             (secCode.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (achHoldPeriod.asKnown().isPresent) 1 else 0) +
-                (if (addenda.asKnown().isPresent) 1 else 0)
+                (if (addenda.asKnown().isPresent) 1 else 0) +
+                (if (overrideCompanyName.asKnown().isPresent) 1 else 0)
 
         class SecCode @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -1511,17 +1565,18 @@ private constructor(
                 secCode == other.secCode &&
                 achHoldPeriod == other.achHoldPeriod &&
                 addenda == other.addenda &&
+                overrideCompanyName == other.overrideCompanyName &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(secCode, achHoldPeriod, addenda, additionalProperties)
+            Objects.hash(secCode, achHoldPeriod, addenda, overrideCompanyName, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "PaymentMethodRequestAttributes{secCode=$secCode, achHoldPeriod=$achHoldPeriod, addenda=$addenda, additionalProperties=$additionalProperties}"
+            "PaymentMethodRequestAttributes{secCode=$secCode, achHoldPeriod=$achHoldPeriod, addenda=$addenda, overrideCompanyName=$overrideCompanyName, additionalProperties=$additionalProperties}"
     }
 
     class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
