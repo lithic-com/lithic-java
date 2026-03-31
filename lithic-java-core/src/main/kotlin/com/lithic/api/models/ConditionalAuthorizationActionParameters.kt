@@ -409,6 +409,12 @@ private constructor(
          *   hour up and until the authorization.
          * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
          *   hours up and until the authorization.
+         * * `CARD_DECLINE_COUNT_15M`: The number of declined transactions on the card in the
+         *   trailing 15 minutes before the authorization.
+         * * `CARD_DECLINE_COUNT_1H`: The number of declined transactions on the card in the
+         *   trailing hour up and until the authorization.
+         * * `CARD_DECLINE_COUNT_24H`: The number of declined transactions on the card in the
+         *   trailing 24 hours up and until the authorization.
          * * `CARD_STATE`: The current state of the card associated with the transaction. Valid
          *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
          * * `PIN_ENTERED`: Indicates whether a PIN was entered during the transaction. Valid values
@@ -562,6 +568,12 @@ private constructor(
              * * `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the trailing
              *   hour up and until the authorization.
              * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+             *   trailing 24 hours up and until the authorization.
+             * * `CARD_DECLINE_COUNT_15M`: The number of declined transactions on the card in the
+             *   trailing 15 minutes before the authorization.
+             * * `CARD_DECLINE_COUNT_1H`: The number of declined transactions on the card in the
+             *   trailing hour up and until the authorization.
+             * * `CARD_DECLINE_COUNT_24H`: The number of declined transactions on the card in the
              *   trailing 24 hours up and until the authorization.
              * * `CARD_STATE`: The current state of the card associated with the transaction. Valid
              *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
@@ -750,6 +762,12 @@ private constructor(
          *   hour up and until the authorization.
          * * `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the trailing 24
          *   hours up and until the authorization.
+         * * `CARD_DECLINE_COUNT_15M`: The number of declined transactions on the card in the
+         *   trailing 15 minutes before the authorization.
+         * * `CARD_DECLINE_COUNT_1H`: The number of declined transactions on the card in the
+         *   trailing hour up and until the authorization.
+         * * `CARD_DECLINE_COUNT_24H`: The number of declined transactions on the card in the
+         *   trailing 24 hours up and until the authorization.
          * * `CARD_STATE`: The current state of the card associated with the transaction. Valid
          *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
          * * `PIN_ENTERED`: Indicates whether a PIN was entered during the transaction. Valid values
@@ -817,6 +835,12 @@ private constructor(
 
                 @JvmField val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
 
+                @JvmField val CARD_DECLINE_COUNT_15_M = of("CARD_DECLINE_COUNT_15M")
+
+                @JvmField val CARD_DECLINE_COUNT_1_H = of("CARD_DECLINE_COUNT_1H")
+
+                @JvmField val CARD_DECLINE_COUNT_24_H = of("CARD_DECLINE_COUNT_24H")
+
                 @JvmField val CARD_STATE = of("CARD_STATE")
 
                 @JvmField val PIN_ENTERED = of("PIN_ENTERED")
@@ -855,6 +879,9 @@ private constructor(
                 CARD_TRANSACTION_COUNT_15_M,
                 CARD_TRANSACTION_COUNT_1_H,
                 CARD_TRANSACTION_COUNT_24_H,
+                CARD_DECLINE_COUNT_15_M,
+                CARD_DECLINE_COUNT_1_H,
+                CARD_DECLINE_COUNT_24_H,
                 CARD_STATE,
                 PIN_ENTERED,
                 PIN_STATUS,
@@ -890,6 +917,9 @@ private constructor(
                 CARD_TRANSACTION_COUNT_15_M,
                 CARD_TRANSACTION_COUNT_1_H,
                 CARD_TRANSACTION_COUNT_24_H,
+                CARD_DECLINE_COUNT_15_M,
+                CARD_DECLINE_COUNT_1_H,
+                CARD_DECLINE_COUNT_24_H,
                 CARD_STATE,
                 PIN_ENTERED,
                 PIN_STATUS,
@@ -929,6 +959,9 @@ private constructor(
                     CARD_TRANSACTION_COUNT_15_M -> Value.CARD_TRANSACTION_COUNT_15_M
                     CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
                     CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
+                    CARD_DECLINE_COUNT_15_M -> Value.CARD_DECLINE_COUNT_15_M
+                    CARD_DECLINE_COUNT_1_H -> Value.CARD_DECLINE_COUNT_1_H
+                    CARD_DECLINE_COUNT_24_H -> Value.CARD_DECLINE_COUNT_24_H
                     CARD_STATE -> Value.CARD_STATE
                     PIN_ENTERED -> Value.PIN_ENTERED
                     PIN_STATUS -> Value.PIN_STATUS
@@ -966,6 +999,9 @@ private constructor(
                     CARD_TRANSACTION_COUNT_15_M -> Known.CARD_TRANSACTION_COUNT_15_M
                     CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
                     CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
+                    CARD_DECLINE_COUNT_15_M -> Known.CARD_DECLINE_COUNT_15_M
+                    CARD_DECLINE_COUNT_1_H -> Known.CARD_DECLINE_COUNT_1_H
+                    CARD_DECLINE_COUNT_24_H -> Known.CARD_DECLINE_COUNT_24_H
                     CARD_STATE -> Known.CARD_STATE
                     PIN_ENTERED -> Known.PIN_ENTERED
                     PIN_STATUS -> Known.PIN_STATUS
