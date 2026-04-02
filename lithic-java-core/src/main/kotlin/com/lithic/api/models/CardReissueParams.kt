@@ -73,7 +73,8 @@ private constructor(
      * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
      * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
-     * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
+     * * `BULK` - Card will be shipped as part of a bulk fulfillment order. The shipping method and
+     *   timeline are inherited from the parent bulk order.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -214,7 +215,8 @@ private constructor(
          * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
          * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
-         * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
+         * * `BULK` - Card will be shipped as part of a bulk fulfillment order. The shipping method
+         *   and timeline are inherited from the parent bulk order.
          */
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
             body.shippingMethod(shippingMethod)
@@ -437,7 +439,8 @@ private constructor(
          * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
          * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
          *   similar international option, with tracking
-         * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
+         * * `BULK` - Card will be shipped as part of a bulk fulfillment order. The shipping method
+         *   and timeline are inherited from the parent bulk order.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -571,7 +574,8 @@ private constructor(
              *   tracking
              * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or
              *   similar international option, with tracking
-             * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
+             * * `BULK` - Card will be shipped as part of a bulk fulfillment order. The shipping
+             *   method and timeline are inherited from the parent bulk order.
              */
             fun shippingMethod(shippingMethod: ShippingMethod) =
                 shippingMethod(JsonField.of(shippingMethod))
@@ -690,7 +694,8 @@ private constructor(
      * * `2_DAY` - FedEx or UPS depending on card manufacturer, 2-day shipping, with tracking
      * * `EXPEDITED` - FedEx or UPS depending on card manufacturer, Standard Overnight or similar
      *   international option, with tracking
-     * * `BULK_EXPEDITED` - Bulk shipment with Expedited shipping
+     * * `BULK` - Card will be shipped as part of a bulk fulfillment order. The shipping method and
+     *   timeline are inherited from the parent bulk order.
      */
     class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
@@ -709,7 +714,7 @@ private constructor(
 
             @JvmField val _2_DAY = of("2_DAY")
 
-            @JvmField val BULK_EXPEDITED = of("BULK_EXPEDITED")
+            @JvmField val BULK = of("BULK")
 
             @JvmField val EXPEDITED = of("EXPEDITED")
 
@@ -727,7 +732,7 @@ private constructor(
         /** An enum containing [ShippingMethod]'s known values. */
         enum class Known {
             _2_DAY,
-            BULK_EXPEDITED,
+            BULK,
             EXPEDITED,
             EXPRESS,
             PRIORITY,
@@ -746,7 +751,7 @@ private constructor(
          */
         enum class Value {
             _2_DAY,
-            BULK_EXPEDITED,
+            BULK,
             EXPEDITED,
             EXPRESS,
             PRIORITY,
@@ -769,7 +774,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 _2_DAY -> Value._2_DAY
-                BULK_EXPEDITED -> Value.BULK_EXPEDITED
+                BULK -> Value.BULK
                 EXPEDITED -> Value.EXPEDITED
                 EXPRESS -> Value.EXPRESS
                 PRIORITY -> Value.PRIORITY
@@ -790,7 +795,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 _2_DAY -> Known._2_DAY
-                BULK_EXPEDITED -> Known.BULK_EXPEDITED
+                BULK -> Known.BULK
                 EXPEDITED -> Known.EXPEDITED
                 EXPRESS -> Known.EXPRESS
                 PRIORITY -> Known.PRIORITY

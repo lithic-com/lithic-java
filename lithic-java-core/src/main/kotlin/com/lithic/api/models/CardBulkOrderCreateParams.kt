@@ -21,8 +21,8 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Create a new bulk order for physical card shipments **[BETA]**. Cards can be added to the order
- * via the POST /v1/cards endpoint by specifying the bulk_order_token. Lock the order via PATCH
+ * Create a new bulk order for physical card shipments. Cards can be added to the order via the POST
+ * /v1/cards endpoint by specifying the bulk_order_token. Lock the order via PATCH
  * /v1/card_bulk_orders/{bulk_order_token} to prepare for shipment. Please work with your Customer
  * Success Manager and card personalization bureau to ensure bulk shipping is supported for your
  * program.
@@ -54,7 +54,8 @@ private constructor(
     fun _shippingAddress(): JsonValue = body._shippingAddress()
 
     /**
-     * Shipping method for all cards in this bulk order
+     * Shipping method for all cards in this bulk order. BULK_PRIORITY, BULK_2_DAY, and BULK_EXPRESS
+     * are only available with Perfect Plastic Printing
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -150,7 +151,10 @@ private constructor(
             body.shippingAddress(shippingAddress)
         }
 
-        /** Shipping method for all cards in this bulk order */
+        /**
+         * Shipping method for all cards in this bulk order. BULK_PRIORITY, BULK_2_DAY, and
+         * BULK_EXPRESS are only available with Perfect Plastic Printing
+         */
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
             body.shippingMethod(shippingMethod)
         }
@@ -360,7 +364,8 @@ private constructor(
         fun _shippingAddress(): JsonValue = shippingAddress
 
         /**
-         * Shipping method for all cards in this bulk order
+         * Shipping method for all cards in this bulk order. BULK_PRIORITY, BULK_2_DAY, and
+         * BULK_EXPRESS are only available with Perfect Plastic Printing
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -453,7 +458,10 @@ private constructor(
                 this.shippingAddress = shippingAddress
             }
 
-            /** Shipping method for all cards in this bulk order */
+            /**
+             * Shipping method for all cards in this bulk order. BULK_PRIORITY, BULK_2_DAY, and
+             * BULK_EXPRESS are only available with Perfect Plastic Printing
+             */
             fun shippingMethod(shippingMethod: ShippingMethod) =
                 shippingMethod(JsonField.of(shippingMethod))
 
@@ -563,7 +571,10 @@ private constructor(
             "CreateBulkOrderRequest{customerProductId=$customerProductId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
     }
 
-    /** Shipping method for all cards in this bulk order */
+    /**
+     * Shipping method for all cards in this bulk order. BULK_PRIORITY, BULK_2_DAY, and BULK_EXPRESS
+     * are only available with Perfect Plastic Printing
+     */
     class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
@@ -581,12 +592,21 @@ private constructor(
 
             @JvmField val BULK_EXPEDITED = of("BULK_EXPEDITED")
 
+            @JvmField val BULK_PRIORITY = of("BULK_PRIORITY")
+
+            @JvmField val BULK_2_DAY = of("BULK_2_DAY")
+
+            @JvmField val BULK_EXPRESS = of("BULK_EXPRESS")
+
             @JvmStatic fun of(value: String) = ShippingMethod(JsonField.of(value))
         }
 
         /** An enum containing [ShippingMethod]'s known values. */
         enum class Known {
-            BULK_EXPEDITED
+            BULK_EXPEDITED,
+            BULK_PRIORITY,
+            BULK_2_DAY,
+            BULK_EXPRESS,
         }
 
         /**
@@ -600,6 +620,9 @@ private constructor(
          */
         enum class Value {
             BULK_EXPEDITED,
+            BULK_PRIORITY,
+            BULK_2_DAY,
+            BULK_EXPRESS,
             /**
              * An enum member indicating that [ShippingMethod] was instantiated with an unknown
              * value.
@@ -617,6 +640,9 @@ private constructor(
         fun value(): Value =
             when (this) {
                 BULK_EXPEDITED -> Value.BULK_EXPEDITED
+                BULK_PRIORITY -> Value.BULK_PRIORITY
+                BULK_2_DAY -> Value.BULK_2_DAY
+                BULK_EXPRESS -> Value.BULK_EXPRESS
                 else -> Value._UNKNOWN
             }
 
@@ -632,6 +658,9 @@ private constructor(
         fun known(): Known =
             when (this) {
                 BULK_EXPEDITED -> Known.BULK_EXPEDITED
+                BULK_PRIORITY -> Known.BULK_PRIORITY
+                BULK_2_DAY -> Known.BULK_2_DAY
+                BULK_EXPRESS -> Known.BULK_EXPRESS
                 else -> throw LithicInvalidDataException("Unknown ShippingMethod: $value")
             }
 

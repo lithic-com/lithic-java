@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** List bulk orders for physical card shipments **[BETA]** */
+/** List bulk orders for physical card shipments */
 class CardBulkOrderListParams
 private constructor(
     private val begin: OffsetDateTime?,

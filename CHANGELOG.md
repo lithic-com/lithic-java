@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.123.0 (2026-04-02)
+
+Full Changelog: [v0.122.0...v0.123.0](https://github.com/lithic-com/lithic-java/compare/v0.122.0...v0.123.0)
+
+### Features
+
+* **api:** add card decline count values to conditional authorization ([65f1c4b](https://github.com/lithic-com/lithic-java/commit/65f1c4b2a4c28c8a9fbc07a187fb01cf4567461c))
+* **api:** add override_company_name parameter to payment create ([899a3be](https://github.com/lithic-com/lithic-java/commit/899a3be4a06965cf3a37cf4ddf6f8581fac9351a))
+* **api:** add statement_totals field to Statement/StatementsCreatedWebhookEvent ([44d890e](https://github.com/lithic-com/lithic-java/commit/44d890e17988a1e587124a95afe3984c99a3bca0))
+
+
+### Bug Fixes
+
+* **types:** make data and has_more required in AccountActivityListPageResponse ([5feba92](https://github.com/lithic-com/lithic-java/commit/5feba92cc13a3877fb2769d8808e65959b4b12b9))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([c266aa2](https://github.com/lithic-com/lithic-java/commit/c266aa2a776ae772b05a025dab383477ec5c2d0d))
+
+
+### Documentation
+
+* **api:** update natureOfBusiness and qrCodeUrl parameter descriptions ([2fe328d](https://github.com/lithic-com/lithic-java/commit/2fe328dff29b7df2d9096274e5725e1bf37df25f))
+
 ## 0.122.0 (2026-03-23)
 
 Full Changelog: [v0.121.0...v0.122.0](https://github.com/lithic-com/lithic-java/compare/v0.121.0...v0.122.0)
