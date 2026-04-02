@@ -45,6 +45,7 @@ private constructor(
     private val nextPaymentDueDate: JsonField<LocalDate>,
     private val nextStatementEndDate: JsonField<LocalDate>,
     private val payoffDetails: JsonField<PayoffDetails>,
+    private val statementTotals: JsonField<StatementTotals>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -114,6 +115,9 @@ private constructor(
         @JsonProperty("payoff_details")
         @ExcludeMissing
         payoffDetails: JsonField<PayoffDetails> = JsonMissing.of(),
+        @JsonProperty("statement_totals")
+        @ExcludeMissing
+        statementTotals: JsonField<StatementTotals> = JsonMissing.of(),
     ) : this(
         token,
         accountStanding,
@@ -137,6 +141,7 @@ private constructor(
         nextPaymentDueDate,
         nextStatementEndDate,
         payoffDetails,
+        statementTotals,
         mutableMapOf(),
     )
 
@@ -308,6 +313,13 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun payoffDetails(): Optional<PayoffDetails> = payoffDetails.getOptional("payoff_details")
+
+    /**
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun statementTotals(): Optional<StatementTotals> =
+        statementTotals.getOptional("statement_totals")
 
     /**
      * Returns the raw JSON value of [token].
@@ -504,6 +516,15 @@ private constructor(
     @ExcludeMissing
     fun _payoffDetails(): JsonField<PayoffDetails> = payoffDetails
 
+    /**
+     * Returns the raw JSON value of [statementTotals].
+     *
+     * Unlike [statementTotals], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("statement_totals")
+    @ExcludeMissing
+    fun _statementTotals(): JsonField<StatementTotals> = statementTotals
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -571,6 +592,7 @@ private constructor(
         private var nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of()
         private var nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of()
         private var payoffDetails: JsonField<PayoffDetails> = JsonMissing.of()
+        private var statementTotals: JsonField<StatementTotals> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -597,6 +619,7 @@ private constructor(
             nextPaymentDueDate = statement.nextPaymentDueDate
             nextStatementEndDate = statement.nextStatementEndDate
             payoffDetails = statement.payoffDetails
+            statementTotals = statement.statementTotals
             additionalProperties = statement.additionalProperties.toMutableMap()
         }
 
@@ -915,6 +938,20 @@ private constructor(
             this.payoffDetails = payoffDetails
         }
 
+        fun statementTotals(statementTotals: StatementTotals) =
+            statementTotals(JsonField.of(statementTotals))
+
+        /**
+         * Sets [Builder.statementTotals] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.statementTotals] with a well-typed [StatementTotals]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun statementTotals(statementTotals: JsonField<StatementTotals>) = apply {
+            this.statementTotals = statementTotals
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -987,6 +1024,7 @@ private constructor(
                 nextPaymentDueDate,
                 nextStatementEndDate,
                 payoffDetails,
+                statementTotals,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -1020,6 +1058,7 @@ private constructor(
         nextPaymentDueDate()
         nextStatementEndDate()
         payoffDetails().ifPresent { it.validate() }
+        statementTotals().ifPresent { it.validate() }
         validated = true
     }
 
@@ -1059,7 +1098,8 @@ private constructor(
             (interestDetails.asKnown().getOrNull()?.validity() ?: 0) +
             (if (nextPaymentDueDate.asKnown().isPresent) 1 else 0) +
             (if (nextStatementEndDate.asKnown().isPresent) 1 else 0) +
-            (payoffDetails.asKnown().getOrNull()?.validity() ?: 0)
+            (payoffDetails.asKnown().getOrNull()?.validity() ?: 0) +
+            (statementTotals.asKnown().getOrNull()?.validity() ?: 0)
 
     class AccountStanding
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -3643,6 +3683,7 @@ private constructor(
             nextPaymentDueDate == other.nextPaymentDueDate &&
             nextStatementEndDate == other.nextStatementEndDate &&
             payoffDetails == other.payoffDetails &&
+            statementTotals == other.statementTotals &&
             additionalProperties == other.additionalProperties
     }
 
@@ -3670,6 +3711,7 @@ private constructor(
             nextPaymentDueDate,
             nextStatementEndDate,
             payoffDetails,
+            statementTotals,
             additionalProperties,
         )
     }
@@ -3677,5 +3719,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Statement{token=$token, accountStanding=$accountStanding, amountDue=$amountDue, availableCredit=$availableCredit, created=$created, creditLimit=$creditLimit, creditProductToken=$creditProductToken, daysInBillingCycle=$daysInBillingCycle, endingBalance=$endingBalance, financialAccountToken=$financialAccountToken, paymentDueDate=$paymentDueDate, periodTotals=$periodTotals, startingBalance=$startingBalance, statementEndDate=$statementEndDate, statementStartDate=$statementStartDate, statementType=$statementType, updated=$updated, ytdTotals=$ytdTotals, interestDetails=$interestDetails, nextPaymentDueDate=$nextPaymentDueDate, nextStatementEndDate=$nextStatementEndDate, payoffDetails=$payoffDetails, additionalProperties=$additionalProperties}"
+        "Statement{token=$token, accountStanding=$accountStanding, amountDue=$amountDue, availableCredit=$availableCredit, created=$created, creditLimit=$creditLimit, creditProductToken=$creditProductToken, daysInBillingCycle=$daysInBillingCycle, endingBalance=$endingBalance, financialAccountToken=$financialAccountToken, paymentDueDate=$paymentDueDate, periodTotals=$periodTotals, startingBalance=$startingBalance, statementEndDate=$statementEndDate, statementStartDate=$statementStartDate, statementType=$statementType, updated=$updated, ytdTotals=$ytdTotals, interestDetails=$interestDetails, nextPaymentDueDate=$nextPaymentDueDate, nextStatementEndDate=$nextStatementEndDate, payoffDetails=$payoffDetails, statementTotals=$statementTotals, additionalProperties=$additionalProperties}"
 }
