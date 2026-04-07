@@ -225,10 +225,11 @@ private constructor(
     /**
      * Globally unique identifier for a credit product
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun creditProductToken(): String = creditProductToken.getRequired("credit_product_token")
+    fun creditProductToken(): Optional<String> =
+        creditProductToken.getOptional("credit_product_token")
 
     /**
      * Number of days in the billing cycle
@@ -755,8 +756,14 @@ private constructor(
         fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
         /** Globally unique identifier for a credit product */
-        fun creditProductToken(creditProductToken: String) =
-            creditProductToken(JsonField.of(creditProductToken))
+        fun creditProductToken(creditProductToken: String?) =
+            creditProductToken(JsonField.ofNullable(creditProductToken))
+
+        /**
+         * Alias for calling [Builder.creditProductToken] with `creditProductToken.orElse(null)`.
+         */
+        fun creditProductToken(creditProductToken: Optional<String>) =
+            creditProductToken(creditProductToken.getOrNull())
 
         /**
          * Sets [Builder.creditProductToken] to an arbitrary JSON value.
