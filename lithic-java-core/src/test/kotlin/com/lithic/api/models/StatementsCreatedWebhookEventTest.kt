@@ -180,7 +180,7 @@ internal class StatementsCreatedWebhookEventTest {
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(statementsCreatedWebhookEvent.creditLimit()).isEqualTo(0L)
         assertThat(statementsCreatedWebhookEvent.creditProductToken())
-            .isEqualTo("credit_product_token")
+            .contains("credit_product_token")
         assertThat(statementsCreatedWebhookEvent.daysInBillingCycle()).isEqualTo(0L)
         assertThat(statementsCreatedWebhookEvent.endingBalance()).isEqualTo(0L)
         assertThat(statementsCreatedWebhookEvent.financialAccountToken())
