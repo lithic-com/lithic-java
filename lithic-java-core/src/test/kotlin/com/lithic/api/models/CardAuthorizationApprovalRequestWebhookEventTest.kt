@@ -61,7 +61,6 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                 .card(
                     CardAuthorizationApprovalRequestWebhookEvent.AsaRequestCard.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .hostname("hostname")
                         .lastFour("last_four")
                         .memo("memo")
                         .spendLimit(0L)
@@ -237,7 +236,7 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                                         .Type
                                         .ADMINISTRATIVE
                                 )
-                                .acceptorTerminalId(" r 0K9tW")
+                                .acceptorTerminalId("5([<,yN%")
                                 .build()
                         )
                         .build()
@@ -296,7 +295,6 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
             .isEqualTo(
                 CardAuthorizationApprovalRequestWebhookEvent.AsaRequestCard.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .hostname("hostname")
                     .lastFour("last_four")
                     .memo("memo")
                     .spendLimit(0L)
@@ -480,7 +478,7 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                                 CardAuthorizationApprovalRequestWebhookEvent.Pos.AsaPosTerminal.Type
                                     .ADMINISTRATIVE
                             )
-                            .acceptorTerminalId(" r 0K9tW")
+                            .acceptorTerminalId("5([<,yN%")
                             .build()
                     )
                     .build()
@@ -543,7 +541,6 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                 .card(
                     CardAuthorizationApprovalRequestWebhookEvent.AsaRequestCard.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .hostname("hostname")
                         .lastFour("last_four")
                         .memo("memo")
                         .spendLimit(0L)
@@ -719,7 +716,7 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                                         .Type
                                         .ADMINISTRATIVE
                                 )
-                                .acceptorTerminalId(" r 0K9tW")
+                                .acceptorTerminalId("5([<,yN%")
                                 .build()
                         )
                         .build()
