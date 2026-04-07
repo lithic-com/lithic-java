@@ -177,7 +177,7 @@ internal class StatementTest {
         assertThat(statement.availableCredit()).isEqualTo(0L)
         assertThat(statement.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(statement.creditLimit()).isEqualTo(0L)
-        assertThat(statement.creditProductToken()).isEqualTo("credit_product_token")
+        assertThat(statement.creditProductToken()).contains("credit_product_token")
         assertThat(statement.daysInBillingCycle()).isEqualTo(0L)
         assertThat(statement.endingBalance()).isEqualTo(0L)
         assertThat(statement.financialAccountToken())
