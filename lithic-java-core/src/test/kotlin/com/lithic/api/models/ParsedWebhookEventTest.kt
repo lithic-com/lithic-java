@@ -918,7 +918,6 @@ internal class ParsedWebhookEventTest {
                 .card(
                     CardAuthorizationApprovalRequestWebhookEvent.AsaRequestCard.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .hostname("hostname")
                         .lastFour("last_four")
                         .memo("memo")
                         .spendLimit(0L)
@@ -1094,7 +1093,7 @@ internal class ParsedWebhookEventTest {
                                         .Type
                                         .ADMINISTRATIVE
                                 )
-                                .acceptorTerminalId(" r 0K9tW")
+                                .acceptorTerminalId("5([<,yN%")
                                 .build()
                         )
                         .build()
@@ -1224,7 +1223,6 @@ internal class ParsedWebhookEventTest {
                     .card(
                         CardAuthorizationApprovalRequestWebhookEvent.AsaRequestCard.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .hostname("hostname")
                             .lastFour("last_four")
                             .memo("memo")
                             .spendLimit(0L)
@@ -1412,7 +1410,7 @@ internal class ParsedWebhookEventTest {
                                             .Type
                                             .ADMINISTRATIVE
                                     )
-                                    .acceptorTerminalId(" r 0K9tW")
+                                    .acceptorTerminalId("5([<,yN%")
                                     .build()
                             )
                             .build()
