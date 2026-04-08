@@ -1573,10 +1573,6 @@ private constructor(
 
             @JvmField val EARLY_DIRECT_DEPOSIT_FLOAT = of("EARLY_DIRECT_DEPOSIT_FLOAT")
 
-            @JvmField val INTERCHANGE = of("INTERCHANGE")
-
-            @JvmField val CHARGEBACK = of("CHARGEBACK")
-
             @JvmField val PROVISIONAL_CREDIT_ACCOUNT = of("PROVISIONAL_CREDIT_ACCOUNT")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
@@ -1595,8 +1591,6 @@ private constructor(
             COLLECTION,
             PROGRAM_BANK_ACCOUNTS_PAYABLE,
             EARLY_DIRECT_DEPOSIT_FLOAT,
-            INTERCHANGE,
-            CHARGEBACK,
             PROVISIONAL_CREDIT_ACCOUNT,
         }
 
@@ -1621,8 +1615,6 @@ private constructor(
             COLLECTION,
             PROGRAM_BANK_ACCOUNTS_PAYABLE,
             EARLY_DIRECT_DEPOSIT_FLOAT,
-            INTERCHANGE,
-            CHARGEBACK,
             PROVISIONAL_CREDIT_ACCOUNT,
             /** An enum member indicating that [Type] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -1648,8 +1640,6 @@ private constructor(
                 COLLECTION -> Value.COLLECTION
                 PROGRAM_BANK_ACCOUNTS_PAYABLE -> Value.PROGRAM_BANK_ACCOUNTS_PAYABLE
                 EARLY_DIRECT_DEPOSIT_FLOAT -> Value.EARLY_DIRECT_DEPOSIT_FLOAT
-                INTERCHANGE -> Value.INTERCHANGE
-                CHARGEBACK -> Value.CHARGEBACK
                 PROVISIONAL_CREDIT_ACCOUNT -> Value.PROVISIONAL_CREDIT_ACCOUNT
                 else -> Value._UNKNOWN
             }
@@ -1676,8 +1666,6 @@ private constructor(
                 COLLECTION -> Known.COLLECTION
                 PROGRAM_BANK_ACCOUNTS_PAYABLE -> Known.PROGRAM_BANK_ACCOUNTS_PAYABLE
                 EARLY_DIRECT_DEPOSIT_FLOAT -> Known.EARLY_DIRECT_DEPOSIT_FLOAT
-                INTERCHANGE -> Known.INTERCHANGE
-                CHARGEBACK -> Known.CHARGEBACK
                 PROVISIONAL_CREDIT_ACCOUNT -> Known.PROVISIONAL_CREDIT_ACCOUNT
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
