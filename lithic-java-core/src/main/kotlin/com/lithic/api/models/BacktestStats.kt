@@ -320,6 +320,7 @@ private constructor(
         private val decision: JsonField<Decision>,
         private val eventToken: JsonField<String>,
         private val timestamp: JsonField<OffsetDateTime>,
+        private val transactionToken: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -334,7 +335,10 @@ private constructor(
             @JsonProperty("timestamp")
             @ExcludeMissing
             timestamp: JsonField<OffsetDateTime> = JsonMissing.of(),
-        ) : this(decision, eventToken, timestamp, mutableMapOf())
+            @JsonProperty("transaction_token")
+            @ExcludeMissing
+            transactionToken: JsonField<String> = JsonMissing.of(),
+        ) : this(decision, eventToken, timestamp, transactionToken, mutableMapOf())
 
         /**
          * The decision made by the rule for this event.
@@ -361,6 +365,14 @@ private constructor(
         fun timestamp(): Optional<OffsetDateTime> = timestamp.getOptional("timestamp")
 
         /**
+         * The token of the transaction associated with the event
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun transactionToken(): Optional<String> = transactionToken.getOptional("transaction_token")
+
+        /**
          * Returns the raw JSON value of [decision].
          *
          * Unlike [decision], this method doesn't throw if the JSON field has an unexpected type.
@@ -384,6 +396,16 @@ private constructor(
         @JsonProperty("timestamp")
         @ExcludeMissing
         fun _timestamp(): JsonField<OffsetDateTime> = timestamp
+
+        /**
+         * Returns the raw JSON value of [transactionToken].
+         *
+         * Unlike [transactionToken], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("transaction_token")
+        @ExcludeMissing
+        fun _transactionToken(): JsonField<String> = transactionToken
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -409,6 +431,7 @@ private constructor(
             private var decision: JsonField<Decision> = JsonMissing.of()
             private var eventToken: JsonField<String> = JsonMissing.of()
             private var timestamp: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var transactionToken: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -416,6 +439,7 @@ private constructor(
                 decision = example.decision
                 eventToken = example.eventToken
                 timestamp = example.timestamp
+                transactionToken = example.transactionToken
                 additionalProperties = example.additionalProperties.toMutableMap()
             }
 
@@ -457,6 +481,27 @@ private constructor(
                 this.timestamp = timestamp
             }
 
+            /** The token of the transaction associated with the event */
+            fun transactionToken(transactionToken: String?) =
+                transactionToken(JsonField.ofNullable(transactionToken))
+
+            /**
+             * Alias for calling [Builder.transactionToken] with `transactionToken.orElse(null)`.
+             */
+            fun transactionToken(transactionToken: Optional<String>) =
+                transactionToken(transactionToken.getOrNull())
+
+            /**
+             * Sets [Builder.transactionToken] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.transactionToken] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun transactionToken(transactionToken: JsonField<String>) = apply {
+                this.transactionToken = transactionToken
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -482,7 +527,13 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): Example =
-                Example(decision, eventToken, timestamp, additionalProperties.toMutableMap())
+                Example(
+                    decision,
+                    eventToken,
+                    timestamp,
+                    transactionToken,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -495,6 +546,7 @@ private constructor(
             decision().ifPresent { it.validate() }
             eventToken()
             timestamp()
+            transactionToken()
             validated = true
         }
 
@@ -516,7 +568,8 @@ private constructor(
         internal fun validity(): Int =
             (decision.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (eventToken.asKnown().isPresent) 1 else 0) +
-                (if (timestamp.asKnown().isPresent) 1 else 0)
+                (if (timestamp.asKnown().isPresent) 1 else 0) +
+                (if (transactionToken.asKnown().isPresent) 1 else 0)
 
         /** The decision made by the rule for this event. */
         class Decision @JsonCreator private constructor(private val value: JsonField<String>) :
@@ -664,17 +717,18 @@ private constructor(
                 decision == other.decision &&
                 eventToken == other.eventToken &&
                 timestamp == other.timestamp &&
+                transactionToken == other.transactionToken &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(decision, eventToken, timestamp, additionalProperties)
+            Objects.hash(decision, eventToken, timestamp, transactionToken, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Example{decision=$decision, eventToken=$eventToken, timestamp=$timestamp, additionalProperties=$additionalProperties}"
+            "Example{decision=$decision, eventToken=$eventToken, timestamp=$timestamp, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
