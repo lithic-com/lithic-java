@@ -44,6 +44,7 @@ internal class V2ListResultsResponseTest {
                 .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .mode(V2ListResultsResponse.AuthorizationResult.AuthRuleState.ACTIVE)
                 .ruleVersion(0L)
+                .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val v2ListResultsResponse = V2ListResultsResponse.ofAuthorizationResult(authorizationResult)
@@ -87,6 +88,7 @@ internal class V2ListResultsResponseTest {
                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .mode(V2ListResultsResponse.AuthorizationResult.AuthRuleState.ACTIVE)
                     .ruleVersion(0L)
+                    .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -123,6 +125,7 @@ internal class V2ListResultsResponseTest {
                 .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .mode(V2ListResultsResponse.Authentication3dsResult.AuthRuleState.ACTIVE)
                 .ruleVersion(0L)
+                .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val v2ListResultsResponse =
@@ -161,6 +164,7 @@ internal class V2ListResultsResponseTest {
                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .mode(V2ListResultsResponse.Authentication3dsResult.AuthRuleState.ACTIVE)
                     .ruleVersion(0L)
+                    .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -202,6 +206,7 @@ internal class V2ListResultsResponseTest {
                 .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .mode(V2ListResultsResponse.TokenizationResult.AuthRuleState.ACTIVE)
                 .ruleVersion(0L)
+                .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val v2ListResultsResponse = V2ListResultsResponse.ofTokenizationResult(tokenizationResult)
@@ -243,6 +248,7 @@ internal class V2ListResultsResponseTest {
                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .mode(V2ListResultsResponse.TokenizationResult.AuthRuleState.ACTIVE)
                     .ruleVersion(0L)
+                    .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -272,6 +278,7 @@ internal class V2ListResultsResponseTest {
                 .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .mode(V2ListResultsResponse.AchResult.AuthRuleState.ACTIVE)
                 .ruleVersion(0L)
+                .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val v2ListResultsResponse = V2ListResultsResponse.ofAchResult(achResult)
@@ -303,6 +310,7 @@ internal class V2ListResultsResponseTest {
                     .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .mode(V2ListResultsResponse.AchResult.AuthRuleState.ACTIVE)
                     .ruleVersion(0L)
+                    .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
