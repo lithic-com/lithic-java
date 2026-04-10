@@ -36,10 +36,9 @@ class ReportStats
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val actionCounts: JsonField<ActionCounts>,
-    private val approved: JsonField<Long>,
-    private val challenged: JsonField<Long>,
-    private val declined: JsonField<Long>,
     private val examples: JsonField<List<Example>>,
+    private val state: JsonField<AuthRuleVersionState>,
+    private val version: JsonField<Long>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -48,63 +47,49 @@ private constructor(
         @JsonProperty("action_counts")
         @ExcludeMissing
         actionCounts: JsonField<ActionCounts> = JsonMissing.of(),
-        @JsonProperty("approved") @ExcludeMissing approved: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("challenged") @ExcludeMissing challenged: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("declined") @ExcludeMissing declined: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("examples")
         @ExcludeMissing
         examples: JsonField<List<Example>> = JsonMissing.of(),
-    ) : this(actionCounts, approved, challenged, declined, examples, mutableMapOf())
+        @JsonProperty("state")
+        @ExcludeMissing
+        state: JsonField<AuthRuleVersionState> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+    ) : this(actionCounts, examples, state, version, mutableMapOf())
 
     /**
-     * A mapping of action types to the number of times that action was returned by this rule during
-     * the relevant period. Actions are the possible outcomes of a rule evaluation, such as DECLINE,
-     * CHALLENGE, REQUIRE_TFA, etc. In case rule didn't trigger any action, it's counted under
-     * NO_ACTION key.
+     * A mapping of action types to the number of times that action was returned by this version
+     * during the relevant period. Actions are the possible outcomes of a rule evaluation, such as
+     * DECLINE, CHALLENGE, REQUIRE_TFA, etc. In case rule didn't trigger any action, it's counted
+     * under NO_ACTION key.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun actionCounts(): Optional<ActionCounts> = actionCounts.getOptional("action_counts")
+    fun actionCounts(): ActionCounts = actionCounts.getRequired("action_counts")
 
     /**
-     * The total number of historical transactions approved by this rule during the relevant period,
-     * or the number of transactions that would have been approved if the rule was evaluated in
-     * shadow mode.
+     * Example events and their outcomes for this version.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    @Deprecated("deprecated") fun approved(): Optional<Long> = approved.getOptional("approved")
+    fun examples(): List<Example> = examples.getRequired("examples")
 
     /**
-     * The total number of historical transactions challenged by this rule during the relevant
-     * period, or the number of transactions that would have been challenged if the rule was
-     * evaluated in shadow mode. Currently applicable only for 3DS Auth Rules.
+     * The evaluation mode of this version during the reported period.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    @Deprecated("deprecated")
-    fun challenged(): Optional<Long> = challenged.getOptional("challenged")
+    fun state(): AuthRuleVersionState = state.getRequired("state")
 
     /**
-     * The total number of historical transactions declined by this rule during the relevant period,
-     * or the number of transactions that would have been declined if the rule was evaluated in
-     * shadow mode.
+     * The rule version number.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    @Deprecated("deprecated") fun declined(): Optional<Long> = declined.getOptional("declined")
-
-    /**
-     * Example events and their outcomes.
-     *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun examples(): Optional<List<Example>> = examples.getOptional("examples")
+    fun version(): Long = version.getRequired("version")
 
     /**
      * Returns the raw JSON value of [actionCounts].
@@ -116,41 +101,25 @@ private constructor(
     fun _actionCounts(): JsonField<ActionCounts> = actionCounts
 
     /**
-     * Returns the raw JSON value of [approved].
-     *
-     * Unlike [approved], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @Deprecated("deprecated")
-    @JsonProperty("approved")
-    @ExcludeMissing
-    fun _approved(): JsonField<Long> = approved
-
-    /**
-     * Returns the raw JSON value of [challenged].
-     *
-     * Unlike [challenged], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @Deprecated("deprecated")
-    @JsonProperty("challenged")
-    @ExcludeMissing
-    fun _challenged(): JsonField<Long> = challenged
-
-    /**
-     * Returns the raw JSON value of [declined].
-     *
-     * Unlike [declined], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @Deprecated("deprecated")
-    @JsonProperty("declined")
-    @ExcludeMissing
-    fun _declined(): JsonField<Long> = declined
-
-    /**
      * Returns the raw JSON value of [examples].
      *
      * Unlike [examples], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("examples") @ExcludeMissing fun _examples(): JsonField<List<Example>> = examples
+
+    /**
+     * Returns the raw JSON value of [state].
+     *
+     * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<AuthRuleVersionState> = state
+
+    /**
+     * Returns the raw JSON value of [version].
+     *
+     * Unlike [version], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -166,32 +135,40 @@ private constructor(
 
     companion object {
 
-        /** Returns a mutable builder for constructing an instance of [ReportStats]. */
+        /**
+         * Returns a mutable builder for constructing an instance of [ReportStats].
+         *
+         * The following fields are required:
+         * ```java
+         * .actionCounts()
+         * .examples()
+         * .state()
+         * .version()
+         * ```
+         */
         @JvmStatic fun builder() = Builder()
     }
 
     /** A builder for [ReportStats]. */
     class Builder internal constructor() {
 
-        private var actionCounts: JsonField<ActionCounts> = JsonMissing.of()
-        private var approved: JsonField<Long> = JsonMissing.of()
-        private var challenged: JsonField<Long> = JsonMissing.of()
-        private var declined: JsonField<Long> = JsonMissing.of()
+        private var actionCounts: JsonField<ActionCounts>? = null
         private var examples: JsonField<MutableList<Example>>? = null
+        private var state: JsonField<AuthRuleVersionState>? = null
+        private var version: JsonField<Long>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(reportStats: ReportStats) = apply {
             actionCounts = reportStats.actionCounts
-            approved = reportStats.approved
-            challenged = reportStats.challenged
-            declined = reportStats.declined
             examples = reportStats.examples.map { it.toMutableList() }
+            state = reportStats.state
+            version = reportStats.version
             additionalProperties = reportStats.additionalProperties.toMutableMap()
         }
 
         /**
-         * A mapping of action types to the number of times that action was returned by this rule
+         * A mapping of action types to the number of times that action was returned by this version
          * during the relevant period. Actions are the possible outcomes of a rule evaluation, such
          * as DECLINE, CHALLENGE, REQUIRE_TFA, etc. In case rule didn't trigger any action, it's
          * counted under NO_ACTION key.
@@ -209,56 +186,7 @@ private constructor(
             this.actionCounts = actionCounts
         }
 
-        /**
-         * The total number of historical transactions approved by this rule during the relevant
-         * period, or the number of transactions that would have been approved if the rule was
-         * evaluated in shadow mode.
-         */
-        @Deprecated("deprecated") fun approved(approved: Long) = approved(JsonField.of(approved))
-
-        /**
-         * Sets [Builder.approved] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.approved] with a well-typed [Long] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        @Deprecated("deprecated")
-        fun approved(approved: JsonField<Long>) = apply { this.approved = approved }
-
-        /**
-         * The total number of historical transactions challenged by this rule during the relevant
-         * period, or the number of transactions that would have been challenged if the rule was
-         * evaluated in shadow mode. Currently applicable only for 3DS Auth Rules.
-         */
-        @Deprecated("deprecated")
-        fun challenged(challenged: Long) = challenged(JsonField.of(challenged))
-
-        /**
-         * Sets [Builder.challenged] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.challenged] with a well-typed [Long] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        @Deprecated("deprecated")
-        fun challenged(challenged: JsonField<Long>) = apply { this.challenged = challenged }
-
-        /**
-         * The total number of historical transactions declined by this rule during the relevant
-         * period, or the number of transactions that would have been declined if the rule was
-         * evaluated in shadow mode.
-         */
-        @Deprecated("deprecated") fun declined(declined: Long) = declined(JsonField.of(declined))
-
-        /**
-         * Sets [Builder.declined] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.declined] with a well-typed [Long] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        @Deprecated("deprecated")
-        fun declined(declined: JsonField<Long>) = apply { this.declined = declined }
-
-        /** Example events and their outcomes. */
+        /** Example events and their outcomes for this version. */
         fun examples(examples: List<Example>) = examples(JsonField.of(examples))
 
         /**
@@ -284,6 +212,29 @@ private constructor(
                 }
         }
 
+        /** The evaluation mode of this version during the reported period. */
+        fun state(state: AuthRuleVersionState) = state(JsonField.of(state))
+
+        /**
+         * Sets [Builder.state] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.state] with a well-typed [AuthRuleVersionState] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun state(state: JsonField<AuthRuleVersionState>) = apply { this.state = state }
+
+        /** The rule version number. */
+        fun version(version: Long) = version(JsonField.of(version))
+
+        /**
+         * Sets [Builder.version] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.version] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun version(version: JsonField<Long>) = apply { this.version = version }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -307,14 +258,23 @@ private constructor(
          * Returns an immutable instance of [ReportStats].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```java
+         * .actionCounts()
+         * .examples()
+         * .state()
+         * .version()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ReportStats =
             ReportStats(
-                actionCounts,
-                approved,
-                challenged,
-                declined,
-                (examples ?: JsonMissing.of()).map { it.toImmutable() },
+                checkRequired("actionCounts", actionCounts),
+                checkRequired("examples", examples).map { it.toImmutable() },
+                checkRequired("state", state),
+                checkRequired("version", version),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -326,11 +286,10 @@ private constructor(
             return@apply
         }
 
-        actionCounts().ifPresent { it.validate() }
-        approved()
-        challenged()
-        declined()
-        examples().ifPresent { it.forEach { it.validate() } }
+        actionCounts().validate()
+        examples().forEach { it.validate() }
+        state().validate()
+        version()
         validated = true
     }
 
@@ -350,16 +309,15 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (actionCounts.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (approved.asKnown().isPresent) 1 else 0) +
-            (if (challenged.asKnown().isPresent) 1 else 0) +
-            (if (declined.asKnown().isPresent) 1 else 0) +
-            (examples.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+            (examples.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (state.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (version.asKnown().isPresent) 1 else 0)
 
     /**
-     * A mapping of action types to the number of times that action was returned by this rule during
-     * the relevant period. Actions are the possible outcomes of a rule evaluation, such as DECLINE,
-     * CHALLENGE, REQUIRE_TFA, etc. In case rule didn't trigger any action, it's counted under
-     * NO_ACTION key.
+     * A mapping of action types to the number of times that action was returned by this version
+     * during the relevant period. Actions are the possible outcomes of a rule evaluation, such as
+     * DECLINE, CHALLENGE, REQUIRE_TFA, etc. In case rule didn't trigger any action, it's counted
+     * under NO_ACTION key.
      */
     class ActionCounts
     @JsonCreator
@@ -464,8 +422,6 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val actions: JsonField<List<Action>>,
-        private val approved: JsonField<Boolean>,
-        private val decision: JsonField<Decision>,
         private val eventToken: JsonField<String>,
         private val timestamp: JsonField<OffsetDateTime>,
         private val transactionToken: JsonField<String>,
@@ -477,12 +433,6 @@ private constructor(
             @JsonProperty("actions")
             @ExcludeMissing
             actions: JsonField<List<Action>> = JsonMissing.of(),
-            @JsonProperty("approved")
-            @ExcludeMissing
-            approved: JsonField<Boolean> = JsonMissing.of(),
-            @JsonProperty("decision")
-            @ExcludeMissing
-            decision: JsonField<Decision> = JsonMissing.of(),
             @JsonProperty("event_token")
             @ExcludeMissing
             eventToken: JsonField<String> = JsonMissing.of(),
@@ -492,57 +442,31 @@ private constructor(
             @JsonProperty("transaction_token")
             @ExcludeMissing
             transactionToken: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            actions,
-            approved,
-            decision,
-            eventToken,
-            timestamp,
-            transactionToken,
-            mutableMapOf(),
-        )
+        ) : this(actions, eventToken, timestamp, transactionToken, mutableMapOf())
 
         /**
-         * The actions taken by the rule for this event.
+         * The actions taken by this version for this event.
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun actions(): Optional<List<Action>> = actions.getOptional("actions")
-
-        /**
-         * Whether the rule would have approved the request.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        @Deprecated("deprecated")
-        fun approved(): Optional<Boolean> = approved.getOptional("approved")
-
-        /**
-         * The decision made by the rule for this event.
-         *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        @Deprecated("deprecated")
-        fun decision(): Optional<Decision> = decision.getOptional("decision")
+        fun actions(): List<Action> = actions.getRequired("actions")
 
         /**
          * The event token.
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun eventToken(): Optional<String> = eventToken.getOptional("event_token")
+        fun eventToken(): String = eventToken.getRequired("event_token")
 
         /**
          * The timestamp of the event.
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun timestamp(): Optional<OffsetDateTime> = timestamp.getOptional("timestamp")
+        fun timestamp(): OffsetDateTime = timestamp.getRequired("timestamp")
 
         /**
          * The token of the transaction associated with the event
@@ -558,26 +482,6 @@ private constructor(
          * Unlike [actions], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("actions") @ExcludeMissing fun _actions(): JsonField<List<Action>> = actions
-
-        /**
-         * Returns the raw JSON value of [approved].
-         *
-         * Unlike [approved], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("approved")
-        @ExcludeMissing
-        fun _approved(): JsonField<Boolean> = approved
-
-        /**
-         * Returns the raw JSON value of [decision].
-         *
-         * Unlike [decision], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @Deprecated("deprecated")
-        @JsonProperty("decision")
-        @ExcludeMissing
-        fun _decision(): JsonField<Decision> = decision
 
         /**
          * Returns the raw JSON value of [eventToken].
@@ -621,7 +525,16 @@ private constructor(
 
         companion object {
 
-            /** Returns a mutable builder for constructing an instance of [Example]. */
+            /**
+             * Returns a mutable builder for constructing an instance of [Example].
+             *
+             * The following fields are required:
+             * ```java
+             * .actions()
+             * .eventToken()
+             * .timestamp()
+             * ```
+             */
             @JvmStatic fun builder() = Builder()
         }
 
@@ -629,25 +542,21 @@ private constructor(
         class Builder internal constructor() {
 
             private var actions: JsonField<MutableList<Action>>? = null
-            private var approved: JsonField<Boolean> = JsonMissing.of()
-            private var decision: JsonField<Decision> = JsonMissing.of()
-            private var eventToken: JsonField<String> = JsonMissing.of()
-            private var timestamp: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var eventToken: JsonField<String>? = null
+            private var timestamp: JsonField<OffsetDateTime>? = null
             private var transactionToken: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(example: Example) = apply {
                 actions = example.actions.map { it.toMutableList() }
-                approved = example.approved
-                decision = example.decision
                 eventToken = example.eventToken
                 timestamp = example.timestamp
                 transactionToken = example.transactionToken
                 additionalProperties = example.additionalProperties.toMutableMap()
             }
 
-            /** The actions taken by the rule for this event. */
+            /** The actions taken by this version for this event. */
             fun actions(actions: List<Action>) = actions(JsonField.of(actions))
 
             /**
@@ -712,34 +621,6 @@ private constructor(
             /** Alias for calling [addAction] with `Action.ofReturnAction(returnAction)`. */
             fun addAction(returnAction: Action.ReturnAction) =
                 addAction(Action.ofReturnAction(returnAction))
-
-            /** Whether the rule would have approved the request. */
-            @Deprecated("deprecated")
-            fun approved(approved: Boolean) = approved(JsonField.of(approved))
-
-            /**
-             * Sets [Builder.approved] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.approved] with a well-typed [Boolean] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            @Deprecated("deprecated")
-            fun approved(approved: JsonField<Boolean>) = apply { this.approved = approved }
-
-            /** The decision made by the rule for this event. */
-            @Deprecated("deprecated")
-            fun decision(decision: Decision) = decision(JsonField.of(decision))
-
-            /**
-             * Sets [Builder.decision] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.decision] with a well-typed [Decision] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            @Deprecated("deprecated")
-            fun decision(decision: JsonField<Decision>) = apply { this.decision = decision }
 
             /** The event token. */
             fun eventToken(eventToken: String) = eventToken(JsonField.of(eventToken))
@@ -811,14 +692,21 @@ private constructor(
              * Returns an immutable instance of [Example].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .actions()
+             * .eventToken()
+             * .timestamp()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Example =
                 Example(
-                    (actions ?: JsonMissing.of()).map { it.toImmutable() },
-                    approved,
-                    decision,
-                    eventToken,
-                    timestamp,
+                    checkRequired("actions", actions).map { it.toImmutable() },
+                    checkRequired("eventToken", eventToken),
+                    checkRequired("timestamp", timestamp),
                     transactionToken,
                     additionalProperties.toMutableMap(),
                 )
@@ -831,9 +719,7 @@ private constructor(
                 return@apply
             }
 
-            actions().ifPresent { it.forEach { it.validate() } }
-            approved()
-            decision().ifPresent { it.validate() }
+            actions().forEach { it.validate() }
             eventToken()
             timestamp()
             transactionToken()
@@ -857,8 +743,6 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (actions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-                (if (approved.asKnown().isPresent) 1 else 0) +
-                (decision.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (eventToken.asKnown().isPresent) 1 else 0) +
                 (if (timestamp.asKnown().isPresent) 1 else 0) +
                 (if (transactionToken.asKnown().isPresent) 1 else 0)
@@ -4948,144 +4832,6 @@ private constructor(
             }
         }
 
-        /** The decision made by the rule for this event. */
-        @Deprecated("deprecated")
-        class Decision @JsonCreator private constructor(private val value: JsonField<String>) :
-            Enum {
-
-            /**
-             * Returns this class instance's raw value.
-             *
-             * This is usually only useful if this instance was deserialized from data that doesn't
-             * match any known member, and you want to know that value. For example, if the SDK is
-             * on an older version than the API, then the API may respond with new members that the
-             * SDK is unaware of.
-             */
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            companion object {
-
-                @JvmField val APPROVED = of("APPROVED")
-
-                @JvmField val DECLINED = of("DECLINED")
-
-                @JvmField val CHALLENGED = of("CHALLENGED")
-
-                @JvmStatic fun of(value: String) = Decision(JsonField.of(value))
-            }
-
-            /** An enum containing [Decision]'s known values. */
-            enum class Known {
-                APPROVED,
-                DECLINED,
-                CHALLENGED,
-            }
-
-            /**
-             * An enum containing [Decision]'s known values, as well as an [_UNKNOWN] member.
-             *
-             * An instance of [Decision] can contain an unknown value in a couple of cases:
-             * - It was deserialized from data that doesn't match any known member. For example, if
-             *   the SDK is on an older version than the API, then the API may respond with new
-             *   members that the SDK is unaware of.
-             * - It was constructed with an arbitrary value using the [of] method.
-             */
-            enum class Value {
-                APPROVED,
-                DECLINED,
-                CHALLENGED,
-                /**
-                 * An enum member indicating that [Decision] was instantiated with an unknown value.
-                 */
-                _UNKNOWN,
-            }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value, or
-             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-             *
-             * Use the [known] method instead if you're certain the value is always known or if you
-             * want to throw for the unknown case.
-             */
-            fun value(): Value =
-                when (this) {
-                    APPROVED -> Value.APPROVED
-                    DECLINED -> Value.DECLINED
-                    CHALLENGED -> Value.CHALLENGED
-                    else -> Value._UNKNOWN
-                }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value.
-             *
-             * Use the [value] method instead if you're uncertain the value is always known and
-             * don't want to throw for the unknown case.
-             *
-             * @throws LithicInvalidDataException if this class instance's value is a not a known
-             *   member.
-             */
-            fun known(): Known =
-                when (this) {
-                    APPROVED -> Known.APPROVED
-                    DECLINED -> Known.DECLINED
-                    CHALLENGED -> Known.CHALLENGED
-                    else -> throw LithicInvalidDataException("Unknown Decision: $value")
-                }
-
-            /**
-             * Returns this class instance's primitive wire representation.
-             *
-             * This differs from the [toString] method because that method is primarily for
-             * debugging and generally doesn't throw.
-             *
-             * @throws LithicInvalidDataException if this class instance's value does not have the
-             *   expected primitive type.
-             */
-            fun asString(): String =
-                _value().asString().orElseThrow {
-                    LithicInvalidDataException("Value is not a String")
-                }
-
-            private var validated: Boolean = false
-
-            fun validate(): Decision = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                known()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LithicInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Decision && value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-        }
-
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -5093,8 +4839,6 @@ private constructor(
 
             return other is Example &&
                 actions == other.actions &&
-                approved == other.approved &&
-                decision == other.decision &&
                 eventToken == other.eventToken &&
                 timestamp == other.timestamp &&
                 transactionToken == other.transactionToken &&
@@ -5102,21 +4846,151 @@ private constructor(
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(
-                actions,
-                approved,
-                decision,
-                eventToken,
-                timestamp,
-                transactionToken,
-                additionalProperties,
-            )
+            Objects.hash(actions, eventToken, timestamp, transactionToken, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Example{actions=$actions, approved=$approved, decision=$decision, eventToken=$eventToken, timestamp=$timestamp, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
+            "Example{actions=$actions, eventToken=$eventToken, timestamp=$timestamp, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
+    }
+
+    /** The evaluation mode of this version during the reported period. */
+    class AuthRuleVersionState
+    @JsonCreator
+    private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val ACTIVE = of("ACTIVE")
+
+            @JvmField val SHADOW = of("SHADOW")
+
+            @JvmField val INACTIVE = of("INACTIVE")
+
+            @JvmStatic fun of(value: String) = AuthRuleVersionState(JsonField.of(value))
+        }
+
+        /** An enum containing [AuthRuleVersionState]'s known values. */
+        enum class Known {
+            ACTIVE,
+            SHADOW,
+            INACTIVE,
+        }
+
+        /**
+         * An enum containing [AuthRuleVersionState]'s known values, as well as an [_UNKNOWN]
+         * member.
+         *
+         * An instance of [AuthRuleVersionState] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            ACTIVE,
+            SHADOW,
+            INACTIVE,
+            /**
+             * An enum member indicating that [AuthRuleVersionState] was instantiated with an
+             * unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                ACTIVE -> Value.ACTIVE
+                SHADOW -> Value.SHADOW
+                INACTIVE -> Value.INACTIVE
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws LithicInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                ACTIVE -> Known.ACTIVE
+                SHADOW -> Known.SHADOW
+                INACTIVE -> Known.INACTIVE
+                else -> throw LithicInvalidDataException("Unknown AuthRuleVersionState: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws LithicInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { LithicInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): AuthRuleVersionState = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AuthRuleVersionState && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -5126,19 +5000,18 @@ private constructor(
 
         return other is ReportStats &&
             actionCounts == other.actionCounts &&
-            approved == other.approved &&
-            challenged == other.challenged &&
-            declined == other.declined &&
             examples == other.examples &&
+            state == other.state &&
+            version == other.version &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(actionCounts, approved, challenged, declined, examples, additionalProperties)
+        Objects.hash(actionCounts, examples, state, version, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ReportStats{actionCounts=$actionCounts, approved=$approved, challenged=$challenged, declined=$declined, examples=$examples, additionalProperties=$additionalProperties}"
+        "ReportStats{actionCounts=$actionCounts, examples=$examples, state=$state, version=$version, additionalProperties=$additionalProperties}"
 }
