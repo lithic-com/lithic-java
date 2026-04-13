@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.123.0 (2026-04-13)
+
+Full Changelog: [v0.122.0...v0.123.0](https://github.com/lithic-com/lithic-java/compare/v0.122.0...v0.123.0)
+
+### Features
+
+* **api:** add card decline count values to conditional authorization ([65f1c4b](https://github.com/lithic-com/lithic-java/commit/65f1c4b2a4c28c8a9fbc07a187fb01cf4567461c))
+* **api:** add DELINQUENT substatus to financial account status updates ([6d637cf](https://github.com/lithic-com/lithic-java/commit/6d637cf451f7ee8a91ab76f69a06e387a39db083))
+* **api:** add INTERCHANGE, CHARGEBACK, PROVISIONAL_CREDIT_ACCOUNT to financial account types ([a06a494](https://github.com/lithic-com/lithic-java/commit/a06a49406fc967ebb0047ea96a2e6b2f5405d101))
+* **api:** add override_company_name parameter to payment create ([899a3be](https://github.com/lithic-com/lithic-java/commit/899a3be4a06965cf3a37cf4ddf6f8581fac9351a))
+* **api:** add statement_totals field to Statement/StatementsCreatedWebhookEvent ([44d890e](https://github.com/lithic-com/lithic-java/commit/44d890e17988a1e587124a95afe3984c99a3bca0))
+* **api:** add transaction_token field to BacktestStats/ReportStats examples ([b4209cb](https://github.com/lithic-com/lithic-java/commit/b4209cb157f545e04f1dab41185c7d4e0aae4628))
+* **api:** add transaction_token to authorization/authentication3ds/tokenization/ach results ([5bf85e9](https://github.com/lithic-com/lithic-java/commit/5bf85e90787b46c68077f7107165580991bbec97))
+
+
+### Bug Fixes
+
+* **types:** make creditProductToken optional in Statement ([f655477](https://github.com/lithic-com/lithic-java/commit/f655477b2d6a9bd20d869599f21dd2910ed3f809))
+* **types:** make data and has_more required in AccountActivityListPageResponse ([5feba92](https://github.com/lithic-com/lithic-java/commit/5feba92cc13a3877fb2769d8808e65959b4b12b9))
+* **types:** remove hostname, make fields required in AsaRequestCard ([67cbf7d](https://github.com/lithic-com/lithic-java/commit/67cbf7d5138afeae5b76339972c28fa63fbc3e30))
+* **types:** remove INTERCHANGE and CHARGEBACK from FinancialAccount and InstanceFinancialAccountType ([21b74ec](https://github.com/lithic-com/lithic-java/commit/21b74ec6a8478a4cbe3ea665f3f46496eba09402))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([c266aa2](https://github.com/lithic-com/lithic-java/commit/c266aa2a776ae772b05a025dab383477ec5c2d0d))
+* **types:** [breaking] remove deprecated fields from ReportStats and Example models ([634a6e2](https://github.com/lithic-com/lithic-java/commit/634a6e237a00f443864fd8e4b8b26344dc83160d))
+
+
+### Documentation
+
+* **api:** update natureOfBusiness and qrCodeUrl parameter descriptions ([2fe328d](https://github.com/lithic-com/lithic-java/commit/2fe328dff29b7df2d9096274e5725e1bf37df25f))
+* improve examples ([9dee9d6](https://github.com/lithic-com/lithic-java/commit/9dee9d61faa0a0d0be9e6882f8ae7734df960f0e))
+
 ## 0.122.0 (2026-03-23)
 
 Full Changelog: [v0.121.0...v0.122.0](https://github.com/lithic-com/lithic-java/compare/v0.121.0...v0.122.0)
