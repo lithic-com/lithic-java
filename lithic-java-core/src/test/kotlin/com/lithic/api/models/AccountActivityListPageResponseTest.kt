@@ -15,36 +15,71 @@ internal class AccountActivityListPageResponseTest {
         val accountActivityListPageResponse =
             AccountActivityListPageResponse.builder()
                 .addData(
-                    AccountActivityListResponse.FinancialTransaction.builder()
-                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .category(
-                            AccountActivityListResponse.FinancialTransaction.TransactionCategory.ACH
-                        )
-                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .currency("USD")
-                        .descriptor("descriptor")
+                    Payment.builder()
+                        .token("bd4efddb-771b-49e3-9af9-49b077ab5eb8")
+                        .category(Payment.TransactionCategory.ACH)
+                        .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                        .descriptor("ach_origination_credit")
+                        .direction(Payment.Direction.CREDIT)
                         .addEvent(
-                            FinancialEvent.builder()
-                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                .amount(0L)
-                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                                .result(FinancialEvent.Result.APPROVED)
-                                .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
+                            Payment.PaymentEvent.builder()
+                                .token("327dccc3-fe42-54d2-962c-7f8135805464")
+                                .amount(-1588L)
+                                .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                                .result(Payment.PaymentEvent.Result.APPROVED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED
+                                )
+                                .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                                .externalId("external_id")
                                 .build()
                         )
-                        .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
-                        .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
-                        .pendingAmount(500L)
-                        .result(
-                            AccountActivityListResponse.FinancialTransaction.TransactionResult
-                                .APPROVED
+                        .addEvent(
+                            Payment.PaymentEvent.builder()
+                                .token("f9165477-7cfc-53c6-98f1-84e9ec856a60")
+                                .amount(-1588L)
+                                .created(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
+                                .result(Payment.PaymentEvent.Result.APPROVED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED
+                                )
+                                .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                                .externalId("external_id")
+                                .build()
                         )
-                        .settledAmount(200L)
-                        .status(
-                            AccountActivityListResponse.FinancialTransaction.TransactionStatus
-                                .PENDING
+                        .family(Payment.Family.PAYMENT)
+                        .financialAccountToken("35b0c466-a3e3-519a-9549-ead6a6a2277d")
+                        .method(Payment.Method.ACH_NEXT_DAY)
+                        .methodAttributes(
+                            Payment.MethodAttributes.AchMethodAttributes.builder()
+                                .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                                .achHoldPeriod(1L)
+                                .addenda(null)
+                                .companyId("1111111111")
+                                .overrideCompanyName("override_company_name")
+                                .receiptRoutingNumber(null)
+                                .retries(0L)
+                                .returnReasonCode(null)
+                                .addTraceNumber("string")
+                                .build()
                         )
-                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .pendingAmount(-1588L)
+                        .relatedAccountTokens(
+                            Payment.RelatedAccountTokens.builder()
+                                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .build()
+                        )
+                        .result(Payment.TransactionResult.APPROVED)
+                        .settledAmount(0L)
+                        .source(Payment.Source.LITHIC)
+                        .status(Payment.TransactionStatus.PENDING)
+                        .updated(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
+                        .currency("USD")
+                        .expectedReleaseDate(null)
+                        .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                        .type(Payment.TransferType.ORIGINATION_CREDIT)
+                        .userDefinedId(null)
                         .build()
                 )
                 .hasMore(true)
@@ -52,37 +87,72 @@ internal class AccountActivityListPageResponseTest {
 
         assertThat(accountActivityListPageResponse.data())
             .containsExactly(
-                AccountActivityListResponse.ofInternal(
-                    AccountActivityListResponse.FinancialTransaction.builder()
-                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .category(
-                            AccountActivityListResponse.FinancialTransaction.TransactionCategory.ACH
-                        )
-                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .currency("USD")
-                        .descriptor("descriptor")
+                AccountActivityListResponse.ofPayment(
+                    Payment.builder()
+                        .token("bd4efddb-771b-49e3-9af9-49b077ab5eb8")
+                        .category(Payment.TransactionCategory.ACH)
+                        .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                        .descriptor("ach_origination_credit")
+                        .direction(Payment.Direction.CREDIT)
                         .addEvent(
-                            FinancialEvent.builder()
-                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                .amount(0L)
-                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                                .result(FinancialEvent.Result.APPROVED)
-                                .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
+                            Payment.PaymentEvent.builder()
+                                .token("327dccc3-fe42-54d2-962c-7f8135805464")
+                                .amount(-1588L)
+                                .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                                .result(Payment.PaymentEvent.Result.APPROVED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED
+                                )
+                                .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                                .externalId("external_id")
                                 .build()
                         )
-                        .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
-                        .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
-                        .pendingAmount(500L)
-                        .result(
-                            AccountActivityListResponse.FinancialTransaction.TransactionResult
-                                .APPROVED
+                        .addEvent(
+                            Payment.PaymentEvent.builder()
+                                .token("f9165477-7cfc-53c6-98f1-84e9ec856a60")
+                                .amount(-1588L)
+                                .created(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
+                                .result(Payment.PaymentEvent.Result.APPROVED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED
+                                )
+                                .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                                .externalId("external_id")
+                                .build()
                         )
-                        .settledAmount(200L)
-                        .status(
-                            AccountActivityListResponse.FinancialTransaction.TransactionStatus
-                                .PENDING
+                        .family(Payment.Family.PAYMENT)
+                        .financialAccountToken("35b0c466-a3e3-519a-9549-ead6a6a2277d")
+                        .method(Payment.Method.ACH_NEXT_DAY)
+                        .methodAttributes(
+                            Payment.MethodAttributes.AchMethodAttributes.builder()
+                                .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                                .achHoldPeriod(1L)
+                                .addenda(null)
+                                .companyId("1111111111")
+                                .overrideCompanyName("override_company_name")
+                                .receiptRoutingNumber(null)
+                                .retries(0L)
+                                .returnReasonCode(null)
+                                .addTraceNumber("string")
+                                .build()
                         )
-                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .pendingAmount(-1588L)
+                        .relatedAccountTokens(
+                            Payment.RelatedAccountTokens.builder()
+                                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .build()
+                        )
+                        .result(Payment.TransactionResult.APPROVED)
+                        .settledAmount(0L)
+                        .source(Payment.Source.LITHIC)
+                        .status(Payment.TransactionStatus.PENDING)
+                        .updated(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
+                        .currency("USD")
+                        .expectedReleaseDate(null)
+                        .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                        .type(Payment.TransferType.ORIGINATION_CREDIT)
+                        .userDefinedId(null)
                         .build()
                 )
             )
@@ -95,36 +165,71 @@ internal class AccountActivityListPageResponseTest {
         val accountActivityListPageResponse =
             AccountActivityListPageResponse.builder()
                 .addData(
-                    AccountActivityListResponse.FinancialTransaction.builder()
-                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .category(
-                            AccountActivityListResponse.FinancialTransaction.TransactionCategory.ACH
-                        )
-                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .currency("USD")
-                        .descriptor("descriptor")
+                    Payment.builder()
+                        .token("bd4efddb-771b-49e3-9af9-49b077ab5eb8")
+                        .category(Payment.TransactionCategory.ACH)
+                        .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                        .descriptor("ach_origination_credit")
+                        .direction(Payment.Direction.CREDIT)
                         .addEvent(
-                            FinancialEvent.builder()
-                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                .amount(0L)
-                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                                .result(FinancialEvent.Result.APPROVED)
-                                .type(FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
+                            Payment.PaymentEvent.builder()
+                                .token("327dccc3-fe42-54d2-962c-7f8135805464")
+                                .amount(-1588L)
+                                .created(OffsetDateTime.parse("2025-10-27T20:12:22Z"))
+                                .result(Payment.PaymentEvent.Result.APPROVED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_INITIATED
+                                )
+                                .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                                .externalId("external_id")
                                 .build()
                         )
-                        .family(AccountActivityListResponse.FinancialTransaction.Family.INTERNAL)
-                        .financialAccountToken("0cc87075-57cf-4607-8722-f42e2cb2c0cd")
-                        .pendingAmount(500L)
-                        .result(
-                            AccountActivityListResponse.FinancialTransaction.TransactionResult
-                                .APPROVED
+                        .addEvent(
+                            Payment.PaymentEvent.builder()
+                                .token("f9165477-7cfc-53c6-98f1-84e9ec856a60")
+                                .amount(-1588L)
+                                .created(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
+                                .result(Payment.PaymentEvent.Result.APPROVED)
+                                .type(
+                                    Payment.PaymentEvent.PaymentEventType.ACH_ORIGINATION_REVIEWED
+                                )
+                                .addDetailedResult(Payment.PaymentEvent.DetailedResult.APPROVED)
+                                .externalId("external_id")
+                                .build()
                         )
-                        .settledAmount(200L)
-                        .status(
-                            AccountActivityListResponse.FinancialTransaction.TransactionStatus
-                                .PENDING
+                        .family(Payment.Family.PAYMENT)
+                        .financialAccountToken("35b0c466-a3e3-519a-9549-ead6a6a2277d")
+                        .method(Payment.Method.ACH_NEXT_DAY)
+                        .methodAttributes(
+                            Payment.MethodAttributes.AchMethodAttributes.builder()
+                                .secCode(Payment.MethodAttributes.AchMethodAttributes.SecCode.CCD)
+                                .achHoldPeriod(1L)
+                                .addenda(null)
+                                .companyId("1111111111")
+                                .overrideCompanyName("override_company_name")
+                                .receiptRoutingNumber(null)
+                                .retries(0L)
+                                .returnReasonCode(null)
+                                .addTraceNumber("string")
+                                .build()
                         )
-                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .pendingAmount(-1588L)
+                        .relatedAccountTokens(
+                            Payment.RelatedAccountTokens.builder()
+                                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .build()
+                        )
+                        .result(Payment.TransactionResult.APPROVED)
+                        .settledAmount(0L)
+                        .source(Payment.Source.LITHIC)
+                        .status(Payment.TransactionStatus.PENDING)
+                        .updated(OffsetDateTime.parse("2025-10-27T20:12:25Z"))
+                        .currency("USD")
+                        .expectedReleaseDate(null)
+                        .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                        .type(Payment.TransferType.ORIGINATION_CREDIT)
+                        .userDefinedId(null)
                         .build()
                 )
                 .hasMore(true)
