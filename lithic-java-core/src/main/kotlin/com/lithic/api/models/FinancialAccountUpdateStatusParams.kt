@@ -779,6 +779,8 @@ private constructor(
 
             @JvmField val INTEREST_AND_FEES_PAUSED = of("INTEREST_AND_FEES_PAUSED")
 
+            @JvmField val DELINQUENT = of("DELINQUENT")
+
             @JvmStatic fun of(value: String) = UpdateFinancialAccountSubstatus(JsonField.of(value))
         }
 
@@ -789,6 +791,7 @@ private constructor(
             BANK_REQUEST,
             CHARGED_OFF_DELINQUENT,
             INTEREST_AND_FEES_PAUSED,
+            DELINQUENT,
         }
 
         /**
@@ -808,6 +811,7 @@ private constructor(
             BANK_REQUEST,
             CHARGED_OFF_DELINQUENT,
             INTEREST_AND_FEES_PAUSED,
+            DELINQUENT,
             /**
              * An enum member indicating that [UpdateFinancialAccountSubstatus] was instantiated
              * with an unknown value.
@@ -829,6 +833,7 @@ private constructor(
                 BANK_REQUEST -> Value.BANK_REQUEST
                 CHARGED_OFF_DELINQUENT -> Value.CHARGED_OFF_DELINQUENT
                 INTEREST_AND_FEES_PAUSED -> Value.INTEREST_AND_FEES_PAUSED
+                DELINQUENT -> Value.DELINQUENT
                 else -> Value._UNKNOWN
             }
 
@@ -848,6 +853,7 @@ private constructor(
                 BANK_REQUEST -> Known.BANK_REQUEST
                 CHARGED_OFF_DELINQUENT -> Known.CHARGED_OFF_DELINQUENT
                 INTEREST_AND_FEES_PAUSED -> Known.INTEREST_AND_FEES_PAUSED
+                DELINQUENT -> Known.DELINQUENT
                 else ->
                     throw LithicInvalidDataException(
                         "Unknown UpdateFinancialAccountSubstatus: $value"
