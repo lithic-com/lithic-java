@@ -44,6 +44,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -215,6 +216,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -405,6 +407,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -531,6 +534,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -638,6 +642,7 @@ internal class ParsedWebhookEventTest {
             .contains(accountHolderVerification)
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -764,6 +769,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated())
             .contains(accountHolderDocumentUpdated)
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -1113,6 +1119,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest())
             .contains(cardAuthorizationApprovalRequest)
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -1432,6 +1439,122 @@ internal class ParsedWebhookEventTest {
     }
 
     @Test
+    fun ofCardAuthorizationChallengeResponse() {
+        val cardAuthorizationChallengeResponse =
+            CardAuthorizationChallengeResponseWebhookEvent.builder()
+                .cardToken("00000000-0000-0000-0000-000000000003")
+                .challengeMethod(CardAuthorizationChallengeResponseWebhookEvent.ChallengeMethod.SMS)
+                .completed(OffsetDateTime.parse("2025-07-17T07:08:15Z"))
+                .created(OffsetDateTime.parse("2025-07-17T07:07:29Z"))
+                .eventToken("00000000-0000-0000-0000-000000000001")
+                .eventType(
+                    CardAuthorizationChallengeResponseWebhookEvent.EventType
+                        .CARD_AUTHORIZATION_CHALLENGE_RESPONSE
+                )
+                .response(CardAuthorizationChallengeResponseWebhookEvent.Response.APPROVE)
+                .transactionToken("00000000-0000-0000-0000-000000000002")
+                .build()
+
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofCardAuthorizationChallengeResponse(
+                cardAuthorizationChallengeResponse
+            )
+
+        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
+        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
+        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
+        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse())
+            .contains(cardAuthorizationChallengeResponse)
+        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
+        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
+        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
+        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
+        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
+    }
+
+    @Test
+    fun ofCardAuthorizationChallengeResponseRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofCardAuthorizationChallengeResponse(
+                CardAuthorizationChallengeResponseWebhookEvent.builder()
+                    .cardToken("00000000-0000-0000-0000-000000000003")
+                    .challengeMethod(
+                        CardAuthorizationChallengeResponseWebhookEvent.ChallengeMethod.SMS
+                    )
+                    .completed(OffsetDateTime.parse("2025-07-17T07:08:15Z"))
+                    .created(OffsetDateTime.parse("2025-07-17T07:07:29Z"))
+                    .eventToken("00000000-0000-0000-0000-000000000001")
+                    .eventType(
+                        CardAuthorizationChallengeResponseWebhookEvent.EventType
+                            .CARD_AUTHORIZATION_CHALLENGE_RESPONSE
+                    )
+                    .response(CardAuthorizationChallengeResponseWebhookEvent.Response.APPROVE)
+                    .transactionToken("00000000-0000-0000-0000-000000000002")
+                    .build()
+            )
+
+        val roundtrippedParsedWebhookEvent =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(parsedWebhookEvent),
+                jacksonTypeRef<ParsedWebhookEvent>(),
+            )
+
+        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
+    }
+
+    @Test
     fun ofAuthRulesBacktestReportCreated() {
         val authRulesBacktestReportCreated =
             AuthRulesBacktestReportCreatedWebhookEvent.builder()
@@ -1494,6 +1617,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated())
             .contains(authRulesBacktestReportCreated)
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
@@ -1652,6 +1776,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).contains(balanceUpdated)
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -1804,6 +1929,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated())
@@ -1991,6 +2117,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2131,6 +2258,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2223,6 +2351,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2318,6 +2447,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2413,6 +2543,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2509,6 +2640,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2607,6 +2739,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -2927,6 +3060,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3315,6 +3449,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3519,6 +3654,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3748,6 +3884,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -3955,6 +4092,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4106,6 +4244,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4239,6 +4378,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4397,6 +4537,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4553,6 +4694,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4670,6 +4812,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4804,6 +4947,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -4962,6 +5106,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5116,6 +5261,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5267,6 +5413,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5416,6 +5563,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5562,6 +5710,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5693,6 +5842,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -5957,6 +6107,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -6388,6 +6539,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -6711,6 +6863,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -6912,6 +7065,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7083,6 +7237,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7224,6 +7379,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7360,6 +7516,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7487,6 +7644,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7658,6 +7816,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -7873,6 +8032,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -8048,6 +8208,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -8288,6 +8449,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -8642,6 +8804,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -9015,6 +9178,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -9417,6 +9581,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -9749,6 +9914,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -9942,6 +10108,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10083,6 +10250,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10213,6 +10381,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10366,6 +10535,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10640,6 +10810,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -10932,6 +11103,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
@@ -11137,6 +11309,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
         assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
         assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
         assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
         assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
