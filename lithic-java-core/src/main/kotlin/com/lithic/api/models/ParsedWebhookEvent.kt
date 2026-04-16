@@ -45,6 +45,9 @@ private constructor(
     private val accountHolderDocumentUpdated: AccountHolderDocumentUpdatedWebhookEvent? = null,
     private val cardAuthorizationApprovalRequest: CardAuthorizationApprovalRequestWebhookEvent? =
         null,
+    private val cardAuthorizationChallengeResponse:
+        CardAuthorizationChallengeResponseWebhookEvent? =
+        null,
     private val authRulesBacktestReportCreated: AuthRulesBacktestReportCreatedWebhookEvent? = null,
     private val balanceUpdated: BalanceUpdatedWebhookEvent? = null,
     private val bookTransferTransactionCreated: BookTransferTransactionCreatedWebhookEvent? = null,
@@ -136,6 +139,10 @@ private constructor(
 
     fun cardAuthorizationApprovalRequest(): Optional<CardAuthorizationApprovalRequestWebhookEvent> =
         Optional.ofNullable(cardAuthorizationApprovalRequest)
+
+    fun cardAuthorizationChallengeResponse():
+        Optional<CardAuthorizationChallengeResponseWebhookEvent> =
+        Optional.ofNullable(cardAuthorizationChallengeResponse)
 
     fun authRulesBacktestReportCreated(): Optional<AuthRulesBacktestReportCreatedWebhookEvent> =
         Optional.ofNullable(authRulesBacktestReportCreated)
@@ -319,6 +326,8 @@ private constructor(
 
     fun isCardAuthorizationApprovalRequest(): Boolean = cardAuthorizationApprovalRequest != null
 
+    fun isCardAuthorizationChallengeResponse(): Boolean = cardAuthorizationChallengeResponse != null
+
     fun isAuthRulesBacktestReportCreated(): Boolean = authRulesBacktestReportCreated != null
 
     fun isBalanceUpdated(): Boolean = balanceUpdated != null
@@ -445,6 +454,9 @@ private constructor(
 
     fun asCardAuthorizationApprovalRequest(): CardAuthorizationApprovalRequestWebhookEvent =
         cardAuthorizationApprovalRequest.getOrThrow("cardAuthorizationApprovalRequest")
+
+    fun asCardAuthorizationChallengeResponse(): CardAuthorizationChallengeResponseWebhookEvent =
+        cardAuthorizationChallengeResponse.getOrThrow("cardAuthorizationChallengeResponse")
 
     fun asAuthRulesBacktestReportCreated(): AuthRulesBacktestReportCreatedWebhookEvent =
         authRulesBacktestReportCreated.getOrThrow("authRulesBacktestReportCreated")
@@ -635,6 +647,8 @@ private constructor(
                 visitor.visitAccountHolderDocumentUpdated(accountHolderDocumentUpdated)
             cardAuthorizationApprovalRequest != null ->
                 visitor.visitCardAuthorizationApprovalRequest(cardAuthorizationApprovalRequest)
+            cardAuthorizationChallengeResponse != null ->
+                visitor.visitCardAuthorizationChallengeResponse(cardAuthorizationChallengeResponse)
             authRulesBacktestReportCreated != null ->
                 visitor.visitAuthRulesBacktestReportCreated(authRulesBacktestReportCreated)
             balanceUpdated != null -> visitor.visitBalanceUpdated(balanceUpdated)
@@ -777,6 +791,13 @@ private constructor(
                     cardAuthorizationApprovalRequest: CardAuthorizationApprovalRequestWebhookEvent
                 ) {
                     cardAuthorizationApprovalRequest.validate()
+                }
+
+                override fun visitCardAuthorizationChallengeResponse(
+                    cardAuthorizationChallengeResponse:
+                        CardAuthorizationChallengeResponseWebhookEvent
+                ) {
+                    cardAuthorizationChallengeResponse.validate()
                 }
 
                 override fun visitAuthRulesBacktestReportCreated(
@@ -1111,6 +1132,11 @@ private constructor(
                     cardAuthorizationApprovalRequest: CardAuthorizationApprovalRequestWebhookEvent
                 ) = cardAuthorizationApprovalRequest.validity()
 
+                override fun visitCardAuthorizationChallengeResponse(
+                    cardAuthorizationChallengeResponse:
+                        CardAuthorizationChallengeResponseWebhookEvent
+                ) = cardAuthorizationChallengeResponse.validity()
+
                 override fun visitAuthRulesBacktestReportCreated(
                     authRulesBacktestReportCreated: AuthRulesBacktestReportCreatedWebhookEvent
                 ) = authRulesBacktestReportCreated.validity()
@@ -1326,6 +1352,7 @@ private constructor(
             accountHolderVerification == other.accountHolderVerification &&
             accountHolderDocumentUpdated == other.accountHolderDocumentUpdated &&
             cardAuthorizationApprovalRequest == other.cardAuthorizationApprovalRequest &&
+            cardAuthorizationChallengeResponse == other.cardAuthorizationChallengeResponse &&
             authRulesBacktestReportCreated == other.authRulesBacktestReportCreated &&
             balanceUpdated == other.balanceUpdated &&
             bookTransferTransactionCreated == other.bookTransferTransactionCreated &&
@@ -1392,6 +1419,7 @@ private constructor(
             accountHolderVerification,
             accountHolderDocumentUpdated,
             cardAuthorizationApprovalRequest,
+            cardAuthorizationChallengeResponse,
             authRulesBacktestReportCreated,
             balanceUpdated,
             bookTransferTransactionCreated,
@@ -1457,6 +1485,8 @@ private constructor(
                 "ParsedWebhookEvent{accountHolderDocumentUpdated=$accountHolderDocumentUpdated}"
             cardAuthorizationApprovalRequest != null ->
                 "ParsedWebhookEvent{cardAuthorizationApprovalRequest=$cardAuthorizationApprovalRequest}"
+            cardAuthorizationChallengeResponse != null ->
+                "ParsedWebhookEvent{cardAuthorizationChallengeResponse=$cardAuthorizationChallengeResponse}"
             authRulesBacktestReportCreated != null ->
                 "ParsedWebhookEvent{authRulesBacktestReportCreated=$authRulesBacktestReportCreated}"
             balanceUpdated != null -> "ParsedWebhookEvent{balanceUpdated=$balanceUpdated}"
@@ -1583,6 +1613,14 @@ private constructor(
         fun ofCardAuthorizationApprovalRequest(
             cardAuthorizationApprovalRequest: CardAuthorizationApprovalRequestWebhookEvent
         ) = ParsedWebhookEvent(cardAuthorizationApprovalRequest = cardAuthorizationApprovalRequest)
+
+        @JvmStatic
+        fun ofCardAuthorizationChallengeResponse(
+            cardAuthorizationChallengeResponse: CardAuthorizationChallengeResponseWebhookEvent
+        ) =
+            ParsedWebhookEvent(
+                cardAuthorizationChallengeResponse = cardAuthorizationChallengeResponse
+            )
 
         @JvmStatic
         fun ofAuthRulesBacktestReportCreated(
@@ -1896,6 +1934,10 @@ private constructor(
             cardAuthorizationApprovalRequest: CardAuthorizationApprovalRequestWebhookEvent
         ): T
 
+        fun visitCardAuthorizationChallengeResponse(
+            cardAuthorizationChallengeResponse: CardAuthorizationChallengeResponseWebhookEvent
+        ): T
+
         fun visitAuthRulesBacktestReportCreated(
             authRulesBacktestReportCreated: AuthRulesBacktestReportCreatedWebhookEvent
         ): T
@@ -2142,6 +2184,16 @@ private constructor(
                             ?.let {
                                 ParsedWebhookEvent(
                                     cardAuthorizationApprovalRequest = it,
+                                    _json = json,
+                                )
+                            },
+                        tryDeserialize(
+                                node,
+                                jacksonTypeRef<CardAuthorizationChallengeResponseWebhookEvent>(),
+                            )
+                            ?.let {
+                                ParsedWebhookEvent(
+                                    cardAuthorizationChallengeResponse = it,
                                     _json = json,
                                 )
                             },
@@ -2489,6 +2541,8 @@ private constructor(
                     generator.writeObject(value.accountHolderDocumentUpdated)
                 value.cardAuthorizationApprovalRequest != null ->
                     generator.writeObject(value.cardAuthorizationApprovalRequest)
+                value.cardAuthorizationChallengeResponse != null ->
+                    generator.writeObject(value.cardAuthorizationChallengeResponse)
                 value.authRulesBacktestReportCreated != null ->
                     generator.writeObject(value.authRulesBacktestReportCreated)
                 value.balanceUpdated != null -> generator.writeObject(value.balanceUpdated)

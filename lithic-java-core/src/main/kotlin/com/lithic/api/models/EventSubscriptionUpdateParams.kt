@@ -677,6 +677,8 @@ private constructor(
      * - balance.updated: Financial Account Balance Update
      * - book_transfer_transaction.created: Occurs when a book transfer transaction is created.
      * - book_transfer_transaction.updated: Occurs when a book transfer transaction is updated.
+     * - card_authorization.challenge_response: Occurs when a cardholder responds to an SMS
+     *   challenge during card authorization.
      * - card_transaction.enhanced_data.created: Occurs when L2/L3 enhanced commercial data is
      *   processed for a transaction event.
      * - card_transaction.enhanced_data.updated: Occurs when L2/L3 enhanced commercial data is
@@ -781,6 +783,9 @@ private constructor(
 
             @JvmField
             val BOOK_TRANSFER_TRANSACTION_UPDATED = of("book_transfer_transaction.updated")
+
+            @JvmField
+            val CARD_AUTHORIZATION_CHALLENGE_RESPONSE = of("card_authorization.challenge_response")
 
             @JvmField
             val CARD_TRANSACTION_ENHANCED_DATA_CREATED =
@@ -898,6 +903,7 @@ private constructor(
             BALANCE_UPDATED,
             BOOK_TRANSFER_TRANSACTION_CREATED,
             BOOK_TRANSFER_TRANSACTION_UPDATED,
+            CARD_AUTHORIZATION_CHALLENGE_RESPONSE,
             CARD_TRANSACTION_ENHANCED_DATA_CREATED,
             CARD_TRANSACTION_ENHANCED_DATA_UPDATED,
             CARD_TRANSACTION_UPDATED,
@@ -962,6 +968,7 @@ private constructor(
             BALANCE_UPDATED,
             BOOK_TRANSFER_TRANSACTION_CREATED,
             BOOK_TRANSFER_TRANSACTION_UPDATED,
+            CARD_AUTHORIZATION_CHALLENGE_RESPONSE,
             CARD_TRANSACTION_ENHANCED_DATA_CREATED,
             CARD_TRANSACTION_ENHANCED_DATA_UPDATED,
             CARD_TRANSACTION_UPDATED,
@@ -1029,6 +1036,7 @@ private constructor(
                 BALANCE_UPDATED -> Value.BALANCE_UPDATED
                 BOOK_TRANSFER_TRANSACTION_CREATED -> Value.BOOK_TRANSFER_TRANSACTION_CREATED
                 BOOK_TRANSFER_TRANSACTION_UPDATED -> Value.BOOK_TRANSFER_TRANSACTION_UPDATED
+                CARD_AUTHORIZATION_CHALLENGE_RESPONSE -> Value.CARD_AUTHORIZATION_CHALLENGE_RESPONSE
                 CARD_TRANSACTION_ENHANCED_DATA_CREATED ->
                     Value.CARD_TRANSACTION_ENHANCED_DATA_CREATED
                 CARD_TRANSACTION_ENHANCED_DATA_UPDATED ->
@@ -1101,6 +1109,7 @@ private constructor(
                 BALANCE_UPDATED -> Known.BALANCE_UPDATED
                 BOOK_TRANSFER_TRANSACTION_CREATED -> Known.BOOK_TRANSFER_TRANSACTION_CREATED
                 BOOK_TRANSFER_TRANSACTION_UPDATED -> Known.BOOK_TRANSFER_TRANSACTION_UPDATED
+                CARD_AUTHORIZATION_CHALLENGE_RESPONSE -> Known.CARD_AUTHORIZATION_CHALLENGE_RESPONSE
                 CARD_TRANSACTION_ENHANCED_DATA_CREATED ->
                     Known.CARD_TRANSACTION_ENHANCED_DATA_CREATED
                 CARD_TRANSACTION_ENHANCED_DATA_UPDATED ->
