@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.124.0 (2026-04-20)
+
+Full Changelog: [v0.123.0...v0.124.0](https://github.com/lithic-com/lithic-java/compare/v0.123.0...v0.124.0)
+
+### Features
+
+* **api:** add card_authorization.challenge_response webhook event ([d0e83fb](https://github.com/lithic-com/lithic-java/commit/d0e83fb5ae0dc1c1106454f6ee5da677a0fa7608))
+* **api:** Add card/account/business account signals endpoints and behavioral rule attributes ([380b3c2](https://github.com/lithic-com/lithic-java/commit/380b3c24bcdd5c98cb1f85c22fcc4d45e19534ab))
+* **api:** add setVerificationMethod method to external_bank_accounts ([7e086ee](https://github.com/lithic-com/lithic-java/commit/7e086eeea0efed53c022e1f471cb2a5e83dd1427))
+
 ## 0.123.0 (2026-04-13)
 
 Full Changelog: [v0.122.0...v0.123.0](https://github.com/lithic-com/lithic-java/compare/v0.122.0...v0.123.0)
