@@ -8,6 +8,7 @@ import com.lithic.api.models.ExternalBankAccountAddress
 import com.lithic.api.models.ExternalBankAccountCreateParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
+import com.lithic.api.models.ExternalBankAccountSetVerificationMethodParams
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.OwnerType
 import com.lithic.api.models.VerificationMethod
@@ -166,6 +167,31 @@ internal class ExternalBankAccountServiceTest {
             externalBankAccountService.retryPrenote(
                 ExternalBankAccountRetryPrenoteParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        externalBankAccount.validate()
+    }
+
+    @Test
+    fun setVerificationMethod() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val externalBankAccountService = client.externalBankAccounts()
+
+        val externalBankAccount =
+            externalBankAccountService.setVerificationMethod(
+                ExternalBankAccountSetVerificationMethodParams.builder()
+                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .verificationMethod(
+                        ExternalBankAccountSetVerificationMethodParams
+                            .SetVerificationMethodAllowedVerificationMethods
+                            .MICRO_DEPOSIT
+                    )
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )

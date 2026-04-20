@@ -15,6 +15,7 @@ import com.lithic.api.models.ExternalBankAccountRetrieveResponse
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
+import com.lithic.api.models.ExternalBankAccountSetVerificationMethodParams
 import com.lithic.api.models.ExternalBankAccountUnpauseParams
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
@@ -312,6 +313,38 @@ interface ExternalBankAccountServiceAsync {
             ExternalBankAccountRetryPrenoteParams.none(),
             requestOptions,
         )
+
+    /**
+     * Update the verification method for an external bank account. Verification method can only be
+     * updated if the `verification_state` is `PENDING`.
+     */
+    fun setVerificationMethod(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountSetVerificationMethodParams,
+    ): CompletableFuture<ExternalBankAccount> =
+        setVerificationMethod(externalBankAccountToken, params, RequestOptions.none())
+
+    /** @see setVerificationMethod */
+    fun setVerificationMethod(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountSetVerificationMethodParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccount> =
+        setVerificationMethod(
+            params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see setVerificationMethod */
+    fun setVerificationMethod(
+        params: ExternalBankAccountSetVerificationMethodParams
+    ): CompletableFuture<ExternalBankAccount> = setVerificationMethod(params, RequestOptions.none())
+
+    /** @see setVerificationMethod */
+    fun setVerificationMethod(
+        params: ExternalBankAccountSetVerificationMethodParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<ExternalBankAccount>
 
     /** Unpause an external bank account */
     fun unpause(externalBankAccountToken: String): CompletableFuture<ExternalBankAccount> =
@@ -679,6 +712,40 @@ interface ExternalBankAccountServiceAsync {
                 ExternalBankAccountRetryPrenoteParams.none(),
                 requestOptions,
             )
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/external_bank_accounts/{external_bank_account_token}/set_verification_method`, but is
+         * otherwise the same as [ExternalBankAccountServiceAsync.setVerificationMethod].
+         */
+        fun setVerificationMethod(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountSetVerificationMethodParams,
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
+            setVerificationMethod(externalBankAccountToken, params, RequestOptions.none())
+
+        /** @see setVerificationMethod */
+        fun setVerificationMethod(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountSetVerificationMethodParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
+            setVerificationMethod(
+                params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see setVerificationMethod */
+        fun setVerificationMethod(
+            params: ExternalBankAccountSetVerificationMethodParams
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
+            setVerificationMethod(params, RequestOptions.none())
+
+        /** @see setVerificationMethod */
+        fun setVerificationMethod(
+            params: ExternalBankAccountSetVerificationMethodParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccount>>
 
         /**
          * Returns a raw HTTP response for `post
