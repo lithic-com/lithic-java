@@ -19,6 +19,20 @@ internal class ConditionalAuthorizationActionParametersTest {
                         .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
                         .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
+                        .parameters(
+                            ConditionalAuthorizationActionParameters.Condition.Parameters.builder()
+                                .interval(
+                                    ConditionalAuthorizationActionParameters.Condition.Parameters
+                                        .Interval
+                                        .LIFETIME
+                                )
+                                .scope(
+                                    ConditionalAuthorizationActionParameters.Condition.Parameters
+                                        .Scope
+                                        .CARD
+                                )
+                                .build()
+                        )
                         .build()
                 )
                 .build()
@@ -31,6 +45,19 @@ internal class ConditionalAuthorizationActionParametersTest {
                     .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
                     .operation(ConditionalOperation.IS_ONE_OF)
                     .value("string")
+                    .parameters(
+                        ConditionalAuthorizationActionParameters.Condition.Parameters.builder()
+                            .interval(
+                                ConditionalAuthorizationActionParameters.Condition.Parameters
+                                    .Interval
+                                    .LIFETIME
+                            )
+                            .scope(
+                                ConditionalAuthorizationActionParameters.Condition.Parameters.Scope
+                                    .CARD
+                            )
+                            .build()
+                    )
                     .build()
             )
     }
@@ -46,6 +73,20 @@ internal class ConditionalAuthorizationActionParametersTest {
                         .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
                         .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
+                        .parameters(
+                            ConditionalAuthorizationActionParameters.Condition.Parameters.builder()
+                                .interval(
+                                    ConditionalAuthorizationActionParameters.Condition.Parameters
+                                        .Interval
+                                        .LIFETIME
+                                )
+                                .scope(
+                                    ConditionalAuthorizationActionParameters.Condition.Parameters
+                                        .Scope
+                                        .CARD
+                                )
+                                .build()
+                        )
                         .build()
                 )
                 .build()
