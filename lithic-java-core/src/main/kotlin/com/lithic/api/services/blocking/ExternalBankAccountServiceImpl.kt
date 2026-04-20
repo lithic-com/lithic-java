@@ -27,6 +27,7 @@ import com.lithic.api.models.ExternalBankAccountRetrieveResponse
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
 import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
+import com.lithic.api.models.ExternalBankAccountSetVerificationMethodParams
 import com.lithic.api.models.ExternalBankAccountUnpauseParams
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
@@ -96,6 +97,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
     ): ExternalBankAccount =
         // post /v1/external_bank_accounts/{external_bank_account_token}/retry_prenote
         withRawResponse().retryPrenote(params, requestOptions).parse()
+
+    override fun setVerificationMethod(
+        params: ExternalBankAccountSetVerificationMethodParams,
+        requestOptions: RequestOptions,
+    ): ExternalBankAccount =
+        // post /v1/external_bank_accounts/{external_bank_account_token}/set_verification_method
+        withRawResponse().setVerificationMethod(params, requestOptions).parse()
 
     override fun unpause(
         params: ExternalBankAccountUnpauseParams,
@@ -311,6 +319,42 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
             return errorHandler.handle(response).parseable {
                 response
                     .use { retryPrenoteHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val setVerificationMethodHandler: Handler<ExternalBankAccount> =
+            jsonHandler<ExternalBankAccount>(clientOptions.jsonMapper)
+
+        override fun setVerificationMethod(
+            params: ExternalBankAccountSetVerificationMethodParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ExternalBankAccount> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "v1",
+                        "external_bank_accounts",
+                        params._pathParam(0),
+                        "set_verification_method",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { setVerificationMethodHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
