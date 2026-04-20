@@ -32,6 +32,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
         assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -72,6 +73,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
         assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -112,6 +114,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
         assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -152,6 +155,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
         assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -192,6 +196,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
         assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -232,6 +237,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).contains(accountHolder)
         assertThat(ruleFeature.ipMetadata()).isEmpty
         assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -272,6 +278,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).contains(ipMetadata)
         assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -328,6 +335,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
         assertThat(ruleFeature.spendVelocity()).contains(spendVelocity)
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
     }
 
     @Test
@@ -354,6 +362,52 @@ internal class RuleFeatureTest {
                                 VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
                             )
                             .build()
+                    )
+                    .name("name")
+                    .build()
+            )
+
+        val roundtrippedRuleFeature =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(ruleFeature),
+                jacksonTypeRef<RuleFeature>(),
+            )
+
+        assertThat(roundtrippedRuleFeature).isEqualTo(ruleFeature)
+    }
+
+    @Test
+    fun ofTransactionHistorySignals() {
+        val transactionHistorySignals =
+            RuleFeature.TransactionHistorySignalsFeature.builder()
+                .scope(RuleFeature.TransactionHistorySignalsFeature.Scope.CARD)
+                .type(RuleFeature.TransactionHistorySignalsFeature.Type.TRANSACTION_HISTORY_SIGNALS)
+                .name("name")
+                .build()
+
+        val ruleFeature = RuleFeature.ofTransactionHistorySignals(transactionHistorySignals)
+
+        assertThat(ruleFeature.authorization()).isEmpty
+        assertThat(ruleFeature.authentication()).isEmpty
+        assertThat(ruleFeature.tokenization()).isEmpty
+        assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.card()).isEmpty
+        assertThat(ruleFeature.accountHolder()).isEmpty
+        assertThat(ruleFeature.ipMetadata()).isEmpty
+        assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).contains(transactionHistorySignals)
+    }
+
+    @Test
+    fun ofTransactionHistorySignalsRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val ruleFeature =
+            RuleFeature.ofTransactionHistorySignals(
+                RuleFeature.TransactionHistorySignalsFeature.builder()
+                    .scope(RuleFeature.TransactionHistorySignalsFeature.Scope.CARD)
+                    .type(
+                        RuleFeature.TransactionHistorySignalsFeature.Type
+                            .TRANSACTION_HISTORY_SIGNALS
                     )
                     .name("name")
                     .build()

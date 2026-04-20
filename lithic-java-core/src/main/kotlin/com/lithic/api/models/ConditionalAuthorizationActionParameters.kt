@@ -18,6 +18,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class ConditionalAuthorizationActionParameters
@@ -357,6 +358,7 @@ private constructor(
         private val attribute: JsonField<Attribute>,
         private val operation: JsonField<ConditionalOperation>,
         private val value: JsonField<ConditionalValue>,
+        private val parameters: JsonField<Parameters>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -371,7 +373,10 @@ private constructor(
             @JsonProperty("value")
             @ExcludeMissing
             value: JsonField<ConditionalValue> = JsonMissing.of(),
-        ) : this(attribute, operation, value, mutableMapOf())
+            @JsonProperty("parameters")
+            @ExcludeMissing
+            parameters: JsonField<Parameters> = JsonMissing.of(),
+        ) : this(attribute, operation, value, parameters, mutableMapOf())
 
         /**
          * The attribute to target.
@@ -440,6 +445,31 @@ private constructor(
          * * `CARD_AGE`: The age of the card in seconds at the time of the authorization.
          * * `ACCOUNT_AGE`: The age of the account holder's account in seconds at the time of the
          *   authorization.
+         * * `AMOUNT_Z_SCORE`: The z-score of the transaction amount relative to the entity's
+         *   transaction history. Null if fewer than 30 approved transactions in the specified
+         *   window. Requires `parameters.scope` and `parameters.interval`.
+         * * `AVG_TRANSACTION_AMOUNT`: The average approved transaction amount for the entity over
+         *   the specified window, in cents. Requires `parameters.scope` and `parameters.interval`.
+         * * `STDEV_TRANSACTION_AMOUNT`: The standard deviation of approved transaction amounts for
+         *   the entity over the specified window, in cents. Null if fewer than 30 approved
+         *   transactions in the specified window. Requires `parameters.scope` and
+         *   `parameters.interval`.
+         * * `IS_NEW_COUNTRY`: Whether the transaction's merchant country has not been seen in the
+         *   entity's transaction history. Valid values are `TRUE`, `FALSE`. Requires
+         *   `parameters.scope`.
+         * * `IS_NEW_MCC`: Whether the transaction's MCC has not been seen in the entity's
+         *   transaction history. Valid values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `IS_FIRST_TRANSACTION`: Whether this is the first transaction for the entity. Valid
+         *   values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `CONSECUTIVE_DECLINES`: The number of consecutive declined transactions for the entity
+         *   over the last 30 days (rolling). Requires `parameters.scope`. Not supported for
+         *   `BUSINESS_ACCOUNT` scope.
+         * * `TIME_SINCE_LAST_TRANSACTION`: The number of days since the last approved transaction
+         *   for the entity. Requires `parameters.scope`.
+         * * `DISTINCT_COUNTRY_COUNT`: The number of distinct merchant countries seen in the
+         *   entity's transaction history. Requires `parameters.scope`.
+         * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
+         *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -461,6 +491,18 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun value(): ConditionalValue = value.getRequired("value")
+
+        /**
+         * Additional parameters required for transaction history signal attributes. Required when
+         * `attribute` is one of `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
+         * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
+         * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`. Not
+         * used for other attributes.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun parameters(): Optional<Parameters> = parameters.getOptional("parameters")
 
         /**
          * Returns the raw JSON value of [attribute].
@@ -486,6 +528,15 @@ private constructor(
          * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<ConditionalValue> = value
+
+        /**
+         * Returns the raw JSON value of [parameters].
+         *
+         * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("parameters")
+        @ExcludeMissing
+        fun _parameters(): JsonField<Parameters> = parameters
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -520,6 +571,7 @@ private constructor(
             private var attribute: JsonField<Attribute>? = null
             private var operation: JsonField<ConditionalOperation>? = null
             private var value: JsonField<ConditionalValue>? = null
+            private var parameters: JsonField<Parameters> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -527,6 +579,7 @@ private constructor(
                 attribute = condition.attribute
                 operation = condition.operation
                 value = condition.value
+                parameters = condition.parameters
                 additionalProperties = condition.additionalProperties.toMutableMap()
             }
 
@@ -600,6 +653,32 @@ private constructor(
              * * `CARD_AGE`: The age of the card in seconds at the time of the authorization.
              * * `ACCOUNT_AGE`: The age of the account holder's account in seconds at the time of
              *   the authorization.
+             * * `AMOUNT_Z_SCORE`: The z-score of the transaction amount relative to the entity's
+             *   transaction history. Null if fewer than 30 approved transactions in the specified
+             *   window. Requires `parameters.scope` and `parameters.interval`.
+             * * `AVG_TRANSACTION_AMOUNT`: The average approved transaction amount for the entity
+             *   over the specified window, in cents. Requires `parameters.scope` and
+             *   `parameters.interval`.
+             * * `STDEV_TRANSACTION_AMOUNT`: The standard deviation of approved transaction amounts
+             *   for the entity over the specified window, in cents. Null if fewer than 30 approved
+             *   transactions in the specified window. Requires `parameters.scope` and
+             *   `parameters.interval`.
+             * * `IS_NEW_COUNTRY`: Whether the transaction's merchant country has not been seen in
+             *   the entity's transaction history. Valid values are `TRUE`, `FALSE`. Requires
+             *   `parameters.scope`.
+             * * `IS_NEW_MCC`: Whether the transaction's MCC has not been seen in the entity's
+             *   transaction history. Valid values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+             * * `IS_FIRST_TRANSACTION`: Whether this is the first transaction for the entity. Valid
+             *   values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+             * * `CONSECUTIVE_DECLINES`: The number of consecutive declined transactions for the
+             *   entity over the last 30 days (rolling). Requires `parameters.scope`. Not supported
+             *   for `BUSINESS_ACCOUNT` scope.
+             * * `TIME_SINCE_LAST_TRANSACTION`: The number of days since the last approved
+             *   transaction for the entity. Requires `parameters.scope`.
+             * * `DISTINCT_COUNTRY_COUNT`: The number of distinct merchant countries seen in the
+             *   entity's transaction history. Requires `parameters.scope`.
+             * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
+             *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -651,6 +730,26 @@ private constructor(
             /** Alias for calling [value] with `ConditionalValue.ofTimestamp(timestamp)`. */
             fun value(timestamp: OffsetDateTime) = value(ConditionalValue.ofTimestamp(timestamp))
 
+            /**
+             * Additional parameters required for transaction history signal attributes. Required
+             * when `attribute` is one of `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
+             * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
+             * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`.
+             * Not used for other attributes.
+             */
+            fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
+
+            /**
+             * Sets [Builder.parameters] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun parameters(parameters: JsonField<Parameters>) = apply {
+                this.parameters = parameters
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -689,6 +788,7 @@ private constructor(
                     checkRequired("attribute", attribute),
                     checkRequired("operation", operation),
                     checkRequired("value", value),
+                    parameters,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -703,6 +803,7 @@ private constructor(
             attribute().validate()
             operation().validate()
             value().validate()
+            parameters().ifPresent { it.validate() }
             validated = true
         }
 
@@ -724,7 +825,8 @@ private constructor(
         internal fun validity(): Int =
             (attribute.asKnown().getOrNull()?.validity() ?: 0) +
                 (operation.asKnown().getOrNull()?.validity() ?: 0) +
-                (value.asKnown().getOrNull()?.validity() ?: 0)
+                (value.asKnown().getOrNull()?.validity() ?: 0) +
+                (parameters.asKnown().getOrNull()?.validity() ?: 0)
 
         /**
          * The attribute to target.
@@ -793,6 +895,31 @@ private constructor(
          * * `CARD_AGE`: The age of the card in seconds at the time of the authorization.
          * * `ACCOUNT_AGE`: The age of the account holder's account in seconds at the time of the
          *   authorization.
+         * * `AMOUNT_Z_SCORE`: The z-score of the transaction amount relative to the entity's
+         *   transaction history. Null if fewer than 30 approved transactions in the specified
+         *   window. Requires `parameters.scope` and `parameters.interval`.
+         * * `AVG_TRANSACTION_AMOUNT`: The average approved transaction amount for the entity over
+         *   the specified window, in cents. Requires `parameters.scope` and `parameters.interval`.
+         * * `STDEV_TRANSACTION_AMOUNT`: The standard deviation of approved transaction amounts for
+         *   the entity over the specified window, in cents. Null if fewer than 30 approved
+         *   transactions in the specified window. Requires `parameters.scope` and
+         *   `parameters.interval`.
+         * * `IS_NEW_COUNTRY`: Whether the transaction's merchant country has not been seen in the
+         *   entity's transaction history. Valid values are `TRUE`, `FALSE`. Requires
+         *   `parameters.scope`.
+         * * `IS_NEW_MCC`: Whether the transaction's MCC has not been seen in the entity's
+         *   transaction history. Valid values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `IS_FIRST_TRANSACTION`: Whether this is the first transaction for the entity. Valid
+         *   values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `CONSECUTIVE_DECLINES`: The number of consecutive declined transactions for the entity
+         *   over the last 30 days (rolling). Requires `parameters.scope`. Not supported for
+         *   `BUSINESS_ACCOUNT` scope.
+         * * `TIME_SINCE_LAST_TRANSACTION`: The number of days since the last approved transaction
+         *   for the entity. Requires `parameters.scope`.
+         * * `DISTINCT_COUNTRY_COUNT`: The number of distinct merchant countries seen in the
+         *   entity's transaction history. Requires `parameters.scope`.
+         * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
+         *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -861,6 +988,26 @@ private constructor(
 
                 @JvmField val ACCOUNT_AGE = of("ACCOUNT_AGE")
 
+                @JvmField val AMOUNT_Z_SCORE = of("AMOUNT_Z_SCORE")
+
+                @JvmField val AVG_TRANSACTION_AMOUNT = of("AVG_TRANSACTION_AMOUNT")
+
+                @JvmField val STDEV_TRANSACTION_AMOUNT = of("STDEV_TRANSACTION_AMOUNT")
+
+                @JvmField val IS_NEW_COUNTRY = of("IS_NEW_COUNTRY")
+
+                @JvmField val IS_NEW_MCC = of("IS_NEW_MCC")
+
+                @JvmField val IS_FIRST_TRANSACTION = of("IS_FIRST_TRANSACTION")
+
+                @JvmField val CONSECUTIVE_DECLINES = of("CONSECUTIVE_DECLINES")
+
+                @JvmField val TIME_SINCE_LAST_TRANSACTION = of("TIME_SINCE_LAST_TRANSACTION")
+
+                @JvmField val DISTINCT_COUNTRY_COUNT = of("DISTINCT_COUNTRY_COUNT")
+
+                @JvmField val THREE_DS_SUCCESS_RATE = of("THREE_DS_SUCCESS_RATE")
+
                 @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
             }
 
@@ -892,6 +1039,16 @@ private constructor(
                 SERVICE_LOCATION_POSTAL_CODE,
                 CARD_AGE,
                 ACCOUNT_AGE,
+                AMOUNT_Z_SCORE,
+                AVG_TRANSACTION_AMOUNT,
+                STDEV_TRANSACTION_AMOUNT,
+                IS_NEW_COUNTRY,
+                IS_NEW_MCC,
+                IS_FIRST_TRANSACTION,
+                CONSECUTIVE_DECLINES,
+                TIME_SINCE_LAST_TRANSACTION,
+                DISTINCT_COUNTRY_COUNT,
+                THREE_DS_SUCCESS_RATE,
             }
 
             /**
@@ -930,6 +1087,16 @@ private constructor(
                 SERVICE_LOCATION_POSTAL_CODE,
                 CARD_AGE,
                 ACCOUNT_AGE,
+                AMOUNT_Z_SCORE,
+                AVG_TRANSACTION_AMOUNT,
+                STDEV_TRANSACTION_AMOUNT,
+                IS_NEW_COUNTRY,
+                IS_NEW_MCC,
+                IS_FIRST_TRANSACTION,
+                CONSECUTIVE_DECLINES,
+                TIME_SINCE_LAST_TRANSACTION,
+                DISTINCT_COUNTRY_COUNT,
+                THREE_DS_SUCCESS_RATE,
                 /**
                  * An enum member indicating that [Attribute] was instantiated with an unknown
                  * value.
@@ -972,6 +1139,16 @@ private constructor(
                     SERVICE_LOCATION_POSTAL_CODE -> Value.SERVICE_LOCATION_POSTAL_CODE
                     CARD_AGE -> Value.CARD_AGE
                     ACCOUNT_AGE -> Value.ACCOUNT_AGE
+                    AMOUNT_Z_SCORE -> Value.AMOUNT_Z_SCORE
+                    AVG_TRANSACTION_AMOUNT -> Value.AVG_TRANSACTION_AMOUNT
+                    STDEV_TRANSACTION_AMOUNT -> Value.STDEV_TRANSACTION_AMOUNT
+                    IS_NEW_COUNTRY -> Value.IS_NEW_COUNTRY
+                    IS_NEW_MCC -> Value.IS_NEW_MCC
+                    IS_FIRST_TRANSACTION -> Value.IS_FIRST_TRANSACTION
+                    CONSECUTIVE_DECLINES -> Value.CONSECUTIVE_DECLINES
+                    TIME_SINCE_LAST_TRANSACTION -> Value.TIME_SINCE_LAST_TRANSACTION
+                    DISTINCT_COUNTRY_COUNT -> Value.DISTINCT_COUNTRY_COUNT
+                    THREE_DS_SUCCESS_RATE -> Value.THREE_DS_SUCCESS_RATE
                     else -> Value._UNKNOWN
                 }
 
@@ -1012,6 +1189,16 @@ private constructor(
                     SERVICE_LOCATION_POSTAL_CODE -> Known.SERVICE_LOCATION_POSTAL_CODE
                     CARD_AGE -> Known.CARD_AGE
                     ACCOUNT_AGE -> Known.ACCOUNT_AGE
+                    AMOUNT_Z_SCORE -> Known.AMOUNT_Z_SCORE
+                    AVG_TRANSACTION_AMOUNT -> Known.AVG_TRANSACTION_AMOUNT
+                    STDEV_TRANSACTION_AMOUNT -> Known.STDEV_TRANSACTION_AMOUNT
+                    IS_NEW_COUNTRY -> Known.IS_NEW_COUNTRY
+                    IS_NEW_MCC -> Known.IS_NEW_MCC
+                    IS_FIRST_TRANSACTION -> Known.IS_FIRST_TRANSACTION
+                    CONSECUTIVE_DECLINES -> Known.CONSECUTIVE_DECLINES
+                    TIME_SINCE_LAST_TRANSACTION -> Known.TIME_SINCE_LAST_TRANSACTION
+                    DISTINCT_COUNTRY_COUNT -> Known.DISTINCT_COUNTRY_COUNT
+                    THREE_DS_SUCCESS_RATE -> Known.THREE_DS_SUCCESS_RATE
                     else -> throw LithicInvalidDataException("Unknown Attribute: $value")
                 }
 
@@ -1069,6 +1256,493 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Additional parameters required for transaction history signal attributes. Required when
+         * `attribute` is one of `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
+         * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
+         * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`. Not
+         * used for other attributes.
+         */
+        class Parameters
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val interval: JsonField<Interval>,
+            private val scope: JsonField<Scope>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("interval")
+                @ExcludeMissing
+                interval: JsonField<Interval> = JsonMissing.of(),
+                @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
+            ) : this(interval, scope, mutableMapOf())
+
+            /**
+             * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
+             * `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`). Use `LIFETIME` for all-time
+             * history or a specific window (`7D`, `30D`, `90D`).
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun interval(): Optional<Interval> = interval.getOptional("interval")
+
+            /**
+             * The entity scope to evaluate the attribute against.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun scope(): Optional<Scope> = scope.getOptional("scope")
+
+            /**
+             * Returns the raw JSON value of [interval].
+             *
+             * Unlike [interval], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("interval")
+            @ExcludeMissing
+            fun _interval(): JsonField<Interval> = interval
+
+            /**
+             * Returns the raw JSON value of [scope].
+             *
+             * Unlike [scope], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<Scope> = scope
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Parameters]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Parameters]. */
+            class Builder internal constructor() {
+
+                private var interval: JsonField<Interval> = JsonMissing.of()
+                private var scope: JsonField<Scope> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(parameters: Parameters) = apply {
+                    interval = parameters.interval
+                    scope = parameters.scope
+                    additionalProperties = parameters.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
+                 * `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`). Use `LIFETIME` for
+                 * all-time history or a specific window (`7D`, `30D`, `90D`).
+                 */
+                fun interval(interval: Interval) = interval(JsonField.of(interval))
+
+                /**
+                 * Sets [Builder.interval] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.interval] with a well-typed [Interval] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun interval(interval: JsonField<Interval>) = apply { this.interval = interval }
+
+                /** The entity scope to evaluate the attribute against. */
+                fun scope(scope: Scope) = scope(JsonField.of(scope))
+
+                /**
+                 * Sets [Builder.scope] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.scope] with a well-typed [Scope] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Parameters].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Parameters =
+                    Parameters(interval, scope, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Parameters = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                interval().ifPresent { it.validate() }
+                scope().ifPresent { it.validate() }
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (interval.asKnown().getOrNull()?.validity() ?: 0) +
+                    (scope.asKnown().getOrNull()?.validity() ?: 0)
+
+            /**
+             * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
+             * `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`). Use `LIFETIME` for all-time
+             * history or a specific window (`7D`, `30D`, `90D`).
+             */
+            class Interval @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val LIFETIME = of("LIFETIME")
+
+                    @JvmField val _7_D = of("7D")
+
+                    @JvmField val _30_D = of("30D")
+
+                    @JvmField val _90_D = of("90D")
+
+                    @JvmStatic fun of(value: String) = Interval(JsonField.of(value))
+                }
+
+                /** An enum containing [Interval]'s known values. */
+                enum class Known {
+                    LIFETIME,
+                    _7_D,
+                    _30_D,
+                    _90_D,
+                }
+
+                /**
+                 * An enum containing [Interval]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Interval] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    LIFETIME,
+                    _7_D,
+                    _30_D,
+                    _90_D,
+                    /**
+                     * An enum member indicating that [Interval] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        LIFETIME -> Value.LIFETIME
+                        _7_D -> Value._7_D
+                        _30_D -> Value._30_D
+                        _90_D -> Value._90_D
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        LIFETIME -> Known.LIFETIME
+                        _7_D -> Known._7_D
+                        _30_D -> Known._30_D
+                        _90_D -> Known._90_D
+                        else -> throw LithicInvalidDataException("Unknown Interval: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Interval = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Interval && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            /** The entity scope to evaluate the attribute against. */
+            class Scope @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val CARD = of("CARD")
+
+                    @JvmField val ACCOUNT = of("ACCOUNT")
+
+                    @JvmField val BUSINESS_ACCOUNT = of("BUSINESS_ACCOUNT")
+
+                    @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
+                }
+
+                /** An enum containing [Scope]'s known values. */
+                enum class Known {
+                    CARD,
+                    ACCOUNT,
+                    BUSINESS_ACCOUNT,
+                }
+
+                /**
+                 * An enum containing [Scope]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Scope] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    CARD,
+                    ACCOUNT,
+                    BUSINESS_ACCOUNT,
+                    /**
+                     * An enum member indicating that [Scope] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        CARD -> Value.CARD
+                        ACCOUNT -> Value.ACCOUNT
+                        BUSINESS_ACCOUNT -> Value.BUSINESS_ACCOUNT
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        CARD -> Known.CARD
+                        ACCOUNT -> Known.ACCOUNT
+                        BUSINESS_ACCOUNT -> Known.BUSINESS_ACCOUNT
+                        else -> throw LithicInvalidDataException("Unknown Scope: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Scope = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Scope && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Parameters &&
+                    interval == other.interval &&
+                    scope == other.scope &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(interval, scope, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Parameters{interval=$interval, scope=$scope, additionalProperties=$additionalProperties}"
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -1078,17 +1752,18 @@ private constructor(
                 attribute == other.attribute &&
                 operation == other.operation &&
                 value == other.value &&
+                parameters == other.parameters &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(attribute, operation, value, additionalProperties)
+            Objects.hash(attribute, operation, value, parameters, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
+            "Condition{attribute=$attribute, operation=$operation, value=$value, parameters=$parameters, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

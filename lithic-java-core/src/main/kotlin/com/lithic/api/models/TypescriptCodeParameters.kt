@@ -181,6 +181,13 @@ private constructor(
         fun addFeature(spendVelocity: RuleFeature.SpendVelocityFeature) =
             addFeature(RuleFeature.ofSpendVelocity(spendVelocity))
 
+        /**
+         * Alias for calling [addFeature] with
+         * `RuleFeature.ofTransactionHistorySignals(transactionHistorySignals)`.
+         */
+        fun addFeature(transactionHistorySignals: RuleFeature.TransactionHistorySignalsFeature) =
+            addFeature(RuleFeature.ofTransactionHistorySignals(transactionHistorySignals))
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)

@@ -50,6 +50,9 @@ import kotlin.jvm.optionals.getOrNull
  * - `SPEND_VELOCITY`: Spend velocity data for the card or account. Requires `scope`, `period`, and
  *   optionally `filters` to configure the velocity calculation. Available for AUTHORIZATION event
  *   stream rules.
+ * - `TRANSACTION_HISTORY_SIGNALS`: Behavioral feature state derived from the entity's transaction
+ *   history. Requires `scope` to specify whether to load card, account, or business account
+ *   history. Available for AUTHORIZATION event stream rules.
  */
 @JsonDeserialize(using = RuleFeature.Deserializer::class)
 @JsonSerialize(using = RuleFeature.Serializer::class)
@@ -63,6 +66,7 @@ private constructor(
     private val accountHolder: AccountHolderFeature? = null,
     private val ipMetadata: IpMetadataFeature? = null,
     private val spendVelocity: SpendVelocityFeature? = null,
+    private val transactionHistorySignals: TransactionHistorySignalsFeature? = null,
     private val _json: JsonValue? = null,
 ) {
 
@@ -82,6 +86,9 @@ private constructor(
 
     fun spendVelocity(): Optional<SpendVelocityFeature> = Optional.ofNullable(spendVelocity)
 
+    fun transactionHistorySignals(): Optional<TransactionHistorySignalsFeature> =
+        Optional.ofNullable(transactionHistorySignals)
+
     fun isAuthorization(): Boolean = authorization != null
 
     fun isAuthentication(): Boolean = authentication != null
@@ -97,6 +104,8 @@ private constructor(
     fun isIpMetadata(): Boolean = ipMetadata != null
 
     fun isSpendVelocity(): Boolean = spendVelocity != null
+
+    fun isTransactionHistorySignals(): Boolean = transactionHistorySignals != null
 
     fun asAuthorization(): AuthorizationFeature = authorization.getOrThrow("authorization")
 
@@ -114,6 +123,9 @@ private constructor(
 
     fun asSpendVelocity(): SpendVelocityFeature = spendVelocity.getOrThrow("spendVelocity")
 
+    fun asTransactionHistorySignals(): TransactionHistorySignalsFeature =
+        transactionHistorySignals.getOrThrow("transactionHistorySignals")
+
     fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
     fun <T> accept(visitor: Visitor<T>): T =
@@ -126,6 +138,8 @@ private constructor(
             accountHolder != null -> visitor.visitAccountHolder(accountHolder)
             ipMetadata != null -> visitor.visitIpMetadata(ipMetadata)
             spendVelocity != null -> visitor.visitSpendVelocity(spendVelocity)
+            transactionHistorySignals != null ->
+                visitor.visitTransactionHistorySignals(transactionHistorySignals)
             else -> visitor.unknown(_json)
         }
 
@@ -168,6 +182,12 @@ private constructor(
 
                 override fun visitSpendVelocity(spendVelocity: SpendVelocityFeature) {
                     spendVelocity.validate()
+                }
+
+                override fun visitTransactionHistorySignals(
+                    transactionHistorySignals: TransactionHistorySignalsFeature
+                ) {
+                    transactionHistorySignals.validate()
                 }
             }
         )
@@ -212,6 +232,10 @@ private constructor(
                 override fun visitSpendVelocity(spendVelocity: SpendVelocityFeature) =
                     spendVelocity.validity()
 
+                override fun visitTransactionHistorySignals(
+                    transactionHistorySignals: TransactionHistorySignalsFeature
+                ) = transactionHistorySignals.validity()
+
                 override fun unknown(json: JsonValue?) = 0
             }
         )
@@ -229,7 +253,8 @@ private constructor(
             card == other.card &&
             accountHolder == other.accountHolder &&
             ipMetadata == other.ipMetadata &&
-            spendVelocity == other.spendVelocity
+            spendVelocity == other.spendVelocity &&
+            transactionHistorySignals == other.transactionHistorySignals
     }
 
     override fun hashCode(): Int =
@@ -242,6 +267,7 @@ private constructor(
             accountHolder,
             ipMetadata,
             spendVelocity,
+            transactionHistorySignals,
         )
 
     override fun toString(): String =
@@ -254,6 +280,8 @@ private constructor(
             accountHolder != null -> "RuleFeature{accountHolder=$accountHolder}"
             ipMetadata != null -> "RuleFeature{ipMetadata=$ipMetadata}"
             spendVelocity != null -> "RuleFeature{spendVelocity=$spendVelocity}"
+            transactionHistorySignals != null ->
+                "RuleFeature{transactionHistorySignals=$transactionHistorySignals}"
             _json != null -> "RuleFeature{_unknown=$_json}"
             else -> throw IllegalStateException("Invalid RuleFeature")
         }
@@ -287,6 +315,11 @@ private constructor(
         @JvmStatic
         fun ofSpendVelocity(spendVelocity: SpendVelocityFeature) =
             RuleFeature(spendVelocity = spendVelocity)
+
+        @JvmStatic
+        fun ofTransactionHistorySignals(
+            transactionHistorySignals: TransactionHistorySignalsFeature
+        ) = RuleFeature(transactionHistorySignals = transactionHistorySignals)
     }
 
     /**
@@ -309,6 +342,10 @@ private constructor(
         fun visitIpMetadata(ipMetadata: IpMetadataFeature): T
 
         fun visitSpendVelocity(spendVelocity: SpendVelocityFeature): T
+
+        fun visitTransactionHistorySignals(
+            transactionHistorySignals: TransactionHistorySignalsFeature
+        ): T
 
         /**
          * Maps an unknown variant of [RuleFeature] to a value of type [T].
@@ -355,6 +392,8 @@ private constructor(
                         tryDeserialize(node, jacksonTypeRef<SpendVelocityFeature>())?.let {
                             RuleFeature(spendVelocity = it, _json = json)
                         },
+                        tryDeserialize(node, jacksonTypeRef<TransactionHistorySignalsFeature>())
+                            ?.let { RuleFeature(transactionHistorySignals = it, _json = json) },
                     )
                     .filterNotNull()
                     .allMaxBy { it.validity() }
@@ -387,6 +426,8 @@ private constructor(
                 value.accountHolder != null -> generator.writeObject(value.accountHolder)
                 value.ipMetadata != null -> generator.writeObject(value.ipMetadata)
                 value.spendVelocity != null -> generator.writeObject(value.spendVelocity)
+                value.transactionHistorySignals != null ->
+                    generator.writeObject(value.transactionHistorySignals)
                 value._json != null -> generator.writeObject(value._json)
                 else -> throw IllegalStateException("Invalid RuleFeature")
             }
@@ -3177,5 +3218,495 @@ private constructor(
 
         override fun toString() =
             "SpendVelocityFeature{period=$period, scope=$scope, type=$type, filters=$filters, name=$name, additionalProperties=$additionalProperties}"
+    }
+
+    class TransactionHistorySignalsFeature
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val scope: JsonField<Scope>,
+        private val type: JsonField<Type>,
+        private val name: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+        ) : this(scope, type, name, mutableMapOf())
+
+        /**
+         * The entity scope to load transaction history signals for.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun scope(): Scope = scope.getRequired("scope")
+
+        /**
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun type(): Type = type.getRequired("type")
+
+        /**
+         * The variable name for this feature in the rule function signature
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun name(): Optional<String> = name.getOptional("name")
+
+        /**
+         * Returns the raw JSON value of [scope].
+         *
+         * Unlike [scope], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<Scope> = scope
+
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+        /**
+         * Returns the raw JSON value of [name].
+         *
+         * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [TransactionHistorySignalsFeature].
+             *
+             * The following fields are required:
+             * ```java
+             * .scope()
+             * .type()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [TransactionHistorySignalsFeature]. */
+        class Builder internal constructor() {
+
+            private var scope: JsonField<Scope>? = null
+            private var type: JsonField<Type>? = null
+            private var name: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(transactionHistorySignalsFeature: TransactionHistorySignalsFeature) =
+                apply {
+                    scope = transactionHistorySignalsFeature.scope
+                    type = transactionHistorySignalsFeature.type
+                    name = transactionHistorySignalsFeature.name
+                    additionalProperties =
+                        transactionHistorySignalsFeature.additionalProperties.toMutableMap()
+                }
+
+            /** The entity scope to load transaction history signals for. */
+            fun scope(scope: Scope) = scope(JsonField.of(scope))
+
+            /**
+             * Sets [Builder.scope] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.scope] with a well-typed [Scope] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
+
+            fun type(type: Type) = type(JsonField.of(type))
+
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            /** The variable name for this feature in the rule function signature */
+            fun name(name: String) = name(JsonField.of(name))
+
+            /**
+             * Sets [Builder.name] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.name] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun name(name: JsonField<String>) = apply { this.name = name }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [TransactionHistorySignalsFeature].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .scope()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): TransactionHistorySignalsFeature =
+                TransactionHistorySignalsFeature(
+                    checkRequired("scope", scope),
+                    checkRequired("type", type),
+                    name,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionHistorySignalsFeature = apply {
+            if (validated) {
+                return@apply
+            }
+
+            scope().validate()
+            type().validate()
+            name()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (scope.asKnown().getOrNull()?.validity() ?: 0) +
+                (type.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (name.asKnown().isPresent) 1 else 0)
+
+        /** The entity scope to load transaction history signals for. */
+        class Scope @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val CARD = of("CARD")
+
+                @JvmField val ACCOUNT = of("ACCOUNT")
+
+                @JvmField val BUSINESS_ACCOUNT = of("BUSINESS_ACCOUNT")
+
+                @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
+            }
+
+            /** An enum containing [Scope]'s known values. */
+            enum class Known {
+                CARD,
+                ACCOUNT,
+                BUSINESS_ACCOUNT,
+            }
+
+            /**
+             * An enum containing [Scope]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Scope] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                CARD,
+                ACCOUNT,
+                BUSINESS_ACCOUNT,
+                /**
+                 * An enum member indicating that [Scope] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    CARD -> Value.CARD
+                    ACCOUNT -> Value.ACCOUNT
+                    BUSINESS_ACCOUNT -> Value.BUSINESS_ACCOUNT
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    CARD -> Known.CARD
+                    ACCOUNT -> Known.ACCOUNT
+                    BUSINESS_ACCOUNT -> Known.BUSINESS_ACCOUNT
+                    else -> throw LithicInvalidDataException("Unknown Scope: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Scope = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Scope && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val TRANSACTION_HISTORY_SIGNALS = of("TRANSACTION_HISTORY_SIGNALS")
+
+                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            }
+
+            /** An enum containing [Type]'s known values. */
+            enum class Known {
+                TRANSACTION_HISTORY_SIGNALS
+            }
+
+            /**
+             * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Type] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                TRANSACTION_HISTORY_SIGNALS,
+                /** An enum member indicating that [Type] was instantiated with an unknown value. */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    TRANSACTION_HISTORY_SIGNALS -> Value.TRANSACTION_HISTORY_SIGNALS
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    TRANSACTION_HISTORY_SIGNALS -> Known.TRANSACTION_HISTORY_SIGNALS
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Type = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Type && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TransactionHistorySignalsFeature &&
+                scope == other.scope &&
+                type == other.type &&
+                name == other.name &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(scope, type, name, additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "TransactionHistorySignalsFeature{scope=$scope, type=$type, name=$name, additionalProperties=$additionalProperties}"
     }
 }
