@@ -209,7 +209,7 @@ private constructor(
     fun email(): Optional<String> = email.getOptional("email")
 
     /**
-     * The type of KYC exemption for a KYC-Exempt Account Holder. "None" if the account holder is
+     * The type of KYC exemption for a KYC-Exempt Account Holder. `null` if the account holder is
      * not KYC-Exempt.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -733,10 +733,15 @@ private constructor(
         fun email(email: JsonField<String>) = apply { this.email = email }
 
         /**
-         * The type of KYC exemption for a KYC-Exempt Account Holder. "None" if the account holder
+         * The type of KYC exemption for a KYC-Exempt Account Holder. `null` if the account holder
          * is not KYC-Exempt.
          */
-        fun exemptionType(exemptionType: ExemptionType) = exemptionType(JsonField.of(exemptionType))
+        fun exemptionType(exemptionType: ExemptionType?) =
+            exemptionType(JsonField.ofNullable(exemptionType))
+
+        /** Alias for calling [Builder.exemptionType] with `exemptionType.orElse(null)`. */
+        fun exemptionType(exemptionType: Optional<ExemptionType>) =
+            exemptionType(exemptionType.getOrNull())
 
         /**
          * Sets [Builder.exemptionType] to an arbitrary JSON value.
@@ -1871,7 +1876,7 @@ private constructor(
     }
 
     /**
-     * The type of KYC exemption for a KYC-Exempt Account Holder. "None" if the account holder is
+     * The type of KYC exemption for a KYC-Exempt Account Holder. `null` if the account holder is
      * not KYC-Exempt.
      */
     class ExemptionType @JsonCreator private constructor(private val value: JsonField<String>) :

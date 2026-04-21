@@ -57,7 +57,7 @@ internal class NonPciCardTest {
         assertThat(nonPciCard.cardProgramToken()).isEqualTo("5e9483eb-8103-4e16-9794-2106111b2eca")
         assertThat(nonPciCard.created()).isEqualTo(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
         assertThat(nonPciCard.funding())
-            .isEqualTo(
+            .contains(
                 NonPciCard.FundingAccount.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
