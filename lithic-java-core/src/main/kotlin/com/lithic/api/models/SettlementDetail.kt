@@ -1048,6 +1048,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val AMEX = of("AMEX")
+
             @JvmField val INTERLINK = of("INTERLINK")
 
             @JvmField val MAESTRO = of("MAESTRO")
@@ -1063,6 +1065,7 @@ private constructor(
 
         /** An enum containing [Network]'s known values. */
         enum class Known {
+            AMEX,
             INTERLINK,
             MAESTRO,
             MASTERCARD,
@@ -1080,6 +1083,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            AMEX,
             INTERLINK,
             MAESTRO,
             MASTERCARD,
@@ -1098,6 +1102,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                AMEX -> Value.AMEX
                 INTERLINK -> Value.INTERLINK
                 MAESTRO -> Value.MAESTRO
                 MASTERCARD -> Value.MASTERCARD
@@ -1117,6 +1122,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                AMEX -> Known.AMEX
                 INTERLINK -> Known.INTERLINK
                 MAESTRO -> Known.MAESTRO
                 MASTERCARD -> Known.MASTERCARD
