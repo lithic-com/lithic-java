@@ -106,7 +106,7 @@ private constructor(
 
     /**
      * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an expiration
-     * date will be generated.
+     * date five years in the future will be generated. Five years is the maximum expiration date.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -115,7 +115,8 @@ private constructor(
 
     /**
      * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-     * expiration date will be generated.
+     * expiration date five years in the future will be generated. Five years is the maximum
+     * expiration date.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -591,7 +592,8 @@ private constructor(
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date will be generated.
+         * expiration date five years in the future will be generated. Five years is the maximum
+         * expiration date.
          */
         fun expMonth(expMonth: String) = apply { body.expMonth(expMonth) }
 
@@ -605,7 +607,8 @@ private constructor(
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date will be generated.
+         * expiration date five years in the future will be generated. Five years is the maximum
+         * expiration date.
          */
         fun expYear(expYear: String) = apply { body.expYear(expYear) }
 
@@ -1181,7 +1184,8 @@ private constructor(
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date will be generated.
+         * expiration date five years in the future will be generated. Five years is the maximum
+         * expiration date.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -1190,7 +1194,8 @@ private constructor(
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date will be generated.
+         * expiration date five years in the future will be generated. Five years is the maximum
+         * expiration date.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -1721,7 +1726,8 @@ private constructor(
 
             /**
              * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-             * expiration date will be generated.
+             * expiration date five years in the future will be generated. Five years is the maximum
+             * expiration date.
              */
             fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
 
@@ -1736,7 +1742,8 @@ private constructor(
 
             /**
              * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-             * expiration date will be generated.
+             * expiration date five years in the future will be generated. Five years is the maximum
+             * expiration date.
              */
             fun expYear(expYear: String) = expYear(JsonField.of(expYear))
 
