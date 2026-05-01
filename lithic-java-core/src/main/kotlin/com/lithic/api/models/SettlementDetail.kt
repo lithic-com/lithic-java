@@ -186,7 +186,8 @@ private constructor(
     fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
 
     /**
-     * Globally unique identifiers denoting the Events associated with this settlement.
+     * Array of globally unique identifiers for the financial events that comprise this settlement.
+     * Use these tokens to access detailed event-level information.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -262,7 +263,11 @@ private constructor(
     fun settlementDate(): String = settlementDate.getRequired("settlement_date")
 
     /**
-     * Globally unique identifier denoting the associated Transaction object.
+     * Globally unique identifier denoting the associated transaction. For settlement records with
+     * type `CLEARING`, `FINANCIAL`, or `NON-FINANCIAL`, this references a card transaction token.
+     * For settlement records with type `CHARGEBACK`, `REPRESENTMENT`, `PREARBITRATION`,
+     * `ARBITRATION`, or `COLLABORATION`, this references the dispute transaction token. May be null
+     * for certain settlement types.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -676,7 +681,10 @@ private constructor(
             this.disputesGrossAmount = disputesGrossAmount
         }
 
-        /** Globally unique identifiers denoting the Events associated with this settlement. */
+        /**
+         * Array of globally unique identifiers for the financial events that comprise this
+         * settlement. Use these tokens to access detailed event-level information.
+         */
         fun eventTokens(eventTokens: List<String>) = eventTokens(JsonField.of(eventTokens))
 
         /**
@@ -818,7 +826,13 @@ private constructor(
             this.settlementDate = settlementDate
         }
 
-        /** Globally unique identifier denoting the associated Transaction object. */
+        /**
+         * Globally unique identifier denoting the associated transaction. For settlement records
+         * with type `CLEARING`, `FINANCIAL`, or `NON-FINANCIAL`, this references a card transaction
+         * token. For settlement records with type `CHARGEBACK`, `REPRESENTMENT`, `PREARBITRATION`,
+         * `ARBITRATION`, or `COLLABORATION`, this references the dispute transaction token. May be
+         * null for certain settlement types.
+         */
         fun transactionToken(transactionToken: String) =
             transactionToken(JsonField.of(transactionToken))
 
@@ -1048,6 +1062,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val AMEX = of("AMEX")
+
             @JvmField val INTERLINK = of("INTERLINK")
 
             @JvmField val MAESTRO = of("MAESTRO")
@@ -1063,6 +1079,7 @@ private constructor(
 
         /** An enum containing [Network]'s known values. */
         enum class Known {
+            AMEX,
             INTERLINK,
             MAESTRO,
             MASTERCARD,
@@ -1080,6 +1097,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            AMEX,
             INTERLINK,
             MAESTRO,
             MASTERCARD,
@@ -1098,6 +1116,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                AMEX -> Value.AMEX
                 INTERLINK -> Value.INTERLINK
                 MAESTRO -> Value.MAESTRO
                 MASTERCARD -> Value.MASTERCARD
@@ -1117,6 +1136,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                AMEX -> Known.AMEX
                 INTERLINK -> Known.INTERLINK
                 MAESTRO -> Known.MAESTRO
                 MASTERCARD -> Known.MASTERCARD

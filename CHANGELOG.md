@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.125.0 (2026-05-01)
+
+Full Changelog: [v0.124.0...v0.125.0](https://github.com/lithic-com/lithic-java/compare/v0.124.0...v0.125.0)
+
+### Features
+
+* **api:** add AMEX to Network enum in settlement params and models ([638084a](https://github.com/lithic-com/lithic-java/commit/638084a329e3e2da55a350e950f6752e185b5ae4))
+* support setting headers via env ([0493d0a](https://github.com/lithic-com/lithic-java/commit/0493d0ad4f3d8e45f35b652e670e505bcbfaf67a))
+
+
+### Bug Fixes
+
+* **types:** add EMPTY exemption type, make fields optional in Account/Card/NonPciCard ([2a2a00a](https://github.com/lithic-com/lithic-java/commit/2a2a00acc9cd3a92991a7ae50b6e02cdebaa930d))
+
+
+### Documentation
+
+* **api:** improve event_tokens and transaction_token field docs in SettlementDetail ([1ccf96d](https://github.com/lithic-com/lithic-java/commit/1ccf96d80d888a5c0756ef5a115dd3e810f9f25b))
+* **api:** update exp_month/exp_year descriptions in card create/renew ([36c34a0](https://github.com/lithic-com/lithic-java/commit/36c34a04d23013e6504d322f84ed85506ab46220))
+
 ## 0.124.0 (2026-04-20)
 
 Full Changelog: [v0.123.0...v0.124.0](https://github.com/lithic-com/lithic-java/compare/v0.123.0...v0.124.0)
