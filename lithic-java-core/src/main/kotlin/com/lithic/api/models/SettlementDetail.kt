@@ -186,7 +186,8 @@ private constructor(
     fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
 
     /**
-     * Globally unique identifiers denoting the Events associated with this settlement.
+     * Array of globally unique identifiers for the financial events that comprise this settlement.
+     * Use these tokens to access detailed event-level information.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -262,7 +263,11 @@ private constructor(
     fun settlementDate(): String = settlementDate.getRequired("settlement_date")
 
     /**
-     * Globally unique identifier denoting the associated Transaction object.
+     * Globally unique identifier denoting the associated transaction. For settlement records with
+     * type `CLEARING`, `FINANCIAL`, or `NON-FINANCIAL`, this references a card transaction token.
+     * For settlement records with type `CHARGEBACK`, `REPRESENTMENT`, `PREARBITRATION`,
+     * `ARBITRATION`, or `COLLABORATION`, this references the dispute transaction token. May be null
+     * for certain settlement types.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -676,7 +681,10 @@ private constructor(
             this.disputesGrossAmount = disputesGrossAmount
         }
 
-        /** Globally unique identifiers denoting the Events associated with this settlement. */
+        /**
+         * Array of globally unique identifiers for the financial events that comprise this
+         * settlement. Use these tokens to access detailed event-level information.
+         */
         fun eventTokens(eventTokens: List<String>) = eventTokens(JsonField.of(eventTokens))
 
         /**
@@ -818,7 +826,13 @@ private constructor(
             this.settlementDate = settlementDate
         }
 
-        /** Globally unique identifier denoting the associated Transaction object. */
+        /**
+         * Globally unique identifier denoting the associated transaction. For settlement records
+         * with type `CLEARING`, `FINANCIAL`, or `NON-FINANCIAL`, this references a card transaction
+         * token. For settlement records with type `CHARGEBACK`, `REPRESENTMENT`, `PREARBITRATION`,
+         * `ARBITRATION`, or `COLLABORATION`, this references the dispute transaction token. May be
+         * null for certain settlement types.
+         */
         fun transactionToken(transactionToken: String) =
             transactionToken(JsonField.of(transactionToken))
 
