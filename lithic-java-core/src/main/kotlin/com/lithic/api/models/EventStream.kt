@@ -31,6 +31,8 @@ class EventStream @JsonCreator private constructor(private val value: JsonField<
 
         @JvmField val ACH_DEBIT_RECEIPT = of("ACH_DEBIT_RECEIPT")
 
+        @JvmField val CARD_TRANSACTION_UPDATE = of("CARD_TRANSACTION_UPDATE")
+
         @JvmStatic fun of(value: String) = EventStream(JsonField.of(value))
     }
 
@@ -41,6 +43,7 @@ class EventStream @JsonCreator private constructor(private val value: JsonField<
         TOKENIZATION,
         ACH_CREDIT_RECEIPT,
         ACH_DEBIT_RECEIPT,
+        CARD_TRANSACTION_UPDATE,
     }
 
     /**
@@ -58,6 +61,7 @@ class EventStream @JsonCreator private constructor(private val value: JsonField<
         TOKENIZATION,
         ACH_CREDIT_RECEIPT,
         ACH_DEBIT_RECEIPT,
+        CARD_TRANSACTION_UPDATE,
         /** An enum member indicating that [EventStream] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -76,6 +80,7 @@ class EventStream @JsonCreator private constructor(private val value: JsonField<
             TOKENIZATION -> Value.TOKENIZATION
             ACH_CREDIT_RECEIPT -> Value.ACH_CREDIT_RECEIPT
             ACH_DEBIT_RECEIPT -> Value.ACH_DEBIT_RECEIPT
+            CARD_TRANSACTION_UPDATE -> Value.CARD_TRANSACTION_UPDATE
             else -> Value._UNKNOWN
         }
 
@@ -94,6 +99,7 @@ class EventStream @JsonCreator private constructor(private val value: JsonField<
             TOKENIZATION -> Known.TOKENIZATION
             ACH_CREDIT_RECEIPT -> Known.ACH_CREDIT_RECEIPT
             ACH_DEBIT_RECEIPT -> Known.ACH_DEBIT_RECEIPT
+            CARD_TRANSACTION_UPDATE -> Known.CARD_TRANSACTION_UPDATE
             else -> throw LithicInvalidDataException("Unknown EventStream: $value")
         }
 
