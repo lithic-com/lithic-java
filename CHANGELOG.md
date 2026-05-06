@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.125.0 (2026-05-06)
+
+Full Changelog: [v0.124.0...v0.125.0](https://github.com/lithic-com/lithic-java/compare/v0.124.0...v0.125.0)
+
+### Features
+
+* **api:** add AMEX to Network enum in settlement params and models ([638084a](https://github.com/lithic-com/lithic-java/commit/638084a329e3e2da55a350e950f6752e185b5ae4))
+* **api:** add CARD_TRANSACTION_UPDATE event stream and conditional action to auth rules ([064ee52](https://github.com/lithic-com/lithic-java/commit/064ee523f9ced5648ad252fd7a625709b61ad1f4))
+* **api:** add IS_NEW_MERCHANT attribute to authorization action parameters ([6a44f6b](https://github.com/lithic-com/lithic-java/commit/6a44f6b77dc5749fe3e39e6deee4e0e2de316efe))
+* **client:** improve logging ([bb282c7](https://github.com/lithic-com/lithic-java/commit/bb282c75d62080e57456309b7b0c510dab94f5ca))
+* **client:** more robust error parsing ([af54a46](https://github.com/lithic-com/lithic-java/commit/af54a46bbbdbb176835e48074572df830dbc39c2))
+* **client:** support proxy authentication ([183501b](https://github.com/lithic-com/lithic-java/commit/183501b5aa6bde88a884b70a370f848b29cdcd8b))
+* support setting headers via env ([0493d0a](https://github.com/lithic-com/lithic-java/commit/0493d0ad4f3d8e45f35b652e670e505bcbfaf67a))
+
+
+### Bug Fixes
+
+* **types:** add EMPTY exemption type, make fields optional in Account/Card/NonPciCard ([2a2a00a](https://github.com/lithic-com/lithic-java/commit/2a2a00acc9cd3a92991a7ae50b6e02cdebaa930d))
+
+
+### Performance Improvements
+
+* **client:** create one json mapper ([1743358](https://github.com/lithic-com/lithic-java/commit/1743358e72d12f38c5012963276deef9f78831d9))
+
+
+### Chores
+
+* remove duplicated dokka setup ([1728d1a](https://github.com/lithic-com/lithic-java/commit/1728d1a87fbefc15fd86228d122d3a6e2ec53afb))
+
+
+### Documentation
+
+* **api:** improve event_tokens and transaction_token field docs in SettlementDetail ([1ccf96d](https://github.com/lithic-com/lithic-java/commit/1ccf96d80d888a5c0756ef5a115dd3e810f9f25b))
+* **api:** update exp_month/exp_year descriptions in card create/renew ([36c34a0](https://github.com/lithic-com/lithic-java/commit/36c34a04d23013e6504d322f84ed85506ab46220))
+* clarify forwards compat behavior ([746bf4a](https://github.com/lithic-com/lithic-java/commit/746bf4a1c7e5de2f4c498d411422827c2107ffc5))
+
 ## 0.124.0 (2026-04-20)
 
 Full Changelog: [v0.123.0...v0.124.0](https://github.com/lithic-com/lithic-java/compare/v0.123.0...v0.124.0)
