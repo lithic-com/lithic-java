@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.lithic.api.client.LithicClientAsync
 import com.lithic.api.client.LithicClientAsyncImpl
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.LogLevel
 import com.lithic.api.core.Sleeper
 import com.lithic.api.core.Timeout
 import com.lithic.api.core.http.AsyncStreamResponse
@@ -295,6 +296,15 @@ class LithicOkHttpClientAsync private constructor() {
          * Defaults to 2.
          */
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { clientOptions.logLevel(logLevel) }
 
         fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
 
