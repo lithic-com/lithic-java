@@ -490,6 +490,15 @@ private constructor(
          *   values are `TRUE`, `FALSE`. Card-scoped only; no `parameters` required.
          * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
          *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required.
+         * * `TRAVEL_SPEED`: The estimated speed of travel derived from the distance between the
+         *   postal code centers of the last card-present transaction and the current transaction,
+         *   divided by the elapsed time. Null if there is no prior card-present transaction, if
+         *   either postal code cannot be geocoded, or if elapsed time is zero. Requires
+         *   `parameters.unit` set to `MPH` or `KPH`.
+         * * `DISTANCE_FROM_LAST_TRANSACTION`: The estimated distance between the postal code
+         *   centers of the last card-present transaction and the current transaction. Null if there
+         *   is no prior card-present transaction or if either postal code cannot be geocoded.
+         *   Requires `parameters.unit` set to `MILES` or `KILOMETERS`.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -513,11 +522,12 @@ private constructor(
         fun value(): ConditionalValue = value.getRequired("value")
 
         /**
-         * Additional parameters required for transaction history signal attributes. Required when
-         * `attribute` is one of `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
-         * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
-         * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`. Not
-         * used for other attributes.
+         * Additional parameters for certain attributes. Required when `attribute` is one of
+         * `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`,
+         * `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`, `CONSECUTIVE_DECLINES`,
+         * `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT` (require `scope`); or
+         * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION` (require `unit`). Not used for other
+         * attributes.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -702,6 +712,15 @@ private constructor(
              *   Valid values are `TRUE`, `FALSE`. Card-scoped only; no `parameters` required.
              * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
              *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required.
+             * * `TRAVEL_SPEED`: The estimated speed of travel derived from the distance between the
+             *   postal code centers of the last card-present transaction and the current
+             *   transaction, divided by the elapsed time. Null if there is no prior card-present
+             *   transaction, if either postal code cannot be geocoded, or if elapsed time is zero.
+             *   Requires `parameters.unit` set to `MPH` or `KPH`.
+             * * `DISTANCE_FROM_LAST_TRANSACTION`: The estimated distance between the postal code
+             *   centers of the last card-present transaction and the current transaction. Null if
+             *   there is no prior card-present transaction or if either postal code cannot be
+             *   geocoded. Requires `parameters.unit` set to `MILES` or `KILOMETERS`.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -754,11 +773,12 @@ private constructor(
             fun value(timestamp: OffsetDateTime) = value(ConditionalValue.ofTimestamp(timestamp))
 
             /**
-             * Additional parameters required for transaction history signal attributes. Required
-             * when `attribute` is one of `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
-             * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
-             * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`.
-             * Not used for other attributes.
+             * Additional parameters for certain attributes. Required when `attribute` is one of
+             * `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`,
+             * `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`, `CONSECUTIVE_DECLINES`,
+             * `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT` (require `scope`); or
+             * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION` (require `unit`). Not used for
+             * other attributes.
              */
             fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
 
@@ -955,6 +975,15 @@ private constructor(
          *   values are `TRUE`, `FALSE`. Card-scoped only; no `parameters` required.
          * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
          *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required.
+         * * `TRAVEL_SPEED`: The estimated speed of travel derived from the distance between the
+         *   postal code centers of the last card-present transaction and the current transaction,
+         *   divided by the elapsed time. Null if there is no prior card-present transaction, if
+         *   either postal code cannot be geocoded, or if elapsed time is zero. Requires
+         *   `parameters.unit` set to `MPH` or `KPH`.
+         * * `DISTANCE_FROM_LAST_TRANSACTION`: The estimated distance between the postal code
+         *   centers of the last card-present transaction and the current transaction. Null if there
+         *   is no prior card-present transaction or if either postal code cannot be geocoded.
+         *   Requires `parameters.unit` set to `MILES` or `KILOMETERS`.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -1045,6 +1074,10 @@ private constructor(
 
                 @JvmField val THREE_DS_SUCCESS_RATE = of("THREE_DS_SUCCESS_RATE")
 
+                @JvmField val TRAVEL_SPEED = of("TRAVEL_SPEED")
+
+                @JvmField val DISTANCE_FROM_LAST_TRANSACTION = of("DISTANCE_FROM_LAST_TRANSACTION")
+
                 @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
             }
 
@@ -1087,6 +1120,8 @@ private constructor(
                 DISTINCT_COUNTRY_COUNT,
                 IS_NEW_MERCHANT,
                 THREE_DS_SUCCESS_RATE,
+                TRAVEL_SPEED,
+                DISTANCE_FROM_LAST_TRANSACTION,
             }
 
             /**
@@ -1136,6 +1171,8 @@ private constructor(
                 DISTINCT_COUNTRY_COUNT,
                 IS_NEW_MERCHANT,
                 THREE_DS_SUCCESS_RATE,
+                TRAVEL_SPEED,
+                DISTANCE_FROM_LAST_TRANSACTION,
                 /**
                  * An enum member indicating that [Attribute] was instantiated with an unknown
                  * value.
@@ -1189,6 +1226,8 @@ private constructor(
                     DISTINCT_COUNTRY_COUNT -> Value.DISTINCT_COUNTRY_COUNT
                     IS_NEW_MERCHANT -> Value.IS_NEW_MERCHANT
                     THREE_DS_SUCCESS_RATE -> Value.THREE_DS_SUCCESS_RATE
+                    TRAVEL_SPEED -> Value.TRAVEL_SPEED
+                    DISTANCE_FROM_LAST_TRANSACTION -> Value.DISTANCE_FROM_LAST_TRANSACTION
                     else -> Value._UNKNOWN
                 }
 
@@ -1240,6 +1279,8 @@ private constructor(
                     DISTINCT_COUNTRY_COUNT -> Known.DISTINCT_COUNTRY_COUNT
                     IS_NEW_MERCHANT -> Known.IS_NEW_MERCHANT
                     THREE_DS_SUCCESS_RATE -> Known.THREE_DS_SUCCESS_RATE
+                    TRAVEL_SPEED -> Known.TRAVEL_SPEED
+                    DISTANCE_FROM_LAST_TRANSACTION -> Known.DISTANCE_FROM_LAST_TRANSACTION
                     else -> throw LithicInvalidDataException("Unknown Attribute: $value")
                 }
 
@@ -1308,17 +1349,19 @@ private constructor(
         }
 
         /**
-         * Additional parameters required for transaction history signal attributes. Required when
-         * `attribute` is one of `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
-         * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
-         * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`. Not
-         * used for other attributes.
+         * Additional parameters for certain attributes. Required when `attribute` is one of
+         * `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`,
+         * `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`, `CONSECUTIVE_DECLINES`,
+         * `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT` (require `scope`); or
+         * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION` (require `unit`). Not used for other
+         * attributes.
          */
         class Parameters
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val interval: JsonField<Interval>,
             private val scope: JsonField<Scope>,
+            private val unit: JsonField<Unit>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -1328,7 +1371,8 @@ private constructor(
                 @ExcludeMissing
                 interval: JsonField<Interval> = JsonMissing.of(),
                 @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
-            ) : this(interval, scope, mutableMapOf())
+                @JsonProperty("unit") @ExcludeMissing unit: JsonField<Unit> = JsonMissing.of(),
+            ) : this(interval, scope, unit, mutableMapOf())
 
             /**
              * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
@@ -1349,6 +1393,19 @@ private constructor(
             fun scope(): Optional<Scope> = scope.getOptional("scope")
 
             /**
+             * The unit for impossible travel attributes. Required when `attribute` is
+             * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION`.
+             *
+             * For `TRAVEL_SPEED`: `MPH` (miles per hour) or `KPH` (kilometers per hour).
+             *
+             * For `DISTANCE_FROM_LAST_TRANSACTION`: `MILES` or `KILOMETERS`.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun unit(): Optional<Unit> = unit.getOptional("unit")
+
+            /**
              * Returns the raw JSON value of [interval].
              *
              * Unlike [interval], this method doesn't throw if the JSON field has an unexpected
@@ -1364,6 +1421,13 @@ private constructor(
              * Unlike [scope], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<Scope> = scope
+
+            /**
+             * Returns the raw JSON value of [unit].
+             *
+             * Unlike [unit], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("unit") @ExcludeMissing fun _unit(): JsonField<Unit> = unit
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1388,12 +1452,14 @@ private constructor(
 
                 private var interval: JsonField<Interval> = JsonMissing.of()
                 private var scope: JsonField<Scope> = JsonMissing.of()
+                private var unit: JsonField<Unit> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(parameters: Parameters) = apply {
                     interval = parameters.interval
                     scope = parameters.scope
+                    unit = parameters.unit
                     additionalProperties = parameters.additionalProperties.toMutableMap()
                 }
 
@@ -1425,6 +1491,25 @@ private constructor(
                  */
                 fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
 
+                /**
+                 * The unit for impossible travel attributes. Required when `attribute` is
+                 * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION`.
+                 *
+                 * For `TRAVEL_SPEED`: `MPH` (miles per hour) or `KPH` (kilometers per hour).
+                 *
+                 * For `DISTANCE_FROM_LAST_TRANSACTION`: `MILES` or `KILOMETERS`.
+                 */
+                fun unit(unit: Unit) = unit(JsonField.of(unit))
+
+                /**
+                 * Sets [Builder.unit] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.unit] with a well-typed [Unit] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun unit(unit: JsonField<Unit>) = apply { this.unit = unit }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -1453,7 +1538,7 @@ private constructor(
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
                 fun build(): Parameters =
-                    Parameters(interval, scope, additionalProperties.toMutableMap())
+                    Parameters(interval, scope, unit, additionalProperties.toMutableMap())
             }
 
             private var validated: Boolean = false
@@ -1475,6 +1560,7 @@ private constructor(
 
                 interval().ifPresent { it.validate() }
                 scope().ifPresent { it.validate() }
+                unit().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -1495,7 +1581,8 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (interval.asKnown().getOrNull()?.validity() ?: 0) +
-                    (scope.asKnown().getOrNull()?.validity() ?: 0)
+                    (scope.asKnown().getOrNull()?.validity() ?: 0) +
+                    (unit.asKnown().getOrNull()?.validity() ?: 0)
 
             /**
              * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
@@ -1803,6 +1890,166 @@ private constructor(
                 override fun toString() = value.toString()
             }
 
+            /**
+             * The unit for impossible travel attributes. Required when `attribute` is
+             * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION`.
+             *
+             * For `TRAVEL_SPEED`: `MPH` (miles per hour) or `KPH` (kilometers per hour).
+             *
+             * For `DISTANCE_FROM_LAST_TRANSACTION`: `MILES` or `KILOMETERS`.
+             */
+            class Unit @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val MPH = of("MPH")
+
+                    @JvmField val KPH = of("KPH")
+
+                    @JvmField val MILES = of("MILES")
+
+                    @JvmField val KILOMETERS = of("KILOMETERS")
+
+                    @JvmStatic fun of(value: String) = Unit(JsonField.of(value))
+                }
+
+                /** An enum containing [Unit]'s known values. */
+                enum class Known {
+                    MPH,
+                    KPH,
+                    MILES,
+                    KILOMETERS,
+                }
+
+                /**
+                 * An enum containing [Unit]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Unit] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    MPH,
+                    KPH,
+                    MILES,
+                    KILOMETERS,
+                    /**
+                     * An enum member indicating that [Unit] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        MPH -> Value.MPH
+                        KPH -> Value.KPH
+                        MILES -> Value.MILES
+                        KILOMETERS -> Value.KILOMETERS
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        MPH -> Known.MPH
+                        KPH -> Known.KPH
+                        MILES -> Known.MILES
+                        KILOMETERS -> Known.KILOMETERS
+                        else -> throw LithicInvalidDataException("Unknown Unit: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): Unit = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Unit && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -1811,17 +2058,18 @@ private constructor(
                 return other is Parameters &&
                     interval == other.interval &&
                     scope == other.scope &&
+                    unit == other.unit &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(interval, scope, additionalProperties)
+                Objects.hash(interval, scope, unit, additionalProperties)
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Parameters{interval=$interval, scope=$scope, additionalProperties=$additionalProperties}"
+                "Parameters{interval=$interval, scope=$scope, unit=$unit, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {

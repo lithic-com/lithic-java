@@ -31,6 +31,11 @@ internal class ConditionalAuthorizationActionParametersTest {
                                         .Scope
                                         .CARD
                                 )
+                                .unit(
+                                    ConditionalAuthorizationActionParameters.Condition.Parameters
+                                        .Unit
+                                        .MPH
+                                )
                                 .build()
                         )
                         .build()
@@ -55,6 +60,10 @@ internal class ConditionalAuthorizationActionParametersTest {
                             .scope(
                                 ConditionalAuthorizationActionParameters.Condition.Parameters.Scope
                                     .CARD
+                            )
+                            .unit(
+                                ConditionalAuthorizationActionParameters.Condition.Parameters.Unit
+                                    .MPH
                             )
                             .build()
                     )
@@ -84,6 +93,11 @@ internal class ConditionalAuthorizationActionParametersTest {
                                     ConditionalAuthorizationActionParameters.Condition.Parameters
                                         .Scope
                                         .CARD
+                                )
+                                .unit(
+                                    ConditionalAuthorizationActionParameters.Condition.Parameters
+                                        .Unit
+                                        .MPH
                                 )
                                 .build()
                         )
