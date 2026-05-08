@@ -21,9 +21,11 @@ import com.lithic.api.models.AccountListPageAsync
 import com.lithic.api.models.AccountListPageResponse
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
+import com.lithic.api.models.AccountRetrieveSignalsParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.models.SignalsResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -60,6 +62,13 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     ): CompletableFuture<AccountListPageAsync> =
         // get /v1/accounts
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveSignals(
+        params: AccountRetrieveSignalsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<SignalsResponse> =
+        // get /v1/accounts/{account_token}/signals
+        withRawResponse().retrieveSignals(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveSpendLimits(
         params: AccountRetrieveSpendLimitsParams,
@@ -180,6 +189,39 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                                     .params(params)
                                     .response(it)
                                     .build()
+                            }
+                    }
+                }
+        }
+
+        private val retrieveSignalsHandler: Handler<SignalsResponse> =
+            jsonHandler<SignalsResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveSignals(
+            params: AccountRetrieveSignalsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountToken", params.accountToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "accounts", params._pathParam(0), "signals")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retrieveSignalsHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
                             }
                     }
                 }

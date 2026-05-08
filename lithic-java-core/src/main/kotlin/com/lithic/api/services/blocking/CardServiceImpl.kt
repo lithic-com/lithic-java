@@ -31,12 +31,14 @@ import com.lithic.api.models.CardProvisionResponse
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardRetrieveParams
+import com.lithic.api.models.CardRetrieveSignalsParams
 import com.lithic.api.models.CardRetrieveSpendLimitsParams
 import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardSpendLimits
 import com.lithic.api.models.CardUpdateParams
 import com.lithic.api.models.CardWebProvisionParams
 import com.lithic.api.models.CardWebProvisionResponse
+import com.lithic.api.models.SignalsResponse
 import com.lithic.api.services.blocking.cards.BalanceService
 import com.lithic.api.services.blocking.cards.BalanceServiceImpl
 import com.lithic.api.services.blocking.cards.FinancialTransactionService
@@ -110,6 +112,13 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
     override fun renew(params: CardRenewParams, requestOptions: RequestOptions): Card =
         // post /v1/cards/{card_token}/renew
         withRawResponse().renew(params, requestOptions).parse()
+
+    override fun retrieveSignals(
+        params: CardRetrieveSignalsParams,
+        requestOptions: RequestOptions,
+    ): SignalsResponse =
+        // get /v1/cards/{card_token}/signals
+        withRawResponse().retrieveSignals(params, requestOptions).parse()
 
     override fun retrieveSpendLimits(
         params: CardRetrieveSpendLimitsParams,
@@ -410,6 +419,36 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             return errorHandler.handle(response).parseable {
                 response
                     .use { renewHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveSignalsHandler: Handler<SignalsResponse> =
+            jsonHandler<SignalsResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveSignals(
+            params: CardRetrieveSignalsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<SignalsResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "cards", params._pathParam(0), "signals")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveSignalsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
