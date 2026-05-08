@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.126.0 (2026-05-08)
+
+Full Changelog: [v0.125.0...v0.126.0](https://github.com/lithic-com/lithic-java/compare/v0.125.0...v0.126.0)
+
+### Features
+
+* **api:** add retrieve signals method to accounts and cards ([767ea0d](https://github.com/lithic-com/lithic-java/commit/767ea0d26ee83791aa33f7ce96091d87fcd2f3e0))
+* **api:** add travel/distance attributes, unit param to authorization actions ([f5d17dc](https://github.com/lithic-com/lithic-java/commit/f5d17dcfe179f2612c3b1f93504948b5097bb69b))
+
+
+### Chores
+
+* redact api-key headers in debug logs ([7bcf3e6](https://github.com/lithic-com/lithic-java/commit/7bcf3e6916b9cbc628a78e0a97d78057cab7fe3a))
+
 ## 0.125.0 (2026-05-06)
 
 Full Changelog: [v0.124.0...v0.125.0](https://github.com/lithic-com/lithic-java/compare/v0.124.0...v0.125.0)
