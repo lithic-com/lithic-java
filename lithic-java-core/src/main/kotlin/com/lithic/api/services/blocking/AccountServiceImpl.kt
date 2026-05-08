@@ -21,9 +21,11 @@ import com.lithic.api.models.AccountListPage
 import com.lithic.api.models.AccountListPageResponse
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
+import com.lithic.api.models.AccountRetrieveSignalsParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.models.SignalsResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -50,6 +52,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     override fun list(params: AccountListParams, requestOptions: RequestOptions): AccountListPage =
         // get /v1/accounts
         withRawResponse().list(params, requestOptions).parse()
+
+    override fun retrieveSignals(
+        params: AccountRetrieveSignalsParams,
+        requestOptions: RequestOptions,
+    ): SignalsResponse =
+        // get /v1/accounts/{account_token}/signals
+        withRawResponse().retrieveSignals(params, requestOptions).parse()
 
     override fun retrieveSpendLimits(
         params: AccountRetrieveSpendLimitsParams,
@@ -161,6 +170,36 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
                             .params(params)
                             .response(it)
                             .build()
+                    }
+            }
+        }
+
+        private val retrieveSignalsHandler: Handler<SignalsResponse> =
+            jsonHandler<SignalsResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveSignals(
+            params: AccountRetrieveSignalsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<SignalsResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountToken", params.accountToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "accounts", params._pathParam(0), "signals")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveSignalsHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
                     }
             }
         }

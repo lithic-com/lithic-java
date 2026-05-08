@@ -9,9 +9,11 @@ import com.lithic.api.models.Account
 import com.lithic.api.models.AccountListPageAsync
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
+import com.lithic.api.models.AccountRetrieveSignalsParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.models.SignalsResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -114,6 +116,51 @@ interface AccountServiceAsync {
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<AccountListPageAsync> =
         list(AccountListParams.none(), requestOptions)
+
+    /**
+     * Returns behavioral feature state derived from an account's transaction history.
+     *
+     * These signals expose the same data used by behavioral rule attributes (e.g. `AMOUNT_Z_SCORE`
+     * with `scope: ACCOUNT`, `IS_NEW_COUNTRY` with `scope: ACCOUNT`) and custom code
+     * `TRANSACTION_HISTORY_SIGNALS` features, allowing clients to inspect feature values before
+     * writing rules and debug rule behavior.
+     *
+     * Note: 3DS fields are not available at the account scope and will be null.
+     */
+    fun retrieveSignals(accountToken: String): CompletableFuture<SignalsResponse> =
+        retrieveSignals(accountToken, AccountRetrieveSignalsParams.none())
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        accountToken: String,
+        params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<SignalsResponse> =
+        retrieveSignals(params.toBuilder().accountToken(accountToken).build(), requestOptions)
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        accountToken: String,
+        params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
+    ): CompletableFuture<SignalsResponse> =
+        retrieveSignals(accountToken, params, RequestOptions.none())
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        params: AccountRetrieveSignalsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<SignalsResponse>
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(params: AccountRetrieveSignalsParams): CompletableFuture<SignalsResponse> =
+        retrieveSignals(params, RequestOptions.none())
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        accountToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<SignalsResponse> =
+        retrieveSignals(accountToken, AccountRetrieveSignalsParams.none(), requestOptions)
 
     /**
      * Get an Account's available spend limits, which is based on the spend limit configured on the
@@ -273,6 +320,49 @@ interface AccountServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AccountListPageAsync>> =
             list(AccountListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /v1/accounts/{account_token}/signals`, but is
+         * otherwise the same as [AccountServiceAsync.retrieveSignals].
+         */
+        fun retrieveSignals(
+            accountToken: String
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(accountToken, AccountRetrieveSignalsParams.none())
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            accountToken: String,
+            params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(params.toBuilder().accountToken(accountToken).build(), requestOptions)
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            accountToken: String,
+            params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(accountToken, params, RequestOptions.none())
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            params: AccountRetrieveSignalsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>>
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            params: AccountRetrieveSignalsParams
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(params, RequestOptions.none())
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            accountToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(accountToken, AccountRetrieveSignalsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/accounts/{account_token}/spend_limits`, but is

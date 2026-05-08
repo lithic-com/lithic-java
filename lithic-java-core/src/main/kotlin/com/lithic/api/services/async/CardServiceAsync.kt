@@ -18,12 +18,14 @@ import com.lithic.api.models.CardProvisionResponse
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardRetrieveParams
+import com.lithic.api.models.CardRetrieveSignalsParams
 import com.lithic.api.models.CardRetrieveSpendLimitsParams
 import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardSpendLimits
 import com.lithic.api.models.CardUpdateParams
 import com.lithic.api.models.CardWebProvisionParams
 import com.lithic.api.models.CardWebProvisionResponse
+import com.lithic.api.models.SignalsResponse
 import com.lithic.api.services.async.cards.BalanceServiceAsync
 import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -320,6 +322,49 @@ interface CardServiceAsync {
         params: CardRenewParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Card>
+
+    /**
+     * Returns behavioral feature state derived from a card's transaction history.
+     *
+     * These signals expose the same data used by behavioral rule attributes (e.g. `AMOUNT_Z_SCORE`
+     * with `scope: CARD`, `IS_NEW_COUNTRY` with `scope: CARD`) and custom code
+     * `TRANSACTION_HISTORY_SIGNALS` features, allowing clients to inspect feature values before
+     * writing rules and debug rule behavior.
+     */
+    fun retrieveSignals(cardToken: String): CompletableFuture<SignalsResponse> =
+        retrieveSignals(cardToken, CardRetrieveSignalsParams.none())
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        cardToken: String,
+        params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<SignalsResponse> =
+        retrieveSignals(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        cardToken: String,
+        params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
+    ): CompletableFuture<SignalsResponse> =
+        retrieveSignals(cardToken, params, RequestOptions.none())
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        params: CardRetrieveSignalsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<SignalsResponse>
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(params: CardRetrieveSignalsParams): CompletableFuture<SignalsResponse> =
+        retrieveSignals(params, RequestOptions.none())
+
+    /** @see retrieveSignals */
+    fun retrieveSignals(
+        cardToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<SignalsResponse> =
+        retrieveSignals(cardToken, CardRetrieveSignalsParams.none(), requestOptions)
 
     /**
      * Get a Card's available spend limit, which is based on the spend limit configured on the Card
@@ -712,6 +757,49 @@ interface CardServiceAsync {
             params: CardRenewParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Card>>
+
+        /**
+         * Returns a raw HTTP response for `get /v1/cards/{card_token}/signals`, but is otherwise
+         * the same as [CardServiceAsync.retrieveSignals].
+         */
+        fun retrieveSignals(
+            cardToken: String
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(cardToken, CardRetrieveSignalsParams.none())
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            cardToken: String,
+            params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            cardToken: String,
+            params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(cardToken, params, RequestOptions.none())
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            params: CardRetrieveSignalsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>>
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            params: CardRetrieveSignalsParams
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(params, RequestOptions.none())
+
+        /** @see retrieveSignals */
+        fun retrieveSignals(
+            cardToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<SignalsResponse>> =
+            retrieveSignals(cardToken, CardRetrieveSignalsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/cards/{card_token}/spend_limits`, but is
