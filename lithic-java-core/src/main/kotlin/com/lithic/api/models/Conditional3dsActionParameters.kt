@@ -406,9 +406,9 @@ private constructor(
          * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
-         *   cardholder.
+         *   cardholder. Use an integer value.
          * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
-         *   level, with a higher value indicating a higher amount of risk.
+         *   level, with a higher value indicating a higher amount of risk. Use an integer value.
          * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
          * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with
          *   the cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
@@ -520,9 +520,10 @@ private constructor(
              * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
              *   field in the settlement/cardholder billing currency. This is the amount the issuer
              *   should authorize against unless the issuer is paying the acquirer fee on behalf of
-             *   the cardholder.
+             *   the cardholder. Use an integer value.
              * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
-             *   level, with a higher value indicating a higher amount of risk.
+             *   level, with a higher value indicating a higher amount of risk. Use an integer
+             *   value.
              * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
              * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data
              *   with the cardholder KYC data if it exists. Valid values are `MATCH`,
@@ -568,8 +569,11 @@ private constructor(
             /** Alias for calling [value] with `ConditionalValue.ofRegex(regex)`. */
             fun value(regex: String) = value(ConditionalValue.ofRegex(regex))
 
+            /** Alias for calling [value] with `ConditionalValue.ofInteger(integer)`. */
+            fun value(integer: Long) = value(ConditionalValue.ofInteger(integer))
+
             /** Alias for calling [value] with `ConditionalValue.ofNumber(number)`. */
-            fun value(number: Long) = value(ConditionalValue.ofNumber(number))
+            fun value(number: Double) = value(ConditionalValue.ofNumber(number))
 
             /** Alias for calling [value] with `ConditionalValue.ofListOfStrings(listOfStrings)`. */
             fun valueOfListOfStrings(listOfStrings: List<String>) =
@@ -677,9 +681,9 @@ private constructor(
          * * `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer fee
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
-         *   cardholder.
+         *   cardholder. Use an integer value.
          * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
-         *   level, with a higher value indicating a higher amount of risk.
+         *   level, with a higher value indicating a higher amount of risk. Use an integer value.
          * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
          * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with
          *   the cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
