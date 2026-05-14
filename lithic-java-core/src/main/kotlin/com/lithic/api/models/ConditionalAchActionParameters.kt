@@ -1701,7 +1701,8 @@ private constructor(
          * * `COMPANY_ID`: The company ID (also known as Standard Entry Class (SEC) Company ID) of
          *   the entity initiating the ACH transaction.
          * * `TIMESTAMP`: The timestamp of the ACH transaction in ISO 8601 format.
-         * * `TRANSACTION_AMOUNT`: The amount of the ACH transaction in minor units (cents).
+         * * `TRANSACTION_AMOUNT`: The amount of the ACH transaction in minor units (cents). Use an
+         *   integer value.
          * * `SEC_CODE`: Standard Entry Class code indicating the type of ACH transaction. Valid
          *   values include PPD (Prearranged Payment and Deposit Entry), CCD (Corporate Credit or
          *   Debit Entry), WEB (Internet-Initiated/Mobile Entry), TEL (Telephone-Initiated Entry),
@@ -1805,7 +1806,8 @@ private constructor(
              * * `COMPANY_ID`: The company ID (also known as Standard Entry Class (SEC) Company ID)
              *   of the entity initiating the ACH transaction.
              * * `TIMESTAMP`: The timestamp of the ACH transaction in ISO 8601 format.
-             * * `TRANSACTION_AMOUNT`: The amount of the ACH transaction in minor units (cents).
+             * * `TRANSACTION_AMOUNT`: The amount of the ACH transaction in minor units (cents). Use
+             *   an integer value.
              * * `SEC_CODE`: Standard Entry Class code indicating the type of ACH transaction. Valid
              *   values include PPD (Prearranged Payment and Deposit Entry), CCD (Corporate Credit
              *   or Debit Entry), WEB (Internet-Initiated/Mobile Entry), TEL (Telephone-Initiated
@@ -1852,8 +1854,11 @@ private constructor(
             /** Alias for calling [value] with `ConditionalValue.ofRegex(regex)`. */
             fun value(regex: String) = value(ConditionalValue.ofRegex(regex))
 
+            /** Alias for calling [value] with `ConditionalValue.ofInteger(integer)`. */
+            fun value(integer: Long) = value(ConditionalValue.ofInteger(integer))
+
             /** Alias for calling [value] with `ConditionalValue.ofNumber(number)`. */
-            fun value(number: Long) = value(ConditionalValue.ofNumber(number))
+            fun value(number: Double) = value(ConditionalValue.ofNumber(number))
 
             /** Alias for calling [value] with `ConditionalValue.ofListOfStrings(listOfStrings)`. */
             fun valueOfListOfStrings(listOfStrings: List<String>) =
@@ -1954,7 +1959,8 @@ private constructor(
          * * `COMPANY_ID`: The company ID (also known as Standard Entry Class (SEC) Company ID) of
          *   the entity initiating the ACH transaction.
          * * `TIMESTAMP`: The timestamp of the ACH transaction in ISO 8601 format.
-         * * `TRANSACTION_AMOUNT`: The amount of the ACH transaction in minor units (cents).
+         * * `TRANSACTION_AMOUNT`: The amount of the ACH transaction in minor units (cents). Use an
+         *   integer value.
          * * `SEC_CODE`: Standard Entry Class code indicating the type of ACH transaction. Valid
          *   values include PPD (Prearranged Payment and Deposit Entry), CCD (Corporate Credit or
          *   Debit Entry), WEB (Internet-Initiated/Mobile Entry), TEL (Telephone-Initiated Entry),

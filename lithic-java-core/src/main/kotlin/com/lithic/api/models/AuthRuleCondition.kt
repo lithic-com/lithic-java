@@ -258,8 +258,11 @@ private constructor(
         /** Alias for calling [value] with `ConditionalValue.ofRegex(regex)`. */
         fun value(regex: String) = value(ConditionalValue.ofRegex(regex))
 
+        /** Alias for calling [value] with `ConditionalValue.ofInteger(integer)`. */
+        fun value(integer: Long) = value(ConditionalValue.ofInteger(integer))
+
         /** Alias for calling [value] with `ConditionalValue.ofNumber(number)`. */
-        fun value(number: Long) = value(ConditionalValue.ofNumber(number))
+        fun value(number: Double) = value(ConditionalValue.ofNumber(number))
 
         /** Alias for calling [value] with `ConditionalValue.ofListOfStrings(listOfStrings)`. */
         fun valueOfListOfStrings(listOfStrings: List<String>) =

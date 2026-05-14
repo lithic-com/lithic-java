@@ -22,6 +22,7 @@ internal class ConditionalValueTest {
         val conditionalValue = ConditionalValue.ofRegex(regex)
 
         assertThat(conditionalValue.regex()).contains(regex)
+        assertThat(conditionalValue.integer()).isEmpty
         assertThat(conditionalValue.number()).isEmpty
         assertThat(conditionalValue.listOfStrings()).isEmpty
         assertThat(conditionalValue.timestamp()).isEmpty
@@ -42,12 +43,40 @@ internal class ConditionalValueTest {
     }
 
     @Test
+    fun ofInteger() {
+        val integer = 0L
+
+        val conditionalValue = ConditionalValue.ofInteger(integer)
+
+        assertThat(conditionalValue.regex()).isEmpty
+        assertThat(conditionalValue.integer()).contains(integer)
+        assertThat(conditionalValue.number()).isEmpty
+        assertThat(conditionalValue.listOfStrings()).isEmpty
+        assertThat(conditionalValue.timestamp()).isEmpty
+    }
+
+    @Test
+    fun ofIntegerRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val conditionalValue = ConditionalValue.ofInteger(0L)
+
+        val roundtrippedConditionalValue =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(conditionalValue),
+                jacksonTypeRef<ConditionalValue>(),
+            )
+
+        assertThat(roundtrippedConditionalValue).isEqualTo(conditionalValue)
+    }
+
+    @Test
     fun ofNumber() {
-        val number = 0L
+        val number = 0.0
 
         val conditionalValue = ConditionalValue.ofNumber(number)
 
         assertThat(conditionalValue.regex()).isEmpty
+        assertThat(conditionalValue.integer()).isEmpty
         assertThat(conditionalValue.number()).contains(number)
         assertThat(conditionalValue.listOfStrings()).isEmpty
         assertThat(conditionalValue.timestamp()).isEmpty
@@ -56,7 +85,7 @@ internal class ConditionalValueTest {
     @Test
     fun ofNumberRoundtrip() {
         val jsonMapper = jsonMapper()
-        val conditionalValue = ConditionalValue.ofNumber(0L)
+        val conditionalValue = ConditionalValue.ofNumber(0.0)
 
         val roundtrippedConditionalValue =
             jsonMapper.readValue(
@@ -74,6 +103,7 @@ internal class ConditionalValueTest {
         val conditionalValue = ConditionalValue.ofListOfStrings(listOfStrings)
 
         assertThat(conditionalValue.regex()).isEmpty
+        assertThat(conditionalValue.integer()).isEmpty
         assertThat(conditionalValue.number()).isEmpty
         assertThat(conditionalValue.listOfStrings()).contains(listOfStrings)
         assertThat(conditionalValue.timestamp()).isEmpty
@@ -100,6 +130,7 @@ internal class ConditionalValueTest {
         val conditionalValue = ConditionalValue.ofTimestamp(timestamp)
 
         assertThat(conditionalValue.regex()).isEmpty
+        assertThat(conditionalValue.integer()).isEmpty
         assertThat(conditionalValue.number()).isEmpty
         assertThat(conditionalValue.listOfStrings()).isEmpty
         assertThat(conditionalValue.timestamp()).contains(timestamp)
@@ -122,7 +153,6 @@ internal class ConditionalValueTest {
 
     enum class IncompatibleJsonShapeTestCase(val value: JsonValue) {
         BOOLEAN(JsonValue.from(false)),
-        FLOAT(JsonValue.from(3.14)),
         OBJECT(JsonValue.from(mapOf("invalid" to "object"))),
     }
 

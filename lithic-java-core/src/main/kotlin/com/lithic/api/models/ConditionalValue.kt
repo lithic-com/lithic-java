@@ -26,7 +26,8 @@ import java.util.Optional
 class ConditionalValue
 private constructor(
     private val regex: String? = null,
-    private val number: Long? = null,
+    private val integer: Long? = null,
+    private val number: Double? = null,
     private val listOfStrings: List<String>? = null,
     private val timestamp: OffsetDateTime? = null,
     private val _json: JsonValue? = null,
@@ -35,11 +36,9 @@ private constructor(
     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
     fun regex(): Optional<String> = Optional.ofNullable(regex)
 
-    /**
-     * A number, to be used with `IS_GREATER_THAN`, `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-     * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-     */
-    fun number(): Optional<Long> = Optional.ofNullable(number)
+    fun integer(): Optional<Long> = Optional.ofNullable(integer)
+
+    fun number(): Optional<Double> = Optional.ofNullable(number)
 
     /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
     fun listOfStrings(): Optional<List<String>> = Optional.ofNullable(listOfStrings)
@@ -48,6 +47,8 @@ private constructor(
     fun timestamp(): Optional<OffsetDateTime> = Optional.ofNullable(timestamp)
 
     fun isRegex(): Boolean = regex != null
+
+    fun isInteger(): Boolean = integer != null
 
     fun isNumber(): Boolean = number != null
 
@@ -58,11 +59,9 @@ private constructor(
     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
     fun asRegex(): String = regex.getOrThrow("regex")
 
-    /**
-     * A number, to be used with `IS_GREATER_THAN`, `IS_GREATER_THAN_OR_EQUAL_TO`, `IS_LESS_THAN`,
-     * `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-     */
-    fun asNumber(): Long = number.getOrThrow("number")
+    fun asInteger(): Long = integer.getOrThrow("integer")
+
+    fun asNumber(): Double = number.getOrThrow("number")
 
     /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
     fun asListOfStrings(): List<String> = listOfStrings.getOrThrow("listOfStrings")
@@ -104,6 +103,7 @@ private constructor(
     fun <T> accept(visitor: Visitor<T>): T =
         when {
             regex != null -> visitor.visitRegex(regex)
+            integer != null -> visitor.visitInteger(integer)
             number != null -> visitor.visitNumber(number)
             listOfStrings != null -> visitor.visitListOfStrings(listOfStrings)
             timestamp != null -> visitor.visitTimestamp(timestamp)
@@ -129,7 +129,9 @@ private constructor(
             object : Visitor<Unit> {
                 override fun visitRegex(regex: String) {}
 
-                override fun visitNumber(number: Long) {}
+                override fun visitInteger(integer: Long) {}
+
+                override fun visitNumber(number: Double) {}
 
                 override fun visitListOfStrings(listOfStrings: List<String>) {}
 
@@ -158,7 +160,9 @@ private constructor(
             object : Visitor<Int> {
                 override fun visitRegex(regex: String) = 1
 
-                override fun visitNumber(number: Long) = 1
+                override fun visitInteger(integer: Long) = 1
+
+                override fun visitNumber(number: Double) = 1
 
                 override fun visitListOfStrings(listOfStrings: List<String>) = listOfStrings.size
 
@@ -175,16 +179,18 @@ private constructor(
 
         return other is ConditionalValue &&
             regex == other.regex &&
+            integer == other.integer &&
             number == other.number &&
             listOfStrings == other.listOfStrings &&
             timestamp == other.timestamp
     }
 
-    override fun hashCode(): Int = Objects.hash(regex, number, listOfStrings, timestamp)
+    override fun hashCode(): Int = Objects.hash(regex, integer, number, listOfStrings, timestamp)
 
     override fun toString(): String =
         when {
             regex != null -> "ConditionalValue{regex=$regex}"
+            integer != null -> "ConditionalValue{integer=$integer}"
             number != null -> "ConditionalValue{number=$number}"
             listOfStrings != null -> "ConditionalValue{listOfStrings=$listOfStrings}"
             timestamp != null -> "ConditionalValue{timestamp=$timestamp}"
@@ -197,11 +203,9 @@ private constructor(
         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
         @JvmStatic fun ofRegex(regex: String) = ConditionalValue(regex = regex)
 
-        /**
-         * A number, to be used with `IS_GREATER_THAN`, `IS_GREATER_THAN_OR_EQUAL_TO`,
-         * `IS_LESS_THAN`, `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-         */
-        @JvmStatic fun ofNumber(number: Long) = ConditionalValue(number = number)
+        @JvmStatic fun ofInteger(integer: Long) = ConditionalValue(integer = integer)
+
+        @JvmStatic fun ofNumber(number: Double) = ConditionalValue(number = number)
 
         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
         @JvmStatic
@@ -222,11 +226,9 @@ private constructor(
         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
         fun visitRegex(regex: String): T
 
-        /**
-         * A number, to be used with `IS_GREATER_THAN`, `IS_GREATER_THAN_OR_EQUAL_TO`,
-         * `IS_LESS_THAN`, `IS_LESS_THAN_OR_EQUAL_TO`, `IS_EQUAL_TO`, or `IS_NOT_EQUAL_TO`
-         */
-        fun visitNumber(number: Long): T
+        fun visitInteger(integer: Long): T
+
+        fun visitNumber(number: Double): T
 
         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
         fun visitListOfStrings(listOfStrings: List<String>): T
@@ -263,6 +265,9 @@ private constructor(
                             ConditionalValue(regex = it, _json = json)
                         },
                         tryDeserialize(node, jacksonTypeRef<Long>())?.let {
+                            ConditionalValue(integer = it, _json = json)
+                        },
+                        tryDeserialize(node, jacksonTypeRef<Double>())?.let {
                             ConditionalValue(number = it, _json = json)
                         },
                         tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
@@ -293,6 +298,7 @@ private constructor(
         ) {
             when {
                 value.regex != null -> generator.writeObject(value.regex)
+                value.integer != null -> generator.writeObject(value.integer)
                 value.number != null -> generator.writeObject(value.number)
                 value.listOfStrings != null -> generator.writeObject(value.listOfStrings)
                 value.timestamp != null -> generator.writeObject(value.timestamp)
