@@ -31,6 +31,8 @@ import com.lithic.api.services.blocking.BalanceService
 import com.lithic.api.services.blocking.BalanceServiceImpl
 import com.lithic.api.services.blocking.BookTransferService
 import com.lithic.api.services.blocking.BookTransferServiceImpl
+import com.lithic.api.services.blocking.CardAuthorizationService
+import com.lithic.api.services.blocking.CardAuthorizationServiceImpl
 import com.lithic.api.services.blocking.CardBulkOrderService
 import com.lithic.api.services.blocking.CardBulkOrderServiceImpl
 import com.lithic.api.services.blocking.CardProgramService
@@ -127,6 +129,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
     }
 
     private val cards: CardService by lazy { CardServiceImpl(clientOptionsWithUserAgent) }
+
+    private val cardAuthorizations: CardAuthorizationService by lazy {
+        CardAuthorizationServiceImpl(clientOptionsWithUserAgent)
+    }
 
     private val cardBulkOrders: CardBulkOrderService by lazy {
         CardBulkOrderServiceImpl(clientOptionsWithUserAgent)
@@ -239,6 +245,8 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
 
     override fun cards(): CardService = cards
 
+    override fun cardAuthorizations(): CardAuthorizationService = cardAuthorizations
+
     override fun cardBulkOrders(): CardBulkOrderService = cardBulkOrders
 
     override fun balances(): BalanceService = balances
@@ -335,6 +343,10 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
 
         private val cards: CardService.WithRawResponse by lazy {
             CardServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val cardAuthorizations: CardAuthorizationService.WithRawResponse by lazy {
+            CardAuthorizationServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val cardBulkOrders: CardBulkOrderService.WithRawResponse by lazy {
@@ -467,6 +479,9 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
         override fun tokenizations(): TokenizationService.WithRawResponse = tokenizations
 
         override fun cards(): CardService.WithRawResponse = cards
+
+        override fun cardAuthorizations(): CardAuthorizationService.WithRawResponse =
+            cardAuthorizations
 
         override fun cardBulkOrders(): CardBulkOrderService.WithRawResponse = cardBulkOrders
 

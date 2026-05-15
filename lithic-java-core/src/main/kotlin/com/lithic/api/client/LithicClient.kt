@@ -15,6 +15,7 @@ import com.lithic.api.services.blocking.AuthRuleService
 import com.lithic.api.services.blocking.AuthStreamEnrollmentService
 import com.lithic.api.services.blocking.BalanceService
 import com.lithic.api.services.blocking.BookTransferService
+import com.lithic.api.services.blocking.CardAuthorizationService
 import com.lithic.api.services.blocking.CardBulkOrderService
 import com.lithic.api.services.blocking.CardProgramService
 import com.lithic.api.services.blocking.CardService
@@ -93,6 +94,8 @@ interface LithicClient {
     fun tokenizations(): TokenizationService
 
     fun cards(): CardService
+
+    fun cardAuthorizations(): CardAuthorizationService
 
     fun cardBulkOrders(): CardBulkOrderService
 
@@ -201,6 +204,8 @@ interface LithicClient {
         fun tokenizations(): TokenizationService.WithRawResponse
 
         fun cards(): CardService.WithRawResponse
+
+        fun cardAuthorizations(): CardAuthorizationService.WithRawResponse
 
         fun cardBulkOrders(): CardBulkOrderService.WithRawResponse
 
