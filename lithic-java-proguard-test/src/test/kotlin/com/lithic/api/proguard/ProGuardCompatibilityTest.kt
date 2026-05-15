@@ -56,6 +56,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.tokenizationDecisioning()).isNotNull()
         assertThat(client.tokenizations()).isNotNull()
         assertThat(client.cards()).isNotNull()
+        assertThat(client.cardAuthorizations()).isNotNull()
         assertThat(client.cardBulkOrders()).isNotNull()
         assertThat(client.balances()).isNotNull()
         assertThat(client.disputes()).isNotNull()
