@@ -758,7 +758,10 @@ private constructor(
          * Customer-provided token that indicates a relationship with an object outside of the
          * Lithic ecosystem.
          */
-        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+        fun externalId(externalId: String?) = externalId(JsonField.ofNullable(externalId))
+
+        /** Alias for calling [Builder.externalId] with `externalId.orElse(null)`. */
+        fun externalId(externalId: Optional<String>) = externalId(externalId.getOrNull())
 
         /**
          * Sets [Builder.externalId] to an arbitrary JSON value.
@@ -788,7 +791,10 @@ private constructor(
          * Only present when user_type == "BUSINESS". 6-digit North American Industry Classification
          * System (NAICS) code for the business.
          */
-        fun naicsCode(naicsCode: String) = naicsCode(JsonField.of(naicsCode))
+        fun naicsCode(naicsCode: String?) = naicsCode(JsonField.ofNullable(naicsCode))
+
+        /** Alias for calling [Builder.naicsCode] with `naicsCode.orElse(null)`. */
+        fun naicsCode(naicsCode: Optional<String>) = naicsCode(naicsCode.getOrNull())
 
         /**
          * Sets [Builder.naicsCode] to an arbitrary JSON value.
