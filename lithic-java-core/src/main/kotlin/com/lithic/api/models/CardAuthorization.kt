@@ -5638,6 +5638,7 @@ private constructor(
     class LatestChallenge
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val method: JsonField<Method>,
         private val phoneNumber: JsonField<String>,
         private val status: JsonField<Status>,
         private val completedAt: JsonField<OffsetDateTime>,
@@ -5646,6 +5647,7 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("method") @ExcludeMissing method: JsonField<Method> = JsonMissing.of(),
             @JsonProperty("phone_number")
             @ExcludeMissing
             phoneNumber: JsonField<String> = JsonMissing.of(),
@@ -5653,19 +5655,31 @@ private constructor(
             @JsonProperty("completed_at")
             @ExcludeMissing
             completedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
-        ) : this(phoneNumber, status, completedAt, mutableMapOf())
+        ) : this(method, phoneNumber, status, completedAt, mutableMapOf())
 
         /**
-         * The phone number used for sending Authorization Challenge SMS.
+         * The method used to deliver the challenge to the cardholder
+         * * `SMS` - Challenge was delivered via SMS
+         * * `OUT_OF_BAND` - Challenge was delivered via an out-of-band method
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
+        fun method(): Method = method.getRequired("method")
+
+        /**
+         * The phone number used for sending the Authorization Challenge. Present only when the
+         * challenge method is `SMS`.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun phoneNumber(): Optional<String> = phoneNumber.getOptional("phone_number")
 
         /**
          * The status of the Authorization Challenge
          * * `COMPLETED` - Challenge was successfully completed by the cardholder
+         * * `DECLINED` - Challenge was declined by the cardholder
          * * `PENDING` - Challenge is still open
          * * `EXPIRED` - Challenge has expired without being completed
          * * `ERROR` - There was an error processing the challenge
@@ -5683,6 +5697,13 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun completedAt(): Optional<OffsetDateTime> = completedAt.getOptional("completed_at")
+
+        /**
+         * Returns the raw JSON value of [method].
+         *
+         * Unlike [method], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("method") @ExcludeMissing fun _method(): JsonField<Method> = method
 
         /**
          * Returns the raw JSON value of [phoneNumber].
@@ -5728,6 +5749,7 @@ private constructor(
              *
              * The following fields are required:
              * ```java
+             * .method()
              * .phoneNumber()
              * .status()
              * ```
@@ -5738,6 +5760,7 @@ private constructor(
         /** A builder for [LatestChallenge]. */
         class Builder internal constructor() {
 
+            private var method: JsonField<Method>? = null
             private var phoneNumber: JsonField<String>? = null
             private var status: JsonField<Status>? = null
             private var completedAt: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -5745,14 +5768,37 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(latestChallenge: LatestChallenge) = apply {
+                method = latestChallenge.method
                 phoneNumber = latestChallenge.phoneNumber
                 status = latestChallenge.status
                 completedAt = latestChallenge.completedAt
                 additionalProperties = latestChallenge.additionalProperties.toMutableMap()
             }
 
-            /** The phone number used for sending Authorization Challenge SMS. */
-            fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
+            /**
+             * The method used to deliver the challenge to the cardholder
+             * * `SMS` - Challenge was delivered via SMS
+             * * `OUT_OF_BAND` - Challenge was delivered via an out-of-band method
+             */
+            fun method(method: Method) = method(JsonField.of(method))
+
+            /**
+             * Sets [Builder.method] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.method] with a well-typed [Method] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun method(method: JsonField<Method>) = apply { this.method = method }
+
+            /**
+             * The phone number used for sending the Authorization Challenge. Present only when the
+             * challenge method is `SMS`.
+             */
+            fun phoneNumber(phoneNumber: String?) = phoneNumber(JsonField.ofNullable(phoneNumber))
+
+            /** Alias for calling [Builder.phoneNumber] with `phoneNumber.orElse(null)`. */
+            fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.getOrNull())
 
             /**
              * Sets [Builder.phoneNumber] to an arbitrary JSON value.
@@ -5768,6 +5814,7 @@ private constructor(
             /**
              * The status of the Authorization Challenge
              * * `COMPLETED` - Challenge was successfully completed by the cardholder
+             * * `DECLINED` - Challenge was declined by the cardholder
              * * `PENDING` - Challenge is still open
              * * `EXPIRED` - Challenge has expired without being completed
              * * `ERROR` - There was an error processing the challenge
@@ -5826,6 +5873,7 @@ private constructor(
              *
              * The following fields are required:
              * ```java
+             * .method()
              * .phoneNumber()
              * .status()
              * ```
@@ -5834,6 +5882,7 @@ private constructor(
              */
             fun build(): LatestChallenge =
                 LatestChallenge(
+                    checkRequired("method", method),
                     checkRequired("phoneNumber", phoneNumber),
                     checkRequired("status", status),
                     completedAt,
@@ -5857,6 +5906,7 @@ private constructor(
                 return@apply
             }
 
+            method().validate()
             phoneNumber()
             status().validate()
             completedAt()
@@ -5879,13 +5929,159 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (phoneNumber.asKnown().isPresent) 1 else 0) +
+            (method.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (phoneNumber.asKnown().isPresent) 1 else 0) +
                 (status.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (completedAt.asKnown().isPresent) 1 else 0)
 
         /**
+         * The method used to deliver the challenge to the cardholder
+         * * `SMS` - Challenge was delivered via SMS
+         * * `OUT_OF_BAND` - Challenge was delivered via an out-of-band method
+         */
+        class Method @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val SMS = of("SMS")
+
+                @JvmField val OUT_OF_BAND = of("OUT_OF_BAND")
+
+                @JvmStatic fun of(value: String) = Method(JsonField.of(value))
+            }
+
+            /** An enum containing [Method]'s known values. */
+            enum class Known {
+                SMS,
+                OUT_OF_BAND,
+            }
+
+            /**
+             * An enum containing [Method]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Method] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                SMS,
+                OUT_OF_BAND,
+                /**
+                 * An enum member indicating that [Method] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    SMS -> Value.SMS
+                    OUT_OF_BAND -> Value.OUT_OF_BAND
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    SMS -> Known.SMS
+                    OUT_OF_BAND -> Known.OUT_OF_BAND
+                    else -> throw LithicInvalidDataException("Unknown Method: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): Method = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Method && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        /**
          * The status of the Authorization Challenge
          * * `COMPLETED` - Challenge was successfully completed by the cardholder
+         * * `DECLINED` - Challenge was declined by the cardholder
          * * `PENDING` - Challenge is still open
          * * `EXPIRED` - Challenge has expired without being completed
          * * `ERROR` - There was an error processing the challenge
@@ -5906,6 +6102,8 @@ private constructor(
 
                 @JvmField val COMPLETED = of("COMPLETED")
 
+                @JvmField val DECLINED = of("DECLINED")
+
                 @JvmField val PENDING = of("PENDING")
 
                 @JvmField val EXPIRED = of("EXPIRED")
@@ -5918,6 +6116,7 @@ private constructor(
             /** An enum containing [Status]'s known values. */
             enum class Known {
                 COMPLETED,
+                DECLINED,
                 PENDING,
                 EXPIRED,
                 ERROR,
@@ -5934,6 +6133,7 @@ private constructor(
              */
             enum class Value {
                 COMPLETED,
+                DECLINED,
                 PENDING,
                 EXPIRED,
                 ERROR,
@@ -5953,6 +6153,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     COMPLETED -> Value.COMPLETED
+                    DECLINED -> Value.DECLINED
                     PENDING -> Value.PENDING
                     EXPIRED -> Value.EXPIRED
                     ERROR -> Value.ERROR
@@ -5971,6 +6172,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     COMPLETED -> Known.COMPLETED
+                    DECLINED -> Known.DECLINED
                     PENDING -> Known.PENDING
                     EXPIRED -> Known.EXPIRED
                     ERROR -> Known.ERROR
@@ -6047,6 +6249,7 @@ private constructor(
             }
 
             return other is LatestChallenge &&
+                method == other.method &&
                 phoneNumber == other.phoneNumber &&
                 status == other.status &&
                 completedAt == other.completedAt &&
@@ -6054,13 +6257,13 @@ private constructor(
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(phoneNumber, status, completedAt, additionalProperties)
+            Objects.hash(method, phoneNumber, status, completedAt, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "LatestChallenge{phoneNumber=$phoneNumber, status=$status, completedAt=$completedAt, additionalProperties=$additionalProperties}"
+            "LatestChallenge{method=$method, phoneNumber=$phoneNumber, status=$status, completedAt=$completedAt, additionalProperties=$additionalProperties}"
     }
 
     /** Card network of the authorization. */

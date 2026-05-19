@@ -489,12 +489,15 @@ private constructor(
 
             @JvmField val SMS = of("SMS")
 
+            @JvmField val OUT_OF_BAND = of("OUT_OF_BAND")
+
             @JvmStatic fun of(value: String) = ChallengeMethod(JsonField.of(value))
         }
 
         /** An enum containing [ChallengeMethod]'s known values. */
         enum class Known {
-            SMS
+            SMS,
+            OUT_OF_BAND,
         }
 
         /**
@@ -508,6 +511,7 @@ private constructor(
          */
         enum class Value {
             SMS,
+            OUT_OF_BAND,
             /**
              * An enum member indicating that [ChallengeMethod] was instantiated with an unknown
              * value.
@@ -525,6 +529,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 SMS -> Value.SMS
+                OUT_OF_BAND -> Value.OUT_OF_BAND
                 else -> Value._UNKNOWN
             }
 
@@ -540,6 +545,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 SMS -> Known.SMS
+                OUT_OF_BAND -> Known.OUT_OF_BAND
                 else -> throw LithicInvalidDataException("Unknown ChallengeMethod: $value")
             }
 
