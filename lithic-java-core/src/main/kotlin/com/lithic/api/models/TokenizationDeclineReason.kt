@@ -49,6 +49,8 @@ private constructor(private val value: JsonField<String>) : Enum {
 
         @JvmField val DIGITAL_CARD_ART_REQUIRED = of("DIGITAL_CARD_ART_REQUIRED")
 
+        @JvmField val INVALID_PAN = of("INVALID_PAN")
+
         @JvmStatic fun of(value: String) = TokenizationDeclineReason(JsonField.of(value))
     }
 
@@ -67,6 +69,7 @@ private constructor(private val value: JsonField<String>) : Enum {
         NETWORK_FAILURE,
         GENERIC_DECLINE,
         DIGITAL_CARD_ART_REQUIRED,
+        INVALID_PAN,
     }
 
     /**
@@ -93,6 +96,7 @@ private constructor(private val value: JsonField<String>) : Enum {
         NETWORK_FAILURE,
         GENERIC_DECLINE,
         DIGITAL_CARD_ART_REQUIRED,
+        INVALID_PAN,
         /**
          * An enum member indicating that [TokenizationDeclineReason] was instantiated with an
          * unknown value.
@@ -122,6 +126,7 @@ private constructor(private val value: JsonField<String>) : Enum {
             NETWORK_FAILURE -> Value.NETWORK_FAILURE
             GENERIC_DECLINE -> Value.GENERIC_DECLINE
             DIGITAL_CARD_ART_REQUIRED -> Value.DIGITAL_CARD_ART_REQUIRED
+            INVALID_PAN -> Value.INVALID_PAN
             else -> Value._UNKNOWN
         }
 
@@ -148,6 +153,7 @@ private constructor(private val value: JsonField<String>) : Enum {
             NETWORK_FAILURE -> Known.NETWORK_FAILURE
             GENERIC_DECLINE -> Known.GENERIC_DECLINE
             DIGITAL_CARD_ART_REQUIRED -> Known.DIGITAL_CARD_ART_REQUIRED
+            INVALID_PAN -> Known.INVALID_PAN
             else -> throw LithicInvalidDataException("Unknown TokenizationDeclineReason: $value")
         }
 
