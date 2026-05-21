@@ -342,8 +342,14 @@ private constructor(
         }
 
         /** 3-character alphabetic ISO 4217 code for the currency of the cardholder. */
-        fun cardholderCurrency(cardholderCurrency: String) =
-            cardholderCurrency(JsonField.of(cardholderCurrency))
+        fun cardholderCurrency(cardholderCurrency: String?) =
+            cardholderCurrency(JsonField.ofNullable(cardholderCurrency))
+
+        /**
+         * Alias for calling [Builder.cardholderCurrency] with `cardholderCurrency.orElse(null)`.
+         */
+        fun cardholderCurrency(cardholderCurrency: Optional<String>) =
+            cardholderCurrency(cardholderCurrency.getOrNull())
 
         /**
          * Sets [Builder.cardholderCurrency] to an arbitrary JSON value.
