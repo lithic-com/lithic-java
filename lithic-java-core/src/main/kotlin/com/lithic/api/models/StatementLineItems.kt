@@ -744,7 +744,10 @@ private constructor(
             }
 
             /** Globally unique identifier for a card */
-            fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
+            fun cardToken(cardToken: String?) = cardToken(JsonField.ofNullable(cardToken))
+
+            /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
+            fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
 
             /**
              * Sets [Builder.cardToken] to an arbitrary JSON value.
@@ -1386,6 +1389,8 @@ private constructor(
 
                 @JvmField val MONTHLY_REVERSAL = of("MONTHLY_REVERSAL")
 
+                @JvmField val ACCOUNT_TO_ACCOUNT = of("ACCOUNT_TO_ACCOUNT")
+
                 @JvmStatic fun of(value: String) = FinancialEventType(JsonField.of(value))
             }
 
@@ -1478,6 +1483,7 @@ private constructor(
                 QUARTERLY_REVERSAL,
                 MONTHLY,
                 MONTHLY_REVERSAL,
+                ACCOUNT_TO_ACCOUNT,
             }
 
             /**
@@ -1579,6 +1585,7 @@ private constructor(
                 QUARTERLY_REVERSAL,
                 MONTHLY,
                 MONTHLY_REVERSAL,
+                ACCOUNT_TO_ACCOUNT,
                 /**
                  * An enum member indicating that [FinancialEventType] was instantiated with an
                  * unknown value.
@@ -1682,6 +1689,7 @@ private constructor(
                     QUARTERLY_REVERSAL -> Value.QUARTERLY_REVERSAL
                     MONTHLY -> Value.MONTHLY
                     MONTHLY_REVERSAL -> Value.MONTHLY_REVERSAL
+                    ACCOUNT_TO_ACCOUNT -> Value.ACCOUNT_TO_ACCOUNT
                     else -> Value._UNKNOWN
                 }
 
@@ -1783,6 +1791,7 @@ private constructor(
                     QUARTERLY_REVERSAL -> Known.QUARTERLY_REVERSAL
                     MONTHLY -> Known.MONTHLY
                     MONTHLY_REVERSAL -> Known.MONTHLY_REVERSAL
+                    ACCOUNT_TO_ACCOUNT -> Known.ACCOUNT_TO_ACCOUNT
                     else -> throw LithicInvalidDataException("Unknown FinancialEventType: $value")
                 }
 

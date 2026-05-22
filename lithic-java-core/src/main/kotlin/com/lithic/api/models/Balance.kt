@@ -16,6 +16,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Balance */
@@ -125,19 +126,20 @@ private constructor(
      * Globally unique identifier for the last financial transaction event that impacted this
      * balance.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun lastTransactionEventToken(): String =
-        lastTransactionEventToken.getRequired("last_transaction_event_token")
+    fun lastTransactionEventToken(): Optional<String> =
+        lastTransactionEventToken.getOptional("last_transaction_event_token")
 
     /**
      * Globally unique identifier for the last financial transaction that impacted this balance.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun lastTransactionToken(): String = lastTransactionToken.getRequired("last_transaction_token")
+    fun lastTransactionToken(): Optional<String> =
+        lastTransactionToken.getOptional("last_transaction_token")
 
     /**
      * Funds not available for spend due to card authorizations or pending ACH release. Shown in the
@@ -386,8 +388,15 @@ private constructor(
          * Globally unique identifier for the last financial transaction event that impacted this
          * balance.
          */
-        fun lastTransactionEventToken(lastTransactionEventToken: String) =
-            lastTransactionEventToken(JsonField.of(lastTransactionEventToken))
+        fun lastTransactionEventToken(lastTransactionEventToken: String?) =
+            lastTransactionEventToken(JsonField.ofNullable(lastTransactionEventToken))
+
+        /**
+         * Alias for calling [Builder.lastTransactionEventToken] with
+         * `lastTransactionEventToken.orElse(null)`.
+         */
+        fun lastTransactionEventToken(lastTransactionEventToken: Optional<String>) =
+            lastTransactionEventToken(lastTransactionEventToken.getOrNull())
 
         /**
          * Sets [Builder.lastTransactionEventToken] to an arbitrary JSON value.
@@ -403,8 +412,15 @@ private constructor(
         /**
          * Globally unique identifier for the last financial transaction that impacted this balance.
          */
-        fun lastTransactionToken(lastTransactionToken: String) =
-            lastTransactionToken(JsonField.of(lastTransactionToken))
+        fun lastTransactionToken(lastTransactionToken: String?) =
+            lastTransactionToken(JsonField.ofNullable(lastTransactionToken))
+
+        /**
+         * Alias for calling [Builder.lastTransactionToken] with
+         * `lastTransactionToken.orElse(null)`.
+         */
+        fun lastTransactionToken(lastTransactionToken: Optional<String>) =
+            lastTransactionToken(lastTransactionToken.getOrNull())
 
         /**
          * Sets [Builder.lastTransactionToken] to an arbitrary JSON value.
@@ -588,9 +604,13 @@ private constructor(
 
         companion object {
 
+            @JvmField val CARD = of("CARD")
+
             @JvmField val ISSUING = of("ISSUING")
 
             @JvmField val OPERATING = of("OPERATING")
+
+            @JvmField val PROGRAM_RECEIVABLES = of("PROGRAM_RECEIVABLES")
 
             @JvmField val RESERVE = of("RESERVE")
 
@@ -601,8 +621,10 @@ private constructor(
 
         /** An enum containing [FinancialAccountType]'s known values. */
         enum class Known {
+            CARD,
             ISSUING,
             OPERATING,
+            PROGRAM_RECEIVABLES,
             RESERVE,
             SECURITY,
         }
@@ -618,8 +640,10 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            CARD,
             ISSUING,
             OPERATING,
+            PROGRAM_RECEIVABLES,
             RESERVE,
             SECURITY,
             /**
@@ -638,8 +662,10 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                CARD -> Value.CARD
                 ISSUING -> Value.ISSUING
                 OPERATING -> Value.OPERATING
+                PROGRAM_RECEIVABLES -> Value.PROGRAM_RECEIVABLES
                 RESERVE -> Value.RESERVE
                 SECURITY -> Value.SECURITY
                 else -> Value._UNKNOWN
@@ -656,8 +682,10 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                CARD -> Known.CARD
                 ISSUING -> Known.ISSUING
                 OPERATING -> Known.OPERATING
+                PROGRAM_RECEIVABLES -> Known.PROGRAM_RECEIVABLES
                 RESERVE -> Known.RESERVE
                 SECURITY -> Known.SECURITY
                 else -> throw LithicInvalidDataException("Unknown FinancialAccountType: $value")
