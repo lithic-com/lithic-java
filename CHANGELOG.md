@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.127.0 (2026-05-26)
+
+Full Changelog: [v0.126.0...v0.127.0](https://github.com/lithic-com/lithic-java/compare/v0.126.0...v0.127.0)
+
+### Features
+
+* **api:** add card authorization challenge webhook, rename types in authorization models ([295e9f3](https://github.com/lithic-com/lithic-java/commit/295e9f3ce7a09c03f9c31b490f9b176d16c9194a))
+* **api:** add INVALID_PAN to TokenizationDeclineReason enum ([7234968](https://github.com/lithic-com/lithic-java/commit/7234968c99d3b300407b74fec7122c7eeeab970a))
+* **api:** add method field and enum values to authorization challenge types ([b6c52f0](https://github.com/lithic-com/lithic-java/commit/b6c52f0a30c17ce8d0ecb241a1c0b947eac43a45))
+* **api:** add pause method to external_bank_accounts ([909c756](https://github.com/lithic-com/lithic-java/commit/909c756c3d387c6d1a85d312bcbf4bcb71772f07))
+* **api:** Add schemas for authorization adjustment rules ([210380d](https://github.com/lithic-com/lithic-java/commit/210380d3e137767948bf2b785ee54901ac2cd00e))
+
+
+### Bug Fixes
+
+* **types:** add enum values, make fields optional in Balance/SettlementDetail/Statement ([cee6086](https://github.com/lithic-com/lithic-java/commit/cee608660967fa174a0f55fcbefd5d0b46cc07a4))
+* **types:** change number from Long to Double in ConditionalValue and conditional actions ([57b5b27](https://github.com/lithic-com/lithic-java/commit/57b5b279f5c23550dbc40946227d483410ca0c14))
+* **types:** make cardholderCurrency optional in CardProgram ([0658929](https://github.com/lithic-com/lithic-java/commit/0658929f008d2e4510f2b26c64bd5e1109ee6a8e))
+* **types:** make externalId/naicsCode/parentCompany optional in enrollment review and kyb ([1839dc3](https://github.com/lithic-com/lithic-java/commit/1839dc349ea7c9bf1381af04ad8f4728ceec937a))
+
+
+### Documentation
+
+* **api:** clarify ACCOUNT_AGE attribute behavior in conditional parameters ([c4a5ee1](https://github.com/lithic-com/lithic-java/commit/c4a5ee1383f947a8662ce80c3a2a1d785c76a228))
+
 ## 0.126.0 (2026-05-08)
 
 Full Changelog: [v0.125.0...v0.126.0](https://github.com/lithic-com/lithic-java/compare/v0.125.0...v0.126.0)
