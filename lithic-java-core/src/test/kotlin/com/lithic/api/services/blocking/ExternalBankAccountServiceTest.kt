@@ -135,6 +135,21 @@ internal class ExternalBankAccountServiceTest {
     }
 
     @Test
+    fun pause() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val externalBankAccountService = client.externalBankAccounts()
+
+        val externalBankAccount =
+            externalBankAccountService.pause("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+        externalBankAccount.validate()
+    }
+
+    @Test
     fun retryMicroDeposits() {
         val client =
             LithicOkHttpClient.builder()

@@ -11,6 +11,7 @@ import com.lithic.api.models.ExternalBankAccountCreateParams
 import com.lithic.api.models.ExternalBankAccountCreateResponse
 import com.lithic.api.models.ExternalBankAccountListPage
 import com.lithic.api.models.ExternalBankAccountListParams
+import com.lithic.api.models.ExternalBankAccountPauseParams
 import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetrieveResponse
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
@@ -204,6 +205,44 @@ interface ExternalBankAccountService {
     /** @see list */
     fun list(requestOptions: RequestOptions): ExternalBankAccountListPage =
         list(ExternalBankAccountListParams.none(), requestOptions)
+
+    /** Pause an external bank account */
+    fun pause(externalBankAccountToken: String): ExternalBankAccount =
+        pause(externalBankAccountToken, ExternalBankAccountPauseParams.none())
+
+    /** @see pause */
+    fun pause(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExternalBankAccount =
+        pause(
+            params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+            requestOptions,
+        )
+
+    /** @see pause */
+    fun pause(
+        externalBankAccountToken: String,
+        params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
+    ): ExternalBankAccount = pause(externalBankAccountToken, params, RequestOptions.none())
+
+    /** @see pause */
+    fun pause(
+        params: ExternalBankAccountPauseParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ExternalBankAccount
+
+    /** @see pause */
+    fun pause(params: ExternalBankAccountPauseParams): ExternalBankAccount =
+        pause(params, RequestOptions.none())
+
+    /** @see pause */
+    fun pause(
+        externalBankAccountToken: String,
+        requestOptions: RequestOptions,
+    ): ExternalBankAccount =
+        pause(externalBankAccountToken, ExternalBankAccountPauseParams.none(), requestOptions)
 
     /** Retry external bank account micro deposit verification. */
     fun retryMicroDeposits(
@@ -610,6 +649,55 @@ interface ExternalBankAccountService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ExternalBankAccountListPage> =
             list(ExternalBankAccountListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /v1/external_bank_accounts/{external_bank_account_token}/pause`, but is otherwise the
+         * same as [ExternalBankAccountService.pause].
+         */
+        @MustBeClosed
+        fun pause(externalBankAccountToken: String): HttpResponseFor<ExternalBankAccount> =
+            pause(externalBankAccountToken, ExternalBankAccountPauseParams.none())
+
+        /** @see pause */
+        @MustBeClosed
+        fun pause(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalBankAccount> =
+            pause(
+                params.toBuilder().externalBankAccountToken(externalBankAccountToken).build(),
+                requestOptions,
+            )
+
+        /** @see pause */
+        @MustBeClosed
+        fun pause(
+            externalBankAccountToken: String,
+            params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
+        ): HttpResponseFor<ExternalBankAccount> =
+            pause(externalBankAccountToken, params, RequestOptions.none())
+
+        /** @see pause */
+        @MustBeClosed
+        fun pause(
+            params: ExternalBankAccountPauseParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ExternalBankAccount>
+
+        /** @see pause */
+        @MustBeClosed
+        fun pause(params: ExternalBankAccountPauseParams): HttpResponseFor<ExternalBankAccount> =
+            pause(params, RequestOptions.none())
+
+        /** @see pause */
+        @MustBeClosed
+        fun pause(
+            externalBankAccountToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ExternalBankAccount> =
+            pause(externalBankAccountToken, ExternalBankAccountPauseParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post
