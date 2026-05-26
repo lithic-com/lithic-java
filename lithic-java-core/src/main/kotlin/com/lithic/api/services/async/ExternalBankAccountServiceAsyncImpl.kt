@@ -22,6 +22,7 @@ import com.lithic.api.models.ExternalBankAccountCreateResponse
 import com.lithic.api.models.ExternalBankAccountListPageAsync
 import com.lithic.api.models.ExternalBankAccountListPageResponse
 import com.lithic.api.models.ExternalBankAccountListParams
+import com.lithic.api.models.ExternalBankAccountPauseParams
 import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetrieveResponse
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
@@ -87,6 +88,13 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
     ): CompletableFuture<ExternalBankAccountListPageAsync> =
         // get /v1/external_bank_accounts
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
+
+    override fun pause(
+        params: ExternalBankAccountPauseParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<ExternalBankAccount> =
+        // post /v1/external_bank_accounts/{external_bank_account_token}/pause
+        withRawResponse().pause(params, requestOptions).thenApply { it.parse() }
 
     override fun retryMicroDeposits(
         params: ExternalBankAccountRetryMicroDepositsParams,
@@ -266,6 +274,40 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                                     .params(params)
                                     .response(it)
                                     .build()
+                            }
+                    }
+                }
+        }
+
+        private val pauseHandler: Handler<ExternalBankAccount> =
+            jsonHandler<ExternalBankAccount>(clientOptions.jsonMapper)
+
+        override fun pause(
+            params: ExternalBankAccountPauseParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("externalBankAccountToken", params.externalBankAccountToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "external_bank_accounts", params._pathParam(0), "pause")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { pauseHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
                             }
                     }
                 }
