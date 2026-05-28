@@ -5638,24 +5638,45 @@ private constructor(
     class LatestChallenge
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val completedAt: JsonField<OffsetDateTime>,
+        private val created: JsonField<OffsetDateTime>,
         private val method: JsonField<Method>,
         private val phoneNumber: JsonField<String>,
         private val status: JsonField<Status>,
-        private val completedAt: JsonField<OffsetDateTime>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
+            @JsonProperty("completed_at")
+            @ExcludeMissing
+            completedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("created")
+            @ExcludeMissing
+            created: JsonField<OffsetDateTime> = JsonMissing.of(),
             @JsonProperty("method") @ExcludeMissing method: JsonField<Method> = JsonMissing.of(),
             @JsonProperty("phone_number")
             @ExcludeMissing
             phoneNumber: JsonField<String> = JsonMissing.of(),
             @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
-            @JsonProperty("completed_at")
-            @ExcludeMissing
-            completedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
-        ) : this(method, phoneNumber, status, completedAt, mutableMapOf())
+        ) : this(completedAt, created, method, phoneNumber, status, mutableMapOf())
+
+        /**
+         * The date and time when the Authorization Challenge was completed in UTC. Filled only if
+         * the challenge has been completed.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun completedAt(): Optional<OffsetDateTime> = completedAt.getOptional("completed_at")
+
+        /**
+         * The date and time when the Authorization Challenge was created in UTC
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun created(): OffsetDateTime = created.getRequired("created")
 
         /**
          * The method used to deliver the challenge to the cardholder
@@ -5690,13 +5711,20 @@ private constructor(
         fun status(): Status = status.getRequired("status")
 
         /**
-         * The date and time when the Authorization Challenge was completed in UTC. Present only if
-         * the status is `COMPLETED`.
+         * Returns the raw JSON value of [completedAt].
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
+         * Unlike [completedAt], this method doesn't throw if the JSON field has an unexpected type.
          */
-        fun completedAt(): Optional<OffsetDateTime> = completedAt.getOptional("completed_at")
+        @JsonProperty("completed_at")
+        @ExcludeMissing
+        fun _completedAt(): JsonField<OffsetDateTime> = completedAt
+
+        /**
+         * Returns the raw JSON value of [created].
+         *
+         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
         /**
          * Returns the raw JSON value of [method].
@@ -5721,15 +5749,6 @@ private constructor(
          */
         @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
-        /**
-         * Returns the raw JSON value of [completedAt].
-         *
-         * Unlike [completedAt], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("completed_at")
-        @ExcludeMissing
-        fun _completedAt(): JsonField<OffsetDateTime> = completedAt
-
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -5749,6 +5768,8 @@ private constructor(
              *
              * The following fields are required:
              * ```java
+             * .completedAt()
+             * .created()
              * .method()
              * .phoneNumber()
              * .status()
@@ -5760,20 +5781,56 @@ private constructor(
         /** A builder for [LatestChallenge]. */
         class Builder internal constructor() {
 
+            private var completedAt: JsonField<OffsetDateTime>? = null
+            private var created: JsonField<OffsetDateTime>? = null
             private var method: JsonField<Method>? = null
             private var phoneNumber: JsonField<String>? = null
             private var status: JsonField<Status>? = null
-            private var completedAt: JsonField<OffsetDateTime> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(latestChallenge: LatestChallenge) = apply {
+                completedAt = latestChallenge.completedAt
+                created = latestChallenge.created
                 method = latestChallenge.method
                 phoneNumber = latestChallenge.phoneNumber
                 status = latestChallenge.status
-                completedAt = latestChallenge.completedAt
                 additionalProperties = latestChallenge.additionalProperties.toMutableMap()
             }
+
+            /**
+             * The date and time when the Authorization Challenge was completed in UTC. Filled only
+             * if the challenge has been completed.
+             */
+            fun completedAt(completedAt: OffsetDateTime?) =
+                completedAt(JsonField.ofNullable(completedAt))
+
+            /** Alias for calling [Builder.completedAt] with `completedAt.orElse(null)`. */
+            fun completedAt(completedAt: Optional<OffsetDateTime>) =
+                completedAt(completedAt.getOrNull())
+
+            /**
+             * Sets [Builder.completedAt] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.completedAt] with a well-typed [OffsetDateTime]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun completedAt(completedAt: JsonField<OffsetDateTime>) = apply {
+                this.completedAt = completedAt
+            }
+
+            /** The date and time when the Authorization Challenge was created in UTC */
+            fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+            /**
+             * Sets [Builder.created] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /**
              * The method used to deliver the challenge to the cardholder
@@ -5830,23 +5887,6 @@ private constructor(
              */
             fun status(status: JsonField<Status>) = apply { this.status = status }
 
-            /**
-             * The date and time when the Authorization Challenge was completed in UTC. Present only
-             * if the status is `COMPLETED`.
-             */
-            fun completedAt(completedAt: OffsetDateTime) = completedAt(JsonField.of(completedAt))
-
-            /**
-             * Sets [Builder.completedAt] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.completedAt] with a well-typed [OffsetDateTime]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
-             */
-            fun completedAt(completedAt: JsonField<OffsetDateTime>) = apply {
-                this.completedAt = completedAt
-            }
-
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -5873,6 +5913,8 @@ private constructor(
              *
              * The following fields are required:
              * ```java
+             * .completedAt()
+             * .created()
              * .method()
              * .phoneNumber()
              * .status()
@@ -5882,10 +5924,11 @@ private constructor(
              */
             fun build(): LatestChallenge =
                 LatestChallenge(
+                    checkRequired("completedAt", completedAt),
+                    checkRequired("created", created),
                     checkRequired("method", method),
                     checkRequired("phoneNumber", phoneNumber),
                     checkRequired("status", status),
-                    completedAt,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -5906,10 +5949,11 @@ private constructor(
                 return@apply
             }
 
+            completedAt()
+            created()
             method().validate()
             phoneNumber()
             status().validate()
-            completedAt()
             validated = true
         }
 
@@ -5929,10 +5973,11 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (method.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (completedAt.asKnown().isPresent) 1 else 0) +
+                (if (created.asKnown().isPresent) 1 else 0) +
+                (method.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (phoneNumber.asKnown().isPresent) 1 else 0) +
-                (status.asKnown().getOrNull()?.validity() ?: 0) +
-                (if (completedAt.asKnown().isPresent) 1 else 0)
+                (status.asKnown().getOrNull()?.validity() ?: 0)
 
         /**
          * The method used to deliver the challenge to the cardholder
@@ -6249,21 +6294,22 @@ private constructor(
             }
 
             return other is LatestChallenge &&
+                completedAt == other.completedAt &&
+                created == other.created &&
                 method == other.method &&
                 phoneNumber == other.phoneNumber &&
                 status == other.status &&
-                completedAt == other.completedAt &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(method, phoneNumber, status, completedAt, additionalProperties)
+            Objects.hash(completedAt, created, method, phoneNumber, status, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "LatestChallenge{method=$method, phoneNumber=$phoneNumber, status=$status, completedAt=$completedAt, additionalProperties=$additionalProperties}"
+            "LatestChallenge{completedAt=$completedAt, created=$created, method=$method, phoneNumber=$phoneNumber, status=$status, additionalProperties=$additionalProperties}"
     }
 
     /** Card network of the authorization. */
