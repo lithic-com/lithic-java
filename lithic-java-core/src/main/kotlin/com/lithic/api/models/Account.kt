@@ -113,8 +113,8 @@ private constructor(
      * * `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts are
      *   unable to be transitioned to `ACTIVE` or `PAUSED` states. Accounts can be manually set to
      *   `CLOSED`, or this can be done by Lithic due to failure to pass KYB/KYC or for
-     *   risk/compliance reasons. Please contact [support@lithic.com](mailto:support@lithic.com) if
-     *   you believe this was done by mistake.
+     *   risk/compliance reasons. Please contact [support.lithic.com](https://support.lithic.com/)
+     *   if you believe this was done by mistake.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -391,8 +391,9 @@ private constructor(
          * * `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts
          *   are unable to be transitioned to `ACTIVE` or `PAUSED` states. Accounts can be manually
          *   set to `CLOSED`, or this can be done by Lithic due to failure to pass KYB/KYC or for
-         *   risk/compliance reasons. Please contact [support@lithic.com](mailto:support@lithic.com)
-         *   if you believe this was done by mistake.
+         *   risk/compliance reasons. Please contact
+         *   [support.lithic.com](https://support.lithic.com/) if you believe this was done by
+         *   mistake.
          */
         fun state(state: State) = state(JsonField.of(state))
 
@@ -898,8 +899,8 @@ private constructor(
      * * `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts are
      *   unable to be transitioned to `ACTIVE` or `PAUSED` states. Accounts can be manually set to
      *   `CLOSED`, or this can be done by Lithic due to failure to pass KYB/KYC or for
-     *   risk/compliance reasons. Please contact [support@lithic.com](mailto:support@lithic.com) if
-     *   you believe this was done by mistake.
+     *   risk/compliance reasons. Please contact [support.lithic.com](https://support.lithic.com/)
+     *   if you believe this was done by mistake.
      */
     class State @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
