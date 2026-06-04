@@ -86,6 +86,25 @@ internal class CardAuthorizationTest {
                 )
                 .merchantAmount(0L)
                 .merchantCurrency("USD")
+                .nameValidation(
+                    CardAuthorization.NameValidation.builder()
+                        .name(
+                            CardAuthorization.NameValidation.Name.builder()
+                                .first("first")
+                                .last("last")
+                                .middle("middle")
+                                .build()
+                        )
+                        .nameOnFileMatch(
+                            CardAuthorization.NameValidation.NameValidationResult.builder()
+                                .fullName(
+                                    CardAuthorization.NameValidation.NameValidationResult.FullName
+                                        .MATCH
+                                )
+                                .build()
+                        )
+                        .build()
+                )
                 .serviceLocation(
                     CardAuthorization.ServiceLocation.builder()
                         .city("city")
@@ -277,6 +296,25 @@ internal class CardAuthorizationTest {
             )
         assertThat(cardAuthorization.merchantAmount()).isEqualTo(0L)
         assertThat(cardAuthorization.merchantCurrency()).isEqualTo("USD")
+        assertThat(cardAuthorization.nameValidation())
+            .contains(
+                CardAuthorization.NameValidation.builder()
+                    .name(
+                        CardAuthorization.NameValidation.Name.builder()
+                            .first("first")
+                            .last("last")
+                            .middle("middle")
+                            .build()
+                    )
+                    .nameOnFileMatch(
+                        CardAuthorization.NameValidation.NameValidationResult.builder()
+                            .fullName(
+                                CardAuthorization.NameValidation.NameValidationResult.FullName.MATCH
+                            )
+                            .build()
+                    )
+                    .build()
+            )
         assertThat(cardAuthorization.serviceLocation())
             .contains(
                 CardAuthorization.ServiceLocation.builder()
@@ -474,6 +512,25 @@ internal class CardAuthorizationTest {
                 )
                 .merchantAmount(0L)
                 .merchantCurrency("USD")
+                .nameValidation(
+                    CardAuthorization.NameValidation.builder()
+                        .name(
+                            CardAuthorization.NameValidation.Name.builder()
+                                .first("first")
+                                .last("last")
+                                .middle("middle")
+                                .build()
+                        )
+                        .nameOnFileMatch(
+                            CardAuthorization.NameValidation.NameValidationResult.builder()
+                                .fullName(
+                                    CardAuthorization.NameValidation.NameValidationResult.FullName
+                                        .MATCH
+                                )
+                                .build()
+                        )
+                        .build()
+                )
                 .serviceLocation(
                     CardAuthorization.ServiceLocation.builder()
                         .city("city")

@@ -36,6 +36,7 @@ private constructor(
     private val merchant: JsonField<CardAuthorization.TransactionMerchant>,
     private val merchantAmount: JsonField<Long>,
     private val merchantCurrency: JsonField<String>,
+    private val nameValidation: JsonField<CardAuthorization.NameValidation>,
     private val serviceLocation: JsonField<CardAuthorization.ServiceLocation>,
     private val settledAmount: JsonField<Long>,
     private val status: JsonField<CardAuthorization.AsaRequestStatus>,
@@ -92,6 +93,9 @@ private constructor(
         @JsonProperty("merchant_currency")
         @ExcludeMissing
         merchantCurrency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("name_validation")
+        @ExcludeMissing
+        nameValidation: JsonField<CardAuthorization.NameValidation> = JsonMissing.of(),
         @JsonProperty("service_location")
         @ExcludeMissing
         serviceLocation: JsonField<CardAuthorization.ServiceLocation> = JsonMissing.of(),
@@ -156,6 +160,7 @@ private constructor(
         merchant,
         merchantAmount,
         merchantCurrency,
+        nameValidation,
         serviceLocation,
         settledAmount,
         status,
@@ -192,6 +197,7 @@ private constructor(
             .merchant(merchant)
             .merchantAmount(merchantAmount)
             .merchantCurrency(merchantCurrency)
+            .nameValidation(nameValidation)
             .serviceLocation(serviceLocation)
             .settledAmount(settledAmount)
             .status(status)
@@ -333,6 +339,17 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun merchantCurrency(): String = merchantCurrency.getRequired("merchant_currency")
+
+    /**
+     * Network name validation data, present when the card network requested name validation for
+     * this transaction. Contains the cardholder name provided by the network and Lithic's computed
+     * match result against KYC data on file.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun nameValidation(): Optional<CardAuthorization.NameValidation> =
+        nameValidation.getOptional("name_validation")
 
     /**
      * Where the cardholder received the service, when different from the card acceptor location.
@@ -611,6 +628,15 @@ private constructor(
     fun _merchantCurrency(): JsonField<String> = merchantCurrency
 
     /**
+     * Returns the raw JSON value of [nameValidation].
+     *
+     * Unlike [nameValidation], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("name_validation")
+    @ExcludeMissing
+    fun _nameValidation(): JsonField<CardAuthorization.NameValidation> = nameValidation
+
+    /**
      * Returns the raw JSON value of [serviceLocation].
      *
      * Unlike [serviceLocation], this method doesn't throw if the JSON field has an unexpected type.
@@ -801,6 +827,7 @@ private constructor(
          * .merchant()
          * .merchantAmount()
          * .merchantCurrency()
+         * .nameValidation()
          * .serviceLocation()
          * .settledAmount()
          * .status()
@@ -827,6 +854,7 @@ private constructor(
         private var merchant: JsonField<CardAuthorization.TransactionMerchant>? = null
         private var merchantAmount: JsonField<Long>? = null
         private var merchantCurrency: JsonField<String>? = null
+        private var nameValidation: JsonField<CardAuthorization.NameValidation>? = null
         private var serviceLocation: JsonField<CardAuthorization.ServiceLocation>? = null
         private var settledAmount: JsonField<Long>? = null
         private var status: JsonField<CardAuthorization.AsaRequestStatus>? = null
@@ -866,6 +894,7 @@ private constructor(
             merchant = cardAuthorizationApprovalRequestWebhookEvent.merchant
             merchantAmount = cardAuthorizationApprovalRequestWebhookEvent.merchantAmount
             merchantCurrency = cardAuthorizationApprovalRequestWebhookEvent.merchantCurrency
+            nameValidation = cardAuthorizationApprovalRequestWebhookEvent.nameValidation
             serviceLocation = cardAuthorizationApprovalRequestWebhookEvent.serviceLocation
             settledAmount = cardAuthorizationApprovalRequestWebhookEvent.settledAmount
             status = cardAuthorizationApprovalRequestWebhookEvent.status
@@ -1096,6 +1125,29 @@ private constructor(
         @Deprecated("deprecated")
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             this.merchantCurrency = merchantCurrency
+        }
+
+        /**
+         * Network name validation data, present when the card network requested name validation for
+         * this transaction. Contains the cardholder name provided by the network and Lithic's
+         * computed match result against KYC data on file.
+         */
+        fun nameValidation(nameValidation: CardAuthorization.NameValidation?) =
+            nameValidation(JsonField.ofNullable(nameValidation))
+
+        /** Alias for calling [Builder.nameValidation] with `nameValidation.orElse(null)`. */
+        fun nameValidation(nameValidation: Optional<CardAuthorization.NameValidation>) =
+            nameValidation(nameValidation.getOrNull())
+
+        /**
+         * Sets [Builder.nameValidation] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nameValidation] with a well-typed
+         * [CardAuthorization.NameValidation] value instead. This method is primarily for setting
+         * the field to an undocumented or not yet supported value.
+         */
+        fun nameValidation(nameValidation: JsonField<CardAuthorization.NameValidation>) = apply {
+            this.nameValidation = nameValidation
         }
 
         /**
@@ -1448,6 +1500,7 @@ private constructor(
          * .merchant()
          * .merchantAmount()
          * .merchantCurrency()
+         * .nameValidation()
          * .serviceLocation()
          * .settledAmount()
          * .status()
@@ -1472,6 +1525,7 @@ private constructor(
                 checkRequired("merchant", merchant),
                 checkRequired("merchantAmount", merchantAmount),
                 checkRequired("merchantCurrency", merchantCurrency),
+                checkRequired("nameValidation", nameValidation),
                 checkRequired("serviceLocation", serviceLocation),
                 checkRequired("settledAmount", settledAmount),
                 checkRequired("status", status),
@@ -1522,6 +1576,7 @@ private constructor(
         merchant().validate()
         merchantAmount()
         merchantCurrency()
+        nameValidation().ifPresent { it.validate() }
         serviceLocation().ifPresent { it.validate() }
         settledAmount()
         status().validate()
@@ -1571,6 +1626,7 @@ private constructor(
             (merchant.asKnown().getOrNull()?.validity() ?: 0) +
             (if (merchantAmount.asKnown().isPresent) 1 else 0) +
             (if (merchantCurrency.asKnown().isPresent) 1 else 0) +
+            (nameValidation.asKnown().getOrNull()?.validity() ?: 0) +
             (serviceLocation.asKnown().getOrNull()?.validity() ?: 0) +
             (if (settledAmount.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
@@ -1740,6 +1796,7 @@ private constructor(
             merchant == other.merchant &&
             merchantAmount == other.merchantAmount &&
             merchantCurrency == other.merchantCurrency &&
+            nameValidation == other.nameValidation &&
             serviceLocation == other.serviceLocation &&
             settledAmount == other.settledAmount &&
             status == other.status &&
@@ -1776,6 +1833,7 @@ private constructor(
             merchant,
             merchantAmount,
             merchantCurrency,
+            nameValidation,
             serviceLocation,
             settledAmount,
             status,
@@ -1801,5 +1859,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CardAuthorizationApprovalRequestWebhookEvent{token=$token, acquirerFee=$acquirerFee, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, avs=$avs, card=$card, cardholderCurrency=$cardholderCurrency, cashAmount=$cashAmount, created=$created, merchant=$merchant, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, serviceLocation=$serviceLocation, settledAmount=$settledAmount, status=$status, transactionInitiator=$transactionInitiator, accountType=$accountType, cardholderAuthentication=$cardholderAuthentication, cashback=$cashback, conversionRate=$conversionRate, eventToken=$eventToken, fleetInfo=$fleetInfo, latestChallenge=$latestChallenge, network=$network, networkRiskScore=$networkRiskScore, networkSpecificData=$networkSpecificData, pos=$pos, tokenInfo=$tokenInfo, ttl=$ttl, eventType=$eventType, additionalProperties=$additionalProperties}"
+        "CardAuthorizationApprovalRequestWebhookEvent{token=$token, acquirerFee=$acquirerFee, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, avs=$avs, card=$card, cardholderCurrency=$cardholderCurrency, cashAmount=$cashAmount, created=$created, merchant=$merchant, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, nameValidation=$nameValidation, serviceLocation=$serviceLocation, settledAmount=$settledAmount, status=$status, transactionInitiator=$transactionInitiator, accountType=$accountType, cardholderAuthentication=$cardholderAuthentication, cashback=$cashback, conversionRate=$conversionRate, eventToken=$eventToken, fleetInfo=$fleetInfo, latestChallenge=$latestChallenge, network=$network, networkRiskScore=$networkRiskScore, networkSpecificData=$networkSpecificData, pos=$pos, tokenInfo=$tokenInfo, ttl=$ttl, eventType=$eventType, additionalProperties=$additionalProperties}"
 }
