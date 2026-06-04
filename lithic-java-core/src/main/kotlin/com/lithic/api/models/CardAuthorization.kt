@@ -38,6 +38,7 @@ private constructor(
     private val merchant: JsonField<TransactionMerchant>,
     private val merchantAmount: JsonField<Long>,
     private val merchantCurrency: JsonField<String>,
+    private val nameValidation: JsonField<NameValidation>,
     private val serviceLocation: JsonField<ServiceLocation>,
     private val settledAmount: JsonField<Long>,
     private val status: JsonField<AsaRequestStatus>,
@@ -87,6 +88,9 @@ private constructor(
         @JsonProperty("merchant_currency")
         @ExcludeMissing
         merchantCurrency: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("name_validation")
+        @ExcludeMissing
+        nameValidation: JsonField<NameValidation> = JsonMissing.of(),
         @JsonProperty("service_location")
         @ExcludeMissing
         serviceLocation: JsonField<ServiceLocation> = JsonMissing.of(),
@@ -144,6 +148,7 @@ private constructor(
         merchant,
         merchantAmount,
         merchantCurrency,
+        nameValidation,
         serviceLocation,
         settledAmount,
         status,
@@ -286,6 +291,16 @@ private constructor(
      */
     @Deprecated("deprecated")
     fun merchantCurrency(): String = merchantCurrency.getRequired("merchant_currency")
+
+    /**
+     * Network name validation data, present when the card network requested name validation for
+     * this transaction. Contains the cardholder name provided by the network and Lithic's computed
+     * match result against KYC data on file.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun nameValidation(): Optional<NameValidation> = nameValidation.getOptional("name_validation")
 
     /**
      * Where the cardholder received the service, when different from the card acceptor location.
@@ -552,6 +567,15 @@ private constructor(
     fun _merchantCurrency(): JsonField<String> = merchantCurrency
 
     /**
+     * Returns the raw JSON value of [nameValidation].
+     *
+     * Unlike [nameValidation], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("name_validation")
+    @ExcludeMissing
+    fun _nameValidation(): JsonField<NameValidation> = nameValidation
+
+    /**
      * Returns the raw JSON value of [serviceLocation].
      *
      * Unlike [serviceLocation], this method doesn't throw if the JSON field has an unexpected type.
@@ -728,6 +752,7 @@ private constructor(
          * .merchant()
          * .merchantAmount()
          * .merchantCurrency()
+         * .nameValidation()
          * .serviceLocation()
          * .settledAmount()
          * .status()
@@ -753,6 +778,7 @@ private constructor(
         private var merchant: JsonField<TransactionMerchant>? = null
         private var merchantAmount: JsonField<Long>? = null
         private var merchantCurrency: JsonField<String>? = null
+        private var nameValidation: JsonField<NameValidation>? = null
         private var serviceLocation: JsonField<ServiceLocation>? = null
         private var settledAmount: JsonField<Long>? = null
         private var status: JsonField<AsaRequestStatus>? = null
@@ -787,6 +813,7 @@ private constructor(
             merchant = cardAuthorization.merchant
             merchantAmount = cardAuthorization.merchantAmount
             merchantCurrency = cardAuthorization.merchantCurrency
+            nameValidation = cardAuthorization.nameValidation
             serviceLocation = cardAuthorization.serviceLocation
             settledAmount = cardAuthorization.settledAmount
             status = cardAuthorization.status
@@ -1007,6 +1034,29 @@ private constructor(
         @Deprecated("deprecated")
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             this.merchantCurrency = merchantCurrency
+        }
+
+        /**
+         * Network name validation data, present when the card network requested name validation for
+         * this transaction. Contains the cardholder name provided by the network and Lithic's
+         * computed match result against KYC data on file.
+         */
+        fun nameValidation(nameValidation: NameValidation?) =
+            nameValidation(JsonField.ofNullable(nameValidation))
+
+        /** Alias for calling [Builder.nameValidation] with `nameValidation.orElse(null)`. */
+        fun nameValidation(nameValidation: Optional<NameValidation>) =
+            nameValidation(nameValidation.getOrNull())
+
+        /**
+         * Sets [Builder.nameValidation] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nameValidation] with a well-typed [NameValidation] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun nameValidation(nameValidation: JsonField<NameValidation>) = apply {
+            this.nameValidation = nameValidation
         }
 
         /**
@@ -1338,6 +1388,7 @@ private constructor(
          * .merchant()
          * .merchantAmount()
          * .merchantCurrency()
+         * .nameValidation()
          * .serviceLocation()
          * .settledAmount()
          * .status()
@@ -1361,6 +1412,7 @@ private constructor(
                 checkRequired("merchant", merchant),
                 checkRequired("merchantAmount", merchantAmount),
                 checkRequired("merchantCurrency", merchantCurrency),
+                checkRequired("nameValidation", nameValidation),
                 checkRequired("serviceLocation", serviceLocation),
                 checkRequired("settledAmount", settledAmount),
                 checkRequired("status", status),
@@ -1410,6 +1462,7 @@ private constructor(
         merchant().validate()
         merchantAmount()
         merchantCurrency()
+        nameValidation().ifPresent { it.validate() }
         serviceLocation().ifPresent { it.validate() }
         settledAmount()
         status().validate()
@@ -1458,6 +1511,7 @@ private constructor(
             (merchant.asKnown().getOrNull()?.validity() ?: 0) +
             (if (merchantAmount.asKnown().isPresent) 1 else 0) +
             (if (merchantCurrency.asKnown().isPresent) 1 else 0) +
+            (nameValidation.asKnown().getOrNull()?.validity() ?: 0) +
             (serviceLocation.asKnown().getOrNull()?.validity() ?: 0) +
             (if (settledAmount.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
@@ -4192,6 +4246,824 @@ private constructor(
 
         override fun toString() =
             "TransactionMerchant{acceptorId=$acceptorId, acquiringInstitutionId=$acquiringInstitutionId, city=$city, country=$country, descriptor=$descriptor, mcc=$mcc, state=$state, phoneNumber=$phoneNumber, postalCode=$postalCode, streetAddress=$streetAddress, additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * Network name validation data, present when the card network requested name validation for
+     * this transaction. Contains the cardholder name provided by the network and Lithic's computed
+     * match result against KYC data on file.
+     */
+    class NameValidation
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val name: JsonField<Name>,
+        private val nameOnFileMatch: JsonField<NameValidationResult>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("name") @ExcludeMissing name: JsonField<Name> = JsonMissing.of(),
+            @JsonProperty("name_on_file_match")
+            @ExcludeMissing
+            nameOnFileMatch: JsonField<NameValidationResult> = JsonMissing.of(),
+        ) : this(name, nameOnFileMatch, mutableMapOf())
+
+        /**
+         * Cardholder name as provided by the card network.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun name(): Name = name.getRequired("name")
+
+        /**
+         * Lithic's computed match result comparing the network-provided name to the name on file.
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun nameOnFileMatch(): NameValidationResult =
+            nameOnFileMatch.getRequired("name_on_file_match")
+
+        /**
+         * Returns the raw JSON value of [name].
+         *
+         * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<Name> = name
+
+        /**
+         * Returns the raw JSON value of [nameOnFileMatch].
+         *
+         * Unlike [nameOnFileMatch], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("name_on_file_match")
+        @ExcludeMissing
+        fun _nameOnFileMatch(): JsonField<NameValidationResult> = nameOnFileMatch
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [NameValidation].
+             *
+             * The following fields are required:
+             * ```java
+             * .name()
+             * .nameOnFileMatch()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [NameValidation]. */
+        class Builder internal constructor() {
+
+            private var name: JsonField<Name>? = null
+            private var nameOnFileMatch: JsonField<NameValidationResult>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(nameValidation: NameValidation) = apply {
+                name = nameValidation.name
+                nameOnFileMatch = nameValidation.nameOnFileMatch
+                additionalProperties = nameValidation.additionalProperties.toMutableMap()
+            }
+
+            /** Cardholder name as provided by the card network. */
+            fun name(name: Name) = name(JsonField.of(name))
+
+            /**
+             * Sets [Builder.name] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.name] with a well-typed [Name] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun name(name: JsonField<Name>) = apply { this.name = name }
+
+            /**
+             * Lithic's computed match result comparing the network-provided name to the name on
+             * file.
+             */
+            fun nameOnFileMatch(nameOnFileMatch: NameValidationResult) =
+                nameOnFileMatch(JsonField.of(nameOnFileMatch))
+
+            /**
+             * Sets [Builder.nameOnFileMatch] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nameOnFileMatch] with a well-typed
+             * [NameValidationResult] value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
+            fun nameOnFileMatch(nameOnFileMatch: JsonField<NameValidationResult>) = apply {
+                this.nameOnFileMatch = nameOnFileMatch
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [NameValidation].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .name()
+             * .nameOnFileMatch()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): NameValidation =
+                NameValidation(
+                    checkRequired("name", name),
+                    checkRequired("nameOnFileMatch", nameOnFileMatch),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LithicInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): NameValidation = apply {
+            if (validated) {
+                return@apply
+            }
+
+            name().validate()
+            nameOnFileMatch().validate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (name.asKnown().getOrNull()?.validity() ?: 0) +
+                (nameOnFileMatch.asKnown().getOrNull()?.validity() ?: 0)
+
+        /** Cardholder name as provided by the card network. */
+        class Name
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val first: JsonField<String>,
+            private val last: JsonField<String>,
+            private val middle: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("first") @ExcludeMissing first: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("last") @ExcludeMissing last: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("middle") @ExcludeMissing middle: JsonField<String> = JsonMissing.of(),
+            ) : this(first, last, middle, mutableMapOf())
+
+            /**
+             * First name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun first(): String = first.getRequired("first")
+
+            /**
+             * Last name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun last(): String = last.getRequired("last")
+
+            /**
+             * Middle name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun middle(): Optional<String> = middle.getOptional("middle")
+
+            /**
+             * Returns the raw JSON value of [first].
+             *
+             * Unlike [first], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("first") @ExcludeMissing fun _first(): JsonField<String> = first
+
+            /**
+             * Returns the raw JSON value of [last].
+             *
+             * Unlike [last], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("last") @ExcludeMissing fun _last(): JsonField<String> = last
+
+            /**
+             * Returns the raw JSON value of [middle].
+             *
+             * Unlike [middle], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("middle") @ExcludeMissing fun _middle(): JsonField<String> = middle
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [Name].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .first()
+                 * .last()
+                 * .middle()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Name]. */
+            class Builder internal constructor() {
+
+                private var first: JsonField<String>? = null
+                private var last: JsonField<String>? = null
+                private var middle: JsonField<String>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(name: Name) = apply {
+                    first = name.first
+                    last = name.last
+                    middle = name.middle
+                    additionalProperties = name.additionalProperties.toMutableMap()
+                }
+
+                /** First name */
+                fun first(first: String) = first(JsonField.of(first))
+
+                /**
+                 * Sets [Builder.first] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.first] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun first(first: JsonField<String>) = apply { this.first = first }
+
+                /** Last name */
+                fun last(last: String) = last(JsonField.of(last))
+
+                /**
+                 * Sets [Builder.last] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.last] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun last(last: JsonField<String>) = apply { this.last = last }
+
+                /** Middle name */
+                fun middle(middle: String?) = middle(JsonField.ofNullable(middle))
+
+                /** Alias for calling [Builder.middle] with `middle.orElse(null)`. */
+                fun middle(middle: Optional<String>) = middle(middle.getOrNull())
+
+                /**
+                 * Sets [Builder.middle] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.middle] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun middle(middle: JsonField<String>) = apply { this.middle = middle }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Name].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .first()
+                 * .last()
+                 * .middle()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): Name =
+                    Name(
+                        checkRequired("first", first),
+                        checkRequired("last", last),
+                        checkRequired("middle", middle),
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): Name = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                first()
+                last()
+                middle()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (first.asKnown().isPresent) 1 else 0) +
+                    (if (last.asKnown().isPresent) 1 else 0) +
+                    (if (middle.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Name &&
+                    first == other.first &&
+                    last == other.last &&
+                    middle == other.middle &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(first, last, middle, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Name{first=$first, last=$last, middle=$middle, additionalProperties=$additionalProperties}"
+        }
+
+        /**
+         * Lithic's computed match result comparing the network-provided name to the name on file.
+         */
+        class NameValidationResult
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val fullName: JsonField<FullName>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("full_name")
+                @ExcludeMissing
+                fullName: JsonField<FullName> = JsonMissing.of()
+            ) : this(fullName, mutableMapOf())
+
+            /**
+             * Overall name match result.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun fullName(): FullName = fullName.getRequired("full_name")
+
+            /**
+             * Returns the raw JSON value of [fullName].
+             *
+             * Unlike [fullName], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("full_name")
+            @ExcludeMissing
+            fun _fullName(): JsonField<FullName> = fullName
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [NameValidationResult].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .fullName()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [NameValidationResult]. */
+            class Builder internal constructor() {
+
+                private var fullName: JsonField<FullName>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(nameValidationResult: NameValidationResult) = apply {
+                    fullName = nameValidationResult.fullName
+                    additionalProperties = nameValidationResult.additionalProperties.toMutableMap()
+                }
+
+                /** Overall name match result. */
+                fun fullName(fullName: FullName) = fullName(JsonField.of(fullName))
+
+                /**
+                 * Sets [Builder.fullName] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.fullName] with a well-typed [FullName] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun fullName(fullName: JsonField<FullName>) = apply { this.fullName = fullName }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [NameValidationResult].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .fullName()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): NameValidationResult =
+                    NameValidationResult(
+                        checkRequired("fullName", fullName),
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): NameValidationResult = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                fullName().validate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int = (fullName.asKnown().getOrNull()?.validity() ?: 0)
+
+            /** Overall name match result. */
+            class FullName @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val MATCH = of("MATCH")
+
+                    @JvmField val PARTIAL_MATCH = of("PARTIAL_MATCH")
+
+                    @JvmField val NO_MATCH = of("NO_MATCH")
+
+                    @JvmField val UNVERIFIED = of("UNVERIFIED")
+
+                    @JvmStatic fun of(value: String) = FullName(JsonField.of(value))
+                }
+
+                /** An enum containing [FullName]'s known values. */
+                enum class Known {
+                    MATCH,
+                    PARTIAL_MATCH,
+                    NO_MATCH,
+                    UNVERIFIED,
+                }
+
+                /**
+                 * An enum containing [FullName]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [FullName] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    MATCH,
+                    PARTIAL_MATCH,
+                    NO_MATCH,
+                    UNVERIFIED,
+                    /**
+                     * An enum member indicating that [FullName] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        MATCH -> Value.MATCH
+                        PARTIAL_MATCH -> Value.PARTIAL_MATCH
+                        NO_MATCH -> Value.NO_MATCH
+                        UNVERIFIED -> Value.UNVERIFIED
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        MATCH -> Known.MATCH
+                        PARTIAL_MATCH -> Known.PARTIAL_MATCH
+                        NO_MATCH -> Known.NO_MATCH
+                        UNVERIFIED -> Known.UNVERIFIED
+                        else -> throw LithicInvalidDataException("Unknown FullName: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): FullName = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is FullName && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is NameValidationResult &&
+                    fullName == other.fullName &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(fullName, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "NameValidationResult{fullName=$fullName, additionalProperties=$additionalProperties}"
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is NameValidation &&
+                name == other.name &&
+                nameOnFileMatch == other.nameOnFileMatch &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(name, nameOnFileMatch, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "NameValidation{name=$name, nameOnFileMatch=$nameOnFileMatch, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -9631,6 +10503,7 @@ private constructor(
             merchant == other.merchant &&
             merchantAmount == other.merchantAmount &&
             merchantCurrency == other.merchantCurrency &&
+            nameValidation == other.nameValidation &&
             serviceLocation == other.serviceLocation &&
             settledAmount == other.settledAmount &&
             status == other.status &&
@@ -9666,6 +10539,7 @@ private constructor(
             merchant,
             merchantAmount,
             merchantCurrency,
+            nameValidation,
             serviceLocation,
             settledAmount,
             status,
@@ -9690,5 +10564,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CardAuthorization{token=$token, acquirerFee=$acquirerFee, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, avs=$avs, card=$card, cardholderCurrency=$cardholderCurrency, cashAmount=$cashAmount, created=$created, merchant=$merchant, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, serviceLocation=$serviceLocation, settledAmount=$settledAmount, status=$status, transactionInitiator=$transactionInitiator, accountType=$accountType, cardholderAuthentication=$cardholderAuthentication, cashback=$cashback, conversionRate=$conversionRate, eventToken=$eventToken, fleetInfo=$fleetInfo, latestChallenge=$latestChallenge, network=$network, networkRiskScore=$networkRiskScore, networkSpecificData=$networkSpecificData, pos=$pos, tokenInfo=$tokenInfo, ttl=$ttl, additionalProperties=$additionalProperties}"
+        "CardAuthorization{token=$token, acquirerFee=$acquirerFee, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, avs=$avs, card=$card, cardholderCurrency=$cardholderCurrency, cashAmount=$cashAmount, created=$created, merchant=$merchant, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, nameValidation=$nameValidation, serviceLocation=$serviceLocation, settledAmount=$settledAmount, status=$status, transactionInitiator=$transactionInitiator, accountType=$accountType, cardholderAuthentication=$cardholderAuthentication, cashback=$cashback, conversionRate=$conversionRate, eventToken=$eventToken, fleetInfo=$fleetInfo, latestChallenge=$latestChallenge, network=$network, networkRiskScore=$networkRiskScore, networkSpecificData=$networkSpecificData, pos=$pos, tokenInfo=$tokenInfo, ttl=$ttl, additionalProperties=$additionalProperties}"
 }
