@@ -88,6 +88,26 @@ internal class CardAuthorizationChallengeWebhookEventTest {
                         )
                         .merchantAmount(0L)
                         .merchantCurrency("USD")
+                        .nameValidation(
+                            CardAuthorization.NameValidation.builder()
+                                .name(
+                                    CardAuthorization.NameValidation.Name.builder()
+                                        .first("first")
+                                        .last("last")
+                                        .middle("middle")
+                                        .build()
+                                )
+                                .nameOnFileMatch(
+                                    CardAuthorization.NameValidation.NameValidationResult.builder()
+                                        .fullName(
+                                            CardAuthorization.NameValidation.NameValidationResult
+                                                .FullName
+                                                .MATCH
+                                        )
+                                        .build()
+                                )
+                                .build()
+                        )
                         .serviceLocation(
                             CardAuthorization.ServiceLocation.builder()
                                 .city("city")
@@ -308,6 +328,26 @@ internal class CardAuthorizationChallengeWebhookEventTest {
                     )
                     .merchantAmount(0L)
                     .merchantCurrency("USD")
+                    .nameValidation(
+                        CardAuthorization.NameValidation.builder()
+                            .name(
+                                CardAuthorization.NameValidation.Name.builder()
+                                    .first("first")
+                                    .last("last")
+                                    .middle("middle")
+                                    .build()
+                            )
+                            .nameOnFileMatch(
+                                CardAuthorization.NameValidation.NameValidationResult.builder()
+                                    .fullName(
+                                        CardAuthorization.NameValidation.NameValidationResult
+                                            .FullName
+                                            .MATCH
+                                    )
+                                    .build()
+                            )
+                            .build()
+                    )
                     .serviceLocation(
                         CardAuthorization.ServiceLocation.builder()
                             .city("city")
@@ -523,6 +563,26 @@ internal class CardAuthorizationChallengeWebhookEventTest {
                         )
                         .merchantAmount(0L)
                         .merchantCurrency("USD")
+                        .nameValidation(
+                            CardAuthorization.NameValidation.builder()
+                                .name(
+                                    CardAuthorization.NameValidation.Name.builder()
+                                        .first("first")
+                                        .last("last")
+                                        .middle("middle")
+                                        .build()
+                                )
+                                .nameOnFileMatch(
+                                    CardAuthorization.NameValidation.NameValidationResult.builder()
+                                        .fullName(
+                                            CardAuthorization.NameValidation.NameValidationResult
+                                                .FullName
+                                                .MATCH
+                                        )
+                                        .build()
+                                )
+                                .build()
+                        )
                         .serviceLocation(
                             CardAuthorization.ServiceLocation.builder()
                                 .city("city")

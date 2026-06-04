@@ -86,6 +86,25 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                 )
                 .merchantAmount(0L)
                 .merchantCurrency("USD")
+                .nameValidation(
+                    CardAuthorization.NameValidation.builder()
+                        .name(
+                            CardAuthorization.NameValidation.Name.builder()
+                                .first("first")
+                                .last("last")
+                                .middle("middle")
+                                .build()
+                        )
+                        .nameOnFileMatch(
+                            CardAuthorization.NameValidation.NameValidationResult.builder()
+                                .fullName(
+                                    CardAuthorization.NameValidation.NameValidationResult.FullName
+                                        .MATCH
+                                )
+                                .build()
+                        )
+                        .build()
+                )
                 .serviceLocation(
                     CardAuthorization.ServiceLocation.builder()
                         .city("city")
@@ -283,6 +302,25 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
             )
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.merchantAmount()).isEqualTo(0L)
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.merchantCurrency()).isEqualTo("USD")
+        assertThat(cardAuthorizationApprovalRequestWebhookEvent.nameValidation())
+            .contains(
+                CardAuthorization.NameValidation.builder()
+                    .name(
+                        CardAuthorization.NameValidation.Name.builder()
+                            .first("first")
+                            .last("last")
+                            .middle("middle")
+                            .build()
+                    )
+                    .nameOnFileMatch(
+                        CardAuthorization.NameValidation.NameValidationResult.builder()
+                            .fullName(
+                                CardAuthorization.NameValidation.NameValidationResult.FullName.MATCH
+                            )
+                            .build()
+                    )
+                    .build()
+            )
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.serviceLocation())
             .contains(
                 CardAuthorization.ServiceLocation.builder()
@@ -488,6 +526,25 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                 )
                 .merchantAmount(0L)
                 .merchantCurrency("USD")
+                .nameValidation(
+                    CardAuthorization.NameValidation.builder()
+                        .name(
+                            CardAuthorization.NameValidation.Name.builder()
+                                .first("first")
+                                .last("last")
+                                .middle("middle")
+                                .build()
+                        )
+                        .nameOnFileMatch(
+                            CardAuthorization.NameValidation.NameValidationResult.builder()
+                                .fullName(
+                                    CardAuthorization.NameValidation.NameValidationResult.FullName
+                                        .MATCH
+                                )
+                                .build()
+                        )
+                        .build()
+                )
                 .serviceLocation(
                     CardAuthorization.ServiceLocation.builder()
                         .city("city")
