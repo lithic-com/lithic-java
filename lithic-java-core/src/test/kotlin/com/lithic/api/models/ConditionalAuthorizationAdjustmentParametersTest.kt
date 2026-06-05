@@ -13,14 +13,14 @@ internal class ConditionalAuthorizationAdjustmentParametersTest {
     fun create() {
         val conditionalAuthorizationAdjustmentParameters =
             ConditionalAuthorizationAdjustmentParameters.builder()
-                .adjustment(
-                    ConditionalAuthorizationAdjustmentParameters.Adjustment.builder()
+                .action(
+                    ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.builder()
                         .mode(
-                            ConditionalAuthorizationAdjustmentParameters.Adjustment.Mode
+                            ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.Mode
                                 .REPLACE_WITH_AMOUNT
                         )
                         .type(
-                            ConditionalAuthorizationAdjustmentParameters.Adjustment.Type
+                            ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.Type
                                 .HOLD_ADJUSTMENT
                         )
                         .value(0L)
@@ -60,15 +60,16 @@ internal class ConditionalAuthorizationAdjustmentParametersTest {
                 )
                 .build()
 
-        assertThat(conditionalAuthorizationAdjustmentParameters.adjustment())
+        assertThat(conditionalAuthorizationAdjustmentParameters.action())
             .isEqualTo(
-                ConditionalAuthorizationAdjustmentParameters.Adjustment.builder()
+                ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.builder()
                     .mode(
-                        ConditionalAuthorizationAdjustmentParameters.Adjustment.Mode
+                        ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.Mode
                             .REPLACE_WITH_AMOUNT
                     )
                     .type(
-                        ConditionalAuthorizationAdjustmentParameters.Adjustment.Type.HOLD_ADJUSTMENT
+                        ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.Type
+                            .HOLD_ADJUSTMENT
                     )
                     .value(0L)
                     .build()
@@ -107,14 +108,14 @@ internal class ConditionalAuthorizationAdjustmentParametersTest {
         val jsonMapper = jsonMapper()
         val conditionalAuthorizationAdjustmentParameters =
             ConditionalAuthorizationAdjustmentParameters.builder()
-                .adjustment(
-                    ConditionalAuthorizationAdjustmentParameters.Adjustment.builder()
+                .action(
+                    ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.builder()
                         .mode(
-                            ConditionalAuthorizationAdjustmentParameters.Adjustment.Mode
+                            ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.Mode
                                 .REPLACE_WITH_AMOUNT
                         )
                         .type(
-                            ConditionalAuthorizationAdjustmentParameters.Adjustment.Type
+                            ConditionalAuthorizationAdjustmentParameters.HoldAdjustmentAction.Type
                                 .HOLD_ADJUSTMENT
                         )
                         .value(0L)
