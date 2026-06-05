@@ -24,28 +24,28 @@ import kotlin.jvm.optionals.getOrNull
 class ConditionalAuthorizationAdjustmentParameters
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val adjustment: JsonField<Adjustment>,
+    private val action: JsonField<HoldAdjustmentAction>,
     private val conditions: JsonField<List<Condition>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
-        @JsonProperty("adjustment")
+        @JsonProperty("action")
         @ExcludeMissing
-        adjustment: JsonField<Adjustment> = JsonMissing.of(),
+        action: JsonField<HoldAdjustmentAction> = JsonMissing.of(),
         @JsonProperty("conditions")
         @ExcludeMissing
         conditions: JsonField<List<Condition>> = JsonMissing.of(),
-    ) : this(adjustment, conditions, mutableMapOf())
+    ) : this(action, conditions, mutableMapOf())
 
     /**
-     * The hold adjustment to apply if the conditions are met
+     * The hold adjustment to apply if the conditions are met.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun adjustment(): Adjustment = adjustment.getRequired("adjustment")
+    fun action(): HoldAdjustmentAction = action.getRequired("action")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -54,13 +54,11 @@ private constructor(
     fun conditions(): List<Condition> = conditions.getRequired("conditions")
 
     /**
-     * Returns the raw JSON value of [adjustment].
+     * Returns the raw JSON value of [action].
      *
-     * Unlike [adjustment], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [action], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("adjustment")
-    @ExcludeMissing
-    fun _adjustment(): JsonField<Adjustment> = adjustment
+    @JsonProperty("action") @ExcludeMissing fun _action(): JsonField<HoldAdjustmentAction> = action
 
     /**
      * Returns the raw JSON value of [conditions].
@@ -91,7 +89,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .adjustment()
+         * .action()
          * .conditions()
          * ```
          */
@@ -101,7 +99,7 @@ private constructor(
     /** A builder for [ConditionalAuthorizationAdjustmentParameters]. */
     class Builder internal constructor() {
 
-        private var adjustment: JsonField<Adjustment>? = null
+        private var action: JsonField<HoldAdjustmentAction>? = null
         private var conditions: JsonField<MutableList<Condition>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -110,24 +108,24 @@ private constructor(
             conditionalAuthorizationAdjustmentParameters:
                 ConditionalAuthorizationAdjustmentParameters
         ) = apply {
-            adjustment = conditionalAuthorizationAdjustmentParameters.adjustment
+            action = conditionalAuthorizationAdjustmentParameters.action
             conditions =
                 conditionalAuthorizationAdjustmentParameters.conditions.map { it.toMutableList() }
             additionalProperties =
                 conditionalAuthorizationAdjustmentParameters.additionalProperties.toMutableMap()
         }
 
-        /** The hold adjustment to apply if the conditions are met */
-        fun adjustment(adjustment: Adjustment) = adjustment(JsonField.of(adjustment))
+        /** The hold adjustment to apply if the conditions are met. */
+        fun action(action: HoldAdjustmentAction) = action(JsonField.of(action))
 
         /**
-         * Sets [Builder.adjustment] to an arbitrary JSON value.
+         * Sets [Builder.action] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.adjustment] with a well-typed [Adjustment] value
+         * You should usually call [Builder.action] with a well-typed [HoldAdjustmentAction] value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun adjustment(adjustment: JsonField<Adjustment>) = apply { this.adjustment = adjustment }
+        fun action(action: JsonField<HoldAdjustmentAction>) = apply { this.action = action }
 
         fun conditions(conditions: List<Condition>) = conditions(JsonField.of(conditions))
 
@@ -180,7 +178,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .adjustment()
+         * .action()
          * .conditions()
          * ```
          *
@@ -188,7 +186,7 @@ private constructor(
          */
         fun build(): ConditionalAuthorizationAdjustmentParameters =
             ConditionalAuthorizationAdjustmentParameters(
-                checkRequired("adjustment", adjustment),
+                checkRequired("action", action),
                 checkRequired("conditions", conditions).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
@@ -209,7 +207,7 @@ private constructor(
             return@apply
         }
 
-        adjustment().validate()
+        action().validate()
         conditions().forEach { it.validate() }
         validated = true
     }
@@ -229,11 +227,11 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (adjustment.asKnown().getOrNull()?.validity() ?: 0) +
+        (action.asKnown().getOrNull()?.validity() ?: 0) +
             (conditions.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
-    /** The hold adjustment to apply if the conditions are met */
-    class Adjustment
+    /** The hold adjustment to apply if the conditions are met. */
+    class HoldAdjustmentAction
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val mode: JsonField<Mode>,
@@ -313,7 +311,7 @@ private constructor(
         companion object {
 
             /**
-             * Returns a mutable builder for constructing an instance of [Adjustment].
+             * Returns a mutable builder for constructing an instance of [HoldAdjustmentAction].
              *
              * The following fields are required:
              * ```java
@@ -325,7 +323,7 @@ private constructor(
             @JvmStatic fun builder() = Builder()
         }
 
-        /** A builder for [Adjustment]. */
+        /** A builder for [HoldAdjustmentAction]. */
         class Builder internal constructor() {
 
             private var mode: JsonField<Mode>? = null
@@ -334,11 +332,11 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(adjustment: Adjustment) = apply {
-                mode = adjustment.mode
-                type = adjustment.type
-                value = adjustment.value
-                additionalProperties = adjustment.additionalProperties.toMutableMap()
+            internal fun from(holdAdjustmentAction: HoldAdjustmentAction) = apply {
+                mode = holdAdjustmentAction.mode
+                type = holdAdjustmentAction.type
+                value = holdAdjustmentAction.value
+                additionalProperties = holdAdjustmentAction.additionalProperties.toMutableMap()
             }
 
             /**
@@ -403,7 +401,7 @@ private constructor(
             }
 
             /**
-             * Returns an immutable instance of [Adjustment].
+             * Returns an immutable instance of [HoldAdjustmentAction].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              *
@@ -416,8 +414,8 @@ private constructor(
              *
              * @throws IllegalStateException if any required field is unset.
              */
-            fun build(): Adjustment =
-                Adjustment(
+            fun build(): HoldAdjustmentAction =
+                HoldAdjustmentAction(
                     checkRequired("mode", mode),
                     checkRequired("type", type),
                     checkRequired("value", value),
@@ -436,7 +434,7 @@ private constructor(
          * @throws LithicInvalidDataException if any value type in this object doesn't match its
          *   expected type.
          */
-        fun validate(): Adjustment = apply {
+        fun validate(): HoldAdjustmentAction = apply {
             if (validated) {
                 return@apply
             }
@@ -754,7 +752,7 @@ private constructor(
                 return true
             }
 
-            return other is Adjustment &&
+            return other is HoldAdjustmentAction &&
                 mode == other.mode &&
                 type == other.type &&
                 value == other.value &&
@@ -766,7 +764,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Adjustment{mode=$mode, type=$type, value=$value, additionalProperties=$additionalProperties}"
+            "HoldAdjustmentAction{mode=$mode, type=$type, value=$value, additionalProperties=$additionalProperties}"
     }
 
     class Condition
@@ -2521,15 +2519,15 @@ private constructor(
         }
 
         return other is ConditionalAuthorizationAdjustmentParameters &&
-            adjustment == other.adjustment &&
+            action == other.action &&
             conditions == other.conditions &&
             additionalProperties == other.additionalProperties
     }
 
-    private val hashCode: Int by lazy { Objects.hash(adjustment, conditions, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(action, conditions, additionalProperties) }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ConditionalAuthorizationAdjustmentParameters{adjustment=$adjustment, conditions=$conditions, additionalProperties=$additionalProperties}"
+        "ConditionalAuthorizationAdjustmentParameters{action=$action, conditions=$conditions, additionalProperties=$additionalProperties}"
 }
