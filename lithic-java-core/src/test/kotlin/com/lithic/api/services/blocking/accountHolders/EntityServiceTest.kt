@@ -6,6 +6,7 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.AccountHolderEntityCreateParams
 import com.lithic.api.models.AccountHolderEntityDeleteParams
+import com.lithic.api.models.EntityType
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -41,7 +42,7 @@ internal class EntityServiceTest {
                     .governmentId("211-23-1412")
                     .lastName("Turner")
                     .phoneNumber("+15555555555")
-                    .type(AccountHolderEntityCreateParams.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+                    .type(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
                     .build()
             )
 
