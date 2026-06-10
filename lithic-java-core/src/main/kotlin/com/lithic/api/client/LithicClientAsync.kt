@@ -38,6 +38,7 @@ import com.lithic.api.services.async.ResponderEndpointServiceAsync
 import com.lithic.api.services.async.ThreeDSServiceAsync
 import com.lithic.api.services.async.TokenizationDecisioningServiceAsync
 import com.lithic.api.services.async.TokenizationServiceAsync
+import com.lithic.api.services.async.TransactionMonitoringServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsync
 import com.lithic.api.services.async.TransferLimitServiceAsync
 import com.lithic.api.services.async.TransferServiceAsync
@@ -86,6 +87,8 @@ interface LithicClientAsync {
     fun accountHolders(): AccountHolderServiceAsync
 
     fun authRules(): AuthRuleServiceAsync
+
+    fun transactionMonitoring(): TransactionMonitoringServiceAsync
 
     fun authStreamEnrollment(): AuthStreamEnrollmentServiceAsync
 
@@ -199,6 +202,8 @@ interface LithicClientAsync {
         fun accountHolders(): AccountHolderServiceAsync.WithRawResponse
 
         fun authRules(): AuthRuleServiceAsync.WithRawResponse
+
+        fun transactionMonitoring(): TransactionMonitoringServiceAsync.WithRawResponse
 
         fun authStreamEnrollment(): AuthStreamEnrollmentServiceAsync.WithRawResponse
 

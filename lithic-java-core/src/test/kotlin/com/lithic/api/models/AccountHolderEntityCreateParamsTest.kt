@@ -27,7 +27,7 @@ internal class AccountHolderEntityCreateParamsTest {
             .governmentId("211-23-1412")
             .lastName("Turner")
             .phoneNumber("+15555555555")
-            .type(AccountHolderEntityCreateParams.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+            .type(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
             .build()
     }
 
@@ -51,7 +51,7 @@ internal class AccountHolderEntityCreateParamsTest {
                 .governmentId("211-23-1412")
                 .lastName("Turner")
                 .phoneNumber("+15555555555")
-                .type(AccountHolderEntityCreateParams.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+                .type(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -80,7 +80,7 @@ internal class AccountHolderEntityCreateParamsTest {
                 .governmentId("211-23-1412")
                 .lastName("Turner")
                 .phoneNumber("+15555555555")
-                .type(AccountHolderEntityCreateParams.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+                .type(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
                 .build()
 
         val body = params._body()
@@ -102,8 +102,7 @@ internal class AccountHolderEntityCreateParamsTest {
         assertThat(body.governmentId()).isEqualTo("211-23-1412")
         assertThat(body.lastName()).isEqualTo("Turner")
         assertThat(body.phoneNumber()).isEqualTo("+15555555555")
-        assertThat(body.type())
-            .isEqualTo(AccountHolderEntityCreateParams.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+        assertThat(body.type()).isEqualTo(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
     }
 
     @Test
@@ -126,7 +125,7 @@ internal class AccountHolderEntityCreateParamsTest {
                 .governmentId("211-23-1412")
                 .lastName("Turner")
                 .phoneNumber("+15555555555")
-                .type(AccountHolderEntityCreateParams.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+                .type(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
                 .build()
 
         val body = params._body()
@@ -147,7 +146,6 @@ internal class AccountHolderEntityCreateParamsTest {
         assertThat(body.governmentId()).isEqualTo("211-23-1412")
         assertThat(body.lastName()).isEqualTo("Turner")
         assertThat(body.phoneNumber()).isEqualTo("+15555555555")
-        assertThat(body.type())
-            .isEqualTo(AccountHolderEntityCreateParams.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+        assertThat(body.type()).isEqualTo(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
     }
 }

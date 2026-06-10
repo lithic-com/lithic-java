@@ -31,7 +31,7 @@ internal class AccountHolderEntityTest {
                 .lastName("Bombadil")
                 .phoneNumber("+15555555555")
                 .status(AccountHolderEntity.EntityStatus.ACCEPTED)
-                .type(AccountHolderEntity.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+                .type(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
                 .build()
 
         assertThat(accountHolderEntity.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -55,8 +55,7 @@ internal class AccountHolderEntityTest {
         assertThat(accountHolderEntity.phoneNumber()).contains("+15555555555")
         assertThat(accountHolderEntity.status())
             .isEqualTo(AccountHolderEntity.EntityStatus.ACCEPTED)
-        assertThat(accountHolderEntity.type())
-            .isEqualTo(AccountHolderEntity.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+        assertThat(accountHolderEntity.type()).isEqualTo(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
     }
 
     @Test
@@ -82,7 +81,7 @@ internal class AccountHolderEntityTest {
                 .lastName("Bombadil")
                 .phoneNumber("+15555555555")
                 .status(AccountHolderEntity.EntityStatus.ACCEPTED)
-                .type(AccountHolderEntity.EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
+                .type(EntityType.BENEFICIAL_OWNER_INDIVIDUAL)
                 .build()
 
         val roundtrippedAccountHolderEntity =
