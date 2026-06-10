@@ -52,6 +52,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.accounts()).isNotNull()
         assertThat(client.accountHolders()).isNotNull()
         assertThat(client.authRules()).isNotNull()
+        assertThat(client.transactionMonitoring()).isNotNull()
         assertThat(client.authStreamEnrollment()).isNotNull()
         assertThat(client.tokenizationDecisioning()).isNotNull()
         assertThat(client.tokenizations()).isNotNull()
