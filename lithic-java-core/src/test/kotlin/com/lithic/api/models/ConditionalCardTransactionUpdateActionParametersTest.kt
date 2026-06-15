@@ -58,6 +58,12 @@ internal class ConditionalCardTransactionUpdateActionParametersTest {
                                         )
                                         .build()
                                 )
+                                .interval(
+                                    ConditionalCardTransactionUpdateActionParameters.Condition
+                                        .Parameters
+                                        .Interval
+                                        .LIFETIME
+                                )
                                 .period(
                                     VelocityLimitPeriod.TrailingWindowObject.builder()
                                         .duration(10L)
@@ -69,6 +75,12 @@ internal class ConditionalCardTransactionUpdateActionParametersTest {
                                         .Parameters
                                         .Scope
                                         .CARD
+                                )
+                                .unit(
+                                    ConditionalCardTransactionUpdateActionParameters.Condition
+                                        .Parameters
+                                        .Unit
+                                        .MPH
                                 )
                                 .build()
                         )
@@ -118,6 +130,12 @@ internal class ConditionalCardTransactionUpdateActionParametersTest {
                                     )
                                     .build()
                             )
+                            .interval(
+                                ConditionalCardTransactionUpdateActionParameters.Condition
+                                    .Parameters
+                                    .Interval
+                                    .LIFETIME
+                            )
                             .period(
                                 VelocityLimitPeriod.TrailingWindowObject.builder()
                                     .duration(10L)
@@ -129,6 +147,12 @@ internal class ConditionalCardTransactionUpdateActionParametersTest {
                                     .Parameters
                                     .Scope
                                     .CARD
+                            )
+                            .unit(
+                                ConditionalCardTransactionUpdateActionParameters.Condition
+                                    .Parameters
+                                    .Unit
+                                    .MPH
                             )
                             .build()
                     )
@@ -185,6 +209,12 @@ internal class ConditionalCardTransactionUpdateActionParametersTest {
                                         )
                                         .build()
                                 )
+                                .interval(
+                                    ConditionalCardTransactionUpdateActionParameters.Condition
+                                        .Parameters
+                                        .Interval
+                                        .LIFETIME
+                                )
                                 .period(
                                     VelocityLimitPeriod.TrailingWindowObject.builder()
                                         .duration(10L)
@@ -196,6 +226,12 @@ internal class ConditionalCardTransactionUpdateActionParametersTest {
                                         .Parameters
                                         .Scope
                                         .CARD
+                                )
+                                .unit(
+                                    ConditionalCardTransactionUpdateActionParameters.Condition
+                                        .Parameters
+                                        .Unit
+                                        .MPH
                                 )
                                 .build()
                         )
