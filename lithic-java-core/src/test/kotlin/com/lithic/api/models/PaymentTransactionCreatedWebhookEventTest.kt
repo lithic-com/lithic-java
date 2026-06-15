@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -72,6 +73,11 @@ internal class PaymentTransactionCreatedWebhookEventTest {
                 .currency("USD")
                 .expectedReleaseDate(null)
                 .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                .tags(
+                    Payment.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .userDefinedId(null)
                 .eventType(
@@ -151,6 +157,12 @@ internal class PaymentTransactionCreatedWebhookEventTest {
         assertThat(paymentTransactionCreatedWebhookEvent.expectedReleaseDate()).isEmpty
         assertThat(paymentTransactionCreatedWebhookEvent.externalBankAccountToken())
             .contains("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+        assertThat(paymentTransactionCreatedWebhookEvent.tags())
+            .contains(
+                Payment.Tags.builder()
+                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                    .build()
+            )
         assertThat(paymentTransactionCreatedWebhookEvent.type())
             .contains(Payment.TransferType.ORIGINATION_CREDIT)
         assertThat(paymentTransactionCreatedWebhookEvent.userDefinedId()).isEmpty
@@ -221,6 +233,11 @@ internal class PaymentTransactionCreatedWebhookEventTest {
                 .currency("USD")
                 .expectedReleaseDate(null)
                 .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                .tags(
+                    Payment.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .userDefinedId(null)
                 .eventType(
