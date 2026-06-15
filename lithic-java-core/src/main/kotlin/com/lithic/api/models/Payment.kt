@@ -57,6 +57,7 @@ private constructor(
     private val currency: JsonField<String>,
     private val expectedReleaseDate: JsonField<LocalDate>,
     private val externalBankAccountToken: JsonField<String>,
+    private val tags: JsonField<Tags>,
     private val type: JsonField<TransferType>,
     private val userDefinedId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -114,6 +115,7 @@ private constructor(
         @JsonProperty("external_bank_account_token")
         @ExcludeMissing
         externalBankAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("tags") @ExcludeMissing tags: JsonField<Tags> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing type: JsonField<TransferType> = JsonMissing.of(),
         @JsonProperty("user_defined_id")
         @ExcludeMissing
@@ -139,6 +141,7 @@ private constructor(
         currency,
         expectedReleaseDate,
         externalBankAccountToken,
+        tags,
         type,
         userDefinedId,
         mutableMapOf(),
@@ -307,6 +310,15 @@ private constructor(
      */
     fun externalBankAccountToken(): Optional<String> =
         externalBankAccountToken.getOptional("external_bank_account_token")
+
+    /**
+     * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata with a
+     * resource for your own purposes.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun tags(): Optional<Tags> = tags.getOptional("tags")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -484,6 +496,13 @@ private constructor(
     fun _externalBankAccountToken(): JsonField<String> = externalBankAccountToken
 
     /**
+     * Returns the raw JSON value of [tags].
+     *
+     * Unlike [tags], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tags") @ExcludeMissing fun _tags(): JsonField<Tags> = tags
+
+    /**
      * Returns the raw JSON value of [type].
      *
      * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -563,6 +582,7 @@ private constructor(
         private var currency: JsonField<String> = JsonMissing.of()
         private var expectedReleaseDate: JsonField<LocalDate> = JsonMissing.of()
         private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
+        private var tags: JsonField<Tags> = JsonMissing.of()
         private var type: JsonField<TransferType> = JsonMissing.of()
         private var userDefinedId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -589,6 +609,7 @@ private constructor(
             currency = payment.currency
             expectedReleaseDate = payment.expectedReleaseDate
             externalBankAccountToken = payment.externalBankAccountToken
+            tags = payment.tags
             type = payment.type
             userDefinedId = payment.userDefinedId
             additionalProperties = payment.additionalProperties.toMutableMap()
@@ -890,6 +911,20 @@ private constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
+        /**
+         * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
+         * with a resource for your own purposes.
+         */
+        fun tags(tags: Tags) = tags(JsonField.of(tags))
+
+        /**
+         * Sets [Builder.tags] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tags] with a well-typed [Tags] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun tags(tags: JsonField<Tags>) = apply { this.tags = tags }
+
         fun type(type: TransferType) = type(JsonField.of(type))
 
         /**
@@ -989,6 +1024,7 @@ private constructor(
                 currency,
                 expectedReleaseDate,
                 externalBankAccountToken,
+                tags,
                 type,
                 userDefinedId,
                 additionalProperties.toMutableMap(),
@@ -1030,6 +1066,7 @@ private constructor(
         currency()
         expectedReleaseDate()
         externalBankAccountToken()
+        tags().ifPresent { it.validate() }
         type().ifPresent { it.validate() }
         userDefinedId()
         validated = true
@@ -1070,6 +1107,7 @@ private constructor(
             (if (currency.asKnown().isPresent) 1 else 0) +
             (if (expectedReleaseDate.asKnown().isPresent) 1 else 0) +
             (if (externalBankAccountToken.asKnown().isPresent) 1 else 0) +
+            (tags.asKnown().getOrNull()?.validity() ?: 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0) +
             (if (userDefinedId.asKnown().isPresent) 1 else 0)
 
@@ -5138,6 +5176,118 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata with a
+     * resource for your own purposes.
+     */
+    class Tags
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Tags]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Tags]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(tags: Tags) = apply {
+                additionalProperties = tags.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Tags].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Tags = Tags(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LithicInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Tags = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Tags && additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "Tags{additionalProperties=$additionalProperties}"
+    }
+
     class TransferType @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
 
@@ -5343,6 +5493,7 @@ private constructor(
             currency == other.currency &&
             expectedReleaseDate == other.expectedReleaseDate &&
             externalBankAccountToken == other.externalBankAccountToken &&
+            tags == other.tags &&
             type == other.type &&
             userDefinedId == other.userDefinedId &&
             additionalProperties == other.additionalProperties
@@ -5370,6 +5521,7 @@ private constructor(
             currency,
             expectedReleaseDate,
             externalBankAccountToken,
+            tags,
             type,
             userDefinedId,
             additionalProperties,
@@ -5379,5 +5531,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Payment{token=$token, category=$category, created=$created, descriptor=$descriptor, direction=$direction, events=$events, family=$family, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, currency=$currency, expectedReleaseDate=$expectedReleaseDate, externalBankAccountToken=$externalBankAccountToken, type=$type, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+        "Payment{token=$token, category=$category, created=$created, descriptor=$descriptor, direction=$direction, events=$events, family=$family, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, currency=$currency, expectedReleaseDate=$expectedReleaseDate, externalBankAccountToken=$externalBankAccountToken, tags=$tags, type=$type, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 }
