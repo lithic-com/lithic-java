@@ -819,6 +819,11 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                 .currency("USD")
                 .expectedReleaseDate(null)
                 .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                .tags(
+                    Payment.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .userDefinedId(null)
                 .build()
@@ -899,6 +904,11 @@ internal class AccountActivityRetrieveTransactionResponseTest {
                     .currency("USD")
                     .expectedReleaseDate(null)
                     .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                    .tags(
+                        Payment.Tags.builder()
+                            .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                            .build()
+                    )
                     .type(Payment.TransferType.ORIGINATION_CREDIT)
                     .userDefinedId(null)
                     .build()

@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -72,6 +73,11 @@ internal class PaymentCreateResponseTest {
                 .currency("USD")
                 .expectedReleaseDate(null)
                 .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                .tags(
+                    Payment.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .userDefinedId(null)
                 .balance(
@@ -155,6 +161,12 @@ internal class PaymentCreateResponseTest {
         assertThat(paymentCreateResponse.expectedReleaseDate()).isEmpty
         assertThat(paymentCreateResponse.externalBankAccountToken())
             .contains("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+        assertThat(paymentCreateResponse.tags())
+            .contains(
+                Payment.Tags.builder()
+                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                    .build()
+            )
         assertThat(paymentCreateResponse.type()).contains(Payment.TransferType.ORIGINATION_CREDIT)
         assertThat(paymentCreateResponse.userDefinedId()).isEmpty
         assertThat(paymentCreateResponse.balance())
@@ -237,6 +249,11 @@ internal class PaymentCreateResponseTest {
                 .currency("USD")
                 .expectedReleaseDate(null)
                 .externalBankAccountToken("feb4fee1-2414-4c38-a5f6-9deac293c8f4")
+                .tags(
+                    Payment.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .type(Payment.TransferType.ORIGINATION_CREDIT)
                 .userDefinedId(null)
                 .balance(
