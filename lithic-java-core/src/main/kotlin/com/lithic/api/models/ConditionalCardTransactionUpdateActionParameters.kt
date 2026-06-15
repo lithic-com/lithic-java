@@ -320,6 +320,45 @@ private constructor(
          * * `SPEND_VELOCITY_AMOUNT`: The total spend amount (in cents) of transactions matching the
          *   specified filters within the given period. Requires `parameters` with `scope`,
          *   `period`, and optional `filters`. Use an integer value.
+         * * `AMOUNT_Z_SCORE`: The z-score of the transaction amount relative to the entity's
+         *   transaction history. Null if fewer than 30 approved transactions in the specified
+         *   window. Requires `parameters.scope` and `parameters.interval`. Use a decimal value.
+         * * `AVG_TRANSACTION_AMOUNT`: The average approved transaction amount for the entity over
+         *   the specified window, in cents. Requires `parameters.scope` and `parameters.interval`.
+         *   Use a decimal value.
+         * * `STDEV_TRANSACTION_AMOUNT`: The standard deviation of approved transaction amounts for
+         *   the entity over the specified window, in cents. Null if fewer than 30 approved
+         *   transactions in the specified window. Requires `parameters.scope` and
+         *   `parameters.interval`. Use a decimal value.
+         * * `IS_NEW_COUNTRY`: Whether the transaction's merchant country has not been seen in the
+         *   entity's transaction history. Valid values are `TRUE`, `FALSE`. Requires
+         *   `parameters.scope`.
+         * * `IS_NEW_MCC`: Whether the transaction's MCC has not been seen in the entity's
+         *   transaction history. Valid values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `IS_FIRST_TRANSACTION`: Whether this is the first transaction for the entity. Valid
+         *   values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `CONSECUTIVE_DECLINES`: The number of consecutive declined transactions for the entity
+         *   over the last 30 days (rolling). Requires `parameters.scope`. Use an integer value.
+         * * `TIME_SINCE_LAST_TRANSACTION`: The number of days since the last approved transaction
+         *   for the entity, rounded to the nearest whole day. Requires `parameters.scope`. Use an
+         *   integer value.
+         * * `DISTINCT_COUNTRY_COUNT`: The number of distinct merchant countries seen in the
+         *   entity's transaction history. Requires `parameters.scope`. Use an integer value.
+         * * `IS_NEW_MERCHANT`: Whether the card acceptor ID has not been seen in the card's
+         *   approved transaction history (capped at the 1000 most recently seen merchants). Valid
+         *   values are `TRUE`, `FALSE`. Card-scoped only; no `parameters` required.
+         * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
+         *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required. Use a decimal
+         *   value.
+         * * `TRAVEL_SPEED`: The estimated speed of travel derived from the distance between the
+         *   postal code centers of the last card-present transaction and the current transaction,
+         *   divided by the elapsed time. Null if there is no prior card-present transaction, if
+         *   either postal code cannot be geocoded, or if elapsed time is zero. Requires
+         *   `parameters.unit` set to `MPH` or `KPH`. Use a decimal value.
+         * * `DISTANCE_FROM_LAST_TRANSACTION`: The estimated distance between the postal code
+         *   centers of the last card-present transaction and the current transaction. Null if there
+         *   is no prior card-present transaction or if either postal code cannot be geocoded.
+         *   Requires `parameters.unit` set to `MILES` or `KILOMETERS`. Use a decimal value.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -343,8 +382,14 @@ private constructor(
         fun value(): ConditionalValue = value.getRequired("value")
 
         /**
-         * Additional parameters for spend velocity attributes. Required when `attribute` is
-         * `SPEND_VELOCITY_COUNT` or `SPEND_VELOCITY_AMOUNT`. Not used for other attributes.
+         * Additional parameters for certain attributes. Required when `attribute` is
+         * `SPEND_VELOCITY_COUNT` or `SPEND_VELOCITY_AMOUNT` (require `scope`, `period`, and
+         * optional `filters`); `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
+         * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
+         * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`
+         * (require `scope`, and additionally `interval` for the statistical attributes); or
+         * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION` (require `unit`). Not used for other
+         * attributes.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -483,6 +528,47 @@ private constructor(
              * * `SPEND_VELOCITY_AMOUNT`: The total spend amount (in cents) of transactions matching
              *   the specified filters within the given period. Requires `parameters` with `scope`,
              *   `period`, and optional `filters`. Use an integer value.
+             * * `AMOUNT_Z_SCORE`: The z-score of the transaction amount relative to the entity's
+             *   transaction history. Null if fewer than 30 approved transactions in the specified
+             *   window. Requires `parameters.scope` and `parameters.interval`. Use a decimal value.
+             * * `AVG_TRANSACTION_AMOUNT`: The average approved transaction amount for the entity
+             *   over the specified window, in cents. Requires `parameters.scope` and
+             *   `parameters.interval`. Use a decimal value.
+             * * `STDEV_TRANSACTION_AMOUNT`: The standard deviation of approved transaction amounts
+             *   for the entity over the specified window, in cents. Null if fewer than 30 approved
+             *   transactions in the specified window. Requires `parameters.scope` and
+             *   `parameters.interval`. Use a decimal value.
+             * * `IS_NEW_COUNTRY`: Whether the transaction's merchant country has not been seen in
+             *   the entity's transaction history. Valid values are `TRUE`, `FALSE`. Requires
+             *   `parameters.scope`.
+             * * `IS_NEW_MCC`: Whether the transaction's MCC has not been seen in the entity's
+             *   transaction history. Valid values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+             * * `IS_FIRST_TRANSACTION`: Whether this is the first transaction for the entity. Valid
+             *   values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+             * * `CONSECUTIVE_DECLINES`: The number of consecutive declined transactions for the
+             *   entity over the last 30 days (rolling). Requires `parameters.scope`. Use an integer
+             *   value.
+             * * `TIME_SINCE_LAST_TRANSACTION`: The number of days since the last approved
+             *   transaction for the entity, rounded to the nearest whole day. Requires
+             *   `parameters.scope`. Use an integer value.
+             * * `DISTINCT_COUNTRY_COUNT`: The number of distinct merchant countries seen in the
+             *   entity's transaction history. Requires `parameters.scope`. Use an integer value.
+             * * `IS_NEW_MERCHANT`: Whether the card acceptor ID has not been seen in the card's
+             *   approved transaction history (capped at the 1000 most recently seen merchants).
+             *   Valid values are `TRUE`, `FALSE`. Card-scoped only; no `parameters` required.
+             * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
+             *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required. Use a
+             *   decimal value.
+             * * `TRAVEL_SPEED`: The estimated speed of travel derived from the distance between the
+             *   postal code centers of the last card-present transaction and the current
+             *   transaction, divided by the elapsed time. Null if there is no prior card-present
+             *   transaction, if either postal code cannot be geocoded, or if elapsed time is zero.
+             *   Requires `parameters.unit` set to `MPH` or `KPH`. Use a decimal value.
+             * * `DISTANCE_FROM_LAST_TRANSACTION`: The estimated distance between the postal code
+             *   centers of the last card-present transaction and the current transaction. Null if
+             *   there is no prior card-present transaction or if either postal code cannot be
+             *   geocoded. Requires `parameters.unit` set to `MILES` or `KILOMETERS`. Use a decimal
+             *   value.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -538,8 +624,14 @@ private constructor(
             fun value(timestamp: OffsetDateTime) = value(ConditionalValue.ofTimestamp(timestamp))
 
             /**
-             * Additional parameters for spend velocity attributes. Required when `attribute` is
-             * `SPEND_VELOCITY_COUNT` or `SPEND_VELOCITY_AMOUNT`. Not used for other attributes.
+             * Additional parameters for certain attributes. Required when `attribute` is
+             * `SPEND_VELOCITY_COUNT` or `SPEND_VELOCITY_AMOUNT` (require `scope`, `period`, and
+             * optional `filters`); `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
+             * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
+             * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`
+             * (require `scope`, and additionally `interval` for the statistical attributes); or
+             * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION` (require `unit`). Not used for
+             * other attributes.
              */
             fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
 
@@ -691,6 +783,45 @@ private constructor(
          * * `SPEND_VELOCITY_AMOUNT`: The total spend amount (in cents) of transactions matching the
          *   specified filters within the given period. Requires `parameters` with `scope`,
          *   `period`, and optional `filters`. Use an integer value.
+         * * `AMOUNT_Z_SCORE`: The z-score of the transaction amount relative to the entity's
+         *   transaction history. Null if fewer than 30 approved transactions in the specified
+         *   window. Requires `parameters.scope` and `parameters.interval`. Use a decimal value.
+         * * `AVG_TRANSACTION_AMOUNT`: The average approved transaction amount for the entity over
+         *   the specified window, in cents. Requires `parameters.scope` and `parameters.interval`.
+         *   Use a decimal value.
+         * * `STDEV_TRANSACTION_AMOUNT`: The standard deviation of approved transaction amounts for
+         *   the entity over the specified window, in cents. Null if fewer than 30 approved
+         *   transactions in the specified window. Requires `parameters.scope` and
+         *   `parameters.interval`. Use a decimal value.
+         * * `IS_NEW_COUNTRY`: Whether the transaction's merchant country has not been seen in the
+         *   entity's transaction history. Valid values are `TRUE`, `FALSE`. Requires
+         *   `parameters.scope`.
+         * * `IS_NEW_MCC`: Whether the transaction's MCC has not been seen in the entity's
+         *   transaction history. Valid values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `IS_FIRST_TRANSACTION`: Whether this is the first transaction for the entity. Valid
+         *   values are `TRUE`, `FALSE`. Requires `parameters.scope`.
+         * * `CONSECUTIVE_DECLINES`: The number of consecutive declined transactions for the entity
+         *   over the last 30 days (rolling). Requires `parameters.scope`. Use an integer value.
+         * * `TIME_SINCE_LAST_TRANSACTION`: The number of days since the last approved transaction
+         *   for the entity, rounded to the nearest whole day. Requires `parameters.scope`. Use an
+         *   integer value.
+         * * `DISTINCT_COUNTRY_COUNT`: The number of distinct merchant countries seen in the
+         *   entity's transaction history. Requires `parameters.scope`. Use an integer value.
+         * * `IS_NEW_MERCHANT`: Whether the card acceptor ID has not been seen in the card's
+         *   approved transaction history (capped at the 1000 most recently seen merchants). Valid
+         *   values are `TRUE`, `FALSE`. Card-scoped only; no `parameters` required.
+         * * `THREE_DS_SUCCESS_RATE`: The 3DS authentication success rate for the card, as a
+         *   percentage from 0.0 to 100.0. Card-scoped only; no `parameters` required. Use a decimal
+         *   value.
+         * * `TRAVEL_SPEED`: The estimated speed of travel derived from the distance between the
+         *   postal code centers of the last card-present transaction and the current transaction,
+         *   divided by the elapsed time. Null if there is no prior card-present transaction, if
+         *   either postal code cannot be geocoded, or if elapsed time is zero. Requires
+         *   `parameters.unit` set to `MPH` or `KPH`. Use a decimal value.
+         * * `DISTANCE_FROM_LAST_TRANSACTION`: The estimated distance between the postal code
+         *   centers of the last card-present transaction and the current transaction. Null if there
+         *   is no prior card-present transaction or if either postal code cannot be geocoded.
+         *   Requires `parameters.unit` set to `MILES` or `KILOMETERS`. Use a decimal value.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -739,6 +870,32 @@ private constructor(
 
                 @JvmField val SPEND_VELOCITY_AMOUNT = of("SPEND_VELOCITY_AMOUNT")
 
+                @JvmField val AMOUNT_Z_SCORE = of("AMOUNT_Z_SCORE")
+
+                @JvmField val AVG_TRANSACTION_AMOUNT = of("AVG_TRANSACTION_AMOUNT")
+
+                @JvmField val STDEV_TRANSACTION_AMOUNT = of("STDEV_TRANSACTION_AMOUNT")
+
+                @JvmField val IS_NEW_COUNTRY = of("IS_NEW_COUNTRY")
+
+                @JvmField val IS_NEW_MCC = of("IS_NEW_MCC")
+
+                @JvmField val IS_FIRST_TRANSACTION = of("IS_FIRST_TRANSACTION")
+
+                @JvmField val CONSECUTIVE_DECLINES = of("CONSECUTIVE_DECLINES")
+
+                @JvmField val TIME_SINCE_LAST_TRANSACTION = of("TIME_SINCE_LAST_TRANSACTION")
+
+                @JvmField val DISTINCT_COUNTRY_COUNT = of("DISTINCT_COUNTRY_COUNT")
+
+                @JvmField val IS_NEW_MERCHANT = of("IS_NEW_MERCHANT")
+
+                @JvmField val THREE_DS_SUCCESS_RATE = of("THREE_DS_SUCCESS_RATE")
+
+                @JvmField val TRAVEL_SPEED = of("TRAVEL_SPEED")
+
+                @JvmField val DISTANCE_FROM_LAST_TRANSACTION = of("DISTANCE_FROM_LAST_TRANSACTION")
+
                 @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
             }
 
@@ -760,6 +917,19 @@ private constructor(
                 ACCOUNT_AGE,
                 SPEND_VELOCITY_COUNT,
                 SPEND_VELOCITY_AMOUNT,
+                AMOUNT_Z_SCORE,
+                AVG_TRANSACTION_AMOUNT,
+                STDEV_TRANSACTION_AMOUNT,
+                IS_NEW_COUNTRY,
+                IS_NEW_MCC,
+                IS_FIRST_TRANSACTION,
+                CONSECUTIVE_DECLINES,
+                TIME_SINCE_LAST_TRANSACTION,
+                DISTINCT_COUNTRY_COUNT,
+                IS_NEW_MERCHANT,
+                THREE_DS_SUCCESS_RATE,
+                TRAVEL_SPEED,
+                DISTANCE_FROM_LAST_TRANSACTION,
             }
 
             /**
@@ -788,6 +958,19 @@ private constructor(
                 ACCOUNT_AGE,
                 SPEND_VELOCITY_COUNT,
                 SPEND_VELOCITY_AMOUNT,
+                AMOUNT_Z_SCORE,
+                AVG_TRANSACTION_AMOUNT,
+                STDEV_TRANSACTION_AMOUNT,
+                IS_NEW_COUNTRY,
+                IS_NEW_MCC,
+                IS_FIRST_TRANSACTION,
+                CONSECUTIVE_DECLINES,
+                TIME_SINCE_LAST_TRANSACTION,
+                DISTINCT_COUNTRY_COUNT,
+                IS_NEW_MERCHANT,
+                THREE_DS_SUCCESS_RATE,
+                TRAVEL_SPEED,
+                DISTANCE_FROM_LAST_TRANSACTION,
                 /**
                  * An enum member indicating that [Attribute] was instantiated with an unknown
                  * value.
@@ -820,6 +1003,19 @@ private constructor(
                     ACCOUNT_AGE -> Value.ACCOUNT_AGE
                     SPEND_VELOCITY_COUNT -> Value.SPEND_VELOCITY_COUNT
                     SPEND_VELOCITY_AMOUNT -> Value.SPEND_VELOCITY_AMOUNT
+                    AMOUNT_Z_SCORE -> Value.AMOUNT_Z_SCORE
+                    AVG_TRANSACTION_AMOUNT -> Value.AVG_TRANSACTION_AMOUNT
+                    STDEV_TRANSACTION_AMOUNT -> Value.STDEV_TRANSACTION_AMOUNT
+                    IS_NEW_COUNTRY -> Value.IS_NEW_COUNTRY
+                    IS_NEW_MCC -> Value.IS_NEW_MCC
+                    IS_FIRST_TRANSACTION -> Value.IS_FIRST_TRANSACTION
+                    CONSECUTIVE_DECLINES -> Value.CONSECUTIVE_DECLINES
+                    TIME_SINCE_LAST_TRANSACTION -> Value.TIME_SINCE_LAST_TRANSACTION
+                    DISTINCT_COUNTRY_COUNT -> Value.DISTINCT_COUNTRY_COUNT
+                    IS_NEW_MERCHANT -> Value.IS_NEW_MERCHANT
+                    THREE_DS_SUCCESS_RATE -> Value.THREE_DS_SUCCESS_RATE
+                    TRAVEL_SPEED -> Value.TRAVEL_SPEED
+                    DISTANCE_FROM_LAST_TRANSACTION -> Value.DISTANCE_FROM_LAST_TRANSACTION
                     else -> Value._UNKNOWN
                 }
 
@@ -850,6 +1046,19 @@ private constructor(
                     ACCOUNT_AGE -> Known.ACCOUNT_AGE
                     SPEND_VELOCITY_COUNT -> Known.SPEND_VELOCITY_COUNT
                     SPEND_VELOCITY_AMOUNT -> Known.SPEND_VELOCITY_AMOUNT
+                    AMOUNT_Z_SCORE -> Known.AMOUNT_Z_SCORE
+                    AVG_TRANSACTION_AMOUNT -> Known.AVG_TRANSACTION_AMOUNT
+                    STDEV_TRANSACTION_AMOUNT -> Known.STDEV_TRANSACTION_AMOUNT
+                    IS_NEW_COUNTRY -> Known.IS_NEW_COUNTRY
+                    IS_NEW_MCC -> Known.IS_NEW_MCC
+                    IS_FIRST_TRANSACTION -> Known.IS_FIRST_TRANSACTION
+                    CONSECUTIVE_DECLINES -> Known.CONSECUTIVE_DECLINES
+                    TIME_SINCE_LAST_TRANSACTION -> Known.TIME_SINCE_LAST_TRANSACTION
+                    DISTINCT_COUNTRY_COUNT -> Known.DISTINCT_COUNTRY_COUNT
+                    IS_NEW_MERCHANT -> Known.IS_NEW_MERCHANT
+                    THREE_DS_SUCCESS_RATE -> Known.THREE_DS_SUCCESS_RATE
+                    TRAVEL_SPEED -> Known.TRAVEL_SPEED
+                    DISTANCE_FROM_LAST_TRANSACTION -> Known.DISTANCE_FROM_LAST_TRANSACTION
                     else -> throw LithicInvalidDataException("Unknown Attribute: $value")
                 }
 
@@ -918,15 +1127,23 @@ private constructor(
         }
 
         /**
-         * Additional parameters for spend velocity attributes. Required when `attribute` is
-         * `SPEND_VELOCITY_COUNT` or `SPEND_VELOCITY_AMOUNT`. Not used for other attributes.
+         * Additional parameters for certain attributes. Required when `attribute` is
+         * `SPEND_VELOCITY_COUNT` or `SPEND_VELOCITY_AMOUNT` (require `scope`, `period`, and
+         * optional `filters`); `AMOUNT_Z_SCORE`, `AVG_TRANSACTION_AMOUNT`,
+         * `STDEV_TRANSACTION_AMOUNT`, `IS_NEW_COUNTRY`, `IS_NEW_MCC`, `IS_FIRST_TRANSACTION`,
+         * `CONSECUTIVE_DECLINES`, `TIME_SINCE_LAST_TRANSACTION`, or `DISTINCT_COUNTRY_COUNT`
+         * (require `scope`, and additionally `interval` for the statistical attributes); or
+         * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION` (require `unit`). Not used for other
+         * attributes.
          */
         class Parameters
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val filters: JsonField<SpendVelocityFilters>,
+            private val interval: JsonField<Interval>,
             private val period: JsonField<VelocityLimitPeriod>,
             private val scope: JsonField<Scope>,
+            private val unit: JsonField<Unit>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -935,17 +1152,31 @@ private constructor(
                 @JsonProperty("filters")
                 @ExcludeMissing
                 filters: JsonField<SpendVelocityFilters> = JsonMissing.of(),
+                @JsonProperty("interval")
+                @ExcludeMissing
+                interval: JsonField<Interval> = JsonMissing.of(),
                 @JsonProperty("period")
                 @ExcludeMissing
                 period: JsonField<VelocityLimitPeriod> = JsonMissing.of(),
                 @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
-            ) : this(filters, period, scope, mutableMapOf())
+                @JsonProperty("unit") @ExcludeMissing unit: JsonField<Unit> = JsonMissing.of(),
+            ) : this(filters, interval, period, scope, unit, mutableMapOf())
 
             /**
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
             fun filters(): Optional<SpendVelocityFilters> = filters.getOptional("filters")
+
+            /**
+             * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
+             * `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`). Use `LIFETIME` for all-time
+             * history or a specific window (`7D`, `30D`, `90D`).
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun interval(): Optional<Interval> = interval.getOptional("interval")
 
             /**
              * The time period over which to calculate the spend velocity.
@@ -956,12 +1187,26 @@ private constructor(
             fun period(): Optional<VelocityLimitPeriod> = period.getOptional("period")
 
             /**
-             * The entity scope to evaluate the attribute against.
+             * The entity scope to evaluate the attribute against. `GLOBAL` is only valid for spend
+             * velocity attributes.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
             fun scope(): Optional<Scope> = scope.getOptional("scope")
+
+            /**
+             * The unit for impossible travel attributes. Required when `attribute` is
+             * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION`.
+             *
+             * For `TRAVEL_SPEED`: `MPH` (miles per hour) or `KPH` (kilometers per hour).
+             *
+             * For `DISTANCE_FROM_LAST_TRANSACTION`: `MILES` or `KILOMETERS`.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun unit(): Optional<Unit> = unit.getOptional("unit")
 
             /**
              * Returns the raw JSON value of [filters].
@@ -971,6 +1216,16 @@ private constructor(
             @JsonProperty("filters")
             @ExcludeMissing
             fun _filters(): JsonField<SpendVelocityFilters> = filters
+
+            /**
+             * Returns the raw JSON value of [interval].
+             *
+             * Unlike [interval], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("interval")
+            @ExcludeMissing
+            fun _interval(): JsonField<Interval> = interval
 
             /**
              * Returns the raw JSON value of [period].
@@ -987,6 +1242,13 @@ private constructor(
              * Unlike [scope], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<Scope> = scope
+
+            /**
+             * Returns the raw JSON value of [unit].
+             *
+             * Unlike [unit], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("unit") @ExcludeMissing fun _unit(): JsonField<Unit> = unit
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1010,15 +1272,19 @@ private constructor(
             class Builder internal constructor() {
 
                 private var filters: JsonField<SpendVelocityFilters> = JsonMissing.of()
+                private var interval: JsonField<Interval> = JsonMissing.of()
                 private var period: JsonField<VelocityLimitPeriod> = JsonMissing.of()
                 private var scope: JsonField<Scope> = JsonMissing.of()
+                private var unit: JsonField<Unit> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(parameters: Parameters) = apply {
                     filters = parameters.filters
+                    interval = parameters.interval
                     period = parameters.period
                     scope = parameters.scope
+                    unit = parameters.unit
                     additionalProperties = parameters.additionalProperties.toMutableMap()
                 }
 
@@ -1034,6 +1300,22 @@ private constructor(
                 fun filters(filters: JsonField<SpendVelocityFilters>) = apply {
                     this.filters = filters
                 }
+
+                /**
+                 * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
+                 * `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`). Use `LIFETIME` for
+                 * all-time history or a specific window (`7D`, `30D`, `90D`).
+                 */
+                fun interval(interval: Interval) = interval(JsonField.of(interval))
+
+                /**
+                 * Sets [Builder.interval] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.interval] with a well-typed [Interval] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun interval(interval: JsonField<Interval>) = apply { this.interval = interval }
 
                 /** The time period over which to calculate the spend velocity. */
                 fun period(period: VelocityLimitPeriod) = period(JsonField.of(period))
@@ -1082,7 +1364,10 @@ private constructor(
                 fun period(fixedWindowYear: VelocityLimitPeriod.FixedWindowYear) =
                     period(VelocityLimitPeriod.ofFixedWindowYear(fixedWindowYear))
 
-                /** The entity scope to evaluate the attribute against. */
+                /**
+                 * The entity scope to evaluate the attribute against. `GLOBAL` is only valid for
+                 * spend velocity attributes.
+                 */
                 fun scope(scope: Scope) = scope(JsonField.of(scope))
 
                 /**
@@ -1093,6 +1378,25 @@ private constructor(
                  * supported value.
                  */
                 fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
+
+                /**
+                 * The unit for impossible travel attributes. Required when `attribute` is
+                 * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION`.
+                 *
+                 * For `TRAVEL_SPEED`: `MPH` (miles per hour) or `KPH` (kilometers per hour).
+                 *
+                 * For `DISTANCE_FROM_LAST_TRANSACTION`: `MILES` or `KILOMETERS`.
+                 */
+                fun unit(unit: Unit) = unit(JsonField.of(unit))
+
+                /**
+                 * Sets [Builder.unit] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.unit] with a well-typed [Unit] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun unit(unit: JsonField<Unit>) = apply { this.unit = unit }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1122,7 +1426,14 @@ private constructor(
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
                 fun build(): Parameters =
-                    Parameters(filters, period, scope, additionalProperties.toMutableMap())
+                    Parameters(
+                        filters,
+                        interval,
+                        period,
+                        scope,
+                        unit,
+                        additionalProperties.toMutableMap(),
+                    )
             }
 
             private var validated: Boolean = false
@@ -1143,8 +1454,10 @@ private constructor(
                 }
 
                 filters().ifPresent { it.validate() }
+                interval().ifPresent { it.validate() }
                 period().ifPresent { it.validate() }
                 scope().ifPresent { it.validate() }
+                unit().ifPresent { it.validate() }
                 validated = true
             }
 
@@ -1165,10 +1478,173 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (filters.asKnown().getOrNull()?.validity() ?: 0) +
+                    (interval.asKnown().getOrNull()?.validity() ?: 0) +
                     (period.asKnown().getOrNull()?.validity() ?: 0) +
-                    (scope.asKnown().getOrNull()?.validity() ?: 0)
+                    (scope.asKnown().getOrNull()?.validity() ?: 0) +
+                    (unit.asKnown().getOrNull()?.validity() ?: 0)
 
-            /** The entity scope to evaluate the attribute against. */
+            /**
+             * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
+             * `AVG_TRANSACTION_AMOUNT`, `STDEV_TRANSACTION_AMOUNT`). Use `LIFETIME` for all-time
+             * history or a specific window (`7D`, `30D`, `90D`).
+             */
+            class Interval @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val LIFETIME = of("LIFETIME")
+
+                    @JvmField val _7_D = of("7D")
+
+                    @JvmField val _30_D = of("30D")
+
+                    @JvmField val _90_D = of("90D")
+
+                    @JvmStatic fun of(value: String) = Interval(JsonField.of(value))
+                }
+
+                /** An enum containing [Interval]'s known values. */
+                enum class Known {
+                    LIFETIME,
+                    _7_D,
+                    _30_D,
+                    _90_D,
+                }
+
+                /**
+                 * An enum containing [Interval]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Interval] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    LIFETIME,
+                    _7_D,
+                    _30_D,
+                    _90_D,
+                    /**
+                     * An enum member indicating that [Interval] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        LIFETIME -> Value.LIFETIME
+                        _7_D -> Value._7_D
+                        _30_D -> Value._30_D
+                        _90_D -> Value._90_D
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        LIFETIME -> Known.LIFETIME
+                        _7_D -> Known._7_D
+                        _30_D -> Known._30_D
+                        _90_D -> Known._90_D
+                        else -> throw LithicInvalidDataException("Unknown Interval: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): Interval = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Interval && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            /**
+             * The entity scope to evaluate the attribute against. `GLOBAL` is only valid for spend
+             * velocity attributes.
+             */
             class Scope @JsonCreator private constructor(private val value: JsonField<String>) :
                 Enum {
 
@@ -1316,6 +1792,166 @@ private constructor(
                 override fun toString() = value.toString()
             }
 
+            /**
+             * The unit for impossible travel attributes. Required when `attribute` is
+             * `TRAVEL_SPEED` or `DISTANCE_FROM_LAST_TRANSACTION`.
+             *
+             * For `TRAVEL_SPEED`: `MPH` (miles per hour) or `KPH` (kilometers per hour).
+             *
+             * For `DISTANCE_FROM_LAST_TRANSACTION`: `MILES` or `KILOMETERS`.
+             */
+            class Unit @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val MPH = of("MPH")
+
+                    @JvmField val KPH = of("KPH")
+
+                    @JvmField val MILES = of("MILES")
+
+                    @JvmField val KILOMETERS = of("KILOMETERS")
+
+                    @JvmStatic fun of(value: String) = Unit(JsonField.of(value))
+                }
+
+                /** An enum containing [Unit]'s known values. */
+                enum class Known {
+                    MPH,
+                    KPH,
+                    MILES,
+                    KILOMETERS,
+                }
+
+                /**
+                 * An enum containing [Unit]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Unit] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    MPH,
+                    KPH,
+                    MILES,
+                    KILOMETERS,
+                    /**
+                     * An enum member indicating that [Unit] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        MPH -> Value.MPH
+                        KPH -> Value.KPH
+                        MILES -> Value.MILES
+                        KILOMETERS -> Value.KILOMETERS
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        MPH -> Known.MPH
+                        KPH -> Known.KPH
+                        MILES -> Known.MILES
+                        KILOMETERS -> Known.KILOMETERS
+                        else -> throw LithicInvalidDataException("Unknown Unit: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): Unit = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Unit && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -1323,19 +1959,21 @@ private constructor(
 
                 return other is Parameters &&
                     filters == other.filters &&
+                    interval == other.interval &&
                     period == other.period &&
                     scope == other.scope &&
+                    unit == other.unit &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(filters, period, scope, additionalProperties)
+                Objects.hash(filters, interval, period, scope, unit, additionalProperties)
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "Parameters{filters=$filters, period=$period, scope=$scope, additionalProperties=$additionalProperties}"
+                "Parameters{filters=$filters, interval=$interval, period=$period, scope=$scope, unit=$unit, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
