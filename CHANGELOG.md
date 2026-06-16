@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.128.0 (2026-06-16)
+
+Full Changelog: [v0.127.0...v0.128.0](https://github.com/lithic-com/lithic-java/compare/v0.127.0...v0.128.0)
+
+### Features
+
+* **api:** add 13 attributes, interval/unit fields to conditional transaction parameters ([33a0da9](https://github.com/lithic-com/lithic-java/commit/33a0da9d410b49720dc48df34bcd4c9356196282))
+* **api:** add CardTransactionFeature to RuleFeature union ([ca556c9](https://github.com/lithic-com/lithic-java/commit/ca556c9b299e1834ae24677f572b5e14463a69e7))
+* **api:** Add created field and make completed_at nullable in latest_challenge ([14f5f3b](https://github.com/lithic-com/lithic-java/commit/14f5f3bb2e2ad05201f3b5553d1d96c82419554d))
+* **api:** add day_of_period field to LoanTape models ([e96e04b](https://github.com/lithic-com/lithic-java/commit/e96e04bd4a1ab99edd8a4bba5cf7bbd154de7d9f))
+* **api:** add hold adjustment action to conditional authorization action parameters ([619c52a](https://github.com/lithic-com/lithic-java/commit/619c52ae0c94ab24658f197dfe3a931dad4bffd2))
+* **api:** add name_validation field to CardAuthorization ([d92a942](https://github.com/lithic-com/lithic-java/commit/d92a94248f635024ac944b207f174f51faef1cfd))
+* **api:** add route method to transactions ([0f3e937](https://github.com/lithic-com/lithic-java/commit/0f3e93746481f919c8b31b071c90f755a0c42309))
+* **api:** add tags field to Payment and related response models ([ac11497](https://github.com/lithic-com/lithic-java/commit/ac11497633e8c4295330c9f621d65ba4076d9868))
+* **api:** Add transaction monitoring spec ([4f5d2c5](https://github.com/lithic-com/lithic-java/commit/4f5d2c59c181d210385cb4c274ef3171798c0123))
+
+
+### Documentation
+
+* **api:** update support contact from email to URL in account and card ([0df9db9](https://github.com/lithic-com/lithic-java/commit/0df9db999c78ee16730eedd995b96496e96576b9))
+
 ## 0.127.0 (2026-05-26)
 
 Full Changelog: [v0.126.0...v0.127.0](https://github.com/lithic-com/lithic-java/compare/v0.126.0...v0.127.0)
