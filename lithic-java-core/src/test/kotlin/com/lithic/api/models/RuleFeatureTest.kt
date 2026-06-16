@@ -28,6 +28,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
@@ -69,6 +70,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).contains(authentication)
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
@@ -110,6 +112,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).contains(tokenization)
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
@@ -151,6 +154,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).contains(achReceipt)
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
@@ -179,6 +183,48 @@ internal class RuleFeatureTest {
     }
 
     @Test
+    fun ofCardTransaction() {
+        val cardTransaction =
+            RuleFeature.CardTransactionFeature.builder()
+                .type(RuleFeature.CardTransactionFeature.Type.CARD_TRANSACTION)
+                .name("name")
+                .build()
+
+        val ruleFeature = RuleFeature.ofCardTransaction(cardTransaction)
+
+        assertThat(ruleFeature.authorization()).isEmpty
+        assertThat(ruleFeature.authentication()).isEmpty
+        assertThat(ruleFeature.tokenization()).isEmpty
+        assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).contains(cardTransaction)
+        assertThat(ruleFeature.card()).isEmpty
+        assertThat(ruleFeature.accountHolder()).isEmpty
+        assertThat(ruleFeature.ipMetadata()).isEmpty
+        assertThat(ruleFeature.spendVelocity()).isEmpty
+        assertThat(ruleFeature.transactionHistorySignals()).isEmpty
+    }
+
+    @Test
+    fun ofCardTransactionRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val ruleFeature =
+            RuleFeature.ofCardTransaction(
+                RuleFeature.CardTransactionFeature.builder()
+                    .type(RuleFeature.CardTransactionFeature.Type.CARD_TRANSACTION)
+                    .name("name")
+                    .build()
+            )
+
+        val roundtrippedRuleFeature =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(ruleFeature),
+                jacksonTypeRef<RuleFeature>(),
+            )
+
+        assertThat(roundtrippedRuleFeature).isEqualTo(ruleFeature)
+    }
+
+    @Test
     fun ofCard() {
         val card =
             RuleFeature.CardFeature.builder()
@@ -192,6 +238,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).contains(card)
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
@@ -233,6 +280,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).contains(accountHolder)
         assertThat(ruleFeature.ipMetadata()).isEmpty
@@ -274,6 +322,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).contains(ipMetadata)
@@ -331,6 +380,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
@@ -391,6 +441,7 @@ internal class RuleFeatureTest {
         assertThat(ruleFeature.authentication()).isEmpty
         assertThat(ruleFeature.tokenization()).isEmpty
         assertThat(ruleFeature.achReceipt()).isEmpty
+        assertThat(ruleFeature.cardTransaction()).isEmpty
         assertThat(ruleFeature.card()).isEmpty
         assertThat(ruleFeature.accountHolder()).isEmpty
         assertThat(ruleFeature.ipMetadata()).isEmpty
