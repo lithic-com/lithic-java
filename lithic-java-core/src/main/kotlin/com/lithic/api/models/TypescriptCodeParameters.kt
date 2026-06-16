@@ -166,6 +166,10 @@ private constructor(
         fun addFeature(achReceipt: RuleFeature.AchReceiptFeature) =
             addFeature(RuleFeature.ofAchReceipt(achReceipt))
 
+        /** Alias for calling [addFeature] with `RuleFeature.ofCardTransaction(cardTransaction)`. */
+        fun addFeature(cardTransaction: RuleFeature.CardTransactionFeature) =
+            addFeature(RuleFeature.ofCardTransaction(cardTransaction))
+
         /** Alias for calling [addFeature] with `RuleFeature.ofCard(card)`. */
         fun addFeature(card: RuleFeature.CardFeature) = addFeature(RuleFeature.ofCard(card))
 
