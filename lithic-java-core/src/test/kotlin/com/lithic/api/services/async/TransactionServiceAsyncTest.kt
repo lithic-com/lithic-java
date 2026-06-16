@@ -4,6 +4,7 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
+import com.lithic.api.models.TransactionRouteParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
 import com.lithic.api.models.TransactionSimulateClearingParams
@@ -60,6 +61,26 @@ internal class TransactionServiceAsyncTest {
 
         val future =
             transactionServiceAsync.expireAuthorization("00000000-0000-0000-0000-000000000000")
+
+        val response = future.get()
+    }
+
+    @Test
+    fun route() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val transactionServiceAsync = client.transactions()
+
+        val future =
+            transactionServiceAsync.route(
+                TransactionRouteParams.builder()
+                    .transactionToken("00000000-0000-0000-0000-000000000000")
+                    .financialAccountToken("00000000-0000-0000-0000-000000000000")
+                    .build()
+            )
 
         val response = future.get()
     }
