@@ -12,6 +12,7 @@ import com.lithic.api.models.TransactionExpireAuthorizationParams
 import com.lithic.api.models.TransactionListPage
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
+import com.lithic.api.models.TransactionRouteParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceResponse
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
@@ -143,6 +144,29 @@ interface TransactionService {
             TransactionExpireAuthorizationParams.none(),
             requestOptions,
         )
+
+    /**
+     * Route a card transaction to a financial account. Only available for select use cases and
+     * programs.
+     */
+    fun route(transactionToken: String, params: TransactionRouteParams) =
+        route(transactionToken, params, RequestOptions.none())
+
+    /** @see route */
+    fun route(
+        transactionToken: String,
+        params: TransactionRouteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ) = route(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+    /** @see route */
+    fun route(params: TransactionRouteParams) = route(params, RequestOptions.none())
+
+    /** @see route */
+    fun route(
+        params: TransactionRouteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    )
 
     /**
      * Simulates an authorization request from the card network as if it came from a merchant
@@ -410,6 +434,35 @@ interface TransactionService {
                 TransactionExpireAuthorizationParams.none(),
                 requestOptions,
             )
+
+        /**
+         * Returns a raw HTTP response for `post /v1/transactions/{transaction_token}/route`, but is
+         * otherwise the same as [TransactionService.route].
+         */
+        @MustBeClosed
+        fun route(transactionToken: String, params: TransactionRouteParams): HttpResponse =
+            route(transactionToken, params, RequestOptions.none())
+
+        /** @see route */
+        @MustBeClosed
+        fun route(
+            transactionToken: String,
+            params: TransactionRouteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse =
+            route(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+        /** @see route */
+        @MustBeClosed
+        fun route(params: TransactionRouteParams): HttpResponse =
+            route(params, RequestOptions.none())
+
+        /** @see route */
+        @MustBeClosed
+        fun route(
+            params: TransactionRouteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponse
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same

@@ -11,6 +11,7 @@ import com.lithic.api.models.TransactionExpireAuthorizationParams
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
+import com.lithic.api.models.TransactionRouteParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
 import com.lithic.api.models.TransactionSimulateAuthorizationAdviceResponse
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
@@ -152,6 +153,31 @@ interface TransactionServiceAsync {
             TransactionExpireAuthorizationParams.none(),
             requestOptions,
         )
+
+    /**
+     * Route a card transaction to a financial account. Only available for select use cases and
+     * programs.
+     */
+    fun route(transactionToken: String, params: TransactionRouteParams): CompletableFuture<Void?> =
+        route(transactionToken, params, RequestOptions.none())
+
+    /** @see route */
+    fun route(
+        transactionToken: String,
+        params: TransactionRouteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?> =
+        route(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+    /** @see route */
+    fun route(params: TransactionRouteParams): CompletableFuture<Void?> =
+        route(params, RequestOptions.none())
+
+    /** @see route */
+    fun route(
+        params: TransactionRouteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Void?>
 
     /**
      * Simulates an authorization request from the card network as if it came from a merchant
@@ -417,6 +443,33 @@ interface TransactionServiceAsync {
                 TransactionExpireAuthorizationParams.none(),
                 requestOptions,
             )
+
+        /**
+         * Returns a raw HTTP response for `post /v1/transactions/{transaction_token}/route`, but is
+         * otherwise the same as [TransactionServiceAsync.route].
+         */
+        fun route(
+            transactionToken: String,
+            params: TransactionRouteParams,
+        ): CompletableFuture<HttpResponse> = route(transactionToken, params, RequestOptions.none())
+
+        /** @see route */
+        fun route(
+            transactionToken: String,
+            params: TransactionRouteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse> =
+            route(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+
+        /** @see route */
+        fun route(params: TransactionRouteParams): CompletableFuture<HttpResponse> =
+            route(params, RequestOptions.none())
+
+        /** @see route */
+        fun route(
+            params: TransactionRouteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponse>
 
         /**
          * Returns a raw HTTP response for `post /v1/simulate/authorize`, but is otherwise the same
