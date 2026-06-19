@@ -170,6 +170,10 @@ private constructor(
         fun addFeature(cardTransaction: RuleFeature.CardTransactionFeature) =
             addFeature(RuleFeature.ofCardTransaction(cardTransaction))
 
+        /** Alias for calling [addFeature] with `RuleFeature.ofAchPayment(achPayment)`. */
+        fun addFeature(achPayment: RuleFeature.AchPaymentFeature) =
+            addFeature(RuleFeature.ofAchPayment(achPayment))
+
         /** Alias for calling [addFeature] with `RuleFeature.ofCard(card)`. */
         fun addFeature(card: RuleFeature.CardFeature) = addFeature(RuleFeature.ofCard(card))
 
