@@ -156,6 +156,24 @@ private constructor(
             addData(V2ListResultsResponse.ofAchResult(achResult))
 
         /**
+         * Alias for calling [addData] with
+         * `V2ListResultsResponse.ofCardTransactionUpdateResult(cardTransactionUpdateResult)`.
+         */
+        fun addData(
+            cardTransactionUpdateResult: V2ListResultsResponse.CardTransactionUpdateResult
+        ) =
+            addData(
+                V2ListResultsResponse.ofCardTransactionUpdateResult(cardTransactionUpdateResult)
+            )
+
+        /**
+         * Alias for calling [addData] with
+         * `V2ListResultsResponse.ofAchPaymentUpdateResult(achPaymentUpdateResult)`.
+         */
+        fun addData(achPaymentUpdateResult: V2ListResultsResponse.AchPaymentUpdateResult) =
+            addData(V2ListResultsResponse.ofAchPaymentUpdateResult(achPaymentUpdateResult))
+
+        /**
          * Indicates whether there are more results to be retrieved by paging through the results.
          */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))

@@ -68,6 +68,18 @@ private constructor(
                                 override fun visitAchResult(
                                     achResult: V2ListResultsResponse.AchResult
                                 ): Optional<String> = achResult._token().getOptional("token")
+
+                                override fun visitCardTransactionUpdateResult(
+                                    cardTransactionUpdateResult:
+                                        V2ListResultsResponse.CardTransactionUpdateResult
+                                ): Optional<String> =
+                                    cardTransactionUpdateResult._token().getOptional("token")
+
+                                override fun visitAchPaymentUpdateResult(
+                                    achPaymentUpdateResult:
+                                        V2ListResultsResponse.AchPaymentUpdateResult
+                                ): Optional<String> =
+                                    achPaymentUpdateResult._token().getOptional("token")
                             }
                         )
                 )
@@ -99,6 +111,18 @@ private constructor(
                                 override fun visitAchResult(
                                     achResult: V2ListResultsResponse.AchResult
                                 ): Optional<String> = achResult._token().getOptional("token")
+
+                                override fun visitCardTransactionUpdateResult(
+                                    cardTransactionUpdateResult:
+                                        V2ListResultsResponse.CardTransactionUpdateResult
+                                ): Optional<String> =
+                                    cardTransactionUpdateResult._token().getOptional("token")
+
+                                override fun visitAchPaymentUpdateResult(
+                                    achPaymentUpdateResult:
+                                        V2ListResultsResponse.AchPaymentUpdateResult
+                                ): Optional<String> =
+                                    achPaymentUpdateResult._token().getOptional("token")
                             }
                         )
                 )
