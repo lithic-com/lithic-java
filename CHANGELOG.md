@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.129.0 (2026-06-22)
+
+Full Changelog: [v0.128.0...v0.129.0](https://github.com/lithic-com/lithic-java/compare/v0.128.0...v0.129.0)
+
+### Features
+
+* **api:** add ACH payment update actions, event stream, rule features, and result types ([d7c895d](https://github.com/lithic-com/lithic-java/commit/d7c895d86ee84ae68111bb6e995c21cccd10994a))
+* **api:** add ACH_EVENT_TYPE to ConditionalAchPaymentUpdateActionParameters ([3772128](https://github.com/lithic-com/lithic-java/commit/377212826bbc968e769d6dcbf92911a07c4a0fb1))
+
 ## 0.128.0 (2026-06-16)
 
 Full Changelog: [v0.127.0...v0.128.0](https://github.com/lithic-com/lithic-java/compare/v0.127.0...v0.128.0)
