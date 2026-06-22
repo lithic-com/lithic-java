@@ -285,6 +285,12 @@ private constructor(
          *   `INSUFFICIENT_FUNDS`.
          * * `EXTERNAL_BANK_ACCOUNT_OWNER_TYPE`: The owner type of the external bank account. Valid
          *   values are `INDIVIDUAL` or `BUSINESS`.
+         * * `ACH_EVENT_TYPE`: The type of ACH payment event being evaluated. Valid values include
+         *   `ACH_ORIGINATION_INITIATED`, `ACH_ORIGINATION_REVIEWED`, `ACH_ORIGINATION_CANCELLED`,
+         *   `ACH_ORIGINATION_PROCESSED`, `ACH_ORIGINATION_SETTLED`, `ACH_ORIGINATION_RELEASED`,
+         *   `ACH_ORIGINATION_REJECTED`, `ACH_RECEIPT_PROCESSED`, `ACH_RECEIPT_SETTLED`,
+         *   `ACH_RECEIPT_RELEASED`, `ACH_RECEIPT_RELEASED_EARLY`, `ACH_RETURN_INITIATED`,
+         *   `ACH_RETURN_PROCESSED`, `ACH_RETURN_SETTLED`, and `ACH_RETURN_REJECTED`.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -400,6 +406,13 @@ private constructor(
              *   `INSUFFICIENT_FUNDS`.
              * * `EXTERNAL_BANK_ACCOUNT_OWNER_TYPE`: The owner type of the external bank account.
              *   Valid values are `INDIVIDUAL` or `BUSINESS`.
+             * * `ACH_EVENT_TYPE`: The type of ACH payment event being evaluated. Valid values
+             *   include `ACH_ORIGINATION_INITIATED`, `ACH_ORIGINATION_REVIEWED`,
+             *   `ACH_ORIGINATION_CANCELLED`, `ACH_ORIGINATION_PROCESSED`,
+             *   `ACH_ORIGINATION_SETTLED`, `ACH_ORIGINATION_RELEASED`, `ACH_ORIGINATION_REJECTED`,
+             *   `ACH_RECEIPT_PROCESSED`, `ACH_RECEIPT_SETTLED`, `ACH_RECEIPT_RELEASED`,
+             *   `ACH_RECEIPT_RELEASED_EARLY`, `ACH_RETURN_INITIATED`, `ACH_RETURN_PROCESSED`,
+             *   `ACH_RETURN_SETTLED`, and `ACH_RETURN_REJECTED`.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -563,6 +576,12 @@ private constructor(
          *   `INSUFFICIENT_FUNDS`.
          * * `EXTERNAL_BANK_ACCOUNT_OWNER_TYPE`: The owner type of the external bank account. Valid
          *   values are `INDIVIDUAL` or `BUSINESS`.
+         * * `ACH_EVENT_TYPE`: The type of ACH payment event being evaluated. Valid values include
+         *   `ACH_ORIGINATION_INITIATED`, `ACH_ORIGINATION_REVIEWED`, `ACH_ORIGINATION_CANCELLED`,
+         *   `ACH_ORIGINATION_PROCESSED`, `ACH_ORIGINATION_SETTLED`, `ACH_ORIGINATION_RELEASED`,
+         *   `ACH_ORIGINATION_REJECTED`, `ACH_RECEIPT_PROCESSED`, `ACH_RECEIPT_SETTLED`,
+         *   `ACH_RECEIPT_RELEASED`, `ACH_RECEIPT_RELEASED_EARLY`, `ACH_RETURN_INITIATED`,
+         *   `ACH_RETURN_PROCESSED`, `ACH_RETURN_SETTLED`, and `ACH_RETURN_REJECTED`.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -600,6 +619,8 @@ private constructor(
                 @JvmField
                 val EXTERNAL_BANK_ACCOUNT_OWNER_TYPE = of("EXTERNAL_BANK_ACCOUNT_OWNER_TYPE")
 
+                @JvmField val ACH_EVENT_TYPE = of("ACH_EVENT_TYPE")
+
                 @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
             }
 
@@ -613,6 +634,7 @@ private constructor(
                 EXTERNAL_BANK_ACCOUNT_VERIFICATION_METHOD,
                 EXTERNAL_BANK_ACCOUNT_VERIFICATION_STATE,
                 EXTERNAL_BANK_ACCOUNT_OWNER_TYPE,
+                ACH_EVENT_TYPE,
             }
 
             /**
@@ -633,6 +655,7 @@ private constructor(
                 EXTERNAL_BANK_ACCOUNT_VERIFICATION_METHOD,
                 EXTERNAL_BANK_ACCOUNT_VERIFICATION_STATE,
                 EXTERNAL_BANK_ACCOUNT_OWNER_TYPE,
+                ACH_EVENT_TYPE,
                 /**
                  * An enum member indicating that [Attribute] was instantiated with an unknown
                  * value.
@@ -659,6 +682,7 @@ private constructor(
                     EXTERNAL_BANK_ACCOUNT_VERIFICATION_STATE ->
                         Value.EXTERNAL_BANK_ACCOUNT_VERIFICATION_STATE
                     EXTERNAL_BANK_ACCOUNT_OWNER_TYPE -> Value.EXTERNAL_BANK_ACCOUNT_OWNER_TYPE
+                    ACH_EVENT_TYPE -> Value.ACH_EVENT_TYPE
                     else -> Value._UNKNOWN
                 }
 
@@ -683,6 +707,7 @@ private constructor(
                     EXTERNAL_BANK_ACCOUNT_VERIFICATION_STATE ->
                         Known.EXTERNAL_BANK_ACCOUNT_VERIFICATION_STATE
                     EXTERNAL_BANK_ACCOUNT_OWNER_TYPE -> Known.EXTERNAL_BANK_ACCOUNT_OWNER_TYPE
+                    ACH_EVENT_TYPE -> Known.ACH_EVENT_TYPE
                     else -> throw LithicInvalidDataException("Unknown Attribute: $value")
                 }
 
