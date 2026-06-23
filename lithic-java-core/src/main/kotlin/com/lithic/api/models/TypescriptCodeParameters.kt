@@ -174,6 +174,13 @@ private constructor(
         fun addFeature(achPayment: RuleFeature.AchPaymentFeature) =
             addFeature(RuleFeature.ofAchPayment(achPayment))
 
+        /**
+         * Alias for calling [addFeature] with
+         * `RuleFeature.ofExternalBankAccount(externalBankAccount)`.
+         */
+        fun addFeature(externalBankAccount: RuleFeature.ExternalBankAccountFeature) =
+            addFeature(RuleFeature.ofExternalBankAccount(externalBankAccount))
+
         /** Alias for calling [addFeature] with `RuleFeature.ofCard(card)`. */
         fun addFeature(card: RuleFeature.CardFeature) = addFeature(RuleFeature.ofCard(card))
 
@@ -189,12 +196,29 @@ private constructor(
         fun addFeature(spendVelocity: RuleFeature.SpendVelocityFeature) =
             addFeature(RuleFeature.ofSpendVelocity(spendVelocity))
 
+        /** Alias for calling [addFeature] with `RuleFeature.ofPaymentVelocity(paymentVelocity)`. */
+        fun addFeature(paymentVelocity: RuleFeature.PaymentVelocityFeature) =
+            addFeature(RuleFeature.ofPaymentVelocity(paymentVelocity))
+
         /**
          * Alias for calling [addFeature] with
          * `RuleFeature.ofTransactionHistorySignals(transactionHistorySignals)`.
          */
         fun addFeature(transactionHistorySignals: RuleFeature.TransactionHistorySignalsFeature) =
             addFeature(RuleFeature.ofTransactionHistorySignals(transactionHistorySignals))
+
+        /**
+         * Alias for calling [addFeature] with
+         * `RuleFeature.ofConsecutiveDeclines(consecutiveDeclines)`.
+         */
+        fun addFeature(consecutiveDeclines: RuleFeature.ConsecutiveDeclinesFeature) =
+            addFeature(RuleFeature.ofConsecutiveDeclines(consecutiveDeclines))
+
+        /**
+         * Alias for calling [addFeature] with `RuleFeature.ofAchPaymentHistory(achPaymentHistory)`.
+         */
+        fun addFeature(achPaymentHistory: RuleFeature.AchPaymentHistoryFeature) =
+            addFeature(RuleFeature.ofAchPaymentHistory(achPaymentHistory))
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
