@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.130.0 (2026-06-23)
+
+Full Changelog: [v0.129.0...v0.130.0](https://github.com/lithic-com/lithic-java/compare/v0.129.0...v0.130.0)
+
+### Features
+
+* **api:** add claim/claim_document webhook event types ([26c0566](https://github.com/lithic-com/lithic-java/commit/26c0566f986cd238d0640b51f4b762afea09757b))
+* **api:** add payment_velocity/consecutive_declines/ach_payment_history/bank_account features ([f51d491](https://github.com/lithic-com/lithic-java/commit/f51d491bf07272f886c03649821feb5cde265dbb))
+
 ## 0.129.0 (2026-06-22)
 
 Full Changelog: [v0.128.0...v0.129.0](https://github.com/lithic-com/lithic-java/compare/v0.128.0...v0.129.0)
