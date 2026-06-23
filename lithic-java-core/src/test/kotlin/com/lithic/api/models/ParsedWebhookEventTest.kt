@@ -59,6 +59,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -232,6 +237,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -424,6 +434,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -552,6 +567,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -661,6 +681,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -789,6 +814,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -1118,6 +1148,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -1662,6 +1697,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -2015,6 +2055,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -2166,6 +2211,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -2325,6 +2375,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -2480,6 +2535,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -2669,6 +2729,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -2810,6 +2875,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -2904,6 +2974,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -3001,6 +3076,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -3098,6 +3178,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -3196,6 +3281,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -3296,6 +3386,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -3618,6 +3713,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).contains(cardTransactionUpdated)
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -4009,6 +4109,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated())
             .contains(cardTransactionEnhancedDataCreated)
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -4215,6 +4320,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated())
             .contains(cardTransactionEnhancedDataUpdated)
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -4319,6 +4429,666 @@ internal class ParsedWebhookEventTest {
                         CardTransactionEnhancedDataUpdatedWebhookEvent.EventType
                             .CARD_TRANSACTION_ENHANCED_DATA_UPDATED
                     )
+                    .build()
+            )
+
+        val roundtrippedParsedWebhookEvent =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(parsedWebhookEvent),
+                jacksonTypeRef<ParsedWebhookEvent>(),
+            )
+
+        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
+    }
+
+    @Test
+    fun ofClaimCreated() {
+        val claimCreated =
+            ClaimCreatedWebhookEvent.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .addDisputedTransaction(
+                    ClaimCreatedWebhookEvent.DisputedTransaction.builder()
+                        .addEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
+                .eventType(ClaimCreatedWebhookEvent.EventType.CLAIM_CREATED)
+                .addOutstandingRequirement(
+                    ClaimCreatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
+                )
+                .reason(ClaimCreatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                .status(ClaimCreatedWebhookEvent.Status.INITIALIZING)
+                .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .build()
+
+        val parsedWebhookEvent = ParsedWebhookEvent.ofClaimCreated(claimCreated)
+
+        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
+        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
+        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
+        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
+        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
+        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
+        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
+        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
+        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).contains(claimCreated)
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
+    }
+
+    @Test
+    fun ofClaimCreatedRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofClaimCreated(
+                ClaimCreatedWebhookEvent.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .addDisputedTransaction(
+                        ClaimCreatedWebhookEvent.DisputedTransaction.builder()
+                            .addEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
+                    .eventType(ClaimCreatedWebhookEvent.EventType.CLAIM_CREATED)
+                    .addOutstandingRequirement(
+                        ClaimCreatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
+                    )
+                    .reason(ClaimCreatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                    .status(ClaimCreatedWebhookEvent.Status.INITIALIZING)
+                    .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .build()
+            )
+
+        val roundtrippedParsedWebhookEvent =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(parsedWebhookEvent),
+                jacksonTypeRef<ParsedWebhookEvent>(),
+            )
+
+        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
+    }
+
+    @Test
+    fun ofClaimUpdated() {
+        val claimUpdated =
+            ClaimUpdatedWebhookEvent.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .addDisputedTransaction(
+                    ClaimUpdatedWebhookEvent.DisputedTransaction.builder()
+                        .addEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
+                .eventType(ClaimUpdatedWebhookEvent.EventType.CLAIM_UPDATED)
+                .addOutstandingRequirement(
+                    ClaimUpdatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
+                )
+                .reason(ClaimUpdatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                .status(ClaimUpdatedWebhookEvent.Status.INITIALIZING)
+                .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .build()
+
+        val parsedWebhookEvent = ParsedWebhookEvent.ofClaimUpdated(claimUpdated)
+
+        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
+        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
+        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
+        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
+        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
+        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
+        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
+        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
+        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).contains(claimUpdated)
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
+    }
+
+    @Test
+    fun ofClaimUpdatedRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofClaimUpdated(
+                ClaimUpdatedWebhookEvent.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addCardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .addDisputedTransaction(
+                        ClaimUpdatedWebhookEvent.DisputedTransaction.builder()
+                            .addEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
+                    .eventType(ClaimUpdatedWebhookEvent.EventType.CLAIM_UPDATED)
+                    .addOutstandingRequirement(
+                        ClaimUpdatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
+                    )
+                    .reason(ClaimUpdatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                    .status(ClaimUpdatedWebhookEvent.Status.INITIALIZING)
+                    .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .build()
+            )
+
+        val roundtrippedParsedWebhookEvent =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(parsedWebhookEvent),
+                jacksonTypeRef<ParsedWebhookEvent>(),
+            )
+
+        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
+    }
+
+    @Test
+    fun ofClaimDocumentUploaded() {
+        val claimDocumentUploaded =
+            ClaimDocumentUploadedWebhookEvent.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .downloadUrl("download_url")
+                .downloadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .eventType(ClaimDocumentUploadedWebhookEvent.EventType.CLAIM_DOCUMENT_UPLOADED)
+                .failureReason(ClaimDocumentUploadedWebhookEvent.FailureReason.INVALID_MIME_TYPE)
+                .name("name")
+                .requirementId("requirement_id")
+                .status(ClaimDocumentUploadedWebhookEvent.Status.PENDING)
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .uploadConstraints(
+                    ClaimDocumentUploadedWebhookEvent.UploadConstraints2.builder()
+                        .addAcceptedMimeType("string")
+                        .maxSizeBytes(0L)
+                        .build()
+                )
+                .uploadUrl("upload_url")
+                .uploadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .build()
+
+        val parsedWebhookEvent = ParsedWebhookEvent.ofClaimDocumentUploaded(claimDocumentUploaded)
+
+        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
+        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
+        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
+        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
+        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
+        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
+        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
+        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
+        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).contains(claimDocumentUploaded)
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
+    }
+
+    @Test
+    fun ofClaimDocumentUploadedRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofClaimDocumentUploaded(
+                ClaimDocumentUploadedWebhookEvent.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .downloadUrl("download_url")
+                    .downloadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .eventType(ClaimDocumentUploadedWebhookEvent.EventType.CLAIM_DOCUMENT_UPLOADED)
+                    .failureReason(
+                        ClaimDocumentUploadedWebhookEvent.FailureReason.INVALID_MIME_TYPE
+                    )
+                    .name("name")
+                    .requirementId("requirement_id")
+                    .status(ClaimDocumentUploadedWebhookEvent.Status.PENDING)
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .uploadConstraints(
+                        ClaimDocumentUploadedWebhookEvent.UploadConstraints2.builder()
+                            .addAcceptedMimeType("string")
+                            .maxSizeBytes(0L)
+                            .build()
+                    )
+                    .uploadUrl("upload_url")
+                    .uploadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .build()
+            )
+
+        val roundtrippedParsedWebhookEvent =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(parsedWebhookEvent),
+                jacksonTypeRef<ParsedWebhookEvent>(),
+            )
+
+        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
+    }
+
+    @Test
+    fun ofClaimDocumentAccepted() {
+        val claimDocumentAccepted =
+            ClaimDocumentAcceptedWebhookEvent.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .downloadUrl("download_url")
+                .downloadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .eventType(ClaimDocumentAcceptedWebhookEvent.EventType.CLAIM_DOCUMENT_ACCEPTED)
+                .failureReason(ClaimDocumentAcceptedWebhookEvent.FailureReason.INVALID_MIME_TYPE)
+                .name("name")
+                .requirementId("requirement_id")
+                .status(ClaimDocumentAcceptedWebhookEvent.Status.PENDING)
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .uploadConstraints(
+                    ClaimDocumentAcceptedWebhookEvent.UploadConstraints2.builder()
+                        .addAcceptedMimeType("string")
+                        .maxSizeBytes(0L)
+                        .build()
+                )
+                .uploadUrl("upload_url")
+                .uploadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .build()
+
+        val parsedWebhookEvent = ParsedWebhookEvent.ofClaimDocumentAccepted(claimDocumentAccepted)
+
+        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
+        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
+        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
+        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
+        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
+        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
+        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
+        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
+        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).contains(claimDocumentAccepted)
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
+    }
+
+    @Test
+    fun ofClaimDocumentAcceptedRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofClaimDocumentAccepted(
+                ClaimDocumentAcceptedWebhookEvent.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .downloadUrl("download_url")
+                    .downloadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .eventType(ClaimDocumentAcceptedWebhookEvent.EventType.CLAIM_DOCUMENT_ACCEPTED)
+                    .failureReason(
+                        ClaimDocumentAcceptedWebhookEvent.FailureReason.INVALID_MIME_TYPE
+                    )
+                    .name("name")
+                    .requirementId("requirement_id")
+                    .status(ClaimDocumentAcceptedWebhookEvent.Status.PENDING)
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .uploadConstraints(
+                        ClaimDocumentAcceptedWebhookEvent.UploadConstraints2.builder()
+                            .addAcceptedMimeType("string")
+                            .maxSizeBytes(0L)
+                            .build()
+                    )
+                    .uploadUrl("upload_url")
+                    .uploadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .build()
+            )
+
+        val roundtrippedParsedWebhookEvent =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(parsedWebhookEvent),
+                jacksonTypeRef<ParsedWebhookEvent>(),
+            )
+
+        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
+    }
+
+    @Test
+    fun ofClaimDocumentRejected() {
+        val claimDocumentRejected =
+            ClaimDocumentRejectedWebhookEvent.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .downloadUrl("download_url")
+                .downloadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .eventType(ClaimDocumentRejectedWebhookEvent.EventType.CLAIM_DOCUMENT_REJECTED)
+                .failureReason(ClaimDocumentRejectedWebhookEvent.FailureReason.INVALID_MIME_TYPE)
+                .name("name")
+                .requirementId("requirement_id")
+                .status(ClaimDocumentRejectedWebhookEvent.Status.PENDING)
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .uploadConstraints(
+                    ClaimDocumentRejectedWebhookEvent.UploadConstraints2.builder()
+                        .addAcceptedMimeType("string")
+                        .maxSizeBytes(0L)
+                        .build()
+                )
+                .uploadUrl("upload_url")
+                .uploadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .build()
+
+        val parsedWebhookEvent = ParsedWebhookEvent.ofClaimDocumentRejected(claimDocumentRejected)
+
+        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
+        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
+        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
+        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
+        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
+        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
+        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
+        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
+        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).contains(claimDocumentRejected)
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
+    }
+
+    @Test
+    fun ofClaimDocumentRejectedRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofClaimDocumentRejected(
+                ClaimDocumentRejectedWebhookEvent.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .downloadUrl("download_url")
+                    .downloadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .eventType(ClaimDocumentRejectedWebhookEvent.EventType.CLAIM_DOCUMENT_REJECTED)
+                    .failureReason(
+                        ClaimDocumentRejectedWebhookEvent.FailureReason.INVALID_MIME_TYPE
+                    )
+                    .name("name")
+                    .requirementId("requirement_id")
+                    .status(ClaimDocumentRejectedWebhookEvent.Status.PENDING)
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .uploadConstraints(
+                        ClaimDocumentRejectedWebhookEvent.UploadConstraints2.builder()
+                            .addAcceptedMimeType("string")
+                            .maxSizeBytes(0L)
+                            .build()
+                    )
+                    .uploadUrl("upload_url")
+                    .uploadUrlExpiresAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
 
@@ -4445,6 +5215,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest())
             .contains(digitalWalletTokenizationApprovalRequest)
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
@@ -4654,6 +5429,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult())
             .contains(digitalWalletTokenizationResult)
@@ -4807,6 +5587,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -4942,6 +5727,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -5102,6 +5892,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -5260,6 +6055,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -5379,6 +6179,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -5515,6 +6320,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -5675,6 +6485,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -5831,6 +6646,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -5984,6 +6804,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -6135,6 +6960,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -6283,6 +7113,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -6416,6 +7251,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -6683,6 +7523,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -7118,6 +7963,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -7444,6 +8294,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -7647,6 +8502,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -7820,6 +8680,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -7963,6 +8828,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -8101,6 +8971,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -8230,6 +9105,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -8408,6 +9288,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -8635,6 +9520,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -8817,6 +9707,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -9059,6 +9954,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -9415,6 +10315,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -9790,6 +10695,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -10194,6 +11104,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -10528,6 +11443,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -10723,6 +11643,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -10866,6 +11791,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -10998,6 +11928,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -11153,6 +12088,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -11429,6 +12369,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -11723,6 +12668,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
@@ -11930,6 +12880,11 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
         assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())

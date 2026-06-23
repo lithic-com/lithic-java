@@ -66,6 +66,11 @@ private constructor(
     private val cardTransactionEnhancedDataUpdated:
         CardTransactionEnhancedDataUpdatedWebhookEvent? =
         null,
+    private val claimCreated: ClaimCreatedWebhookEvent? = null,
+    private val claimUpdated: ClaimUpdatedWebhookEvent? = null,
+    private val claimDocumentUploaded: ClaimDocumentUploadedWebhookEvent? = null,
+    private val claimDocumentAccepted: ClaimDocumentAcceptedWebhookEvent? = null,
+    private val claimDocumentRejected: ClaimDocumentRejectedWebhookEvent? = null,
     private val digitalWalletTokenizationApprovalRequest:
         DigitalWalletTokenizationApprovalRequestWebhookEvent? =
         null,
@@ -184,6 +189,19 @@ private constructor(
     fun cardTransactionEnhancedDataUpdated():
         Optional<CardTransactionEnhancedDataUpdatedWebhookEvent> =
         Optional.ofNullable(cardTransactionEnhancedDataUpdated)
+
+    fun claimCreated(): Optional<ClaimCreatedWebhookEvent> = Optional.ofNullable(claimCreated)
+
+    fun claimUpdated(): Optional<ClaimUpdatedWebhookEvent> = Optional.ofNullable(claimUpdated)
+
+    fun claimDocumentUploaded(): Optional<ClaimDocumentUploadedWebhookEvent> =
+        Optional.ofNullable(claimDocumentUploaded)
+
+    fun claimDocumentAccepted(): Optional<ClaimDocumentAcceptedWebhookEvent> =
+        Optional.ofNullable(claimDocumentAccepted)
+
+    fun claimDocumentRejected(): Optional<ClaimDocumentRejectedWebhookEvent> =
+        Optional.ofNullable(claimDocumentRejected)
 
     /**
      * Payload for digital wallet tokenization approval requests. Used for both the decisioning
@@ -361,6 +379,16 @@ private constructor(
 
     fun isCardTransactionEnhancedDataUpdated(): Boolean = cardTransactionEnhancedDataUpdated != null
 
+    fun isClaimCreated(): Boolean = claimCreated != null
+
+    fun isClaimUpdated(): Boolean = claimUpdated != null
+
+    fun isClaimDocumentUploaded(): Boolean = claimDocumentUploaded != null
+
+    fun isClaimDocumentAccepted(): Boolean = claimDocumentAccepted != null
+
+    fun isClaimDocumentRejected(): Boolean = claimDocumentRejected != null
+
     fun isDigitalWalletTokenizationApprovalRequest(): Boolean =
         digitalWalletTokenizationApprovalRequest != null
 
@@ -502,6 +530,19 @@ private constructor(
 
     fun asCardTransactionEnhancedDataUpdated(): CardTransactionEnhancedDataUpdatedWebhookEvent =
         cardTransactionEnhancedDataUpdated.getOrThrow("cardTransactionEnhancedDataUpdated")
+
+    fun asClaimCreated(): ClaimCreatedWebhookEvent = claimCreated.getOrThrow("claimCreated")
+
+    fun asClaimUpdated(): ClaimUpdatedWebhookEvent = claimUpdated.getOrThrow("claimUpdated")
+
+    fun asClaimDocumentUploaded(): ClaimDocumentUploadedWebhookEvent =
+        claimDocumentUploaded.getOrThrow("claimDocumentUploaded")
+
+    fun asClaimDocumentAccepted(): ClaimDocumentAcceptedWebhookEvent =
+        claimDocumentAccepted.getOrThrow("claimDocumentAccepted")
+
+    fun asClaimDocumentRejected(): ClaimDocumentRejectedWebhookEvent =
+        claimDocumentRejected.getOrThrow("claimDocumentRejected")
 
     /**
      * Payload for digital wallet tokenization approval requests. Used for both the decisioning
@@ -710,6 +751,14 @@ private constructor(
                 visitor.visitCardTransactionEnhancedDataCreated(cardTransactionEnhancedDataCreated)
             cardTransactionEnhancedDataUpdated != null ->
                 visitor.visitCardTransactionEnhancedDataUpdated(cardTransactionEnhancedDataUpdated)
+            claimCreated != null -> visitor.visitClaimCreated(claimCreated)
+            claimUpdated != null -> visitor.visitClaimUpdated(claimUpdated)
+            claimDocumentUploaded != null ->
+                visitor.visitClaimDocumentUploaded(claimDocumentUploaded)
+            claimDocumentAccepted != null ->
+                visitor.visitClaimDocumentAccepted(claimDocumentAccepted)
+            claimDocumentRejected != null ->
+                visitor.visitClaimDocumentRejected(claimDocumentRejected)
             digitalWalletTokenizationApprovalRequest != null ->
                 visitor.visitDigitalWalletTokenizationApprovalRequest(
                     digitalWalletTokenizationApprovalRequest
@@ -920,6 +969,32 @@ private constructor(
                         CardTransactionEnhancedDataUpdatedWebhookEvent
                 ) {
                     cardTransactionEnhancedDataUpdated.validate()
+                }
+
+                override fun visitClaimCreated(claimCreated: ClaimCreatedWebhookEvent) {
+                    claimCreated.validate()
+                }
+
+                override fun visitClaimUpdated(claimUpdated: ClaimUpdatedWebhookEvent) {
+                    claimUpdated.validate()
+                }
+
+                override fun visitClaimDocumentUploaded(
+                    claimDocumentUploaded: ClaimDocumentUploadedWebhookEvent
+                ) {
+                    claimDocumentUploaded.validate()
+                }
+
+                override fun visitClaimDocumentAccepted(
+                    claimDocumentAccepted: ClaimDocumentAcceptedWebhookEvent
+                ) {
+                    claimDocumentAccepted.validate()
+                }
+
+                override fun visitClaimDocumentRejected(
+                    claimDocumentRejected: ClaimDocumentRejectedWebhookEvent
+                ) {
+                    claimDocumentRejected.validate()
                 }
 
                 override fun visitDigitalWalletTokenizationApprovalRequest(
@@ -1244,6 +1319,24 @@ private constructor(
                         CardTransactionEnhancedDataUpdatedWebhookEvent
                 ) = cardTransactionEnhancedDataUpdated.validity()
 
+                override fun visitClaimCreated(claimCreated: ClaimCreatedWebhookEvent) =
+                    claimCreated.validity()
+
+                override fun visitClaimUpdated(claimUpdated: ClaimUpdatedWebhookEvent) =
+                    claimUpdated.validity()
+
+                override fun visitClaimDocumentUploaded(
+                    claimDocumentUploaded: ClaimDocumentUploadedWebhookEvent
+                ) = claimDocumentUploaded.validity()
+
+                override fun visitClaimDocumentAccepted(
+                    claimDocumentAccepted: ClaimDocumentAcceptedWebhookEvent
+                ) = claimDocumentAccepted.validity()
+
+                override fun visitClaimDocumentRejected(
+                    claimDocumentRejected: ClaimDocumentRejectedWebhookEvent
+                ) = claimDocumentRejected.validity()
+
                 override fun visitDigitalWalletTokenizationApprovalRequest(
                     digitalWalletTokenizationApprovalRequest:
                         DigitalWalletTokenizationApprovalRequestWebhookEvent
@@ -1427,6 +1520,11 @@ private constructor(
             cardTransactionUpdated == other.cardTransactionUpdated &&
             cardTransactionEnhancedDataCreated == other.cardTransactionEnhancedDataCreated &&
             cardTransactionEnhancedDataUpdated == other.cardTransactionEnhancedDataUpdated &&
+            claimCreated == other.claimCreated &&
+            claimUpdated == other.claimUpdated &&
+            claimDocumentUploaded == other.claimDocumentUploaded &&
+            claimDocumentAccepted == other.claimDocumentAccepted &&
+            claimDocumentRejected == other.claimDocumentRejected &&
             digitalWalletTokenizationApprovalRequest ==
                 other.digitalWalletTokenizationApprovalRequest &&
             digitalWalletTokenizationResult == other.digitalWalletTokenizationResult &&
@@ -1495,6 +1593,11 @@ private constructor(
             cardTransactionUpdated,
             cardTransactionEnhancedDataCreated,
             cardTransactionEnhancedDataUpdated,
+            claimCreated,
+            claimUpdated,
+            claimDocumentUploaded,
+            claimDocumentAccepted,
+            claimDocumentRejected,
             digitalWalletTokenizationApprovalRequest,
             digitalWalletTokenizationResult,
             digitalWalletTokenizationTwoFactorAuthenticationCode,
@@ -1570,6 +1673,14 @@ private constructor(
                 "ParsedWebhookEvent{cardTransactionEnhancedDataCreated=$cardTransactionEnhancedDataCreated}"
             cardTransactionEnhancedDataUpdated != null ->
                 "ParsedWebhookEvent{cardTransactionEnhancedDataUpdated=$cardTransactionEnhancedDataUpdated}"
+            claimCreated != null -> "ParsedWebhookEvent{claimCreated=$claimCreated}"
+            claimUpdated != null -> "ParsedWebhookEvent{claimUpdated=$claimUpdated}"
+            claimDocumentUploaded != null ->
+                "ParsedWebhookEvent{claimDocumentUploaded=$claimDocumentUploaded}"
+            claimDocumentAccepted != null ->
+                "ParsedWebhookEvent{claimDocumentAccepted=$claimDocumentAccepted}"
+            claimDocumentRejected != null ->
+                "ParsedWebhookEvent{claimDocumentRejected=$claimDocumentRejected}"
             digitalWalletTokenizationApprovalRequest != null ->
                 "ParsedWebhookEvent{digitalWalletTokenizationApprovalRequest=$digitalWalletTokenizationApprovalRequest}"
             digitalWalletTokenizationResult != null ->
@@ -1756,6 +1867,26 @@ private constructor(
             ParsedWebhookEvent(
                 cardTransactionEnhancedDataUpdated = cardTransactionEnhancedDataUpdated
             )
+
+        @JvmStatic
+        fun ofClaimCreated(claimCreated: ClaimCreatedWebhookEvent) =
+            ParsedWebhookEvent(claimCreated = claimCreated)
+
+        @JvmStatic
+        fun ofClaimUpdated(claimUpdated: ClaimUpdatedWebhookEvent) =
+            ParsedWebhookEvent(claimUpdated = claimUpdated)
+
+        @JvmStatic
+        fun ofClaimDocumentUploaded(claimDocumentUploaded: ClaimDocumentUploadedWebhookEvent) =
+            ParsedWebhookEvent(claimDocumentUploaded = claimDocumentUploaded)
+
+        @JvmStatic
+        fun ofClaimDocumentAccepted(claimDocumentAccepted: ClaimDocumentAcceptedWebhookEvent) =
+            ParsedWebhookEvent(claimDocumentAccepted = claimDocumentAccepted)
+
+        @JvmStatic
+        fun ofClaimDocumentRejected(claimDocumentRejected: ClaimDocumentRejectedWebhookEvent) =
+            ParsedWebhookEvent(claimDocumentRejected = claimDocumentRejected)
 
         /**
          * Payload for digital wallet tokenization approval requests. Used for both the decisioning
@@ -2052,6 +2183,16 @@ private constructor(
         fun visitCardTransactionEnhancedDataUpdated(
             cardTransactionEnhancedDataUpdated: CardTransactionEnhancedDataUpdatedWebhookEvent
         ): T
+
+        fun visitClaimCreated(claimCreated: ClaimCreatedWebhookEvent): T
+
+        fun visitClaimUpdated(claimUpdated: ClaimUpdatedWebhookEvent): T
+
+        fun visitClaimDocumentUploaded(claimDocumentUploaded: ClaimDocumentUploadedWebhookEvent): T
+
+        fun visitClaimDocumentAccepted(claimDocumentAccepted: ClaimDocumentAcceptedWebhookEvent): T
+
+        fun visitClaimDocumentRejected(claimDocumentRejected: ClaimDocumentRejectedWebhookEvent): T
 
         /**
          * Payload for digital wallet tokenization approval requests. Used for both the decisioning
@@ -2352,6 +2493,18 @@ private constructor(
                                     _json = json,
                                 )
                             },
+                        tryDeserialize(node, jacksonTypeRef<ClaimCreatedWebhookEvent>())?.let {
+                            ParsedWebhookEvent(claimCreated = it, _json = json)
+                        },
+                        tryDeserialize(node, jacksonTypeRef<ClaimUpdatedWebhookEvent>())?.let {
+                            ParsedWebhookEvent(claimUpdated = it, _json = json)
+                        },
+                        tryDeserialize(node, jacksonTypeRef<ClaimDocumentUploadedWebhookEvent>())
+                            ?.let { ParsedWebhookEvent(claimDocumentUploaded = it, _json = json) },
+                        tryDeserialize(node, jacksonTypeRef<ClaimDocumentAcceptedWebhookEvent>())
+                            ?.let { ParsedWebhookEvent(claimDocumentAccepted = it, _json = json) },
+                        tryDeserialize(node, jacksonTypeRef<ClaimDocumentRejectedWebhookEvent>())
+                            ?.let { ParsedWebhookEvent(claimDocumentRejected = it, _json = json) },
                         tryDeserialize(
                                 node,
                                 jacksonTypeRef<
@@ -2646,6 +2799,14 @@ private constructor(
                     generator.writeObject(value.cardTransactionEnhancedDataCreated)
                 value.cardTransactionEnhancedDataUpdated != null ->
                     generator.writeObject(value.cardTransactionEnhancedDataUpdated)
+                value.claimCreated != null -> generator.writeObject(value.claimCreated)
+                value.claimUpdated != null -> generator.writeObject(value.claimUpdated)
+                value.claimDocumentUploaded != null ->
+                    generator.writeObject(value.claimDocumentUploaded)
+                value.claimDocumentAccepted != null ->
+                    generator.writeObject(value.claimDocumentAccepted)
+                value.claimDocumentRejected != null ->
+                    generator.writeObject(value.claimDocumentRejected)
                 value.digitalWalletTokenizationApprovalRequest != null ->
                     generator.writeObject(value.digitalWalletTokenizationApprovalRequest)
                 value.digitalWalletTokenizationResult != null ->
