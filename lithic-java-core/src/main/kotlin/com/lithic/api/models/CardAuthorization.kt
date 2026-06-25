@@ -243,12 +243,12 @@ private constructor(
     fun cardholderCurrency(): String = cardholderCurrency.getRequired("cardholder_currency")
 
     /**
-     * The portion of the transaction requested as cash back by the cardholder, and does not include
-     * any acquirer fees. The amount field includes the purchase amount, the requested cash back
-     * amount, and any acquirer fees.
+     * The amount of cash requested by the cardholder, in the cardholder billing currency's smallest
+     * unit. For purchase-with-cashback transactions this is the cashback portion only; for ATM
+     * transactions this is the full amount. This amount includes all acquirer fees.
      *
-     * If no cash back was requested, the value of this field will be 0, and the field will always
-     * be present.
+     * If no cash was requested, the value of this field will be 0, and the field will always be
+     * present.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -957,12 +957,12 @@ private constructor(
         }
 
         /**
-         * The portion of the transaction requested as cash back by the cardholder, and does not
-         * include any acquirer fees. The amount field includes the purchase amount, the requested
-         * cash back amount, and any acquirer fees.
+         * The amount of cash requested by the cardholder, in the cardholder billing currency's
+         * smallest unit. For purchase-with-cashback transactions this is the cashback portion only;
+         * for ATM transactions this is the full amount. This amount includes all acquirer fees.
          *
-         * If no cash back was requested, the value of this field will be 0, and the field will
-         * always be present.
+         * If no cash was requested, the value of this field will be 0, and the field will always be
+         * present.
          */
         fun cashAmount(cashAmount: Long) = cashAmount(JsonField.of(cashAmount))
 
