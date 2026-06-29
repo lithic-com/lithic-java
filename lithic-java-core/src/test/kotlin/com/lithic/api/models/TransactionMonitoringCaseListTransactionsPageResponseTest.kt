@@ -15,11 +15,12 @@ internal class TransactionMonitoringCaseListTransactionsPageResponseTest {
         val transactionMonitoringCaseListTransactionsPageResponse =
             TransactionMonitoringCaseListTransactionsPageResponse.builder()
                 .addData(
-                    CaseTransaction.builder()
+                    CaseTransaction.CardCaseTransaction.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .category(CaseTransaction.CardCaseTransaction.Category.CARD)
                         .transactionCreatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
                 )
@@ -28,13 +29,16 @@ internal class TransactionMonitoringCaseListTransactionsPageResponseTest {
 
         assertThat(transactionMonitoringCaseListTransactionsPageResponse.data())
             .containsExactly(
-                CaseTransaction.builder()
-                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .transactionCreatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .build()
+                CaseTransaction.ofCard(
+                    CaseTransaction.CardCaseTransaction.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .category(CaseTransaction.CardCaseTransaction.Category.CARD)
+                        .transactionCreatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .build()
+                )
             )
         assertThat(transactionMonitoringCaseListTransactionsPageResponse.hasMore()).isEqualTo(true)
     }
@@ -45,11 +49,12 @@ internal class TransactionMonitoringCaseListTransactionsPageResponseTest {
         val transactionMonitoringCaseListTransactionsPageResponse =
             TransactionMonitoringCaseListTransactionsPageResponse.builder()
                 .addData(
-                    CaseTransaction.builder()
+                    CaseTransaction.CardCaseTransaction.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .addedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .category(CaseTransaction.CardCaseTransaction.Category.CARD)
                         .transactionCreatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
                 )
