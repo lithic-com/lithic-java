@@ -44,9 +44,43 @@ private constructor(
 
     fun nextPageParams(): TransactionMonitoringCaseListTransactionsParams =
         if (params.endingBefore().isPresent) {
-            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+            params
+                .toBuilder()
+                .endingBefore(
+                    items()
+                        .first()
+                        .accept(
+                            object : CaseTransaction.Visitor<Optional<String>> {
+                                override fun visitCard(
+                                    card: CaseTransaction.CardCaseTransaction
+                                ): Optional<String> = card._token().getOptional("token")
+
+                                override fun visitPayment(
+                                    payment: CaseTransaction.PaymentCaseTransaction
+                                ): Optional<String> = payment._token().getOptional("token")
+                            }
+                        )
+                )
+                .build()
         } else {
-            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
+            params
+                .toBuilder()
+                .startingAfter(
+                    items()
+                        .last()
+                        .accept(
+                            object : CaseTransaction.Visitor<Optional<String>> {
+                                override fun visitCard(
+                                    card: CaseTransaction.CardCaseTransaction
+                                ): Optional<String> = card._token().getOptional("token")
+
+                                override fun visitPayment(
+                                    payment: CaseTransaction.PaymentCaseTransaction
+                                ): Optional<String> = payment._token().getOptional("token")
+                            }
+                        )
+                )
+                .build()
         }
 
     override fun nextPage(): CompletableFuture<TransactionMonitoringCaseListTransactionsPageAsync> =
