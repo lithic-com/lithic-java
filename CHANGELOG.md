@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.131.0 (2026-06-29)
+
+Full Changelog: [v0.130.0...v0.131.0](https://github.com/lithic-com/lithic-java/compare/v0.130.0...v0.131.0)
+
+### Features
+
+* **types:** convert CaseTransaction to union with card/payment variants ([97a5e53](https://github.com/lithic-com/lithic-java/commit/97a5e536cd0656291804ebda8b21d67ada4a1baf))
+
+
+### Documentation
+
+* **types:** clarify cash_amount description in CardAuthorization models ([900a6b2](https://github.com/lithic-com/lithic-java/commit/900a6b205597d95620df418d01cd5cf43ccbaa04))
+
 ## 0.130.0 (2026-06-23)
 
 Full Changelog: [v0.129.0...v0.130.0](https://github.com/lithic-com/lithic-java/compare/v0.129.0...v0.130.0)
