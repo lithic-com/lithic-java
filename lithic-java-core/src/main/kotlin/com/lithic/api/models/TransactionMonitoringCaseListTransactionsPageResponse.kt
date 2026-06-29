@@ -134,6 +134,14 @@ private constructor(
                 }
         }
 
+        /** Alias for calling [addData] with `CaseTransaction.ofCard(card)`. */
+        fun addData(card: CaseTransaction.CardCaseTransaction) =
+            addData(CaseTransaction.ofCard(card))
+
+        /** Alias for calling [addData] with `CaseTransaction.ofPayment(payment)`. */
+        fun addData(payment: CaseTransaction.PaymentCaseTransaction) =
+            addData(CaseTransaction.ofPayment(payment))
+
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
         /**
