@@ -23,8 +23,9 @@ import java.util.Optional
  * Clears an existing authorization, either debit or credit. After this event, the transaction
  * transitions from `PENDING` to `SETTLED` status.
  *
- * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
- * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
+ * If `amount` is not set, the full amount of the transaction will be cleared. This endpoint may be
+ * called multiple times against the same authorization to simulate a multiple-completion scenario,
+ * with each call creating a separate clearing event.
  */
 class TransactionSimulateClearingParams
 private constructor(
@@ -48,8 +49,9 @@ private constructor(
      * result in a -100 amount in the transaction, if the original authorization is a credit
      * authorization.
      *
-     * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
-     * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
+     * If `amount` is not set, the full amount of the transaction will be cleared. This endpoint may
+     * be called multiple times against the same authorization to simulate a multiple-completion
+     * scenario, with each call creating a separate clearing event.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -138,9 +140,9 @@ private constructor(
          * field will result in a -100 amount in the transaction, if the original authorization is a
          * credit authorization.
          *
-         * If `amount` is not set, the full amount of the transaction will be cleared. Transactions
-         * that have already cleared, either partially or fully, cannot be cleared again using this
-         * endpoint.
+         * If `amount` is not set, the full amount of the transaction will be cleared. This endpoint
+         * may be called multiple times against the same authorization to simulate a
+         * multiple-completion scenario, with each call creating a separate clearing event.
          */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
@@ -324,9 +326,9 @@ private constructor(
          * field will result in a -100 amount in the transaction, if the original authorization is a
          * credit authorization.
          *
-         * If `amount` is not set, the full amount of the transaction will be cleared. Transactions
-         * that have already cleared, either partially or fully, cannot be cleared again using this
-         * endpoint.
+         * If `amount` is not set, the full amount of the transaction will be cleared. This endpoint
+         * may be called multiple times against the same authorization to simulate a
+         * multiple-completion scenario, with each call creating a separate clearing event.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -405,9 +407,9 @@ private constructor(
              * this field will result in a -100 amount in the transaction, if the original
              * authorization is a credit authorization.
              *
-             * If `amount` is not set, the full amount of the transaction will be cleared.
-             * Transactions that have already cleared, either partially or fully, cannot be cleared
-             * again using this endpoint.
+             * If `amount` is not set, the full amount of the transaction will be cleared. This
+             * endpoint may be called multiple times against the same authorization to simulate a
+             * multiple-completion scenario, with each call creating a separate clearing event.
              */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
