@@ -40,7 +40,7 @@ private constructor(
 
     fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
 
-    /** External Payment category to be returned. */
+    /** The external rail the funds moved on */
     fun category(): Optional<ExternalPaymentCategory> = Optional.ofNullable(category)
 
     /**
@@ -146,7 +146,7 @@ private constructor(
         fun businessAccountToken(businessAccountToken: Optional<String>) =
             businessAccountToken(businessAccountToken.getOrNull())
 
-        /** External Payment category to be returned. */
+        /** The external rail the funds moved on */
         fun category(category: ExternalPaymentCategory?) = apply { this.category = category }
 
         /** Alias for calling [Builder.category] with `category.orElse(null)`. */
@@ -359,7 +359,7 @@ private constructor(
             }
             .build()
 
-    /** External Payment category to be returned. */
+    /** The external rail the funds moved on */
     class ExternalPaymentCategory
     @JsonCreator
     private constructor(private val value: JsonField<String>) : Enum {
