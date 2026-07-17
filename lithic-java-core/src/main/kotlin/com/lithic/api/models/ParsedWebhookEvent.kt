@@ -86,6 +86,8 @@ private constructor(
         null,
     private val disputeUpdated: DisputeUpdatedWebhookEvent? = null,
     private val disputeEvidenceUploadFailed: DisputeEvidenceUploadFailedWebhookEvent? = null,
+    private val embedSessionGenerated: EmbedSessionGeneratedWebhookEvent? = null,
+    private val embedViewed: EmbedViewedWebhookEvent? = null,
     private val externalBankAccountCreated: ExternalBankAccountCreatedWebhookEvent? = null,
     private val externalBankAccountUpdated: ExternalBankAccountUpdatedWebhookEvent? = null,
     private val externalPaymentCreated: ExternalPaymentCreatedWebhookEvent? = null,
@@ -234,6 +236,11 @@ private constructor(
     /** Dispute evidence. */
     fun disputeEvidenceUploadFailed(): Optional<DisputeEvidenceUploadFailedWebhookEvent> =
         Optional.ofNullable(disputeEvidenceUploadFailed)
+
+    fun embedSessionGenerated(): Optional<EmbedSessionGeneratedWebhookEvent> =
+        Optional.ofNullable(embedSessionGenerated)
+
+    fun embedViewed(): Optional<EmbedViewedWebhookEvent> = Optional.ofNullable(embedViewed)
 
     fun externalBankAccountCreated(): Optional<ExternalBankAccountCreatedWebhookEvent> =
         Optional.ofNullable(externalBankAccountCreated)
@@ -405,6 +412,10 @@ private constructor(
     fun isDisputeUpdated(): Boolean = disputeUpdated != null
 
     fun isDisputeEvidenceUploadFailed(): Boolean = disputeEvidenceUploadFailed != null
+
+    fun isEmbedSessionGenerated(): Boolean = embedSessionGenerated != null
+
+    fun isEmbedViewed(): Boolean = embedViewed != null
 
     fun isExternalBankAccountCreated(): Boolean = externalBankAccountCreated != null
 
@@ -581,6 +592,11 @@ private constructor(
     /** Dispute evidence. */
     fun asDisputeEvidenceUploadFailed(): DisputeEvidenceUploadFailedWebhookEvent =
         disputeEvidenceUploadFailed.getOrThrow("disputeEvidenceUploadFailed")
+
+    fun asEmbedSessionGenerated(): EmbedSessionGeneratedWebhookEvent =
+        embedSessionGenerated.getOrThrow("embedSessionGenerated")
+
+    fun asEmbedViewed(): EmbedViewedWebhookEvent = embedViewed.getOrThrow("embedViewed")
 
     fun asExternalBankAccountCreated(): ExternalBankAccountCreatedWebhookEvent =
         externalBankAccountCreated.getOrThrow("externalBankAccountCreated")
@@ -778,6 +794,9 @@ private constructor(
             disputeUpdated != null -> visitor.visitDisputeUpdated(disputeUpdated)
             disputeEvidenceUploadFailed != null ->
                 visitor.visitDisputeEvidenceUploadFailed(disputeEvidenceUploadFailed)
+            embedSessionGenerated != null ->
+                visitor.visitEmbedSessionGenerated(embedSessionGenerated)
+            embedViewed != null -> visitor.visitEmbedViewed(embedViewed)
             externalBankAccountCreated != null ->
                 visitor.visitExternalBankAccountCreated(externalBankAccountCreated)
             externalBankAccountUpdated != null ->
@@ -1038,6 +1057,16 @@ private constructor(
                     disputeEvidenceUploadFailed: DisputeEvidenceUploadFailedWebhookEvent
                 ) {
                     disputeEvidenceUploadFailed.validate()
+                }
+
+                override fun visitEmbedSessionGenerated(
+                    embedSessionGenerated: EmbedSessionGeneratedWebhookEvent
+                ) {
+                    embedSessionGenerated.validate()
+                }
+
+                override fun visitEmbedViewed(embedViewed: EmbedViewedWebhookEvent) {
+                    embedViewed.validate()
                 }
 
                 override fun visitExternalBankAccountCreated(
@@ -1367,6 +1396,13 @@ private constructor(
                     disputeEvidenceUploadFailed: DisputeEvidenceUploadFailedWebhookEvent
                 ) = disputeEvidenceUploadFailed.validity()
 
+                override fun visitEmbedSessionGenerated(
+                    embedSessionGenerated: EmbedSessionGeneratedWebhookEvent
+                ) = embedSessionGenerated.validity()
+
+                override fun visitEmbedViewed(embedViewed: EmbedViewedWebhookEvent) =
+                    embedViewed.validity()
+
                 override fun visitExternalBankAccountCreated(
                     externalBankAccountCreated: ExternalBankAccountCreatedWebhookEvent
                 ) = externalBankAccountCreated.validity()
@@ -1535,6 +1571,8 @@ private constructor(
             digitalWalletTokenizationUpdated == other.digitalWalletTokenizationUpdated &&
             disputeUpdated == other.disputeUpdated &&
             disputeEvidenceUploadFailed == other.disputeEvidenceUploadFailed &&
+            embedSessionGenerated == other.embedSessionGenerated &&
+            embedViewed == other.embedViewed &&
             externalBankAccountCreated == other.externalBankAccountCreated &&
             externalBankAccountUpdated == other.externalBankAccountUpdated &&
             externalPaymentCreated == other.externalPaymentCreated &&
@@ -1605,6 +1643,8 @@ private constructor(
             digitalWalletTokenizationUpdated,
             disputeUpdated,
             disputeEvidenceUploadFailed,
+            embedSessionGenerated,
+            embedViewed,
             externalBankAccountCreated,
             externalBankAccountUpdated,
             externalPaymentCreated,
@@ -1694,6 +1734,9 @@ private constructor(
             disputeUpdated != null -> "ParsedWebhookEvent{disputeUpdated=$disputeUpdated}"
             disputeEvidenceUploadFailed != null ->
                 "ParsedWebhookEvent{disputeEvidenceUploadFailed=$disputeEvidenceUploadFailed}"
+            embedSessionGenerated != null ->
+                "ParsedWebhookEvent{embedSessionGenerated=$embedSessionGenerated}"
+            embedViewed != null -> "ParsedWebhookEvent{embedViewed=$embedViewed}"
             externalBankAccountCreated != null ->
                 "ParsedWebhookEvent{externalBankAccountCreated=$externalBankAccountCreated}"
             externalBankAccountUpdated != null ->
@@ -1945,6 +1988,14 @@ private constructor(
         fun ofDisputeEvidenceUploadFailed(
             disputeEvidenceUploadFailed: DisputeEvidenceUploadFailedWebhookEvent
         ) = ParsedWebhookEvent(disputeEvidenceUploadFailed = disputeEvidenceUploadFailed)
+
+        @JvmStatic
+        fun ofEmbedSessionGenerated(embedSessionGenerated: EmbedSessionGeneratedWebhookEvent) =
+            ParsedWebhookEvent(embedSessionGenerated = embedSessionGenerated)
+
+        @JvmStatic
+        fun ofEmbedViewed(embedViewed: EmbedViewedWebhookEvent) =
+            ParsedWebhookEvent(embedViewed = embedViewed)
 
         @JvmStatic
         fun ofExternalBankAccountCreated(
@@ -2232,6 +2283,10 @@ private constructor(
         fun visitDisputeEvidenceUploadFailed(
             disputeEvidenceUploadFailed: DisputeEvidenceUploadFailedWebhookEvent
         ): T
+
+        fun visitEmbedSessionGenerated(embedSessionGenerated: EmbedSessionGeneratedWebhookEvent): T
+
+        fun visitEmbedViewed(embedViewed: EmbedViewedWebhookEvent): T
 
         fun visitExternalBankAccountCreated(
             externalBankAccountCreated: ExternalBankAccountCreatedWebhookEvent
@@ -2571,6 +2626,11 @@ private constructor(
                             ?.let {
                                 ParsedWebhookEvent(disputeEvidenceUploadFailed = it, _json = json)
                             },
+                        tryDeserialize(node, jacksonTypeRef<EmbedSessionGeneratedWebhookEvent>())
+                            ?.let { ParsedWebhookEvent(embedSessionGenerated = it, _json = json) },
+                        tryDeserialize(node, jacksonTypeRef<EmbedViewedWebhookEvent>())?.let {
+                            ParsedWebhookEvent(embedViewed = it, _json = json)
+                        },
                         tryDeserialize(
                                 node,
                                 jacksonTypeRef<ExternalBankAccountCreatedWebhookEvent>(),
@@ -2824,6 +2884,9 @@ private constructor(
                 value.disputeUpdated != null -> generator.writeObject(value.disputeUpdated)
                 value.disputeEvidenceUploadFailed != null ->
                     generator.writeObject(value.disputeEvidenceUploadFailed)
+                value.embedSessionGenerated != null ->
+                    generator.writeObject(value.embedSessionGenerated)
+                value.embedViewed != null -> generator.writeObject(value.embedViewed)
                 value.externalBankAccountCreated != null ->
                     generator.writeObject(value.externalBankAccountCreated)
                 value.externalBankAccountUpdated != null ->
