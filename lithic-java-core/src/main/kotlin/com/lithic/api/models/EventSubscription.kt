@@ -394,6 +394,8 @@ private constructor(
      *
      * This event is not emitted for Managed Disputes. Use `dispute_transaction.created` and
      * `dispute_transaction.updated` instead.
+     * - embed.session_generated: Occurs when a card embed session is successfully generated.
+     * - embed.viewed: Occurs when a card detail is successfully revealed through an embed.
      * - external_bank_account.created: Occurs when an external bank account is created.
      * - external_bank_account.updated: Occurs when an external bank account is updated.
      * - external_payment.created: Occurs when an external payment is created.
@@ -525,6 +527,10 @@ private constructor(
 
             @JvmField val DISPUTE_UPDATED = of("dispute.updated")
 
+            @JvmField val EMBED_SESSION_GENERATED = of("embed.session_generated")
+
+            @JvmField val EMBED_VIEWED = of("embed.viewed")
+
             @JvmField val EXTERNAL_BANK_ACCOUNT_CREATED = of("external_bank_account.created")
 
             @JvmField val EXTERNAL_BANK_ACCOUNT_UPDATED = of("external_bank_account.updated")
@@ -621,6 +627,8 @@ private constructor(
             DISPUTE_TRANSACTION_CREATED,
             DISPUTE_TRANSACTION_UPDATED,
             DISPUTE_UPDATED,
+            EMBED_SESSION_GENERATED,
+            EMBED_VIEWED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             EXTERNAL_PAYMENT_CREATED,
@@ -692,6 +700,8 @@ private constructor(
             DISPUTE_TRANSACTION_CREATED,
             DISPUTE_TRANSACTION_UPDATED,
             DISPUTE_UPDATED,
+            EMBED_SESSION_GENERATED,
+            EMBED_VIEWED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             EXTERNAL_PAYMENT_CREATED,
@@ -770,6 +780,8 @@ private constructor(
                 DISPUTE_TRANSACTION_CREATED -> Value.DISPUTE_TRANSACTION_CREATED
                 DISPUTE_TRANSACTION_UPDATED -> Value.DISPUTE_TRANSACTION_UPDATED
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
+                EMBED_SESSION_GENERATED -> Value.EMBED_SESSION_GENERATED
+                EMBED_VIEWED -> Value.EMBED_VIEWED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Value.EXTERNAL_BANK_ACCOUNT_UPDATED
                 EXTERNAL_PAYMENT_CREATED -> Value.EXTERNAL_PAYMENT_CREATED
@@ -849,6 +861,8 @@ private constructor(
                 DISPUTE_TRANSACTION_CREATED -> Known.DISPUTE_TRANSACTION_CREATED
                 DISPUTE_TRANSACTION_UPDATED -> Known.DISPUTE_TRANSACTION_UPDATED
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
+                EMBED_SESSION_GENERATED -> Known.EMBED_SESSION_GENERATED
+                EMBED_VIEWED -> Known.EMBED_VIEWED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Known.EXTERNAL_BANK_ACCOUNT_UPDATED
                 EXTERNAL_PAYMENT_CREATED -> Known.EXTERNAL_PAYMENT_CREATED

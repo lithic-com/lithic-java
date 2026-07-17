@@ -181,6 +181,9 @@ interface CardServiceAsync {
     ): CompletableFuture<Card>
 
     /**
+     * **Deprecated.** Use the modern embedded card flow instead: create a session with `POST
+     * /v1/cards/{card_token}/embed` and render it via `GET /v1/embed`.
+     *
      * Handling full card PANs and CVV codes requires that you comply with the Payment Card Industry
      * Data Security Standards (PCI DSS). Some clients choose to reduce their compliance obligations
      * by leveraging our embedded card UI solution documented below.
@@ -203,10 +206,12 @@ interface CardServiceAsync {
      * iframe) on the server or make an ajax call from your front end code, but **do not ever embed
      * your API key into front end code, as doing so introduces a serious security vulnerability**.
      */
+    @Deprecated("deprecated")
     fun embed(params: CardEmbedParams): CompletableFuture<String> =
         embed(params, RequestOptions.none())
 
     /** @see embed */
+    @Deprecated("deprecated")
     fun embed(
         params: CardEmbedParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -639,10 +644,12 @@ interface CardServiceAsync {
          * Returns a raw HTTP response for `get /v1/embed/card`, but is otherwise the same as
          * [CardServiceAsync.embed].
          */
+        @Deprecated("deprecated")
         fun embed(params: CardEmbedParams): CompletableFuture<HttpResponseFor<String>> =
             embed(params, RequestOptions.none())
 
         /** @see embed */
+        @Deprecated("deprecated")
         fun embed(
             params: CardEmbedParams,
             requestOptions: RequestOptions = RequestOptions.none(),
