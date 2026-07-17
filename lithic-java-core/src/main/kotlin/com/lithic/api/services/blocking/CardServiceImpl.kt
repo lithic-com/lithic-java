@@ -94,6 +94,7 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
         // post /v1/cards/{card_token}/convert_physical
         withRawResponse().convertPhysical(params, requestOptions).parse()
 
+    @Deprecated("deprecated")
     override fun embed(params: CardEmbedParams, requestOptions: RequestOptions): String =
         // get /v1/embed/card
         withRawResponse().embed(params, requestOptions).parse()
@@ -317,6 +318,7 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
 
         private val embedHandler: Handler<String> = stringHandler()
 
+        @Deprecated("deprecated")
         override fun embed(
             params: CardEmbedParams,
             requestOptions: RequestOptions,
