@@ -278,7 +278,10 @@ private constructor(
         }
 
         /** Provides additional context or details about the fraud report. */
-        fun comment(comment: String) = comment(JsonField.of(comment))
+        fun comment(comment: String?) = comment(JsonField.ofNullable(comment))
+
+        /** Alias for calling [Builder.comment] with `comment.orElse(null)`. */
+        fun comment(comment: Optional<String>) = comment(comment.getOrNull())
 
         /**
          * Sets [Builder.comment] to an arbitrary JSON value.
@@ -289,7 +292,10 @@ private constructor(
         fun comment(comment: JsonField<String>) = apply { this.comment = comment }
 
         /** Timestamp representing when the fraud report was created. */
-        fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
+        fun createdAt(createdAt: OffsetDateTime?) = createdAt(JsonField.ofNullable(createdAt))
+
+        /** Alias for calling [Builder.createdAt] with `createdAt.orElse(null)`. */
+        fun createdAt(createdAt: Optional<OffsetDateTime>) = createdAt(createdAt.getOrNull())
 
         /**
          * Sets [Builder.createdAt] to an arbitrary JSON value.
@@ -320,7 +326,10 @@ private constructor(
          *   coerces a legitimate cardholder into unauthorized transactions, often through social
          *   engineering tactics.
          */
-        fun fraudType(fraudType: FraudType) = fraudType(JsonField.of(fraudType))
+        fun fraudType(fraudType: FraudType?) = fraudType(JsonField.ofNullable(fraudType))
+
+        /** Alias for calling [Builder.fraudType] with `fraudType.orElse(null)`. */
+        fun fraudType(fraudType: Optional<FraudType>) = fraudType(fraudType.getOrNull())
 
         /**
          * Sets [Builder.fraudType] to an arbitrary JSON value.
@@ -332,7 +341,10 @@ private constructor(
         fun fraudType(fraudType: JsonField<FraudType>) = apply { this.fraudType = fraudType }
 
         /** Timestamp representing the last update to the fraud report. */
-        fun updatedAt(updatedAt: OffsetDateTime) = updatedAt(JsonField.of(updatedAt))
+        fun updatedAt(updatedAt: OffsetDateTime?) = updatedAt(JsonField.ofNullable(updatedAt))
+
+        /** Alias for calling [Builder.updatedAt] with `updatedAt.orElse(null)`. */
+        fun updatedAt(updatedAt: Optional<OffsetDateTime>) = updatedAt(updatedAt.getOrNull())
 
         /**
          * Sets [Builder.updatedAt] to an arbitrary JSON value.
