@@ -1198,6 +1198,8 @@ private constructor(
 
             @JvmField val PROGRAM_FUNDING = of("PROGRAM_FUNDING")
 
+            @JvmField val PROGRAM_TRANSFER = of("PROGRAM_TRANSFER")
+
             @JvmField val TRANSFER = of("TRANSFER")
 
             @JvmStatic fun of(value: String) = BookTransferCategory(JsonField.of(value))
@@ -1213,6 +1215,7 @@ private constructor(
             INTERNAL,
             REWARD,
             PROGRAM_FUNDING,
+            PROGRAM_TRANSFER,
             TRANSFER,
         }
 
@@ -1235,6 +1238,7 @@ private constructor(
             INTERNAL,
             REWARD,
             PROGRAM_FUNDING,
+            PROGRAM_TRANSFER,
             TRANSFER,
             /**
              * An enum member indicating that [BookTransferCategory] was instantiated with an
@@ -1260,6 +1264,7 @@ private constructor(
                 INTERNAL -> Value.INTERNAL
                 REWARD -> Value.REWARD
                 PROGRAM_FUNDING -> Value.PROGRAM_FUNDING
+                PROGRAM_TRANSFER -> Value.PROGRAM_TRANSFER
                 TRANSFER -> Value.TRANSFER
                 else -> Value._UNKNOWN
             }
@@ -1283,6 +1288,7 @@ private constructor(
                 INTERNAL -> Known.INTERNAL
                 REWARD -> Known.REWARD
                 PROGRAM_FUNDING -> Known.PROGRAM_FUNDING
+                PROGRAM_TRANSFER -> Known.PROGRAM_TRANSFER
                 TRANSFER -> Known.TRANSFER
                 else -> throw LithicInvalidDataException("Unknown BookTransferCategory: $value")
             }
@@ -1436,6 +1442,10 @@ private constructor(
 
             @JvmField val COLLECTION = of("COLLECTION")
 
+            @JvmField val LITHIC_PROGRAM_TRANSFER = of("LITHIC_PROGRAM_TRANSFER")
+
+            @JvmField val BANK_PROGRAM_TRANSFER = of("BANK_PROGRAM_TRANSFER")
+
             @JvmStatic fun of(value: String) = BookTransferType(JsonField.of(value))
         }
 
@@ -1477,6 +1487,8 @@ private constructor(
             SERVICE,
             TRANSFER,
             COLLECTION,
+            LITHIC_PROGRAM_TRANSFER,
+            BANK_PROGRAM_TRANSFER,
         }
 
         /**
@@ -1525,6 +1537,8 @@ private constructor(
             SERVICE,
             TRANSFER,
             COLLECTION,
+            LITHIC_PROGRAM_TRANSFER,
+            BANK_PROGRAM_TRANSFER,
             /**
              * An enum member indicating that [BookTransferType] was instantiated with an unknown
              * value.
@@ -1577,6 +1591,8 @@ private constructor(
                 SERVICE -> Value.SERVICE
                 TRANSFER -> Value.TRANSFER
                 COLLECTION -> Value.COLLECTION
+                LITHIC_PROGRAM_TRANSFER -> Value.LITHIC_PROGRAM_TRANSFER
+                BANK_PROGRAM_TRANSFER -> Value.BANK_PROGRAM_TRANSFER
                 else -> Value._UNKNOWN
             }
 
@@ -1627,6 +1643,8 @@ private constructor(
                 SERVICE -> Known.SERVICE
                 TRANSFER -> Known.TRANSFER
                 COLLECTION -> Known.COLLECTION
+                LITHIC_PROGRAM_TRANSFER -> Known.LITHIC_PROGRAM_TRANSFER
+                BANK_PROGRAM_TRANSFER -> Known.BANK_PROGRAM_TRANSFER
                 else -> throw LithicInvalidDataException("Unknown BookTransferType: $value")
             }
 
