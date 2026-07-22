@@ -637,6 +637,8 @@ private constructor(
 
             @JvmField val RETURNED = of("RETURNED")
 
+            @JvmField val REVERSED = of("REVERSED")
+
             @JvmField val SETTLED = of("SETTLED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
@@ -647,6 +649,7 @@ private constructor(
             DECLINED,
             PENDING,
             RETURNED,
+            REVERSED,
             SETTLED,
         }
 
@@ -663,6 +666,7 @@ private constructor(
             DECLINED,
             PENDING,
             RETURNED,
+            REVERSED,
             SETTLED,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
@@ -680,6 +684,7 @@ private constructor(
                 DECLINED -> Value.DECLINED
                 PENDING -> Value.PENDING
                 RETURNED -> Value.RETURNED
+                REVERSED -> Value.REVERSED
                 SETTLED -> Value.SETTLED
                 else -> Value._UNKNOWN
             }
@@ -698,6 +703,7 @@ private constructor(
                 DECLINED -> Known.DECLINED
                 PENDING -> Known.PENDING
                 RETURNED -> Known.RETURNED
+                REVERSED -> Known.REVERSED
                 SETTLED -> Known.SETTLED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
