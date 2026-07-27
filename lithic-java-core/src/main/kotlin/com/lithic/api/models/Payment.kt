@@ -1132,6 +1132,8 @@ private constructor(
 
             @JvmField val WIRE = of("WIRE")
 
+            @JvmField val STABLECOIN = of("STABLECOIN")
+
             @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
             @JvmField val FEE = of("FEE")
@@ -1181,6 +1183,7 @@ private constructor(
         enum class Known {
             ACH,
             WIRE,
+            STABLECOIN,
             BALANCE_OR_FUNDING,
             FEE,
             REWARD,
@@ -1216,6 +1219,7 @@ private constructor(
         enum class Value {
             ACH,
             WIRE,
+            STABLECOIN,
             BALANCE_OR_FUNDING,
             FEE,
             REWARD,
@@ -1255,6 +1259,7 @@ private constructor(
             when (this) {
                 ACH -> Value.ACH
                 WIRE -> Value.WIRE
+                STABLECOIN -> Value.STABLECOIN
                 BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
                 FEE -> Value.FEE
                 REWARD -> Value.REWARD
@@ -1292,6 +1297,7 @@ private constructor(
             when (this) {
                 ACH -> Known.ACH
                 WIRE -> Known.WIRE
+                STABLECOIN -> Known.STABLECOIN
                 BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
                 FEE -> Known.FEE
                 REWARD -> Known.REWARD
@@ -1636,6 +1642,12 @@ private constructor(
          *   and funds returned to sender.
          * * `WIRE_RETURN_OUTBOUND_REJECTED` - Outbound wire return rejected by the Federal Reserve.
          *
+         * Stablecoin events:
+         * * `STABLECOIN_RECEIVED` - Stablecoin pay-in received on-chain and pending release to
+         *   available balance.
+         * * `STABLECOIN_REVIEWED` - Stablecoin pay-in has completed the review process.
+         * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance.
+         *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
@@ -1869,6 +1881,12 @@ private constructor(
              *   Reserve and funds returned to sender.
              * * `WIRE_RETURN_OUTBOUND_REJECTED` - Outbound wire return rejected by the Federal
              *   Reserve.
+             *
+             * Stablecoin events:
+             * * `STABLECOIN_RECEIVED` - Stablecoin pay-in received on-chain and pending release to
+             *   available balance.
+             * * `STABLECOIN_REVIEWED` - Stablecoin pay-in has completed the review process.
+             * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance.
              */
             fun type(type: PaymentEventType) = type(JsonField.of(type))
 
@@ -2215,6 +2233,12 @@ private constructor(
          * * `WIRE_RETURN_OUTBOUND_SETTLED` - Outbound wire return accepted by the Federal Reserve
          *   and funds returned to sender.
          * * `WIRE_RETURN_OUTBOUND_REJECTED` - Outbound wire return rejected by the Federal Reserve.
+         *
+         * Stablecoin events:
+         * * `STABLECOIN_RECEIVED` - Stablecoin pay-in received on-chain and pending release to
+         *   available balance.
+         * * `STABLECOIN_REVIEWED` - Stablecoin pay-in has completed the review process.
+         * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance.
          */
         class PaymentEventType
         @JsonCreator
@@ -2276,6 +2300,12 @@ private constructor(
 
                 @JvmField val WIRE_RETURN_OUTBOUND_REJECTED = of("WIRE_RETURN_OUTBOUND_REJECTED")
 
+                @JvmField val STABLECOIN_RECEIVED = of("STABLECOIN_RECEIVED")
+
+                @JvmField val STABLECOIN_REVIEWED = of("STABLECOIN_REVIEWED")
+
+                @JvmField val STABLECOIN_SETTLED = of("STABLECOIN_SETTLED")
+
                 @JvmStatic fun of(value: String) = PaymentEventType(JsonField.of(value))
             }
 
@@ -2303,6 +2333,9 @@ private constructor(
                 WIRE_RETURN_OUTBOUND_SENT,
                 WIRE_RETURN_OUTBOUND_SETTLED,
                 WIRE_RETURN_OUTBOUND_REJECTED,
+                STABLECOIN_RECEIVED,
+                STABLECOIN_REVIEWED,
+                STABLECOIN_SETTLED,
             }
 
             /**
@@ -2338,6 +2371,9 @@ private constructor(
                 WIRE_RETURN_OUTBOUND_SENT,
                 WIRE_RETURN_OUTBOUND_SETTLED,
                 WIRE_RETURN_OUTBOUND_REJECTED,
+                STABLECOIN_RECEIVED,
+                STABLECOIN_REVIEWED,
+                STABLECOIN_SETTLED,
                 /**
                  * An enum member indicating that [PaymentEventType] was instantiated with an
                  * unknown value.
@@ -2376,6 +2412,9 @@ private constructor(
                     WIRE_RETURN_OUTBOUND_SENT -> Value.WIRE_RETURN_OUTBOUND_SENT
                     WIRE_RETURN_OUTBOUND_SETTLED -> Value.WIRE_RETURN_OUTBOUND_SETTLED
                     WIRE_RETURN_OUTBOUND_REJECTED -> Value.WIRE_RETURN_OUTBOUND_REJECTED
+                    STABLECOIN_RECEIVED -> Value.STABLECOIN_RECEIVED
+                    STABLECOIN_REVIEWED -> Value.STABLECOIN_REVIEWED
+                    STABLECOIN_SETTLED -> Value.STABLECOIN_SETTLED
                     else -> Value._UNKNOWN
                 }
 
@@ -2412,6 +2451,9 @@ private constructor(
                     WIRE_RETURN_OUTBOUND_SENT -> Known.WIRE_RETURN_OUTBOUND_SENT
                     WIRE_RETURN_OUTBOUND_SETTLED -> Known.WIRE_RETURN_OUTBOUND_SETTLED
                     WIRE_RETURN_OUTBOUND_REJECTED -> Known.WIRE_RETURN_OUTBOUND_REJECTED
+                    STABLECOIN_RECEIVED -> Known.STABLECOIN_RECEIVED
+                    STABLECOIN_REVIEWED -> Known.STABLECOIN_REVIEWED
+                    STABLECOIN_SETTLED -> Known.STABLECOIN_SETTLED
                     else -> throw LithicInvalidDataException("Unknown PaymentEventType: $value")
                 }
 
