@@ -955,6 +955,8 @@ private constructor(
 
                 @JvmField val WIRE = of("WIRE")
 
+                @JvmField val STABLECOIN = of("STABLECOIN")
+
                 @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
                 @JvmField val FEE = of("FEE")
@@ -1004,6 +1006,7 @@ private constructor(
             enum class Known {
                 ACH,
                 WIRE,
+                STABLECOIN,
                 BALANCE_OR_FUNDING,
                 FEE,
                 REWARD,
@@ -1041,6 +1044,7 @@ private constructor(
             enum class Value {
                 ACH,
                 WIRE,
+                STABLECOIN,
                 BALANCE_OR_FUNDING,
                 FEE,
                 REWARD,
@@ -1080,6 +1084,7 @@ private constructor(
                 when (this) {
                     ACH -> Value.ACH
                     WIRE -> Value.WIRE
+                    STABLECOIN -> Value.STABLECOIN
                     BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
                     FEE -> Value.FEE
                     REWARD -> Value.REWARD
@@ -1117,6 +1122,7 @@ private constructor(
                 when (this) {
                     ACH -> Known.ACH
                     WIRE -> Known.WIRE
+                    STABLECOIN -> Known.STABLECOIN
                     BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
                     FEE -> Known.FEE
                     REWARD -> Known.REWARD
@@ -1401,6 +1407,12 @@ private constructor(
 
                 @JvmField val ACCOUNT_TO_ACCOUNT = of("ACCOUNT_TO_ACCOUNT")
 
+                @JvmField val STABLECOIN_RECEIVED = of("STABLECOIN_RECEIVED")
+
+                @JvmField val STABLECOIN_REVIEWED = of("STABLECOIN_REVIEWED")
+
+                @JvmField val STABLECOIN_SETTLED = of("STABLECOIN_SETTLED")
+
                 @JvmStatic fun of(value: String) = FinancialEventType(JsonField.of(value))
             }
 
@@ -1496,6 +1508,9 @@ private constructor(
                 MONTHLY,
                 MONTHLY_REVERSAL,
                 ACCOUNT_TO_ACCOUNT,
+                STABLECOIN_RECEIVED,
+                STABLECOIN_REVIEWED,
+                STABLECOIN_SETTLED,
             }
 
             /**
@@ -1600,6 +1615,9 @@ private constructor(
                 MONTHLY,
                 MONTHLY_REVERSAL,
                 ACCOUNT_TO_ACCOUNT,
+                STABLECOIN_RECEIVED,
+                STABLECOIN_REVIEWED,
+                STABLECOIN_SETTLED,
                 /**
                  * An enum member indicating that [FinancialEventType] was instantiated with an
                  * unknown value.
@@ -1706,6 +1724,9 @@ private constructor(
                     MONTHLY -> Value.MONTHLY
                     MONTHLY_REVERSAL -> Value.MONTHLY_REVERSAL
                     ACCOUNT_TO_ACCOUNT -> Value.ACCOUNT_TO_ACCOUNT
+                    STABLECOIN_RECEIVED -> Value.STABLECOIN_RECEIVED
+                    STABLECOIN_REVIEWED -> Value.STABLECOIN_REVIEWED
+                    STABLECOIN_SETTLED -> Value.STABLECOIN_SETTLED
                     else -> Value._UNKNOWN
                 }
 
@@ -1810,6 +1831,9 @@ private constructor(
                     MONTHLY -> Known.MONTHLY
                     MONTHLY_REVERSAL -> Known.MONTHLY_REVERSAL
                     ACCOUNT_TO_ACCOUNT -> Known.ACCOUNT_TO_ACCOUNT
+                    STABLECOIN_RECEIVED -> Known.STABLECOIN_RECEIVED
+                    STABLECOIN_REVIEWED -> Known.STABLECOIN_REVIEWED
+                    STABLECOIN_SETTLED -> Known.STABLECOIN_SETTLED
                     else -> throw LithicInvalidDataException("Unknown FinancialEventType: $value")
                 }
 
