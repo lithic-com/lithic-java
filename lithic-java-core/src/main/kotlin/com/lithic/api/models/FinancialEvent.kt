@@ -629,6 +629,12 @@ private constructor(
 
             @JvmField val ACCOUNT_TO_ACCOUNT = of("ACCOUNT_TO_ACCOUNT")
 
+            @JvmField val STABLECOIN_RECEIVED = of("STABLECOIN_RECEIVED")
+
+            @JvmField val STABLECOIN_REVIEWED = of("STABLECOIN_REVIEWED")
+
+            @JvmField val STABLECOIN_SETTLED = of("STABLECOIN_SETTLED")
+
             @JvmStatic fun of(value: String) = FinancialEventType(JsonField.of(value))
         }
 
@@ -724,6 +730,9 @@ private constructor(
             MONTHLY,
             MONTHLY_REVERSAL,
             ACCOUNT_TO_ACCOUNT,
+            STABLECOIN_RECEIVED,
+            STABLECOIN_REVIEWED,
+            STABLECOIN_SETTLED,
         }
 
         /**
@@ -826,6 +835,9 @@ private constructor(
             MONTHLY,
             MONTHLY_REVERSAL,
             ACCOUNT_TO_ACCOUNT,
+            STABLECOIN_RECEIVED,
+            STABLECOIN_REVIEWED,
+            STABLECOIN_SETTLED,
             /**
              * An enum member indicating that [FinancialEventType] was instantiated with an unknown
              * value.
@@ -932,6 +944,9 @@ private constructor(
                 MONTHLY -> Value.MONTHLY
                 MONTHLY_REVERSAL -> Value.MONTHLY_REVERSAL
                 ACCOUNT_TO_ACCOUNT -> Value.ACCOUNT_TO_ACCOUNT
+                STABLECOIN_RECEIVED -> Value.STABLECOIN_RECEIVED
+                STABLECOIN_REVIEWED -> Value.STABLECOIN_REVIEWED
+                STABLECOIN_SETTLED -> Value.STABLECOIN_SETTLED
                 else -> Value._UNKNOWN
             }
 
@@ -1036,6 +1051,9 @@ private constructor(
                 MONTHLY -> Known.MONTHLY
                 MONTHLY_REVERSAL -> Known.MONTHLY_REVERSAL
                 ACCOUNT_TO_ACCOUNT -> Known.ACCOUNT_TO_ACCOUNT
+                STABLECOIN_RECEIVED -> Known.STABLECOIN_RECEIVED
+                STABLECOIN_REVIEWED -> Known.STABLECOIN_REVIEWED
+                STABLECOIN_SETTLED -> Known.STABLECOIN_SETTLED
                 else -> throw LithicInvalidDataException("Unknown FinancialEventType: $value")
             }
 
