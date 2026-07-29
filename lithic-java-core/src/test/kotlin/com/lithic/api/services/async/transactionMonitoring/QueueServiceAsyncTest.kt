@@ -25,6 +25,7 @@ internal class QueueServiceAsyncTest {
             queueServiceAsync.create(
                 TransactionMonitoringQueueCreateParams.builder()
                     .name("name")
+                    .addAllowedResolution("x")
                     .description("description")
                     .build()
             )
@@ -61,6 +62,7 @@ internal class QueueServiceAsyncTest {
             queueServiceAsync.update(
                 TransactionMonitoringQueueUpdateParams.builder()
                     .queueToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addAllowedResolution("x")
                     .description("description")
                     .name("name")
                     .build()

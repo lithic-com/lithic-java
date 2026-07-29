@@ -7,7 +7,6 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.JsonValue
 import com.lithic.api.models.CasePriority
 import com.lithic.api.models.CaseStatus
-import com.lithic.api.models.ResolutionOutcome
 import com.lithic.api.models.TransactionMonitoringCaseUpdateParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Test
@@ -46,7 +45,7 @@ internal class CaseServiceTest {
                     .actorToken("actor_token")
                     .assignee("assignee")
                     .priority(CasePriority.LOW)
-                    .resolution(ResolutionOutcome.CONFIRMED_FRAUD)
+                    .resolution("resolution")
                     .resolutionNotes("resolution_notes")
                     .slaDeadline(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .status(CaseStatus.OPEN)

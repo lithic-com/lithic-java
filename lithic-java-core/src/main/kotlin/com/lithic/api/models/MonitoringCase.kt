@@ -31,7 +31,7 @@ private constructor(
     private val pendingTransactions: JsonField<Boolean>,
     private val priority: JsonField<CasePriority>,
     private val queueToken: JsonField<String>,
-    private val resolution: JsonField<ResolutionOutcome>,
+    private val resolution: JsonField<String>,
     private val resolutionNotes: JsonField<String>,
     private val resolved: JsonField<OffsetDateTime>,
     private val ruleToken: JsonField<String>,
@@ -65,7 +65,7 @@ private constructor(
         queueToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("resolution")
         @ExcludeMissing
-        resolution: JsonField<ResolutionOutcome> = JsonMissing.of(),
+        resolution: JsonField<String> = JsonMissing.of(),
         @JsonProperty("resolution_notes")
         @ExcludeMissing
         resolutionNotes: JsonField<String> = JsonMissing.of(),
@@ -169,17 +169,13 @@ private constructor(
     fun queueToken(): String = queueToken.getRequired("queue_token")
 
     /**
-     * Outcome recorded when a case is resolved:
-     * - `CONFIRMED_FRAUD` - The reviewed activity was confirmed to be fraudulent
-     * - `SUSPICIOUS_ACTIVITY` - The activity is suspicious but not confirmed fraud
-     * - `FALSE_POSITIVE` - The activity was legitimate and the alert was a false positive
-     * - `NO_ACTION_REQUIRED` - No further action is required
-     * - `ESCALATED_EXTERNAL` - The case was escalated to an external party
+     * Outcome recorded when the case was resolved, from the `allowed_resolutions` configured on the
+     * case's queue
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun resolution(): Optional<ResolutionOutcome> = resolution.getOptional("resolution")
+    fun resolution(): Optional<String> = resolution.getOptional("resolution")
 
     /**
      * Free-form notes describing the resolution
@@ -318,9 +314,7 @@ private constructor(
      *
      * Unlike [resolution], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("resolution")
-    @ExcludeMissing
-    fun _resolution(): JsonField<ResolutionOutcome> = resolution
+    @JsonProperty("resolution") @ExcludeMissing fun _resolution(): JsonField<String> = resolution
 
     /**
      * Returns the raw JSON value of [resolutionNotes].
@@ -434,7 +428,7 @@ private constructor(
         private var pendingTransactions: JsonField<Boolean>? = null
         private var priority: JsonField<CasePriority>? = null
         private var queueToken: JsonField<String>? = null
-        private var resolution: JsonField<ResolutionOutcome>? = null
+        private var resolution: JsonField<String>? = null
         private var resolutionNotes: JsonField<String>? = null
         private var resolved: JsonField<OffsetDateTime>? = null
         private var ruleToken: JsonField<String>? = null
@@ -578,29 +572,22 @@ private constructor(
         fun queueToken(queueToken: JsonField<String>) = apply { this.queueToken = queueToken }
 
         /**
-         * Outcome recorded when a case is resolved:
-         * - `CONFIRMED_FRAUD` - The reviewed activity was confirmed to be fraudulent
-         * - `SUSPICIOUS_ACTIVITY` - The activity is suspicious but not confirmed fraud
-         * - `FALSE_POSITIVE` - The activity was legitimate and the alert was a false positive
-         * - `NO_ACTION_REQUIRED` - No further action is required
-         * - `ESCALATED_EXTERNAL` - The case was escalated to an external party
+         * Outcome recorded when the case was resolved, from the `allowed_resolutions` configured on
+         * the case's queue
          */
-        fun resolution(resolution: ResolutionOutcome?) =
-            resolution(JsonField.ofNullable(resolution))
+        fun resolution(resolution: String?) = resolution(JsonField.ofNullable(resolution))
 
         /** Alias for calling [Builder.resolution] with `resolution.orElse(null)`. */
-        fun resolution(resolution: Optional<ResolutionOutcome>) = resolution(resolution.getOrNull())
+        fun resolution(resolution: Optional<String>) = resolution(resolution.getOrNull())
 
         /**
          * Sets [Builder.resolution] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.resolution] with a well-typed [ResolutionOutcome] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
+         * You should usually call [Builder.resolution] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun resolution(resolution: JsonField<ResolutionOutcome>) = apply {
-            this.resolution = resolution
-        }
+        fun resolution(resolution: JsonField<String>) = apply { this.resolution = resolution }
 
         /** Free-form notes describing the resolution */
         fun resolutionNotes(resolutionNotes: String?) =
@@ -820,7 +807,7 @@ private constructor(
         pendingTransactions()
         priority().validate()
         queueToken()
-        resolution().ifPresent { it.validate() }
+        resolution()
         resolutionNotes()
         resolved()
         ruleToken()
@@ -855,7 +842,7 @@ private constructor(
             (if (pendingTransactions.asKnown().isPresent) 1 else 0) +
             (priority.asKnown().getOrNull()?.validity() ?: 0) +
             (if (queueToken.asKnown().isPresent) 1 else 0) +
-            (resolution.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (resolution.asKnown().isPresent) 1 else 0) +
             (if (resolutionNotes.asKnown().isPresent) 1 else 0) +
             (if (resolved.asKnown().isPresent) 1 else 0) +
             (if (ruleToken.asKnown().isPresent) 1 else 0) +
