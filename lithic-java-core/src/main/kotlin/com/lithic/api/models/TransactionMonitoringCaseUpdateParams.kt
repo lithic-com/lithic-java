@@ -59,17 +59,13 @@ private constructor(
     fun priority(): Optional<CasePriority> = body.priority()
 
     /**
-     * Outcome recorded when a case is resolved:
-     * - `CONFIRMED_FRAUD` - The reviewed activity was confirmed to be fraudulent
-     * - `SUSPICIOUS_ACTIVITY` - The activity is suspicious but not confirmed fraud
-     * - `FALSE_POSITIVE` - The activity was legitimate and the alert was a false positive
-     * - `NO_ACTION_REQUIRED` - No further action is required
-     * - `ESCALATED_EXTERNAL` - The case was escalated to an external party
+     * Resolution to record on the case. Must be one of the `allowed_resolutions` configured on the
+     * case's queue, otherwise the request is rejected with a `400`
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun resolution(): Optional<ResolutionOutcome> = body.resolution()
+    fun resolution(): Optional<String> = body.resolution()
 
     /**
      * Notes describing the resolution
@@ -143,7 +139,7 @@ private constructor(
      *
      * Unlike [resolution], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _resolution(): JsonField<ResolutionOutcome> = body._resolution()
+    fun _resolution(): JsonField<String> = body._resolution()
 
     /**
      * Returns the raw JSON value of [resolutionNotes].
@@ -282,25 +278,19 @@ private constructor(
         fun priority(priority: JsonField<CasePriority>) = apply { body.priority(priority) }
 
         /**
-         * Outcome recorded when a case is resolved:
-         * - `CONFIRMED_FRAUD` - The reviewed activity was confirmed to be fraudulent
-         * - `SUSPICIOUS_ACTIVITY` - The activity is suspicious but not confirmed fraud
-         * - `FALSE_POSITIVE` - The activity was legitimate and the alert was a false positive
-         * - `NO_ACTION_REQUIRED` - No further action is required
-         * - `ESCALATED_EXTERNAL` - The case was escalated to an external party
+         * Resolution to record on the case. Must be one of the `allowed_resolutions` configured on
+         * the case's queue, otherwise the request is rejected with a `400`
          */
-        fun resolution(resolution: ResolutionOutcome) = apply { body.resolution(resolution) }
+        fun resolution(resolution: String) = apply { body.resolution(resolution) }
 
         /**
          * Sets [Builder.resolution] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.resolution] with a well-typed [ResolutionOutcome] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
+         * You should usually call [Builder.resolution] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun resolution(resolution: JsonField<ResolutionOutcome>) = apply {
-            body.resolution(resolution)
-        }
+        fun resolution(resolution: JsonField<String>) = apply { body.resolution(resolution) }
 
         /** Notes describing the resolution */
         fun resolutionNotes(resolutionNotes: String) = apply {
@@ -534,7 +524,7 @@ private constructor(
         private val actorToken: JsonField<String>,
         private val assignee: JsonField<String>,
         private val priority: JsonField<CasePriority>,
-        private val resolution: JsonField<ResolutionOutcome>,
+        private val resolution: JsonField<String>,
         private val resolutionNotes: JsonField<String>,
         private val slaDeadline: JsonField<OffsetDateTime>,
         private val status: JsonField<CaseStatus>,
@@ -556,7 +546,7 @@ private constructor(
             priority: JsonField<CasePriority> = JsonMissing.of(),
             @JsonProperty("resolution")
             @ExcludeMissing
-            resolution: JsonField<ResolutionOutcome> = JsonMissing.of(),
+            resolution: JsonField<String> = JsonMissing.of(),
             @JsonProperty("resolution_notes")
             @ExcludeMissing
             resolutionNotes: JsonField<String> = JsonMissing.of(),
@@ -608,17 +598,13 @@ private constructor(
         fun priority(): Optional<CasePriority> = priority.getOptional("priority")
 
         /**
-         * Outcome recorded when a case is resolved:
-         * - `CONFIRMED_FRAUD` - The reviewed activity was confirmed to be fraudulent
-         * - `SUSPICIOUS_ACTIVITY` - The activity is suspicious but not confirmed fraud
-         * - `FALSE_POSITIVE` - The activity was legitimate and the alert was a false positive
-         * - `NO_ACTION_REQUIRED` - No further action is required
-         * - `ESCALATED_EXTERNAL` - The case was escalated to an external party
+         * Resolution to record on the case. Must be one of the `allowed_resolutions` configured on
+         * the case's queue, otherwise the request is rejected with a `400`
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun resolution(): Optional<ResolutionOutcome> = resolution.getOptional("resolution")
+        fun resolution(): Optional<String> = resolution.getOptional("resolution")
 
         /**
          * Notes describing the resolution
@@ -698,7 +684,7 @@ private constructor(
          */
         @JsonProperty("resolution")
         @ExcludeMissing
-        fun _resolution(): JsonField<ResolutionOutcome> = resolution
+        fun _resolution(): JsonField<String> = resolution
 
         /**
          * Returns the raw JSON value of [resolutionNotes].
@@ -764,7 +750,7 @@ private constructor(
             private var actorToken: JsonField<String> = JsonMissing.of()
             private var assignee: JsonField<String> = JsonMissing.of()
             private var priority: JsonField<CasePriority> = JsonMissing.of()
-            private var resolution: JsonField<ResolutionOutcome> = JsonMissing.of()
+            private var resolution: JsonField<String> = JsonMissing.of()
             private var resolutionNotes: JsonField<String> = JsonMissing.of()
             private var slaDeadline: JsonField<OffsetDateTime> = JsonMissing.of()
             private var status: JsonField<CaseStatus> = JsonMissing.of()
@@ -830,25 +816,19 @@ private constructor(
             fun priority(priority: JsonField<CasePriority>) = apply { this.priority = priority }
 
             /**
-             * Outcome recorded when a case is resolved:
-             * - `CONFIRMED_FRAUD` - The reviewed activity was confirmed to be fraudulent
-             * - `SUSPICIOUS_ACTIVITY` - The activity is suspicious but not confirmed fraud
-             * - `FALSE_POSITIVE` - The activity was legitimate and the alert was a false positive
-             * - `NO_ACTION_REQUIRED` - No further action is required
-             * - `ESCALATED_EXTERNAL` - The case was escalated to an external party
+             * Resolution to record on the case. Must be one of the `allowed_resolutions` configured
+             * on the case's queue, otherwise the request is rejected with a `400`
              */
-            fun resolution(resolution: ResolutionOutcome) = resolution(JsonField.of(resolution))
+            fun resolution(resolution: String) = resolution(JsonField.of(resolution))
 
             /**
              * Sets [Builder.resolution] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.resolution] with a well-typed [ResolutionOutcome]
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
+             * You should usually call [Builder.resolution] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
-            fun resolution(resolution: JsonField<ResolutionOutcome>) = apply {
-                this.resolution = resolution
-            }
+            fun resolution(resolution: JsonField<String>) = apply { this.resolution = resolution }
 
             /** Notes describing the resolution */
             fun resolutionNotes(resolutionNotes: String) =
@@ -989,7 +969,7 @@ private constructor(
             actorToken()
             assignee()
             priority().ifPresent { it.validate() }
-            resolution().ifPresent { it.validate() }
+            resolution()
             resolutionNotes()
             slaDeadline()
             status().ifPresent { it.validate() }
@@ -1017,7 +997,7 @@ private constructor(
             (if (actorToken.asKnown().isPresent) 1 else 0) +
                 (if (assignee.asKnown().isPresent) 1 else 0) +
                 (priority.asKnown().getOrNull()?.validity() ?: 0) +
-                (resolution.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (resolution.asKnown().isPresent) 1 else 0) +
                 (if (resolutionNotes.asKnown().isPresent) 1 else 0) +
                 (if (slaDeadline.asKnown().isPresent) 1 else 0) +
                 (status.asKnown().getOrNull()?.validity() ?: 0) +

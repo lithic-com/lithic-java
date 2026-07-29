@@ -17,6 +17,7 @@ internal class TransactionMonitoringQueueListPageResponseTest {
                 .addData(
                     Queue.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addAllowedResolution("string")
                         .caseCounts(
                             Queue.CaseCounts.builder()
                                 .assigned(0L)
@@ -40,6 +41,7 @@ internal class TransactionMonitoringQueueListPageResponseTest {
             .containsExactly(
                 Queue.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addAllowedResolution("string")
                     .caseCounts(
                         Queue.CaseCounts.builder()
                             .assigned(0L)
@@ -67,6 +69,7 @@ internal class TransactionMonitoringQueueListPageResponseTest {
                 .addData(
                     Queue.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .addAllowedResolution("string")
                         .caseCounts(
                             Queue.CaseCounts.builder()
                                 .assigned(0L)
