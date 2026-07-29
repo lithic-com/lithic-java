@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -11,6 +12,7 @@ internal class TransactionMonitoringQueueUpdateParamsTest {
     fun create() {
         TransactionMonitoringQueueUpdateParams.builder()
             .queueToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .addAllowedResolution("x")
             .description("description")
             .name("name")
             .build()
@@ -33,12 +35,14 @@ internal class TransactionMonitoringQueueUpdateParamsTest {
         val params =
             TransactionMonitoringQueueUpdateParams.builder()
                 .queueToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .addAllowedResolution("x")
                 .description("description")
                 .name("name")
                 .build()
 
         val body = params._body()
 
+        assertThat(body.allowedResolutions().getOrNull()).containsExactly("x")
         assertThat(body.description()).contains("description")
         assertThat(body.name()).contains("name")
     }
