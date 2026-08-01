@@ -102,6 +102,42 @@ internal class ObjectMappersTest {
             expectedOffsetDateTime =
                 OffsetDateTime.of(LocalDate.of(1998, 4, 21), LocalTime.of(4, 0), ZoneOffset.UTC),
         ),
+        SPACE_SEPARATED_DATE_TIME(
+            "2026-07-31 17:51:09.779826",
+            expectedOffsetDateTime =
+                OffsetDateTime.of(
+                    LocalDate.of(2026, 7, 31),
+                    LocalTime.of(17, 51, 9, 779826000),
+                    ZoneOffset.UTC,
+                ),
+        ),
+        SPACE_SEPARATED_DATE_TIME_WITH_UTC_OFFSET(
+            "2026-07-31 17:51:09.779826+00:00",
+            expectedOffsetDateTime =
+                OffsetDateTime.of(
+                    LocalDate.of(2026, 7, 31),
+                    LocalTime.of(17, 51, 9, 779826000),
+                    ZoneOffset.UTC,
+                ),
+        ),
+        SPACE_SEPARATED_DATE_TIME_WITH_NEGATIVE_OFFSET(
+            "2026-07-31 17:51:09.779826-05:00",
+            expectedOffsetDateTime =
+                OffsetDateTime.of(
+                    LocalDate.of(2026, 7, 31),
+                    LocalTime.of(17, 51, 9, 779826000),
+                    ZoneOffset.ofHours(-5),
+                ),
+        ),
+        SPACE_SEPARATED_DATE_TIME_WITHOUT_FRACTIONAL_SECONDS(
+            "2026-07-31 17:51:09",
+            expectedOffsetDateTime =
+                OffsetDateTime.of(
+                    LocalDate.of(2026, 7, 31),
+                    LocalTime.of(17, 51, 9),
+                    ZoneOffset.UTC,
+                ),
+        ),
     }
 
     @ParameterizedTest
