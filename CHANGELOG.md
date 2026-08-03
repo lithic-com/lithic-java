@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.132.0 (2026-08-03)
+
+Full Changelog: [v0.131.0...v0.132.0](https://github.com/lithic-com/lithic-java/compare/v0.131.0...v0.132.0)
+
+### Features
+
+* **api:** add dispositionReasons to queues, change resolution type in cases ([c8be7a9](https://github.com/lithic-com/lithic-java/commit/c8be7a9763106979fb321279d305a10bf66a007f))
+* **api:** add embed webhook event types ([6b438b7](https://github.com/lithic-com/lithic-java/commit/6b438b70afa7efc9b556f664177ab168a6fff71b))
+* **api:** add Optional parameter overloads to transaction response builders ([5b5091a](https://github.com/lithic-com/lithic-java/commit/5b5091a6f565bb93817401f30e37590e7f532623))
+* **api:** add PAYMENT category to book transfers ([a362749](https://github.com/lithic-com/lithic-java/commit/a3627495919ac3272de3403e3b4e5a50155dd434))
+* **api:** add PROGRAM_TRANSFER enum values to account/book_transfer/payment/statement types ([0ef7114](https://github.com/lithic-com/lithic-java/commit/0ef7114609e355b3dfc6d193df85fded7a69300e))
+* **api:** add RECIPIENT_NAME attribute to ConditionalAchActionParameters ([76fb326](https://github.com/lithic-com/lithic-java/commit/76fb3261fad73d27963d8a2f2e9c197e7ce6c836))
+* **api:** add recipient_name field to Payment ACH method attributes ([143f55b](https://github.com/lithic-com/lithic-java/commit/143f55bf5f783aa9ab8b40d81f2ab6bb5a3fa1b1))
+* **api:** add REVERSED status value to payment list parameters ([108f733](https://github.com/lithic-com/lithic-java/commit/108f7333b40ea70fff815cdc2a00a14464bbb5a4))
+* **api:** add stablecoin category and events to account activity/payment/statement types ([2263c5c](https://github.com/lithic-com/lithic-java/commit/2263c5c70828c5f27a047aba3fa9a4cabe145cf1))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([d0f208a](https://github.com/lithic-com/lithic-java/commit/d0f208a821f93589ce4a79baf636430386ad7a27))
+
+
+### Bug Fixes
+
+* **client:** leniently parse space-separated date-times ([42c7302](https://github.com/lithic-com/lithic-java/commit/42c7302caed3afe5ee5fd5bf93f853688faf8369))
+
+
+### Documentation
+
+* **api:** clarify dispute event type descriptions ([20fcf6f](https://github.com/lithic-com/lithic-java/commit/20fcf6fe25934101174fada2170592df451bd5ec))
+* **api:** clarify lastTransactionEventToken behavior in financial account balance list ([6a3be38](https://github.com/lithic-com/lithic-java/commit/6a3be383c299cfbc8293044c7b88d0887c64edee))
+* **api:** clarify simulateClearing supports multiple calls ([326d02d](https://github.com/lithic-com/lithic-java/commit/326d02d42d76d0f79391d693a9bdd4068e784b94))
+* **api:** update category parameter description in external_payment list ([7afdd50](https://github.com/lithic-com/lithic-java/commit/7afdd50d02a66cc8e5fa76133d333c5ffbccab38))
+* **api:** update VelocityLimitPeriod duration maximum from 31 to 90 days ([6038ae0](https://github.com/lithic-com/lithic-java/commit/6038ae0656608deb7fa01b8d0aa2865467b637a3))
+
 ## 0.131.0 (2026-06-29)
 
 Full Changelog: [v0.130.0...v0.131.0](https://github.com/lithic-com/lithic-java/compare/v0.130.0...v0.131.0)
