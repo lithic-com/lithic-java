@@ -27,6 +27,7 @@ import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.time.temporal.ChronoField
 
 fun jsonMapper(): JsonMapper = JSON_MAPPER
@@ -141,11 +142,22 @@ private class LenientOffsetDateTimeDeserializer :
 
     companion object {
 
+        private val SPACE_SEPARATED_DATE_TIME: DateTimeFormatter =
+            DateTimeFormatterBuilder()
+                .append(DateTimeFormatter.ISO_LOCAL_DATE)
+                .appendLiteral(' ')
+                .append(DateTimeFormatter.ISO_LOCAL_TIME)
+                .optionalStart()
+                .appendOffsetId()
+                .optionalEnd()
+                .toFormatter()
+
         private val DATE_TIME_FORMATTERS =
             listOf(
                 DateTimeFormatter.ISO_LOCAL_DATE_TIME,
                 DateTimeFormatter.ISO_LOCAL_DATE,
                 DateTimeFormatter.ISO_ZONED_DATE_TIME,
+                SPACE_SEPARATED_DATE_TIME,
             )
     }
 
