@@ -244,9 +244,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply {
-            this.createdAt = createdAt
-        }
+        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
 
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
@@ -284,9 +282,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply {
-            this.updatedAt = updatedAt
-        }
+        fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply { this.updatedAt = updatedAt }
 
         fun creditProductToken(creditProductToken: String) =
             creditProductToken(JsonField.of(creditProductToken))
@@ -316,9 +312,7 @@ private constructor(
          */
         fun loanTapeRebuildConfiguration(
             loanTapeRebuildConfiguration: JsonField<LoanTapeRebuildConfiguration>
-        ) = apply {
-            this.loanTapeRebuildConfiguration = loanTapeRebuildConfiguration
-        }
+        ) = apply { this.loanTapeRebuildConfiguration = loanTapeRebuildConfiguration }
 
         fun tierScheduleChangedAt(tierScheduleChangedAt: OffsetDateTime) =
             tierScheduleChangedAt(JsonField.of(tierScheduleChangedAt))
@@ -347,9 +341,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -372,22 +364,10 @@ private constructor(
          */
         fun build(): LoanTapeConfiguration =
             LoanTapeConfiguration(
-                checkRequired(
-                    "createdAt",
-                    createdAt,
-                ),
-                checkRequired(
-                    "financialAccountToken",
-                    financialAccountToken,
-                ),
-                checkRequired(
-                    "instanceToken",
-                    instanceToken,
-                ),
-                checkRequired(
-                    "updatedAt",
-                    updatedAt,
-                ),
+                checkRequired("createdAt", createdAt),
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("instanceToken", instanceToken),
+                checkRequired("updatedAt", updatedAt),
                 creditProductToken,
                 loanTapeRebuildConfiguration,
                 tierScheduleChangedAt,

@@ -80,9 +80,7 @@ private constructor(
                     externalBankAccountCreateParams.additionalQueryParams.toBuilder()
             }
 
-        fun body(body: Body) = apply {
-            this.body = body
-        }
+        fun body(body: Body) = apply { this.body = body }
 
         /**
          * Alias for calling [body] with
@@ -147,9 +145,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -199,9 +195,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -221,10 +215,7 @@ private constructor(
          */
         fun build(): ExternalBankAccountCreateParams =
             ExternalBankAccountCreateParams(
-                checkRequired(
-                    "body",
-                    body,
-                ),
+                checkRequired("body", body),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -480,18 +471,15 @@ private constructor(
                                 node,
                                 jacksonTypeRef<ExternallyVerifiedCreateBankAccountApiRequest>(),
                             )
-                            ?.let {
-                                Body(externallyVerified = it, _json = json)
-                            } ?: Body(_json = json)
+                            ?.let { Body(externallyVerified = it, _json = json) }
+                            ?: Body(_json = json)
                     }
                     "UNVERIFIED" -> {
                         return tryDeserialize(
                                 node,
                                 jacksonTypeRef<UnverifiedCreateBankAccountApiRequest>(),
                             )
-                            ?.let {
-                                Body(unverified = it, _json = json)
-                            } ?: Body(_json = json)
+                            ?.let { Body(unverified = it, _json = json) } ?: Body(_json = json)
                     }
                 }
 
@@ -499,9 +487,8 @@ private constructor(
                         node,
                         jacksonTypeRef<BankVerifiedCreateBankAccountApiRequest>(),
                     )
-                    ?.let {
-                        Body(bankVerifiedCreateBankAccountApiRequest = it, _json = json)
-                    } ?: Body(_json = json)
+                    ?.let { Body(bankVerifiedCreateBankAccountApiRequest = it, _json = json) }
+                    ?: Body(_json = json)
             }
         }
 
@@ -1029,9 +1016,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun country(country: JsonField<String>) = apply {
-                    this.country = country
-                }
+                fun country(country: JsonField<String>) = apply { this.country = country }
 
                 /** currency of the external account 3-character alphabetic ISO 4217 code */
                 fun currency(currency: String) = currency(JsonField.of(currency))
@@ -1043,9 +1028,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun currency(currency: JsonField<String>) = apply {
-                    this.currency = currency
-                }
+                fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 /**
                  * The financial account token of the operating account to fund the micro deposits
@@ -1077,9 +1060,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun owner(owner: JsonField<String>) = apply {
-                    this.owner = owner
-                }
+                fun owner(owner: JsonField<String>) = apply { this.owner = owner }
 
                 /** Owner Type */
                 fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
@@ -1120,9 +1101,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun type(type: JsonField<AccountType>) = apply {
-                    this.type = type
-                }
+                fun type(type: JsonField<AccountType>) = apply { this.type = type }
 
                 /** Verification Method */
                 fun verificationMethod(verificationMethod: VerificationMethod) =
@@ -1181,9 +1160,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun companyId(companyId: JsonField<String>) = apply {
-                    this.companyId = companyId
-                }
+                fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
                 /** Date of Birth of the Individual that owns the external bank account */
                 fun dob(dob: LocalDate) = dob(JsonField.of(dob))
@@ -1195,9 +1172,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun dob(dob: JsonField<LocalDate>) = apply {
-                    this.dob = dob
-                }
+                fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
 
                 /** Doing Business As */
                 fun doingBusinessAs(doingBusinessAs: String) =
@@ -1224,9 +1199,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** User Defined ID */
                 fun userDefinedId(userDefinedId: String) =
@@ -1301,42 +1274,15 @@ private constructor(
                  */
                 fun build(): BankVerifiedCreateBankAccountApiRequest =
                     BankVerifiedCreateBankAccountApiRequest(
-                        checkRequired(
-                            "accountNumber",
-                            accountNumber,
-                        ),
-                        checkRequired(
-                            "country",
-                            country,
-                        ),
-                        checkRequired(
-                            "currency",
-                            currency,
-                        ),
-                        checkRequired(
-                            "financialAccountToken",
-                            financialAccountToken,
-                        ),
-                        checkRequired(
-                            "owner",
-                            owner,
-                        ),
-                        checkRequired(
-                            "ownerType",
-                            ownerType,
-                        ),
-                        checkRequired(
-                            "routingNumber",
-                            routingNumber,
-                        ),
-                        checkRequired(
-                            "type",
-                            type,
-                        ),
-                        checkRequired(
-                            "verificationMethod",
-                            verificationMethod,
-                        ),
+                        checkRequired("accountNumber", accountNumber),
+                        checkRequired("country", country),
+                        checkRequired("currency", currency),
+                        checkRequired("financialAccountToken", financialAccountToken),
+                        checkRequired("owner", owner),
+                        checkRequired("ownerType", ownerType),
+                        checkRequired("routingNumber", routingNumber),
+                        checkRequired("type", type),
+                        checkRequired("verificationMethod", verificationMethod),
                         accountToken,
                         address,
                         companyId,
@@ -1454,11 +1400,9 @@ private constructor(
                  * An enum containing [AccountType]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [AccountType] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -2077,9 +2021,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun country(country: JsonField<String>) = apply {
-                    this.country = country
-                }
+                fun country(country: JsonField<String>) = apply { this.country = country }
 
                 /** currency of the external account 3-character alphabetic ISO 4217 code */
                 fun currency(currency: String) = currency(JsonField.of(currency))
@@ -2091,9 +2033,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun currency(currency: JsonField<String>) = apply {
-                    this.currency = currency
-                }
+                fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 /**
                  * Legal Name of the business or individual who owns the external account. This will
@@ -2108,9 +2048,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun owner(owner: JsonField<String>) = apply {
-                    this.owner = owner
-                }
+                fun owner(owner: JsonField<String>) = apply { this.owner = owner }
 
                 /** Owner Type */
                 fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
@@ -2151,9 +2089,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun type(type: JsonField<AccountType>) = apply {
-                    this.type = type
-                }
+                fun type(type: JsonField<AccountType>) = apply { this.type = type }
 
                 /** Verification Method */
                 fun verificationMethod(verificationMethod: ExternallyVerifiedVerificationMethod) =
@@ -2168,9 +2104,7 @@ private constructor(
                  */
                 fun verificationMethod(
                     verificationMethod: JsonField<ExternallyVerifiedVerificationMethod>
-                ) = apply {
-                    this.verificationMethod = verificationMethod
-                }
+                ) = apply { this.verificationMethod = verificationMethod }
 
                 /**
                  * Indicates which Lithic account the external account is associated with. For
@@ -2214,9 +2148,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun companyId(companyId: JsonField<String>) = apply {
-                    this.companyId = companyId
-                }
+                fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
                 /** Date of Birth of the Individual that owns the external bank account */
                 fun dob(dob: LocalDate) = dob(JsonField.of(dob))
@@ -2228,9 +2160,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun dob(dob: JsonField<LocalDate>) = apply {
-                    this.dob = dob
-                }
+                fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
 
                 /** Doing Business As */
                 fun doingBusinessAs(doingBusinessAs: String) =
@@ -2257,9 +2187,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** User Defined ID */
                 fun userDefinedId(userDefinedId: String) =
@@ -2319,38 +2247,14 @@ private constructor(
                  */
                 fun build(): ExternallyVerifiedCreateBankAccountApiRequest =
                     ExternallyVerifiedCreateBankAccountApiRequest(
-                        checkRequired(
-                            "accountNumber",
-                            accountNumber,
-                        ),
-                        checkRequired(
-                            "country",
-                            country,
-                        ),
-                        checkRequired(
-                            "currency",
-                            currency,
-                        ),
-                        checkRequired(
-                            "owner",
-                            owner,
-                        ),
-                        checkRequired(
-                            "ownerType",
-                            ownerType,
-                        ),
-                        checkRequired(
-                            "routingNumber",
-                            routingNumber,
-                        ),
-                        checkRequired(
-                            "type",
-                            type,
-                        ),
-                        checkRequired(
-                            "verificationMethod",
-                            verificationMethod,
-                        ),
+                        checkRequired("accountNumber", accountNumber),
+                        checkRequired("country", country),
+                        checkRequired("currency", currency),
+                        checkRequired("owner", owner),
+                        checkRequired("ownerType", ownerType),
+                        checkRequired("routingNumber", routingNumber),
+                        checkRequired("type", type),
+                        checkRequired("verificationMethod", verificationMethod),
                         accountToken,
                         address,
                         companyId,
@@ -2463,11 +2367,9 @@ private constructor(
                  * An enum containing [AccountType]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [AccountType] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -2609,11 +2511,9 @@ private constructor(
                  *
                  * An instance of [ExternallyVerifiedVerificationMethod] can contain an unknown
                  * value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -3222,9 +3122,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun country(country: JsonField<String>) = apply {
-                    this.country = country
-                }
+                fun country(country: JsonField<String>) = apply { this.country = country }
 
                 /** currency of the external account 3-character alphabetic ISO 4217 code */
                 fun currency(currency: String) = currency(JsonField.of(currency))
@@ -3236,9 +3134,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun currency(currency: JsonField<String>) = apply {
-                    this.currency = currency
-                }
+                fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
                 /**
                  * Legal Name of the business or individual who owns the external account. This will
@@ -3253,9 +3149,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun owner(owner: JsonField<String>) = apply {
-                    this.owner = owner
-                }
+                fun owner(owner: JsonField<String>) = apply { this.owner = owner }
 
                 /** Owner Type */
                 fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
@@ -3296,9 +3190,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun type(type: JsonField<AccountType>) = apply {
-                    this.type = type
-                }
+                fun type(type: JsonField<AccountType>) = apply { this.type = type }
 
                 /** Verification Method */
                 fun verificationMethod(verificationMethod: UnverifiedVerificationMethod) =
@@ -3313,9 +3205,7 @@ private constructor(
                  */
                 fun verificationMethod(
                     verificationMethod: JsonField<UnverifiedVerificationMethod>
-                ) = apply {
-                    this.verificationMethod = verificationMethod
-                }
+                ) = apply { this.verificationMethod = verificationMethod }
 
                 /**
                  * Indicates which Lithic account the external account is associated with. For
@@ -3359,9 +3249,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun companyId(companyId: JsonField<String>) = apply {
-                    this.companyId = companyId
-                }
+                fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
                 /** Date of Birth of the Individual that owns the external bank account */
                 fun dob(dob: LocalDate) = dob(JsonField.of(dob))
@@ -3373,9 +3261,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun dob(dob: JsonField<LocalDate>) = apply {
-                    this.dob = dob
-                }
+                fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
 
                 /** Doing Business As */
                 fun doingBusinessAs(doingBusinessAs: String) =
@@ -3402,9 +3288,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** User Defined ID */
                 fun userDefinedId(userDefinedId: String) =
@@ -3464,38 +3348,14 @@ private constructor(
                  */
                 fun build(): UnverifiedCreateBankAccountApiRequest =
                     UnverifiedCreateBankAccountApiRequest(
-                        checkRequired(
-                            "accountNumber",
-                            accountNumber,
-                        ),
-                        checkRequired(
-                            "country",
-                            country,
-                        ),
-                        checkRequired(
-                            "currency",
-                            currency,
-                        ),
-                        checkRequired(
-                            "owner",
-                            owner,
-                        ),
-                        checkRequired(
-                            "ownerType",
-                            ownerType,
-                        ),
-                        checkRequired(
-                            "routingNumber",
-                            routingNumber,
-                        ),
-                        checkRequired(
-                            "type",
-                            type,
-                        ),
-                        checkRequired(
-                            "verificationMethod",
-                            verificationMethod,
-                        ),
+                        checkRequired("accountNumber", accountNumber),
+                        checkRequired("country", country),
+                        checkRequired("currency", currency),
+                        checkRequired("owner", owner),
+                        checkRequired("ownerType", ownerType),
+                        checkRequired("routingNumber", routingNumber),
+                        checkRequired("type", type),
+                        checkRequired("verificationMethod", verificationMethod),
                         accountToken,
                         address,
                         companyId,
@@ -3608,11 +3468,9 @@ private constructor(
                  * An enum containing [AccountType]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [AccountType] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -3753,11 +3611,9 @@ private constructor(
                  *
                  * An instance of [UnverifiedVerificationMethod] can contain an unknown value in a
                  * couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {

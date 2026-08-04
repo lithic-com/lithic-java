@@ -51,10 +51,7 @@ private constructor(
         service.list(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<StatementLineItems.StatementLineItemResponse> =
-        AutoPagerAsync.from(
-            this,
-            streamHandlerExecutor,
-        )
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): FinancialAccountStatementLineItemListParams = params
@@ -101,9 +98,7 @@ private constructor(
             response = financialAccountStatementLineItemListPageAsync.response
         }
 
-        fun service(service: LineItemServiceAsync) = apply {
-            this.service = service
-        }
+        fun service(service: LineItemServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
@@ -115,9 +110,7 @@ private constructor(
         }
 
         /** The response that this page was parsed from. */
-        fun response(response: StatementLineItems) = apply {
-            this.response = response
-        }
+        fun response(response: StatementLineItems) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [FinancialAccountStatementLineItemListPageAsync].
@@ -136,22 +129,10 @@ private constructor(
          */
         fun build(): FinancialAccountStatementLineItemListPageAsync =
             FinancialAccountStatementLineItemListPageAsync(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "streamHandlerExecutor",
-                    streamHandlerExecutor,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

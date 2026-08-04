@@ -150,14 +150,10 @@ private constructor(
          * - [transaction]
          * - [cardExpiryCheck]
          */
-        fun body(body: SimulateAuthenticationRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: SimulateAuthenticationRequest) = apply { this.body = body.toBuilder() }
 
         /** Merchant information for the simulated transaction */
-        fun merchant(merchant: Merchant) = apply {
-            body.merchant(merchant)
-        }
+        fun merchant(merchant: Merchant) = apply { body.merchant(merchant) }
 
         /**
          * Sets [Builder.merchant] to an arbitrary JSON value.
@@ -166,14 +162,10 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun merchant(merchant: JsonField<Merchant>) = apply {
-            body.merchant(merchant)
-        }
+        fun merchant(merchant: JsonField<Merchant>) = apply { body.merchant(merchant) }
 
         /** Sixteen digit card number. */
-        fun pan(pan: String) = apply {
-            body.pan(pan)
-        }
+        fun pan(pan: String) = apply { body.pan(pan) }
 
         /**
          * Sets [Builder.pan] to an arbitrary JSON value.
@@ -181,14 +173,10 @@ private constructor(
          * You should usually call [Builder.pan] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun pan(pan: JsonField<String>) = apply {
-            body.pan(pan)
-        }
+        fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         /** Transaction details for the simulation */
-        fun transaction(transaction: Transaction) = apply {
-            body.transaction(transaction)
-        }
+        fun transaction(transaction: Transaction) = apply { body.transaction(transaction) }
 
         /**
          * Sets [Builder.transaction] to an arbitrary JSON value.
@@ -225,10 +213,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -236,9 +221,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -286,9 +269,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -338,9 +319,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -397,13 +376,7 @@ private constructor(
             @JsonProperty("card_expiry_check")
             @ExcludeMissing
             cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of(),
-        ) : this(
-            merchant,
-            pan,
-            transaction,
-            cardExpiryCheck,
-            mutableMapOf(),
-        )
+        ) : this(merchant, pan, transaction, cardExpiryCheck, mutableMapOf())
 
         /**
          * Merchant information for the simulated transaction
@@ -530,9 +503,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun merchant(merchant: JsonField<Merchant>) = apply {
-                this.merchant = merchant
-            }
+            fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
             /** Sixteen digit card number. */
             fun pan(pan: String) = pan(JsonField.of(pan))
@@ -544,9 +515,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun pan(pan: JsonField<String>) = apply {
-                this.pan = pan
-            }
+            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             /** Transaction details for the simulation */
             fun transaction(transaction: Transaction) = transaction(JsonField.of(transaction))
@@ -593,9 +562,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -617,18 +584,9 @@ private constructor(
              */
             fun build(): SimulateAuthenticationRequest =
                 SimulateAuthenticationRequest(
-                    checkRequired(
-                        "merchant",
-                        merchant,
-                    ),
-                    checkRequired(
-                        "pan",
-                        pan,
-                    ),
-                    checkRequired(
-                        "transaction",
-                        transaction,
-                    ),
+                    checkRequired("merchant", merchant),
+                    checkRequired("pan", pan),
+                    checkRequired("transaction", transaction),
                     cardExpiryCheck,
                     additionalProperties.toMutableMap(),
                 )
@@ -718,13 +676,7 @@ private constructor(
             @JsonProperty("country") @ExcludeMissing country: JsonField<String> = JsonMissing.of(),
             @JsonProperty("mcc") @ExcludeMissing mcc: JsonField<String> = JsonMissing.of(),
             @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            id,
-            country,
-            mcc,
-            name,
-            mutableMapOf(),
-        )
+        ) : this(id, country, mcc, name, mutableMapOf())
 
         /**
          * Unique identifier to identify the payment card acceptor. Corresponds to
@@ -849,9 +801,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun id(id: JsonField<String>) = apply {
-                this.id = id
-            }
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             /**
              * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
@@ -866,9 +816,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun country(country: JsonField<String>) = apply {
-                this.country = country
-            }
+            fun country(country: JsonField<String>) = apply { this.country = country }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
@@ -884,9 +832,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun mcc(mcc: JsonField<String>) = apply {
-                this.mcc = mcc
-            }
+            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
             /**
              * Merchant descriptor, corresponds to `descriptor` in authorization. If CHALLENGE
@@ -901,9 +847,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun name(name: JsonField<String>) = apply {
-                this.name = name
-            }
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -918,9 +862,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -943,22 +885,10 @@ private constructor(
              */
             fun build(): Merchant =
                 Merchant(
-                    checkRequired(
-                        "id",
-                        id,
-                    ),
-                    checkRequired(
-                        "country",
-                        country,
-                    ),
-                    checkRequired(
-                        "mcc",
-                        mcc,
-                    ),
-                    checkRequired(
-                        "name",
-                        name,
-                    ),
+                    checkRequired("id", id),
+                    checkRequired("country", country),
+                    checkRequired("mcc", mcc),
+                    checkRequired("name", name),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1042,14 +972,8 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("currency")
-            @ExcludeMissing
-            currency: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            amount,
-            currency,
-            mutableMapOf(),
-        )
+            @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
+        ) : this(amount, currency, mutableMapOf())
 
         /**
          * Amount (in cents) to authenticate.
@@ -1131,9 +1055,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** 3-character alphabetic ISO 4217 currency code. */
             fun currency(currency: String) = currency(JsonField.of(currency))
@@ -1145,9 +1067,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun currency(currency: JsonField<String>) = apply {
-                this.currency = currency
-            }
+            fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1162,9 +1082,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1185,14 +1103,8 @@ private constructor(
              */
             fun build(): Transaction =
                 Transaction(
-                    checkRequired(
-                        "amount",
-                        amount,
-                    ),
-                    checkRequired(
-                        "currency",
-                        currency,
-                    ),
+                    checkRequired("amount", amount),
+                    checkRequired("currency", currency),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1295,11 +1207,9 @@ private constructor(
          * An enum containing [CardExpiryCheck]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [CardExpiryCheck] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

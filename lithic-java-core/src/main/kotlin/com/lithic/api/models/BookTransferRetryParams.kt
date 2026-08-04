@@ -101,17 +101,13 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [retryToken]
          */
-        fun body(body: RetryBookTransferRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: RetryBookTransferRequest) = apply { this.body = body.toBuilder() }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun retryToken(retryToken: String) = apply {
-            body.retryToken(retryToken)
-        }
+        fun retryToken(retryToken: String) = apply { body.retryToken(retryToken) }
 
         /**
          * Sets [Builder.retryToken] to an arbitrary JSON value.
@@ -120,19 +116,14 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun retryToken(retryToken: JsonField<String>) = apply {
-            body.retryToken(retryToken)
-        }
+        fun retryToken(retryToken: JsonField<String>) = apply { body.retryToken(retryToken) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -140,9 +131,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -190,9 +179,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -242,9 +229,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -295,10 +280,7 @@ private constructor(
             @JsonProperty("retry_token")
             @ExcludeMissing
             retryToken: JsonField<String> = JsonMissing.of()
-        ) : this(
-            retryToken,
-            mutableMapOf(),
-        )
+        ) : this(retryToken, mutableMapOf())
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
@@ -368,9 +350,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun retryToken(retryToken: JsonField<String>) = apply {
-                this.retryToken = retryToken
-            }
+            fun retryToken(retryToken: JsonField<String>) = apply { this.retryToken = retryToken }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -385,9 +365,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -407,10 +385,7 @@ private constructor(
              */
             fun build(): RetryBookTransferRequest =
                 RetryBookTransferRequest(
-                    checkRequired(
-                        "retryToken",
-                        retryToken,
-                    ),
+                    checkRequired("retryToken", retryToken),
                     additionalProperties.toMutableMap(),
                 )
         }

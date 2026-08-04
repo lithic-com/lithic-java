@@ -27,10 +27,7 @@ interface TransferServiceAsync {
     /** Transfer funds between two financial accounts or between a financial account and card */
     @Deprecated("deprecated")
     fun create(params: TransferCreateParams): CompletableFuture<Transfer> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     @Deprecated("deprecated")
@@ -59,10 +56,7 @@ interface TransferServiceAsync {
          */
         @Deprecated("deprecated")
         fun create(params: TransferCreateParams): CompletableFuture<HttpResponseFor<Transfer>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         @Deprecated("deprecated")

@@ -28,10 +28,7 @@ interface NetworkTotalService {
 
     /** Retrieve a specific network total record by token. Not available in sandbox. */
     fun retrieve(token: String): NetworkTotal =
-        retrieve(
-            token,
-            ReportSettlementNetworkTotalRetrieveParams.none(),
-        )
+        retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -39,23 +36,14 @@ interface NetworkTotalService {
         params: ReportSettlementNetworkTotalRetrieveParams =
             ReportSettlementNetworkTotalRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): NetworkTotal =
-        retrieve(
-            params.toBuilder().token(token).build(),
-            requestOptions,
-        )
+    ): NetworkTotal = retrieve(params.toBuilder().token(token).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         token: String,
         params: ReportSettlementNetworkTotalRetrieveParams =
             ReportSettlementNetworkTotalRetrieveParams.none(),
-    ): NetworkTotal =
-        retrieve(
-            token,
-            params,
-            RequestOptions.none(),
-        )
+    ): NetworkTotal = retrieve(token, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -65,18 +53,11 @@ interface NetworkTotalService {
 
     /** @see retrieve */
     fun retrieve(params: ReportSettlementNetworkTotalRetrieveParams): NetworkTotal =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(token: String, requestOptions: RequestOptions): NetworkTotal =
-        retrieve(
-            token,
-            ReportSettlementNetworkTotalRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none(), requestOptions)
 
     /** List network total records with optional filters. Not available in sandbox. */
     fun list(): ReportSettlementNetworkTotalListPage =
@@ -93,18 +74,11 @@ interface NetworkTotalService {
     fun list(
         params: ReportSettlementNetworkTotalListParams =
             ReportSettlementNetworkTotalListParams.none()
-    ): ReportSettlementNetworkTotalListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): ReportSettlementNetworkTotalListPage = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): ReportSettlementNetworkTotalListPage =
-        list(
-            ReportSettlementNetworkTotalListParams.none(),
-            requestOptions,
-        )
+        list(ReportSettlementNetworkTotalListParams.none(), requestOptions)
 
     /**
      * A view of [NetworkTotalService] that provides access to raw HTTP responses for each method.
@@ -126,10 +100,7 @@ interface NetworkTotalService {
          */
         @MustBeClosed
         fun retrieve(token: String): HttpResponseFor<NetworkTotal> =
-            retrieve(
-                token,
-                ReportSettlementNetworkTotalRetrieveParams.none(),
-            )
+            retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -139,10 +110,7 @@ interface NetworkTotalService {
                 ReportSettlementNetworkTotalRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<NetworkTotal> =
-            retrieve(
-                params.toBuilder().token(token).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().token(token).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
@@ -150,12 +118,7 @@ interface NetworkTotalService {
             token: String,
             params: ReportSettlementNetworkTotalRetrieveParams =
                 ReportSettlementNetworkTotalRetrieveParams.none(),
-        ): HttpResponseFor<NetworkTotal> =
-            retrieve(
-                token,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<NetworkTotal> = retrieve(token, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -168,20 +131,12 @@ interface NetworkTotalService {
         @MustBeClosed
         fun retrieve(
             params: ReportSettlementNetworkTotalRetrieveParams
-        ): HttpResponseFor<NetworkTotal> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<NetworkTotal> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(token: String, requestOptions: RequestOptions): HttpResponseFor<NetworkTotal> =
-            retrieve(
-                token,
-                ReportSettlementNetworkTotalRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(token, ReportSettlementNetworkTotalRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/reports/settlement/network_totals`, but is
@@ -205,19 +160,13 @@ interface NetworkTotalService {
             params: ReportSettlementNetworkTotalListParams =
                 ReportSettlementNetworkTotalListParams.none()
         ): HttpResponseFor<ReportSettlementNetworkTotalListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): HttpResponseFor<ReportSettlementNetworkTotalListPage> =
-            list(
-                ReportSettlementNetworkTotalListParams.none(),
-                requestOptions,
-            )
+            list(ReportSettlementNetworkTotalListParams.none(), requestOptions)
     }
 }

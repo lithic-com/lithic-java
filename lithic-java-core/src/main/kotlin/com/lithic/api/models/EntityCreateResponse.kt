@@ -222,9 +222,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account holder */
         fun accountHolderToken(accountHolderToken: String) =
@@ -251,9 +249,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** A list of documents required for the entity to be approved */
         fun requiredDocuments(requiredDocuments: List<RequiredDocument>) =
@@ -292,9 +288,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun status(status: JsonField<EntityStatus>) = apply {
-            this.status = status
-        }
+        fun status(status: JsonField<EntityStatus>) = apply { this.status = status }
 
         /** Reason for the evaluation status */
         fun statusReasons(statusReasons: List<StatusReasons>) =
@@ -336,9 +330,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -363,32 +355,12 @@ private constructor(
          */
         fun build(): EntityCreateResponse =
             EntityCreateResponse(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "accountHolderToken",
-                    accountHolderToken,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                        "requiredDocuments",
-                        requiredDocuments,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "status",
-                    status,
-                ),
-                checkRequired(
-                        "statusReasons",
-                        statusReasons,
-                    )
-                    .map { it.toImmutable() },
+                checkRequired("token", token),
+                checkRequired("accountHolderToken", accountHolderToken),
+                checkRequired("created", created),
+                checkRequired("requiredDocuments", requiredDocuments).map { it.toImmutable() },
+                checkRequired("status", status),
+                checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -478,11 +450,9 @@ private constructor(
          * An enum containing [EntityStatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EntityStatus] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -715,11 +685,9 @@ private constructor(
          * An enum containing [StatusReasons]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [StatusReasons] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

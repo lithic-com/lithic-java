@@ -74,13 +74,9 @@ private constructor(
                 transactionMonitoringCaseFileDeleteParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun caseToken(caseToken: String) = apply {
-            this.caseToken = caseToken
-        }
+        fun caseToken(caseToken: String) = apply { this.caseToken = caseToken }
 
-        fun fileToken(fileToken: String?) = apply {
-            this.fileToken = fileToken
-        }
+        fun fileToken(fileToken: String?) = apply { this.fileToken = fileToken }
 
         /** Alias for calling [Builder.fileToken] with `fileToken.orElse(null)`. */
         fun fileToken(fileToken: Optional<String>) = fileToken(fileToken.getOrNull())
@@ -127,9 +123,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -179,9 +173,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -223,10 +215,7 @@ private constructor(
          */
         fun build(): TransactionMonitoringCaseFileDeleteParams =
             TransactionMonitoringCaseFileDeleteParams(
-                checkRequired(
-                    "caseToken",
-                    caseToken,
-                ),
+                checkRequired("caseToken", caseToken),
                 fileToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

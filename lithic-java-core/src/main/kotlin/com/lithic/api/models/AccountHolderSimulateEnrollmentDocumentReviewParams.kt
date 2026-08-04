@@ -172,9 +172,7 @@ private constructor(
         }
 
         /** An account holder document's upload status for use within the simulation. */
-        fun status(status: Status) = apply {
-            body.status(status)
-        }
+        fun status(status: Status) = apply { body.status(status) }
 
         /**
          * Sets [Builder.status] to an arbitrary JSON value.
@@ -182,9 +180,7 @@ private constructor(
          * You should usually call [Builder.status] with a well-typed [Status] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun status(status: JsonField<Status>) = apply {
-            body.status(status)
-        }
+        fun status(status: JsonField<Status>) = apply { body.status(status) }
 
         /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
         fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) = apply {
@@ -236,10 +232,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -247,9 +240,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -297,9 +288,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -349,9 +338,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -562,9 +549,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun status(status: JsonField<Status>) = apply {
-                this.status = status
-            }
+            fun status(status: JsonField<Status>) = apply { this.status = status }
 
             /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) =
@@ -579,9 +564,8 @@ private constructor(
              */
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
-                    this.acceptedEntityStatusReasons = acceptedEntityStatusReasons.map {
-                        it.toMutableList()
-                    }
+                    this.acceptedEntityStatusReasons =
+                        acceptedEntityStatusReasons.map { it.toMutableList() }
                 }
 
             /**
@@ -628,9 +612,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -651,14 +633,8 @@ private constructor(
              */
             fun build(): SimulateEnrollmentDocumentReviewRequest =
                 SimulateEnrollmentDocumentReviewRequest(
-                    checkRequired(
-                        "documentUploadToken",
-                        documentUploadToken,
-                    ),
-                    checkRequired(
-                        "status",
-                        status,
-                    ),
+                    checkRequired("documentUploadToken", documentUploadToken),
+                    checkRequired("status", status),
                     (acceptedEntityStatusReasons ?: JsonMissing.of()).map { it.toImmutable() },
                     statusReason,
                     additionalProperties.toMutableMap(),
@@ -776,11 +752,9 @@ private constructor(
          * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Status] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -954,11 +928,9 @@ private constructor(
          *
          * An instance of [DocumentUploadStatusReasons] can contain an unknown value in a couple of
          * cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

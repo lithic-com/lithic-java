@@ -370,14 +370,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(
-            JsonValue.from(
-                listOf(
-                    "invalid",
-                    "array",
-                )
-            )
-        ),
+        ARRAY(JsonValue.from(listOf("invalid", "array"))),
     }
 
     @ParameterizedTest
@@ -388,9 +381,7 @@ internal class AccountHolderUpdatedWebhookEventTest {
                 .convertValue(testCase.value, jacksonTypeRef<AccountHolderUpdatedWebhookEvent>())
 
         val e =
-            assertThrows<LithicInvalidDataException> {
-                accountHolderUpdatedWebhookEvent.validate()
-            }
+            assertThrows<LithicInvalidDataException> { accountHolderUpdatedWebhookEvent.validate() }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

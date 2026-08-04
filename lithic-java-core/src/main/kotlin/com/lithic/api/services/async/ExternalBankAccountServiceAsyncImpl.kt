@@ -157,24 +157,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     .addPathSegments("v1", "external_bank_accounts")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                createHandler.handle(it)
-                            }
+                            .use { createHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -200,24 +190,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                retrieveHandler.handle(it)
-                            }
+                            .use { retrieveHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -244,24 +224,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                updateHandler.handle(it)
-                            }
+                            .use { updateHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -284,24 +254,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "external_bank_accounts")
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                listHandler.handle(it)
-                            }
+                            .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -336,24 +296,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     .addPathSegments("v1", "external_bank_accounts", params._pathParam(0), "pause")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                pauseHandler.handle(it)
-                            }
+                            .use { pauseHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -386,24 +336,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                retryMicroDepositsHandler.handle(it)
-                            }
+                            .use { retryMicroDepositsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -435,24 +375,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                retryPrenoteHandler.handle(it)
-                            }
+                            .use { retryPrenoteHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -484,24 +414,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                setVerificationMethodHandler.handle(it)
-                            }
+                            .use { setVerificationMethodHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -533,24 +453,14 @@ internal constructor(private val clientOptions: ClientOptions) : ExternalBankAcc
                     )
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                unpauseHandler.handle(it)
-                            }
+                            .use { unpauseHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

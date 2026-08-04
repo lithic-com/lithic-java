@@ -168,24 +168,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .addPathSegments("v2", "auth_rules")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                createHandler.handle(it)
-                            }
+                            .use { createHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -211,24 +201,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                retrieveHandler.handle(it)
-                            }
+                            .use { retrieveHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -255,24 +235,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .addPathSegments("v2", "auth_rules", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                updateHandler.handle(it)
-                            }
+                            .use { updateHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -295,24 +265,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules")
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                listHandler.handle(it)
-                            }
+                            .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -346,23 +306,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .addPathSegments("v2", "auth_rules", params._pathParam(0))
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
-                        response.use {
-                            deleteHandler.handle(it)
-                        }
+                        response.use { deleteHandler.handle(it) }
                     }
                 }
         }
@@ -384,24 +334,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "draft")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                draftHandler.handle(it)
-                            }
+                            .use { draftHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -424,24 +364,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", "results")
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                listResultsHandler.handle(it)
-                            }
+                            .use { listResultsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -475,24 +405,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "versions")
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                listVersionsHandler.handle(it)
-                            }
+                            .use { listVersionsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -519,24 +439,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "promote")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                promoteHandler.handle(it)
-                            }
+                            .use { promoteHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -562,24 +472,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "features")
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                retrieveFeaturesHandler.handle(it)
-                            }
+                            .use { retrieveFeaturesHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -605,24 +505,14 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v2", "auth_rules", params._pathParam(0), "report")
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                retrieveReportHandler.handle(it)
-                            }
+                            .use { retrieveReportHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

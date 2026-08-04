@@ -10,11 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class NotFoundException
-private constructor(
-    private val headers: Headers,
-    private val body: JsonValue,
-    cause: Throwable?,
-) :
+private constructor(private val headers: Headers, private val body: JsonValue, cause: Throwable?) :
     LithicServiceException(
         "404: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
         cause,
@@ -56,17 +52,11 @@ private constructor(
             cause = notFoundException.cause
         }
 
-        fun headers(headers: Headers) = apply {
-            this.headers = headers
-        }
+        fun headers(headers: Headers) = apply { this.headers = headers }
 
-        fun body(body: JsonValue) = apply {
-            this.body = body
-        }
+        fun body(body: JsonValue) = apply { this.body = body }
 
-        fun cause(cause: Throwable?) = apply {
-            this.cause = cause
-        }
+        fun cause(cause: Throwable?) = apply { this.cause = cause }
 
         /** Alias for calling [Builder.cause] with `cause.orElse(null)`. */
         fun cause(cause: Optional<Throwable>) = cause(cause.getOrNull())
@@ -85,16 +75,6 @@ private constructor(
          * @throws IllegalStateException if any required field is unset.
          */
         fun build(): NotFoundException =
-            NotFoundException(
-                checkRequired(
-                    "headers",
-                    headers,
-                ),
-                checkRequired(
-                    "body",
-                    body,
-                ),
-                cause,
-            )
+            NotFoundException(checkRequired("headers", headers), checkRequired("body", body), cause)
     }
 }

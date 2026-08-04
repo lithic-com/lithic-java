@@ -37,11 +37,7 @@ private constructor(
         @JsonProperty("conditions")
         @ExcludeMissing
         conditions: JsonField<List<Condition>> = JsonMissing.of(),
-    ) : this(
-        action,
-        conditions,
-        mutableMapOf(),
-    )
+    ) : this(action, conditions, mutableMapOf())
 
     /**
      * The hold adjustment to apply if the conditions are met.
@@ -129,9 +125,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun action(action: JsonField<HoldAdjustmentAction>) = apply {
-            this.action = action
-        }
+        fun action(action: JsonField<HoldAdjustmentAction>) = apply { this.action = action }
 
         fun conditions(conditions: List<Condition>) = conditions(JsonField.of(conditions))
 
@@ -171,9 +165,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -194,15 +186,8 @@ private constructor(
          */
         fun build(): ConditionalAuthorizationAdjustmentParameters =
             ConditionalAuthorizationAdjustmentParameters(
-                checkRequired(
-                    "action",
-                    action,
-                ),
-                checkRequired(
-                        "conditions",
-                        conditions,
-                    )
-                    .map { it.toImmutable() },
+                checkRequired("action", action),
+                checkRequired("conditions", conditions).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -260,16 +245,10 @@ private constructor(
             @JsonProperty("mode") @ExcludeMissing mode: JsonField<Mode> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
             @JsonProperty("value") @ExcludeMissing value: JsonField<Long> = JsonMissing.of(),
-        ) : this(
-            mode,
-            type,
-            value,
-            mutableMapOf(),
-        )
+        ) : this(mode, type, value, mutableMapOf())
 
         /**
          * The mode of the hold adjustment, determining how the value is interpreted:
-         *
          * * `REPLACE_WITH_AMOUNT`: The value is the approved hold amount in cents.
          * * `ADD_PERCENTAGE`: The value adjusts the hold amount by a percentage. 1000 represents a
          *   10% increase, 0 represents no change.
@@ -362,7 +341,6 @@ private constructor(
 
             /**
              * The mode of the hold adjustment, determining how the value is interpreted:
-             *
              * * `REPLACE_WITH_AMOUNT`: The value is the approved hold amount in cents.
              * * `ADD_PERCENTAGE`: The value adjusts the hold amount by a percentage. 1000
              *   represents a 10% increase, 0 represents no change.
@@ -377,9 +355,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun mode(mode: JsonField<Mode>) = apply {
-                this.mode = mode
-            }
+            fun mode(mode: JsonField<Mode>) = apply { this.mode = mode }
 
             /** The type of adjustment to apply */
             fun type(type: Type) = type(JsonField.of(type))
@@ -391,9 +367,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply {
-                this.type = type
-            }
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /** The value used for the hold adjustment, interpreted based on the mode */
             fun value(value: Long) = value(JsonField.of(value))
@@ -405,9 +379,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun value(value: JsonField<Long>) = apply {
-                this.value = value
-            }
+            fun value(value: JsonField<Long>) = apply { this.value = value }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -422,9 +394,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -446,18 +416,9 @@ private constructor(
              */
             fun build(): HoldAdjustmentAction =
                 HoldAdjustmentAction(
-                    checkRequired(
-                        "mode",
-                        mode,
-                    ),
-                    checkRequired(
-                        "type",
-                        type,
-                    ),
-                    checkRequired(
-                        "value",
-                        value,
-                    ),
+                    checkRequired("mode", mode),
+                    checkRequired("type", type),
+                    checkRequired("value", value),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -506,7 +467,6 @@ private constructor(
 
         /**
          * The mode of the hold adjustment, determining how the value is interpreted:
-         *
          * * `REPLACE_WITH_AMOUNT`: The value is the approved hold amount in cents.
          * * `ADD_PERCENTAGE`: The value adjusts the hold amount by a percentage. 1000 represents a
          *   10% increase, 0 represents no change.
@@ -546,11 +506,9 @@ private constructor(
              * An enum containing [Mode]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Mode] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -686,11 +644,9 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -835,13 +791,7 @@ private constructor(
             @JsonProperty("parameters")
             @ExcludeMissing
             parameters: JsonField<Parameters> = JsonMissing.of(),
-        ) : this(
-            attribute,
-            operation,
-            value,
-            parameters,
-            mutableMapOf(),
-        )
+        ) : this(attribute, operation, value, parameters, mutableMapOf())
 
         /**
          * The attribute to target.
@@ -1190,9 +1140,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun attribute(attribute: JsonField<Attribute>) = apply {
-                this.attribute = attribute
-            }
+            fun attribute(attribute: JsonField<Attribute>) = apply { this.attribute = attribute }
 
             /** The operation to apply to the attribute */
             fun operation(operation: ConditionalOperation) = operation(JsonField.of(operation))
@@ -1218,9 +1166,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun value(value: JsonField<ConditionalValue>) = apply {
-                this.value = value
-            }
+            fun value(value: JsonField<ConditionalValue>) = apply { this.value = value }
 
             /** Alias for calling [value] with `ConditionalValue.ofRegex(regex)`. */
             fun value(regex: String) = value(ConditionalValue.ofRegex(regex))
@@ -1272,9 +1218,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1296,18 +1240,9 @@ private constructor(
              */
             fun build(): Condition =
                 Condition(
-                    checkRequired(
-                        "attribute",
-                        attribute,
-                    ),
-                    checkRequired(
-                        "operation",
-                        operation,
-                    ),
-                    checkRequired(
-                        "value",
-                        value,
-                    ),
+                    checkRequired("attribute", attribute),
+                    checkRequired("operation", operation),
+                    checkRequired("value", value),
                     parameters,
                     additionalProperties.toMutableMap(),
                 )
@@ -1611,11 +1546,9 @@ private constructor(
              * An enum containing [Attribute]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Attribute] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1857,12 +1790,7 @@ private constructor(
                 interval: JsonField<Interval> = JsonMissing.of(),
                 @JsonProperty("scope") @ExcludeMissing scope: JsonField<Scope> = JsonMissing.of(),
                 @JsonProperty("unit") @ExcludeMissing unit: JsonField<Unit> = JsonMissing.of(),
-            ) : this(
-                interval,
-                scope,
-                unit,
-                mutableMapOf(),
-            )
+            ) : this(interval, scope, unit, mutableMapOf())
 
             /**
              * The time window for statistical attributes (`AMOUNT_Z_SCORE`,
@@ -1967,9 +1895,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun interval(interval: JsonField<Interval>) = apply {
-                    this.interval = interval
-                }
+                fun interval(interval: JsonField<Interval>) = apply { this.interval = interval }
 
                 /** The entity scope to evaluate the attribute against. */
                 fun scope(scope: Scope) = scope(JsonField.of(scope))
@@ -1981,9 +1907,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun scope(scope: JsonField<Scope>) = apply {
-                    this.scope = scope
-                }
+                fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
 
                 /**
                  * The unit for impossible travel attributes. Required when `attribute` is
@@ -2002,9 +1926,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun unit(unit: JsonField<Unit>) = apply {
-                    this.unit = unit
-                }
+                fun unit(unit: JsonField<Unit>) = apply { this.unit = unit }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -2034,12 +1956,7 @@ private constructor(
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
                 fun build(): Parameters =
-                    Parameters(
-                        interval,
-                        scope,
-                        unit,
-                        additionalProperties.toMutableMap(),
-                    )
+                    Parameters(interval, scope, unit, additionalProperties.toMutableMap())
             }
 
             private var validated: Boolean = false
@@ -2128,11 +2045,9 @@ private constructor(
                  * An enum containing [Interval]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [Interval] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -2281,11 +2196,9 @@ private constructor(
                  * An enum containing [Scope]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [Scope] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -2441,11 +2354,9 @@ private constructor(
                  * An enum containing [Unit]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [Unit] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {

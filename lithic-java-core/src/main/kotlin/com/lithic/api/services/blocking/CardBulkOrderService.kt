@@ -36,10 +36,7 @@ interface CardBulkOrderService {
      * for your program.
      */
     fun create(params: CardBulkOrderCreateParams): CardBulkOrder =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -49,10 +46,7 @@ interface CardBulkOrderService {
 
     /** Retrieve a specific bulk order by token */
     fun retrieve(bulkOrderToken: String): CardBulkOrder =
-        retrieve(
-            bulkOrderToken,
-            CardBulkOrderRetrieveParams.none(),
-        )
+        retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -60,21 +54,13 @@ interface CardBulkOrderService {
         params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardBulkOrder =
-        retrieve(
-            params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         bulkOrderToken: String,
         params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
-    ): CardBulkOrder =
-        retrieve(
-            bulkOrderToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CardBulkOrder = retrieve(bulkOrderToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -84,29 +70,18 @@ interface CardBulkOrderService {
 
     /** @see retrieve */
     fun retrieve(params: CardBulkOrderRetrieveParams): CardBulkOrder =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(bulkOrderToken: String, requestOptions: RequestOptions): CardBulkOrder =
-        retrieve(
-            bulkOrderToken,
-            CardBulkOrderRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none(), requestOptions)
 
     /**
      * Update a bulk order. Primarily used to lock the order, preventing additional cards from being
      * added
      */
     fun update(bulkOrderToken: String, params: CardBulkOrderUpdateParams): CardBulkOrder =
-        update(
-            bulkOrderToken,
-            params,
-            RequestOptions.none(),
-        )
+        update(bulkOrderToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -114,17 +89,11 @@ interface CardBulkOrderService {
         params: CardBulkOrderUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardBulkOrder =
-        update(
-            params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-            requestOptions,
-        )
+        update(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
     /** @see update */
     fun update(params: CardBulkOrderUpdateParams): CardBulkOrder =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+        update(params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -144,18 +113,11 @@ interface CardBulkOrderService {
     /** @see list */
     fun list(
         params: CardBulkOrderListParams = CardBulkOrderListParams.none()
-    ): CardBulkOrderListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CardBulkOrderListPage = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CardBulkOrderListPage =
-        list(
-            CardBulkOrderListParams.none(),
-            requestOptions,
-        )
+        list(CardBulkOrderListParams.none(), requestOptions)
 
     /**
      * A view of [CardBulkOrderService] that provides access to raw HTTP responses for each method.
@@ -177,10 +139,7 @@ interface CardBulkOrderService {
          */
         @MustBeClosed
         fun create(params: CardBulkOrderCreateParams): HttpResponseFor<CardBulkOrder> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
@@ -195,10 +154,7 @@ interface CardBulkOrderService {
          */
         @MustBeClosed
         fun retrieve(bulkOrderToken: String): HttpResponseFor<CardBulkOrder> =
-            retrieve(
-                bulkOrderToken,
-                CardBulkOrderRetrieveParams.none(),
-            )
+            retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -207,22 +163,14 @@ interface CardBulkOrderService {
             params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardBulkOrder> =
-            retrieve(
-                params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             bulkOrderToken: String,
             params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
-        ): HttpResponseFor<CardBulkOrder> =
-            retrieve(
-                bulkOrderToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<CardBulkOrder> = retrieve(bulkOrderToken, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -234,10 +182,7 @@ interface CardBulkOrderService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: CardBulkOrderRetrieveParams): HttpResponseFor<CardBulkOrder> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -245,11 +190,7 @@ interface CardBulkOrderService {
             bulkOrderToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<CardBulkOrder> =
-            retrieve(
-                bulkOrderToken,
-                CardBulkOrderRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `patch /v1/card_bulk_orders/{bulk_order_token}`, but is
@@ -259,12 +200,7 @@ interface CardBulkOrderService {
         fun update(
             bulkOrderToken: String,
             params: CardBulkOrderUpdateParams,
-        ): HttpResponseFor<CardBulkOrder> =
-            update(
-                bulkOrderToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<CardBulkOrder> = update(bulkOrderToken, params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
@@ -273,18 +209,12 @@ interface CardBulkOrderService {
             params: CardBulkOrderUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardBulkOrder> =
-            update(
-                params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-                requestOptions,
-            )
+            update(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
         /** @see update */
         @MustBeClosed
         fun update(params: CardBulkOrderUpdateParams): HttpResponseFor<CardBulkOrder> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+            update(params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
@@ -311,18 +241,11 @@ interface CardBulkOrderService {
         @MustBeClosed
         fun list(
             params: CardBulkOrderListParams = CardBulkOrderListParams.none()
-        ): HttpResponseFor<CardBulkOrderListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<CardBulkOrderListPage> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<CardBulkOrderListPage> =
-            list(
-                CardBulkOrderListParams.none(),
-                requestOptions,
-            )
+            list(CardBulkOrderListParams.none(), requestOptions)
     }
 }

@@ -81,19 +81,13 @@ private constructor(
             response = transferLimitListPage.response
         }
 
-        fun service(service: TransferLimitService) = apply {
-            this.service = service
-        }
+        fun service(service: TransferLimitService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: TransferLimitListParams) = apply {
-            this.params = params
-        }
+        fun params(params: TransferLimitListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: TransferLimitsResponse) = apply {
-            this.response = response
-        }
+        fun response(response: TransferLimitsResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [TransferLimitListPage].
@@ -111,18 +105,9 @@ private constructor(
          */
         fun build(): TransferLimitListPage =
             TransferLimitListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

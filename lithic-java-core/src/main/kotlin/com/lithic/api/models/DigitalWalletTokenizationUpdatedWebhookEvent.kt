@@ -44,14 +44,7 @@ private constructor(
         @JsonProperty("tokenization")
         @ExcludeMissing
         tokenization: JsonField<Tokenization> = JsonMissing.of(),
-    ) : this(
-        accountToken,
-        cardToken,
-        created,
-        eventType,
-        tokenization,
-        mutableMapOf(),
-    )
+    ) : this(accountToken, cardToken, created, eventType, tokenization, mutableMapOf())
 
     /**
      * Account token
@@ -208,9 +201,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Created date */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -222,9 +213,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -236,9 +225,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply {
-            this.eventType = eventType
-        }
+        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         fun tokenization(tokenization: Tokenization) = tokenization(JsonField.of(tokenization))
 
@@ -266,9 +253,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -292,26 +277,11 @@ private constructor(
          */
         fun build(): DigitalWalletTokenizationUpdatedWebhookEvent =
             DigitalWalletTokenizationUpdatedWebhookEvent(
-                checkRequired(
-                    "accountToken",
-                    accountToken,
-                ),
-                checkRequired(
-                    "cardToken",
-                    cardToken,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "eventType",
-                    eventType,
-                ),
-                checkRequired(
-                    "tokenization",
-                    tokenization,
-                ),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardToken", cardToken),
+                checkRequired("created", created),
+                checkRequired("eventType", eventType),
+                checkRequired("tokenization", tokenization),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -390,11 +360,9 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

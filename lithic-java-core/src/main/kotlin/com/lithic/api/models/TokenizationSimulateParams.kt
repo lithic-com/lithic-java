@@ -211,14 +211,10 @@ private constructor(
          * - [accountScore]
          * - etc.
          */
-        fun body(body: Body) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /** The three digit cvv for the card. */
-        fun cvv(cvv: String) = apply {
-            body.cvv(cvv)
-        }
+        fun cvv(cvv: String) = apply { body.cvv(cvv) }
 
         /**
          * Sets [Builder.cvv] to an arbitrary JSON value.
@@ -226,14 +222,10 @@ private constructor(
          * You should usually call [Builder.cvv] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun cvv(cvv: JsonField<String>) = apply {
-            body.cvv(cvv)
-        }
+        fun cvv(cvv: JsonField<String>) = apply { body.cvv(cvv) }
 
         /** The expiration date of the card in 'MM/YY' format. */
-        fun expirationDate(expirationDate: String) = apply {
-            body.expirationDate(expirationDate)
-        }
+        fun expirationDate(expirationDate: String) = apply { body.expirationDate(expirationDate) }
 
         /**
          * Sets [Builder.expirationDate] to an arbitrary JSON value.
@@ -247,9 +239,7 @@ private constructor(
         }
 
         /** The sixteen digit card number. */
-        fun pan(pan: String) = apply {
-            body.pan(pan)
-        }
+        fun pan(pan: String) = apply { body.pan(pan) }
 
         /**
          * Sets [Builder.pan] to an arbitrary JSON value.
@@ -257,9 +247,7 @@ private constructor(
          * You should usually call [Builder.pan] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun pan(pan: JsonField<String>) = apply {
-            body.pan(pan)
-        }
+        fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         /** The source of the tokenization request. */
         fun tokenizationSource(tokenizationSource: TokenizationSource) = apply {
@@ -281,9 +269,7 @@ private constructor(
          * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's account is.
          */
-        fun accountScore(accountScore: Long) = apply {
-            body.accountScore(accountScore)
-        }
+        fun accountScore(accountScore: Long) = apply { body.accountScore(accountScore) }
 
         /**
          * Sets [Builder.accountScore] to an arbitrary JSON value.
@@ -292,17 +278,13 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun accountScore(accountScore: JsonField<Long>) = apply {
-            body.accountScore(accountScore)
-        }
+        fun accountScore(accountScore: JsonField<Long>) = apply { body.accountScore(accountScore) }
 
         /**
          * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's device is.
          */
-        fun deviceScore(deviceScore: Long) = apply {
-            body.deviceScore(deviceScore)
-        }
+        fun deviceScore(deviceScore: Long) = apply { body.deviceScore(deviceScore) }
 
         /**
          * Sets [Builder.deviceScore] to an arbitrary JSON value.
@@ -311,17 +293,13 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun deviceScore(deviceScore: JsonField<Long>) = apply {
-            body.deviceScore(deviceScore)
-        }
+        fun deviceScore(deviceScore: JsonField<Long>) = apply { body.deviceScore(deviceScore) }
 
         /**
          * Optional field to specify the token requestor name for a merchant token simulation.
          * Ignored when tokenization_source is not MERCHANT.
          */
-        fun entity(entity: String) = apply {
-            body.entity(entity)
-        }
+        fun entity(entity: String) = apply { body.entity(entity) }
 
         /**
          * Sets [Builder.entity] to an arbitrary JSON value.
@@ -329,9 +307,7 @@ private constructor(
          * You should usually call [Builder.entity] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun entity(entity: JsonField<String>) = apply {
-            body.entity(entity)
-        }
+        fun entity(entity: JsonField<String>) = apply { body.entity(entity) }
 
         /** The decision that the Digital Wallet's recommend */
         fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
@@ -348,19 +324,14 @@ private constructor(
          */
         fun walletRecommendedDecision(
             walletRecommendedDecision: JsonField<WalletRecommendedDecision>
-        ) = apply {
-            body.walletRecommendedDecision(walletRecommendedDecision)
-        }
+        ) = apply { body.walletRecommendedDecision(walletRecommendedDecision) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -368,9 +339,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -418,9 +387,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -470,9 +437,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -758,9 +723,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun cvv(cvv: JsonField<String>) = apply {
-                this.cvv = cvv
-            }
+            fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
 
             /** The expiration date of the card in 'MM/YY' format. */
             fun expirationDate(expirationDate: String) =
@@ -787,9 +750,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun pan(pan: JsonField<String>) = apply {
-                this.pan = pan
-            }
+            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             /** The source of the tokenization request. */
             fun tokenizationSource(tokenizationSource: TokenizationSource) =
@@ -836,9 +797,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun deviceScore(deviceScore: JsonField<Long>) = apply {
-                this.deviceScore = deviceScore
-            }
+            fun deviceScore(deviceScore: JsonField<Long>) = apply { this.deviceScore = deviceScore }
 
             /**
              * Optional field to specify the token requestor name for a merchant token simulation.
@@ -853,9 +812,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun entity(entity: JsonField<String>) = apply {
-                this.entity = entity
-            }
+            fun entity(entity: JsonField<String>) = apply { this.entity = entity }
 
             /** The decision that the Digital Wallet's recommend */
             fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
@@ -870,9 +827,7 @@ private constructor(
              */
             fun walletRecommendedDecision(
                 walletRecommendedDecision: JsonField<WalletRecommendedDecision>
-            ) = apply {
-                this.walletRecommendedDecision = walletRecommendedDecision
-            }
+            ) = apply { this.walletRecommendedDecision = walletRecommendedDecision }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -887,9 +842,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -912,22 +865,10 @@ private constructor(
              */
             fun build(): Body =
                 Body(
-                    checkRequired(
-                        "cvv",
-                        cvv,
-                    ),
-                    checkRequired(
-                        "expirationDate",
-                        expirationDate,
-                    ),
-                    checkRequired(
-                        "pan",
-                        pan,
-                    ),
-                    checkRequired(
-                        "tokenizationSource",
-                        tokenizationSource,
-                    ),
+                    checkRequired("cvv", cvv),
+                    checkRequired("expirationDate", expirationDate),
+                    checkRequired("pan", pan),
+                    checkRequired("tokenizationSource", tokenizationSource),
                     accountScore,
                     deviceScore,
                     entity,
@@ -1065,11 +1006,9 @@ private constructor(
          * An enum containing [TokenizationSource]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [TokenizationSource] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1219,11 +1158,9 @@ private constructor(
          *
          * An instance of [WalletRecommendedDecision] can contain an unknown value in a couple of
          * cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

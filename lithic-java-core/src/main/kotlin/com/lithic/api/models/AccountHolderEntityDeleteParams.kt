@@ -79,9 +79,7 @@ private constructor(
             this.accountHolderToken = accountHolderToken
         }
 
-        fun entityToken(entityToken: String?) = apply {
-            this.entityToken = entityToken
-        }
+        fun entityToken(entityToken: String?) = apply { this.entityToken = entityToken }
 
         /** Alias for calling [Builder.entityToken] with `entityToken.orElse(null)`. */
         fun entityToken(entityToken: Optional<String>) = entityToken(entityToken.getOrNull())
@@ -128,9 +126,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -180,9 +176,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -224,10 +218,7 @@ private constructor(
          */
         fun build(): AccountHolderEntityDeleteParams =
             AccountHolderEntityDeleteParams(
-                checkRequired(
-                    "accountHolderToken",
-                    accountHolderToken,
-                ),
+                checkRequired("accountHolderToken", accountHolderToken),
                 entityToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

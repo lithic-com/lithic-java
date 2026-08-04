@@ -33,10 +33,7 @@ interface ExternalPaymentService {
 
     /** Create external payment */
     fun create(params: ExternalPaymentCreateParams): ExternalPayment =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -46,10 +43,7 @@ interface ExternalPaymentService {
 
     /** Get external payment */
     fun retrieve(externalPaymentToken: String): ExternalPayment =
-        retrieve(
-            externalPaymentToken,
-            ExternalPaymentRetrieveParams.none(),
-        )
+        retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -66,12 +60,7 @@ interface ExternalPaymentService {
     fun retrieve(
         externalPaymentToken: String,
         params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
-    ): ExternalPayment =
-        retrieve(
-            externalPaymentToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): ExternalPayment = retrieve(externalPaymentToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -81,18 +70,11 @@ interface ExternalPaymentService {
 
     /** @see retrieve */
     fun retrieve(params: ExternalPaymentRetrieveParams): ExternalPayment =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(externalPaymentToken: String, requestOptions: RequestOptions): ExternalPayment =
-        retrieve(
-            externalPaymentToken,
-            ExternalPaymentRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none(), requestOptions)
 
     /** List external payments */
     fun list(): ExternalPaymentListPage = list(ExternalPaymentListParams.none())
@@ -106,26 +88,15 @@ interface ExternalPaymentService {
     /** @see list */
     fun list(
         params: ExternalPaymentListParams = ExternalPaymentListParams.none()
-    ): ExternalPaymentListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): ExternalPaymentListPage = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): ExternalPaymentListPage =
-        list(
-            ExternalPaymentListParams.none(),
-            requestOptions,
-        )
+        list(ExternalPaymentListParams.none(), requestOptions)
 
     /** Cancel external payment */
     fun cancel(externalPaymentToken: String, params: ExternalPaymentCancelParams): ExternalPayment =
-        cancel(
-            externalPaymentToken,
-            params,
-            RequestOptions.none(),
-        )
+        cancel(externalPaymentToken, params, RequestOptions.none())
 
     /** @see cancel */
     fun cancel(
@@ -140,10 +111,7 @@ interface ExternalPaymentService {
 
     /** @see cancel */
     fun cancel(params: ExternalPaymentCancelParams): ExternalPayment =
-        cancel(
-            params,
-            RequestOptions.none(),
-        )
+        cancel(params, RequestOptions.none())
 
     /** @see cancel */
     fun cancel(
@@ -155,12 +123,7 @@ interface ExternalPaymentService {
     fun release(
         externalPaymentToken: String,
         params: ExternalPaymentReleaseParams,
-    ): ExternalPayment =
-        release(
-            externalPaymentToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): ExternalPayment = release(externalPaymentToken, params, RequestOptions.none())
 
     /** @see release */
     fun release(
@@ -175,10 +138,7 @@ interface ExternalPaymentService {
 
     /** @see release */
     fun release(params: ExternalPaymentReleaseParams): ExternalPayment =
-        release(
-            params,
-            RequestOptions.none(),
-        )
+        release(params, RequestOptions.none())
 
     /** @see release */
     fun release(
@@ -190,12 +150,7 @@ interface ExternalPaymentService {
     fun reverse(
         externalPaymentToken: String,
         params: ExternalPaymentReverseParams,
-    ): ExternalPayment =
-        reverse(
-            externalPaymentToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): ExternalPayment = reverse(externalPaymentToken, params, RequestOptions.none())
 
     /** @see reverse */
     fun reverse(
@@ -210,10 +165,7 @@ interface ExternalPaymentService {
 
     /** @see reverse */
     fun reverse(params: ExternalPaymentReverseParams): ExternalPayment =
-        reverse(
-            params,
-            RequestOptions.none(),
-        )
+        reverse(params, RequestOptions.none())
 
     /** @see reverse */
     fun reverse(
@@ -223,11 +175,7 @@ interface ExternalPaymentService {
 
     /** Settle external payment */
     fun settle(externalPaymentToken: String, params: ExternalPaymentSettleParams): ExternalPayment =
-        settle(
-            externalPaymentToken,
-            params,
-            RequestOptions.none(),
-        )
+        settle(externalPaymentToken, params, RequestOptions.none())
 
     /** @see settle */
     fun settle(
@@ -242,10 +190,7 @@ interface ExternalPaymentService {
 
     /** @see settle */
     fun settle(params: ExternalPaymentSettleParams): ExternalPayment =
-        settle(
-            params,
-            RequestOptions.none(),
-        )
+        settle(params, RequestOptions.none())
 
     /** @see settle */
     fun settle(
@@ -274,10 +219,7 @@ interface ExternalPaymentService {
          */
         @MustBeClosed
         fun create(params: ExternalPaymentCreateParams): HttpResponseFor<ExternalPayment> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
@@ -292,10 +234,7 @@ interface ExternalPaymentService {
          */
         @MustBeClosed
         fun retrieve(externalPaymentToken: String): HttpResponseFor<ExternalPayment> =
-            retrieve(
-                externalPaymentToken,
-                ExternalPaymentRetrieveParams.none(),
-            )
+            retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -315,11 +254,7 @@ interface ExternalPaymentService {
             externalPaymentToken: String,
             params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
         ): HttpResponseFor<ExternalPayment> =
-            retrieve(
-                externalPaymentToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(externalPaymentToken, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -331,10 +266,7 @@ interface ExternalPaymentService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: ExternalPaymentRetrieveParams): HttpResponseFor<ExternalPayment> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -342,11 +274,7 @@ interface ExternalPaymentService {
             externalPaymentToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ExternalPayment> =
-            retrieve(
-                externalPaymentToken,
-                ExternalPaymentRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/external_payments`, but is otherwise the same as
@@ -367,19 +295,12 @@ interface ExternalPaymentService {
         @MustBeClosed
         fun list(
             params: ExternalPaymentListParams = ExternalPaymentListParams.none()
-        ): HttpResponseFor<ExternalPaymentListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<ExternalPaymentListPage> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ExternalPaymentListPage> =
-            list(
-                ExternalPaymentListParams.none(),
-                requestOptions,
-            )
+            list(ExternalPaymentListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post
@@ -391,11 +312,7 @@ interface ExternalPaymentService {
             externalPaymentToken: String,
             params: ExternalPaymentCancelParams,
         ): HttpResponseFor<ExternalPayment> =
-            cancel(
-                externalPaymentToken,
-                params,
-                RequestOptions.none(),
-            )
+            cancel(externalPaymentToken, params, RequestOptions.none())
 
         /** @see cancel */
         @MustBeClosed
@@ -412,10 +329,7 @@ interface ExternalPaymentService {
         /** @see cancel */
         @MustBeClosed
         fun cancel(params: ExternalPaymentCancelParams): HttpResponseFor<ExternalPayment> =
-            cancel(
-                params,
-                RequestOptions.none(),
-            )
+            cancel(params, RequestOptions.none())
 
         /** @see cancel */
         @MustBeClosed
@@ -434,11 +348,7 @@ interface ExternalPaymentService {
             externalPaymentToken: String,
             params: ExternalPaymentReleaseParams,
         ): HttpResponseFor<ExternalPayment> =
-            release(
-                externalPaymentToken,
-                params,
-                RequestOptions.none(),
-            )
+            release(externalPaymentToken, params, RequestOptions.none())
 
         /** @see release */
         @MustBeClosed
@@ -455,10 +365,7 @@ interface ExternalPaymentService {
         /** @see release */
         @MustBeClosed
         fun release(params: ExternalPaymentReleaseParams): HttpResponseFor<ExternalPayment> =
-            release(
-                params,
-                RequestOptions.none(),
-            )
+            release(params, RequestOptions.none())
 
         /** @see release */
         @MustBeClosed
@@ -477,11 +384,7 @@ interface ExternalPaymentService {
             externalPaymentToken: String,
             params: ExternalPaymentReverseParams,
         ): HttpResponseFor<ExternalPayment> =
-            reverse(
-                externalPaymentToken,
-                params,
-                RequestOptions.none(),
-            )
+            reverse(externalPaymentToken, params, RequestOptions.none())
 
         /** @see reverse */
         @MustBeClosed
@@ -498,10 +401,7 @@ interface ExternalPaymentService {
         /** @see reverse */
         @MustBeClosed
         fun reverse(params: ExternalPaymentReverseParams): HttpResponseFor<ExternalPayment> =
-            reverse(
-                params,
-                RequestOptions.none(),
-            )
+            reverse(params, RequestOptions.none())
 
         /** @see reverse */
         @MustBeClosed
@@ -520,11 +420,7 @@ interface ExternalPaymentService {
             externalPaymentToken: String,
             params: ExternalPaymentSettleParams,
         ): HttpResponseFor<ExternalPayment> =
-            settle(
-                externalPaymentToken,
-                params,
-                RequestOptions.none(),
-            )
+            settle(externalPaymentToken, params, RequestOptions.none())
 
         /** @see settle */
         @MustBeClosed
@@ -541,10 +437,7 @@ interface ExternalPaymentService {
         /** @see settle */
         @MustBeClosed
         fun settle(params: ExternalPaymentSettleParams): HttpResponseFor<ExternalPayment> =
-            settle(
-                params,
-                RequestOptions.none(),
-            )
+            settle(params, RequestOptions.none())
 
         /** @see settle */
         @MustBeClosed

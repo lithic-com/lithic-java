@@ -158,17 +158,13 @@ private constructor(
          * - [memo]
          * - etc.
          */
-        fun body(body: Body) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /**
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
          * should always be a positive value.
          */
-        fun amount(amount: Long) = apply {
-            body.amount(amount)
-        }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
          * Sets [Builder.amount] to an arbitrary JSON value.
@@ -176,17 +172,13 @@ private constructor(
          * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun amount(amount: JsonField<Long>) = apply {
-            body.amount(amount)
-        }
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
          */
-        fun from(from: String) = apply {
-            body.from(from)
-        }
+        fun from(from: String) = apply { body.from(from) }
 
         /**
          * Sets [Builder.from] to an arbitrary JSON value.
@@ -194,17 +186,13 @@ private constructor(
          * You should usually call [Builder.from] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun from(from: JsonField<String>) = apply {
-            body.from(from)
-        }
+        fun from(from: JsonField<String>) = apply { body.from(from) }
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
          */
-        fun to(to: String) = apply {
-            body.to(to)
-        }
+        fun to(to: String) = apply { body.to(to) }
 
         /**
          * Sets [Builder.to] to an arbitrary JSON value.
@@ -212,17 +200,13 @@ private constructor(
          * You should usually call [Builder.to] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun to(to: JsonField<String>) = apply {
-            body.to(to)
-        }
+        fun to(to: JsonField<String>) = apply { body.to(to) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: String) = apply {
-            body.token(token)
-        }
+        fun token(token: String) = apply { body.token(token) }
 
         /**
          * Sets [Builder.token] to an arbitrary JSON value.
@@ -230,14 +214,10 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            body.token(token)
-        }
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** Optional descriptor for the transfer. */
-        fun memo(memo: String) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /**
          * Sets [Builder.memo] to an arbitrary JSON value.
@@ -245,19 +225,14 @@ private constructor(
          * You should usually call [Builder.memo] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun memo(memo: JsonField<String>) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -265,9 +240,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -315,9 +288,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -367,9 +338,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -421,14 +390,7 @@ private constructor(
             @JsonProperty("to") @ExcludeMissing to: JsonField<String> = JsonMissing.of(),
             @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
             @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            amount,
-            from,
-            to,
-            token,
-            memo,
-            mutableMapOf(),
-        )
+        ) : this(amount, from, to, token, memo, mutableMapOf())
 
         /**
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
@@ -569,9 +531,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /**
              * Globally unique identifier for the financial account or card that will send the
@@ -586,9 +546,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun from(from: JsonField<String>) = apply {
-                this.from = from
-            }
+            fun from(from: JsonField<String>) = apply { this.from = from }
 
             /**
              * Globally unique identifier for the financial account or card that will receive the
@@ -603,9 +561,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun to(to: JsonField<String>) = apply {
-                this.to = to
-            }
+            fun to(to: JsonField<String>) = apply { this.to = to }
 
             /**
              * Customer-provided token that will serve as an idempotency token. This token will
@@ -620,9 +576,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Optional descriptor for the transfer. */
             fun memo(memo: String) = memo(JsonField.of(memo))
@@ -634,9 +588,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun memo(memo: JsonField<String>) = apply {
-                this.memo = memo
-            }
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -651,9 +603,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -675,18 +625,9 @@ private constructor(
              */
             fun build(): Body =
                 Body(
-                    checkRequired(
-                        "amount",
-                        amount,
-                    ),
-                    checkRequired(
-                        "from",
-                        from,
-                    ),
-                    checkRequired(
-                        "to",
-                        to,
-                    ),
+                    checkRequired("amount", amount),
+                    checkRequired("from", from),
+                    checkRequired("to", to),
                     token,
                     memo,
                     additionalProperties.toMutableMap(),

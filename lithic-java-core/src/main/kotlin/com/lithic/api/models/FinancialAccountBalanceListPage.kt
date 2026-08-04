@@ -83,14 +83,10 @@ private constructor(
                 response = financialAccountBalanceListPage.response
             }
 
-        fun service(service: BalanceService) = apply {
-            this.service = service
-        }
+        fun service(service: BalanceService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: FinancialAccountBalanceListParams) = apply {
-            this.params = params
-        }
+        fun params(params: FinancialAccountBalanceListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: FinancialAccountBalanceListPageResponse) = apply {
@@ -113,18 +109,9 @@ private constructor(
          */
         fun build(): FinancialAccountBalanceListPage =
             FinancialAccountBalanceListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

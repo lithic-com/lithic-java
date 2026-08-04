@@ -221,13 +221,9 @@ private constructor(
          * - [methodAttributes]
          * - etc.
          */
-        fun body(body: CreatePaymentRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: CreatePaymentRequest) = apply { this.body = body.toBuilder() }
 
-        fun amount(amount: Long) = apply {
-            body.amount(amount)
-        }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
          * Sets [Builder.amount] to an arbitrary JSON value.
@@ -235,9 +231,7 @@ private constructor(
          * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun amount(amount: JsonField<Long>) = apply {
-            body.amount(amount)
-        }
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
             body.externalBankAccountToken(externalBankAccountToken)
@@ -269,9 +263,7 @@ private constructor(
             body.financialAccountToken(financialAccountToken)
         }
 
-        fun method(method: Method) = apply {
-            body.method(method)
-        }
+        fun method(method: Method) = apply { body.method(method) }
 
         /**
          * Sets [Builder.method] to an arbitrary JSON value.
@@ -279,9 +271,7 @@ private constructor(
          * You should usually call [Builder.method] with a well-typed [Method] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun method(method: JsonField<Method>) = apply {
-            body.method(method)
-        }
+        fun method(method: JsonField<Method>) = apply { body.method(method) }
 
         fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
             body.methodAttributes(methodAttributes)
@@ -298,9 +288,7 @@ private constructor(
             body.methodAttributes(methodAttributes)
         }
 
-        fun type(type: Type) = apply {
-            body.type(type)
-        }
+        fun type(type: Type) = apply { body.type(type) }
 
         /**
          * Sets [Builder.type] to an arbitrary JSON value.
@@ -308,17 +296,13 @@ private constructor(
          * You should usually call [Builder.type] with a well-typed [Type] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun type(type: JsonField<Type>) = apply {
-            body.type(type)
-        }
+        fun type(type: JsonField<Type>) = apply { body.type(type) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: String) = apply {
-            body.token(token)
-        }
+        fun token(token: String) = apply { body.token(token) }
 
         /**
          * Sets [Builder.token] to an arbitrary JSON value.
@@ -326,14 +310,10 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            body.token(token)
-        }
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** Optional hold to settle when this payment is initiated. */
-        fun hold(hold: Hold) = apply {
-            body.hold(hold)
-        }
+        fun hold(hold: Hold) = apply { body.hold(hold) }
 
         /**
          * Sets [Builder.hold] to an arbitrary JSON value.
@@ -341,13 +321,9 @@ private constructor(
          * You should usually call [Builder.hold] with a well-typed [Hold] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun hold(hold: JsonField<Hold>) = apply {
-            body.hold(hold)
-        }
+        fun hold(hold: JsonField<Hold>) = apply { body.hold(hold) }
 
-        fun memo(memo: String) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /**
          * Sets [Builder.memo] to an arbitrary JSON value.
@@ -355,13 +331,9 @@ private constructor(
          * You should usually call [Builder.memo] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun memo(memo: JsonField<String>) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
-        fun userDefinedId(userDefinedId: String) = apply {
-            body.userDefinedId(userDefinedId)
-        }
+        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
 
         /**
          * Sets [Builder.userDefinedId] to an arbitrary JSON value.
@@ -379,10 +351,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -390,9 +359,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -440,9 +407,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -492,9 +457,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -800,9 +763,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun externalBankAccountToken(externalBankAccountToken: String) =
                 externalBankAccountToken(JsonField.of(externalBankAccountToken))
@@ -841,9 +802,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun method(method: JsonField<Method>) = apply {
-                this.method = method
-            }
+            fun method(method: JsonField<Method>) = apply { this.method = method }
 
             fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) =
                 methodAttributes(JsonField.of(methodAttributes))
@@ -869,9 +828,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply {
-                this.type = type
-            }
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /**
              * Customer-provided token that will serve as an idempotency token. This token will
@@ -886,9 +843,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Optional hold to settle when this payment is initiated. */
             fun hold(hold: Hold) = hold(JsonField.of(hold))
@@ -900,9 +855,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun hold(hold: JsonField<Hold>) = apply {
-                this.hold = hold
-            }
+            fun hold(hold: JsonField<Hold>) = apply { this.hold = hold }
 
             fun memo(memo: String) = memo(JsonField.of(memo))
 
@@ -913,9 +866,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun memo(memo: JsonField<String>) = apply {
-                this.memo = memo
-            }
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
@@ -943,9 +894,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -970,30 +919,12 @@ private constructor(
              */
             fun build(): CreatePaymentRequest =
                 CreatePaymentRequest(
-                    checkRequired(
-                        "amount",
-                        amount,
-                    ),
-                    checkRequired(
-                        "externalBankAccountToken",
-                        externalBankAccountToken,
-                    ),
-                    checkRequired(
-                        "financialAccountToken",
-                        financialAccountToken,
-                    ),
-                    checkRequired(
-                        "method",
-                        method,
-                    ),
-                    checkRequired(
-                        "methodAttributes",
-                        methodAttributes,
-                    ),
-                    checkRequired(
-                        "type",
-                        type,
-                    ),
+                    checkRequired("amount", amount),
+                    checkRequired("externalBankAccountToken", externalBankAccountToken),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("method", method),
+                    checkRequired("methodAttributes", methodAttributes),
+                    checkRequired("type", type),
                     token,
                     hold,
                     memo,
@@ -1130,11 +1061,9 @@ private constructor(
          * An enum containing [Method]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Method] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1257,13 +1186,7 @@ private constructor(
             @JsonProperty("override_company_name")
             @ExcludeMissing
             overrideCompanyName: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            secCode,
-            achHoldPeriod,
-            addenda,
-            overrideCompanyName,
-            mutableMapOf(),
-        )
+        ) : this(secCode, achHoldPeriod, addenda, overrideCompanyName, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1384,9 +1307,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun secCode(secCode: JsonField<SecCode>) = apply {
-                this.secCode = secCode
-            }
+            fun secCode(secCode: JsonField<SecCode>) = apply { this.secCode = secCode }
 
             /** Number of days to hold the ACH payment */
             fun achHoldPeriod(achHoldPeriod: Long) = achHoldPeriod(JsonField.of(achHoldPeriod))
@@ -1414,9 +1335,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun addenda(addenda: JsonField<String>) = apply {
-                this.addenda = addenda
-            }
+            fun addenda(addenda: JsonField<String>) = apply { this.addenda = addenda }
 
             /**
              * Value to override the configured company name with. Can only be used if allowed to
@@ -1456,9 +1375,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1478,10 +1395,7 @@ private constructor(
              */
             fun build(): PaymentMethodRequestAttributes =
                 PaymentMethodRequestAttributes(
-                    checkRequired(
-                        "secCode",
-                        secCode,
-                    ),
+                    checkRequired("secCode", secCode),
                     achHoldPeriod,
                     addenda,
                     overrideCompanyName,
@@ -1568,11 +1482,9 @@ private constructor(
              * An enum containing [SecCode]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [SecCode] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1735,11 +1647,9 @@ private constructor(
          * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Type] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1851,10 +1761,7 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of()
-        ) : this(
-            token,
-            mutableMapOf(),
-        )
+        ) : this(token, mutableMapOf())
 
         /**
          * Token of the hold to settle when this payment is initiated.
@@ -1918,9 +1825,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1935,9 +1840,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1956,13 +1859,7 @@ private constructor(
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Hold =
-                Hold(
-                    checkRequired(
-                        "token",
-                        token,
-                    ),
-                    additionalProperties.toMutableMap(),
-                )
+                Hold(checkRequired("token", token), additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false

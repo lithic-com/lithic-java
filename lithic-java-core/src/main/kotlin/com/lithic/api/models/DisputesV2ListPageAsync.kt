@@ -49,11 +49,7 @@ private constructor(
     override fun nextPage(): CompletableFuture<DisputesV2ListPageAsync> =
         service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<DisputeV2> =
-        AutoPagerAsync.from(
-            this,
-            streamHandlerExecutor,
-        )
+    fun autoPager(): AutoPagerAsync<DisputeV2> = AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): DisputesV2ListParams = params
@@ -95,23 +91,17 @@ private constructor(
             response = disputesV2ListPageAsync.response
         }
 
-        fun service(service: DisputesV2ServiceAsync) = apply {
-            this.service = service
-        }
+        fun service(service: DisputesV2ServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: DisputesV2ListParams) = apply {
-            this.params = params
-        }
+        fun params(params: DisputesV2ListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DisputesV2ListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: DisputesV2ListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [DisputesV2ListPageAsync].
@@ -130,22 +120,10 @@ private constructor(
          */
         fun build(): DisputesV2ListPageAsync =
             DisputesV2ListPageAsync(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "streamHandlerExecutor",
-                    streamHandlerExecutor,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

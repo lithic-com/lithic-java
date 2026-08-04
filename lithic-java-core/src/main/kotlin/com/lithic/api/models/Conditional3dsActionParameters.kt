@@ -36,11 +36,7 @@ private constructor(
         @JsonProperty("conditions")
         @ExcludeMissing
         conditions: JsonField<List<Condition>> = JsonMissing.of(),
-    ) : this(
-        action,
-        conditions,
-        mutableMapOf(),
-    )
+    ) : this(action, conditions, mutableMapOf())
 
     /**
      * The action to take if the conditions are met.
@@ -126,9 +122,7 @@ private constructor(
          * value instead. This method is primarily for setting the field to an undocumented or not
          * yet supported value.
          */
-        fun action(action: JsonField<Authentication3dsAction>) = apply {
-            this.action = action
-        }
+        fun action(action: JsonField<Authentication3dsAction>) = apply { this.action = action }
 
         fun conditions(conditions: List<Condition>) = conditions(JsonField.of(conditions))
 
@@ -168,9 +162,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -191,15 +183,8 @@ private constructor(
          */
         fun build(): Conditional3dsActionParameters =
             Conditional3dsActionParameters(
-                checkRequired(
-                    "action",
-                    action,
-                ),
-                checkRequired(
-                        "conditions",
-                        conditions,
-                    )
-                    .map { it.toImmutable() },
+                checkRequired("action", action),
+                checkRequired("conditions", conditions).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -278,11 +263,9 @@ private constructor(
          *
          * An instance of [Authentication3dsAction] can contain an unknown value in a couple of
          * cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -406,12 +389,7 @@ private constructor(
             @JsonProperty("value")
             @ExcludeMissing
             value: JsonField<ConditionalValue> = JsonMissing.of(),
-        ) : this(
-            attribute,
-            operation,
-            value,
-            mutableMapOf(),
-        )
+        ) : this(attribute, operation, value, mutableMapOf())
 
         /**
          * The attribute to target.
@@ -560,9 +538,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun attribute(attribute: JsonField<Attribute>) = apply {
-                this.attribute = attribute
-            }
+            fun attribute(attribute: JsonField<Attribute>) = apply { this.attribute = attribute }
 
             /** The operation to apply to the attribute */
             fun operation(operation: ConditionalOperation) = operation(JsonField.of(operation))
@@ -588,9 +564,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun value(value: JsonField<ConditionalValue>) = apply {
-                this.value = value
-            }
+            fun value(value: JsonField<ConditionalValue>) = apply { this.value = value }
 
             /** Alias for calling [value] with `ConditionalValue.ofRegex(regex)`. */
             fun value(regex: String) = value(ConditionalValue.ofRegex(regex))
@@ -621,9 +595,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -645,18 +617,9 @@ private constructor(
              */
             fun build(): Condition =
                 Condition(
-                    checkRequired(
-                        "attribute",
-                        attribute,
-                    ),
-                    checkRequired(
-                        "operation",
-                        operation,
-                    ),
-                    checkRequired(
-                        "value",
-                        value,
-                    ),
+                    checkRequired("attribute", attribute),
+                    checkRequired("operation", operation),
+                    checkRequired("value", value),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -779,11 +742,9 @@ private constructor(
              * An enum containing [Attribute]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Attribute] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {

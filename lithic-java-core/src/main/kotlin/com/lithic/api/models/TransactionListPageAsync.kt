@@ -49,11 +49,7 @@ private constructor(
     override fun nextPage(): CompletableFuture<TransactionListPageAsync> =
         service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<Transaction> =
-        AutoPagerAsync.from(
-            this,
-            streamHandlerExecutor,
-        )
+    fun autoPager(): AutoPagerAsync<Transaction> = AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): TransactionListParams = params
@@ -95,23 +91,17 @@ private constructor(
             response = transactionListPageAsync.response
         }
 
-        fun service(service: TransactionServiceAsync) = apply {
-            this.service = service
-        }
+        fun service(service: TransactionServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: TransactionListParams) = apply {
-            this.params = params
-        }
+        fun params(params: TransactionListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: TransactionListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: TransactionListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [TransactionListPageAsync].
@@ -130,22 +120,10 @@ private constructor(
          */
         fun build(): TransactionListPageAsync =
             TransactionListPageAsync(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "streamHandlerExecutor",
-                    streamHandlerExecutor,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

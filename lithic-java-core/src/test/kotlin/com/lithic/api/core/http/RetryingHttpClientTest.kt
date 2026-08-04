@@ -218,10 +218,7 @@ internal class RetryingHttpClientTest {
                 .withHeader("x-stainless-retry-count", equalTo("2")),
         )
         assertThat(sleeper.durations)
-            .containsExactly(
-                Duration.ofSeconds(5),
-                Duration.ofMillis(1234),
-            )
+            .containsExactly(Duration.ofSeconds(5), Duration.ofMillis(1234))
         assertNoResponseLeaks()
     }
 

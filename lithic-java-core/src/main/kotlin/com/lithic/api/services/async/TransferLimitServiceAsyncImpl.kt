@@ -65,24 +65,14 @@ class TransferLimitServiceAsyncImpl internal constructor(private val clientOptio
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "transfer_limits")
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use {
-                                listHandler.handle(it)
-                            }
+                            .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

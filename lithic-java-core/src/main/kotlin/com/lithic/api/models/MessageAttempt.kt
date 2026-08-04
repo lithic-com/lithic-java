@@ -257,9 +257,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -275,9 +273,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Globally unique identifier. */
         fun eventSubscriptionToken(eventSubscriptionToken: String) =
@@ -304,9 +300,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventToken(eventToken: JsonField<String>) = apply {
-            this.eventToken = eventToken
-        }
+        fun eventToken(eventToken: JsonField<String>) = apply { this.eventToken = eventToken }
 
         /** The response body from the event subscription's URL. */
         fun response(response: String) = response(JsonField.of(response))
@@ -317,9 +311,7 @@ private constructor(
          * You should usually call [Builder.response] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun response(response: JsonField<String>) = apply {
-            this.response = response
-        }
+        fun response(response: JsonField<String>) = apply { this.response = response }
 
         /** The response status code from the event subscription's URL. */
         fun responseStatusCode(responseStatusCode: Long) =
@@ -345,9 +337,7 @@ private constructor(
          * You should usually call [Builder.status] with a well-typed [Status] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun status(status: JsonField<Status>) = apply {
-            this.status = status
-        }
+        fun status(status: JsonField<Status>) = apply { this.status = status }
 
         fun url(url: String) = url(JsonField.of(url))
 
@@ -357,9 +347,7 @@ private constructor(
          * You should usually call [Builder.url] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun url(url: JsonField<String>) = apply {
-            this.url = url
-        }
+        fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -374,9 +362,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -403,38 +389,14 @@ private constructor(
          */
         fun build(): MessageAttempt =
             MessageAttempt(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "eventSubscriptionToken",
-                    eventSubscriptionToken,
-                ),
-                checkRequired(
-                    "eventToken",
-                    eventToken,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
-                checkRequired(
-                    "responseStatusCode",
-                    responseStatusCode,
-                ),
-                checkRequired(
-                    "status",
-                    status,
-                ),
-                checkRequired(
-                    "url",
-                    url,
-                ),
+                checkRequired("token", token),
+                checkRequired("created", created),
+                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
+                checkRequired("eventToken", eventToken),
+                checkRequired("response", response),
+                checkRequired("responseStatusCode", responseStatusCode),
+                checkRequired("status", status),
+                checkRequired("url", url),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -527,11 +489,9 @@ private constructor(
          * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Status] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

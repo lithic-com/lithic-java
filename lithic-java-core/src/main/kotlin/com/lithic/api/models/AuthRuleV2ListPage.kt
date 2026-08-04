@@ -84,19 +84,13 @@ private constructor(
             response = authRuleV2ListPage.response
         }
 
-        fun service(service: V2Service) = apply {
-            this.service = service
-        }
+        fun service(service: V2Service) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: AuthRuleV2ListParams) = apply {
-            this.params = params
-        }
+        fun params(params: AuthRuleV2ListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: AuthRuleV2ListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: AuthRuleV2ListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [AuthRuleV2ListPage].
@@ -114,18 +108,9 @@ private constructor(
          */
         fun build(): AuthRuleV2ListPage =
             AuthRuleV2ListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

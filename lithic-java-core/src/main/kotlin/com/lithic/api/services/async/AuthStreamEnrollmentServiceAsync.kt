@@ -47,18 +47,11 @@ interface AuthStreamEnrollmentServiceAsync {
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams =
             AuthStreamEnrollmentRetrieveSecretParams.none()
-    ): CompletableFuture<AuthStreamSecret> =
-        retrieveSecret(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<AuthStreamSecret> = retrieveSecret(params, RequestOptions.none())
 
     /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): CompletableFuture<AuthStreamSecret> =
-        retrieveSecret(
-            AuthStreamEnrollmentRetrieveSecretParams.none(),
-            requestOptions,
-        )
+        retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
 
     /**
      * Generate a new ASA HMAC secret key. The old ASA HMAC secret key will be deactivated 24 hours
@@ -80,18 +73,11 @@ interface AuthStreamEnrollmentServiceAsync {
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams.none()
-    ): CompletableFuture<Void?> =
-        rotateSecret(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = rotateSecret(params, RequestOptions.none())
 
     /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<Void?> =
-        rotateSecret(
-            AuthStreamEnrollmentRotateSecretParams.none(),
-            requestOptions,
-        )
+        rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
 
     /**
      * A view of [AuthStreamEnrollmentServiceAsync] that provides access to raw HTTP responses for
@@ -127,19 +113,13 @@ interface AuthStreamEnrollmentServiceAsync {
             params: AuthStreamEnrollmentRetrieveSecretParams =
                 AuthStreamEnrollmentRetrieveSecretParams.none()
         ): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
-            retrieveSecret(
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSecret(params, RequestOptions.none())
 
         /** @see retrieveSecret */
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AuthStreamSecret>> =
-            retrieveSecret(
-                AuthStreamEnrollmentRetrieveSecretParams.none(),
-                requestOptions,
-            )
+            retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/auth_stream/secret/rotate`, but is otherwise
@@ -159,17 +139,10 @@ interface AuthStreamEnrollmentServiceAsync {
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
                 AuthStreamEnrollmentRotateSecretParams.none()
-        ): CompletableFuture<HttpResponse> =
-            rotateSecret(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = rotateSecret(params, RequestOptions.none())
 
         /** @see rotateSecret */
         fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
-            rotateSecret(
-                AuthStreamEnrollmentRotateSecretParams.none(),
-                requestOptions,
-            )
+            rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
     }
 }

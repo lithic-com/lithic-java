@@ -81,19 +81,13 @@ private constructor(
             response = networkProgramListPage.response
         }
 
-        fun service(service: NetworkProgramService) = apply {
-            this.service = service
-        }
+        fun service(service: NetworkProgramService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: NetworkProgramListParams) = apply {
-            this.params = params
-        }
+        fun params(params: NetworkProgramListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: NetworkProgramListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: NetworkProgramListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [NetworkProgramListPage].
@@ -111,18 +105,9 @@ private constructor(
          */
         fun build(): NetworkProgramListPage =
             NetworkProgramListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

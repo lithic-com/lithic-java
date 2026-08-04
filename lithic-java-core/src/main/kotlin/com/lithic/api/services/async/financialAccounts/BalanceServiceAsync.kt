@@ -28,10 +28,7 @@ interface BalanceServiceAsync {
     fun list(
         financialAccountToken: String
     ): CompletableFuture<FinancialAccountBalanceListPageAsync> =
-        list(
-            financialAccountToken,
-            FinancialAccountBalanceListParams.none(),
-        )
+        list(financialAccountToken, FinancialAccountBalanceListParams.none())
 
     /** @see list */
     fun list(
@@ -49,11 +46,7 @@ interface BalanceServiceAsync {
         financialAccountToken: String,
         params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
     ): CompletableFuture<FinancialAccountBalanceListPageAsync> =
-        list(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        list(financialAccountToken, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -64,22 +57,14 @@ interface BalanceServiceAsync {
     /** @see list */
     fun list(
         params: FinancialAccountBalanceListParams
-    ): CompletableFuture<FinancialAccountBalanceListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<FinancialAccountBalanceListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<FinancialAccountBalanceListPageAsync> =
-        list(
-            financialAccountToken,
-            FinancialAccountBalanceListParams.none(),
-            requestOptions,
-        )
+        list(financialAccountToken, FinancialAccountBalanceListParams.none(), requestOptions)
 
     /**
      * A view of [BalanceServiceAsync] that provides access to raw HTTP responses for each method.
@@ -103,10 +88,7 @@ interface BalanceServiceAsync {
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>> =
-            list(
-                financialAccountToken,
-                FinancialAccountBalanceListParams.none(),
-            )
+            list(financialAccountToken, FinancialAccountBalanceListParams.none())
 
         /** @see list */
         fun list(
@@ -124,11 +106,7 @@ interface BalanceServiceAsync {
             financialAccountToken: String,
             params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>> =
-            list(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -140,20 +118,13 @@ interface BalanceServiceAsync {
         fun list(
             params: FinancialAccountBalanceListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<FinancialAccountBalanceListPageAsync>> =
-            list(
-                financialAccountToken,
-                FinancialAccountBalanceListParams.none(),
-                requestOptions,
-            )
+            list(financialAccountToken, FinancialAccountBalanceListParams.none(), requestOptions)
     }
 }

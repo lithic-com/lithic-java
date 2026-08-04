@@ -108,13 +108,9 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [accountNumber]
          */
-        fun body(body: RegisterAccountNumberRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: RegisterAccountNumberRequest) = apply { this.body = body.toBuilder() }
 
-        fun accountNumber(accountNumber: String) = apply {
-            body.accountNumber(accountNumber)
-        }
+        fun accountNumber(accountNumber: String) = apply { body.accountNumber(accountNumber) }
 
         /**
          * Sets [Builder.accountNumber] to an arbitrary JSON value.
@@ -132,10 +128,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -143,9 +136,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -193,9 +184,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -245,9 +234,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -298,10 +285,7 @@ private constructor(
             @JsonProperty("account_number")
             @ExcludeMissing
             accountNumber: JsonField<String> = JsonMissing.of()
-        ) : this(
-            accountNumber,
-            mutableMapOf(),
-        )
+        ) : this(accountNumber, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -384,9 +368,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -406,10 +388,7 @@ private constructor(
              */
             fun build(): RegisterAccountNumberRequest =
                 RegisterAccountNumberRequest(
-                    checkRequired(
-                        "accountNumber",
-                        accountNumber,
-                    ),
+                    checkRequired("accountNumber", accountNumber),
                     additionalProperties.toMutableMap(),
                 )
         }

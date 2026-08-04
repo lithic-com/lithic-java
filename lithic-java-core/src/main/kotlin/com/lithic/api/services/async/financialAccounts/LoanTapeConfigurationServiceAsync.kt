@@ -26,10 +26,7 @@ interface LoanTapeConfigurationServiceAsync {
 
     /** Get the loan tape configuration for a given financial account. */
     fun retrieve(financialAccountToken: String): CompletableFuture<LoanTapeConfiguration> =
-        retrieve(
-            financialAccountToken,
-            FinancialAccountLoanTapeConfigurationRetrieveParams.none(),
-        )
+        retrieve(financialAccountToken, FinancialAccountLoanTapeConfigurationRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -49,11 +46,7 @@ interface LoanTapeConfigurationServiceAsync {
         params: FinancialAccountLoanTapeConfigurationRetrieveParams =
             FinancialAccountLoanTapeConfigurationRetrieveParams.none(),
     ): CompletableFuture<LoanTapeConfiguration> =
-        retrieve(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(financialAccountToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -64,11 +57,7 @@ interface LoanTapeConfigurationServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: FinancialAccountLoanTapeConfigurationRetrieveParams
-    ): CompletableFuture<LoanTapeConfiguration> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<LoanTapeConfiguration> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -127,11 +116,7 @@ interface LoanTapeConfigurationServiceAsync {
             params: FinancialAccountLoanTapeConfigurationRetrieveParams =
                 FinancialAccountLoanTapeConfigurationRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<LoanTapeConfiguration>> =
-            retrieve(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(financialAccountToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -143,10 +128,7 @@ interface LoanTapeConfigurationServiceAsync {
         fun retrieve(
             params: FinancialAccountLoanTapeConfigurationRetrieveParams
         ): CompletableFuture<HttpResponseFor<LoanTapeConfiguration>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(

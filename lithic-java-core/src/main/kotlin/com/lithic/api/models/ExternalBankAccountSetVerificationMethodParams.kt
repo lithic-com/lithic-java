@@ -136,16 +136,12 @@ private constructor(
          * - [verificationMethod]
          * - [financialAccountToken]
          */
-        fun body(body: SetVerificationMethodRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: SetVerificationMethodRequest) = apply { this.body = body.toBuilder() }
 
         /** The verification method to set for the external bank account */
         fun verificationMethod(
             verificationMethod: SetVerificationMethodAllowedVerificationMethods
-        ) = apply {
-            body.verificationMethod(verificationMethod)
-        }
+        ) = apply { body.verificationMethod(verificationMethod) }
 
         /**
          * Sets [Builder.verificationMethod] to an arbitrary JSON value.
@@ -156,9 +152,7 @@ private constructor(
          */
         fun verificationMethod(
             verificationMethod: JsonField<SetVerificationMethodAllowedVerificationMethods>
-        ) = apply {
-            body.verificationMethod(verificationMethod)
-        }
+        ) = apply { body.verificationMethod(verificationMethod) }
 
         /**
          * The financial account token of the operating account to fund the micro deposits. Required
@@ -184,10 +178,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -195,9 +186,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -245,9 +234,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -297,9 +284,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -355,11 +340,7 @@ private constructor(
             @JsonProperty("financial_account_token")
             @ExcludeMissing
             financialAccountToken: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            verificationMethod,
-            financialAccountToken,
-            mutableMapOf(),
-        )
+        ) : this(verificationMethod, financialAccountToken, mutableMapOf())
 
         /**
          * The verification method to set for the external bank account
@@ -458,9 +439,7 @@ private constructor(
              */
             fun verificationMethod(
                 verificationMethod: JsonField<SetVerificationMethodAllowedVerificationMethods>
-            ) = apply {
-                this.verificationMethod = verificationMethod
-            }
+            ) = apply { this.verificationMethod = verificationMethod }
 
             /**
              * The financial account token of the operating account to fund the micro deposits.
@@ -493,9 +472,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -515,10 +492,7 @@ private constructor(
              */
             fun build(): SetVerificationMethodRequest =
                 SetVerificationMethodRequest(
-                    checkRequired(
-                        "verificationMethod",
-                        verificationMethod,
-                    ),
+                    checkRequired("verificationMethod", verificationMethod),
                     financialAccountToken,
                     additionalProperties.toMutableMap(),
                 )
@@ -626,11 +600,9 @@ private constructor(
          *
          * An instance of [SetVerificationMethodAllowedVerificationMethods] can contain an unknown
          * value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

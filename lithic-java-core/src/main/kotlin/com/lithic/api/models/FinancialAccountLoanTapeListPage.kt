@@ -86,14 +86,10 @@ private constructor(
                 response = financialAccountLoanTapeListPage.response
             }
 
-        fun service(service: LoanTapeService) = apply {
-            this.service = service
-        }
+        fun service(service: LoanTapeService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: FinancialAccountLoanTapeListParams) = apply {
-            this.params = params
-        }
+        fun params(params: FinancialAccountLoanTapeListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: FinancialAccountLoanTapeListPageResponse) = apply {
@@ -116,18 +112,9 @@ private constructor(
          */
         fun build(): FinancialAccountLoanTapeListPage =
             FinancialAccountLoanTapeListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

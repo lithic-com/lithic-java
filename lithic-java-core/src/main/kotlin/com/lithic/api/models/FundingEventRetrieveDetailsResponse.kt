@@ -33,12 +33,7 @@ private constructor(
         @JsonProperty("settlement_summary_url")
         @ExcludeMissing
         settlementSummaryUrl: JsonField<String> = JsonMissing.of(),
-    ) : this(
-        token,
-        settlementDetailsUrl,
-        settlementSummaryUrl,
-        mutableMapOf(),
-    )
+    ) : this(token, settlementDetailsUrl, settlementSummaryUrl, mutableMapOf())
 
     /**
      * Unique token ID
@@ -147,9 +142,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** URL of the settlement details */
         fun settlementDetailsUrl(settlementDetailsUrl: String) =
@@ -194,9 +187,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -218,18 +209,9 @@ private constructor(
          */
         fun build(): FundingEventRetrieveDetailsResponse =
             FundingEventRetrieveDetailsResponse(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "settlementDetailsUrl",
-                    settlementDetailsUrl,
-                ),
-                checkRequired(
-                    "settlementSummaryUrl",
-                    settlementSummaryUrl,
-                ),
+                checkRequired("token", token),
+                checkRequired("settlementDetailsUrl", settlementDetailsUrl),
+                checkRequired("settlementSummaryUrl", settlementSummaryUrl),
                 additionalProperties.toMutableMap(),
             )
     }

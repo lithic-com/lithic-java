@@ -369,9 +369,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
          * 3-character alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
@@ -386,9 +384,7 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         @Deprecated("deprecated")
-        fun currency(currency: JsonField<String>) = apply {
-            this.currency = currency
-        }
+        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         fun details(details: List<SettlementSummaryDetails>) = details(JsonField.of(details))
 
@@ -467,9 +463,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun isComplete(isComplete: JsonField<Boolean>) = apply {
-            this.isComplete = isComplete
-        }
+        fun isComplete(isComplete: JsonField<Boolean>) = apply { this.isComplete = isComplete }
 
         /**
          * Total amount of gross other fees outside of interchange. (This field is deprecated and
@@ -502,9 +496,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun reportDate(reportDate: JsonField<String>) = apply {
-            this.reportDate = reportDate
-        }
+        fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
         /**
          * The total net amount of cash moved. (net value of settled_gross_amount, interchange,
@@ -560,9 +552,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply {
-            this.updated = updated
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -577,9 +567,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -609,51 +597,17 @@ private constructor(
          */
         fun build(): SettlementReport =
             SettlementReport(
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "currency",
-                    currency,
-                ),
-                checkRequired(
-                        "details",
-                        details,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "disputesGrossAmount",
-                    disputesGrossAmount,
-                ),
-                checkRequired(
-                    "interchangeGrossAmount",
-                    interchangeGrossAmount,
-                ),
-                checkRequired(
-                    "isComplete",
-                    isComplete,
-                ),
-                checkRequired(
-                    "otherFeesGrossAmount",
-                    otherFeesGrossAmount,
-                ),
-                checkRequired(
-                    "reportDate",
-                    reportDate,
-                ),
-                checkRequired(
-                    "settledNetAmount",
-                    settledNetAmount,
-                ),
-                checkRequired(
-                    "transactionsGrossAmount",
-                    transactionsGrossAmount,
-                ),
-                checkRequired(
-                    "updated",
-                    updated,
-                ),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("details", details).map { it.toImmutable() },
+                checkRequired("disputesGrossAmount", disputesGrossAmount),
+                checkRequired("interchangeGrossAmount", interchangeGrossAmount),
+                checkRequired("isComplete", isComplete),
+                checkRequired("otherFeesGrossAmount", otherFeesGrossAmount),
+                checkRequired("reportDate", reportDate),
+                checkRequired("settledNetAmount", settledNetAmount),
+                checkRequired("transactionsGrossAmount", transactionsGrossAmount),
+                checkRequired("updated", updated),
                 additionalProperties.toMutableMap(),
             )
     }

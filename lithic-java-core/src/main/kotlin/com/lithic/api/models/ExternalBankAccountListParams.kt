@@ -107,9 +107,7 @@ private constructor(
             additionalQueryParams = externalBankAccountListParams.additionalQueryParams.toBuilder()
         }
 
-        fun accountToken(accountToken: String?) = apply {
-            this.accountToken = accountToken
-        }
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
         /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
@@ -151,9 +149,7 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String?) = apply {
-            this.endingBefore = endingBefore
-        }
+        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
@@ -175,9 +171,7 @@ private constructor(
         }
 
         /** Page size (for pagination). */
-        fun pageSize(pageSize: Long?) = apply {
-            this.pageSize = pageSize
-        }
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
         /**
          * Alias for [Builder.pageSize].
@@ -193,17 +187,13 @@ private constructor(
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String?) = apply {
-            this.startingAfter = startingAfter
-        }
+        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
         /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
-        fun states(states: List<AccountState>?) = apply {
-            this.states = states?.toMutableList()
-        }
+        fun states(states: List<AccountState>?) = apply { this.states = states?.toMutableList() }
 
         /** Alias for calling [Builder.states] with `states.orElse(null)`. */
         fun states(states: Optional<List<AccountState>>) = states(states.getOrNull())
@@ -279,9 +269,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -331,9 +319,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -412,11 +398,9 @@ private constructor(
          * An enum containing [AccountType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [AccountType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -554,11 +538,9 @@ private constructor(
          * An enum containing [AccountState]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [AccountState] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -702,11 +684,9 @@ private constructor(
          * An enum containing [VerificationState]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [VerificationState] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

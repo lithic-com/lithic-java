@@ -90,14 +90,10 @@ private constructor(
                 response = eventSubscriptionListAttemptsPage.response
             }
 
-        fun service(service: SubscriptionService) = apply {
-            this.service = service
-        }
+        fun service(service: SubscriptionService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: EventSubscriptionListAttemptsParams) = apply {
-            this.params = params
-        }
+        fun params(params: EventSubscriptionListAttemptsParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: EventSubscriptionListAttemptsPageResponse) = apply {
@@ -120,18 +116,9 @@ private constructor(
          */
         fun build(): EventSubscriptionListAttemptsPage =
             EventSubscriptionListAttemptsPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

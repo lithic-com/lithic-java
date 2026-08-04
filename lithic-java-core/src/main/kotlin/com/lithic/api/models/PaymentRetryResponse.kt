@@ -676,9 +676,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Transaction category */
         fun category(category: Payment.TransactionCategory) = category(JsonField.of(category))
@@ -704,9 +702,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Transaction descriptor */
         fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
@@ -718,9 +714,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun descriptor(descriptor: JsonField<String>) = apply {
-            this.descriptor = descriptor
-        }
+        fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
         /** Transfer direction */
         fun direction(direction: Payment.Direction) = direction(JsonField.of(direction))
@@ -772,9 +766,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun family(family: JsonField<Payment.Family>) = apply {
-            this.family = family
-        }
+        fun family(family: JsonField<Payment.Family>) = apply { this.family = family }
 
         /** Financial account token */
         fun financialAccountToken(financialAccountToken: String) =
@@ -801,9 +793,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun method(method: JsonField<Payment.Method>) = apply {
-            this.method = method
-        }
+        fun method(method: JsonField<Payment.Method>) = apply { this.method = method }
 
         /** Method-specific attributes */
         fun methodAttributes(methodAttributes: Payment.MethodAttributes) =
@@ -875,9 +865,7 @@ private constructor(
          * value instead. This method is primarily for setting the field to an undocumented or not
          * yet supported value.
          */
-        fun result(result: JsonField<Payment.TransactionResult>) = apply {
-            this.result = result
-        }
+        fun result(result: JsonField<Payment.TransactionResult>) = apply { this.result = result }
 
         /** Settled amount in cents */
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
@@ -903,9 +891,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun source(source: JsonField<Payment.Source>) = apply {
-            this.source = source
-        }
+        fun source(source: JsonField<Payment.Source>) = apply { this.source = source }
 
         /** The status of the transaction */
         fun status(status: Payment.TransactionStatus) = status(JsonField.of(status))
@@ -917,9 +903,7 @@ private constructor(
          * value instead. This method is primarily for setting the field to an undocumented or not
          * yet supported value.
          */
-        fun status(status: JsonField<Payment.TransactionStatus>) = apply {
-            this.status = status
-        }
+        fun status(status: JsonField<Payment.TransactionStatus>) = apply { this.status = status }
 
         /** ISO 8601 timestamp of when the transaction was last updated */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -931,9 +915,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply {
-            this.updated = updated
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         /** Currency of the transaction in ISO 4217 format */
         fun currency(currency: String) = currency(JsonField.of(currency))
@@ -944,9 +926,7 @@ private constructor(
          * You should usually call [Builder.currency] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun currency(currency: JsonField<String>) = apply {
-            this.currency = currency
-        }
+        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** Expected release date for the transaction */
         fun expectedReleaseDate(expectedReleaseDate: LocalDate?) =
@@ -1004,9 +984,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun tags(tags: JsonField<Payment.Tags>) = apply {
-            this.tags = tags
-        }
+        fun tags(tags: JsonField<Payment.Tags>) = apply { this.tags = tags }
 
         fun type(type: Payment.TransferType) = type(JsonField.of(type))
 
@@ -1017,9 +995,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun type(type: JsonField<Payment.TransferType>) = apply {
-            this.type = type
-        }
+        fun type(type: JsonField<Payment.TransferType>) = apply { this.type = type }
 
         /** User-defined identifier */
         fun userDefinedId(userDefinedId: String?) =
@@ -1049,9 +1025,7 @@ private constructor(
          * You should usually call [Builder.balance] with a well-typed [Balance] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun balance(balance: JsonField<Balance>) = apply {
-            this.balance = balance
-        }
+        fun balance(balance: JsonField<Balance>) = apply { this.balance = balance }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -1066,9 +1040,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1104,75 +1076,23 @@ private constructor(
          */
         fun build(): PaymentRetryResponse =
             PaymentRetryResponse(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "category",
-                    category,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "descriptor",
-                    descriptor,
-                ),
-                checkRequired(
-                    "direction",
-                    direction,
-                ),
-                checkRequired(
-                        "events",
-                        events,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "family",
-                    family,
-                ),
-                checkRequired(
-                    "financialAccountToken",
-                    financialAccountToken,
-                ),
-                checkRequired(
-                    "method",
-                    method,
-                ),
-                checkRequired(
-                    "methodAttributes",
-                    methodAttributes,
-                ),
-                checkRequired(
-                    "pendingAmount",
-                    pendingAmount,
-                ),
-                checkRequired(
-                    "relatedAccountTokens",
-                    relatedAccountTokens,
-                ),
-                checkRequired(
-                    "result",
-                    result,
-                ),
-                checkRequired(
-                    "settledAmount",
-                    settledAmount,
-                ),
-                checkRequired(
-                    "source",
-                    source,
-                ),
-                checkRequired(
-                    "status",
-                    status,
-                ),
-                checkRequired(
-                    "updated",
-                    updated,
-                ),
+                checkRequired("token", token),
+                checkRequired("category", category),
+                checkRequired("created", created),
+                checkRequired("descriptor", descriptor),
+                checkRequired("direction", direction),
+                checkRequired("events", events).map { it.toImmutable() },
+                checkRequired("family", family),
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("method", method),
+                checkRequired("methodAttributes", methodAttributes),
+                checkRequired("pendingAmount", pendingAmount),
+                checkRequired("relatedAccountTokens", relatedAccountTokens),
+                checkRequired("result", result),
+                checkRequired("settledAmount", settledAmount),
+                checkRequired("source", source),
+                checkRequired("status", status),
+                checkRequired("updated", updated),
                 currency,
                 expectedReleaseDate,
                 externalBankAccountToken,

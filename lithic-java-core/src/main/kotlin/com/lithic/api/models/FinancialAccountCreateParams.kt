@@ -125,9 +125,7 @@ private constructor(
             additionalQueryParams = financialAccountCreateParams.additionalQueryParams.toBuilder()
         }
 
-        fun idempotencyKey(idempotencyKey: String?) = apply {
-            this.idempotencyKey = idempotencyKey
-        }
+        fun idempotencyKey(idempotencyKey: String?) = apply { this.idempotencyKey = idempotencyKey }
 
         /** Alias for calling [Builder.idempotencyKey] with `idempotencyKey.orElse(null)`. */
         fun idempotencyKey(idempotencyKey: Optional<String>) =
@@ -143,13 +141,9 @@ private constructor(
          * - [accountToken]
          * - [isForBenefitOf]
          */
-        fun body(body: CreateFinancialAccountRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: CreateFinancialAccountRequest) = apply { this.body = body.toBuilder() }
 
-        fun nickname(nickname: String) = apply {
-            body.nickname(nickname)
-        }
+        fun nickname(nickname: String) = apply { body.nickname(nickname) }
 
         /**
          * Sets [Builder.nickname] to an arbitrary JSON value.
@@ -157,13 +151,9 @@ private constructor(
          * You should usually call [Builder.nickname] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun nickname(nickname: JsonField<String>) = apply {
-            body.nickname(nickname)
-        }
+        fun nickname(nickname: JsonField<String>) = apply { body.nickname(nickname) }
 
-        fun type(type: Type) = apply {
-            body.type(type)
-        }
+        fun type(type: Type) = apply { body.type(type) }
 
         /**
          * Sets [Builder.type] to an arbitrary JSON value.
@@ -171,13 +161,9 @@ private constructor(
          * You should usually call [Builder.type] with a well-typed [Type] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun type(type: JsonField<Type>) = apply {
-            body.type(type)
-        }
+        fun type(type: JsonField<Type>) = apply { body.type(type) }
 
-        fun accountToken(accountToken: String) = apply {
-            body.accountToken(accountToken)
-        }
+        fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
 
         /**
          * Sets [Builder.accountToken] to an arbitrary JSON value.
@@ -190,9 +176,7 @@ private constructor(
             body.accountToken(accountToken)
         }
 
-        fun isForBenefitOf(isForBenefitOf: Boolean) = apply {
-            body.isForBenefitOf(isForBenefitOf)
-        }
+        fun isForBenefitOf(isForBenefitOf: Boolean) = apply { body.isForBenefitOf(isForBenefitOf) }
 
         /**
          * Sets [Builder.isForBenefitOf] to an arbitrary JSON value.
@@ -210,10 +194,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -221,9 +202,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -271,9 +250,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -323,9 +300,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -387,13 +362,7 @@ private constructor(
             @JsonProperty("is_for_benefit_of")
             @ExcludeMissing
             isForBenefitOf: JsonField<Boolean> = JsonMissing.of(),
-        ) : this(
-            nickname,
-            type,
-            accountToken,
-            isForBenefitOf,
-            mutableMapOf(),
-        )
+        ) : this(nickname, type, accountToken, isForBenefitOf, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -509,9 +478,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun nickname(nickname: JsonField<String>) = apply {
-                this.nickname = nickname
-            }
+            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -522,9 +489,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply {
-                this.type = type
-            }
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
@@ -566,9 +531,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -589,14 +552,8 @@ private constructor(
              */
             fun build(): CreateFinancialAccountRequest =
                 CreateFinancialAccountRequest(
-                    checkRequired(
-                        "nickname",
-                        nickname,
-                    ),
-                    checkRequired(
-                        "type",
-                        type,
-                    ),
+                    checkRequired("nickname", nickname),
+                    checkRequired("type", type),
                     accountToken,
                     isForBenefitOf,
                     additionalProperties.toMutableMap(),
@@ -698,11 +655,9 @@ private constructor(
          * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Type] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

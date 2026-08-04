@@ -32,10 +32,7 @@ interface QueueServiceAsync {
 
     /** Creates a new queue for grouping transaction monitoring cases. */
     fun create(params: TransactionMonitoringQueueCreateParams): CompletableFuture<Queue> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -45,10 +42,7 @@ interface QueueServiceAsync {
 
     /** Retrieves a single transaction monitoring queue. */
     fun retrieve(queueToken: String): CompletableFuture<Queue> =
-        retrieve(
-            queueToken,
-            TransactionMonitoringQueueRetrieveParams.none(),
-        )
+        retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -57,22 +51,14 @@ interface QueueServiceAsync {
             TransactionMonitoringQueueRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Queue> =
-        retrieve(
-            params.toBuilder().queueToken(queueToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().queueToken(queueToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         queueToken: String,
         params: TransactionMonitoringQueueRetrieveParams =
             TransactionMonitoringQueueRetrieveParams.none(),
-    ): CompletableFuture<Queue> =
-        retrieve(
-            queueToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Queue> = retrieve(queueToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -82,25 +68,15 @@ interface QueueServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: TransactionMonitoringQueueRetrieveParams): CompletableFuture<Queue> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(queueToken: String, requestOptions: RequestOptions): CompletableFuture<Queue> =
-        retrieve(
-            queueToken,
-            TransactionMonitoringQueueRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none(), requestOptions)
 
     /** Updates a transaction monitoring queue. */
     fun update(queueToken: String): CompletableFuture<Queue> =
-        update(
-            queueToken,
-            TransactionMonitoringQueueUpdateParams.none(),
-        )
+        update(queueToken, TransactionMonitoringQueueUpdateParams.none())
 
     /** @see update */
     fun update(
@@ -109,22 +85,14 @@ interface QueueServiceAsync {
             TransactionMonitoringQueueUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Queue> =
-        update(
-            params.toBuilder().queueToken(queueToken).build(),
-            requestOptions,
-        )
+        update(params.toBuilder().queueToken(queueToken).build(), requestOptions)
 
     /** @see update */
     fun update(
         queueToken: String,
         params: TransactionMonitoringQueueUpdateParams =
             TransactionMonitoringQueueUpdateParams.none(),
-    ): CompletableFuture<Queue> =
-        update(
-            queueToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Queue> = update(queueToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -134,18 +102,11 @@ interface QueueServiceAsync {
 
     /** @see update */
     fun update(params: TransactionMonitoringQueueUpdateParams): CompletableFuture<Queue> =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+        update(params, RequestOptions.none())
 
     /** @see update */
     fun update(queueToken: String, requestOptions: RequestOptions): CompletableFuture<Queue> =
-        update(
-            queueToken,
-            TransactionMonitoringQueueUpdateParams.none(),
-            requestOptions,
-        )
+        update(queueToken, TransactionMonitoringQueueUpdateParams.none(), requestOptions)
 
     /** Lists transaction monitoring queues. */
     fun list(): CompletableFuture<TransactionMonitoringQueueListPageAsync> =
@@ -161,26 +122,17 @@ interface QueueServiceAsync {
     fun list(
         params: TransactionMonitoringQueueListParams = TransactionMonitoringQueueListParams.none()
     ): CompletableFuture<TransactionMonitoringQueueListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         requestOptions: RequestOptions
     ): CompletableFuture<TransactionMonitoringQueueListPageAsync> =
-        list(
-            TransactionMonitoringQueueListParams.none(),
-            requestOptions,
-        )
+        list(TransactionMonitoringQueueListParams.none(), requestOptions)
 
     /** Deletes a transaction monitoring queue. */
     fun delete(queueToken: String): CompletableFuture<Void?> =
-        delete(
-            queueToken,
-            TransactionMonitoringQueueDeleteParams.none(),
-        )
+        delete(queueToken, TransactionMonitoringQueueDeleteParams.none())
 
     /** @see delete */
     fun delete(
@@ -189,22 +141,14 @@ interface QueueServiceAsync {
             TransactionMonitoringQueueDeleteParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?> =
-        delete(
-            params.toBuilder().queueToken(queueToken).build(),
-            requestOptions,
-        )
+        delete(params.toBuilder().queueToken(queueToken).build(), requestOptions)
 
     /** @see delete */
     fun delete(
         queueToken: String,
         params: TransactionMonitoringQueueDeleteParams =
             TransactionMonitoringQueueDeleteParams.none(),
-    ): CompletableFuture<Void?> =
-        delete(
-            queueToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = delete(queueToken, params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -214,18 +158,11 @@ interface QueueServiceAsync {
 
     /** @see delete */
     fun delete(params: TransactionMonitoringQueueDeleteParams): CompletableFuture<Void?> =
-        delete(
-            params,
-            RequestOptions.none(),
-        )
+        delete(params, RequestOptions.none())
 
     /** @see delete */
     fun delete(queueToken: String, requestOptions: RequestOptions): CompletableFuture<Void?> =
-        delete(
-            queueToken,
-            TransactionMonitoringQueueDeleteParams.none(),
-            requestOptions,
-        )
+        delete(queueToken, TransactionMonitoringQueueDeleteParams.none(), requestOptions)
 
     /** A view of [QueueServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -245,11 +182,7 @@ interface QueueServiceAsync {
          */
         fun create(
             params: TransactionMonitoringQueueCreateParams
-        ): CompletableFuture<HttpResponseFor<Queue>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<Queue>> = create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -262,10 +195,7 @@ interface QueueServiceAsync {
          * but is otherwise the same as [QueueServiceAsync.retrieve].
          */
         fun retrieve(queueToken: String): CompletableFuture<HttpResponseFor<Queue>> =
-            retrieve(
-                queueToken,
-                TransactionMonitoringQueueRetrieveParams.none(),
-            )
+            retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -274,10 +204,7 @@ interface QueueServiceAsync {
                 TransactionMonitoringQueueRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Queue>> =
-            retrieve(
-                params.toBuilder().queueToken(queueToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().queueToken(queueToken).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
@@ -285,11 +212,7 @@ interface QueueServiceAsync {
             params: TransactionMonitoringQueueRetrieveParams =
                 TransactionMonitoringQueueRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<Queue>> =
-            retrieve(
-                queueToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(queueToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -300,32 +223,21 @@ interface QueueServiceAsync {
         /** @see retrieve */
         fun retrieve(
             params: TransactionMonitoringQueueRetrieveParams
-        ): CompletableFuture<HttpResponseFor<Queue>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<Queue>> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             queueToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Queue>> =
-            retrieve(
-                queueToken,
-                TransactionMonitoringQueueRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `patch /v1/transaction_monitoring/queues/{queue_token}`,
          * but is otherwise the same as [QueueServiceAsync.update].
          */
         fun update(queueToken: String): CompletableFuture<HttpResponseFor<Queue>> =
-            update(
-                queueToken,
-                TransactionMonitoringQueueUpdateParams.none(),
-            )
+            update(queueToken, TransactionMonitoringQueueUpdateParams.none())
 
         /** @see update */
         fun update(
@@ -334,10 +246,7 @@ interface QueueServiceAsync {
                 TransactionMonitoringQueueUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Queue>> =
-            update(
-                params.toBuilder().queueToken(queueToken).build(),
-                requestOptions,
-            )
+            update(params.toBuilder().queueToken(queueToken).build(), requestOptions)
 
         /** @see update */
         fun update(
@@ -345,11 +254,7 @@ interface QueueServiceAsync {
             params: TransactionMonitoringQueueUpdateParams =
                 TransactionMonitoringQueueUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<Queue>> =
-            update(
-                queueToken,
-                params,
-                RequestOptions.none(),
-            )
+            update(queueToken, params, RequestOptions.none())
 
         /** @see update */
         fun update(
@@ -360,22 +265,14 @@ interface QueueServiceAsync {
         /** @see update */
         fun update(
             params: TransactionMonitoringQueueUpdateParams
-        ): CompletableFuture<HttpResponseFor<Queue>> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<Queue>> = update(params, RequestOptions.none())
 
         /** @see update */
         fun update(
             queueToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Queue>> =
-            update(
-                queueToken,
-                TransactionMonitoringQueueUpdateParams.none(),
-                requestOptions,
-            )
+            update(queueToken, TransactionMonitoringQueueUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/transaction_monitoring/queues`, but is otherwise
@@ -396,29 +293,20 @@ interface QueueServiceAsync {
             params: TransactionMonitoringQueueListParams =
                 TransactionMonitoringQueueListParams.none()
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringQueueListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringQueueListPageAsync>> =
-            list(
-                TransactionMonitoringQueueListParams.none(),
-                requestOptions,
-            )
+            list(TransactionMonitoringQueueListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete /v1/transaction_monitoring/queues/{queue_token}`,
          * but is otherwise the same as [QueueServiceAsync.delete].
          */
         fun delete(queueToken: String): CompletableFuture<HttpResponse> =
-            delete(
-                queueToken,
-                TransactionMonitoringQueueDeleteParams.none(),
-            )
+            delete(queueToken, TransactionMonitoringQueueDeleteParams.none())
 
         /** @see delete */
         fun delete(
@@ -427,22 +315,14 @@ interface QueueServiceAsync {
                 TransactionMonitoringQueueDeleteParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse> =
-            delete(
-                params.toBuilder().queueToken(queueToken).build(),
-                requestOptions,
-            )
+            delete(params.toBuilder().queueToken(queueToken).build(), requestOptions)
 
         /** @see delete */
         fun delete(
             queueToken: String,
             params: TransactionMonitoringQueueDeleteParams =
                 TransactionMonitoringQueueDeleteParams.none(),
-        ): CompletableFuture<HttpResponse> =
-            delete(
-                queueToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = delete(queueToken, params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
@@ -453,21 +333,13 @@ interface QueueServiceAsync {
         /** @see delete */
         fun delete(
             params: TransactionMonitoringQueueDeleteParams
-        ): CompletableFuture<HttpResponse> =
-            delete(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = delete(params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
             queueToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> =
-            delete(
-                queueToken,
-                TransactionMonitoringQueueDeleteParams.none(),
-                requestOptions,
-            )
+            delete(queueToken, TransactionMonitoringQueueDeleteParams.none(), requestOptions)
     }
 }

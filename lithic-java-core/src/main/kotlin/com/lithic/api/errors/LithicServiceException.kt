@@ -6,14 +6,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.http.Headers
 
 abstract class LithicServiceException
-protected constructor(
-    message: String,
-    cause: Throwable? = null,
-) :
-    LithicException(
-        message,
-        cause,
-    ) {
+protected constructor(message: String, cause: Throwable? = null) : LithicException(message, cause) {
 
     abstract fun statusCode(): Int
 

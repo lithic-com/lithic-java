@@ -34,11 +34,7 @@ interface HoldServiceAsync {
      * voiding, or expiration.
      */
     fun create(financialAccountToken: String, params: HoldCreateParams): CompletableFuture<Hold> =
-        create(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        create(financialAccountToken, params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -53,10 +49,7 @@ interface HoldServiceAsync {
 
     /** @see create */
     fun create(params: HoldCreateParams): CompletableFuture<Hold> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -66,10 +59,7 @@ interface HoldServiceAsync {
 
     /** Get hold by token. */
     fun retrieve(holdToken: String): CompletableFuture<Hold> =
-        retrieve(
-            holdToken,
-            HoldRetrieveParams.none(),
-        )
+        retrieve(holdToken, HoldRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -77,21 +67,13 @@ interface HoldServiceAsync {
         params: HoldRetrieveParams = HoldRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Hold> =
-        retrieve(
-            params.toBuilder().holdToken(holdToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().holdToken(holdToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         holdToken: String,
         params: HoldRetrieveParams = HoldRetrieveParams.none(),
-    ): CompletableFuture<Hold> =
-        retrieve(
-            holdToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Hold> = retrieve(holdToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -101,25 +83,15 @@ interface HoldServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: HoldRetrieveParams): CompletableFuture<Hold> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(holdToken: String, requestOptions: RequestOptions): CompletableFuture<Hold> =
-        retrieve(
-            holdToken,
-            HoldRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(holdToken, HoldRetrieveParams.none(), requestOptions)
 
     /** List holds for a financial account. */
     fun list(financialAccountToken: String): CompletableFuture<HoldListPageAsync> =
-        list(
-            financialAccountToken,
-            HoldListParams.none(),
-        )
+        list(financialAccountToken, HoldListParams.none())
 
     /** @see list */
     fun list(
@@ -137,11 +109,7 @@ interface HoldServiceAsync {
         financialAccountToken: String,
         params: HoldListParams = HoldListParams.none(),
     ): CompletableFuture<HoldListPageAsync> =
-        list(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        list(financialAccountToken, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -151,31 +119,20 @@ interface HoldServiceAsync {
 
     /** @see list */
     fun list(params: HoldListParams): CompletableFuture<HoldListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<HoldListPageAsync> =
-        list(
-            financialAccountToken,
-            HoldListParams.none(),
-            requestOptions,
-        )
+        list(financialAccountToken, HoldListParams.none(), requestOptions)
 
     /**
      * Void an active hold. This returns the held funds from pending back to available balance. Only
      * holds in PENDING status can be voided.
      */
-    fun void_(holdToken: String): CompletableFuture<Hold> =
-        void_(
-            holdToken,
-            HoldVoidParams.none(),
-        )
+    fun void_(holdToken: String): CompletableFuture<Hold> = void_(holdToken, HoldVoidParams.none())
 
     /** @see void_ */
     fun void_(
@@ -183,21 +140,13 @@ interface HoldServiceAsync {
         params: HoldVoidParams = HoldVoidParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Hold> =
-        void_(
-            params.toBuilder().holdToken(holdToken).build(),
-            requestOptions,
-        )
+        void_(params.toBuilder().holdToken(holdToken).build(), requestOptions)
 
     /** @see void_ */
     fun void_(
         holdToken: String,
         params: HoldVoidParams = HoldVoidParams.none(),
-    ): CompletableFuture<Hold> =
-        void_(
-            holdToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Hold> = void_(holdToken, params, RequestOptions.none())
 
     /** @see void_ */
     fun void_(
@@ -207,18 +156,11 @@ interface HoldServiceAsync {
 
     /** @see void_ */
     fun void_(params: HoldVoidParams): CompletableFuture<Hold> =
-        void_(
-            params,
-            RequestOptions.none(),
-        )
+        void_(params, RequestOptions.none())
 
     /** @see void_ */
     fun void_(holdToken: String, requestOptions: RequestOptions): CompletableFuture<Hold> =
-        void_(
-            holdToken,
-            HoldVoidParams.none(),
-            requestOptions,
-        )
+        void_(holdToken, HoldVoidParams.none(), requestOptions)
 
     /** A view of [HoldServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -239,11 +181,7 @@ interface HoldServiceAsync {
             financialAccountToken: String,
             params: HoldCreateParams,
         ): CompletableFuture<HttpResponseFor<Hold>> =
-            create(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            create(financialAccountToken, params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -258,10 +196,7 @@ interface HoldServiceAsync {
 
         /** @see create */
         fun create(params: HoldCreateParams): CompletableFuture<HttpResponseFor<Hold>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -274,10 +209,7 @@ interface HoldServiceAsync {
          * as [HoldServiceAsync.retrieve].
          */
         fun retrieve(holdToken: String): CompletableFuture<HttpResponseFor<Hold>> =
-            retrieve(
-                holdToken,
-                HoldRetrieveParams.none(),
-            )
+            retrieve(holdToken, HoldRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -285,21 +217,14 @@ interface HoldServiceAsync {
             params: HoldRetrieveParams = HoldRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Hold>> =
-            retrieve(
-                params.toBuilder().holdToken(holdToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().holdToken(holdToken).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             holdToken: String,
             params: HoldRetrieveParams = HoldRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<Hold>> =
-            retrieve(
-                holdToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(holdToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -309,21 +234,14 @@ interface HoldServiceAsync {
 
         /** @see retrieve */
         fun retrieve(params: HoldRetrieveParams): CompletableFuture<HttpResponseFor<Hold>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             holdToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Hold>> =
-            retrieve(
-                holdToken,
-                HoldRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(holdToken, HoldRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get
@@ -333,10 +251,7 @@ interface HoldServiceAsync {
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<HoldListPageAsync>> =
-            list(
-                financialAccountToken,
-                HoldListParams.none(),
-            )
+            list(financialAccountToken, HoldListParams.none())
 
         /** @see list */
         fun list(
@@ -354,11 +269,7 @@ interface HoldServiceAsync {
             financialAccountToken: String,
             params: HoldListParams = HoldListParams.none(),
         ): CompletableFuture<HttpResponseFor<HoldListPageAsync>> =
-            list(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -368,31 +279,21 @@ interface HoldServiceAsync {
 
         /** @see list */
         fun list(params: HoldListParams): CompletableFuture<HttpResponseFor<HoldListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<HoldListPageAsync>> =
-            list(
-                financialAccountToken,
-                HoldListParams.none(),
-                requestOptions,
-            )
+            list(financialAccountToken, HoldListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/holds/{hold_token}/void`, but is otherwise the
          * same as [HoldServiceAsync.void_].
          */
         fun void_(holdToken: String): CompletableFuture<HttpResponseFor<Hold>> =
-            void_(
-                holdToken,
-                HoldVoidParams.none(),
-            )
+            void_(holdToken, HoldVoidParams.none())
 
         /** @see void_ */
         fun void_(
@@ -400,21 +301,14 @@ interface HoldServiceAsync {
             params: HoldVoidParams = HoldVoidParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Hold>> =
-            void_(
-                params.toBuilder().holdToken(holdToken).build(),
-                requestOptions,
-            )
+            void_(params.toBuilder().holdToken(holdToken).build(), requestOptions)
 
         /** @see void_ */
         fun void_(
             holdToken: String,
             params: HoldVoidParams = HoldVoidParams.none(),
         ): CompletableFuture<HttpResponseFor<Hold>> =
-            void_(
-                holdToken,
-                params,
-                RequestOptions.none(),
-            )
+            void_(holdToken, params, RequestOptions.none())
 
         /** @see void_ */
         fun void_(
@@ -424,20 +318,13 @@ interface HoldServiceAsync {
 
         /** @see void_ */
         fun void_(params: HoldVoidParams): CompletableFuture<HttpResponseFor<Hold>> =
-            void_(
-                params,
-                RequestOptions.none(),
-            )
+            void_(params, RequestOptions.none())
 
         /** @see void_ */
         fun void_(
             holdToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Hold>> =
-            void_(
-                holdToken,
-                HoldVoidParams.none(),
-                requestOptions,
-            )
+            void_(holdToken, HoldVoidParams.none(), requestOptions)
     }
 }

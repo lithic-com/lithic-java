@@ -30,10 +30,7 @@ interface AuthenticationServiceAsync {
 
     /** Get 3DS Authentication by token */
     fun retrieve(threeDSAuthenticationToken: String): CompletableFuture<ThreeDSAuthentication> =
-        retrieve(
-            threeDSAuthenticationToken,
-            ThreeDSAuthenticationRetrieveParams.none(),
-        )
+        retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -51,11 +48,7 @@ interface AuthenticationServiceAsync {
         threeDSAuthenticationToken: String,
         params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
     ): CompletableFuture<ThreeDSAuthentication> =
-        retrieve(
-            threeDSAuthenticationToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -66,11 +59,7 @@ interface AuthenticationServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: ThreeDSAuthenticationRetrieveParams
-    ): CompletableFuture<ThreeDSAuthentication> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ThreeDSAuthentication> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -92,11 +81,7 @@ interface AuthenticationServiceAsync {
      */
     fun simulate(
         params: ThreeDSAuthenticationSimulateParams
-    ): CompletableFuture<AuthenticationSimulateResponse> =
-        simulate(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<AuthenticationSimulateResponse> = simulate(params, RequestOptions.none())
 
     /** @see simulate */
     fun simulate(
@@ -112,11 +97,7 @@ interface AuthenticationServiceAsync {
      */
     fun simulateOtpEntry(
         params: ThreeDSAuthenticationSimulateOtpEntryParams
-    ): CompletableFuture<Void?> =
-        simulateOtpEntry(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = simulateOtpEntry(params, RequestOptions.none())
 
     /** @see simulateOtpEntry */
     fun simulateOtpEntry(
@@ -147,10 +128,7 @@ interface AuthenticationServiceAsync {
         fun retrieve(
             threeDSAuthenticationToken: String
         ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
-            retrieve(
-                threeDSAuthenticationToken,
-                ThreeDSAuthenticationRetrieveParams.none(),
-            )
+            retrieve(threeDSAuthenticationToken, ThreeDSAuthenticationRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -169,11 +147,7 @@ interface AuthenticationServiceAsync {
             threeDSAuthenticationToken: String,
             params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
-            retrieve(
-                threeDSAuthenticationToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(threeDSAuthenticationToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -185,10 +159,7 @@ interface AuthenticationServiceAsync {
         fun retrieve(
             params: ThreeDSAuthenticationRetrieveParams
         ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -208,10 +179,7 @@ interface AuthenticationServiceAsync {
         fun simulate(
             params: ThreeDSAuthenticationSimulateParams
         ): CompletableFuture<HttpResponseFor<AuthenticationSimulateResponse>> =
-            simulate(
-                params,
-                RequestOptions.none(),
-            )
+            simulate(params, RequestOptions.none())
 
         /** @see simulate */
         fun simulate(
@@ -225,11 +193,7 @@ interface AuthenticationServiceAsync {
          */
         fun simulateOtpEntry(
             params: ThreeDSAuthenticationSimulateOtpEntryParams
-        ): CompletableFuture<HttpResponse> =
-            simulateOtpEntry(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = simulateOtpEntry(params, RequestOptions.none())
 
         /** @see simulateOtpEntry */
         fun simulateOtpEntry(

@@ -36,11 +36,7 @@ interface EntityServiceAsync {
         accountHolderToken: String,
         params: AccountHolderEntityCreateParams,
     ): CompletableFuture<EntityCreateResponse> =
-        create(
-            accountHolderToken,
-            params,
-            RequestOptions.none(),
-        )
+        create(accountHolderToken, params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -48,17 +44,11 @@ interface EntityServiceAsync {
         params: AccountHolderEntityCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EntityCreateResponse> =
-        create(
-            params.toBuilder().accountHolderToken(accountHolderToken).build(),
-            requestOptions,
-        )
+        create(params.toBuilder().accountHolderToken(accountHolderToken).build(), requestOptions)
 
     /** @see create */
     fun create(params: AccountHolderEntityCreateParams): CompletableFuture<EntityCreateResponse> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -73,12 +63,7 @@ interface EntityServiceAsync {
     fun delete(
         entityToken: String,
         params: AccountHolderEntityDeleteParams,
-    ): CompletableFuture<AccountHolderEntity> =
-        delete(
-            entityToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<AccountHolderEntity> = delete(entityToken, params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -86,17 +71,11 @@ interface EntityServiceAsync {
         params: AccountHolderEntityDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountHolderEntity> =
-        delete(
-            params.toBuilder().entityToken(entityToken).build(),
-            requestOptions,
-        )
+        delete(params.toBuilder().entityToken(entityToken).build(), requestOptions)
 
     /** @see delete */
     fun delete(params: AccountHolderEntityDeleteParams): CompletableFuture<AccountHolderEntity> =
-        delete(
-            params,
-            RequestOptions.none(),
-        )
+        delete(params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -127,11 +106,7 @@ interface EntityServiceAsync {
             accountHolderToken: String,
             params: AccountHolderEntityCreateParams,
         ): CompletableFuture<HttpResponseFor<EntityCreateResponse>> =
-            create(
-                accountHolderToken,
-                params,
-                RequestOptions.none(),
-            )
+            create(accountHolderToken, params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -148,10 +123,7 @@ interface EntityServiceAsync {
         fun create(
             params: AccountHolderEntityCreateParams
         ): CompletableFuture<HttpResponseFor<EntityCreateResponse>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -168,11 +140,7 @@ interface EntityServiceAsync {
             entityToken: String,
             params: AccountHolderEntityDeleteParams,
         ): CompletableFuture<HttpResponseFor<AccountHolderEntity>> =
-            delete(
-                entityToken,
-                params,
-                RequestOptions.none(),
-            )
+            delete(entityToken, params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
@@ -180,19 +148,13 @@ interface EntityServiceAsync {
             params: AccountHolderEntityDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountHolderEntity>> =
-            delete(
-                params.toBuilder().entityToken(entityToken).build(),
-                requestOptions,
-            )
+            delete(params.toBuilder().entityToken(entityToken).build(), requestOptions)
 
         /** @see delete */
         fun delete(
             params: AccountHolderEntityDeleteParams
         ): CompletableFuture<HttpResponseFor<AccountHolderEntity>> =
-            delete(
-                params,
-                RequestOptions.none(),
-            )
+            delete(params, RequestOptions.none())
 
         /** @see delete */
         fun delete(

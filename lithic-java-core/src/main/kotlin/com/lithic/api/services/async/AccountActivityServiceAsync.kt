@@ -39,27 +39,17 @@ interface AccountActivityServiceAsync {
     /** @see list */
     fun list(
         params: AccountActivityListParams = AccountActivityListParams.none()
-    ): CompletableFuture<AccountActivityListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<AccountActivityListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<AccountActivityListPageAsync> =
-        list(
-            AccountActivityListParams.none(),
-            requestOptions,
-        )
+        list(AccountActivityListParams.none(), requestOptions)
 
     /** Retrieve a single transaction */
     fun retrieveTransaction(
         transactionToken: String
     ): CompletableFuture<AccountActivityRetrieveTransactionResponse> =
-        retrieveTransaction(
-            transactionToken,
-            AccountActivityRetrieveTransactionParams.none(),
-        )
+        retrieveTransaction(transactionToken, AccountActivityRetrieveTransactionParams.none())
 
     /** @see retrieveTransaction */
     fun retrieveTransaction(
@@ -79,11 +69,7 @@ interface AccountActivityServiceAsync {
         params: AccountActivityRetrieveTransactionParams =
             AccountActivityRetrieveTransactionParams.none(),
     ): CompletableFuture<AccountActivityRetrieveTransactionResponse> =
-        retrieveTransaction(
-            transactionToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieveTransaction(transactionToken, params, RequestOptions.none())
 
     /** @see retrieveTransaction */
     fun retrieveTransaction(
@@ -95,10 +81,7 @@ interface AccountActivityServiceAsync {
     fun retrieveTransaction(
         params: AccountActivityRetrieveTransactionParams
     ): CompletableFuture<AccountActivityRetrieveTransactionResponse> =
-        retrieveTransaction(
-            params,
-            RequestOptions.none(),
-        )
+        retrieveTransaction(params, RequestOptions.none())
 
     /** @see retrieveTransaction */
     fun retrieveTransaction(
@@ -143,19 +126,13 @@ interface AccountActivityServiceAsync {
         fun list(
             params: AccountActivityListParams = AccountActivityListParams.none()
         ): CompletableFuture<HttpResponseFor<AccountActivityListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<AccountActivityListPageAsync>> =
-            list(
-                AccountActivityListParams.none(),
-                requestOptions,
-            )
+            list(AccountActivityListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/account_activity/{transaction_token}`, but is
@@ -164,10 +141,7 @@ interface AccountActivityServiceAsync {
         fun retrieveTransaction(
             transactionToken: String
         ): CompletableFuture<HttpResponseFor<AccountActivityRetrieveTransactionResponse>> =
-            retrieveTransaction(
-                transactionToken,
-                AccountActivityRetrieveTransactionParams.none(),
-            )
+            retrieveTransaction(transactionToken, AccountActivityRetrieveTransactionParams.none())
 
         /** @see retrieveTransaction */
         fun retrieveTransaction(
@@ -187,11 +161,7 @@ interface AccountActivityServiceAsync {
             params: AccountActivityRetrieveTransactionParams =
                 AccountActivityRetrieveTransactionParams.none(),
         ): CompletableFuture<HttpResponseFor<AccountActivityRetrieveTransactionResponse>> =
-            retrieveTransaction(
-                transactionToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieveTransaction(transactionToken, params, RequestOptions.none())
 
         /** @see retrieveTransaction */
         fun retrieveTransaction(
@@ -203,10 +173,7 @@ interface AccountActivityServiceAsync {
         fun retrieveTransaction(
             params: AccountActivityRetrieveTransactionParams
         ): CompletableFuture<HttpResponseFor<AccountActivityRetrieveTransactionResponse>> =
-            retrieveTransaction(
-                params,
-                RequestOptions.none(),
-            )
+            retrieveTransaction(params, RequestOptions.none())
 
         /** @see retrieveTransaction */
         fun retrieveTransaction(

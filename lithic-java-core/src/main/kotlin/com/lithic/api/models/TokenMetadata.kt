@@ -215,9 +215,7 @@ private constructor(
          * You should usually call [Builder.status] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun status(status: JsonField<String>) = apply {
-            this.status = status
-        }
+        fun status(status: JsonField<String>) = apply { this.status = status }
 
         /**
          * The identifier of the Payment App instance within a device that will be provisioned with
@@ -287,9 +285,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -310,14 +306,8 @@ private constructor(
          */
         fun build(): TokenMetadata =
             TokenMetadata(
-                checkRequired(
-                    "paymentAccountInfo",
-                    paymentAccountInfo,
-                ),
-                checkRequired(
-                    "status",
-                    status,
-                ),
+                checkRequired("paymentAccountInfo", paymentAccountInfo),
+                checkRequired("status", status),
                 paymentAppInstanceId,
                 tokenRequestorId,
                 tokenRequestorName,
@@ -623,9 +613,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -645,10 +633,7 @@ private constructor(
              */
             fun build(): PaymentAccountInfo =
                 PaymentAccountInfo(
-                    checkRequired(
-                        "accountHolderData",
-                        accountHolderData,
-                    ),
+                    checkRequired("accountHolderData", accountHolderData),
                     panUniqueReference,
                     paymentAccountReference,
                     tokenUniqueReference,
@@ -716,10 +701,7 @@ private constructor(
                 @JsonProperty("phone_number")
                 @ExcludeMissing
                 phoneNumber: JsonField<String> = JsonMissing.of()
-            ) : this(
-                phoneNumber,
-                mutableMapOf(),
-            )
+            ) : this(phoneNumber, mutableMapOf())
 
             /**
              * The phone number, may contain country code along with phone number when
@@ -822,10 +804,7 @@ private constructor(
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
                 fun build(): AccountHolderData =
-                    AccountHolderData(
-                        phoneNumber,
-                        additionalProperties.toMutableMap(),
-                    )
+                    AccountHolderData(phoneNumber, additionalProperties.toMutableMap())
             }
 
             private var validated: Boolean = false
@@ -977,11 +956,9 @@ private constructor(
          * An enum containing [TokenRequestorName]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [TokenRequestorName] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

@@ -211,9 +211,7 @@ private constructor(
             additionalQueryParams = accountUpdateParams.additionalQueryParams.toBuilder()
         }
 
-        fun accountToken(accountToken: String?) = apply {
-            this.accountToken = accountToken
-        }
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
         /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
@@ -230,14 +228,10 @@ private constructor(
          * - [state]
          * - etc.
          */
-        fun body(body: Body) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /** Additional context or information related to the account. */
-        fun comment(comment: String) = apply {
-            body.comment(comment)
-        }
+        fun comment(comment: String) = apply { body.comment(comment) }
 
         /**
          * Sets [Builder.comment] to an arbitrary JSON value.
@@ -245,17 +239,13 @@ private constructor(
          * You should usually call [Builder.comment] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun comment(comment: JsonField<String>) = apply {
-            body.comment(comment)
-        }
+        fun comment(comment: JsonField<String>) = apply { body.comment(comment) }
 
         /**
          * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
          * limit). By default the daily spend limit is set to $1,250.
          */
-        fun dailySpendLimit(dailySpendLimit: Long) = apply {
-            body.dailySpendLimit(dailySpendLimit)
-        }
+        fun dailySpendLimit(dailySpendLimit: Long) = apply { body.dailySpendLimit(dailySpendLimit) }
 
         /**
          * Sets [Builder.dailySpendLimit] to an arbitrary JSON value.
@@ -311,9 +301,7 @@ private constructor(
         }
 
         /** Account states. */
-        fun state(state: State) = apply {
-            body.state(state)
-        }
+        fun state(state: State) = apply { body.state(state) }
 
         /**
          * Sets [Builder.state] to an arbitrary JSON value.
@@ -321,9 +309,7 @@ private constructor(
          * You should usually call [Builder.state] with a well-typed [State] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun state(state: JsonField<State>) = apply {
-            body.state(state)
-        }
+        fun state(state: JsonField<State>) = apply { body.state(state) }
 
         /**
          * Account state substatus values:
@@ -351,9 +337,7 @@ private constructor(
          * * `OTHER` - The reason for the account's current status does not fall into any of the
          *   above categories. A comment should be provided to specify the particular reason.
          */
-        fun substatus(substatus: Substatus?) = apply {
-            body.substatus(substatus)
-        }
+        fun substatus(substatus: Substatus?) = apply { body.substatus(substatus) }
 
         /** Alias for calling [Builder.substatus] with `substatus.orElse(null)`. */
         fun substatus(substatus: Optional<Substatus>) = substatus(substatus.getOrNull())
@@ -365,9 +349,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun substatus(substatus: JsonField<Substatus>) = apply {
-            body.substatus(substatus)
-        }
+        fun substatus(substatus: JsonField<Substatus>) = apply { body.substatus(substatus) }
 
         /**
          * Address used during Address Verification Service (AVS) checks during transactions if
@@ -396,10 +378,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -407,9 +386,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -457,9 +434,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -509,9 +484,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -794,9 +767,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun comment(comment: JsonField<String>) = apply {
-                this.comment = comment
-            }
+            fun comment(comment: JsonField<String>) = apply { this.comment = comment }
 
             /**
              * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
@@ -867,9 +838,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun state(state: JsonField<State>) = apply {
-                this.state = state
-            }
+            fun state(state: JsonField<State>) = apply { this.state = state }
 
             /**
              * Account state substatus values:
@@ -910,9 +879,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun substatus(substatus: JsonField<Substatus>) = apply {
-                this.substatus = substatus
-            }
+            fun substatus(substatus: JsonField<Substatus>) = apply { this.substatus = substatus }
 
             /**
              * Address used during Address Verification Service (AVS) checks during transactions if
@@ -949,9 +916,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1095,11 +1060,9 @@ private constructor(
          * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [State] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1278,11 +1241,9 @@ private constructor(
          * An enum containing [Substatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Substatus] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1435,15 +1396,7 @@ private constructor(
             @ExcludeMissing
             postalCode: JsonField<String> = JsonMissing.of(),
             @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            address1,
-            address2,
-            city,
-            country,
-            postalCode,
-            state,
-            mutableMapOf(),
-        )
+        ) : this(address1, address2, city, country, postalCode, state, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1574,9 +1527,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun address1(address1: JsonField<String>) = apply {
-                this.address1 = address1
-            }
+            fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
             fun address2(address2: String) = address2(JsonField.of(address2))
 
@@ -1587,9 +1538,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun address2(address2: JsonField<String>) = apply {
-                this.address2 = address2
-            }
+            fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
             fun city(city: String) = city(JsonField.of(city))
 
@@ -1600,9 +1549,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun city(city: JsonField<String>) = apply {
-                this.city = city
-            }
+            fun city(city: JsonField<String>) = apply { this.city = city }
 
             fun country(country: String) = country(JsonField.of(country))
 
@@ -1613,9 +1560,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun country(country: JsonField<String>) = apply {
-                this.country = country
-            }
+            fun country(country: JsonField<String>) = apply { this.country = country }
 
             fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
@@ -1626,9 +1571,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun postalCode(postalCode: JsonField<String>) = apply {
-                this.postalCode = postalCode
-            }
+            fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
             fun state(state: String) = state(JsonField.of(state))
 
@@ -1639,9 +1582,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun state(state: JsonField<String>) = apply {
-                this.state = state
-            }
+            fun state(state: JsonField<String>) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1656,9 +1597,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)

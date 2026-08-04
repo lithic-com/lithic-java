@@ -152,9 +152,7 @@ private constructor(
         }
 
         /** Only return cases that include transactions on the provided account. */
-        fun accountToken(accountToken: String?) = apply {
-            this.accountToken = accountToken
-        }
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
         /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
@@ -163,9 +161,7 @@ private constructor(
          * Only return cases assigned to the provided value. Pass an empty string to return only
          * unassigned cases.
          */
-        fun assignee(assignee: String?) = apply {
-            this.assignee = assignee
-        }
+        fun assignee(assignee: String?) = apply { this.assignee = assignee }
 
         /** Alias for calling [Builder.assignee] with `assignee.orElse(null)`. */
         fun assignee(assignee: Optional<String>) = assignee(assignee.getOrNull())
@@ -174,17 +170,13 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime?) = apply {
-            this.begin = begin
-        }
+        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
         /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
 
         /** Only return cases that include transactions on the provided card. */
-        fun cardToken(cardToken: String?) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
 
         /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
         fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
@@ -193,9 +185,7 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime?) = apply {
-            this.end = end
-        }
+        fun end(end: OffsetDateTime?) = apply { this.end = end }
 
         /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
@@ -204,25 +194,19 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String?) = apply {
-            this.endingBefore = endingBefore
-        }
+        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
 
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
         /** Only return cases associated with the provided entity. */
-        fun entityToken(entityToken: String?) = apply {
-            this.entityToken = entityToken
-        }
+        fun entityToken(entityToken: String?) = apply { this.entityToken = entityToken }
 
         /** Alias for calling [Builder.entityToken] with `entityToken.orElse(null)`. */
         fun entityToken(entityToken: Optional<String>) = entityToken(entityToken.getOrNull())
 
         /** Page size (for pagination). */
-        fun pageSize(pageSize: Long?) = apply {
-            this.pageSize = pageSize
-        }
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
 
         /**
          * Alias for [Builder.pageSize].
@@ -235,25 +219,19 @@ private constructor(
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** Only return cases belonging to the provided queue. */
-        fun queueToken(queueToken: String?) = apply {
-            this.queueToken = queueToken
-        }
+        fun queueToken(queueToken: String?) = apply { this.queueToken = queueToken }
 
         /** Alias for calling [Builder.queueToken] with `queueToken.orElse(null)`. */
         fun queueToken(queueToken: Optional<String>) = queueToken(queueToken.getOrNull())
 
         /** Only return cases triggered by the provided transaction monitoring rule. */
-        fun ruleToken(ruleToken: String?) = apply {
-            this.ruleToken = ruleToken
-        }
+        fun ruleToken(ruleToken: String?) = apply { this.ruleToken = ruleToken }
 
         /** Alias for calling [Builder.ruleToken] with `ruleToken.orElse(null)`. */
         fun ruleToken(ruleToken: Optional<String>) = ruleToken(ruleToken.getOrNull())
 
         /** Sort order for the returned cases. */
-        fun sortBy(sortBy: CaseSortOrder?) = apply {
-            this.sortBy = sortBy
-        }
+        fun sortBy(sortBy: CaseSortOrder?) = apply { this.sortBy = sortBy }
 
         /** Alias for calling [Builder.sortBy] with `sortBy.orElse(null)`. */
         fun sortBy(sortBy: Optional<CaseSortOrder>) = sortBy(sortBy.getOrNull())
@@ -262,18 +240,14 @@ private constructor(
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String?) = apply {
-            this.startingAfter = startingAfter
-        }
+        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
 
         /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
         /** Only return cases with the provided status. */
-        fun status(status: CaseStatus?) = apply {
-            this.status = status
-        }
+        fun status(status: CaseStatus?) = apply { this.status = status }
 
         /** Alias for calling [Builder.status] with `status.orElse(null)`. */
         fun status(status: Optional<CaseStatus>) = status(status.getOrNull())
@@ -329,9 +303,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -381,9 +353,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

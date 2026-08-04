@@ -90,17 +90,13 @@ private constructor(
             additionalQueryParams = authRuleV2UpdateParams.additionalQueryParams.toBuilder()
         }
 
-        fun authRuleToken(authRuleToken: String?) = apply {
-            this.authRuleToken = authRuleToken
-        }
+        fun authRuleToken(authRuleToken: String?) = apply { this.authRuleToken = authRuleToken }
 
         /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
         fun authRuleToken(authRuleToken: Optional<String>) =
             authRuleToken(authRuleToken.getOrNull())
 
-        fun body(body: Body) = apply {
-            this.body = body
-        }
+        fun body(body: Body) = apply { this.body = body }
 
         /** Alias for calling [body] with `Body.ofAccountLevelRule(accountLevelRule)`. */
         fun body(accountLevelRule: Body.AccountLevelRule) =
@@ -155,9 +151,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -207,9 +201,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -230,10 +222,7 @@ private constructor(
         fun build(): AuthRuleV2UpdateParams =
             AuthRuleV2UpdateParams(
                 authRuleToken,
-                checkRequired(
-                    "body",
-                    body,
-                ),
+                checkRequired("body", body),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -513,13 +502,7 @@ private constructor(
                 businessAccountTokens: JsonField<List<String>> = JsonMissing.of(),
                 @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
-            ) : this(
-                accountTokens,
-                businessAccountTokens,
-                name,
-                state,
-                mutableMapOf(),
-            )
+            ) : this(accountTokens, businessAccountTokens, name, state, mutableMapOf())
 
             /**
              * Account tokens to which the Auth Rule applies.
@@ -697,9 +680,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /**
                  * The desired state of the Auth Rule.
@@ -717,9 +698,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun state(state: JsonField<State>) = apply {
-                    this.state = state
-                }
+                fun state(state: JsonField<State>) = apply { this.state = state }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -839,11 +818,9 @@ private constructor(
                  * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [State] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -992,12 +969,7 @@ private constructor(
                 cardTokens: JsonField<List<String>> = JsonMissing.of(),
                 @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
-            ) : this(
-                cardTokens,
-                name,
-                state,
-                mutableMapOf(),
-            )
+            ) : this(cardTokens, name, state, mutableMapOf())
 
             /**
              * Card tokens to which the Auth Rule applies.
@@ -1124,9 +1096,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /**
                  * The desired state of the Auth Rule.
@@ -1144,9 +1114,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun state(state: JsonField<State>) = apply {
-                    this.state = state
-                }
+                fun state(state: JsonField<State>) = apply { this.state = state }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1263,11 +1231,9 @@ private constructor(
                  * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [State] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -1625,9 +1591,8 @@ private constructor(
                 fun excludedBusinessAccountTokens(
                     excludedBusinessAccountTokens: JsonField<List<String>>
                 ) = apply {
-                    this.excludedBusinessAccountTokens = excludedBusinessAccountTokens.map {
-                        it.toMutableList()
-                    }
+                    this.excludedBusinessAccountTokens =
+                        excludedBusinessAccountTokens.map { it.toMutableList() }
                 }
 
                 /**
@@ -1683,9 +1648,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun name(name: JsonField<String>) = apply {
-                    this.name = name
-                }
+                fun name(name: JsonField<String>) = apply { this.name = name }
 
                 /** Whether the Auth Rule applies to all authorizations on the card program. */
                 fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
@@ -1717,9 +1680,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun state(state: JsonField<State>) = apply {
-                    this.state = state
-                }
+                fun state(state: JsonField<State>) = apply { this.state = state }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1847,11 +1808,9 @@ private constructor(
                  * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [State] can contain an unknown value in a couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {

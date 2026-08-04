@@ -53,11 +53,7 @@ interface CardService {
      * Create a new virtual or physical card. Parameters `shipping_address` and `product_id` only
      * apply to physical cards.
      */
-    fun create(params: CardCreateParams): Card =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+    fun create(params: CardCreateParams): Card = create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -66,30 +62,18 @@ interface CardService {
     ): Card
 
     /** Get card configuration such as spend limit and state. */
-    fun retrieve(cardToken: String): Card =
-        retrieve(
-            cardToken,
-            CardRetrieveParams.none(),
-        )
+    fun retrieve(cardToken: String): Card = retrieve(cardToken, CardRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         cardToken: String,
         params: CardRetrieveParams = CardRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Card =
-        retrieve(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+    ): Card = retrieve(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(cardToken: String, params: CardRetrieveParams = CardRetrieveParams.none()): Card =
-        retrieve(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(cardToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -98,49 +82,29 @@ interface CardService {
     ): Card
 
     /** @see retrieve */
-    fun retrieve(params: CardRetrieveParams): Card =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    fun retrieve(params: CardRetrieveParams): Card = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(cardToken: String, requestOptions: RequestOptions): Card =
-        retrieve(
-            cardToken,
-            CardRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(cardToken, CardRetrieveParams.none(), requestOptions)
 
     /**
      * Update the specified properties of the card. Unsupplied properties will remain unchanged.
      *
      * *Note: setting a card to a `CLOSED` state is a final action that cannot be undone.*
      */
-    fun update(cardToken: String): Card =
-        update(
-            cardToken,
-            CardUpdateParams.none(),
-        )
+    fun update(cardToken: String): Card = update(cardToken, CardUpdateParams.none())
 
     /** @see update */
     fun update(
         cardToken: String,
         params: CardUpdateParams = CardUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Card =
-        update(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+    ): Card = update(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see update */
     fun update(cardToken: String, params: CardUpdateParams = CardUpdateParams.none()): Card =
-        update(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+        update(cardToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -149,19 +113,11 @@ interface CardService {
     ): Card
 
     /** @see update */
-    fun update(params: CardUpdateParams): Card =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+    fun update(params: CardUpdateParams): Card = update(params, RequestOptions.none())
 
     /** @see update */
     fun update(cardToken: String, requestOptions: RequestOptions): Card =
-        update(
-            cardToken,
-            CardUpdateParams.none(),
-            requestOptions,
-        )
+        update(cardToken, CardUpdateParams.none(), requestOptions)
 
     /** List cards. */
     fun list(): CardListPage = list(CardListParams.none())
@@ -174,17 +130,11 @@ interface CardService {
 
     /** @see list */
     fun list(params: CardListParams = CardListParams.none()): CardListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CardListPage =
-        list(
-            CardListParams.none(),
-            requestOptions,
-        )
+        list(CardListParams.none(), requestOptions)
 
     /**
      * Convert a virtual card into a physical card and manufacture it. Customer must supply relevant
@@ -197,29 +147,18 @@ interface CardService {
      * cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
      */
     fun convertPhysical(cardToken: String, params: CardConvertPhysicalParams): Card =
-        convertPhysical(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+        convertPhysical(cardToken, params, RequestOptions.none())
 
     /** @see convertPhysical */
     fun convertPhysical(
         cardToken: String,
         params: CardConvertPhysicalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Card =
-        convertPhysical(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+    ): Card = convertPhysical(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see convertPhysical */
     fun convertPhysical(params: CardConvertPhysicalParams): Card =
-        convertPhysical(
-            params,
-            RequestOptions.none(),
-        )
+        convertPhysical(params, RequestOptions.none())
 
     /** @see convertPhysical */
     fun convertPhysical(
@@ -254,11 +193,7 @@ interface CardService {
      * your API key into front end code, as doing so introduces a serious security vulnerability**.
      */
     @Deprecated("deprecated")
-    fun embed(params: CardEmbedParams): String =
-        embed(
-            params,
-            RequestOptions.none(),
-        )
+    fun embed(params: CardEmbedParams): String = embed(params, RequestOptions.none())
 
     /** @see embed */
     @Deprecated("deprecated")
@@ -276,10 +211,7 @@ interface CardService {
      * information.
      */
     fun provision(cardToken: String): CardProvisionResponse =
-        provision(
-            cardToken,
-            CardProvisionParams.none(),
-        )
+        provision(cardToken, CardProvisionParams.none())
 
     /** @see provision */
     fun provision(
@@ -287,21 +219,13 @@ interface CardService {
         params: CardProvisionParams = CardProvisionParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardProvisionResponse =
-        provision(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+        provision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see provision */
     fun provision(
         cardToken: String,
         params: CardProvisionParams = CardProvisionParams.none(),
-    ): CardProvisionResponse =
-        provision(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CardProvisionResponse = provision(cardToken, params, RequestOptions.none())
 
     /** @see provision */
     fun provision(
@@ -311,18 +235,11 @@ interface CardService {
 
     /** @see provision */
     fun provision(params: CardProvisionParams): CardProvisionResponse =
-        provision(
-            params,
-            RequestOptions.none(),
-        )
+        provision(params, RequestOptions.none())
 
     /** @see provision */
     fun provision(cardToken: String, requestOptions: RequestOptions): CardProvisionResponse =
-        provision(
-            cardToken,
-            CardProvisionParams.none(),
-            requestOptions,
-        )
+        provision(cardToken, CardProvisionParams.none(), requestOptions)
 
     /**
      * Initiate print and shipment of a duplicate physical card (e.g. card is physically damaged).
@@ -330,30 +247,18 @@ interface CardService {
      * until the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be
      * reissued or renewed a total of 8 times.
      */
-    fun reissue(cardToken: String): Card =
-        reissue(
-            cardToken,
-            CardReissueParams.none(),
-        )
+    fun reissue(cardToken: String): Card = reissue(cardToken, CardReissueParams.none())
 
     /** @see reissue */
     fun reissue(
         cardToken: String,
         params: CardReissueParams = CardReissueParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Card =
-        reissue(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+    ): Card = reissue(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see reissue */
     fun reissue(cardToken: String, params: CardReissueParams = CardReissueParams.none()): Card =
-        reissue(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+        reissue(cardToken, params, RequestOptions.none())
 
     /** @see reissue */
     fun reissue(
@@ -362,19 +267,11 @@ interface CardService {
     ): Card
 
     /** @see reissue */
-    fun reissue(params: CardReissueParams): Card =
-        reissue(
-            params,
-            RequestOptions.none(),
-        )
+    fun reissue(params: CardReissueParams): Card = reissue(params, RequestOptions.none())
 
     /** @see reissue */
     fun reissue(cardToken: String, requestOptions: RequestOptions): Card =
-        reissue(
-            cardToken,
-            CardReissueParams.none(),
-            requestOptions,
-        )
+        reissue(cardToken, CardReissueParams.none(), requestOptions)
 
     /**
      * Applies to card types `PHYSICAL` and `VIRTUAL`. For `PHYSICAL`, creates a new card with the
@@ -387,29 +284,17 @@ interface CardService {
      * for renewing `PHYSICAL` cards.
      */
     fun renew(cardToken: String, params: CardRenewParams): Card =
-        renew(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+        renew(cardToken, params, RequestOptions.none())
 
     /** @see renew */
     fun renew(
         cardToken: String,
         params: CardRenewParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Card =
-        renew(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+    ): Card = renew(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see renew */
-    fun renew(params: CardRenewParams): Card =
-        renew(
-            params,
-            RequestOptions.none(),
-        )
+    fun renew(params: CardRenewParams): Card = renew(params, RequestOptions.none())
 
     /** @see renew */
     fun renew(params: CardRenewParams, requestOptions: RequestOptions = RequestOptions.none()): Card
@@ -423,10 +308,7 @@ interface CardService {
      * writing rules and debug rule behavior.
      */
     fun retrieveSignals(cardToken: String): SignalsResponse =
-        retrieveSignals(
-            cardToken,
-            CardRetrieveSignalsParams.none(),
-        )
+        retrieveSignals(cardToken, CardRetrieveSignalsParams.none())
 
     /** @see retrieveSignals */
     fun retrieveSignals(
@@ -434,21 +316,13 @@ interface CardService {
         params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SignalsResponse =
-        retrieveSignals(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+        retrieveSignals(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see retrieveSignals */
     fun retrieveSignals(
         cardToken: String,
         params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
-    ): SignalsResponse =
-        retrieveSignals(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): SignalsResponse = retrieveSignals(cardToken, params, RequestOptions.none())
 
     /** @see retrieveSignals */
     fun retrieveSignals(
@@ -458,18 +332,11 @@ interface CardService {
 
     /** @see retrieveSignals */
     fun retrieveSignals(params: CardRetrieveSignalsParams): SignalsResponse =
-        retrieveSignals(
-            params,
-            RequestOptions.none(),
-        )
+        retrieveSignals(params, RequestOptions.none())
 
     /** @see retrieveSignals */
     fun retrieveSignals(cardToken: String, requestOptions: RequestOptions): SignalsResponse =
-        retrieveSignals(
-            cardToken,
-            CardRetrieveSignalsParams.none(),
-            requestOptions,
-        )
+        retrieveSignals(cardToken, CardRetrieveSignalsParams.none(), requestOptions)
 
     /**
      * Get a Card's available spend limit, which is based on the spend limit configured on the Card
@@ -478,10 +345,7 @@ interface CardService {
      * spend limit returned would be $400.
      */
     fun retrieveSpendLimits(cardToken: String): CardSpendLimits =
-        retrieveSpendLimits(
-            cardToken,
-            CardRetrieveSpendLimitsParams.none(),
-        )
+        retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none())
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(
@@ -489,21 +353,13 @@ interface CardService {
         params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardSpendLimits =
-        retrieveSpendLimits(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+        retrieveSpendLimits(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(
         cardToken: String,
         params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
-    ): CardSpendLimits =
-        retrieveSpendLimits(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CardSpendLimits = retrieveSpendLimits(cardToken, params, RequestOptions.none())
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(
@@ -513,18 +369,11 @@ interface CardService {
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(params: CardRetrieveSpendLimitsParams): CardSpendLimits =
-        retrieveSpendLimits(
-            params,
-            RequestOptions.none(),
-        )
+        retrieveSpendLimits(params, RequestOptions.none())
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(cardToken: String, requestOptions: RequestOptions): CardSpendLimits =
-        retrieveSpendLimits(
-            cardToken,
-            CardRetrieveSpendLimitsParams.none(),
-            requestOptions,
-        )
+        retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none(), requestOptions)
 
     /**
      * Get card configuration such as spend limit and state. Customers must be PCI compliant to use
@@ -533,10 +382,7 @@ interface CardService {
      * in a request body than in a URL.*
      */
     fun searchByPan(params: CardSearchByPanParams): Card =
-        searchByPan(
-            params,
-            RequestOptions.none(),
-        )
+        searchByPan(params, RequestOptions.none())
 
     /** @see searchByPan */
     fun searchByPan(
@@ -553,10 +399,7 @@ interface CardService {
      * information.
      */
     fun webProvision(cardToken: String): CardWebProvisionResponse =
-        webProvision(
-            cardToken,
-            CardWebProvisionParams.none(),
-        )
+        webProvision(cardToken, CardWebProvisionParams.none())
 
     /** @see webProvision */
     fun webProvision(
@@ -564,21 +407,13 @@ interface CardService {
         params: CardWebProvisionParams = CardWebProvisionParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CardWebProvisionResponse =
-        webProvision(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+        webProvision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see webProvision */
     fun webProvision(
         cardToken: String,
         params: CardWebProvisionParams = CardWebProvisionParams.none(),
-    ): CardWebProvisionResponse =
-        webProvision(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CardWebProvisionResponse = webProvision(cardToken, params, RequestOptions.none())
 
     /** @see webProvision */
     fun webProvision(
@@ -588,18 +423,11 @@ interface CardService {
 
     /** @see webProvision */
     fun webProvision(params: CardWebProvisionParams): CardWebProvisionResponse =
-        webProvision(
-            params,
-            RequestOptions.none(),
-        )
+        webProvision(params, RequestOptions.none())
 
     /** @see webProvision */
     fun webProvision(cardToken: String, requestOptions: RequestOptions): CardWebProvisionResponse =
-        webProvision(
-            cardToken,
-            CardWebProvisionParams.none(),
-            requestOptions,
-        )
+        webProvision(cardToken, CardWebProvisionParams.none(), requestOptions)
 
     fun getEmbedHtml(
         params: CardGetEmbedHtmlParams,
@@ -631,10 +459,7 @@ interface CardService {
          */
         @MustBeClosed
         fun create(params: CardCreateParams): HttpResponseFor<Card> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
@@ -649,10 +474,7 @@ interface CardService {
          */
         @MustBeClosed
         fun retrieve(cardToken: String): HttpResponseFor<Card> =
-            retrieve(
-                cardToken,
-                CardRetrieveParams.none(),
-            )
+            retrieve(cardToken, CardRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -661,22 +483,14 @@ interface CardService {
             params: CardRetrieveParams = CardRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card> =
-            retrieve(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             cardToken: String,
             params: CardRetrieveParams = CardRetrieveParams.none(),
-        ): HttpResponseFor<Card> =
-            retrieve(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<Card> = retrieve(cardToken, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -688,19 +502,12 @@ interface CardService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: CardRetrieveParams): HttpResponseFor<Card> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(cardToken: String, requestOptions: RequestOptions): HttpResponseFor<Card> =
-            retrieve(
-                cardToken,
-                CardRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(cardToken, CardRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `patch /v1/cards/{card_token}`, but is otherwise the same
@@ -708,10 +515,7 @@ interface CardService {
          */
         @MustBeClosed
         fun update(cardToken: String): HttpResponseFor<Card> =
-            update(
-                cardToken,
-                CardUpdateParams.none(),
-            )
+            update(cardToken, CardUpdateParams.none())
 
         /** @see update */
         @MustBeClosed
@@ -720,22 +524,14 @@ interface CardService {
             params: CardUpdateParams = CardUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card> =
-            update(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            update(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see update */
         @MustBeClosed
         fun update(
             cardToken: String,
             params: CardUpdateParams = CardUpdateParams.none(),
-        ): HttpResponseFor<Card> =
-            update(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<Card> = update(cardToken, params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
@@ -747,19 +543,12 @@ interface CardService {
         /** @see update */
         @MustBeClosed
         fun update(params: CardUpdateParams): HttpResponseFor<Card> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+            update(params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
         fun update(cardToken: String, requestOptions: RequestOptions): HttpResponseFor<Card> =
-            update(
-                cardToken,
-                CardUpdateParams.none(),
-                requestOptions,
-            )
+            update(cardToken, CardUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/cards`, but is otherwise the same as
@@ -777,18 +566,12 @@ interface CardService {
         /** @see list */
         @MustBeClosed
         fun list(params: CardListParams = CardListParams.none()): HttpResponseFor<CardListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<CardListPage> =
-            list(
-                CardListParams.none(),
-                requestOptions,
-            )
+            list(CardListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/convert_physical`, but is
@@ -798,12 +581,7 @@ interface CardService {
         fun convertPhysical(
             cardToken: String,
             params: CardConvertPhysicalParams,
-        ): HttpResponseFor<Card> =
-            convertPhysical(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<Card> = convertPhysical(cardToken, params, RequestOptions.none())
 
         /** @see convertPhysical */
         @MustBeClosed
@@ -812,18 +590,12 @@ interface CardService {
             params: CardConvertPhysicalParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card> =
-            convertPhysical(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            convertPhysical(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see convertPhysical */
         @MustBeClosed
         fun convertPhysical(params: CardConvertPhysicalParams): HttpResponseFor<Card> =
-            convertPhysical(
-                params,
-                RequestOptions.none(),
-            )
+            convertPhysical(params, RequestOptions.none())
 
         /** @see convertPhysical */
         @MustBeClosed
@@ -839,10 +611,7 @@ interface CardService {
         @Deprecated("deprecated")
         @MustBeClosed
         fun embed(params: CardEmbedParams): HttpResponseFor<String> =
-            embed(
-                params,
-                RequestOptions.none(),
-            )
+            embed(params, RequestOptions.none())
 
         /** @see embed */
         @Deprecated("deprecated")
@@ -858,10 +627,7 @@ interface CardService {
          */
         @MustBeClosed
         fun provision(cardToken: String): HttpResponseFor<CardProvisionResponse> =
-            provision(
-                cardToken,
-                CardProvisionParams.none(),
-            )
+            provision(cardToken, CardProvisionParams.none())
 
         /** @see provision */
         @MustBeClosed
@@ -870,10 +636,7 @@ interface CardService {
             params: CardProvisionParams = CardProvisionParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardProvisionResponse> =
-            provision(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            provision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see provision */
         @MustBeClosed
@@ -881,11 +644,7 @@ interface CardService {
             cardToken: String,
             params: CardProvisionParams = CardProvisionParams.none(),
         ): HttpResponseFor<CardProvisionResponse> =
-            provision(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+            provision(cardToken, params, RequestOptions.none())
 
         /** @see provision */
         @MustBeClosed
@@ -897,10 +656,7 @@ interface CardService {
         /** @see provision */
         @MustBeClosed
         fun provision(params: CardProvisionParams): HttpResponseFor<CardProvisionResponse> =
-            provision(
-                params,
-                RequestOptions.none(),
-            )
+            provision(params, RequestOptions.none())
 
         /** @see provision */
         @MustBeClosed
@@ -908,11 +664,7 @@ interface CardService {
             cardToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<CardProvisionResponse> =
-            provision(
-                cardToken,
-                CardProvisionParams.none(),
-                requestOptions,
-            )
+            provision(cardToken, CardProvisionParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/reissue`, but is otherwise
@@ -920,10 +672,7 @@ interface CardService {
          */
         @MustBeClosed
         fun reissue(cardToken: String): HttpResponseFor<Card> =
-            reissue(
-                cardToken,
-                CardReissueParams.none(),
-            )
+            reissue(cardToken, CardReissueParams.none())
 
         /** @see reissue */
         @MustBeClosed
@@ -932,22 +681,14 @@ interface CardService {
             params: CardReissueParams = CardReissueParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card> =
-            reissue(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            reissue(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see reissue */
         @MustBeClosed
         fun reissue(
             cardToken: String,
             params: CardReissueParams = CardReissueParams.none(),
-        ): HttpResponseFor<Card> =
-            reissue(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<Card> = reissue(cardToken, params, RequestOptions.none())
 
         /** @see reissue */
         @MustBeClosed
@@ -959,19 +700,12 @@ interface CardService {
         /** @see reissue */
         @MustBeClosed
         fun reissue(params: CardReissueParams): HttpResponseFor<Card> =
-            reissue(
-                params,
-                RequestOptions.none(),
-            )
+            reissue(params, RequestOptions.none())
 
         /** @see reissue */
         @MustBeClosed
         fun reissue(cardToken: String, requestOptions: RequestOptions): HttpResponseFor<Card> =
-            reissue(
-                cardToken,
-                CardReissueParams.none(),
-                requestOptions,
-            )
+            reissue(cardToken, CardReissueParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/cards/{card_token}/renew`, but is otherwise the
@@ -979,11 +713,7 @@ interface CardService {
          */
         @MustBeClosed
         fun renew(cardToken: String, params: CardRenewParams): HttpResponseFor<Card> =
-            renew(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+            renew(cardToken, params, RequestOptions.none())
 
         /** @see renew */
         @MustBeClosed
@@ -992,18 +722,12 @@ interface CardService {
             params: CardRenewParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Card> =
-            renew(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            renew(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see renew */
         @MustBeClosed
         fun renew(params: CardRenewParams): HttpResponseFor<Card> =
-            renew(
-                params,
-                RequestOptions.none(),
-            )
+            renew(params, RequestOptions.none())
 
         /** @see renew */
         @MustBeClosed
@@ -1018,10 +742,7 @@ interface CardService {
          */
         @MustBeClosed
         fun retrieveSignals(cardToken: String): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                cardToken,
-                CardRetrieveSignalsParams.none(),
-            )
+            retrieveSignals(cardToken, CardRetrieveSignalsParams.none())
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -1030,10 +751,7 @@ interface CardService {
             params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            retrieveSignals(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -1041,11 +759,7 @@ interface CardService {
             cardToken: String,
             params: CardRetrieveSignalsParams = CardRetrieveSignalsParams.none(),
         ): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSignals(cardToken, params, RequestOptions.none())
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -1057,10 +771,7 @@ interface CardService {
         /** @see retrieveSignals */
         @MustBeClosed
         fun retrieveSignals(params: CardRetrieveSignalsParams): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSignals(params, RequestOptions.none())
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -1068,11 +779,7 @@ interface CardService {
             cardToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                cardToken,
-                CardRetrieveSignalsParams.none(),
-                requestOptions,
-            )
+            retrieveSignals(cardToken, CardRetrieveSignalsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/cards/{card_token}/spend_limits`, but is
@@ -1080,10 +787,7 @@ interface CardService {
          */
         @MustBeClosed
         fun retrieveSpendLimits(cardToken: String): HttpResponseFor<CardSpendLimits> =
-            retrieveSpendLimits(
-                cardToken,
-                CardRetrieveSpendLimitsParams.none(),
-            )
+            retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none())
 
         /** @see retrieveSpendLimits */
         @MustBeClosed
@@ -1092,10 +796,7 @@ interface CardService {
             params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardSpendLimits> =
-            retrieveSpendLimits(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            retrieveSpendLimits(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see retrieveSpendLimits */
         @MustBeClosed
@@ -1103,11 +804,7 @@ interface CardService {
             cardToken: String,
             params: CardRetrieveSpendLimitsParams = CardRetrieveSpendLimitsParams.none(),
         ): HttpResponseFor<CardSpendLimits> =
-            retrieveSpendLimits(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSpendLimits(cardToken, params, RequestOptions.none())
 
         /** @see retrieveSpendLimits */
         @MustBeClosed
@@ -1120,11 +817,7 @@ interface CardService {
         @MustBeClosed
         fun retrieveSpendLimits(
             params: CardRetrieveSpendLimitsParams
-        ): HttpResponseFor<CardSpendLimits> =
-            retrieveSpendLimits(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<CardSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
 
         /** @see retrieveSpendLimits */
         @MustBeClosed
@@ -1132,11 +825,7 @@ interface CardService {
             cardToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<CardSpendLimits> =
-            retrieveSpendLimits(
-                cardToken,
-                CardRetrieveSpendLimitsParams.none(),
-                requestOptions,
-            )
+            retrieveSpendLimits(cardToken, CardRetrieveSpendLimitsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/cards/search_by_pan`, but is otherwise the same
@@ -1144,10 +833,7 @@ interface CardService {
          */
         @MustBeClosed
         fun searchByPan(params: CardSearchByPanParams): HttpResponseFor<Card> =
-            searchByPan(
-                params,
-                RequestOptions.none(),
-            )
+            searchByPan(params, RequestOptions.none())
 
         /** @see searchByPan */
         @MustBeClosed
@@ -1162,10 +848,7 @@ interface CardService {
          */
         @MustBeClosed
         fun webProvision(cardToken: String): HttpResponseFor<CardWebProvisionResponse> =
-            webProvision(
-                cardToken,
-                CardWebProvisionParams.none(),
-            )
+            webProvision(cardToken, CardWebProvisionParams.none())
 
         /** @see webProvision */
         @MustBeClosed
@@ -1174,10 +857,7 @@ interface CardService {
             params: CardWebProvisionParams = CardWebProvisionParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CardWebProvisionResponse> =
-            webProvision(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            webProvision(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see webProvision */
         @MustBeClosed
@@ -1185,11 +865,7 @@ interface CardService {
             cardToken: String,
             params: CardWebProvisionParams = CardWebProvisionParams.none(),
         ): HttpResponseFor<CardWebProvisionResponse> =
-            webProvision(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+            webProvision(cardToken, params, RequestOptions.none())
 
         /** @see webProvision */
         @MustBeClosed
@@ -1202,11 +878,7 @@ interface CardService {
         @MustBeClosed
         fun webProvision(
             params: CardWebProvisionParams
-        ): HttpResponseFor<CardWebProvisionResponse> =
-            webProvision(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<CardWebProvisionResponse> = webProvision(params, RequestOptions.none())
 
         /** @see webProvision */
         @MustBeClosed
@@ -1214,10 +886,6 @@ interface CardService {
             cardToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<CardWebProvisionResponse> =
-            webProvision(
-                cardToken,
-                CardWebProvisionParams.none(),
-                requestOptions,
-            )
+            webProvision(cardToken, CardWebProvisionParams.none(), requestOptions)
     }
 }

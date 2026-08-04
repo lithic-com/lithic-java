@@ -40,14 +40,7 @@ private constructor(
         @JsonProperty("penalty_rates") @ExcludeMissing penaltyRates: JsonValue = JsonMissing.of(),
         @JsonProperty("tier_name") @ExcludeMissing tierName: JsonField<String> = JsonMissing.of(),
         @JsonProperty("tier_rates") @ExcludeMissing tierRates: JsonValue = JsonMissing.of(),
-    ) : this(
-        creditProductToken,
-        effectiveDate,
-        penaltyRates,
-        tierName,
-        tierRates,
-        mutableMapOf(),
-    )
+    ) : this(creditProductToken, effectiveDate, penaltyRates, tierName, tierRates, mutableMapOf())
 
     /**
      * Globally unique identifier for a credit product
@@ -195,9 +188,7 @@ private constructor(
         }
 
         /** Custom rates per category for penalties */
-        fun penaltyRates(penaltyRates: JsonValue) = apply {
-            this.penaltyRates = penaltyRates
-        }
+        fun penaltyRates(penaltyRates: JsonValue) = apply { this.penaltyRates = penaltyRates }
 
         /** Name of a tier contained in the credit product. Mutually exclusive with tier_rates */
         fun tierName(tierName: String) = tierName(JsonField.of(tierName))
@@ -208,14 +199,10 @@ private constructor(
          * You should usually call [Builder.tierName] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun tierName(tierName: JsonField<String>) = apply {
-            this.tierName = tierName
-        }
+        fun tierName(tierName: JsonField<String>) = apply { this.tierName = tierName }
 
         /** Custom rates per category. Mutually exclusive with tier_name */
-        fun tierRates(tierRates: JsonValue) = apply {
-            this.tierRates = tierRates
-        }
+        fun tierRates(tierRates: JsonValue) = apply { this.tierRates = tierRates }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -230,9 +217,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -253,14 +238,8 @@ private constructor(
          */
         fun build(): InterestTierSchedule =
             InterestTierSchedule(
-                checkRequired(
-                    "creditProductToken",
-                    creditProductToken,
-                ),
-                checkRequired(
-                    "effectiveDate",
-                    effectiveDate,
-                ),
+                checkRequired("creditProductToken", creditProductToken),
+                checkRequired("effectiveDate", effectiveDate),
                 penaltyRates,
                 tierName,
                 tierRates,

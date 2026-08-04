@@ -104,9 +104,7 @@ private constructor(
             accountHolderToken(accountHolderToken.getOrNull())
 
         /** The KYB request payload for updating a business. */
-        fun body(body: Body) = apply {
-            this.body = body
-        }
+        fun body(body: Body) = apply { this.body = body }
 
         /** Alias for calling [body] with `Body.ofKybPatchRequest(kybPatchRequest)`. */
         fun body(kybPatchRequest: Body.KybPatchRequest) =
@@ -161,9 +159,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -213,9 +209,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -236,10 +230,7 @@ private constructor(
         fun build(): AccountHolderUpdateParams =
             AccountHolderUpdateParams(
                 accountHolderToken,
-                checkRequired(
-                    "body",
-                    body,
-                ),
+                checkRequired("body", body),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -768,9 +759,8 @@ private constructor(
                 fun beneficialOwnerIndividuals(
                     beneficialOwnerIndividuals: JsonField<List<IndividualPatch>>
                 ) = apply {
-                    this.beneficialOwnerIndividuals = beneficialOwnerIndividuals.map {
-                        it.toMutableList()
-                    }
+                    this.beneficialOwnerIndividuals =
+                        beneficialOwnerIndividuals.map { it.toMutableList() }
                 }
 
                 /**
@@ -859,9 +849,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun naicsCode(naicsCode: JsonField<String>) = apply {
-                    this.naicsCode = naicsCode
-                }
+                fun naicsCode(naicsCode: JsonField<String>) = apply { this.naicsCode = naicsCode }
 
                 /**
                  * Short description of the company's line of business (i.e., what does the company
@@ -1276,9 +1264,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun dob(dob: JsonField<String>) = apply {
-                        this.dob = dob
-                    }
+                    fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
                     /**
                      * Individual's email address. If utilizing Lithic for chargeback processing,
@@ -1294,9 +1280,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun email(email: JsonField<String>) = apply {
-                        this.email = email
-                    }
+                    fun email(email: JsonField<String>) = apply { this.email = email }
 
                     /**
                      * Individual's first name, as it appears on government-issued identity
@@ -1348,9 +1332,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun lastName(lastName: JsonField<String>) = apply {
-                        this.lastName = lastName
-                    }
+                    fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                     /** Individual's phone number, entered in E.164 format. */
                     fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -1402,10 +1384,7 @@ private constructor(
                      */
                     fun build(): IndividualPatch =
                         IndividualPatch(
-                            checkRequired(
-                                "entityToken",
-                                entityToken,
-                            ),
+                            checkRequired("entityToken", entityToken),
                             address,
                             dob,
                             email,
@@ -1907,10 +1886,7 @@ private constructor(
                      */
                     fun build(): KybBusinessEntityPatch =
                         KybBusinessEntityPatch(
-                            checkRequired(
-                                "entityToken",
-                                entityToken,
-                            ),
+                            checkRequired("entityToken", entityToken),
                             address,
                             dbaBusinessName,
                             governmentId,
@@ -2059,11 +2035,7 @@ private constructor(
                 @JsonProperty("individual")
                 @ExcludeMissing
                 individual: JsonField<IndividualPatch> = JsonMissing.of(),
-            ) : this(
-                externalId,
-                individual,
-                mutableMapOf(),
-            )
+            ) : this(externalId, individual, mutableMapOf())
 
             /**
              * A user provided id that can be used to link an account holder with an external system
@@ -2196,11 +2168,7 @@ private constructor(
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
                 fun build(): KycPatchRequest =
-                    KycPatchRequest(
-                        externalId,
-                        individual,
-                        additionalProperties.toMutableMap(),
-                    )
+                    KycPatchRequest(externalId, individual, additionalProperties.toMutableMap())
             }
 
             private var validated: Boolean = false
@@ -2536,9 +2504,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun dob(dob: JsonField<String>) = apply {
-                        this.dob = dob
-                    }
+                    fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
                     /**
                      * Individual's email address. If utilizing Lithic for chargeback processing,
@@ -2554,9 +2520,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun email(email: JsonField<String>) = apply {
-                        this.email = email
-                    }
+                    fun email(email: JsonField<String>) = apply { this.email = email }
 
                     /**
                      * Individual's first name, as it appears on government-issued identity
@@ -2608,9 +2572,7 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun lastName(lastName: JsonField<String>) = apply {
-                        this.lastName = lastName
-                    }
+                    fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                     /** Individual's phone number, entered in E.164 format. */
                     fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -2662,10 +2624,7 @@ private constructor(
                      */
                     fun build(): IndividualPatch =
                         IndividualPatch(
-                            checkRequired(
-                                "entityToken",
-                                entityToken,
-                            ),
+                            checkRequired("entityToken", entityToken),
                             address,
                             dob,
                             email,
@@ -3013,9 +2972,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun address(address: JsonField<AddressUpdate>) = apply {
-                    this.address = address
-                }
+                fun address(address: JsonField<AddressUpdate>) = apply { this.address = address }
 
                 /**
                  * Allowed for: KYC-Exempt, BYO-KYC. The token of the business account to which the
@@ -3049,9 +3006,7 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun email(email: JsonField<String>) = apply {
-                    this.email = email
-                }
+                fun email(email: JsonField<String>) = apply { this.email = email }
 
                 /** Allowed for KYC-Exempt, BYO-KYC. Account holder's first name. */
                 fun firstName(firstName: String) = firstName(JsonField.of(firstName))
@@ -3063,9 +3018,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun firstName(firstName: JsonField<String>) = apply {
-                    this.firstName = firstName
-                }
+                fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
                 /** Allowed for KYC-Exempt, BYO-KYC. Account holder's last name. */
                 fun lastName(lastName: String) = lastName(JsonField.of(lastName))
@@ -3077,9 +3030,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun lastName(lastName: JsonField<String>) = apply {
-                    this.lastName = lastName
-                }
+                fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
                 /** Allowed for BYO-KYB. Legal business name of the account holder. */
                 fun legalBusinessName(legalBusinessName: String) =

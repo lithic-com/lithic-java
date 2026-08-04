@@ -31,11 +31,7 @@ interface FinancialTransactionServiceAsync {
         financialTransactionToken: String,
         params: CardFinancialTransactionRetrieveParams,
     ): CompletableFuture<FinancialTransaction> =
-        retrieve(
-            financialTransactionToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(financialTransactionToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -51,11 +47,7 @@ interface FinancialTransactionServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: CardFinancialTransactionRetrieveParams
-    ): CompletableFuture<FinancialTransaction> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<FinancialTransaction> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -65,10 +57,7 @@ interface FinancialTransactionServiceAsync {
 
     /** List the financial transactions for a given card. */
     fun list(cardToken: String): CompletableFuture<CardFinancialTransactionListPageAsync> =
-        list(
-            cardToken,
-            CardFinancialTransactionListParams.none(),
-        )
+        list(cardToken, CardFinancialTransactionListParams.none())
 
     /** @see list */
     fun list(
@@ -76,21 +65,14 @@ interface FinancialTransactionServiceAsync {
         params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardFinancialTransactionListPageAsync> =
-        list(
-            params.toBuilder().cardToken(cardToken).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
     /** @see list */
     fun list(
         cardToken: String,
         params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
     ): CompletableFuture<CardFinancialTransactionListPageAsync> =
-        list(
-            cardToken,
-            params,
-            RequestOptions.none(),
-        )
+        list(cardToken, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -102,21 +84,14 @@ interface FinancialTransactionServiceAsync {
     fun list(
         params: CardFinancialTransactionListParams
     ): CompletableFuture<CardFinancialTransactionListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         cardToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<CardFinancialTransactionListPageAsync> =
-        list(
-            cardToken,
-            CardFinancialTransactionListParams.none(),
-            requestOptions,
-        )
+        list(cardToken, CardFinancialTransactionListParams.none(), requestOptions)
 
     /**
      * A view of [FinancialTransactionServiceAsync] that provides access to raw HTTP responses for
@@ -142,11 +117,7 @@ interface FinancialTransactionServiceAsync {
             financialTransactionToken: String,
             params: CardFinancialTransactionRetrieveParams,
         ): CompletableFuture<HttpResponseFor<FinancialTransaction>> =
-            retrieve(
-                financialTransactionToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(financialTransactionToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -163,10 +134,7 @@ interface FinancialTransactionServiceAsync {
         fun retrieve(
             params: CardFinancialTransactionRetrieveParams
         ): CompletableFuture<HttpResponseFor<FinancialTransaction>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -181,10 +149,7 @@ interface FinancialTransactionServiceAsync {
         fun list(
             cardToken: String
         ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>> =
-            list(
-                cardToken,
-                CardFinancialTransactionListParams.none(),
-            )
+            list(cardToken, CardFinancialTransactionListParams.none())
 
         /** @see list */
         fun list(
@@ -192,21 +157,14 @@ interface FinancialTransactionServiceAsync {
             params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>> =
-            list(
-                params.toBuilder().cardToken(cardToken).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
 
         /** @see list */
         fun list(
             cardToken: String,
             params: CardFinancialTransactionListParams = CardFinancialTransactionListParams.none(),
         ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>> =
-            list(
-                cardToken,
-                params,
-                RequestOptions.none(),
-            )
+            list(cardToken, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -218,20 +176,13 @@ interface FinancialTransactionServiceAsync {
         fun list(
             params: CardFinancialTransactionListParams
         ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             cardToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<CardFinancialTransactionListPageAsync>> =
-            list(
-                cardToken,
-                CardFinancialTransactionListParams.none(),
-                requestOptions,
-            )
+            list(cardToken, CardFinancialTransactionListParams.none(), requestOptions)
     }
 }

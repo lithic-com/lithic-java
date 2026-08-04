@@ -91,45 +91,31 @@ private constructor(
             putAllHeaders(headers)
         }
 
-        fun putHeader(name: String, value: String) = apply {
-            headers.put(name, value)
-        }
+        fun putHeader(name: String, value: String) = apply { headers.put(name, value) }
 
-        fun putHeaders(name: String, values: Iterable<String>) = apply {
-            headers.put(name, values)
-        }
+        fun putHeaders(name: String, values: Iterable<String>) = apply { headers.put(name, values) }
 
-        fun putAllHeaders(headers: Headers) = apply {
-            this.headers.putAll(headers)
-        }
+        fun putAllHeaders(headers: Headers) = apply { this.headers.putAll(headers) }
 
         fun putAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             this.headers.putAll(headers)
         }
 
-        fun replaceHeaders(name: String, value: String) = apply {
-            headers.replace(name, value)
-        }
+        fun replaceHeaders(name: String, value: String) = apply { headers.replace(name, value) }
 
         fun replaceHeaders(name: String, values: Iterable<String>) = apply {
             headers.replace(name, values)
         }
 
-        fun replaceAllHeaders(headers: Headers) = apply {
-            this.headers.replaceAll(headers)
-        }
+        fun replaceAllHeaders(headers: Headers) = apply { this.headers.replaceAll(headers) }
 
         fun replaceAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             this.headers.replaceAll(headers)
         }
 
-        fun removeHeaders(name: String) = apply {
-            headers.remove(name)
-        }
+        fun removeHeaders(name: String) = apply { headers.remove(name) }
 
-        fun removeAllHeaders(names: Set<String>) = apply {
-            headers.removeAll(names)
-        }
+        fun removeAllHeaders(names: Set<String>) = apply { headers.removeAll(names) }
 
         fun queryParams(queryParams: QueryParams) = apply {
             this.queryParams.clear()
@@ -141,9 +127,7 @@ private constructor(
             putAllQueryParams(queryParams)
         }
 
-        fun putQueryParam(key: String, value: String) = apply {
-            queryParams.put(key, value)
-        }
+        fun putQueryParam(key: String, value: String) = apply { queryParams.put(key, value) }
 
         fun putQueryParams(key: String, values: Iterable<String>) = apply {
             queryParams.put(key, values)
@@ -173,13 +157,9 @@ private constructor(
             this.queryParams.replaceAll(queryParams)
         }
 
-        fun removeQueryParams(key: String) = apply {
-            queryParams.remove(key)
-        }
+        fun removeQueryParams(key: String) = apply { queryParams.remove(key) }
 
-        fun removeAllQueryParams(keys: Set<String>) = apply {
-            queryParams.removeAll(keys)
-        }
+        fun removeAllQueryParams(keys: Set<String>) = apply { queryParams.removeAll(keys) }
 
         fun body(body: HttpRequestBody) = apply { this.body = body }
 

@@ -37,13 +37,7 @@ private constructor(
         @ExcludeMissing
         previousFields: JsonValue = JsonMissing.of(),
         @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
-    ) : this(
-        cardToken,
-        eventType,
-        previousFields,
-        state,
-        mutableMapOf(),
-    )
+    ) : this(cardToken, eventType, previousFields, state, mutableMapOf())
 
     /**
      * The token of the card that was updated.
@@ -158,9 +152,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -172,9 +164,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply {
-            this.eventType = eventType
-        }
+        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         /** The previous values of the fields that were updated. */
         fun previousFields(previousFields: JsonValue) = apply {
@@ -190,9 +180,7 @@ private constructor(
          * You should usually call [Builder.state] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun state(state: JsonField<String>) = apply {
-            this.state = state
-        }
+        fun state(state: JsonField<String>) = apply { this.state = state }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -207,9 +195,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -232,22 +218,10 @@ private constructor(
          */
         fun build(): CardUpdatedWebhookEvent =
             CardUpdatedWebhookEvent(
-                checkRequired(
-                    "cardToken",
-                    cardToken,
-                ),
-                checkRequired(
-                    "eventType",
-                    eventType,
-                ),
-                checkRequired(
-                    "previousFields",
-                    previousFields,
-                ),
-                checkRequired(
-                    "state",
-                    state,
-                ),
+                checkRequired("cardToken", cardToken),
+                checkRequired("eventType", eventType),
+                checkRequired("previousFields", previousFields),
+                checkRequired("state", state),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -321,11 +295,9 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

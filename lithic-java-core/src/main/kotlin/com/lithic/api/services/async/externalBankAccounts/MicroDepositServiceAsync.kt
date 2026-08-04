@@ -29,11 +29,7 @@ interface MicroDepositServiceAsync {
         externalBankAccountToken: String,
         params: ExternalBankAccountMicroDepositCreateParams,
     ): CompletableFuture<MicroDepositCreateResponse> =
-        create(
-            externalBankAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        create(externalBankAccountToken, params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -49,11 +45,7 @@ interface MicroDepositServiceAsync {
     /** @see create */
     fun create(
         params: ExternalBankAccountMicroDepositCreateParams
-    ): CompletableFuture<MicroDepositCreateResponse> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<MicroDepositCreateResponse> = create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -85,11 +77,7 @@ interface MicroDepositServiceAsync {
             externalBankAccountToken: String,
             params: ExternalBankAccountMicroDepositCreateParams,
         ): CompletableFuture<HttpResponseFor<MicroDepositCreateResponse>> =
-            create(
-                externalBankAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            create(externalBankAccountToken, params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -106,10 +94,7 @@ interface MicroDepositServiceAsync {
         fun create(
             params: ExternalBankAccountMicroDepositCreateParams
         ): CompletableFuture<HttpResponseFor<MicroDepositCreateResponse>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         fun create(

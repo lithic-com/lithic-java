@@ -25,10 +25,7 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("enrolled") @ExcludeMissing enrolled: JsonField<Boolean> = JsonMissing.of()
-    ) : this(
-        enrolled,
-        mutableMapOf(),
-    )
+    ) : this(enrolled, mutableMapOf())
 
     /**
      * True if the endpoint was enrolled successfully.
@@ -90,9 +87,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun enrolled(enrolled: JsonField<Boolean>) = apply {
-            this.enrolled = enrolled
-        }
+        fun enrolled(enrolled: JsonField<Boolean>) = apply { this.enrolled = enrolled }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -107,9 +102,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -121,10 +114,7 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): ResponderEndpointCreateResponse =
-            ResponderEndpointCreateResponse(
-                enrolled,
-                additionalProperties.toMutableMap(),
-            )
+            ResponderEndpointCreateResponse(enrolled, additionalProperties.toMutableMap())
     }
 
     private var validated: Boolean = false

@@ -27,10 +27,7 @@ interface CreditConfigurationServiceAsync {
 
     /** Get an Account's credit configuration */
     fun retrieve(financialAccountToken: String): CompletableFuture<FinancialAccountCreditConfig> =
-        retrieve(
-            financialAccountToken,
-            FinancialAccountCreditConfigurationRetrieveParams.none(),
-        )
+        retrieve(financialAccountToken, FinancialAccountCreditConfigurationRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -50,11 +47,7 @@ interface CreditConfigurationServiceAsync {
         params: FinancialAccountCreditConfigurationRetrieveParams =
             FinancialAccountCreditConfigurationRetrieveParams.none(),
     ): CompletableFuture<FinancialAccountCreditConfig> =
-        retrieve(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(financialAccountToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -65,11 +58,7 @@ interface CreditConfigurationServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: FinancialAccountCreditConfigurationRetrieveParams
-    ): CompletableFuture<FinancialAccountCreditConfig> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<FinancialAccountCreditConfig> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -84,10 +73,7 @@ interface CreditConfigurationServiceAsync {
 
     /** Update an account's credit configuration */
     fun update(financialAccountToken: String): CompletableFuture<FinancialAccountCreditConfig> =
-        update(
-            financialAccountToken,
-            FinancialAccountCreditConfigurationUpdateParams.none(),
-        )
+        update(financialAccountToken, FinancialAccountCreditConfigurationUpdateParams.none())
 
     /** @see update */
     fun update(
@@ -107,11 +93,7 @@ interface CreditConfigurationServiceAsync {
         params: FinancialAccountCreditConfigurationUpdateParams =
             FinancialAccountCreditConfigurationUpdateParams.none(),
     ): CompletableFuture<FinancialAccountCreditConfig> =
-        update(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        update(financialAccountToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -122,11 +104,7 @@ interface CreditConfigurationServiceAsync {
     /** @see update */
     fun update(
         params: FinancialAccountCreditConfigurationUpdateParams
-    ): CompletableFuture<FinancialAccountCreditConfig> =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<FinancialAccountCreditConfig> = update(params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -185,11 +163,7 @@ interface CreditConfigurationServiceAsync {
             params: FinancialAccountCreditConfigurationRetrieveParams =
                 FinancialAccountCreditConfigurationRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
-            retrieve(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(financialAccountToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -201,10 +175,7 @@ interface CreditConfigurationServiceAsync {
         fun retrieve(
             params: FinancialAccountCreditConfigurationRetrieveParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -225,10 +196,7 @@ interface CreditConfigurationServiceAsync {
         fun update(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
-            update(
-                financialAccountToken,
-                FinancialAccountCreditConfigurationUpdateParams.none(),
-            )
+            update(financialAccountToken, FinancialAccountCreditConfigurationUpdateParams.none())
 
         /** @see update */
         fun update(
@@ -248,11 +216,7 @@ interface CreditConfigurationServiceAsync {
             params: FinancialAccountCreditConfigurationUpdateParams =
                 FinancialAccountCreditConfigurationUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
-            update(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            update(financialAccountToken, params, RequestOptions.none())
 
         /** @see update */
         fun update(
@@ -264,10 +228,7 @@ interface CreditConfigurationServiceAsync {
         fun update(
             params: FinancialAccountCreditConfigurationUpdateParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountCreditConfig>> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+            update(params, RequestOptions.none())
 
         /** @see update */
         fun update(

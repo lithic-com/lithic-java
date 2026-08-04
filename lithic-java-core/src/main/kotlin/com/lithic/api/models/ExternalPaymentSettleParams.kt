@@ -136,9 +136,7 @@ private constructor(
             this.body = body.toBuilder()
         }
 
-        fun effectiveDate(effectiveDate: LocalDate) = apply {
-            body.effectiveDate(effectiveDate)
-        }
+        fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
         /**
          * Sets [Builder.effectiveDate] to an arbitrary JSON value.
@@ -151,9 +149,7 @@ private constructor(
             body.effectiveDate(effectiveDate)
         }
 
-        fun memo(memo: String) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /**
          * Sets [Builder.memo] to an arbitrary JSON value.
@@ -161,9 +157,7 @@ private constructor(
          * You should usually call [Builder.memo] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun memo(memo: JsonField<String>) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun progressTo(progressTo: ExternalPaymentProgressTo) = apply {
             body.progressTo(progressTo)
@@ -185,10 +179,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -196,9 +187,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -246,9 +235,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -298,9 +285,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -357,12 +342,7 @@ private constructor(
             @JsonProperty("progress_to")
             @ExcludeMissing
             progressTo: JsonField<ExternalPaymentProgressTo> = JsonMissing.of(),
-        ) : this(
-            effectiveDate,
-            memo,
-            progressTo,
-            mutableMapOf(),
-        )
+        ) : this(effectiveDate, memo, progressTo, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -477,9 +457,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun memo(memo: JsonField<String>) = apply {
-                this.memo = memo
-            }
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun progressTo(progressTo: ExternalPaymentProgressTo) =
                 progressTo(JsonField.of(progressTo))
@@ -508,9 +486,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -530,10 +506,7 @@ private constructor(
              */
             fun build(): ExternalPaymentActionWithProgressToRequest =
                 ExternalPaymentActionWithProgressToRequest(
-                    checkRequired(
-                        "effectiveDate",
-                        effectiveDate,
-                    ),
+                    checkRequired("effectiveDate", effectiveDate),
                     memo,
                     progressTo,
                     additionalProperties.toMutableMap(),
@@ -639,11 +612,9 @@ private constructor(
          *
          * An instance of [ExternalPaymentProgressTo] can contain an unknown value in a couple of
          * cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

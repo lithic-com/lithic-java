@@ -314,9 +314,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -340,26 +338,11 @@ private constructor(
          */
         fun build(): CardholderAuthentication =
             CardholderAuthentication(
-                checkRequired(
-                    "authenticationMethod",
-                    authenticationMethod,
-                ),
-                checkRequired(
-                    "authenticationResult",
-                    authenticationResult,
-                ),
-                checkRequired(
-                    "decisionMadeBy",
-                    decisionMadeBy,
-                ),
-                checkRequired(
-                    "liabilityShift",
-                    liabilityShift,
-                ),
-                checkRequired(
-                    "threeDSAuthenticationToken",
-                    threeDSAuthenticationToken,
-                ),
+                checkRequired("authenticationMethod", authenticationMethod),
+                checkRequired("authenticationResult", authenticationResult),
+                checkRequired("decisionMadeBy", decisionMadeBy),
+                checkRequired("liabilityShift", liabilityShift),
+                checkRequired("threeDSAuthenticationToken", threeDSAuthenticationToken),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -446,11 +429,9 @@ private constructor(
          * member.
          *
          * An instance of [AuthenticationMethod] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -598,11 +579,9 @@ private constructor(
          * member.
          *
          * An instance of [AuthenticationResult] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -757,11 +736,9 @@ private constructor(
          * An enum containing [DecisionMadeBy]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [DecisionMadeBy] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -922,11 +899,9 @@ private constructor(
          * An enum containing [LiabilityShift]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [LiabilityShift] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

@@ -85,14 +85,10 @@ private constructor(
             response = managementOperationListPage.response
         }
 
-        fun service(service: ManagementOperationService) = apply {
-            this.service = service
-        }
+        fun service(service: ManagementOperationService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: ManagementOperationListParams) = apply {
-            this.params = params
-        }
+        fun params(params: ManagementOperationListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: ManagementOperationListPageResponse) = apply {
@@ -115,18 +111,9 @@ private constructor(
          */
         fun build(): ManagementOperationListPage =
             ManagementOperationListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

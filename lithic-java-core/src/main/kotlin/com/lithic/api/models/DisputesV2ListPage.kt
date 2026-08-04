@@ -84,19 +84,13 @@ private constructor(
             response = disputesV2ListPage.response
         }
 
-        fun service(service: DisputesV2Service) = apply {
-            this.service = service
-        }
+        fun service(service: DisputesV2Service) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: DisputesV2ListParams) = apply {
-            this.params = params
-        }
+        fun params(params: DisputesV2ListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: DisputesV2ListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: DisputesV2ListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [DisputesV2ListPage].
@@ -114,18 +108,9 @@ private constructor(
          */
         fun build(): DisputesV2ListPage =
             DisputesV2ListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

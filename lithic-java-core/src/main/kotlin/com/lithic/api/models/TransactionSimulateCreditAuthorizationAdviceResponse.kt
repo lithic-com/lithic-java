@@ -29,11 +29,7 @@ private constructor(
         @JsonProperty("debugging_request_id")
         @ExcludeMissing
         debuggingRequestId: JsonField<String> = JsonMissing.of(),
-    ) : this(
-        token,
-        debuggingRequestId,
-        mutableMapOf(),
-    )
+    ) : this(token, debuggingRequestId, mutableMapOf())
 
     /**
      * A unique token to reference this transaction.
@@ -119,9 +115,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Debugging request ID to share with Lithic Support team. */
         fun debuggingRequestId(debuggingRequestId: String) =
@@ -151,9 +145,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)

@@ -33,32 +33,20 @@ interface AccountService {
 
     /** Get account configuration such as spend limits. */
     fun retrieve(accountToken: String): Account =
-        retrieve(
-            accountToken,
-            AccountRetrieveParams.none(),
-        )
+        retrieve(accountToken, AccountRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         accountToken: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Account =
-        retrieve(
-            params.toBuilder().accountToken(accountToken).build(),
-            requestOptions,
-        )
+    ): Account = retrieve(params.toBuilder().accountToken(accountToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         accountToken: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
-    ): Account =
-        retrieve(
-            accountToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): Account = retrieve(accountToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -67,52 +55,31 @@ interface AccountService {
     ): Account
 
     /** @see retrieve */
-    fun retrieve(params: AccountRetrieveParams): Account =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    fun retrieve(params: AccountRetrieveParams): Account = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(accountToken: String, requestOptions: RequestOptions): Account =
-        retrieve(
-            accountToken,
-            AccountRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(accountToken, AccountRetrieveParams.none(), requestOptions)
 
     /**
      * Update account configuration such as state or spend limits. Can only be run on accounts that
      * are part of the program managed by this API key. Accounts that are in the `PAUSED` state will
      * not be able to transact or create new cards.
      */
-    fun update(accountToken: String): Account =
-        update(
-            accountToken,
-            AccountUpdateParams.none(),
-        )
+    fun update(accountToken: String): Account = update(accountToken, AccountUpdateParams.none())
 
     /** @see update */
     fun update(
         accountToken: String,
         params: AccountUpdateParams = AccountUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Account =
-        update(
-            params.toBuilder().accountToken(accountToken).build(),
-            requestOptions,
-        )
+    ): Account = update(params.toBuilder().accountToken(accountToken).build(), requestOptions)
 
     /** @see update */
     fun update(
         accountToken: String,
         params: AccountUpdateParams = AccountUpdateParams.none(),
-    ): Account =
-        update(
-            accountToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): Account = update(accountToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -121,19 +88,11 @@ interface AccountService {
     ): Account
 
     /** @see update */
-    fun update(params: AccountUpdateParams): Account =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+    fun update(params: AccountUpdateParams): Account = update(params, RequestOptions.none())
 
     /** @see update */
     fun update(accountToken: String, requestOptions: RequestOptions): Account =
-        update(
-            accountToken,
-            AccountUpdateParams.none(),
-            requestOptions,
-        )
+        update(accountToken, AccountUpdateParams.none(), requestOptions)
 
     /** List account configurations. */
     fun list(): AccountListPage = list(AccountListParams.none())
@@ -146,17 +105,11 @@ interface AccountService {
 
     /** @see list */
     fun list(params: AccountListParams = AccountListParams.none()): AccountListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): AccountListPage =
-        list(
-            AccountListParams.none(),
-            requestOptions,
-        )
+        list(AccountListParams.none(), requestOptions)
 
     /**
      * Returns behavioral feature state derived from an account's transaction history.
@@ -169,10 +122,7 @@ interface AccountService {
      * Note: 3DS fields are not available at the account scope and will be null.
      */
     fun retrieveSignals(accountToken: String): SignalsResponse =
-        retrieveSignals(
-            accountToken,
-            AccountRetrieveSignalsParams.none(),
-        )
+        retrieveSignals(accountToken, AccountRetrieveSignalsParams.none())
 
     /** @see retrieveSignals */
     fun retrieveSignals(
@@ -180,21 +130,13 @@ interface AccountService {
         params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SignalsResponse =
-        retrieveSignals(
-            params.toBuilder().accountToken(accountToken).build(),
-            requestOptions,
-        )
+        retrieveSignals(params.toBuilder().accountToken(accountToken).build(), requestOptions)
 
     /** @see retrieveSignals */
     fun retrieveSignals(
         accountToken: String,
         params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
-    ): SignalsResponse =
-        retrieveSignals(
-            accountToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): SignalsResponse = retrieveSignals(accountToken, params, RequestOptions.none())
 
     /** @see retrieveSignals */
     fun retrieveSignals(
@@ -204,18 +146,11 @@ interface AccountService {
 
     /** @see retrieveSignals */
     fun retrieveSignals(params: AccountRetrieveSignalsParams): SignalsResponse =
-        retrieveSignals(
-            params,
-            RequestOptions.none(),
-        )
+        retrieveSignals(params, RequestOptions.none())
 
     /** @see retrieveSignals */
     fun retrieveSignals(accountToken: String, requestOptions: RequestOptions): SignalsResponse =
-        retrieveSignals(
-            accountToken,
-            AccountRetrieveSignalsParams.none(),
-            requestOptions,
-        )
+        retrieveSignals(accountToken, AccountRetrieveSignalsParams.none(), requestOptions)
 
     /**
      * Get an Account's available spend limits, which is based on the spend limit configured on the
@@ -224,10 +159,7 @@ interface AccountService {
      * the available spend limit returned would be $400.
      */
     fun retrieveSpendLimits(accountToken: String): AccountSpendLimits =
-        retrieveSpendLimits(
-            accountToken,
-            AccountRetrieveSpendLimitsParams.none(),
-        )
+        retrieveSpendLimits(accountToken, AccountRetrieveSpendLimitsParams.none())
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(
@@ -235,21 +167,13 @@ interface AccountService {
         params: AccountRetrieveSpendLimitsParams = AccountRetrieveSpendLimitsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountSpendLimits =
-        retrieveSpendLimits(
-            params.toBuilder().accountToken(accountToken).build(),
-            requestOptions,
-        )
+        retrieveSpendLimits(params.toBuilder().accountToken(accountToken).build(), requestOptions)
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(
         accountToken: String,
         params: AccountRetrieveSpendLimitsParams = AccountRetrieveSpendLimitsParams.none(),
-    ): AccountSpendLimits =
-        retrieveSpendLimits(
-            accountToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): AccountSpendLimits = retrieveSpendLimits(accountToken, params, RequestOptions.none())
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(
@@ -259,21 +183,14 @@ interface AccountService {
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(params: AccountRetrieveSpendLimitsParams): AccountSpendLimits =
-        retrieveSpendLimits(
-            params,
-            RequestOptions.none(),
-        )
+        retrieveSpendLimits(params, RequestOptions.none())
 
     /** @see retrieveSpendLimits */
     fun retrieveSpendLimits(
         accountToken: String,
         requestOptions: RequestOptions,
     ): AccountSpendLimits =
-        retrieveSpendLimits(
-            accountToken,
-            AccountRetrieveSpendLimitsParams.none(),
-            requestOptions,
-        )
+        retrieveSpendLimits(accountToken, AccountRetrieveSpendLimitsParams.none(), requestOptions)
 
     /** A view of [AccountService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -291,10 +208,7 @@ interface AccountService {
          */
         @MustBeClosed
         fun retrieve(accountToken: String): HttpResponseFor<Account> =
-            retrieve(
-                accountToken,
-                AccountRetrieveParams.none(),
-            )
+            retrieve(accountToken, AccountRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -303,22 +217,14 @@ interface AccountService {
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Account> =
-            retrieve(
-                params.toBuilder().accountToken(accountToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().accountToken(accountToken).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             accountToken: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
-        ): HttpResponseFor<Account> =
-            retrieve(
-                accountToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<Account> = retrieve(accountToken, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -330,10 +236,7 @@ interface AccountService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: AccountRetrieveParams): HttpResponseFor<Account> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -341,11 +244,7 @@ interface AccountService {
             accountToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Account> =
-            retrieve(
-                accountToken,
-                AccountRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(accountToken, AccountRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `patch /v1/accounts/{account_token}`, but is otherwise
@@ -353,10 +252,7 @@ interface AccountService {
          */
         @MustBeClosed
         fun update(accountToken: String): HttpResponseFor<Account> =
-            update(
-                accountToken,
-                AccountUpdateParams.none(),
-            )
+            update(accountToken, AccountUpdateParams.none())
 
         /** @see update */
         @MustBeClosed
@@ -365,22 +261,14 @@ interface AccountService {
             params: AccountUpdateParams = AccountUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Account> =
-            update(
-                params.toBuilder().accountToken(accountToken).build(),
-                requestOptions,
-            )
+            update(params.toBuilder().accountToken(accountToken).build(), requestOptions)
 
         /** @see update */
         @MustBeClosed
         fun update(
             accountToken: String,
             params: AccountUpdateParams = AccountUpdateParams.none(),
-        ): HttpResponseFor<Account> =
-            update(
-                accountToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<Account> = update(accountToken, params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
@@ -392,19 +280,12 @@ interface AccountService {
         /** @see update */
         @MustBeClosed
         fun update(params: AccountUpdateParams): HttpResponseFor<Account> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+            update(params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
         fun update(accountToken: String, requestOptions: RequestOptions): HttpResponseFor<Account> =
-            update(
-                accountToken,
-                AccountUpdateParams.none(),
-                requestOptions,
-            )
+            update(accountToken, AccountUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/accounts`, but is otherwise the same as
@@ -423,19 +304,12 @@ interface AccountService {
         @MustBeClosed
         fun list(
             params: AccountListParams = AccountListParams.none()
-        ): HttpResponseFor<AccountListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<AccountListPage> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<AccountListPage> =
-            list(
-                AccountListParams.none(),
-                requestOptions,
-            )
+            list(AccountListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/accounts/{account_token}/signals`, but is
@@ -443,10 +317,7 @@ interface AccountService {
          */
         @MustBeClosed
         fun retrieveSignals(accountToken: String): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                accountToken,
-                AccountRetrieveSignalsParams.none(),
-            )
+            retrieveSignals(accountToken, AccountRetrieveSignalsParams.none())
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -455,10 +326,7 @@ interface AccountService {
             params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                params.toBuilder().accountToken(accountToken).build(),
-                requestOptions,
-            )
+            retrieveSignals(params.toBuilder().accountToken(accountToken).build(), requestOptions)
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -466,11 +334,7 @@ interface AccountService {
             accountToken: String,
             params: AccountRetrieveSignalsParams = AccountRetrieveSignalsParams.none(),
         ): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                accountToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSignals(accountToken, params, RequestOptions.none())
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -483,11 +347,7 @@ interface AccountService {
         @MustBeClosed
         fun retrieveSignals(
             params: AccountRetrieveSignalsParams
-        ): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<SignalsResponse> = retrieveSignals(params, RequestOptions.none())
 
         /** @see retrieveSignals */
         @MustBeClosed
@@ -495,11 +355,7 @@ interface AccountService {
             accountToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<SignalsResponse> =
-            retrieveSignals(
-                accountToken,
-                AccountRetrieveSignalsParams.none(),
-                requestOptions,
-            )
+            retrieveSignals(accountToken, AccountRetrieveSignalsParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/accounts/{account_token}/spend_limits`, but is
@@ -507,10 +363,7 @@ interface AccountService {
          */
         @MustBeClosed
         fun retrieveSpendLimits(accountToken: String): HttpResponseFor<AccountSpendLimits> =
-            retrieveSpendLimits(
-                accountToken,
-                AccountRetrieveSpendLimitsParams.none(),
-            )
+            retrieveSpendLimits(accountToken, AccountRetrieveSpendLimitsParams.none())
 
         /** @see retrieveSpendLimits */
         @MustBeClosed
@@ -530,11 +383,7 @@ interface AccountService {
             accountToken: String,
             params: AccountRetrieveSpendLimitsParams = AccountRetrieveSpendLimitsParams.none(),
         ): HttpResponseFor<AccountSpendLimits> =
-            retrieveSpendLimits(
-                accountToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSpendLimits(accountToken, params, RequestOptions.none())
 
         /** @see retrieveSpendLimits */
         @MustBeClosed
@@ -547,11 +396,7 @@ interface AccountService {
         @MustBeClosed
         fun retrieveSpendLimits(
             params: AccountRetrieveSpendLimitsParams
-        ): HttpResponseFor<AccountSpendLimits> =
-            retrieveSpendLimits(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<AccountSpendLimits> = retrieveSpendLimits(params, RequestOptions.none())
 
         /** @see retrieveSpendLimits */
         @MustBeClosed

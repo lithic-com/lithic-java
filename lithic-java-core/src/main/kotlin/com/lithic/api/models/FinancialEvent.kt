@@ -38,17 +38,8 @@ private constructor(
         @ExcludeMissing
         created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
-        @JsonProperty("type")
-        @ExcludeMissing
-        type: JsonField<FinancialEventType> = JsonMissing.of(),
-    ) : this(
-        token,
-        amount,
-        created,
-        result,
-        type,
-        mutableMapOf(),
-    )
+        @JsonProperty("type") @ExcludeMissing type: JsonField<FinancialEventType> = JsonMissing.of(),
+    ) : this(token, amount, created, result, type, mutableMapOf())
 
     /**
      * Globally unique identifier.
@@ -172,9 +163,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
@@ -188,9 +177,7 @@ private constructor(
          * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun amount(amount: JsonField<Long>) = apply {
-            this.amount = amount
-        }
+        fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
         /** Date and time when the financial event occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -202,9 +189,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
@@ -218,9 +203,7 @@ private constructor(
          * You should usually call [Builder.result] with a well-typed [Result] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun result(result: JsonField<Result>) = apply {
-            this.result = result
-        }
+        fun result(result: JsonField<Result>) = apply { this.result = result }
 
         fun type(type: FinancialEventType) = type(JsonField.of(type))
 
@@ -231,9 +214,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun type(type: JsonField<FinancialEventType>) = apply {
-            this.type = type
-        }
+        fun type(type: JsonField<FinancialEventType>) = apply { this.type = type }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -248,9 +229,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -351,11 +330,9 @@ private constructor(
          * An enum containing [Result]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Result] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -762,11 +739,9 @@ private constructor(
          * An enum containing [FinancialEventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [FinancialEventType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

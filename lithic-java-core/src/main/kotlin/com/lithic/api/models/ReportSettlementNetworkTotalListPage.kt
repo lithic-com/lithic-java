@@ -89,14 +89,10 @@ private constructor(
             response = reportSettlementNetworkTotalListPage.response
         }
 
-        fun service(service: NetworkTotalService) = apply {
-            this.service = service
-        }
+        fun service(service: NetworkTotalService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: ReportSettlementNetworkTotalListParams) = apply {
-            this.params = params
-        }
+        fun params(params: ReportSettlementNetworkTotalListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: ReportSettlementNetworkTotalListPageResponse) = apply {
@@ -119,18 +115,9 @@ private constructor(
          */
         fun build(): ReportSettlementNetworkTotalListPage =
             ReportSettlementNetworkTotalListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

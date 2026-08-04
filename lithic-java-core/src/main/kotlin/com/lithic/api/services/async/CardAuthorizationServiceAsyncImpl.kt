@@ -75,23 +75,13 @@ internal constructor(private val clientOptions: ClientOptions) : CardAuthorizati
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(
-                        clientOptions,
-                        params,
-                    )
+                    .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync {
-                    clientOptions.httpClient.executeAsync(
-                        it,
-                        requestOptions,
-                    )
-                }
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
-                        response.use {
-                            challengeResponseHandler.handle(it)
-                        }
+                        response.use { challengeResponseHandler.handle(it) }
                     }
                 }
         }

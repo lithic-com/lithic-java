@@ -448,9 +448,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun accountToken(accountToken: String?) = accountToken(JsonField.ofNullable(accountToken))
 
@@ -477,9 +475,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun creditConfiguration(
             creditConfiguration: FinancialAccount.FinancialAccountCreditConfig?
@@ -501,9 +497,7 @@ private constructor(
          */
         fun creditConfiguration(
             creditConfiguration: JsonField<FinancialAccount.FinancialAccountCreditConfig>
-        ) = apply {
-            this.creditConfiguration = creditConfiguration
-        }
+        ) = apply { this.creditConfiguration = creditConfiguration }
 
         /** Whether financial account is for the benefit of another entity */
         fun isForBenefitOf(isForBenefitOf: Boolean) = isForBenefitOf(JsonField.of(isForBenefitOf))
@@ -530,9 +524,7 @@ private constructor(
          * You should usually call [Builder.nickname] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun nickname(nickname: JsonField<String>) = apply {
-            this.nickname = nickname
-        }
+        fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
         /** Status of the financial account */
         fun status(status: FinancialAccount.FinancialAccountStatus) = status(JsonField.of(status))
@@ -576,9 +568,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun type(type: JsonField<FinancialAccount.Type>) = apply {
-            this.type = type
-        }
+        fun type(type: JsonField<FinancialAccount.Type>) = apply { this.type = type }
 
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
@@ -589,9 +579,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply {
-            this.updated = updated
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         /** User-defined status for the financial account */
         fun userDefinedStatus(userDefinedStatus: String?) =
@@ -653,9 +641,7 @@ private constructor(
          */
         fun blockchainAddresses(
             blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses>
-        ) = apply {
-            this.blockchainAddresses = blockchainAddresses
-        }
+        ) = apply { this.blockchainAddresses = blockchainAddresses }
 
         fun routingNumber(routingNumber: String?) =
             routingNumber(JsonField.ofNullable(routingNumber))
@@ -685,9 +671,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply {
-            this.eventType = eventType
-        }
+        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -702,9 +686,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -735,57 +717,21 @@ private constructor(
          */
         fun build(): FinancialAccountUpdatedWebhookEvent =
             FinancialAccountUpdatedWebhookEvent(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "accountToken",
-                    accountToken,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "creditConfiguration",
-                    creditConfiguration,
-                ),
-                checkRequired(
-                    "isForBenefitOf",
-                    isForBenefitOf,
-                ),
-                checkRequired(
-                    "nickname",
-                    nickname,
-                ),
-                checkRequired(
-                    "status",
-                    status,
-                ),
-                checkRequired(
-                    "substatus",
-                    substatus,
-                ),
-                checkRequired(
-                    "type",
-                    type,
-                ),
-                checkRequired(
-                    "updated",
-                    updated,
-                ),
-                checkRequired(
-                    "userDefinedStatus",
-                    userDefinedStatus,
-                ),
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("created", created),
+                checkRequired("creditConfiguration", creditConfiguration),
+                checkRequired("isForBenefitOf", isForBenefitOf),
+                checkRequired("nickname", nickname),
+                checkRequired("status", status),
+                checkRequired("substatus", substatus),
+                checkRequired("type", type),
+                checkRequired("updated", updated),
+                checkRequired("userDefinedStatus", userDefinedStatus),
                 accountNumber,
                 blockchainAddresses,
                 routingNumber,
-                checkRequired(
-                    "eventType",
-                    eventType,
-                ),
+                checkRequired("eventType", eventType),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -883,11 +829,9 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

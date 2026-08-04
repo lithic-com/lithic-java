@@ -37,10 +37,7 @@ interface DisputeServiceAsync {
 
     /** Request a chargeback. */
     fun create(params: DisputeCreateParams): CompletableFuture<Dispute> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -50,10 +47,7 @@ interface DisputeServiceAsync {
 
     /** Get chargeback request. */
     fun retrieve(disputeToken: String): CompletableFuture<Dispute> =
-        retrieve(
-            disputeToken,
-            DisputeRetrieveParams.none(),
-        )
+        retrieve(disputeToken, DisputeRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -61,21 +55,13 @@ interface DisputeServiceAsync {
         params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Dispute> =
-        retrieve(
-            params.toBuilder().disputeToken(disputeToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         disputeToken: String,
         params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
-    ): CompletableFuture<Dispute> =
-        retrieve(
-            disputeToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Dispute> = retrieve(disputeToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -85,25 +71,15 @@ interface DisputeServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: DisputeRetrieveParams): CompletableFuture<Dispute> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(disputeToken: String, requestOptions: RequestOptions): CompletableFuture<Dispute> =
-        retrieve(
-            disputeToken,
-            DisputeRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(disputeToken, DisputeRetrieveParams.none(), requestOptions)
 
     /** Update chargeback request. Can only be modified if status is `NEW`. */
     fun update(disputeToken: String): CompletableFuture<Dispute> =
-        update(
-            disputeToken,
-            DisputeUpdateParams.none(),
-        )
+        update(disputeToken, DisputeUpdateParams.none())
 
     /** @see update */
     fun update(
@@ -111,21 +87,13 @@ interface DisputeServiceAsync {
         params: DisputeUpdateParams = DisputeUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Dispute> =
-        update(
-            params.toBuilder().disputeToken(disputeToken).build(),
-            requestOptions,
-        )
+        update(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
     /** @see update */
     fun update(
         disputeToken: String,
         params: DisputeUpdateParams = DisputeUpdateParams.none(),
-    ): CompletableFuture<Dispute> =
-        update(
-            disputeToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Dispute> = update(disputeToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -135,18 +103,11 @@ interface DisputeServiceAsync {
 
     /** @see update */
     fun update(params: DisputeUpdateParams): CompletableFuture<Dispute> =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+        update(params, RequestOptions.none())
 
     /** @see update */
     fun update(disputeToken: String, requestOptions: RequestOptions): CompletableFuture<Dispute> =
-        update(
-            disputeToken,
-            DisputeUpdateParams.none(),
-            requestOptions,
-        )
+        update(disputeToken, DisputeUpdateParams.none(), requestOptions)
 
     /** List chargeback requests. */
     fun list(): CompletableFuture<DisputeListPageAsync> = list(DisputeListParams.none())
@@ -160,25 +121,15 @@ interface DisputeServiceAsync {
     /** @see list */
     fun list(
         params: DisputeListParams = DisputeListParams.none()
-    ): CompletableFuture<DisputeListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<DisputeListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<DisputeListPageAsync> =
-        list(
-            DisputeListParams.none(),
-            requestOptions,
-        )
+        list(DisputeListParams.none(), requestOptions)
 
     /** Withdraw chargeback request. */
     fun delete(disputeToken: String): CompletableFuture<Dispute> =
-        delete(
-            disputeToken,
-            DisputeDeleteParams.none(),
-        )
+        delete(disputeToken, DisputeDeleteParams.none())
 
     /** @see delete */
     fun delete(
@@ -186,21 +137,13 @@ interface DisputeServiceAsync {
         params: DisputeDeleteParams = DisputeDeleteParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Dispute> =
-        delete(
-            params.toBuilder().disputeToken(disputeToken).build(),
-            requestOptions,
-        )
+        delete(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
     /** @see delete */
     fun delete(
         disputeToken: String,
         params: DisputeDeleteParams = DisputeDeleteParams.none(),
-    ): CompletableFuture<Dispute> =
-        delete(
-            disputeToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Dispute> = delete(disputeToken, params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -210,18 +153,11 @@ interface DisputeServiceAsync {
 
     /** @see delete */
     fun delete(params: DisputeDeleteParams): CompletableFuture<Dispute> =
-        delete(
-            params,
-            RequestOptions.none(),
-        )
+        delete(params, RequestOptions.none())
 
     /** @see delete */
     fun delete(disputeToken: String, requestOptions: RequestOptions): CompletableFuture<Dispute> =
-        delete(
-            disputeToken,
-            DisputeDeleteParams.none(),
-            requestOptions,
-        )
+        delete(disputeToken, DisputeDeleteParams.none(), requestOptions)
 
     /**
      * Soft delete evidence for a chargeback request. Evidence will not be reviewed or submitted by
@@ -231,11 +167,7 @@ interface DisputeServiceAsync {
         evidenceToken: String,
         params: DisputeDeleteEvidenceParams,
     ): CompletableFuture<DisputeEvidence> =
-        deleteEvidence(
-            evidenceToken,
-            params,
-            RequestOptions.none(),
-        )
+        deleteEvidence(evidenceToken, params, RequestOptions.none())
 
     /** @see deleteEvidence */
     fun deleteEvidence(
@@ -243,17 +175,11 @@ interface DisputeServiceAsync {
         params: DisputeDeleteEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DisputeEvidence> =
-        deleteEvidence(
-            params.toBuilder().evidenceToken(evidenceToken).build(),
-            requestOptions,
-        )
+        deleteEvidence(params.toBuilder().evidenceToken(evidenceToken).build(), requestOptions)
 
     /** @see deleteEvidence */
     fun deleteEvidence(params: DisputeDeleteEvidenceParams): CompletableFuture<DisputeEvidence> =
-        deleteEvidence(
-            params,
-            RequestOptions.none(),
-        )
+        deleteEvidence(params, RequestOptions.none())
 
     /** @see deleteEvidence */
     fun deleteEvidence(
@@ -269,10 +195,7 @@ interface DisputeServiceAsync {
      * GiB.
      */
     fun initiateEvidenceUpload(disputeToken: String): CompletableFuture<DisputeEvidence> =
-        initiateEvidenceUpload(
-            disputeToken,
-            DisputeInitiateEvidenceUploadParams.none(),
-        )
+        initiateEvidenceUpload(disputeToken, DisputeInitiateEvidenceUploadParams.none())
 
     /** @see initiateEvidenceUpload */
     fun initiateEvidenceUpload(
@@ -290,11 +213,7 @@ interface DisputeServiceAsync {
         disputeToken: String,
         params: DisputeInitiateEvidenceUploadParams = DisputeInitiateEvidenceUploadParams.none(),
     ): CompletableFuture<DisputeEvidence> =
-        initiateEvidenceUpload(
-            disputeToken,
-            params,
-            RequestOptions.none(),
-        )
+        initiateEvidenceUpload(disputeToken, params, RequestOptions.none())
 
     /** @see initiateEvidenceUpload */
     fun initiateEvidenceUpload(
@@ -305,11 +224,7 @@ interface DisputeServiceAsync {
     /** @see initiateEvidenceUpload */
     fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams
-    ): CompletableFuture<DisputeEvidence> =
-        initiateEvidenceUpload(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<DisputeEvidence> = initiateEvidenceUpload(params, RequestOptions.none())
 
     /** @see initiateEvidenceUpload */
     fun initiateEvidenceUpload(
@@ -324,10 +239,7 @@ interface DisputeServiceAsync {
 
     /** List evidence for a chargeback request. */
     fun listEvidences(disputeToken: String): CompletableFuture<DisputeListEvidencesPageAsync> =
-        listEvidences(
-            disputeToken,
-            DisputeListEvidencesParams.none(),
-        )
+        listEvidences(disputeToken, DisputeListEvidencesParams.none())
 
     /** @see listEvidences */
     fun listEvidences(
@@ -335,21 +247,14 @@ interface DisputeServiceAsync {
         params: DisputeListEvidencesParams = DisputeListEvidencesParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DisputeListEvidencesPageAsync> =
-        listEvidences(
-            params.toBuilder().disputeToken(disputeToken).build(),
-            requestOptions,
-        )
+        listEvidences(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
     /** @see listEvidences */
     fun listEvidences(
         disputeToken: String,
         params: DisputeListEvidencesParams = DisputeListEvidencesParams.none(),
     ): CompletableFuture<DisputeListEvidencesPageAsync> =
-        listEvidences(
-            disputeToken,
-            params,
-            RequestOptions.none(),
-        )
+        listEvidences(disputeToken, params, RequestOptions.none())
 
     /** @see listEvidences */
     fun listEvidences(
@@ -361,32 +266,21 @@ interface DisputeServiceAsync {
     fun listEvidences(
         params: DisputeListEvidencesParams
     ): CompletableFuture<DisputeListEvidencesPageAsync> =
-        listEvidences(
-            params,
-            RequestOptions.none(),
-        )
+        listEvidences(params, RequestOptions.none())
 
     /** @see listEvidences */
     fun listEvidences(
         disputeToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<DisputeListEvidencesPageAsync> =
-        listEvidences(
-            disputeToken,
-            DisputeListEvidencesParams.none(),
-            requestOptions,
-        )
+        listEvidences(disputeToken, DisputeListEvidencesParams.none(), requestOptions)
 
     /** Get evidence for a chargeback request. */
     fun retrieveEvidence(
         evidenceToken: String,
         params: DisputeRetrieveEvidenceParams,
     ): CompletableFuture<DisputeEvidence> =
-        retrieveEvidence(
-            evidenceToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieveEvidence(evidenceToken, params, RequestOptions.none())
 
     /** @see retrieveEvidence */
     fun retrieveEvidence(
@@ -394,19 +288,12 @@ interface DisputeServiceAsync {
         params: DisputeRetrieveEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DisputeEvidence> =
-        retrieveEvidence(
-            params.toBuilder().evidenceToken(evidenceToken).build(),
-            requestOptions,
-        )
+        retrieveEvidence(params.toBuilder().evidenceToken(evidenceToken).build(), requestOptions)
 
     /** @see retrieveEvidence */
     fun retrieveEvidence(
         params: DisputeRetrieveEvidenceParams
-    ): CompletableFuture<DisputeEvidence> =
-        retrieveEvidence(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<DisputeEvidence> = retrieveEvidence(params, RequestOptions.none())
 
     /** @see retrieveEvidence */
     fun retrieveEvidence(
@@ -435,10 +322,7 @@ interface DisputeServiceAsync {
          * [DisputeServiceAsync.create].
          */
         fun create(params: DisputeCreateParams): CompletableFuture<HttpResponseFor<Dispute>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -451,10 +335,7 @@ interface DisputeServiceAsync {
          * same as [DisputeServiceAsync.retrieve].
          */
         fun retrieve(disputeToken: String): CompletableFuture<HttpResponseFor<Dispute>> =
-            retrieve(
-                disputeToken,
-                DisputeRetrieveParams.none(),
-            )
+            retrieve(disputeToken, DisputeRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -462,21 +343,14 @@ interface DisputeServiceAsync {
             params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            retrieve(
-                params.toBuilder().disputeToken(disputeToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             disputeToken: String,
             params: DisputeRetrieveParams = DisputeRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            retrieve(
-                disputeToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(disputeToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -486,31 +360,21 @@ interface DisputeServiceAsync {
 
         /** @see retrieve */
         fun retrieve(params: DisputeRetrieveParams): CompletableFuture<HttpResponseFor<Dispute>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             disputeToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            retrieve(
-                disputeToken,
-                DisputeRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(disputeToken, DisputeRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `patch /v1/disputes/{dispute_token}`, but is otherwise
          * the same as [DisputeServiceAsync.update].
          */
         fun update(disputeToken: String): CompletableFuture<HttpResponseFor<Dispute>> =
-            update(
-                disputeToken,
-                DisputeUpdateParams.none(),
-            )
+            update(disputeToken, DisputeUpdateParams.none())
 
         /** @see update */
         fun update(
@@ -518,21 +382,14 @@ interface DisputeServiceAsync {
             params: DisputeUpdateParams = DisputeUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            update(
-                params.toBuilder().disputeToken(disputeToken).build(),
-                requestOptions,
-            )
+            update(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see update */
         fun update(
             disputeToken: String,
             params: DisputeUpdateParams = DisputeUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            update(
-                disputeToken,
-                params,
-                RequestOptions.none(),
-            )
+            update(disputeToken, params, RequestOptions.none())
 
         /** @see update */
         fun update(
@@ -542,21 +399,14 @@ interface DisputeServiceAsync {
 
         /** @see update */
         fun update(params: DisputeUpdateParams): CompletableFuture<HttpResponseFor<Dispute>> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+            update(params, RequestOptions.none())
 
         /** @see update */
         fun update(
             disputeToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            update(
-                disputeToken,
-                DisputeUpdateParams.none(),
-                requestOptions,
-            )
+            update(disputeToken, DisputeUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/disputes`, but is otherwise the same as
@@ -575,29 +425,20 @@ interface DisputeServiceAsync {
         fun list(
             params: DisputeListParams = DisputeListParams.none()
         ): CompletableFuture<HttpResponseFor<DisputeListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<DisputeListPageAsync>> =
-            list(
-                DisputeListParams.none(),
-                requestOptions,
-            )
+            list(DisputeListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete /v1/disputes/{dispute_token}`, but is otherwise
          * the same as [DisputeServiceAsync.delete].
          */
         fun delete(disputeToken: String): CompletableFuture<HttpResponseFor<Dispute>> =
-            delete(
-                disputeToken,
-                DisputeDeleteParams.none(),
-            )
+            delete(disputeToken, DisputeDeleteParams.none())
 
         /** @see delete */
         fun delete(
@@ -605,21 +446,14 @@ interface DisputeServiceAsync {
             params: DisputeDeleteParams = DisputeDeleteParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            delete(
-                params.toBuilder().disputeToken(disputeToken).build(),
-                requestOptions,
-            )
+            delete(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see delete */
         fun delete(
             disputeToken: String,
             params: DisputeDeleteParams = DisputeDeleteParams.none(),
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            delete(
-                disputeToken,
-                params,
-                RequestOptions.none(),
-            )
+            delete(disputeToken, params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
@@ -629,21 +463,14 @@ interface DisputeServiceAsync {
 
         /** @see delete */
         fun delete(params: DisputeDeleteParams): CompletableFuture<HttpResponseFor<Dispute>> =
-            delete(
-                params,
-                RequestOptions.none(),
-            )
+            delete(params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
             disputeToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Dispute>> =
-            delete(
-                disputeToken,
-                DisputeDeleteParams.none(),
-                requestOptions,
-            )
+            delete(disputeToken, DisputeDeleteParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete
@@ -654,11 +481,7 @@ interface DisputeServiceAsync {
             evidenceToken: String,
             params: DisputeDeleteEvidenceParams,
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            deleteEvidence(
-                evidenceToken,
-                params,
-                RequestOptions.none(),
-            )
+            deleteEvidence(evidenceToken, params, RequestOptions.none())
 
         /** @see deleteEvidence */
         fun deleteEvidence(
@@ -666,19 +489,13 @@ interface DisputeServiceAsync {
             params: DisputeDeleteEvidenceParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            deleteEvidence(
-                params.toBuilder().evidenceToken(evidenceToken).build(),
-                requestOptions,
-            )
+            deleteEvidence(params.toBuilder().evidenceToken(evidenceToken).build(), requestOptions)
 
         /** @see deleteEvidence */
         fun deleteEvidence(
             params: DisputeDeleteEvidenceParams
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            deleteEvidence(
-                params,
-                RequestOptions.none(),
-            )
+            deleteEvidence(params, RequestOptions.none())
 
         /** @see deleteEvidence */
         fun deleteEvidence(
@@ -693,10 +510,7 @@ interface DisputeServiceAsync {
         fun initiateEvidenceUpload(
             disputeToken: String
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            initiateEvidenceUpload(
-                disputeToken,
-                DisputeInitiateEvidenceUploadParams.none(),
-            )
+            initiateEvidenceUpload(disputeToken, DisputeInitiateEvidenceUploadParams.none())
 
         /** @see initiateEvidenceUpload */
         fun initiateEvidenceUpload(
@@ -715,11 +529,7 @@ interface DisputeServiceAsync {
             disputeToken: String,
             params: DisputeInitiateEvidenceUploadParams = DisputeInitiateEvidenceUploadParams.none(),
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            initiateEvidenceUpload(
-                disputeToken,
-                params,
-                RequestOptions.none(),
-            )
+            initiateEvidenceUpload(disputeToken, params, RequestOptions.none())
 
         /** @see initiateEvidenceUpload */
         fun initiateEvidenceUpload(
@@ -731,10 +541,7 @@ interface DisputeServiceAsync {
         fun initiateEvidenceUpload(
             params: DisputeInitiateEvidenceUploadParams
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            initiateEvidenceUpload(
-                params,
-                RequestOptions.none(),
-            )
+            initiateEvidenceUpload(params, RequestOptions.none())
 
         /** @see initiateEvidenceUpload */
         fun initiateEvidenceUpload(
@@ -754,10 +561,7 @@ interface DisputeServiceAsync {
         fun listEvidences(
             disputeToken: String
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> =
-            listEvidences(
-                disputeToken,
-                DisputeListEvidencesParams.none(),
-            )
+            listEvidences(disputeToken, DisputeListEvidencesParams.none())
 
         /** @see listEvidences */
         fun listEvidences(
@@ -765,21 +569,14 @@ interface DisputeServiceAsync {
             params: DisputeListEvidencesParams = DisputeListEvidencesParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> =
-            listEvidences(
-                params.toBuilder().disputeToken(disputeToken).build(),
-                requestOptions,
-            )
+            listEvidences(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
 
         /** @see listEvidences */
         fun listEvidences(
             disputeToken: String,
             params: DisputeListEvidencesParams = DisputeListEvidencesParams.none(),
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> =
-            listEvidences(
-                disputeToken,
-                params,
-                RequestOptions.none(),
-            )
+            listEvidences(disputeToken, params, RequestOptions.none())
 
         /** @see listEvidences */
         fun listEvidences(
@@ -791,21 +588,14 @@ interface DisputeServiceAsync {
         fun listEvidences(
             params: DisputeListEvidencesParams
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> =
-            listEvidences(
-                params,
-                RequestOptions.none(),
-            )
+            listEvidences(params, RequestOptions.none())
 
         /** @see listEvidences */
         fun listEvidences(
             disputeToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DisputeListEvidencesPageAsync>> =
-            listEvidences(
-                disputeToken,
-                DisputeListEvidencesParams.none(),
-                requestOptions,
-            )
+            listEvidences(disputeToken, DisputeListEvidencesParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get
@@ -816,11 +606,7 @@ interface DisputeServiceAsync {
             evidenceToken: String,
             params: DisputeRetrieveEvidenceParams,
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            retrieveEvidence(
-                evidenceToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieveEvidence(evidenceToken, params, RequestOptions.none())
 
         /** @see retrieveEvidence */
         fun retrieveEvidence(
@@ -837,10 +623,7 @@ interface DisputeServiceAsync {
         fun retrieveEvidence(
             params: DisputeRetrieveEvidenceParams
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
-            retrieveEvidence(
-                params,
-                RequestOptions.none(),
-            )
+            retrieveEvidence(params, RequestOptions.none())
 
         /** @see retrieveEvidence */
         fun retrieveEvidence(

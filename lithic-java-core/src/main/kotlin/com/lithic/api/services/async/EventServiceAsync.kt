@@ -37,10 +37,7 @@ interface EventServiceAsync {
 
     /** Get an event. */
     fun retrieve(eventToken: String): CompletableFuture<Event> =
-        retrieve(
-            eventToken,
-            EventRetrieveParams.none(),
-        )
+        retrieve(eventToken, EventRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -48,21 +45,13 @@ interface EventServiceAsync {
         params: EventRetrieveParams = EventRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Event> =
-        retrieve(
-            params.toBuilder().eventToken(eventToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         eventToken: String,
         params: EventRetrieveParams = EventRetrieveParams.none(),
-    ): CompletableFuture<Event> =
-        retrieve(
-            eventToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Event> = retrieve(eventToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -72,18 +61,11 @@ interface EventServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: EventRetrieveParams): CompletableFuture<Event> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(eventToken: String, requestOptions: RequestOptions): CompletableFuture<Event> =
-        retrieve(
-            eventToken,
-            EventRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(eventToken, EventRetrieveParams.none(), requestOptions)
 
     /** List all events. */
     fun list(): CompletableFuture<EventListPageAsync> = list(EventListParams.none())
@@ -97,25 +79,15 @@ interface EventServiceAsync {
     /** @see list */
     fun list(
         params: EventListParams = EventListParams.none()
-    ): CompletableFuture<EventListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<EventListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<EventListPageAsync> =
-        list(
-            EventListParams.none(),
-            requestOptions,
-        )
+        list(EventListParams.none(), requestOptions)
 
     /** List all the message attempts for a given event. */
     fun listAttempts(eventToken: String): CompletableFuture<EventListAttemptsPageAsync> =
-        listAttempts(
-            eventToken,
-            EventListAttemptsParams.none(),
-        )
+        listAttempts(eventToken, EventListAttemptsParams.none())
 
     /** @see listAttempts */
     fun listAttempts(
@@ -123,21 +95,14 @@ interface EventServiceAsync {
         params: EventListAttemptsParams = EventListAttemptsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EventListAttemptsPageAsync> =
-        listAttempts(
-            params.toBuilder().eventToken(eventToken).build(),
-            requestOptions,
-        )
+        listAttempts(params.toBuilder().eventToken(eventToken).build(), requestOptions)
 
     /** @see listAttempts */
     fun listAttempts(
         eventToken: String,
         params: EventListAttemptsParams = EventListAttemptsParams.none(),
     ): CompletableFuture<EventListAttemptsPageAsync> =
-        listAttempts(
-            eventToken,
-            params,
-            RequestOptions.none(),
-        )
+        listAttempts(eventToken, params, RequestOptions.none())
 
     /** @see listAttempts */
     fun listAttempts(
@@ -148,22 +113,14 @@ interface EventServiceAsync {
     /** @see listAttempts */
     fun listAttempts(
         params: EventListAttemptsParams
-    ): CompletableFuture<EventListAttemptsPageAsync> =
-        listAttempts(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<EventListAttemptsPageAsync> = listAttempts(params, RequestOptions.none())
 
     /** @see listAttempts */
     fun listAttempts(
         eventToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<EventListAttemptsPageAsync> =
-        listAttempts(
-            eventToken,
-            EventListAttemptsParams.none(),
-            requestOptions,
-        )
+        listAttempts(eventToken, EventListAttemptsParams.none(), requestOptions)
 
     fun resend(
         eventToken: String,
@@ -192,10 +149,7 @@ interface EventServiceAsync {
          * as [EventServiceAsync.retrieve].
          */
         fun retrieve(eventToken: String): CompletableFuture<HttpResponseFor<Event>> =
-            retrieve(
-                eventToken,
-                EventRetrieveParams.none(),
-            )
+            retrieve(eventToken, EventRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -203,21 +157,14 @@ interface EventServiceAsync {
             params: EventRetrieveParams = EventRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Event>> =
-            retrieve(
-                params.toBuilder().eventToken(eventToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             eventToken: String,
             params: EventRetrieveParams = EventRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<Event>> =
-            retrieve(
-                eventToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(eventToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -227,21 +174,14 @@ interface EventServiceAsync {
 
         /** @see retrieve */
         fun retrieve(params: EventRetrieveParams): CompletableFuture<HttpResponseFor<Event>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             eventToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Event>> =
-            retrieve(
-                eventToken,
-                EventRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(eventToken, EventRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/events`, but is otherwise the same as
@@ -260,19 +200,13 @@ interface EventServiceAsync {
         fun list(
             params: EventListParams = EventListParams.none()
         ): CompletableFuture<HttpResponseFor<EventListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<EventListPageAsync>> =
-            list(
-                EventListParams.none(),
-                requestOptions,
-            )
+            list(EventListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/events/{event_token}/attempts`, but is otherwise
@@ -281,10 +215,7 @@ interface EventServiceAsync {
         fun listAttempts(
             eventToken: String
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
-            listAttempts(
-                eventToken,
-                EventListAttemptsParams.none(),
-            )
+            listAttempts(eventToken, EventListAttemptsParams.none())
 
         /** @see listAttempts */
         fun listAttempts(
@@ -292,21 +223,14 @@ interface EventServiceAsync {
             params: EventListAttemptsParams = EventListAttemptsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
-            listAttempts(
-                params.toBuilder().eventToken(eventToken).build(),
-                requestOptions,
-            )
+            listAttempts(params.toBuilder().eventToken(eventToken).build(), requestOptions)
 
         /** @see listAttempts */
         fun listAttempts(
             eventToken: String,
             params: EventListAttemptsParams = EventListAttemptsParams.none(),
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
-            listAttempts(
-                eventToken,
-                params,
-                RequestOptions.none(),
-            )
+            listAttempts(eventToken, params, RequestOptions.none())
 
         /** @see listAttempts */
         fun listAttempts(
@@ -318,20 +242,13 @@ interface EventServiceAsync {
         fun listAttempts(
             params: EventListAttemptsParams
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
-            listAttempts(
-                params,
-                RequestOptions.none(),
-            )
+            listAttempts(params, RequestOptions.none())
 
         /** @see listAttempts */
         fun listAttempts(
             eventToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<EventListAttemptsPageAsync>> =
-            listAttempts(
-                eventToken,
-                EventListAttemptsParams.none(),
-                requestOptions,
-            )
+            listAttempts(eventToken, EventListAttemptsParams.none(), requestOptions)
     }
 }

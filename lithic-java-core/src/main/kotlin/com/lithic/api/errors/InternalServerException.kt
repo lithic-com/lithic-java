@@ -60,21 +60,13 @@ private constructor(
             cause = internalServerException.cause
         }
 
-        fun statusCode(statusCode: Int) = apply {
-            this.statusCode = statusCode
-        }
+        fun statusCode(statusCode: Int) = apply { this.statusCode = statusCode }
 
-        fun headers(headers: Headers) = apply {
-            this.headers = headers
-        }
+        fun headers(headers: Headers) = apply { this.headers = headers }
 
-        fun body(body: JsonValue) = apply {
-            this.body = body
-        }
+        fun body(body: JsonValue) = apply { this.body = body }
 
-        fun cause(cause: Throwable?) = apply {
-            this.cause = cause
-        }
+        fun cause(cause: Throwable?) = apply { this.cause = cause }
 
         /** Alias for calling [Builder.cause] with `cause.orElse(null)`. */
         fun cause(cause: Optional<Throwable>) = cause(cause.getOrNull())
@@ -95,18 +87,9 @@ private constructor(
          */
         fun build(): InternalServerException =
             InternalServerException(
-                checkRequired(
-                    "statusCode",
-                    statusCode,
-                ),
-                checkRequired(
-                    "headers",
-                    headers,
-                ),
-                checkRequired(
-                    "body",
-                    body,
-                ),
+                checkRequired("statusCode", statusCode),
+                checkRequired("headers", headers),
+                checkRequired("body", body),
                 cause,
             )
     }

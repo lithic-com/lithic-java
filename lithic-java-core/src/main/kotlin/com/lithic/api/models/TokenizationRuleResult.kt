@@ -38,13 +38,7 @@ private constructor(
         explanation: JsonField<String> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
         @JsonProperty("result") @ExcludeMissing result: JsonField<Result> = JsonMissing.of(),
-    ) : this(
-        authRuleToken,
-        explanation,
-        name,
-        result,
-        mutableMapOf(),
-    )
+    ) : this(authRuleToken, explanation, name, result, mutableMapOf())
 
     /**
      * The Auth Rule Token associated with the rule. If this is set to null, then the result was not
@@ -193,9 +187,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun explanation(explanation: JsonField<String>) = apply {
-            this.explanation = explanation
-        }
+        fun explanation(explanation: JsonField<String>) = apply { this.explanation = explanation }
 
         /** The name for the rule, if any was configured */
         fun name(name: String?) = name(JsonField.ofNullable(name))
@@ -209,9 +201,7 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply {
-            this.name = name
-        }
+        fun name(name: JsonField<String>) = apply { this.name = name }
 
         /** The result associated with this rule */
         fun result(result: Result) = result(JsonField.of(result))
@@ -222,9 +212,7 @@ private constructor(
          * You should usually call [Builder.result] with a well-typed [Result] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun result(result: JsonField<Result>) = apply {
-            this.result = result
-        }
+        fun result(result: JsonField<Result>) = apply { this.result = result }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -239,9 +227,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -264,22 +250,10 @@ private constructor(
          */
         fun build(): TokenizationRuleResult =
             TokenizationRuleResult(
-                checkRequired(
-                    "authRuleToken",
-                    authRuleToken,
-                ),
-                checkRequired(
-                    "explanation",
-                    explanation,
-                ),
-                checkRequired(
-                    "name",
-                    name,
-                ),
-                checkRequired(
-                    "result",
-                    result,
-                ),
+                checkRequired("authRuleToken", authRuleToken),
+                checkRequired("explanation", explanation),
+                checkRequired("name", name),
+                checkRequired("result", result),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -364,11 +338,9 @@ private constructor(
          * An enum containing [Result]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Result] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

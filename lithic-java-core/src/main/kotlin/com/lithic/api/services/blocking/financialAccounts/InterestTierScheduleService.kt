@@ -35,12 +35,7 @@ interface InterestTierScheduleService {
     fun create(
         financialAccountToken: String,
         params: FinancialAccountInterestTierScheduleCreateParams,
-    ): InterestTierSchedule =
-        create(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): InterestTierSchedule = create(financialAccountToken, params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -55,10 +50,7 @@ interface InterestTierScheduleService {
 
     /** @see create */
     fun create(params: FinancialAccountInterestTierScheduleCreateParams): InterestTierSchedule =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -70,12 +62,7 @@ interface InterestTierScheduleService {
     fun retrieve(
         effectiveDate: LocalDate,
         params: FinancialAccountInterestTierScheduleRetrieveParams,
-    ): InterestTierSchedule =
-        retrieve(
-            effectiveDate,
-            params,
-            RequestOptions.none(),
-        )
+    ): InterestTierSchedule = retrieve(effectiveDate, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -83,17 +70,11 @@ interface InterestTierScheduleService {
         params: FinancialAccountInterestTierScheduleRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): InterestTierSchedule =
-        retrieve(
-            params.toBuilder().effectiveDate(effectiveDate).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(params: FinancialAccountInterestTierScheduleRetrieveParams): InterestTierSchedule =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -105,12 +86,7 @@ interface InterestTierScheduleService {
     fun update(
         effectiveDate: LocalDate,
         params: FinancialAccountInterestTierScheduleUpdateParams,
-    ): InterestTierSchedule =
-        update(
-            effectiveDate,
-            params,
-            RequestOptions.none(),
-        )
+    ): InterestTierSchedule = update(effectiveDate, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -118,17 +94,11 @@ interface InterestTierScheduleService {
         params: FinancialAccountInterestTierScheduleUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): InterestTierSchedule =
-        update(
-            params.toBuilder().effectiveDate(effectiveDate).build(),
-            requestOptions,
-        )
+        update(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
 
     /** @see update */
     fun update(params: FinancialAccountInterestTierScheduleUpdateParams): InterestTierSchedule =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+        update(params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -147,10 +117,7 @@ interface InterestTierScheduleService {
      * - Both before_date and after_date: Returns schedules in range
      */
     fun list(financialAccountToken: String): FinancialAccountInterestTierScheduleListPage =
-        list(
-            financialAccountToken,
-            FinancialAccountInterestTierScheduleListParams.none(),
-        )
+        list(financialAccountToken, FinancialAccountInterestTierScheduleListParams.none())
 
     /** @see list */
     fun list(
@@ -170,11 +137,7 @@ interface InterestTierScheduleService {
         params: FinancialAccountInterestTierScheduleListParams =
             FinancialAccountInterestTierScheduleListParams.none(),
     ): FinancialAccountInterestTierScheduleListPage =
-        list(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        list(financialAccountToken, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -185,11 +148,7 @@ interface InterestTierScheduleService {
     /** @see list */
     fun list(
         params: FinancialAccountInterestTierScheduleListParams
-    ): FinancialAccountInterestTierScheduleListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): FinancialAccountInterestTierScheduleListPage = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -219,29 +178,18 @@ interface InterestTierScheduleService {
      * tape rebuild configuration will be updated to trigger rebuilds from that date.
      */
     fun delete(effectiveDate: LocalDate, params: FinancialAccountInterestTierScheduleDeleteParams) =
-        delete(
-            effectiveDate,
-            params,
-            RequestOptions.none(),
-        )
+        delete(effectiveDate, params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
         effectiveDate: LocalDate,
         params: FinancialAccountInterestTierScheduleDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ) =
-        delete(
-            params.toBuilder().effectiveDate(effectiveDate).build(),
-            requestOptions,
-        )
+    ) = delete(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
 
     /** @see delete */
     fun delete(params: FinancialAccountInterestTierScheduleDeleteParams) =
-        delete(
-            params,
-            RequestOptions.none(),
-        )
+        delete(params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -274,11 +222,7 @@ interface InterestTierScheduleService {
             financialAccountToken: String,
             params: FinancialAccountInterestTierScheduleCreateParams,
         ): HttpResponseFor<InterestTierSchedule> =
-            create(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            create(financialAccountToken, params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
@@ -296,11 +240,7 @@ interface InterestTierScheduleService {
         @MustBeClosed
         fun create(
             params: FinancialAccountInterestTierScheduleCreateParams
-        ): HttpResponseFor<InterestTierSchedule> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<InterestTierSchedule> = create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
@@ -319,11 +259,7 @@ interface InterestTierScheduleService {
             effectiveDate: LocalDate,
             params: FinancialAccountInterestTierScheduleRetrieveParams,
         ): HttpResponseFor<InterestTierSchedule> =
-            retrieve(
-                effectiveDate,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(effectiveDate, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -332,20 +268,13 @@ interface InterestTierScheduleService {
             params: FinancialAccountInterestTierScheduleRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<InterestTierSchedule> =
-            retrieve(
-                params.toBuilder().effectiveDate(effectiveDate).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountInterestTierScheduleRetrieveParams
-        ): HttpResponseFor<InterestTierSchedule> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<InterestTierSchedule> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -364,11 +293,7 @@ interface InterestTierScheduleService {
             effectiveDate: LocalDate,
             params: FinancialAccountInterestTierScheduleUpdateParams,
         ): HttpResponseFor<InterestTierSchedule> =
-            update(
-                effectiveDate,
-                params,
-                RequestOptions.none(),
-            )
+            update(effectiveDate, params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
@@ -377,20 +302,13 @@ interface InterestTierScheduleService {
             params: FinancialAccountInterestTierScheduleUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<InterestTierSchedule> =
-            update(
-                params.toBuilder().effectiveDate(effectiveDate).build(),
-                requestOptions,
-            )
+            update(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
 
         /** @see update */
         @MustBeClosed
         fun update(
             params: FinancialAccountInterestTierScheduleUpdateParams
-        ): HttpResponseFor<InterestTierSchedule> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<InterestTierSchedule> = update(params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
@@ -408,10 +326,7 @@ interface InterestTierScheduleService {
         fun list(
             financialAccountToken: String
         ): HttpResponseFor<FinancialAccountInterestTierScheduleListPage> =
-            list(
-                financialAccountToken,
-                FinancialAccountInterestTierScheduleListParams.none(),
-            )
+            list(financialAccountToken, FinancialAccountInterestTierScheduleListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -433,11 +348,7 @@ interface InterestTierScheduleService {
             params: FinancialAccountInterestTierScheduleListParams =
                 FinancialAccountInterestTierScheduleListParams.none(),
         ): HttpResponseFor<FinancialAccountInterestTierScheduleListPage> =
-            list(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -451,10 +362,7 @@ interface InterestTierScheduleService {
         fun list(
             params: FinancialAccountInterestTierScheduleListParams
         ): HttpResponseFor<FinancialAccountInterestTierScheduleListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -477,12 +385,7 @@ interface InterestTierScheduleService {
         fun delete(
             effectiveDate: LocalDate,
             params: FinancialAccountInterestTierScheduleDeleteParams,
-        ): HttpResponse =
-            delete(
-                effectiveDate,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponse = delete(effectiveDate, params, RequestOptions.none())
 
         /** @see delete */
         @MustBeClosed
@@ -491,18 +394,12 @@ interface InterestTierScheduleService {
             params: FinancialAccountInterestTierScheduleDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse =
-            delete(
-                params.toBuilder().effectiveDate(effectiveDate).build(),
-                requestOptions,
-            )
+            delete(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
 
         /** @see delete */
         @MustBeClosed
         fun delete(params: FinancialAccountInterestTierScheduleDeleteParams): HttpResponse =
-            delete(
-                params,
-                RequestOptions.none(),
-            )
+            delete(params, RequestOptions.none())
 
         /** @see delete */
         @MustBeClosed

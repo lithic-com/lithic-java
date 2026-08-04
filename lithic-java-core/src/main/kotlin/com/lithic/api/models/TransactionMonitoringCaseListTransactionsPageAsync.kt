@@ -87,10 +87,7 @@ private constructor(
         service.listTransactions(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<CaseTransaction> =
-        AutoPagerAsync.from(
-            this,
-            streamHandlerExecutor,
-        )
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): TransactionMonitoringCaseListTransactionsParams = params
@@ -137,9 +134,7 @@ private constructor(
             response = transactionMonitoringCaseListTransactionsPageAsync.response
         }
 
-        fun service(service: CaseServiceAsync) = apply {
-            this.service = service
-        }
+        fun service(service: CaseServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
@@ -172,22 +167,10 @@ private constructor(
          */
         fun build(): TransactionMonitoringCaseListTransactionsPageAsync =
             TransactionMonitoringCaseListTransactionsPageAsync(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "streamHandlerExecutor",
-                    streamHandlerExecutor,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

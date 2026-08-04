@@ -80,19 +80,13 @@ private constructor(
             response = balanceListPage.response
         }
 
-        fun service(service: BalanceService) = apply {
-            this.service = service
-        }
+        fun service(service: BalanceService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: BalanceListParams) = apply {
-            this.params = params
-        }
+        fun params(params: BalanceListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: BalanceListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: BalanceListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [BalanceListPage].
@@ -110,18 +104,9 @@ private constructor(
          */
         fun build(): BalanceListPage =
             BalanceListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

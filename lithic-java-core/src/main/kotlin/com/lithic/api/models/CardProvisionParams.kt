@@ -169,9 +169,7 @@ private constructor(
             additionalQueryParams = cardProvisionParams.additionalQueryParams.toBuilder()
         }
 
-        fun cardToken(cardToken: String?) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
 
         /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
         fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
@@ -188,9 +186,7 @@ private constructor(
          * - [nonce]
          * - etc.
          */
-        fun body(body: Body) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
@@ -198,9 +194,7 @@ private constructor(
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
          */
-        fun certificate(certificate: String) = apply {
-            body.certificate(certificate)
-        }
+        fun certificate(certificate: String) = apply { body.certificate(certificate) }
 
         /**
          * Sets [Builder.certificate] to an arbitrary JSON value.
@@ -209,17 +203,13 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun certificate(certificate: JsonField<String>) = apply {
-            body.certificate(certificate)
-        }
+        fun certificate(certificate: JsonField<String>) = apply { body.certificate(certificate) }
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
          */
-        fun clientDeviceId(clientDeviceId: String) = apply {
-            body.clientDeviceId(clientDeviceId)
-        }
+        fun clientDeviceId(clientDeviceId: String) = apply { body.clientDeviceId(clientDeviceId) }
 
         /**
          * Sets [Builder.clientDeviceId] to an arbitrary JSON value.
@@ -271,9 +261,7 @@ private constructor(
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonce(nonce: String) = apply {
-            body.nonce(nonce)
-        }
+        fun nonce(nonce: String) = apply { body.nonce(nonce) }
 
         /**
          * Sets [Builder.nonce] to an arbitrary JSON value.
@@ -281,17 +269,13 @@ private constructor(
          * You should usually call [Builder.nonce] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun nonce(nonce: JsonField<String>) = apply {
-            body.nonce(nonce)
-        }
+        fun nonce(nonce: JsonField<String>) = apply { body.nonce(nonce) }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonceSignature(nonceSignature: String) = apply {
-            body.nonceSignature(nonceSignature)
-        }
+        fun nonceSignature(nonceSignature: String) = apply { body.nonceSignature(nonceSignature) }
 
         /**
          * Sets [Builder.nonceSignature] to an arbitrary JSON value.
@@ -309,10 +293,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -320,9 +301,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -370,9 +349,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -422,9 +399,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -732,9 +707,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun nonce(nonce: JsonField<String>) = apply {
-                this.nonce = nonce
-            }
+            fun nonce(nonce: JsonField<String>) = apply { this.nonce = nonce }
 
             /**
              * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
@@ -768,9 +741,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -910,11 +881,9 @@ private constructor(
          * An enum containing [DigitalWallet]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [DigitalWallet] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

@@ -39,13 +39,7 @@ private constructor(
         @ExcludeMissing
         dailyStatistics: JsonField<List<DailyStatistic>> = JsonMissing.of(),
         @JsonProperty("end") @ExcludeMissing end: JsonField<LocalDate> = JsonMissing.of(),
-    ) : this(
-        authRuleToken,
-        begin,
-        dailyStatistics,
-        end,
-        mutableMapOf(),
-    )
+    ) : this(authRuleToken, begin, dailyStatistics, end, mutableMapOf())
 
     /**
      * Auth Rule Token
@@ -180,9 +174,7 @@ private constructor(
          * You should usually call [Builder.begin] with a well-typed [LocalDate] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun begin(begin: JsonField<LocalDate>) = apply {
-            this.begin = begin
-        }
+        fun begin(begin: JsonField<LocalDate>) = apply { this.begin = begin }
 
         /** Daily evaluation statistics for the Auth Rule. */
         fun dailyStatistics(dailyStatistics: List<DailyStatistic>) =
@@ -220,9 +212,7 @@ private constructor(
          * You should usually call [Builder.end] with a well-typed [LocalDate] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun end(end: JsonField<LocalDate>) = apply {
-            this.end = end
-        }
+        fun end(end: JsonField<LocalDate>) = apply { this.end = end }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -237,9 +227,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -262,23 +250,10 @@ private constructor(
          */
         fun build(): V2RetrieveReportResponse =
             V2RetrieveReportResponse(
-                checkRequired(
-                    "authRuleToken",
-                    authRuleToken,
-                ),
-                checkRequired(
-                    "begin",
-                    begin,
-                ),
-                checkRequired(
-                        "dailyStatistics",
-                        dailyStatistics,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "end",
-                    end,
-                ),
+                checkRequired("authRuleToken", authRuleToken),
+                checkRequired("begin", begin),
+                checkRequired("dailyStatistics", dailyStatistics).map { it.toImmutable() },
+                checkRequired("end", end),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -339,11 +314,7 @@ private constructor(
             @JsonProperty("versions")
             @ExcludeMissing
             versions: JsonField<List<ReportStats>> = JsonMissing.of(),
-        ) : this(
-            date,
-            versions,
-            mutableMapOf(),
-        )
+        ) : this(date, versions, mutableMapOf())
 
         /**
          * The date (UTC) for which the statistics are reported.
@@ -427,9 +398,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun date(date: JsonField<LocalDate>) = apply {
-                this.date = date
-            }
+            fun date(date: JsonField<LocalDate>) = apply { this.date = date }
 
             /**
              * Statistics for each version of the rule that was evaluated during the reported day.
@@ -472,9 +441,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -495,15 +462,8 @@ private constructor(
              */
             fun build(): DailyStatistic =
                 DailyStatistic(
-                    checkRequired(
-                        "date",
-                        date,
-                    ),
-                    checkRequired(
-                            "versions",
-                            versions,
-                        )
-                        .map { it.toImmutable() },
+                    checkRequired("date", date),
+                    checkRequired("versions", versions).map { it.toImmutable() },
                     additionalProperties.toMutableMap(),
                 )
         }

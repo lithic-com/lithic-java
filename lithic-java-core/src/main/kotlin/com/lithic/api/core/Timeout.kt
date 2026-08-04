@@ -88,9 +88,7 @@ private constructor(
          *
          * Defaults to `Duration.ofMinutes(1)`.
          */
-        fun connect(connect: Duration?) = apply {
-            this.connect = connect
-        }
+        fun connect(connect: Duration?) = apply { this.connect = connect }
 
         /** Alias for calling [Builder.connect] with `connect.orElse(null)`. */
         fun connect(connect: Optional<Duration>) = connect(connect.getOrNull())
@@ -102,9 +100,7 @@ private constructor(
          *
          * Defaults to `request()`.
          */
-        fun read(read: Duration?) = apply {
-            this.read = read
-        }
+        fun read(read: Duration?) = apply { this.read = read }
 
         /** Alias for calling [Builder.read] with `read.orElse(null)`. */
         fun read(read: Optional<Duration>) = read(read.getOrNull())
@@ -116,9 +112,7 @@ private constructor(
          *
          * Defaults to `request()`.
          */
-        fun write(write: Duration?) = apply {
-            this.write = write
-        }
+        fun write(write: Duration?) = apply { this.write = write }
 
         /** Alias for calling [Builder.write] with `write.orElse(null)`. */
         fun write(write: Optional<Duration>) = write(write.getOrNull())
@@ -133,9 +127,7 @@ private constructor(
          *
          * Defaults to `Duration.ofMinutes(1)`.
          */
-        fun request(request: Duration?) = apply {
-            this.request = request
-        }
+        fun request(request: Duration?) = apply { this.request = request }
 
         /** Alias for calling [Builder.request] with `request.orElse(null)`. */
         fun request(request: Optional<Duration>) = request(request.getOrNull())
@@ -145,13 +137,7 @@ private constructor(
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): Timeout =
-            Timeout(
-                connect,
-                read,
-                write,
-                request,
-            )
+        fun build(): Timeout = Timeout(connect, read, write, request)
     }
 
     @JvmSynthetic

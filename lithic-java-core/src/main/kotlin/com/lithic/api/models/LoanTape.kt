@@ -614,9 +614,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun accountStanding(accountStanding: AccountStanding) =
             accountStanding(JsonField.of(accountStanding))
@@ -655,9 +653,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun balances(balances: JsonField<Balances>) = apply {
-            this.balances = balances
-        }
+        fun balances(balances: JsonField<Balances>) = apply { this.balances = balances }
 
         /** Timestamp of when the loan tape was created */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -669,9 +665,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
          * For prepay accounts, this is the minimum prepay balance that must be maintained. For
@@ -686,9 +680,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun creditLimit(creditLimit: JsonField<Long>) = apply {
-            this.creditLimit = creditLimit
-        }
+        fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
         /** Globally unique identifier for a credit product */
         fun creditProductToken(creditProductToken: String) =
@@ -714,9 +706,7 @@ private constructor(
          * You should usually call [Builder.date] with a well-typed [LocalDate] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun date(date: JsonField<LocalDate>) = apply {
-            this.date = date
-        }
+        fun date(date: JsonField<LocalDate>) = apply { this.date = date }
 
         fun dayTotals(dayTotals: StatementTotals) = dayTotals(JsonField.of(dayTotals))
 
@@ -727,9 +717,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun dayTotals(dayTotals: JsonField<StatementTotals>) = apply {
-            this.dayTotals = dayTotals
-        }
+        fun dayTotals(dayTotals: JsonField<StatementTotals>) = apply { this.dayTotals = dayTotals }
 
         /** Balance at the end of the day */
         fun endingBalance(endingBalance: Long) = endingBalance(JsonField.of(endingBalance))
@@ -875,9 +863,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply {
-            this.updated = updated
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         /** Version number of the loan tape. This starts at 1 */
         fun version(version: Long) = version(JsonField.of(version))
@@ -888,9 +874,7 @@ private constructor(
          * You should usually call [Builder.version] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun version(version: JsonField<Long>) = apply {
-            this.version = version
-        }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun ytdTotals(ytdTotals: StatementTotals) = ytdTotals(JsonField.of(ytdTotals))
 
@@ -901,9 +885,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun ytdTotals(ytdTotals: JsonField<StatementTotals>) = apply {
-            this.ytdTotals = ytdTotals
-        }
+        fun ytdTotals(ytdTotals: JsonField<StatementTotals>) = apply { this.ytdTotals = ytdTotals }
 
         /** Day of the billing period that this loan tape covers, starting at 1 */
         fun dayOfPeriod(dayOfPeriod: Long?) = dayOfPeriod(JsonField.ofNullable(dayOfPeriod))
@@ -925,9 +907,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun dayOfPeriod(dayOfPeriod: JsonField<Long>) = apply {
-            this.dayOfPeriod = dayOfPeriod
-        }
+        fun dayOfPeriod(dayOfPeriod: JsonField<Long>) = apply { this.dayOfPeriod = dayOfPeriod }
 
         /** Interest tier to which this account belongs to */
         fun tier(tier: String?) = tier(JsonField.ofNullable(tier))
@@ -941,9 +921,7 @@ private constructor(
          * You should usually call [Builder.tier] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun tier(tier: JsonField<String>) = apply {
-            this.tier = tier
-        }
+        fun tier(tier: JsonField<String>) = apply { this.tier = tier }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -958,9 +936,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1000,90 +976,27 @@ private constructor(
          */
         fun build(): LoanTape =
             LoanTape(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "accountStanding",
-                    accountStanding,
-                ),
-                checkRequired(
-                    "availableCredit",
-                    availableCredit,
-                ),
-                checkRequired(
-                    "balances",
-                    balances,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "creditLimit",
-                    creditLimit,
-                ),
-                checkRequired(
-                    "creditProductToken",
-                    creditProductToken,
-                ),
-                checkRequired(
-                    "date",
-                    date,
-                ),
-                checkRequired(
-                    "dayTotals",
-                    dayTotals,
-                ),
-                checkRequired(
-                    "endingBalance",
-                    endingBalance,
-                ),
-                checkRequired(
-                    "excessCredits",
-                    excessCredits,
-                ),
-                checkRequired(
-                    "financialAccountToken",
-                    financialAccountToken,
-                ),
-                checkRequired(
-                    "interestDetails",
-                    interestDetails,
-                ),
-                checkRequired(
-                    "minimumPaymentBalance",
-                    minimumPaymentBalance,
-                ),
-                checkRequired(
-                    "paymentAllocation",
-                    paymentAllocation,
-                ),
-                checkRequired(
-                    "periodTotals",
-                    periodTotals,
-                ),
-                checkRequired(
-                    "previousStatementBalance",
-                    previousStatementBalance,
-                ),
-                checkRequired(
-                    "startingBalance",
-                    startingBalance,
-                ),
-                checkRequired(
-                    "updated",
-                    updated,
-                ),
-                checkRequired(
-                    "version",
-                    version,
-                ),
-                checkRequired(
-                    "ytdTotals",
-                    ytdTotals,
-                ),
+                checkRequired("token", token),
+                checkRequired("accountStanding", accountStanding),
+                checkRequired("availableCredit", availableCredit),
+                checkRequired("balances", balances),
+                checkRequired("created", created),
+                checkRequired("creditLimit", creditLimit),
+                checkRequired("creditProductToken", creditProductToken),
+                checkRequired("date", date),
+                checkRequired("dayTotals", dayTotals),
+                checkRequired("endingBalance", endingBalance),
+                checkRequired("excessCredits", excessCredits),
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("interestDetails", interestDetails),
+                checkRequired("minimumPaymentBalance", minimumPaymentBalance),
+                checkRequired("paymentAllocation", paymentAllocation),
+                checkRequired("periodTotals", periodTotals),
+                checkRequired("previousStatementBalance", previousStatementBalance),
+                checkRequired("startingBalance", startingBalance),
+                checkRequired("updated", updated),
+                checkRequired("version", version),
+                checkRequired("ytdTotals", ytdTotals),
                 dayOfPeriod,
                 tier,
                 additionalProperties.toMutableMap(),
@@ -1465,9 +1378,7 @@ private constructor(
              */
             fun consecutiveMinimumPaymentsMissed(
                 consecutiveMinimumPaymentsMissed: JsonField<Long>
-            ) = apply {
-                this.consecutiveMinimumPaymentsMissed = consecutiveMinimumPaymentsMissed
-            }
+            ) = apply { this.consecutiveMinimumPaymentsMissed = consecutiveMinimumPaymentsMissed }
 
             /** Number of days past due */
             fun daysPastDue(daysPastDue: Long) = daysPastDue(JsonField.of(daysPastDue))
@@ -1479,9 +1390,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun daysPastDue(daysPastDue: JsonField<Long>) = apply {
-                this.daysPastDue = daysPastDue
-            }
+            fun daysPastDue(daysPastDue: JsonField<Long>) = apply { this.daysPastDue = daysPastDue }
 
             /** Information about the financial account state */
             fun financialAccountState(financialAccountState: FinancialAccountState) =
@@ -1509,9 +1418,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun hasGrace(hasGrace: JsonField<Boolean>) = apply {
-                this.hasGrace = hasGrace
-            }
+            fun hasGrace(hasGrace: JsonField<Boolean>) = apply { this.hasGrace = hasGrace }
 
             /** Current overall period number */
             fun periodNumber(periodNumber: Long) = periodNumber(JsonField.of(periodNumber))
@@ -1553,9 +1460,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1582,38 +1487,17 @@ private constructor(
              */
             fun build(): AccountStanding =
                 AccountStanding(
-                    checkRequired(
-                        "consecutiveFullPaymentsMade",
-                        consecutiveFullPaymentsMade,
-                    ),
-                    checkRequired(
-                        "consecutiveMinimumPaymentsMade",
-                        consecutiveMinimumPaymentsMade,
-                    ),
+                    checkRequired("consecutiveFullPaymentsMade", consecutiveFullPaymentsMade),
+                    checkRequired("consecutiveMinimumPaymentsMade", consecutiveMinimumPaymentsMade),
                     checkRequired(
                         "consecutiveMinimumPaymentsMissed",
                         consecutiveMinimumPaymentsMissed,
                     ),
-                    checkRequired(
-                        "daysPastDue",
-                        daysPastDue,
-                    ),
-                    checkRequired(
-                        "financialAccountState",
-                        financialAccountState,
-                    ),
-                    checkRequired(
-                        "hasGrace",
-                        hasGrace,
-                    ),
-                    checkRequired(
-                        "periodNumber",
-                        periodNumber,
-                    ),
-                    checkRequired(
-                        "periodState",
-                        periodState,
-                    ),
+                    checkRequired("daysPastDue", daysPastDue),
+                    checkRequired("financialAccountState", financialAccountState),
+                    checkRequired("hasGrace", hasGrace),
+                    checkRequired("periodNumber", periodNumber),
+                    checkRequired("periodState", periodState),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1687,11 +1571,7 @@ private constructor(
                 @JsonProperty("substatus")
                 @ExcludeMissing
                 substatus: JsonField<FinancialAccountSubstatus> = JsonMissing.of(),
-            ) : this(
-                status,
-                substatus,
-                mutableMapOf(),
-            )
+            ) : this(status, substatus, mutableMapOf())
 
             /**
              * Status of the financial account
@@ -1839,10 +1719,7 @@ private constructor(
                  */
                 fun build(): FinancialAccountState =
                     FinancialAccountState(
-                        checkRequired(
-                            "status",
-                            status,
-                        ),
+                        checkRequired("status", status),
                         substatus,
                         additionalProperties.toMutableMap(),
                     )
@@ -1931,11 +1808,9 @@ private constructor(
                  *
                  * An instance of [FinancialAccountStatus] can contain an unknown value in a couple
                  * of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -2100,11 +1975,9 @@ private constructor(
                  *
                  * An instance of [FinancialAccountSubstatus] can contain an unknown value in a
                  * couple of cases:
-                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
-                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -2282,11 +2155,9 @@ private constructor(
              * An enum containing [PeriodState]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [PeriodState] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2457,13 +2328,7 @@ private constructor(
             @JsonProperty("past_statements_due")
             @ExcludeMissing
             pastStatementsDue: JsonField<CategoryBalances> = JsonMissing.of(),
-        ) : this(
-            due,
-            nextStatementDue,
-            pastDue,
-            pastStatementsDue,
-            mutableMapOf(),
-        )
+        ) : this(due, nextStatementDue, pastDue, pastStatementsDue, mutableMapOf())
 
         /**
          * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date
@@ -2596,9 +2461,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun due(due: JsonField<CategoryBalances>) = apply {
-                this.due = due
-            }
+            fun due(due: JsonField<CategoryBalances>) = apply { this.due = due }
 
             /**
              * Amount due for the current billing cycle. Any amounts not paid off by early payments
@@ -2628,9 +2491,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun pastDue(pastDue: JsonField<CategoryBalances>) = apply {
-                this.pastDue = pastDue
-            }
+            fun pastDue(pastDue: JsonField<CategoryBalances>) = apply { this.pastDue = pastDue }
 
             /** Amount due for the past billing cycles. */
             fun pastStatementsDue(pastStatementsDue: CategoryBalances) =
@@ -2660,9 +2521,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -2685,22 +2544,10 @@ private constructor(
              */
             fun build(): Balances =
                 Balances(
-                    checkRequired(
-                        "due",
-                        due,
-                    ),
-                    checkRequired(
-                        "nextStatementDue",
-                        nextStatementDue,
-                    ),
-                    checkRequired(
-                        "pastDue",
-                        pastDue,
-                    ),
-                    checkRequired(
-                        "pastStatementsDue",
-                        pastStatementsDue,
-                    ),
+                    checkRequired("due", due),
+                    checkRequired("nextStatementDue", nextStatementDue),
+                    checkRequired("pastDue", pastDue),
+                    checkRequired("pastStatementsDue", pastStatementsDue),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -3057,9 +2904,7 @@ private constructor(
              */
             fun interestCalculationMethod(
                 interestCalculationMethod: JsonField<InterestCalculationMethod>
-            ) = apply {
-                this.interestCalculationMethod = interestCalculationMethod
-            }
+            ) = apply { this.interestCalculationMethod = interestCalculationMethod }
 
             fun interestForPeriod(interestForPeriod: CategoryDetails) =
                 interestForPeriod(JsonField.of(interestForPeriod))
@@ -3087,9 +2932,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun primeRate(primeRate: JsonField<String>) = apply {
-                this.primeRate = primeRate
-            }
+            fun primeRate(primeRate: JsonField<String>) = apply { this.primeRate = primeRate }
 
             fun minimumInterestCharged(minimumInterestCharged: Long?) =
                 minimumInterestCharged(JsonField.ofNullable(minimumInterestCharged))
@@ -3133,9 +2976,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -3160,30 +3001,12 @@ private constructor(
              */
             fun build(): InterestDetails =
                 InterestDetails(
-                    checkRequired(
-                        "actualInterestCharged",
-                        actualInterestCharged,
-                    ),
-                    checkRequired(
-                        "dailyBalanceAmounts",
-                        dailyBalanceAmounts,
-                    ),
-                    checkRequired(
-                        "effectiveApr",
-                        effectiveApr,
-                    ),
-                    checkRequired(
-                        "interestCalculationMethod",
-                        interestCalculationMethod,
-                    ),
-                    checkRequired(
-                        "interestForPeriod",
-                        interestForPeriod,
-                    ),
-                    checkRequired(
-                        "primeRate",
-                        primeRate,
-                    ),
+                    checkRequired("actualInterestCharged", actualInterestCharged),
+                    checkRequired("dailyBalanceAmounts", dailyBalanceAmounts),
+                    checkRequired("effectiveApr", effectiveApr),
+                    checkRequired("interestCalculationMethod", interestCalculationMethod),
+                    checkRequired("interestForPeriod", interestForPeriod),
+                    checkRequired("primeRate", primeRate),
                     minimumInterestCharged,
                     additionalProperties.toMutableMap(),
                 )
@@ -3274,11 +3097,9 @@ private constructor(
              *
              * An instance of [InterestCalculationMethod] can contain an unknown value in a couple
              * of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -3434,14 +3255,8 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("remaining")
-            @ExcludeMissing
-            remaining: JsonField<Long> = JsonMissing.of(),
-        ) : this(
-            amount,
-            remaining,
-            mutableMapOf(),
-        )
+            @JsonProperty("remaining") @ExcludeMissing remaining: JsonField<Long> = JsonMissing.of(),
+        ) : this(amount, remaining, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -3518,9 +3333,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun remaining(remaining: Long) = remaining(JsonField.of(remaining))
 
@@ -3531,9 +3344,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun remaining(remaining: JsonField<Long>) = apply {
-                this.remaining = remaining
-            }
+            fun remaining(remaining: JsonField<Long>) = apply { this.remaining = remaining }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -3548,9 +3359,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -3571,14 +3380,8 @@ private constructor(
              */
             fun build(): BalanceDetails =
                 BalanceDetails(
-                    checkRequired(
-                        "amount",
-                        amount,
-                    ),
-                    checkRequired(
-                        "remaining",
-                        remaining,
-                    ),
+                    checkRequired("amount", amount),
+                    checkRequired("remaining", remaining),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -3854,9 +3657,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun fees(fees: JsonField<Long>) = apply {
-                this.fees = fees
-            }
+            fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
 
             /** Amount allocated to interest in cents */
             fun interest(interest: Long) = interest(JsonField.of(interest))
@@ -3868,9 +3669,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun interest(interest: JsonField<Long>) = apply {
-                this.interest = interest
-            }
+            fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
 
             fun interestDetails(interestDetails: CategoryDetails?) =
                 interestDetails(JsonField.ofNullable(interestDetails))
@@ -3900,9 +3699,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun principal(principal: JsonField<Long>) = apply {
-                this.principal = principal
-            }
+            fun principal(principal: JsonField<Long>) = apply { this.principal = principal }
 
             fun principalDetails(principalDetails: CategoryDetails?) =
                 principalDetails(JsonField.ofNullable(principalDetails))
@@ -3937,9 +3734,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -3964,30 +3759,12 @@ private constructor(
              */
             fun build(): PaymentAllocation =
                 PaymentAllocation(
-                    checkRequired(
-                        "feeDetails",
-                        feeDetails,
-                    ),
-                    checkRequired(
-                        "fees",
-                        fees,
-                    ),
-                    checkRequired(
-                        "interest",
-                        interest,
-                    ),
-                    checkRequired(
-                        "interestDetails",
-                        interestDetails,
-                    ),
-                    checkRequired(
-                        "principal",
-                        principal,
-                    ),
-                    checkRequired(
-                        "principalDetails",
-                        principalDetails,
-                    ),
+                    checkRequired("feeDetails", feeDetails),
+                    checkRequired("fees", fees),
+                    checkRequired("interest", interest),
+                    checkRequired("interestDetails", interestDetails),
+                    checkRequired("principal", principal),
+                    checkRequired("principalDetails", principalDetails),
                     additionalProperties.toMutableMap(),
                 )
         }

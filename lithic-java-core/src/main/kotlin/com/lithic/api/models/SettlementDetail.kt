@@ -592,9 +592,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * Globally unique identifier denoting the account that the associated transaction occurred
@@ -653,9 +651,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -667,9 +663,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Three-character alphabetic ISO 4217 code. */
         fun currency(currency: String) = currency(JsonField.of(currency))
@@ -680,9 +674,7 @@ private constructor(
          * You should usually call [Builder.currency] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun currency(currency: JsonField<String>) = apply {
-            this.currency = currency
-        }
+        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** The total gross amount of disputes settlements. */
         fun disputesGrossAmount(disputesGrossAmount: Long) =
@@ -740,9 +732,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun institution(institution: JsonField<String>) = apply {
-            this.institution = institution
-        }
+        fun institution(institution: JsonField<String>) = apply { this.institution = institution }
 
         /** The total amount of interchange in six-digit extended precision. */
         fun interchangeFeeExtendedPrecision(interchangeFeeExtendedPrecision: Long) =
@@ -784,9 +774,7 @@ private constructor(
          * You should usually call [Builder.network] with a well-typed [Network] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun network(network: JsonField<Network>) = apply {
-            this.network = network
-        }
+        fun network(network: JsonField<Network>) = apply { this.network = network }
 
         /** The total gross amount of other fees by type. */
         fun otherFeesDetails(otherFeesDetails: OtherFeesDetails) =
@@ -828,9 +816,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun reportDate(reportDate: JsonField<String>) = apply {
-            this.reportDate = reportDate
-        }
+        fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
         /**
          * Date of when money movement is triggered for the transaction. One exception applies - for
@@ -902,9 +888,7 @@ private constructor(
          * You should usually call [Builder.type] with a well-typed [Type] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun type(type: JsonField<Type>) = apply {
-            this.type = type
-        }
+        fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -916,9 +900,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply {
-            this.updated = updated
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         /** Network's description of a fee, only present on records with type `FEE`. */
         fun feeDescription(feeDescription: String) = feeDescription(JsonField.of(feeDescription))
@@ -947,9 +929,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -988,87 +968,26 @@ private constructor(
          */
         fun build(): SettlementDetail =
             SettlementDetail(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "accountToken",
-                    accountToken,
-                ),
-                checkRequired(
-                    "cardProgramToken",
-                    cardProgramToken,
-                ),
-                checkRequired(
-                    "cardToken",
-                    cardToken,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "currency",
-                    currency,
-                ),
-                checkRequired(
-                    "disputesGrossAmount",
-                    disputesGrossAmount,
-                ),
-                checkRequired(
-                        "eventTokens",
-                        eventTokens,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "institution",
-                    institution,
-                ),
-                checkRequired(
-                    "interchangeFeeExtendedPrecision",
-                    interchangeFeeExtendedPrecision,
-                ),
-                checkRequired(
-                    "interchangeGrossAmount",
-                    interchangeGrossAmount,
-                ),
-                checkRequired(
-                    "network",
-                    network,
-                ),
-                checkRequired(
-                    "otherFeesDetails",
-                    otherFeesDetails,
-                ),
-                checkRequired(
-                    "otherFeesGrossAmount",
-                    otherFeesGrossAmount,
-                ),
-                checkRequired(
-                    "reportDate",
-                    reportDate,
-                ),
-                checkRequired(
-                    "settlementDate",
-                    settlementDate,
-                ),
-                checkRequired(
-                    "transactionToken",
-                    transactionToken,
-                ),
-                checkRequired(
-                    "transactionsGrossAmount",
-                    transactionsGrossAmount,
-                ),
-                checkRequired(
-                    "type",
-                    type,
-                ),
-                checkRequired(
-                    "updated",
-                    updated,
-                ),
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardProgramToken", cardProgramToken),
+                checkRequired("cardToken", cardToken),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("disputesGrossAmount", disputesGrossAmount),
+                checkRequired("eventTokens", eventTokens).map { it.toImmutable() },
+                checkRequired("institution", institution),
+                checkRequired("interchangeFeeExtendedPrecision", interchangeFeeExtendedPrecision),
+                checkRequired("interchangeGrossAmount", interchangeGrossAmount),
+                checkRequired("network", network),
+                checkRequired("otherFeesDetails", otherFeesDetails),
+                checkRequired("otherFeesGrossAmount", otherFeesGrossAmount),
+                checkRequired("reportDate", reportDate),
+                checkRequired("settlementDate", settlementDate),
+                checkRequired("transactionToken", transactionToken),
+                checkRequired("transactionsGrossAmount", transactionsGrossAmount),
+                checkRequired("type", type),
+                checkRequired("updated", updated),
                 feeDescription,
                 additionalProperties.toMutableMap(),
             )
@@ -1194,11 +1113,9 @@ private constructor(
          * An enum containing [Network]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Network] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1322,10 +1239,7 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("ISA") @ExcludeMissing isa: JsonField<Long> = JsonMissing.of()
-        ) : this(
-            isa,
-            mutableMapOf(),
-        )
+        ) : this(isa, mutableMapOf())
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -1379,9 +1293,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun isa(isa: JsonField<Long>) = apply {
-                this.isa = isa
-            }
+            fun isa(isa: JsonField<Long>) = apply { this.isa = isa }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1396,9 +1308,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1410,10 +1320,7 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): OtherFeesDetails =
-                OtherFeesDetails(
-                    isa,
-                    additionalProperties.toMutableMap(),
-                )
+                OtherFeesDetails(isa, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -1526,11 +1433,9 @@ private constructor(
          * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Type] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

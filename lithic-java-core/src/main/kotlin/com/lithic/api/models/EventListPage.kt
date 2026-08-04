@@ -84,19 +84,13 @@ private constructor(
             response = eventListPage.response
         }
 
-        fun service(service: EventService) = apply {
-            this.service = service
-        }
+        fun service(service: EventService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: EventListParams) = apply {
-            this.params = params
-        }
+        fun params(params: EventListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: EventListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: EventListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [EventListPage].
@@ -114,18 +108,9 @@ private constructor(
          */
         fun build(): EventListPage =
             EventListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

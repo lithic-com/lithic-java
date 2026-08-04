@@ -39,12 +39,7 @@ private constructor(
         @JsonProperty("ephemeralPublicKey")
         @ExcludeMissing
         ephemeralPublicKey: JsonField<String> = JsonMissing.of(),
-    ) : this(
-        activationData,
-        encryptedData,
-        ephemeralPublicKey,
-        mutableMapOf(),
-    )
+    ) : this(activationData, encryptedData, ephemeralPublicKey, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -180,9 +175,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)

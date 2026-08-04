@@ -95,9 +95,7 @@ private constructor(
             additionalQueryParams = authRuleV2DraftParams.additionalQueryParams.toBuilder()
         }
 
-        fun authRuleToken(authRuleToken: String?) = apply {
-            this.authRuleToken = authRuleToken
-        }
+        fun authRuleToken(authRuleToken: String?) = apply { this.authRuleToken = authRuleToken }
 
         /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
         fun authRuleToken(authRuleToken: Optional<String>) =
@@ -110,14 +108,10 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [parameters]
          */
-        fun body(body: Body) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /** Parameters for the Auth Rule */
-        fun parameters(parameters: Parameters?) = apply {
-            body.parameters(parameters)
-        }
+        fun parameters(parameters: Parameters?) = apply { body.parameters(parameters) }
 
         /** Alias for calling [Builder.parameters] with `parameters.orElse(null)`. */
         fun parameters(parameters: Optional<Parameters>) = parameters(parameters.getOrNull())
@@ -129,9 +123,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun parameters(parameters: JsonField<Parameters>) = apply {
-            body.parameters(parameters)
-        }
+        fun parameters(parameters: JsonField<Parameters>) = apply { body.parameters(parameters) }
 
         /**
          * Alias for calling [parameters] with `Parameters.ofConditionalBlock(conditionalBlock)`.
@@ -194,9 +186,7 @@ private constructor(
          */
         fun parameters(
             conditionalCardTransactionUpdateAction: ConditionalCardTransactionUpdateActionParameters
-        ) = apply {
-            body.parameters(conditionalCardTransactionUpdateAction)
-        }
+        ) = apply { body.parameters(conditionalCardTransactionUpdateAction) }
 
         /**
          * Alias for calling [parameters] with
@@ -204,9 +194,7 @@ private constructor(
          */
         fun parameters(
             conditionalAchPaymentUpdateAction: ConditionalAchPaymentUpdateActionParameters
-        ) = apply {
-            body.parameters(conditionalAchPaymentUpdateAction)
-        }
+        ) = apply { body.parameters(conditionalAchPaymentUpdateAction) }
 
         /** Alias for calling [parameters] with `Parameters.ofTypescriptCode(typescriptCode)`. */
         fun parameters(typescriptCode: TypescriptCodeParameters) = apply {
@@ -219,19 +207,14 @@ private constructor(
          */
         fun parameters(
             conditionalAuthorizationAdjustment: ConditionalAuthorizationAdjustmentParameters
-        ) = apply {
-            body.parameters(conditionalAuthorizationAdjustment)
-        }
+        ) = apply { body.parameters(conditionalAuthorizationAdjustment) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -239,9 +222,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -289,9 +270,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -341,9 +320,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -387,10 +364,7 @@ private constructor(
             @JsonProperty("parameters")
             @ExcludeMissing
             parameters: JsonField<Parameters> = JsonMissing.of()
-        ) : this(
-            parameters,
-            mutableMapOf(),
-        )
+        ) : this(parameters, mutableMapOf())
 
         /**
          * Parameters for the Auth Rule
@@ -568,9 +542,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -581,11 +553,7 @@ private constructor(
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              */
-            fun build(): Body =
-                Body(
-                    parameters,
-                    additionalProperties.toMutableMap(),
-                )
+            fun build(): Body = Body(parameters, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -1167,9 +1135,7 @@ private constructor(
                 val bestMatches =
                     sequenceOf(
                             tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())
-                                ?.let {
-                                    Parameters(conditionalBlock = it, _json = json)
-                                },
+                                ?.let { Parameters(conditionalBlock = it, _json = json) },
                             tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
                                 Parameters(velocityLimitParams = it, _json = json)
                             },
@@ -1177,9 +1143,7 @@ private constructor(
                                 Parameters(merchantLock = it, _json = json)
                             },
                             tryDeserialize(node, jacksonTypeRef<Conditional3dsActionParameters>())
-                                ?.let {
-                                    Parameters(conditional3dsAction = it, _json = json)
-                                },
+                                ?.let { Parameters(conditional3dsAction = it, _json = json) },
                             tryDeserialize(
                                     node,
                                     jacksonTypeRef<ConditionalAuthorizationActionParameters>(),
@@ -1188,9 +1152,7 @@ private constructor(
                                     Parameters(conditionalAuthorizationAction = it, _json = json)
                                 },
                             tryDeserialize(node, jacksonTypeRef<ConditionalAchActionParameters>())
-                                ?.let {
-                                    Parameters(conditionalAchAction = it, _json = json)
-                                },
+                                ?.let { Parameters(conditionalAchAction = it, _json = json) },
                             tryDeserialize(
                                     node,
                                     jacksonTypeRef<ConditionalTokenizationActionParameters>(),

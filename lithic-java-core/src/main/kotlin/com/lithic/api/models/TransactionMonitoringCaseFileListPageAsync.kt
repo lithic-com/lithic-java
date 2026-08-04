@@ -51,11 +51,7 @@ private constructor(
     override fun nextPage(): CompletableFuture<TransactionMonitoringCaseFileListPageAsync> =
         service.list(nextPageParams())
 
-    fun autoPager(): AutoPagerAsync<CaseFile> =
-        AutoPagerAsync.from(
-            this,
-            streamHandlerExecutor,
-        )
+    fun autoPager(): AutoPagerAsync<CaseFile> = AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): TransactionMonitoringCaseFileListParams = params
@@ -100,18 +96,14 @@ private constructor(
             response = transactionMonitoringCaseFileListPageAsync.response
         }
 
-        fun service(service: FileServiceAsync) = apply {
-            this.service = service
-        }
+        fun service(service: FileServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: TransactionMonitoringCaseFileListParams) = apply {
-            this.params = params
-        }
+        fun params(params: TransactionMonitoringCaseFileListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: TransactionMonitoringCaseFileListPageResponse) = apply {
@@ -135,22 +127,10 @@ private constructor(
          */
         fun build(): TransactionMonitoringCaseFileListPageAsync =
             TransactionMonitoringCaseFileListPageAsync(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "streamHandlerExecutor",
-                    streamHandlerExecutor,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

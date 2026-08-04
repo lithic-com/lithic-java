@@ -84,19 +84,13 @@ private constructor(
             response = accountListPage.response
         }
 
-        fun service(service: AccountService) = apply {
-            this.service = service
-        }
+        fun service(service: AccountService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: AccountListParams) = apply {
-            this.params = params
-        }
+        fun params(params: AccountListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: AccountListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: AccountListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [AccountListPage].
@@ -114,18 +108,9 @@ private constructor(
          */
         fun build(): AccountListPage =
             AccountListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

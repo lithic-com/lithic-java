@@ -28,10 +28,7 @@ interface NetworkProgramServiceAsync {
 
     /** Get network program. */
     fun retrieve(networkProgramToken: String): CompletableFuture<NetworkProgram> =
-        retrieve(
-            networkProgramToken,
-            NetworkProgramRetrieveParams.none(),
-        )
+        retrieve(networkProgramToken, NetworkProgramRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -49,11 +46,7 @@ interface NetworkProgramServiceAsync {
         networkProgramToken: String,
         params: NetworkProgramRetrieveParams = NetworkProgramRetrieveParams.none(),
     ): CompletableFuture<NetworkProgram> =
-        retrieve(
-            networkProgramToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(networkProgramToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -63,21 +56,14 @@ interface NetworkProgramServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: NetworkProgramRetrieveParams): CompletableFuture<NetworkProgram> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         networkProgramToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<NetworkProgram> =
-        retrieve(
-            networkProgramToken,
-            NetworkProgramRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(networkProgramToken, NetworkProgramRetrieveParams.none(), requestOptions)
 
     /** List network programs. */
     fun list(): CompletableFuture<NetworkProgramListPageAsync> =
@@ -92,18 +78,11 @@ interface NetworkProgramServiceAsync {
     /** @see list */
     fun list(
         params: NetworkProgramListParams = NetworkProgramListParams.none()
-    ): CompletableFuture<NetworkProgramListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<NetworkProgramListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<NetworkProgramListPageAsync> =
-        list(
-            NetworkProgramListParams.none(),
-            requestOptions,
-        )
+        list(NetworkProgramListParams.none(), requestOptions)
 
     /**
      * A view of [NetworkProgramServiceAsync] that provides access to raw HTTP responses for each
@@ -127,10 +106,7 @@ interface NetworkProgramServiceAsync {
         fun retrieve(
             networkProgramToken: String
         ): CompletableFuture<HttpResponseFor<NetworkProgram>> =
-            retrieve(
-                networkProgramToken,
-                NetworkProgramRetrieveParams.none(),
-            )
+            retrieve(networkProgramToken, NetworkProgramRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -148,11 +124,7 @@ interface NetworkProgramServiceAsync {
             networkProgramToken: String,
             params: NetworkProgramRetrieveParams = NetworkProgramRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<NetworkProgram>> =
-            retrieve(
-                networkProgramToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(networkProgramToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -164,21 +136,14 @@ interface NetworkProgramServiceAsync {
         fun retrieve(
             params: NetworkProgramRetrieveParams
         ): CompletableFuture<HttpResponseFor<NetworkProgram>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             networkProgramToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<NetworkProgram>> =
-            retrieve(
-                networkProgramToken,
-                NetworkProgramRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(networkProgramToken, NetworkProgramRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/network_programs`, but is otherwise the same as
@@ -197,18 +162,12 @@ interface NetworkProgramServiceAsync {
         fun list(
             params: NetworkProgramListParams = NetworkProgramListParams.none()
         ): CompletableFuture<HttpResponseFor<NetworkProgramListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<NetworkProgramListPageAsync>> =
-            list(
-                NetworkProgramListParams.none(),
-                requestOptions,
-            )
+            list(NetworkProgramListParams.none(), requestOptions)
     }
 }

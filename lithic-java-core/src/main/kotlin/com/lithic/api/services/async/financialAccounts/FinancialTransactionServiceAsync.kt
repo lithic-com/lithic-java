@@ -31,11 +31,7 @@ interface FinancialTransactionServiceAsync {
         financialTransactionToken: String,
         params: FinancialTransactionRetrieveParams,
     ): CompletableFuture<FinancialTransaction> =
-        retrieve(
-            financialTransactionToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(financialTransactionToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -51,11 +47,7 @@ interface FinancialTransactionServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: FinancialTransactionRetrieveParams
-    ): CompletableFuture<FinancialTransaction> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<FinancialTransaction> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -65,10 +57,7 @@ interface FinancialTransactionServiceAsync {
 
     /** List the financial transactions for a given financial account. */
     fun list(financialAccountToken: String): CompletableFuture<FinancialTransactionListPageAsync> =
-        list(
-            financialAccountToken,
-            FinancialTransactionListParams.none(),
-        )
+        list(financialAccountToken, FinancialTransactionListParams.none())
 
     /** @see list */
     fun list(
@@ -86,11 +75,7 @@ interface FinancialTransactionServiceAsync {
         financialAccountToken: String,
         params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
     ): CompletableFuture<FinancialTransactionListPageAsync> =
-        list(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+        list(financialAccountToken, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -101,22 +86,14 @@ interface FinancialTransactionServiceAsync {
     /** @see list */
     fun list(
         params: FinancialTransactionListParams
-    ): CompletableFuture<FinancialTransactionListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<FinancialTransactionListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<FinancialTransactionListPageAsync> =
-        list(
-            financialAccountToken,
-            FinancialTransactionListParams.none(),
-            requestOptions,
-        )
+        list(financialAccountToken, FinancialTransactionListParams.none(), requestOptions)
 
     /**
      * A view of [FinancialTransactionServiceAsync] that provides access to raw HTTP responses for
@@ -142,11 +119,7 @@ interface FinancialTransactionServiceAsync {
             financialTransactionToken: String,
             params: FinancialTransactionRetrieveParams,
         ): CompletableFuture<HttpResponseFor<FinancialTransaction>> =
-            retrieve(
-                financialTransactionToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(financialTransactionToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -163,10 +136,7 @@ interface FinancialTransactionServiceAsync {
         fun retrieve(
             params: FinancialTransactionRetrieveParams
         ): CompletableFuture<HttpResponseFor<FinancialTransaction>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -182,10 +152,7 @@ interface FinancialTransactionServiceAsync {
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
-            list(
-                financialAccountToken,
-                FinancialTransactionListParams.none(),
-            )
+            list(financialAccountToken, FinancialTransactionListParams.none())
 
         /** @see list */
         fun list(
@@ -203,11 +170,7 @@ interface FinancialTransactionServiceAsync {
             financialAccountToken: String,
             params: FinancialTransactionListParams = FinancialTransactionListParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
-            list(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -219,20 +182,13 @@ interface FinancialTransactionServiceAsync {
         fun list(
             params: FinancialTransactionListParams
         ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<FinancialTransactionListPageAsync>> =
-            list(
-                financialAccountToken,
-                FinancialTransactionListParams.none(),
-                requestOptions,
-            )
+            list(financialAccountToken, FinancialTransactionListParams.none(), requestOptions)
     }
 }

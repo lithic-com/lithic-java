@@ -82,23 +82,17 @@ private constructor(
             additionalQueryParams = authRuleV2RetrieveReportParams.additionalQueryParams.toBuilder()
         }
 
-        fun authRuleToken(authRuleToken: String?) = apply {
-            this.authRuleToken = authRuleToken
-        }
+        fun authRuleToken(authRuleToken: String?) = apply { this.authRuleToken = authRuleToken }
 
         /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
         fun authRuleToken(authRuleToken: Optional<String>) =
             authRuleToken(authRuleToken.getOrNull())
 
         /** Start date for the report */
-        fun begin(begin: LocalDate) = apply {
-            this.begin = begin
-        }
+        fun begin(begin: LocalDate) = apply { this.begin = begin }
 
         /** End date for the report */
-        fun end(end: LocalDate) = apply {
-            this.end = end
-        }
+        fun end(end: LocalDate) = apply { this.end = end }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -142,9 +136,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -194,9 +186,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -218,14 +208,8 @@ private constructor(
         fun build(): AuthRuleV2RetrieveReportParams =
             AuthRuleV2RetrieveReportParams(
                 authRuleToken,
-                checkRequired(
-                    "begin",
-                    begin,
-                ),
-                checkRequired(
-                    "end",
-                    end,
-                ),
+                checkRequired("begin", begin),
+                checkRequired("end", end),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

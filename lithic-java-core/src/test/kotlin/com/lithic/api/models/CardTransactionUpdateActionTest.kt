@@ -91,14 +91,7 @@ internal class CardTransactionUpdateActionTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(
-            JsonValue.from(
-                listOf(
-                    "invalid",
-                    "array",
-                )
-            )
-        ),
+        ARRAY(JsonValue.from(listOf("invalid", "array"))),
     }
 
     @ParameterizedTest
@@ -107,10 +100,7 @@ internal class CardTransactionUpdateActionTest {
         val cardTransactionUpdateAction =
             jsonMapper().convertValue(testCase.value, jacksonTypeRef<CardTransactionUpdateAction>())
 
-        val e =
-            assertThrows<LithicInvalidDataException> {
-                cardTransactionUpdateAction.validate()
-            }
+        val e = assertThrows<LithicInvalidDataException> { cardTransactionUpdateAction.validate() }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

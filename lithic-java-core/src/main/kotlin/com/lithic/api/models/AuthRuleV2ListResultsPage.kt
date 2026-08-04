@@ -167,14 +167,10 @@ private constructor(
             response = authRuleV2ListResultsPage.response
         }
 
-        fun service(service: V2Service) = apply {
-            this.service = service
-        }
+        fun service(service: V2Service) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: AuthRuleV2ListResultsParams) = apply {
-            this.params = params
-        }
+        fun params(params: AuthRuleV2ListResultsParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: AuthRuleV2ListResultsPageResponse) = apply {
@@ -197,18 +193,9 @@ private constructor(
          */
         fun build(): AuthRuleV2ListResultsPage =
             AuthRuleV2ListResultsPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

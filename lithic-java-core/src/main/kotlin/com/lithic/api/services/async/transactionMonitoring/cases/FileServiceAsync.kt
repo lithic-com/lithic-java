@@ -33,12 +33,7 @@ interface FileServiceAsync {
     fun create(
         caseToken: String,
         params: TransactionMonitoringCaseFileCreateParams,
-    ): CompletableFuture<CaseFile> =
-        create(
-            caseToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<CaseFile> = create(caseToken, params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -46,17 +41,11 @@ interface FileServiceAsync {
         params: TransactionMonitoringCaseFileCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CaseFile> =
-        create(
-            params.toBuilder().caseToken(caseToken).build(),
-            requestOptions,
-        )
+        create(params.toBuilder().caseToken(caseToken).build(), requestOptions)
 
     /** @see create */
     fun create(params: TransactionMonitoringCaseFileCreateParams): CompletableFuture<CaseFile> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -71,12 +60,7 @@ interface FileServiceAsync {
     fun retrieve(
         fileToken: String,
         params: TransactionMonitoringCaseFileRetrieveParams,
-    ): CompletableFuture<CaseFile> =
-        retrieve(
-            fileToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<CaseFile> = retrieve(fileToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -84,17 +68,11 @@ interface FileServiceAsync {
         params: TransactionMonitoringCaseFileRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CaseFile> =
-        retrieve(
-            params.toBuilder().fileToken(fileToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().fileToken(fileToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(params: TransactionMonitoringCaseFileRetrieveParams): CompletableFuture<CaseFile> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -104,10 +82,7 @@ interface FileServiceAsync {
 
     /** Lists the files attached to a case. */
     fun list(caseToken: String): CompletableFuture<TransactionMonitoringCaseFileListPageAsync> =
-        list(
-            caseToken,
-            TransactionMonitoringCaseFileListParams.none(),
-        )
+        list(caseToken, TransactionMonitoringCaseFileListParams.none())
 
     /** @see list */
     fun list(
@@ -116,10 +91,7 @@ interface FileServiceAsync {
             TransactionMonitoringCaseFileListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionMonitoringCaseFileListPageAsync> =
-        list(
-            params.toBuilder().caseToken(caseToken).build(),
-            requestOptions,
-        )
+        list(params.toBuilder().caseToken(caseToken).build(), requestOptions)
 
     /** @see list */
     fun list(
@@ -127,11 +99,7 @@ interface FileServiceAsync {
         params: TransactionMonitoringCaseFileListParams =
             TransactionMonitoringCaseFileListParams.none(),
     ): CompletableFuture<TransactionMonitoringCaseFileListPageAsync> =
-        list(
-            caseToken,
-            params,
-            RequestOptions.none(),
-        )
+        list(caseToken, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -143,32 +111,20 @@ interface FileServiceAsync {
     fun list(
         params: TransactionMonitoringCaseFileListParams
     ): CompletableFuture<TransactionMonitoringCaseFileListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         caseToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<TransactionMonitoringCaseFileListPageAsync> =
-        list(
-            caseToken,
-            TransactionMonitoringCaseFileListParams.none(),
-            requestOptions,
-        )
+        list(caseToken, TransactionMonitoringCaseFileListParams.none(), requestOptions)
 
     /** Deletes a file from a case. */
     fun delete(
         fileToken: String,
         params: TransactionMonitoringCaseFileDeleteParams,
-    ): CompletableFuture<Void?> =
-        delete(
-            fileToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = delete(fileToken, params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -176,17 +132,11 @@ interface FileServiceAsync {
         params: TransactionMonitoringCaseFileDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?> =
-        delete(
-            params.toBuilder().fileToken(fileToken).build(),
-            requestOptions,
-        )
+        delete(params.toBuilder().fileToken(fileToken).build(), requestOptions)
 
     /** @see delete */
     fun delete(params: TransactionMonitoringCaseFileDeleteParams): CompletableFuture<Void?> =
-        delete(
-            params,
-            RequestOptions.none(),
-        )
+        delete(params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -213,11 +163,7 @@ interface FileServiceAsync {
             caseToken: String,
             params: TransactionMonitoringCaseFileCreateParams,
         ): CompletableFuture<HttpResponseFor<CaseFile>> =
-            create(
-                caseToken,
-                params,
-                RequestOptions.none(),
-            )
+            create(caseToken, params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -225,19 +171,12 @@ interface FileServiceAsync {
             params: TransactionMonitoringCaseFileCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CaseFile>> =
-            create(
-                params.toBuilder().caseToken(caseToken).build(),
-                requestOptions,
-            )
+            create(params.toBuilder().caseToken(caseToken).build(), requestOptions)
 
         /** @see create */
         fun create(
             params: TransactionMonitoringCaseFileCreateParams
-        ): CompletableFuture<HttpResponseFor<CaseFile>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<CaseFile>> = create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -254,11 +193,7 @@ interface FileServiceAsync {
             fileToken: String,
             params: TransactionMonitoringCaseFileRetrieveParams,
         ): CompletableFuture<HttpResponseFor<CaseFile>> =
-            retrieve(
-                fileToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(fileToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -266,19 +201,12 @@ interface FileServiceAsync {
             params: TransactionMonitoringCaseFileRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CaseFile>> =
-            retrieve(
-                params.toBuilder().fileToken(fileToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().fileToken(fileToken).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             params: TransactionMonitoringCaseFileRetrieveParams
-        ): CompletableFuture<HttpResponseFor<CaseFile>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<CaseFile>> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -294,10 +222,7 @@ interface FileServiceAsync {
         fun list(
             caseToken: String
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseFileListPageAsync>> =
-            list(
-                caseToken,
-                TransactionMonitoringCaseFileListParams.none(),
-            )
+            list(caseToken, TransactionMonitoringCaseFileListParams.none())
 
         /** @see list */
         fun list(
@@ -306,10 +231,7 @@ interface FileServiceAsync {
                 TransactionMonitoringCaseFileListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseFileListPageAsync>> =
-            list(
-                params.toBuilder().caseToken(caseToken).build(),
-                requestOptions,
-            )
+            list(params.toBuilder().caseToken(caseToken).build(), requestOptions)
 
         /** @see list */
         fun list(
@@ -317,11 +239,7 @@ interface FileServiceAsync {
             params: TransactionMonitoringCaseFileListParams =
                 TransactionMonitoringCaseFileListParams.none(),
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseFileListPageAsync>> =
-            list(
-                caseToken,
-                params,
-                RequestOptions.none(),
-            )
+            list(caseToken, params, RequestOptions.none())
 
         /** @see list */
         fun list(
@@ -333,21 +251,14 @@ interface FileServiceAsync {
         fun list(
             params: TransactionMonitoringCaseFileListParams
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseFileListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             caseToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseFileListPageAsync>> =
-            list(
-                caseToken,
-                TransactionMonitoringCaseFileListParams.none(),
-                requestOptions,
-            )
+            list(caseToken, TransactionMonitoringCaseFileListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete
@@ -357,12 +268,7 @@ interface FileServiceAsync {
         fun delete(
             fileToken: String,
             params: TransactionMonitoringCaseFileDeleteParams,
-        ): CompletableFuture<HttpResponse> =
-            delete(
-                fileToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = delete(fileToken, params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
@@ -370,19 +276,12 @@ interface FileServiceAsync {
             params: TransactionMonitoringCaseFileDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse> =
-            delete(
-                params.toBuilder().fileToken(fileToken).build(),
-                requestOptions,
-            )
+            delete(params.toBuilder().fileToken(fileToken).build(), requestOptions)
 
         /** @see delete */
         fun delete(
             params: TransactionMonitoringCaseFileDeleteParams
-        ): CompletableFuture<HttpResponse> =
-            delete(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = delete(params, RequestOptions.none())
 
         /** @see delete */
         fun delete(

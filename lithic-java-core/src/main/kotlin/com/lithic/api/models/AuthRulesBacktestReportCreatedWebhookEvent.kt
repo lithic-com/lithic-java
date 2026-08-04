@@ -42,13 +42,7 @@ private constructor(
         @JsonProperty("event_type")
         @ExcludeMissing
         eventType: JsonField<EventType> = JsonMissing.of(),
-    ) : this(
-        backtestToken,
-        results,
-        simulationParameters,
-        eventType,
-        mutableMapOf(),
-    )
+    ) : this(backtestToken, results, simulationParameters, eventType, mutableMapOf())
 
     fun toBacktestResults(): BacktestResults =
         BacktestResults.builder()
@@ -196,9 +190,7 @@ private constructor(
          * value instead. This method is primarily for setting the field to an undocumented or not
          * yet supported value.
          */
-        fun results(results: JsonField<BacktestResults.Results>) = apply {
-            this.results = results
-        }
+        fun results(results: JsonField<BacktestResults.Results>) = apply { this.results = results }
 
         fun simulationParameters(
             simulationParameters: BacktestResults.BacktestSimulationParameters
@@ -213,9 +205,7 @@ private constructor(
          */
         fun simulationParameters(
             simulationParameters: JsonField<BacktestResults.BacktestSimulationParameters>
-        ) = apply {
-            this.simulationParameters = simulationParameters
-        }
+        ) = apply { this.simulationParameters = simulationParameters }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -227,9 +217,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply {
-            this.eventType = eventType
-        }
+        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -244,9 +232,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -269,22 +255,10 @@ private constructor(
          */
         fun build(): AuthRulesBacktestReportCreatedWebhookEvent =
             AuthRulesBacktestReportCreatedWebhookEvent(
-                checkRequired(
-                    "backtestToken",
-                    backtestToken,
-                ),
-                checkRequired(
-                    "results",
-                    results,
-                ),
-                checkRequired(
-                    "simulationParameters",
-                    simulationParameters,
-                ),
-                checkRequired(
-                    "eventType",
-                    eventType,
-                ),
+                checkRequired("backtestToken", backtestToken),
+                checkRequired("results", results),
+                checkRequired("simulationParameters", simulationParameters),
+                checkRequired("eventType", eventType),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -361,11 +335,9 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

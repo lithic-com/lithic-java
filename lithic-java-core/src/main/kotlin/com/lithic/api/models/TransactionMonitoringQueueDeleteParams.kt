@@ -64,9 +64,7 @@ private constructor(
                 transactionMonitoringQueueDeleteParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun queueToken(queueToken: String?) = apply {
-            this.queueToken = queueToken
-        }
+        fun queueToken(queueToken: String?) = apply { this.queueToken = queueToken }
 
         /** Alias for calling [Builder.queueToken] with `queueToken.orElse(null)`. */
         fun queueToken(queueToken: Optional<String>) = queueToken(queueToken.getOrNull())
@@ -113,9 +111,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -165,9 +161,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

@@ -120,9 +120,7 @@ private constructor(
             additionalQueryParams = authRuleV2BacktestCreateParams.additionalQueryParams.toBuilder()
         }
 
-        fun authRuleToken(authRuleToken: String?) = apply {
-            this.authRuleToken = authRuleToken
-        }
+        fun authRuleToken(authRuleToken: String?) = apply { this.authRuleToken = authRuleToken }
 
         /** Alias for calling [Builder.authRuleToken] with `authRuleToken.orElse(null)`. */
         fun authRuleToken(authRuleToken: Optional<String>) =
@@ -136,14 +134,10 @@ private constructor(
          * - [end]
          * - [start]
          */
-        fun body(body: BacktestRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: BacktestRequest) = apply { this.body = body.toBuilder() }
 
         /** The end time of the backtest. */
-        fun end(end: OffsetDateTime) = apply {
-            body.end(end)
-        }
+        fun end(end: OffsetDateTime) = apply { body.end(end) }
 
         /**
          * Sets [Builder.end] to an arbitrary JSON value.
@@ -152,14 +146,10 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun end(end: JsonField<OffsetDateTime>) = apply {
-            body.end(end)
-        }
+        fun end(end: JsonField<OffsetDateTime>) = apply { body.end(end) }
 
         /** The start time of the backtest. */
-        fun start(start: OffsetDateTime) = apply {
-            body.start(start)
-        }
+        fun start(start: OffsetDateTime) = apply { body.start(start) }
 
         /**
          * Sets [Builder.start] to an arbitrary JSON value.
@@ -168,19 +158,14 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun start(start: JsonField<OffsetDateTime>) = apply {
-            body.start(start)
-        }
+        fun start(start: JsonField<OffsetDateTime>) = apply { body.start(start) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -188,9 +173,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -238,9 +221,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -290,9 +271,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -338,11 +317,7 @@ private constructor(
             @JsonProperty("start")
             @ExcludeMissing
             start: JsonField<OffsetDateTime> = JsonMissing.of(),
-        ) : this(
-            end,
-            start,
-            mutableMapOf(),
-        )
+        ) : this(end, start, mutableMapOf())
 
         /**
          * The end time of the backtest.
@@ -416,9 +391,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun end(end: JsonField<OffsetDateTime>) = apply {
-                this.end = end
-            }
+            fun end(end: JsonField<OffsetDateTime>) = apply { this.end = end }
 
             /** The start time of the backtest. */
             fun start(start: OffsetDateTime) = start(JsonField.of(start))
@@ -430,9 +403,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun start(start: JsonField<OffsetDateTime>) = apply {
-                this.start = start
-            }
+            fun start(start: JsonField<OffsetDateTime>) = apply { this.start = start }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -447,9 +418,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -461,11 +430,7 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): BacktestRequest =
-                BacktestRequest(
-                    end,
-                    start,
-                    additionalProperties.toMutableMap(),
-                )
+                BacktestRequest(end, start, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false

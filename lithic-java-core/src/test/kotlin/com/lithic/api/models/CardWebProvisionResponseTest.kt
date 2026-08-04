@@ -123,14 +123,7 @@ internal class CardWebProvisionResponseTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(
-            JsonValue.from(
-                listOf(
-                    "invalid",
-                    "array",
-                )
-            )
-        ),
+        ARRAY(JsonValue.from(listOf("invalid", "array"))),
     }
 
     @ParameterizedTest
@@ -139,10 +132,7 @@ internal class CardWebProvisionResponseTest {
         val cardWebProvisionResponse =
             jsonMapper().convertValue(testCase.value, jacksonTypeRef<CardWebProvisionResponse>())
 
-        val e =
-            assertThrows<LithicInvalidDataException> {
-                cardWebProvisionResponse.validate()
-            }
+        val e = assertThrows<LithicInvalidDataException> { cardWebProvisionResponse.validate() }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

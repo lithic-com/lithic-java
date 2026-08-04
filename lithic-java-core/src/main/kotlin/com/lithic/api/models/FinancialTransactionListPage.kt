@@ -81,14 +81,10 @@ private constructor(
             response = financialTransactionListPage.response
         }
 
-        fun service(service: FinancialTransactionService) = apply {
-            this.service = service
-        }
+        fun service(service: FinancialTransactionService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: FinancialTransactionListParams) = apply {
-            this.params = params
-        }
+        fun params(params: FinancialTransactionListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: FinancialTransactionListPageResponse) = apply {
@@ -111,18 +107,9 @@ private constructor(
          */
         fun build(): FinancialTransactionListPage =
             FinancialTransactionListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

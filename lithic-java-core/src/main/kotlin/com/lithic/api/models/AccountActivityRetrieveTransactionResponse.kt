@@ -820,9 +820,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Transaction category */
             fun category(category: TransactionCategory) = category(JsonField.of(category))
@@ -848,9 +846,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun created(created: JsonField<OffsetDateTime>) = apply {
-                this.created = created
-            }
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /** Currency of the transaction, represented in ISO 4217 format */
             fun currency(currency: String) = currency(JsonField.of(currency))
@@ -862,9 +858,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun currency(currency: JsonField<String>) = apply {
-                this.currency = currency
-            }
+            fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
             /** Transaction descriptor */
             fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
@@ -876,9 +870,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun descriptor(descriptor: JsonField<String>) = apply {
-                this.descriptor = descriptor
-            }
+            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /** List of transaction events */
             fun events(events: List<FinancialEvent>) = events(JsonField.of(events))
@@ -916,9 +908,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun family(family: JsonField<Family>) = apply {
-                this.family = family
-            }
+            fun family(family: JsonField<Family>) = apply { this.family = family }
 
             /** Financial account token associated with the transaction */
             fun financialAccountToken(financialAccountToken: String) =
@@ -959,9 +949,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun result(result: JsonField<TransactionResult>) = apply {
-                this.result = result
-            }
+            fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
 
             /** Settled amount in cents */
             fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
@@ -987,9 +975,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun status(status: JsonField<TransactionStatus>) = apply {
-                this.status = status
-            }
+            fun status(status: JsonField<TransactionStatus>) = apply { this.status = status }
 
             /** ISO 8601 timestamp of when the transaction was last updated */
             fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -1001,9 +987,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun updated(updated: JsonField<OffsetDateTime>) = apply {
-                this.updated = updated
-            }
+            fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1018,9 +1002,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1052,59 +1034,19 @@ private constructor(
              */
             fun build(): FinancialTransaction =
                 FinancialTransaction(
-                    checkRequired(
-                        "token",
-                        token,
-                    ),
-                    checkRequired(
-                        "category",
-                        category,
-                    ),
-                    checkRequired(
-                        "created",
-                        created,
-                    ),
-                    checkRequired(
-                        "currency",
-                        currency,
-                    ),
-                    checkRequired(
-                        "descriptor",
-                        descriptor,
-                    ),
-                    checkRequired(
-                            "events",
-                            events,
-                        )
-                        .map { it.toImmutable() },
-                    checkRequired(
-                        "family",
-                        family,
-                    ),
-                    checkRequired(
-                        "financialAccountToken",
-                        financialAccountToken,
-                    ),
-                    checkRequired(
-                        "pendingAmount",
-                        pendingAmount,
-                    ),
-                    checkRequired(
-                        "result",
-                        result,
-                    ),
-                    checkRequired(
-                        "settledAmount",
-                        settledAmount,
-                    ),
-                    checkRequired(
-                        "status",
-                        status,
-                    ),
-                    checkRequired(
-                        "updated",
-                        updated,
-                    ),
+                    checkRequired("token", token),
+                    checkRequired("category", category),
+                    checkRequired("created", created),
+                    checkRequired("currency", currency),
+                    checkRequired("descriptor", descriptor),
+                    checkRequired("events", events).map { it.toImmutable() },
+                    checkRequired("family", family),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("pendingAmount", pendingAmount),
+                    checkRequired("result", result),
+                    checkRequired("settledAmount", settledAmount),
+                    checkRequired("status", status),
+                    checkRequired("updated", updated),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1273,11 +1215,9 @@ private constructor(
              *
              * An instance of [TransactionCategory] can contain an unknown value in a couple of
              * cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1479,11 +1419,9 @@ private constructor(
              * An enum containing [Family]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Family] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1621,11 +1559,9 @@ private constructor(
              * member.
              *
              * An instance of [TransactionResult] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1779,11 +1715,9 @@ private constructor(
              * member.
              *
              * An instance of [TransactionStatus] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2767,9 +2701,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** The token for the account associated with this transaction. */
             fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -2809,9 +2741,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun acquirerFee(acquirerFee: JsonField<Long>) = apply {
-                this.acquirerFee = acquirerFee
-            }
+            fun acquirerFee(acquirerFee: JsonField<Long>) = apply { this.acquirerFee = acquirerFee }
 
             /**
              * Unique identifier assigned to a transaction by the acquirer that can be used in
@@ -2857,9 +2787,7 @@ private constructor(
              * value.
              */
             @Deprecated("deprecated")
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun amounts(amounts: Transaction.TransactionAmounts) = amounts(JsonField.of(amounts))
 
@@ -2946,9 +2874,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun avs(avs: JsonField<Transaction.Avs>) = apply {
-                this.avs = avs
-            }
+            fun avs(avs: JsonField<Transaction.Avs>) = apply { this.avs = avs }
 
             /** Token for the card used in this transaction. */
             fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
@@ -2960,9 +2886,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun cardToken(cardToken: JsonField<String>) = apply {
-                this.cardToken = cardToken
-            }
+            fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
             fun cardholderAuthentication(cardholderAuthentication: CardholderAuthentication?) =
                 cardholderAuthentication(JsonField.ofNullable(cardholderAuthentication))
@@ -2984,9 +2908,7 @@ private constructor(
              */
             fun cardholderAuthentication(
                 cardholderAuthentication: JsonField<CardholderAuthentication>
-            ) = apply {
-                this.cardholderAuthentication = cardholderAuthentication
-            }
+            ) = apply { this.cardholderAuthentication = cardholderAuthentication }
 
             /** Date and time when the transaction first occurred. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -2998,9 +2920,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun created(created: JsonField<OffsetDateTime>) = apply {
-                this.created = created
-            }
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             fun financialAccountToken(financialAccountToken: String?) =
                 financialAccountToken(JsonField.ofNullable(financialAccountToken))
@@ -3135,9 +3055,7 @@ private constructor(
              * value instead. This method is primarily for setting the field to an undocumented or
              * not yet supported value.
              */
-            fun network(network: JsonField<Transaction.Network>) = apply {
-                this.network = network
-            }
+            fun network(network: JsonField<Transaction.Network>) = apply { this.network = network }
 
             /**
              * Network-provided score assessing risk level associated with a given authorization.
@@ -3182,9 +3100,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun pos(pos: JsonField<Transaction.Pos>) = apply {
-                this.pos = pos
-            }
+            fun pos(pos: JsonField<Transaction.Pos>) = apply { this.pos = pos }
 
             fun result(result: Transaction.DeclineResult) = result(JsonField.of(result))
 
@@ -3248,9 +3164,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun status(status: JsonField<Transaction.Status>) = apply {
-                this.status = status
-            }
+            fun status(status: JsonField<Transaction.Status>) = apply { this.status = status }
 
             /**
              * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
@@ -3265,9 +3179,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun tags(tags: JsonField<Transaction.Tags>) = apply {
-                this.tags = tags
-            }
+            fun tags(tags: JsonField<Transaction.Tags>) = apply { this.tags = tags }
 
             fun tokenInfo(tokenInfo: TokenInfo?) = tokenInfo(JsonField.ofNullable(tokenInfo))
 
@@ -3281,9 +3193,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply {
-                this.tokenInfo = tokenInfo
-            }
+            fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply { this.tokenInfo = tokenInfo }
 
             /** Date and time when the transaction last updated. UTC time zone. */
             fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -3295,9 +3205,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun updated(updated: JsonField<OffsetDateTime>) = apply {
-                this.updated = updated
-            }
+            fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
             fun events(events: List<Transaction.TransactionEvent>) = events(JsonField.of(events))
 
@@ -3334,9 +3242,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun family(family: JsonField<Family>) = apply {
-                this.family = family
-            }
+            fun family(family: JsonField<Family>) = apply { this.family = family }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -3351,9 +3257,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -3400,119 +3304,35 @@ private constructor(
              */
             fun build(): CardTransaction =
                 CardTransaction(
-                    checkRequired(
-                        "token",
-                        token,
-                    ),
-                    checkRequired(
-                        "accountToken",
-                        accountToken,
-                    ),
-                    checkRequired(
-                        "acquirerFee",
-                        acquirerFee,
-                    ),
-                    checkRequired(
-                        "acquirerReferenceNumber",
-                        acquirerReferenceNumber,
-                    ),
-                    checkRequired(
-                        "amount",
-                        amount,
-                    ),
-                    checkRequired(
-                        "amounts",
-                        amounts,
-                    ),
-                    checkRequired(
-                        "authorizationAmount",
-                        authorizationAmount,
-                    ),
-                    checkRequired(
-                        "authorizationCode",
-                        authorizationCode,
-                    ),
-                    checkRequired(
-                        "avs",
-                        avs,
-                    ),
-                    checkRequired(
-                        "cardToken",
-                        cardToken,
-                    ),
-                    checkRequired(
-                        "cardholderAuthentication",
-                        cardholderAuthentication,
-                    ),
-                    checkRequired(
-                        "created",
-                        created,
-                    ),
-                    checkRequired(
-                        "financialAccountToken",
-                        financialAccountToken,
-                    ),
-                    checkRequired(
-                        "merchant",
-                        merchant,
-                    ),
-                    checkRequired(
-                        "merchantAmount",
-                        merchantAmount,
-                    ),
-                    checkRequired(
-                        "merchantAuthorizationAmount",
-                        merchantAuthorizationAmount,
-                    ),
-                    checkRequired(
-                        "merchantCurrency",
-                        merchantCurrency,
-                    ),
-                    checkRequired(
-                        "network",
-                        network,
-                    ),
-                    checkRequired(
-                        "networkRiskScore",
-                        networkRiskScore,
-                    ),
-                    checkRequired(
-                        "pos",
-                        pos,
-                    ),
-                    checkRequired(
-                        "result",
-                        result,
-                    ),
-                    checkRequired(
-                        "serviceLocation",
-                        serviceLocation,
-                    ),
-                    checkRequired(
-                        "settledAmount",
-                        settledAmount,
-                    ),
-                    checkRequired(
-                        "status",
-                        status,
-                    ),
-                    checkRequired(
-                        "tags",
-                        tags,
-                    ),
-                    checkRequired(
-                        "tokenInfo",
-                        tokenInfo,
-                    ),
-                    checkRequired(
-                        "updated",
-                        updated,
-                    ),
+                    checkRequired("token", token),
+                    checkRequired("accountToken", accountToken),
+                    checkRequired("acquirerFee", acquirerFee),
+                    checkRequired("acquirerReferenceNumber", acquirerReferenceNumber),
+                    checkRequired("amount", amount),
+                    checkRequired("amounts", amounts),
+                    checkRequired("authorizationAmount", authorizationAmount),
+                    checkRequired("authorizationCode", authorizationCode),
+                    checkRequired("avs", avs),
+                    checkRequired("cardToken", cardToken),
+                    checkRequired("cardholderAuthentication", cardholderAuthentication),
+                    checkRequired("created", created),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("merchant", merchant),
+                    checkRequired("merchantAmount", merchantAmount),
+                    checkRequired("merchantAuthorizationAmount", merchantAuthorizationAmount),
+                    checkRequired("merchantCurrency", merchantCurrency),
+                    checkRequired("network", network),
+                    checkRequired("networkRiskScore", networkRiskScore),
+                    checkRequired("pos", pos),
+                    checkRequired("result", result),
+                    checkRequired("serviceLocation", serviceLocation),
+                    checkRequired("settledAmount", settledAmount),
+                    checkRequired("status", status),
+                    checkRequired("tags", tags),
+                    checkRequired("tokenInfo", tokenInfo),
+                    checkRequired("updated", updated),
                     (events ?: JsonMissing.of()).map { it.toImmutable() },
-                    checkRequired(
-                        "family",
-                        family,
-                    ),
+                    checkRequired("family", family),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -3640,11 +3460,9 @@ private constructor(
              * An enum containing [Family]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Family] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -3794,11 +3612,9 @@ private constructor(
              * member.
              *
              * An instance of [TransactionStatus] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {

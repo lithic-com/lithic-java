@@ -36,10 +36,7 @@ interface CardBulkOrderServiceAsync {
      * for your program.
      */
     fun create(params: CardBulkOrderCreateParams): CompletableFuture<CardBulkOrder> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -49,10 +46,7 @@ interface CardBulkOrderServiceAsync {
 
     /** Retrieve a specific bulk order by token */
     fun retrieve(bulkOrderToken: String): CompletableFuture<CardBulkOrder> =
-        retrieve(
-            bulkOrderToken,
-            CardBulkOrderRetrieveParams.none(),
-        )
+        retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -60,21 +54,13 @@ interface CardBulkOrderServiceAsync {
         params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardBulkOrder> =
-        retrieve(
-            params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         bulkOrderToken: String,
         params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
-    ): CompletableFuture<CardBulkOrder> =
-        retrieve(
-            bulkOrderToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<CardBulkOrder> = retrieve(bulkOrderToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -84,21 +70,14 @@ interface CardBulkOrderServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: CardBulkOrderRetrieveParams): CompletableFuture<CardBulkOrder> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         bulkOrderToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<CardBulkOrder> =
-        retrieve(
-            bulkOrderToken,
-            CardBulkOrderRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none(), requestOptions)
 
     /**
      * Update a bulk order. Primarily used to lock the order, preventing additional cards from being
@@ -107,12 +86,7 @@ interface CardBulkOrderServiceAsync {
     fun update(
         bulkOrderToken: String,
         params: CardBulkOrderUpdateParams,
-    ): CompletableFuture<CardBulkOrder> =
-        update(
-            bulkOrderToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<CardBulkOrder> = update(bulkOrderToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -120,17 +94,11 @@ interface CardBulkOrderServiceAsync {
         params: CardBulkOrderUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardBulkOrder> =
-        update(
-            params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-            requestOptions,
-        )
+        update(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
     /** @see update */
     fun update(params: CardBulkOrderUpdateParams): CompletableFuture<CardBulkOrder> =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+        update(params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -150,18 +118,11 @@ interface CardBulkOrderServiceAsync {
     /** @see list */
     fun list(
         params: CardBulkOrderListParams = CardBulkOrderListParams.none()
-    ): CompletableFuture<CardBulkOrderListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<CardBulkOrderListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<CardBulkOrderListPageAsync> =
-        list(
-            CardBulkOrderListParams.none(),
-            requestOptions,
-        )
+        list(CardBulkOrderListParams.none(), requestOptions)
 
     /**
      * A view of [CardBulkOrderServiceAsync] that provides access to raw HTTP responses for each
@@ -184,11 +145,7 @@ interface CardBulkOrderServiceAsync {
          */
         fun create(
             params: CardBulkOrderCreateParams
-        ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<CardBulkOrder>> = create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -201,10 +158,7 @@ interface CardBulkOrderServiceAsync {
          * otherwise the same as [CardBulkOrderServiceAsync.retrieve].
          */
         fun retrieve(bulkOrderToken: String): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            retrieve(
-                bulkOrderToken,
-                CardBulkOrderRetrieveParams.none(),
-            )
+            retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -212,21 +166,14 @@ interface CardBulkOrderServiceAsync {
             params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            retrieve(
-                params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             bulkOrderToken: String,
             params: CardBulkOrderRetrieveParams = CardBulkOrderRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            retrieve(
-                bulkOrderToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(bulkOrderToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -238,21 +185,14 @@ interface CardBulkOrderServiceAsync {
         fun retrieve(
             params: CardBulkOrderRetrieveParams
         ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             bulkOrderToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            retrieve(
-                bulkOrderToken,
-                CardBulkOrderRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(bulkOrderToken, CardBulkOrderRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `patch /v1/card_bulk_orders/{bulk_order_token}`, but is
@@ -262,11 +202,7 @@ interface CardBulkOrderServiceAsync {
             bulkOrderToken: String,
             params: CardBulkOrderUpdateParams,
         ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            update(
-                bulkOrderToken,
-                params,
-                RequestOptions.none(),
-            )
+            update(bulkOrderToken, params, RequestOptions.none())
 
         /** @see update */
         fun update(
@@ -274,19 +210,12 @@ interface CardBulkOrderServiceAsync {
             params: CardBulkOrderUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            update(
-                params.toBuilder().bulkOrderToken(bulkOrderToken).build(),
-                requestOptions,
-            )
+            update(params.toBuilder().bulkOrderToken(bulkOrderToken).build(), requestOptions)
 
         /** @see update */
         fun update(
             params: CardBulkOrderUpdateParams
-        ): CompletableFuture<HttpResponseFor<CardBulkOrder>> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<CardBulkOrder>> = update(params, RequestOptions.none())
 
         /** @see update */
         fun update(
@@ -311,18 +240,12 @@ interface CardBulkOrderServiceAsync {
         fun list(
             params: CardBulkOrderListParams = CardBulkOrderListParams.none()
         ): CompletableFuture<HttpResponseFor<CardBulkOrderListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CardBulkOrderListPageAsync>> =
-            list(
-                CardBulkOrderListParams.none(),
-                requestOptions,
-            )
+            list(CardBulkOrderListParams.none(), requestOptions)
     }
 }

@@ -31,10 +31,7 @@ interface EnhancedCommercialDataServiceAsync {
     fun retrieve(
         transactionToken: String
     ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
-        retrieve(
-            transactionToken,
-            TransactionEnhancedCommercialDataRetrieveParams.none(),
-        )
+        retrieve(transactionToken, TransactionEnhancedCommercialDataRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -43,10 +40,7 @@ interface EnhancedCommercialDataServiceAsync {
             TransactionEnhancedCommercialDataRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
-        retrieve(
-            params.toBuilder().transactionToken(transactionToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
@@ -54,11 +48,7 @@ interface EnhancedCommercialDataServiceAsync {
         params: TransactionEnhancedCommercialDataRetrieveParams =
             TransactionEnhancedCommercialDataRetrieveParams.none(),
     ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
-        retrieve(
-            transactionToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(transactionToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -70,10 +60,7 @@ interface EnhancedCommercialDataServiceAsync {
     fun retrieve(
         params: TransactionEnhancedCommercialDataRetrieveParams
     ): CompletableFuture<EnhancedCommercialDataRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -109,10 +96,7 @@ interface EnhancedCommercialDataServiceAsync {
         fun retrieve(
             transactionToken: String
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
-            retrieve(
-                transactionToken,
-                TransactionEnhancedCommercialDataRetrieveParams.none(),
-            )
+            retrieve(transactionToken, TransactionEnhancedCommercialDataRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -121,10 +105,7 @@ interface EnhancedCommercialDataServiceAsync {
                 TransactionEnhancedCommercialDataRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
-            retrieve(
-                params.toBuilder().transactionToken(transactionToken).build(),
-                requestOptions,
-            )
+            retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
@@ -132,11 +113,7 @@ interface EnhancedCommercialDataServiceAsync {
             params: TransactionEnhancedCommercialDataRetrieveParams =
                 TransactionEnhancedCommercialDataRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
-            retrieve(
-                transactionToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(transactionToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -148,10 +125,7 @@ interface EnhancedCommercialDataServiceAsync {
         fun retrieve(
             params: TransactionEnhancedCommercialDataRetrieveParams
         ): CompletableFuture<HttpResponseFor<EnhancedCommercialDataRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(

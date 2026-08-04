@@ -367,9 +367,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Token for the account holder that filed the claim */
         fun accountHolderToken(accountHolderToken: String?) =
@@ -445,9 +443,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Transactions included in this claim */
         fun disputedTransactions(disputedTransactions: List<DisputedTransaction>) =
@@ -487,9 +483,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply {
-            this.eventType = eventType
-        }
+        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         /** Requirements that must be fulfilled before the claim can be submitted */
         fun outstandingRequirements(outstandingRequirements: List<OutstandingRequirement>) =
@@ -529,9 +523,7 @@ private constructor(
          * You should usually call [Builder.reason] with a well-typed [Reason] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun reason(reason: JsonField<Reason>) = apply {
-            this.reason = reason
-        }
+        fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
 
         /** Current lifecycle status of the claim */
         fun status(status: Status) = status(JsonField.of(status))
@@ -542,9 +534,7 @@ private constructor(
          * You should usually call [Builder.status] with a well-typed [Status] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun status(status: JsonField<Status>) = apply {
-            this.status = status
-        }
+        fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** When the claim was submitted. Null until the claim reaches `SUBMITTED` status */
         fun submitted(submitted: OffsetDateTime?) = submitted(JsonField.ofNullable(submitted))
@@ -559,9 +549,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun submitted(submitted: JsonField<OffsetDateTime>) = apply {
-            this.submitted = submitted
-        }
+        fun submitted(submitted: JsonField<OffsetDateTime>) = apply { this.submitted = submitted }
 
         /** When the claim was last updated */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -573,9 +561,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply {
-            this.updated = updated
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -590,9 +576,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -623,57 +607,22 @@ private constructor(
          */
         fun build(): ClaimUpdatedWebhookEvent =
             ClaimUpdatedWebhookEvent(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "accountHolderToken",
-                    accountHolderToken,
-                ),
-                checkRequired(
-                    "accountToken",
-                    accountToken,
-                ),
-                checkRequired(
-                        "cardTokens",
-                        cardTokens,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                        "disputedTransactions",
-                        disputedTransactions,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "eventType",
-                    eventType,
-                ),
-                checkRequired(
-                        "outstandingRequirements",
-                        outstandingRequirements,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "reason",
-                    reason,
-                ),
-                checkRequired(
-                    "status",
-                    status,
-                ),
-                checkRequired(
-                    "submitted",
-                    submitted,
-                ),
-                checkRequired(
-                    "updated",
-                    updated,
-                ),
+                checkRequired("token", token),
+                checkRequired("accountHolderToken", accountHolderToken),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardTokens", cardTokens).map { it.toImmutable() },
+                checkRequired("created", created),
+                checkRequired("disputedTransactions", disputedTransactions).map {
+                    it.toImmutable()
+                },
+                checkRequired("eventType", eventType),
+                checkRequired("outstandingRequirements", outstandingRequirements).map {
+                    it.toImmutable()
+                },
+                checkRequired("reason", reason),
+                checkRequired("status", status),
+                checkRequired("submitted", submitted),
+                checkRequired("updated", updated),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -753,11 +702,7 @@ private constructor(
             @JsonProperty("transaction_token")
             @ExcludeMissing
             transactionToken: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            eventTokens,
-            transactionToken,
-            mutableMapOf(),
-        )
+        ) : this(eventTokens, transactionToken, mutableMapOf())
 
         /**
          * Tokens for the specific events within the transaction being disputed. Lithic creates one
@@ -892,9 +837,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -915,15 +858,8 @@ private constructor(
              */
             fun build(): DisputedTransaction =
                 DisputedTransaction(
-                    checkRequired(
-                            "eventTokens",
-                            eventTokens,
-                        )
-                        .map { it.toImmutable() },
-                    checkRequired(
-                        "transactionToken",
-                        transactionToken,
-                    ),
+                    checkRequired("eventTokens", eventTokens).map { it.toImmutable() },
+                    checkRequired("transactionToken", transactionToken),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1018,11 +954,9 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1157,11 +1091,9 @@ private constructor(
          *
          * An instance of [OutstandingRequirement] can contain an unknown value in a couple of
          * cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1351,11 +1283,9 @@ private constructor(
          * An enum containing [Reason]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Reason] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1551,11 +1481,9 @@ private constructor(
          * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Status] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

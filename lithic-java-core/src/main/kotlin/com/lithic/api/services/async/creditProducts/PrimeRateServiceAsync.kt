@@ -30,12 +30,7 @@ interface PrimeRateServiceAsync {
     fun create(
         creditProductToken: String,
         params: CreditProductPrimeRateCreateParams,
-    ): CompletableFuture<Void?> =
-        create(
-            creditProductToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = create(creditProductToken, params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -43,17 +38,11 @@ interface PrimeRateServiceAsync {
         params: CreditProductPrimeRateCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?> =
-        create(
-            params.toBuilder().creditProductToken(creditProductToken).build(),
-            requestOptions,
-        )
+        create(params.toBuilder().creditProductToken(creditProductToken).build(), requestOptions)
 
     /** @see create */
     fun create(params: CreditProductPrimeRateCreateParams): CompletableFuture<Void?> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -63,10 +52,7 @@ interface PrimeRateServiceAsync {
 
     /** Get Credit Product Prime Rates */
     fun retrieve(creditProductToken: String): CompletableFuture<PrimeRateRetrieveResponse> =
-        retrieve(
-            creditProductToken,
-            CreditProductPrimeRateRetrieveParams.none(),
-        )
+        retrieve(creditProductToken, CreditProductPrimeRateRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -74,21 +60,14 @@ interface PrimeRateServiceAsync {
         params: CreditProductPrimeRateRetrieveParams = CreditProductPrimeRateRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<PrimeRateRetrieveResponse> =
-        retrieve(
-            params.toBuilder().creditProductToken(creditProductToken).build(),
-            requestOptions,
-        )
+        retrieve(params.toBuilder().creditProductToken(creditProductToken).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         params: CreditProductPrimeRateRetrieveParams = CreditProductPrimeRateRetrieveParams.none(),
     ): CompletableFuture<PrimeRateRetrieveResponse> =
-        retrieve(
-            creditProductToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(creditProductToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -99,22 +78,14 @@ interface PrimeRateServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: CreditProductPrimeRateRetrieveParams
-    ): CompletableFuture<PrimeRateRetrieveResponse> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<PrimeRateRetrieveResponse> = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         creditProductToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<PrimeRateRetrieveResponse> =
-        retrieve(
-            creditProductToken,
-            CreditProductPrimeRateRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(creditProductToken, CreditProductPrimeRateRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [PrimeRateServiceAsync] that provides access to raw HTTP responses for each method.
@@ -139,11 +110,7 @@ interface PrimeRateServiceAsync {
             creditProductToken: String,
             params: CreditProductPrimeRateCreateParams,
         ): CompletableFuture<HttpResponse> =
-            create(
-                creditProductToken,
-                params,
-                RequestOptions.none(),
-            )
+            create(creditProductToken, params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -158,10 +125,7 @@ interface PrimeRateServiceAsync {
 
         /** @see create */
         fun create(params: CreditProductPrimeRateCreateParams): CompletableFuture<HttpResponse> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -177,10 +141,7 @@ interface PrimeRateServiceAsync {
         fun retrieve(
             creditProductToken: String
         ): CompletableFuture<HttpResponseFor<PrimeRateRetrieveResponse>> =
-            retrieve(
-                creditProductToken,
-                CreditProductPrimeRateRetrieveParams.none(),
-            )
+            retrieve(creditProductToken, CreditProductPrimeRateRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -200,11 +161,7 @@ interface PrimeRateServiceAsync {
             params: CreditProductPrimeRateRetrieveParams =
                 CreditProductPrimeRateRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<PrimeRateRetrieveResponse>> =
-            retrieve(
-                creditProductToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(creditProductToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -216,10 +173,7 @@ interface PrimeRateServiceAsync {
         fun retrieve(
             params: CreditProductPrimeRateRetrieveParams
         ): CompletableFuture<HttpResponseFor<PrimeRateRetrieveResponse>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(

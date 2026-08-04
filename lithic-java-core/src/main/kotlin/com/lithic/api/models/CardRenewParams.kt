@@ -88,7 +88,6 @@ private constructor(
     /**
      * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
      * `STANDARD` require additional permissions.
-     *
      * * `STANDARD` - USPS regular mail or similar international option, with no tracking
      * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
      * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
@@ -186,9 +185,7 @@ private constructor(
             additionalQueryParams = cardRenewParams.additionalQueryParams.toBuilder()
         }
 
-        fun cardToken(cardToken: String?) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
 
         /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
         fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
@@ -205,9 +202,7 @@ private constructor(
          * - [productId]
          * - etc.
          */
-        fun body(body: Body) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /** The shipping address this card will be sent to. */
         fun shippingAddress(shippingAddress: ShippingAddress) = apply {
@@ -226,9 +221,7 @@ private constructor(
         }
 
         /** If omitted, the previous carrier will be used. */
-        fun carrier(carrier: Carrier) = apply {
-            body.carrier(carrier)
-        }
+        fun carrier(carrier: Carrier) = apply { body.carrier(carrier) }
 
         /**
          * Sets [Builder.carrier] to an arbitrary JSON value.
@@ -236,18 +229,14 @@ private constructor(
          * You should usually call [Builder.carrier] with a well-typed [Carrier] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun carrier(carrier: JsonField<Carrier>) = apply {
-            body.carrier(carrier)
-        }
+        fun carrier(carrier: JsonField<Carrier>) = apply { body.carrier(carrier) }
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date five years in the future will be generated. Five years is the maximum
          * expiration date.
          */
-        fun expMonth(expMonth: String) = apply {
-            body.expMonth(expMonth)
-        }
+        fun expMonth(expMonth: String) = apply { body.expMonth(expMonth) }
 
         /**
          * Sets [Builder.expMonth] to an arbitrary JSON value.
@@ -255,18 +244,14 @@ private constructor(
          * You should usually call [Builder.expMonth] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun expMonth(expMonth: JsonField<String>) = apply {
-            body.expMonth(expMonth)
-        }
+        fun expMonth(expMonth: JsonField<String>) = apply { body.expMonth(expMonth) }
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date five years in the future will be generated. Five years is the maximum
          * expiration date.
          */
-        fun expYear(expYear: String) = apply {
-            body.expYear(expYear)
-        }
+        fun expYear(expYear: String) = apply { body.expYear(expYear) }
 
         /**
          * Sets [Builder.expYear] to an arbitrary JSON value.
@@ -274,18 +259,14 @@ private constructor(
          * You should usually call [Builder.expYear] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun expYear(expYear: JsonField<String>) = apply {
-            body.expYear(expYear)
-        }
+        fun expYear(expYear: JsonField<String>) = apply { body.expYear(expYear) }
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
          * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
          * before use.
          */
-        fun productId(productId: String) = apply {
-            body.productId(productId)
-        }
+        fun productId(productId: String) = apply { body.productId(productId) }
 
         /**
          * Sets [Builder.productId] to an arbitrary JSON value.
@@ -294,14 +275,11 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun productId(productId: JsonField<String>) = apply {
-            body.productId(productId)
-        }
+        fun productId(productId: JsonField<String>) = apply { body.productId(productId) }
 
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         *
          * * `STANDARD` - USPS regular mail or similar international option, with no tracking
          * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
@@ -334,10 +312,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -345,9 +320,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -395,9 +368,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -447,9 +418,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -575,7 +544,6 @@ private constructor(
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         *
          * * `STANDARD` - USPS regular mail or similar international option, with no tracking
          * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
          *   tracking
@@ -714,9 +682,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun carrier(carrier: JsonField<Carrier>) = apply {
-                this.carrier = carrier
-            }
+            fun carrier(carrier: JsonField<Carrier>) = apply { this.carrier = carrier }
 
             /**
              * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
@@ -732,9 +698,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun expMonth(expMonth: JsonField<String>) = apply {
-                this.expMonth = expMonth
-            }
+            fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
 
             /**
              * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
@@ -750,9 +714,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun expYear(expYear: JsonField<String>) = apply {
-                this.expYear = expYear
-            }
+            fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
 
             /**
              * Specifies the configuration (e.g. physical card art) that the card should be
@@ -768,14 +730,11 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun productId(productId: JsonField<String>) = apply {
-                this.productId = productId
-            }
+            fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
             /**
              * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
              * besides `STANDARD` require additional permissions.
-             *
              * * `STANDARD` - USPS regular mail or similar international option, with no tracking
              * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
              *   tracking
@@ -816,9 +775,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -838,10 +795,7 @@ private constructor(
              */
             fun build(): Body =
                 Body(
-                    checkRequired(
-                        "shippingAddress",
-                        shippingAddress,
-                    ),
+                    checkRequired("shippingAddress", shippingAddress),
                     carrier,
                     expMonth,
                     expYear,
@@ -935,7 +889,6 @@ private constructor(
     /**
      * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
      * `STANDARD` require additional permissions.
-     *
      * * `STANDARD` - USPS regular mail or similar international option, with no tracking
      * * `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
      * * `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
@@ -994,11 +947,9 @@ private constructor(
          * An enum containing [ShippingMethod]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [ShippingMethod] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

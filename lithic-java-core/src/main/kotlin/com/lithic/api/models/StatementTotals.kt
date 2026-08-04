@@ -312,9 +312,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cashAdvances(cashAdvances: JsonField<Long>) = apply {
-            this.cashAdvances = cashAdvances
-        }
+        fun cashAdvances(cashAdvances: JsonField<Long>) = apply { this.cashAdvances = cashAdvances }
 
         /**
          * Volume of credit management operation transactions less any balance transfers in cents
@@ -327,9 +325,7 @@ private constructor(
          * You should usually call [Builder.credits] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun credits(credits: JsonField<Long>) = apply {
-            this.credits = credits
-        }
+        fun credits(credits: JsonField<Long>) = apply { this.credits = credits }
 
         /** Volume of debit management operation transactions less any interest in cents */
         fun debits(debits: Long) = debits(JsonField.of(debits))
@@ -340,9 +336,7 @@ private constructor(
          * You should usually call [Builder.debits] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun debits(debits: JsonField<Long>) = apply {
-            this.debits = debits
-        }
+        fun debits(debits: JsonField<Long>) = apply { this.debits = debits }
 
         /** Volume of debit management operation transactions less any interest in cents */
         fun fees(fees: Long) = fees(JsonField.of(fees))
@@ -353,9 +347,7 @@ private constructor(
          * You should usually call [Builder.fees] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun fees(fees: JsonField<Long>) = apply {
-            this.fees = fees
-        }
+        fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
 
         /** Interest accrued in cents */
         fun interest(interest: Long) = interest(JsonField.of(interest))
@@ -366,9 +358,7 @@ private constructor(
          * You should usually call [Builder.interest] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun interest(interest: JsonField<Long>) = apply {
-            this.interest = interest
-        }
+        fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
 
         /** Any funds transfers which affective the balance in cents */
         fun payments(payments: Long) = payments(JsonField.of(payments))
@@ -379,9 +369,7 @@ private constructor(
          * You should usually call [Builder.payments] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun payments(payments: JsonField<Long>) = apply {
-            this.payments = payments
-        }
+        fun payments(payments: JsonField<Long>) = apply { this.payments = payments }
 
         /** Net card transaction volume less any cash advances in cents */
         fun purchases(purchases: Long) = purchases(JsonField.of(purchases))
@@ -392,19 +380,13 @@ private constructor(
          * You should usually call [Builder.purchases] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun purchases(purchases: JsonField<Long>) = apply {
-            this.purchases = purchases
-        }
+        fun purchases(purchases: JsonField<Long>) = apply { this.purchases = purchases }
 
         /** Breakdown of credits */
-        fun creditDetails(creditDetails: JsonValue) = apply {
-            this.creditDetails = creditDetails
-        }
+        fun creditDetails(creditDetails: JsonValue) = apply { this.creditDetails = creditDetails }
 
         /** Breakdown of debits */
-        fun debitDetails(debitDetails: JsonValue) = apply {
-            this.debitDetails = debitDetails
-        }
+        fun debitDetails(debitDetails: JsonValue) = apply { this.debitDetails = debitDetails }
 
         /** Breakdown of payments */
         fun paymentDetails(paymentDetails: JsonValue) = apply {
@@ -424,9 +406,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -453,38 +433,14 @@ private constructor(
          */
         fun build(): StatementTotals =
             StatementTotals(
-                checkRequired(
-                    "balanceTransfers",
-                    balanceTransfers,
-                ),
-                checkRequired(
-                    "cashAdvances",
-                    cashAdvances,
-                ),
-                checkRequired(
-                    "credits",
-                    credits,
-                ),
-                checkRequired(
-                    "debits",
-                    debits,
-                ),
-                checkRequired(
-                    "fees",
-                    fees,
-                ),
-                checkRequired(
-                    "interest",
-                    interest,
-                ),
-                checkRequired(
-                    "payments",
-                    payments,
-                ),
-                checkRequired(
-                    "purchases",
-                    purchases,
-                ),
+                checkRequired("balanceTransfers", balanceTransfers),
+                checkRequired("cashAdvances", cashAdvances),
+                checkRequired("credits", credits),
+                checkRequired("debits", debits),
+                checkRequired("fees", fees),
+                checkRequired("interest", interest),
+                checkRequired("payments", payments),
+                checkRequired("purchases", purchases),
                 creditDetails,
                 debitDetails,
                 paymentDetails,

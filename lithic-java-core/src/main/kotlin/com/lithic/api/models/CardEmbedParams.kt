@@ -87,14 +87,10 @@ private constructor(
         }
 
         /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
-        fun embedRequest(embedRequest: String) = apply {
-            this.embedRequest = embedRequest
-        }
+        fun embedRequest(embedRequest: String) = apply { this.embedRequest = embedRequest }
 
         /** SHA256 HMAC of the embed_request JSON string with base64 digest. */
-        fun hmac(hmac: String) = apply {
-            this.hmac = hmac
-        }
+        fun hmac(hmac: String) = apply { this.hmac = hmac }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -138,9 +134,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -190,9 +184,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -213,14 +205,8 @@ private constructor(
          */
         fun build(): CardEmbedParams =
             CardEmbedParams(
-                checkRequired(
-                    "embedRequest",
-                    embedRequest,
-                ),
-                checkRequired(
-                    "hmac",
-                    hmac,
-                ),
+                checkRequired("embedRequest", embedRequest),
+                checkRequired("hmac", hmac),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

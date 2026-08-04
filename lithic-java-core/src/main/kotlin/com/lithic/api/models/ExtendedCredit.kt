@@ -27,10 +27,7 @@ private constructor(
         @JsonProperty("credit_extended")
         @ExcludeMissing
         creditExtended: JsonField<Long> = JsonMissing.of()
-    ) : this(
-        creditExtended,
-        mutableMapOf(),
-    )
+    ) : this(creditExtended, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -110,9 +107,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -132,10 +127,7 @@ private constructor(
          */
         fun build(): ExtendedCredit =
             ExtendedCredit(
-                checkRequired(
-                    "creditExtended",
-                    creditExtended,
-                ),
+                checkRequired("creditExtended", creditExtended),
                 additionalProperties.toMutableMap(),
             )
     }

@@ -47,10 +47,7 @@ private constructor(
         service.list(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<FinancialAccount> =
-        AutoPagerAsync.from(
-            this,
-            streamHandlerExecutor,
-        )
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): FinancialAccountListParams = params
@@ -93,18 +90,14 @@ private constructor(
             response = financialAccountListPageAsync.response
         }
 
-        fun service(service: FinancialAccountServiceAsync) = apply {
-            this.service = service
-        }
+        fun service(service: FinancialAccountServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: FinancialAccountListParams) = apply {
-            this.params = params
-        }
+        fun params(params: FinancialAccountListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
         fun response(response: FinancialAccountListPageResponse) = apply {
@@ -128,22 +121,10 @@ private constructor(
          */
         fun build(): FinancialAccountListPageAsync =
             FinancialAccountListPageAsync(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "streamHandlerExecutor",
-                    streamHandlerExecutor,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

@@ -39,11 +39,9 @@ class ChallengeResult @JsonCreator private constructor(private val value: JsonFi
      * An enum containing [ChallengeResult]'s known values, as well as an [_UNKNOWN] member.
      *
      * An instance of [ChallengeResult] can contain an unknown value in a couple of cases:
-     *
      * - It was deserialized from data that doesn't match any known member. For example, if the SDK
      *   is on an older version than the API, then the API may respond with new members that the SDK
      *   is unaware of.
-     *
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {

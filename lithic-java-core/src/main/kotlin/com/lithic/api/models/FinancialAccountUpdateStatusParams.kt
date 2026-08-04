@@ -142,14 +142,10 @@ private constructor(
          * - [substatus]
          * - [userDefinedStatus]
          */
-        fun body(body: UpdateFinancialAccountStatusRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: UpdateFinancialAccountStatusRequest) = apply { this.body = body.toBuilder() }
 
         /** Status of the financial account */
-        fun status(status: FinancialAccountStatus) = apply {
-            body.status(status)
-        }
+        fun status(status: FinancialAccountStatus) = apply { body.status(status) }
 
         /**
          * Sets [Builder.status] to an arbitrary JSON value.
@@ -158,9 +154,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun status(status: JsonField<FinancialAccountStatus>) = apply {
-            body.status(status)
-        }
+        fun status(status: JsonField<FinancialAccountStatus>) = apply { body.status(status) }
 
         /** Substatus for the financial account */
         fun substatus(substatus: UpdateFinancialAccountSubstatus?) = apply {
@@ -203,10 +197,7 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -214,9 +205,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -264,9 +253,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -316,9 +303,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -378,12 +363,7 @@ private constructor(
             @JsonProperty("user_defined_status")
             @ExcludeMissing
             userDefinedStatus: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            status,
-            substatus,
-            userDefinedStatus,
-            mutableMapOf(),
-        )
+        ) : this(status, substatus, userDefinedStatus, mutableMapOf())
 
         /**
          * Status of the financial account
@@ -495,9 +475,7 @@ private constructor(
              * value instead. This method is primarily for setting the field to an undocumented or
              * not yet supported value.
              */
-            fun status(status: JsonField<FinancialAccountStatus>) = apply {
-                this.status = status
-            }
+            fun status(status: JsonField<FinancialAccountStatus>) = apply { this.status = status }
 
             /** Substatus for the financial account */
             fun substatus(substatus: UpdateFinancialAccountSubstatus?) =
@@ -546,9 +524,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -569,14 +545,8 @@ private constructor(
              */
             fun build(): UpdateFinancialAccountStatusRequest =
                 UpdateFinancialAccountStatusRequest(
-                    checkRequired(
-                        "status",
-                        status,
-                    ),
-                    checkRequired(
-                        "substatus",
-                        substatus,
-                    ),
+                    checkRequired("status", status),
+                    checkRequired("substatus", substatus),
                     userDefinedStatus,
                     additionalProperties.toMutableMap(),
                 )
@@ -688,11 +658,9 @@ private constructor(
          *
          * An instance of [FinancialAccountStatus] can contain an unknown value in a couple of
          * cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -850,11 +818,9 @@ private constructor(
          *
          * An instance of [UpdateFinancialAccountSubstatus] can contain an unknown value in a couple
          * of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

@@ -157,14 +157,10 @@ private constructor(
          * - [memo]
          * - etc.
          */
-        fun body(body: SimulateReceiptRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: SimulateReceiptRequest) = apply { this.body = body.toBuilder() }
 
         /** Customer-generated payment token used to uniquely identify the simulated payment */
-        fun token(token: String) = apply {
-            body.token(token)
-        }
+        fun token(token: String) = apply { body.token(token) }
 
         /**
          * Sets [Builder.token] to an arbitrary JSON value.
@@ -172,14 +168,10 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            body.token(token)
-        }
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** Amount */
-        fun amount(amount: Long) = apply {
-            body.amount(amount)
-        }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
          * Sets [Builder.amount] to an arbitrary JSON value.
@@ -187,9 +179,7 @@ private constructor(
          * You should usually call [Builder.amount] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun amount(amount: JsonField<Long>) = apply {
-            body.amount(amount)
-        }
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /** Financial Account Token */
         fun financialAccountToken(financialAccountToken: String) = apply {
@@ -208,9 +198,7 @@ private constructor(
         }
 
         /** Receipt Type */
-        fun receiptType(receiptType: ReceiptType) = apply {
-            body.receiptType(receiptType)
-        }
+        fun receiptType(receiptType: ReceiptType) = apply { body.receiptType(receiptType) }
 
         /**
          * Sets [Builder.receiptType] to an arbitrary JSON value.
@@ -224,9 +212,7 @@ private constructor(
         }
 
         /** Memo */
-        fun memo(memo: String) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /**
          * Sets [Builder.memo] to an arbitrary JSON value.
@@ -234,19 +220,14 @@ private constructor(
          * You should usually call [Builder.memo] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun memo(memo: JsonField<String>) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -254,9 +235,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -304,9 +283,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -356,9 +333,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -415,14 +390,7 @@ private constructor(
             @ExcludeMissing
             receiptType: JsonField<ReceiptType> = JsonMissing.of(),
             @JsonProperty("memo") @ExcludeMissing memo: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            token,
-            amount,
-            financialAccountToken,
-            receiptType,
-            memo,
-            mutableMapOf(),
-        )
+        ) : this(token, amount, financialAccountToken, receiptType, memo, mutableMapOf())
 
         /**
          * Customer-generated payment token used to uniquely identify the simulated payment
@@ -563,9 +531,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Amount */
             fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -577,9 +543,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Financial Account Token */
             fun financialAccountToken(financialAccountToken: String) =
@@ -620,9 +584,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun memo(memo: JsonField<String>) = apply {
-                this.memo = memo
-            }
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -637,9 +599,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -662,22 +622,10 @@ private constructor(
              */
             fun build(): SimulateReceiptRequest =
                 SimulateReceiptRequest(
-                    checkRequired(
-                        "token",
-                        token,
-                    ),
-                    checkRequired(
-                        "amount",
-                        amount,
-                    ),
-                    checkRequired(
-                        "financialAccountToken",
-                        financialAccountToken,
-                    ),
-                    checkRequired(
-                        "receiptType",
-                        receiptType,
-                    ),
+                    checkRequired("token", token),
+                    checkRequired("amount", amount),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("receiptType", receiptType),
                     memo,
                     additionalProperties.toMutableMap(),
                 )
@@ -793,11 +741,9 @@ private constructor(
          * An enum containing [ReceiptType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [ReceiptType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

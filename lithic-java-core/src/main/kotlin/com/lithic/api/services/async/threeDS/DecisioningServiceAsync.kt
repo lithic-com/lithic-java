@@ -36,11 +36,7 @@ interface DecisioningServiceAsync {
      */
     fun challengeResponse(
         params: ThreeDSDecisioningChallengeResponseParams
-    ): CompletableFuture<Void?> =
-        challengeResponse(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = challengeResponse(params, RequestOptions.none())
 
     /** @see challengeResponse */
     fun challengeResponse(
@@ -62,10 +58,7 @@ interface DecisioningServiceAsync {
 
     /** @see challengeResponse */
     fun challengeResponse(challengeResponse: ChallengeResponse): CompletableFuture<Void?> =
-        challengeResponse(
-            challengeResponse,
-            RequestOptions.none(),
-        )
+        challengeResponse(challengeResponse, RequestOptions.none())
 
     /**
      * Retrieve the 3DS Decisioning HMAC secret key. If one does not exist for your program yet,
@@ -90,19 +83,13 @@ interface DecisioningServiceAsync {
         params: ThreeDSDecisioningRetrieveSecretParams =
             ThreeDSDecisioningRetrieveSecretParams.none()
     ): CompletableFuture<DecisioningRetrieveSecretResponse> =
-        retrieveSecret(
-            params,
-            RequestOptions.none(),
-        )
+        retrieveSecret(params, RequestOptions.none())
 
     /** @see retrieveSecret */
     fun retrieveSecret(
         requestOptions: RequestOptions
     ): CompletableFuture<DecisioningRetrieveSecretResponse> =
-        retrieveSecret(
-            ThreeDSDecisioningRetrieveSecretParams.none(),
-            requestOptions,
-        )
+        retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none(), requestOptions)
 
     /**
      * Generate a new 3DS Decisioning HMAC secret key. The old secret key will be deactivated 24
@@ -122,18 +109,11 @@ interface DecisioningServiceAsync {
     /** @see rotateSecret */
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams = ThreeDSDecisioningRotateSecretParams.none()
-    ): CompletableFuture<Void?> =
-        rotateSecret(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = rotateSecret(params, RequestOptions.none())
 
     /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<Void?> =
-        rotateSecret(
-            ThreeDSDecisioningRotateSecretParams.none(),
-            requestOptions,
-        )
+        rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
 
     /**
      * A view of [DecisioningServiceAsync] that provides access to raw HTTP responses for each
@@ -156,11 +136,7 @@ interface DecisioningServiceAsync {
          */
         fun challengeResponse(
             params: ThreeDSDecisioningChallengeResponseParams
-        ): CompletableFuture<HttpResponse> =
-            challengeResponse(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = challengeResponse(params, RequestOptions.none())
 
         /** @see challengeResponse */
         fun challengeResponse(
@@ -184,10 +160,7 @@ interface DecisioningServiceAsync {
         fun challengeResponse(
             challengeResponse: ChallengeResponse
         ): CompletableFuture<HttpResponse> =
-            challengeResponse(
-                challengeResponse,
-                RequestOptions.none(),
-            )
+            challengeResponse(challengeResponse, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /v1/three_ds_decisioning/secret`, but is otherwise
@@ -209,19 +182,13 @@ interface DecisioningServiceAsync {
             params: ThreeDSDecisioningRetrieveSecretParams =
                 ThreeDSDecisioningRetrieveSecretParams.none()
         ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> =
-            retrieveSecret(
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSecret(params, RequestOptions.none())
 
         /** @see retrieveSecret */
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<DecisioningRetrieveSecretResponse>> =
-            retrieveSecret(
-                ThreeDSDecisioningRetrieveSecretParams.none(),
-                requestOptions,
-            )
+            retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/three_ds_decisioning/secret/rotate`, but is
@@ -241,17 +208,10 @@ interface DecisioningServiceAsync {
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
                 ThreeDSDecisioningRotateSecretParams.none()
-        ): CompletableFuture<HttpResponse> =
-            rotateSecret(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = rotateSecret(params, RequestOptions.none())
 
         /** @see rotateSecret */
         fun rotateSecret(requestOptions: RequestOptions): CompletableFuture<HttpResponse> =
-            rotateSecret(
-                ThreeDSDecisioningRotateSecretParams.none(),
-                requestOptions,
-            )
+            rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
     }
 }

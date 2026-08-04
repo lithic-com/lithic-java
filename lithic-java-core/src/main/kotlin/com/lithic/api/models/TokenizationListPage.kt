@@ -84,19 +84,13 @@ private constructor(
             response = tokenizationListPage.response
         }
 
-        fun service(service: TokenizationService) = apply {
-            this.service = service
-        }
+        fun service(service: TokenizationService) = apply { this.service = service }
 
         /** The parameters that were used to request this page. */
-        fun params(params: TokenizationListParams) = apply {
-            this.params = params
-        }
+        fun params(params: TokenizationListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: TokenizationListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: TokenizationListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [TokenizationListPage].
@@ -114,18 +108,9 @@ private constructor(
          */
         fun build(): TokenizationListPage =
             TokenizationListPage(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

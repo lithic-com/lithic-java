@@ -40,10 +40,7 @@ interface SubscriptionServiceAsync {
 
     /** Create a new event subscription. */
     fun create(params: EventSubscriptionCreateParams): CompletableFuture<EventSubscription> =
-        create(
-            params,
-            RequestOptions.none(),
-        )
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -53,10 +50,7 @@ interface SubscriptionServiceAsync {
 
     /** Get an event subscription. */
     fun retrieve(eventSubscriptionToken: String): CompletableFuture<EventSubscription> =
-        retrieve(
-            eventSubscriptionToken,
-            EventSubscriptionRetrieveParams.none(),
-        )
+        retrieve(eventSubscriptionToken, EventSubscriptionRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -74,11 +68,7 @@ interface SubscriptionServiceAsync {
         eventSubscriptionToken: String,
         params: EventSubscriptionRetrieveParams = EventSubscriptionRetrieveParams.none(),
     ): CompletableFuture<EventSubscription> =
-        retrieve(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -88,32 +78,21 @@ interface SubscriptionServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: EventSubscriptionRetrieveParams): CompletableFuture<EventSubscription> =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         eventSubscriptionToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<EventSubscription> =
-        retrieve(
-            eventSubscriptionToken,
-            EventSubscriptionRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(eventSubscriptionToken, EventSubscriptionRetrieveParams.none(), requestOptions)
 
     /** Update an event subscription. */
     fun update(
         eventSubscriptionToken: String,
         params: EventSubscriptionUpdateParams,
     ): CompletableFuture<EventSubscription> =
-        update(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        update(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -128,10 +107,7 @@ interface SubscriptionServiceAsync {
 
     /** @see update */
     fun update(params: EventSubscriptionUpdateParams): CompletableFuture<EventSubscription> =
-        update(
-            params,
-            RequestOptions.none(),
-        )
+        update(params, RequestOptions.none())
 
     /** @see update */
     fun update(
@@ -152,25 +128,15 @@ interface SubscriptionServiceAsync {
     /** @see list */
     fun list(
         params: EventSubscriptionListParams = EventSubscriptionListParams.none()
-    ): CompletableFuture<EventSubscriptionListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<EventSubscriptionListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<EventSubscriptionListPageAsync> =
-        list(
-            EventSubscriptionListParams.none(),
-            requestOptions,
-        )
+        list(EventSubscriptionListParams.none(), requestOptions)
 
     /** Delete an event subscription. */
     fun delete(eventSubscriptionToken: String): CompletableFuture<Void?> =
-        delete(
-            eventSubscriptionToken,
-            EventSubscriptionDeleteParams.none(),
-        )
+        delete(eventSubscriptionToken, EventSubscriptionDeleteParams.none())
 
     /** @see delete */
     fun delete(
@@ -187,12 +153,7 @@ interface SubscriptionServiceAsync {
     fun delete(
         eventSubscriptionToken: String,
         params: EventSubscriptionDeleteParams = EventSubscriptionDeleteParams.none(),
-    ): CompletableFuture<Void?> =
-        delete(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = delete(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
@@ -202,30 +163,20 @@ interface SubscriptionServiceAsync {
 
     /** @see delete */
     fun delete(params: EventSubscriptionDeleteParams): CompletableFuture<Void?> =
-        delete(
-            params,
-            RequestOptions.none(),
-        )
+        delete(params, RequestOptions.none())
 
     /** @see delete */
     fun delete(
         eventSubscriptionToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
-        delete(
-            eventSubscriptionToken,
-            EventSubscriptionDeleteParams.none(),
-            requestOptions,
-        )
+        delete(eventSubscriptionToken, EventSubscriptionDeleteParams.none(), requestOptions)
 
     /** List all the message attempts for a given event subscription. */
     fun listAttempts(
         eventSubscriptionToken: String
     ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> =
-        listAttempts(
-            eventSubscriptionToken,
-            EventSubscriptionListAttemptsParams.none(),
-        )
+        listAttempts(eventSubscriptionToken, EventSubscriptionListAttemptsParams.none())
 
     /** @see listAttempts */
     fun listAttempts(
@@ -243,11 +194,7 @@ interface SubscriptionServiceAsync {
         eventSubscriptionToken: String,
         params: EventSubscriptionListAttemptsParams = EventSubscriptionListAttemptsParams.none(),
     ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> =
-        listAttempts(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        listAttempts(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see listAttempts */
     fun listAttempts(
@@ -259,10 +206,7 @@ interface SubscriptionServiceAsync {
     fun listAttempts(
         params: EventSubscriptionListAttemptsParams
     ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> =
-        listAttempts(
-            params,
-            RequestOptions.none(),
-        )
+        listAttempts(params, RequestOptions.none())
 
     /** @see listAttempts */
     fun listAttempts(
@@ -277,10 +221,7 @@ interface SubscriptionServiceAsync {
 
     /** Resend all failed messages since a given time. */
     fun recover(eventSubscriptionToken: String): CompletableFuture<Void?> =
-        recover(
-            eventSubscriptionToken,
-            EventSubscriptionRecoverParams.none(),
-        )
+        recover(eventSubscriptionToken, EventSubscriptionRecoverParams.none())
 
     /** @see recover */
     fun recover(
@@ -297,12 +238,7 @@ interface SubscriptionServiceAsync {
     fun recover(
         eventSubscriptionToken: String,
         params: EventSubscriptionRecoverParams = EventSubscriptionRecoverParams.none(),
-    ): CompletableFuture<Void?> =
-        recover(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = recover(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see recover */
     fun recover(
@@ -312,21 +248,14 @@ interface SubscriptionServiceAsync {
 
     /** @see recover */
     fun recover(params: EventSubscriptionRecoverParams): CompletableFuture<Void?> =
-        recover(
-            params,
-            RequestOptions.none(),
-        )
+        recover(params, RequestOptions.none())
 
     /** @see recover */
     fun recover(
         eventSubscriptionToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
-        recover(
-            eventSubscriptionToken,
-            EventSubscriptionRecoverParams.none(),
-            requestOptions,
-        )
+        recover(eventSubscriptionToken, EventSubscriptionRecoverParams.none(), requestOptions)
 
     /**
      * Replays messages to the endpoint. Only messages that were created after `begin` will be sent.
@@ -335,10 +264,7 @@ interface SubscriptionServiceAsync {
      * [Retry Schedule](https://docs.lithic.com/docs/events-api#retry-schedule) for details.
      */
     fun replayMissing(eventSubscriptionToken: String): CompletableFuture<Void?> =
-        replayMissing(
-            eventSubscriptionToken,
-            EventSubscriptionReplayMissingParams.none(),
-        )
+        replayMissing(eventSubscriptionToken, EventSubscriptionReplayMissingParams.none())
 
     /** @see replayMissing */
     fun replayMissing(
@@ -356,11 +282,7 @@ interface SubscriptionServiceAsync {
         eventSubscriptionToken: String,
         params: EventSubscriptionReplayMissingParams = EventSubscriptionReplayMissingParams.none(),
     ): CompletableFuture<Void?> =
-        replayMissing(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        replayMissing(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see replayMissing */
     fun replayMissing(
@@ -370,10 +292,7 @@ interface SubscriptionServiceAsync {
 
     /** @see replayMissing */
     fun replayMissing(params: EventSubscriptionReplayMissingParams): CompletableFuture<Void?> =
-        replayMissing(
-            params,
-            RequestOptions.none(),
-        )
+        replayMissing(params, RequestOptions.none())
 
     /** @see replayMissing */
     fun replayMissing(
@@ -390,10 +309,7 @@ interface SubscriptionServiceAsync {
     fun retrieveSecret(
         eventSubscriptionToken: String
     ): CompletableFuture<SubscriptionRetrieveSecretResponse> =
-        retrieveSecret(
-            eventSubscriptionToken,
-            EventSubscriptionRetrieveSecretParams.none(),
-        )
+        retrieveSecret(eventSubscriptionToken, EventSubscriptionRetrieveSecretParams.none())
 
     /** @see retrieveSecret */
     fun retrieveSecret(
@@ -412,11 +328,7 @@ interface SubscriptionServiceAsync {
         eventSubscriptionToken: String,
         params: EventSubscriptionRetrieveSecretParams = EventSubscriptionRetrieveSecretParams.none(),
     ): CompletableFuture<SubscriptionRetrieveSecretResponse> =
-        retrieveSecret(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        retrieveSecret(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see retrieveSecret */
     fun retrieveSecret(
@@ -428,10 +340,7 @@ interface SubscriptionServiceAsync {
     fun retrieveSecret(
         params: EventSubscriptionRetrieveSecretParams
     ): CompletableFuture<SubscriptionRetrieveSecretResponse> =
-        retrieveSecret(
-            params,
-            RequestOptions.none(),
-        )
+        retrieveSecret(params, RequestOptions.none())
 
     /** @see retrieveSecret */
     fun retrieveSecret(
@@ -449,10 +358,7 @@ interface SubscriptionServiceAsync {
      * 24 hours.
      */
     fun rotateSecret(eventSubscriptionToken: String): CompletableFuture<Void?> =
-        rotateSecret(
-            eventSubscriptionToken,
-            EventSubscriptionRotateSecretParams.none(),
-        )
+        rotateSecret(eventSubscriptionToken, EventSubscriptionRotateSecretParams.none())
 
     /** @see rotateSecret */
     fun rotateSecret(
@@ -470,11 +376,7 @@ interface SubscriptionServiceAsync {
         eventSubscriptionToken: String,
         params: EventSubscriptionRotateSecretParams = EventSubscriptionRotateSecretParams.none(),
     ): CompletableFuture<Void?> =
-        rotateSecret(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        rotateSecret(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see rotateSecret */
     fun rotateSecret(
@@ -484,10 +386,7 @@ interface SubscriptionServiceAsync {
 
     /** @see rotateSecret */
     fun rotateSecret(params: EventSubscriptionRotateSecretParams): CompletableFuture<Void?> =
-        rotateSecret(
-            params,
-            RequestOptions.none(),
-        )
+        rotateSecret(params, RequestOptions.none())
 
     /** @see rotateSecret */
     fun rotateSecret(
@@ -525,11 +424,7 @@ interface SubscriptionServiceAsync {
         params: EventSubscriptionSendSimulatedExampleParams =
             EventSubscriptionSendSimulatedExampleParams.none(),
     ): CompletableFuture<Void?> =
-        sendSimulatedExample(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        sendSimulatedExample(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see sendSimulatedExample */
     fun sendSimulatedExample(
@@ -540,11 +435,7 @@ interface SubscriptionServiceAsync {
     /** @see sendSimulatedExample */
     fun sendSimulatedExample(
         params: EventSubscriptionSendSimulatedExampleParams
-    ): CompletableFuture<Void?> =
-        sendSimulatedExample(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<Void?> = sendSimulatedExample(params, RequestOptions.none())
 
     /** @see sendSimulatedExample */
     fun sendSimulatedExample(
@@ -579,10 +470,7 @@ interface SubscriptionServiceAsync {
         fun create(
             params: EventSubscriptionCreateParams
         ): CompletableFuture<HttpResponseFor<EventSubscription>> =
-            create(
-                params,
-                RequestOptions.none(),
-            )
+            create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -597,10 +485,7 @@ interface SubscriptionServiceAsync {
         fun retrieve(
             eventSubscriptionToken: String
         ): CompletableFuture<HttpResponseFor<EventSubscription>> =
-            retrieve(
-                eventSubscriptionToken,
-                EventSubscriptionRetrieveParams.none(),
-            )
+            retrieve(eventSubscriptionToken, EventSubscriptionRetrieveParams.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -618,11 +503,7 @@ interface SubscriptionServiceAsync {
             eventSubscriptionToken: String,
             params: EventSubscriptionRetrieveParams = EventSubscriptionRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<EventSubscription>> =
-            retrieve(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
@@ -634,21 +515,14 @@ interface SubscriptionServiceAsync {
         fun retrieve(
             params: EventSubscriptionRetrieveParams
         ): CompletableFuture<HttpResponseFor<EventSubscription>> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             eventSubscriptionToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<EventSubscription>> =
-            retrieve(
-                eventSubscriptionToken,
-                EventSubscriptionRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(eventSubscriptionToken, EventSubscriptionRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `patch
@@ -659,11 +533,7 @@ interface SubscriptionServiceAsync {
             eventSubscriptionToken: String,
             params: EventSubscriptionUpdateParams,
         ): CompletableFuture<HttpResponseFor<EventSubscription>> =
-            update(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            update(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see update */
         fun update(
@@ -680,10 +550,7 @@ interface SubscriptionServiceAsync {
         fun update(
             params: EventSubscriptionUpdateParams
         ): CompletableFuture<HttpResponseFor<EventSubscription>> =
-            update(
-                params,
-                RequestOptions.none(),
-            )
+            update(params, RequestOptions.none())
 
         /** @see update */
         fun update(
@@ -708,19 +575,13 @@ interface SubscriptionServiceAsync {
         fun list(
             params: EventSubscriptionListParams = EventSubscriptionListParams.none()
         ): CompletableFuture<HttpResponseFor<EventSubscriptionListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<EventSubscriptionListPageAsync>> =
-            list(
-                EventSubscriptionListParams.none(),
-                requestOptions,
-            )
+            list(EventSubscriptionListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete
@@ -728,10 +589,7 @@ interface SubscriptionServiceAsync {
          * [SubscriptionServiceAsync.delete].
          */
         fun delete(eventSubscriptionToken: String): CompletableFuture<HttpResponse> =
-            delete(
-                eventSubscriptionToken,
-                EventSubscriptionDeleteParams.none(),
-            )
+            delete(eventSubscriptionToken, EventSubscriptionDeleteParams.none())
 
         /** @see delete */
         fun delete(
@@ -749,11 +607,7 @@ interface SubscriptionServiceAsync {
             eventSubscriptionToken: String,
             params: EventSubscriptionDeleteParams = EventSubscriptionDeleteParams.none(),
         ): CompletableFuture<HttpResponse> =
-            delete(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            delete(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
@@ -763,21 +617,14 @@ interface SubscriptionServiceAsync {
 
         /** @see delete */
         fun delete(params: EventSubscriptionDeleteParams): CompletableFuture<HttpResponse> =
-            delete(
-                params,
-                RequestOptions.none(),
-            )
+            delete(params, RequestOptions.none())
 
         /** @see delete */
         fun delete(
             eventSubscriptionToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> =
-            delete(
-                eventSubscriptionToken,
-                EventSubscriptionDeleteParams.none(),
-                requestOptions,
-            )
+            delete(eventSubscriptionToken, EventSubscriptionDeleteParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get
@@ -787,10 +634,7 @@ interface SubscriptionServiceAsync {
         fun listAttempts(
             eventSubscriptionToken: String
         ): CompletableFuture<HttpResponseFor<EventSubscriptionListAttemptsPageAsync>> =
-            listAttempts(
-                eventSubscriptionToken,
-                EventSubscriptionListAttemptsParams.none(),
-            )
+            listAttempts(eventSubscriptionToken, EventSubscriptionListAttemptsParams.none())
 
         /** @see listAttempts */
         fun listAttempts(
@@ -809,11 +653,7 @@ interface SubscriptionServiceAsync {
             eventSubscriptionToken: String,
             params: EventSubscriptionListAttemptsParams = EventSubscriptionListAttemptsParams.none(),
         ): CompletableFuture<HttpResponseFor<EventSubscriptionListAttemptsPageAsync>> =
-            listAttempts(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            listAttempts(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see listAttempts */
         fun listAttempts(
@@ -825,10 +665,7 @@ interface SubscriptionServiceAsync {
         fun listAttempts(
             params: EventSubscriptionListAttemptsParams
         ): CompletableFuture<HttpResponseFor<EventSubscriptionListAttemptsPageAsync>> =
-            listAttempts(
-                params,
-                RequestOptions.none(),
-            )
+            listAttempts(params, RequestOptions.none())
 
         /** @see listAttempts */
         fun listAttempts(
@@ -847,10 +684,7 @@ interface SubscriptionServiceAsync {
          * [SubscriptionServiceAsync.recover].
          */
         fun recover(eventSubscriptionToken: String): CompletableFuture<HttpResponse> =
-            recover(
-                eventSubscriptionToken,
-                EventSubscriptionRecoverParams.none(),
-            )
+            recover(eventSubscriptionToken, EventSubscriptionRecoverParams.none())
 
         /** @see recover */
         fun recover(
@@ -868,11 +702,7 @@ interface SubscriptionServiceAsync {
             eventSubscriptionToken: String,
             params: EventSubscriptionRecoverParams = EventSubscriptionRecoverParams.none(),
         ): CompletableFuture<HttpResponse> =
-            recover(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            recover(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see recover */
         fun recover(
@@ -882,21 +712,14 @@ interface SubscriptionServiceAsync {
 
         /** @see recover */
         fun recover(params: EventSubscriptionRecoverParams): CompletableFuture<HttpResponse> =
-            recover(
-                params,
-                RequestOptions.none(),
-            )
+            recover(params, RequestOptions.none())
 
         /** @see recover */
         fun recover(
             eventSubscriptionToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> =
-            recover(
-                eventSubscriptionToken,
-                EventSubscriptionRecoverParams.none(),
-                requestOptions,
-            )
+            recover(eventSubscriptionToken, EventSubscriptionRecoverParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post
@@ -904,10 +727,7 @@ interface SubscriptionServiceAsync {
          * same as [SubscriptionServiceAsync.replayMissing].
          */
         fun replayMissing(eventSubscriptionToken: String): CompletableFuture<HttpResponse> =
-            replayMissing(
-                eventSubscriptionToken,
-                EventSubscriptionReplayMissingParams.none(),
-            )
+            replayMissing(eventSubscriptionToken, EventSubscriptionReplayMissingParams.none())
 
         /** @see replayMissing */
         fun replayMissing(
@@ -927,11 +747,7 @@ interface SubscriptionServiceAsync {
             params: EventSubscriptionReplayMissingParams =
                 EventSubscriptionReplayMissingParams.none(),
         ): CompletableFuture<HttpResponse> =
-            replayMissing(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            replayMissing(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see replayMissing */
         fun replayMissing(
@@ -942,11 +758,7 @@ interface SubscriptionServiceAsync {
         /** @see replayMissing */
         fun replayMissing(
             params: EventSubscriptionReplayMissingParams
-        ): CompletableFuture<HttpResponse> =
-            replayMissing(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = replayMissing(params, RequestOptions.none())
 
         /** @see replayMissing */
         fun replayMissing(
@@ -967,10 +779,7 @@ interface SubscriptionServiceAsync {
         fun retrieveSecret(
             eventSubscriptionToken: String
         ): CompletableFuture<HttpResponseFor<SubscriptionRetrieveSecretResponse>> =
-            retrieveSecret(
-                eventSubscriptionToken,
-                EventSubscriptionRetrieveSecretParams.none(),
-            )
+            retrieveSecret(eventSubscriptionToken, EventSubscriptionRetrieveSecretParams.none())
 
         /** @see retrieveSecret */
         fun retrieveSecret(
@@ -990,11 +799,7 @@ interface SubscriptionServiceAsync {
             params: EventSubscriptionRetrieveSecretParams =
                 EventSubscriptionRetrieveSecretParams.none(),
         ): CompletableFuture<HttpResponseFor<SubscriptionRetrieveSecretResponse>> =
-            retrieveSecret(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSecret(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see retrieveSecret */
         fun retrieveSecret(
@@ -1006,10 +811,7 @@ interface SubscriptionServiceAsync {
         fun retrieveSecret(
             params: EventSubscriptionRetrieveSecretParams
         ): CompletableFuture<HttpResponseFor<SubscriptionRetrieveSecretResponse>> =
-            retrieveSecret(
-                params,
-                RequestOptions.none(),
-            )
+            retrieveSecret(params, RequestOptions.none())
 
         /** @see retrieveSecret */
         fun retrieveSecret(
@@ -1028,10 +830,7 @@ interface SubscriptionServiceAsync {
          * same as [SubscriptionServiceAsync.rotateSecret].
          */
         fun rotateSecret(eventSubscriptionToken: String): CompletableFuture<HttpResponse> =
-            rotateSecret(
-                eventSubscriptionToken,
-                EventSubscriptionRotateSecretParams.none(),
-            )
+            rotateSecret(eventSubscriptionToken, EventSubscriptionRotateSecretParams.none())
 
         /** @see rotateSecret */
         fun rotateSecret(
@@ -1050,11 +849,7 @@ interface SubscriptionServiceAsync {
             eventSubscriptionToken: String,
             params: EventSubscriptionRotateSecretParams = EventSubscriptionRotateSecretParams.none(),
         ): CompletableFuture<HttpResponse> =
-            rotateSecret(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            rotateSecret(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see rotateSecret */
         fun rotateSecret(
@@ -1065,11 +860,7 @@ interface SubscriptionServiceAsync {
         /** @see rotateSecret */
         fun rotateSecret(
             params: EventSubscriptionRotateSecretParams
-        ): CompletableFuture<HttpResponse> =
-            rotateSecret(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = rotateSecret(params, RequestOptions.none())
 
         /** @see rotateSecret */
         fun rotateSecret(
@@ -1111,11 +902,7 @@ interface SubscriptionServiceAsync {
             params: EventSubscriptionSendSimulatedExampleParams =
                 EventSubscriptionSendSimulatedExampleParams.none(),
         ): CompletableFuture<HttpResponse> =
-            sendSimulatedExample(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+            sendSimulatedExample(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see sendSimulatedExample */
         fun sendSimulatedExample(
@@ -1126,11 +913,7 @@ interface SubscriptionServiceAsync {
         /** @see sendSimulatedExample */
         fun sendSimulatedExample(
             params: EventSubscriptionSendSimulatedExampleParams
-        ): CompletableFuture<HttpResponse> =
-            sendSimulatedExample(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponse> = sendSimulatedExample(params, RequestOptions.none())
 
         /** @see sendSimulatedExample */
         fun sendSimulatedExample(

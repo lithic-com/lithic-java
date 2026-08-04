@@ -204,7 +204,6 @@ private constructor(
 
     /**
      * Spend limit duration values:
-     *
      * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
      * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
      * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
@@ -703,9 +702,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account to which the card belongs. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -746,9 +743,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Funding account for a card */
         fun funding(funding: FundingAccount?) = funding(JsonField.ofNullable(funding))
@@ -763,9 +758,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun funding(funding: JsonField<FundingAccount>) = apply {
-            this.funding = funding
-        }
+        fun funding(funding: JsonField<FundingAccount>) = apply { this.funding = funding }
 
         /** Last four digits of the card number. */
         fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
@@ -776,9 +769,7 @@ private constructor(
          * You should usually call [Builder.lastFour] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun lastFour(lastFour: JsonField<String>) = apply {
-            this.lastFour = lastFour
-        }
+        fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
@@ -793,9 +784,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun pinStatus(pinStatus: JsonField<PinStatus>) = apply {
-            this.pinStatus = pinStatus
-        }
+        fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { this.pinStatus = pinStatus }
 
         /**
          * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
@@ -809,13 +798,10 @@ private constructor(
          * You should usually call [Builder.spendLimit] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun spendLimit(spendLimit: JsonField<Long>) = apply {
-            this.spendLimit = spendLimit
-        }
+        fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
         /**
          * Spend limit duration values:
-         *
          * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
@@ -863,9 +849,7 @@ private constructor(
          * You should usually call [Builder.state] with a well-typed [State] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun state(state: JsonField<State>) = apply {
-            this.state = state
-        }
+        fun state(state: JsonField<State>) = apply { this.state = state }
 
         /**
          * Card types: * `VIRTUAL` - Card will authorize at any merchant and can be added to a
@@ -886,9 +870,7 @@ private constructor(
          * You should usually call [Builder.type] with a well-typed [Type] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun type(type: JsonField<Type>) = apply {
-            this.type = type
-        }
+        fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /**
          * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
@@ -971,9 +953,7 @@ private constructor(
          * You should usually call [Builder.comment] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun comment(comment: JsonField<String>) = apply {
-            this.comment = comment
-        }
+        fun comment(comment: JsonField<String>) = apply { this.comment = comment }
 
         /**
          * Specifies the digital card art to be displayed in the user's digital wallet after
@@ -1009,9 +989,7 @@ private constructor(
          * You should usually call [Builder.expMonth] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun expMonth(expMonth: JsonField<String>) = apply {
-            this.expMonth = expMonth
-        }
+        fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
 
         /** Four digit (yyyy) expiry year. */
         fun expYear(expYear: String) = expYear(JsonField.of(expYear))
@@ -1022,9 +1000,7 @@ private constructor(
          * You should usually call [Builder.expYear] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun expYear(expYear: JsonField<String>) = apply {
-            this.expYear = expYear
-        }
+        fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
 
         /** Hostname of card's locked merchant (will be empty if not applicable). */
         fun hostname(hostname: String) = hostname(JsonField.of(hostname))
@@ -1035,9 +1011,7 @@ private constructor(
          * You should usually call [Builder.hostname] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun hostname(hostname: JsonField<String>) = apply {
-            this.hostname = hostname
-        }
+        fun hostname(hostname: JsonField<String>) = apply { this.hostname = hostname }
 
         /** Friendly name to identify the card. */
         fun memo(memo: String) = memo(JsonField.of(memo))
@@ -1048,9 +1022,7 @@ private constructor(
          * You should usually call [Builder.memo] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun memo(memo: JsonField<String>) = apply {
-            this.memo = memo
-        }
+        fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
         /**
          * Globally unique identifier for the card's network program. Null if the card is not
@@ -1125,9 +1097,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun productId(productId: JsonField<String>) = apply {
-            this.productId = productId
-        }
+        fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
         /**
          * If the card is a replacement for another card, the globally unique identifier for the
@@ -1183,9 +1153,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun substatus(substatus: JsonField<Substatus>) = apply {
-            this.substatus = substatus
-        }
+        fun substatus(substatus: JsonField<Substatus>) = apply { this.substatus = substatus }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -1200,9 +1168,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1232,50 +1198,17 @@ private constructor(
          */
         fun build(): NonPciCard =
             NonPciCard(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                    "accountToken",
-                    accountToken,
-                ),
-                checkRequired(
-                    "cardProgramToken",
-                    cardProgramToken,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "funding",
-                    funding,
-                ),
-                checkRequired(
-                    "lastFour",
-                    lastFour,
-                ),
-                checkRequired(
-                    "pinStatus",
-                    pinStatus,
-                ),
-                checkRequired(
-                    "spendLimit",
-                    spendLimit,
-                ),
-                checkRequired(
-                    "spendLimitDuration",
-                    spendLimitDuration,
-                ),
-                checkRequired(
-                    "state",
-                    state,
-                ),
-                checkRequired(
-                    "type",
-                    type,
-                ),
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardProgramToken", cardProgramToken),
+                checkRequired("created", created),
+                checkRequired("funding", funding),
+                checkRequired("lastFour", lastFour),
+                checkRequired("pinStatus", pinStatus),
+                checkRequired("spendLimit", spendLimit),
+                checkRequired("spendLimitDuration", spendLimitDuration),
+                checkRequired("state", state),
+                checkRequired("type", type),
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 bulkOrderToken,
                 cardholderCurrency,
@@ -1406,19 +1339,8 @@ private constructor(
             @JsonProperty("account_name")
             @ExcludeMissing
             accountName: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("nickname")
-            @ExcludeMissing
-            nickname: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            token,
-            created,
-            lastFour,
-            state,
-            type,
-            accountName,
-            nickname,
-            mutableMapOf(),
-        )
+            @JsonProperty("nickname") @ExcludeMissing nickname: JsonField<String> = JsonMissing.of(),
+        ) : this(token, created, lastFour, state, type, accountName, nickname, mutableMapOf())
 
         /**
          * A globally unique identifier for this FundingAccount.
@@ -1596,9 +1518,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * An RFC 3339 string representing when this funding source was added to the Lithic
@@ -1613,9 +1533,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun created(created: JsonField<OffsetDateTime>) = apply {
-                this.created = created
-            }
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /**
              * The last 4 digits of the account (e.g. bank account, debit card) associated with this
@@ -1630,9 +1548,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun lastFour(lastFour: JsonField<String>) = apply {
-                this.lastFour = lastFour
-            }
+            fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
             /**
              * State of funding source. Funding source states: * `ENABLED` - The funding account is
@@ -1649,9 +1565,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun state(state: JsonField<State>) = apply {
-                this.state = state
-            }
+            fun state(state: JsonField<State>) = apply { this.state = state }
 
             /**
              * Types of funding source: * `DEPOSITORY_CHECKING` - Bank checking account. *
@@ -1666,9 +1580,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply {
-                this.type = type
-            }
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /** Account name identifying the funding source. This may be `null`. */
             fun accountName(accountName: String) = accountName(JsonField.of(accountName))
@@ -1697,9 +1609,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun nickname(nickname: JsonField<String>) = apply {
-                this.nickname = nickname
-            }
+            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1714,9 +1624,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1740,26 +1648,11 @@ private constructor(
              */
             fun build(): FundingAccount =
                 FundingAccount(
-                    checkRequired(
-                        "token",
-                        token,
-                    ),
-                    checkRequired(
-                        "created",
-                        created,
-                    ),
-                    checkRequired(
-                        "lastFour",
-                        lastFour,
-                    ),
-                    checkRequired(
-                        "state",
-                        state,
-                    ),
-                    checkRequired(
-                        "type",
-                        type,
-                    ),
+                    checkRequired("token", token),
+                    checkRequired("created", created),
+                    checkRequired("lastFour", lastFour),
+                    checkRequired("state", state),
+                    checkRequired("type", type),
                     accountName,
                     nickname,
                     additionalProperties.toMutableMap(),
@@ -1856,11 +1749,9 @@ private constructor(
              * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [State] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2004,11 +1895,9 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2184,11 +2073,9 @@ private constructor(
          * An enum containing [PinStatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [PinStatus] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -2348,11 +2235,9 @@ private constructor(
          * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [State] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -2515,11 +2400,9 @@ private constructor(
          * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Type] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -2709,11 +2592,9 @@ private constructor(
          * An enum containing [Substatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Substatus] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

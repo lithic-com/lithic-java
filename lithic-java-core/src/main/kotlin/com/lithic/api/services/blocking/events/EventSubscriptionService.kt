@@ -25,11 +25,7 @@ interface EventSubscriptionService {
 
     /** Resend an event to an event subscription. */
     fun resend(eventSubscriptionToken: String, params: EventEventSubscriptionResendParams) =
-        resend(
-            eventSubscriptionToken,
-            params,
-            RequestOptions.none(),
-        )
+        resend(eventSubscriptionToken, params, RequestOptions.none())
 
     /** @see resend */
     fun resend(
@@ -43,11 +39,7 @@ interface EventSubscriptionService {
         )
 
     /** @see resend */
-    fun resend(params: EventEventSubscriptionResendParams) =
-        resend(
-            params,
-            RequestOptions.none(),
-        )
+    fun resend(params: EventEventSubscriptionResendParams) = resend(params, RequestOptions.none())
 
     /** @see resend */
     fun resend(
@@ -79,12 +71,7 @@ interface EventSubscriptionService {
         fun resend(
             eventSubscriptionToken: String,
             params: EventEventSubscriptionResendParams,
-        ): HttpResponse =
-            resend(
-                eventSubscriptionToken,
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponse = resend(eventSubscriptionToken, params, RequestOptions.none())
 
         /** @see resend */
         @MustBeClosed
@@ -101,10 +88,7 @@ interface EventSubscriptionService {
         /** @see resend */
         @MustBeClosed
         fun resend(params: EventEventSubscriptionResendParams): HttpResponse =
-            resend(
-                params,
-                RequestOptions.none(),
-            )
+            resend(params, RequestOptions.none())
 
         /** @see resend */
         @MustBeClosed

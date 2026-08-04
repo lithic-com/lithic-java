@@ -25,10 +25,7 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("qr_code_url") @ExcludeMissing qrCodeUrl: JsonField<String> = JsonMissing.of()
-    ) : this(
-        qrCodeUrl,
-        mutableMapOf(),
-    )
+    ) : this(qrCodeUrl, mutableMapOf())
 
     /**
      * QR code URL to display on the card carrier. The `qr_code_url` field requires your domain to
@@ -89,9 +86,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun qrCodeUrl(qrCodeUrl: JsonField<String>) = apply {
-            this.qrCodeUrl = qrCodeUrl
-        }
+        fun qrCodeUrl(qrCodeUrl: JsonField<String>) = apply { this.qrCodeUrl = qrCodeUrl }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -106,9 +101,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -119,11 +112,7 @@ private constructor(
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): Carrier =
-            Carrier(
-                qrCodeUrl,
-                additionalProperties.toMutableMap(),
-            )
+        fun build(): Carrier = Carrier(qrCodeUrl, additionalProperties.toMutableMap())
     }
 
     private var validated: Boolean = false

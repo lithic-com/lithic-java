@@ -123,9 +123,7 @@ private constructor(
             this.financialAccountToken = financialAccountToken
         }
 
-        fun effectiveDate(effectiveDate: LocalDate?) = apply {
-            this.effectiveDate = effectiveDate
-        }
+        fun effectiveDate(effectiveDate: LocalDate?) = apply { this.effectiveDate = effectiveDate }
 
         /** Alias for calling [Builder.effectiveDate] with `effectiveDate.orElse(null)`. */
         fun effectiveDate(effectiveDate: Optional<LocalDate>) =
@@ -140,19 +138,13 @@ private constructor(
          * - [tierName]
          * - [tierRates]
          */
-        fun body(body: UpdateTierScheduleEntryRequest) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: UpdateTierScheduleEntryRequest) = apply { this.body = body.toBuilder() }
 
         /** Custom rates per category for penalties */
-        fun penaltyRates(penaltyRates: JsonValue) = apply {
-            body.penaltyRates(penaltyRates)
-        }
+        fun penaltyRates(penaltyRates: JsonValue) = apply { body.penaltyRates(penaltyRates) }
 
         /** Name of a tier contained in the credit product. Mutually exclusive with tier_rates */
-        fun tierName(tierName: String) = apply {
-            body.tierName(tierName)
-        }
+        fun tierName(tierName: String) = apply { body.tierName(tierName) }
 
         /**
          * Sets [Builder.tierName] to an arbitrary JSON value.
@@ -160,24 +152,17 @@ private constructor(
          * You should usually call [Builder.tierName] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun tierName(tierName: JsonField<String>) = apply {
-            body.tierName(tierName)
-        }
+        fun tierName(tierName: JsonField<String>) = apply { body.tierName(tierName) }
 
         /** Custom rates per category. Mutually exclusive with tier_name */
-        fun tierRates(tierRates: JsonValue) = apply {
-            body.tierRates(tierRates)
-        }
+        fun tierRates(tierRates: JsonValue) = apply { body.tierRates(tierRates) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -185,9 +170,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -235,9 +218,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -287,9 +268,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -309,10 +288,7 @@ private constructor(
          */
         fun build(): FinancialAccountInterestTierScheduleUpdateParams =
             FinancialAccountInterestTierScheduleUpdateParams(
-                checkRequired(
-                    "financialAccountToken",
-                    financialAccountToken,
-                ),
+                checkRequired("financialAccountToken", financialAccountToken),
                 effectiveDate,
                 body.build(),
                 additionalHeaders.build(),
@@ -352,12 +328,7 @@ private constructor(
             @ExcludeMissing
             tierName: JsonField<String> = JsonMissing.of(),
             @JsonProperty("tier_rates") @ExcludeMissing tierRates: JsonValue = JsonMissing.of(),
-        ) : this(
-            penaltyRates,
-            tierName,
-            tierRates,
-            mutableMapOf(),
-        )
+        ) : this(penaltyRates, tierName, tierRates, mutableMapOf())
 
         /**
          * Custom rates per category for penalties
@@ -434,9 +405,7 @@ private constructor(
                 }
 
             /** Custom rates per category for penalties */
-            fun penaltyRates(penaltyRates: JsonValue) = apply {
-                this.penaltyRates = penaltyRates
-            }
+            fun penaltyRates(penaltyRates: JsonValue) = apply { this.penaltyRates = penaltyRates }
 
             /**
              * Name of a tier contained in the credit product. Mutually exclusive with tier_rates
@@ -450,14 +419,10 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun tierName(tierName: JsonField<String>) = apply {
-                this.tierName = tierName
-            }
+            fun tierName(tierName: JsonField<String>) = apply { this.tierName = tierName }
 
             /** Custom rates per category. Mutually exclusive with tier_name */
-            fun tierRates(tierRates: JsonValue) = apply {
-                this.tierRates = tierRates
-            }
+            fun tierRates(tierRates: JsonValue) = apply { this.tierRates = tierRates }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -472,9 +437,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)

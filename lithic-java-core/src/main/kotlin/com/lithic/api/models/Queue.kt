@@ -240,9 +240,7 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * Resolutions that can be recorded on cases in this queue. Always the effective list: the
@@ -287,9 +285,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun caseCounts(caseCounts: JsonField<CaseCounts>) = apply {
-            this.caseCounts = caseCounts
-        }
+        fun caseCounts(caseCounts: JsonField<CaseCounts>) = apply { this.caseCounts = caseCounts }
 
         /** Date and time at which the queue was created */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -301,9 +297,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Optional description of the queue */
         fun description(description: String?) = description(JsonField.ofNullable(description))
@@ -318,9 +312,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun description(description: JsonField<String>) = apply {
-            this.description = description
-        }
+        fun description(description: JsonField<String>) = apply { this.description = description }
 
         /** Human-readable name of the queue */
         fun name(name: String) = name(JsonField.of(name))
@@ -331,9 +323,7 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply {
-            this.name = name
-        }
+        fun name(name: JsonField<String>) = apply { this.name = name }
 
         /** Date and time at which the queue was last updated */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -345,9 +335,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply {
-            this.updated = updated
-        }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -362,9 +350,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -390,35 +376,13 @@ private constructor(
          */
         fun build(): Queue =
             Queue(
-                checkRequired(
-                    "token",
-                    token,
-                ),
-                checkRequired(
-                        "allowedResolutions",
-                        allowedResolutions,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "caseCounts",
-                    caseCounts,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "description",
-                    description,
-                ),
-                checkRequired(
-                    "name",
-                    name,
-                ),
-                checkRequired(
-                    "updated",
-                    updated,
-                ),
+                checkRequired("token", token),
+                checkRequired("allowedResolutions", allowedResolutions).map { it.toImmutable() },
+                checkRequired("caseCounts", caseCounts),
+                checkRequired("created", created),
+                checkRequired("description", description),
+                checkRequired("name", name),
+                checkRequired("updated", updated),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -497,15 +461,7 @@ private constructor(
             @JsonProperty("IN_REVIEW") @ExcludeMissing inReview: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("OPEN") @ExcludeMissing open: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("RESOLVED") @ExcludeMissing resolved: JsonField<Long> = JsonMissing.of(),
-        ) : this(
-            assigned,
-            closed,
-            escalated,
-            inReview,
-            open,
-            resolved,
-            mutableMapOf(),
-        )
+        ) : this(assigned, closed, escalated, inReview, open, resolved, mutableMapOf())
 
         /**
          * Number of cases in the queue with status `ASSIGNED`
@@ -647,9 +603,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun assigned(assigned: JsonField<Long>) = apply {
-                this.assigned = assigned
-            }
+            fun assigned(assigned: JsonField<Long>) = apply { this.assigned = assigned }
 
             /** Number of cases in the queue with status `CLOSED` */
             fun closed(closed: Long) = closed(JsonField.of(closed))
@@ -661,9 +615,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun closed(closed: JsonField<Long>) = apply {
-                this.closed = closed
-            }
+            fun closed(closed: JsonField<Long>) = apply { this.closed = closed }
 
             /** Number of cases in the queue with status `ESCALATED` */
             fun escalated(escalated: Long) = escalated(JsonField.of(escalated))
@@ -675,9 +627,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun escalated(escalated: JsonField<Long>) = apply {
-                this.escalated = escalated
-            }
+            fun escalated(escalated: JsonField<Long>) = apply { this.escalated = escalated }
 
             /** Number of cases in the queue with status `IN_REVIEW` */
             fun inReview(inReview: Long) = inReview(JsonField.of(inReview))
@@ -689,9 +639,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun inReview(inReview: JsonField<Long>) = apply {
-                this.inReview = inReview
-            }
+            fun inReview(inReview: JsonField<Long>) = apply { this.inReview = inReview }
 
             /** Number of cases in the queue with status `OPEN` */
             fun open(open: Long) = open(JsonField.of(open))
@@ -703,9 +651,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun open(open: JsonField<Long>) = apply {
-                this.open = open
-            }
+            fun open(open: JsonField<Long>) = apply { this.open = open }
 
             /** Number of cases in the queue with status `RESOLVED` */
             fun resolved(resolved: Long) = resolved(JsonField.of(resolved))
@@ -717,9 +663,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun resolved(resolved: JsonField<Long>) = apply {
-                this.resolved = resolved
-            }
+            fun resolved(resolved: JsonField<Long>) = apply { this.resolved = resolved }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -734,9 +678,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)

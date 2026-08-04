@@ -103,7 +103,6 @@ private constructor(
 
     /**
      * Spend limit duration values:
-     *
      * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
      * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
      * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
@@ -264,9 +263,7 @@ private constructor(
             additionalQueryParams = cardUpdateParams.additionalQueryParams.toBuilder()
         }
 
-        fun cardToken(cardToken: String?) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
 
         /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
         fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
@@ -283,14 +280,10 @@ private constructor(
          * - [pin]
          * - etc.
          */
-        fun body(body: Body) = apply {
-            this.body = body.toBuilder()
-        }
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /** Additional context or information related to the card. */
-        fun comment(comment: String) = apply {
-            body.comment(comment)
-        }
+        fun comment(comment: String) = apply { body.comment(comment) }
 
         /**
          * Sets [Builder.comment] to an arbitrary JSON value.
@@ -298,9 +291,7 @@ private constructor(
          * You should usually call [Builder.comment] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun comment(comment: JsonField<String>) = apply {
-            body.comment(comment)
-        }
+        fun comment(comment: JsonField<String>) = apply { body.comment(comment) }
 
         /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -324,9 +315,7 @@ private constructor(
         }
 
         /** Friendly name to identify the card. */
-        fun memo(memo: String) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /**
          * Sets [Builder.memo] to an arbitrary JSON value.
@@ -334,9 +323,7 @@ private constructor(
          * You should usually call [Builder.memo] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun memo(memo: JsonField<String>) = apply {
-            body.memo(memo)
-        }
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         /**
          * Globally unique identifier for the card's network program. Currently applicable to Visa
@@ -362,9 +349,7 @@ private constructor(
          * Changing PIN also resets PIN status to `OK`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: String) = apply {
-            body.pin(pin)
-        }
+        fun pin(pin: String) = apply { body.pin(pin) }
 
         /**
          * Sets [Builder.pin] to an arbitrary JSON value.
@@ -372,17 +357,13 @@ private constructor(
          * You should usually call [Builder.pin] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun pin(pin: JsonField<String>) = apply {
-            body.pin(pin)
-        }
+        fun pin(pin: JsonField<String>) = apply { body.pin(pin) }
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
          * attempts). Can only be set to `OK` to unblock a card.
          */
-        fun pinStatus(pinStatus: PinStatus) = apply {
-            body.pinStatus(pinStatus)
-        }
+        fun pinStatus(pinStatus: PinStatus) = apply { body.pinStatus(pinStatus) }
 
         /**
          * Sets [Builder.pinStatus] to an arbitrary JSON value.
@@ -391,9 +372,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun pinStatus(pinStatus: JsonField<PinStatus>) = apply {
-            body.pinStatus(pinStatus)
-        }
+        fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { body.pinStatus(pinStatus) }
 
         /**
          * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
@@ -402,9 +381,7 @@ private constructor(
          * limit of 1 or above will result in declined transactions due to checks against the card
          * limit.
          */
-        fun spendLimit(spendLimit: Long) = apply {
-            body.spendLimit(spendLimit)
-        }
+        fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
 
         /**
          * Sets [Builder.spendLimit] to an arbitrary JSON value.
@@ -412,13 +389,10 @@ private constructor(
          * You should usually call [Builder.spendLimit] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun spendLimit(spendLimit: JsonField<Long>) = apply {
-            body.spendLimit(spendLimit)
-        }
+        fun spendLimit(spendLimit: JsonField<Long>) = apply { body.spendLimit(spendLimit) }
 
         /**
          * Spend limit duration values:
-         *
          * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
@@ -450,9 +424,7 @@ private constructor(
          * * `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * * `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: State) = apply {
-            body.state(state)
-        }
+        fun state(state: State) = apply { body.state(state) }
 
         /**
          * Sets [Builder.state] to an arbitrary JSON value.
@@ -460,9 +432,7 @@ private constructor(
          * You should usually call [Builder.state] with a well-typed [State] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun state(state: JsonField<State>) = apply {
-            body.state(state)
-        }
+        fun state(state: JsonField<State>) = apply { body.state(state) }
 
         /**
          * Card state substatus values:
@@ -488,9 +458,7 @@ private constructor(
          * * `OTHER` - The reason for the status does not fall into any of the above categories. A
          *   comment should be provided to specify the reason.
          */
-        fun substatus(substatus: Substatus) = apply {
-            body.substatus(substatus)
-        }
+        fun substatus(substatus: Substatus) = apply { body.substatus(substatus) }
 
         /**
          * Sets [Builder.substatus] to an arbitrary JSON value.
@@ -499,19 +467,14 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun substatus(substatus: JsonField<Substatus>) = apply {
-            body.substatus(substatus)
-        }
+        fun substatus(substatus: JsonField<Substatus>) = apply { body.substatus(substatus) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(
-                key,
-                value,
-            )
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -519,9 +482,7 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            body.removeAdditionalProperty(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -569,9 +530,7 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply {
-            additionalHeaders.remove(name)
-        }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -621,9 +580,7 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.remove(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -780,7 +737,6 @@ private constructor(
 
         /**
          * Spend limit duration values:
-         *
          * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
@@ -978,9 +934,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun comment(comment: JsonField<String>) = apply {
-                this.comment = comment
-            }
+            fun comment(comment: JsonField<String>) = apply { this.comment = comment }
 
             /**
              * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -1012,9 +966,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun memo(memo: JsonField<String>) = apply {
-                this.memo = memo
-            }
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             /**
              * Globally unique identifier for the card's network program. Currently applicable to
@@ -1048,9 +1000,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun pin(pin: JsonField<String>) = apply {
-                this.pin = pin
-            }
+            fun pin(pin: JsonField<String>) = apply { this.pin = pin }
 
             /**
              * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
@@ -1065,9 +1015,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun pinStatus(pinStatus: JsonField<PinStatus>) = apply {
-                this.pinStatus = pinStatus
-            }
+            fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { this.pinStatus = pinStatus }
 
             /**
              * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000
@@ -1085,13 +1033,10 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun spendLimit(spendLimit: JsonField<Long>) = apply {
-                this.spendLimit = spendLimit
-            }
+            fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
             /**
              * Spend limit duration values:
-             *
              * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
              *   year.
              * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
@@ -1134,9 +1079,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun state(state: JsonField<State>) = apply {
-                this.state = state
-            }
+            fun state(state: JsonField<State>) = apply { this.state = state }
 
             /**
              * Card state substatus values:
@@ -1174,9 +1117,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun substatus(substatus: JsonField<Substatus>) = apply {
-                this.substatus = substatus
-            }
+            fun substatus(substatus: JsonField<Substatus>) = apply { this.substatus = substatus }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1191,9 +1132,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1349,11 +1288,9 @@ private constructor(
          * An enum containing [PinStatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [PinStatus] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1493,11 +1430,9 @@ private constructor(
          * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [State] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1682,11 +1617,9 @@ private constructor(
          * An enum containing [Substatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Substatus] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

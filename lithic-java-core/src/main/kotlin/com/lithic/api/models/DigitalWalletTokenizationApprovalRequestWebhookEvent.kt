@@ -495,9 +495,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Indicate when the request was received from Mastercard or Visa */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -509,9 +507,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Contains the metadata for the digital wallet being tokenized. */
         fun digitalWalletTokenMetadata(digitalWalletTokenMetadata: TokenMetadata) =
@@ -539,9 +535,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply {
-            this.eventType = eventType
-        }
+        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         /**
          * Whether Lithic decisioned on the token, and if so, what the decision was.
@@ -627,9 +621,7 @@ private constructor(
          */
         fun customerTokenizationDecision(
             customerTokenizationDecision: JsonField<CustomerTokenizationDecision>
-        ) = apply {
-            this.customerTokenizationDecision = customerTokenizationDecision
-        }
+        ) = apply { this.customerTokenizationDecision = customerTokenizationDecision }
 
         fun device(device: Device) = device(JsonField.of(device))
 
@@ -639,9 +631,7 @@ private constructor(
          * You should usually call [Builder.device] with a well-typed [Device] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun device(device: JsonField<Device>) = apply {
-            this.device = device
-        }
+        fun device(device: JsonField<Device>) = apply { this.device = device }
 
         /**
          * Results from rules that were evaluated for this tokenization. Only populated in webhook
@@ -766,9 +756,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -796,42 +784,15 @@ private constructor(
          */
         fun build(): DigitalWalletTokenizationApprovalRequestWebhookEvent =
             DigitalWalletTokenizationApprovalRequestWebhookEvent(
-                checkRequired(
-                    "accountToken",
-                    accountToken,
-                ),
-                checkRequired(
-                    "cardToken",
-                    cardToken,
-                ),
-                checkRequired(
-                    "created",
-                    created,
-                ),
-                checkRequired(
-                    "digitalWalletTokenMetadata",
-                    digitalWalletTokenMetadata,
-                ),
-                checkRequired(
-                    "eventType",
-                    eventType,
-                ),
-                checkRequired(
-                    "issuerDecision",
-                    issuerDecision,
-                ),
-                checkRequired(
-                    "tokenizationChannel",
-                    tokenizationChannel,
-                ),
-                checkRequired(
-                    "tokenizationToken",
-                    tokenizationToken,
-                ),
-                checkRequired(
-                    "walletDecisioningInfo",
-                    walletDecisioningInfo,
-                ),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardToken", cardToken),
+                checkRequired("created", created),
+                checkRequired("digitalWalletTokenMetadata", digitalWalletTokenMetadata),
+                checkRequired("eventType", eventType),
+                checkRequired("issuerDecision", issuerDecision),
+                checkRequired("tokenizationChannel", tokenizationChannel),
+                checkRequired("tokenizationToken", tokenizationToken),
+                checkRequired("walletDecisioningInfo", walletDecisioningInfo),
                 customerTokenizationDecision,
                 device,
                 (ruleResults ?: JsonMissing.of()).map { it.toImmutable() },
@@ -938,11 +899,9 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1083,11 +1042,9 @@ private constructor(
          * An enum containing [IssuerDecision]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [IssuerDecision] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1228,11 +1185,9 @@ private constructor(
          * An enum containing [TokenizationChannel]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [TokenizationChannel] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1357,13 +1312,7 @@ private constructor(
             @JsonProperty("response_code")
             @ExcludeMissing
             responseCode: JsonField<String> = JsonMissing.of(),
-        ) : this(
-            outcome,
-            responderUrl,
-            latency,
-            responseCode,
-            mutableMapOf(),
-        )
+        ) : this(outcome, responderUrl, latency, responseCode, mutableMapOf())
 
         /**
          * The outcome of the customer's decision
@@ -1487,9 +1436,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun outcome(outcome: JsonField<Outcome>) = apply {
-                this.outcome = outcome
-            }
+            fun outcome(outcome: JsonField<Outcome>) = apply { this.outcome = outcome }
 
             /** The customer's subscribed URL */
             fun responderUrl(responderUrl: String) = responderUrl(JsonField.of(responderUrl))
@@ -1515,9 +1462,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun latency(latency: JsonField<String>) = apply {
-                this.latency = latency
-            }
+            fun latency(latency: JsonField<String>) = apply { this.latency = latency }
 
             /** The response code that the customer provided */
             fun responseCode(responseCode: String) = responseCode(JsonField.of(responseCode))
@@ -1546,9 +1491,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1569,14 +1512,8 @@ private constructor(
              */
             fun build(): CustomerTokenizationDecision =
                 CustomerTokenizationDecision(
-                    checkRequired(
-                        "outcome",
-                        outcome,
-                    ),
-                    checkRequired(
-                        "responderUrl",
-                        responderUrl,
-                    ),
+                    checkRequired("outcome", outcome),
+                    checkRequired("responderUrl", responderUrl),
                     latency,
                     responseCode,
                     additionalProperties.toMutableMap(),
@@ -1673,11 +1610,9 @@ private constructor(
              * An enum containing [Outcome]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Outcome] can contain an unknown value in a couple of cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1864,11 +1799,9 @@ private constructor(
          * An enum containing [TokenizationSource]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [TokenizationSource] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

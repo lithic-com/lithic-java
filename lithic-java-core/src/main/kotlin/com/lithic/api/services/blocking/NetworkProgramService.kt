@@ -28,10 +28,7 @@ interface NetworkProgramService {
 
     /** Get network program. */
     fun retrieve(networkProgramToken: String): NetworkProgram =
-        retrieve(
-            networkProgramToken,
-            NetworkProgramRetrieveParams.none(),
-        )
+        retrieve(networkProgramToken, NetworkProgramRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -48,12 +45,7 @@ interface NetworkProgramService {
     fun retrieve(
         networkProgramToken: String,
         params: NetworkProgramRetrieveParams = NetworkProgramRetrieveParams.none(),
-    ): NetworkProgram =
-        retrieve(
-            networkProgramToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): NetworkProgram = retrieve(networkProgramToken, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
@@ -63,18 +55,11 @@ interface NetworkProgramService {
 
     /** @see retrieve */
     fun retrieve(params: NetworkProgramRetrieveParams): NetworkProgram =
-        retrieve(
-            params,
-            RequestOptions.none(),
-        )
+        retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(networkProgramToken: String, requestOptions: RequestOptions): NetworkProgram =
-        retrieve(
-            networkProgramToken,
-            NetworkProgramRetrieveParams.none(),
-            requestOptions,
-        )
+        retrieve(networkProgramToken, NetworkProgramRetrieveParams.none(), requestOptions)
 
     /** List network programs. */
     fun list(): NetworkProgramListPage = list(NetworkProgramListParams.none())
@@ -88,18 +73,11 @@ interface NetworkProgramService {
     /** @see list */
     fun list(
         params: NetworkProgramListParams = NetworkProgramListParams.none()
-    ): NetworkProgramListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): NetworkProgramListPage = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): NetworkProgramListPage =
-        list(
-            NetworkProgramListParams.none(),
-            requestOptions,
-        )
+        list(NetworkProgramListParams.none(), requestOptions)
 
     /**
      * A view of [NetworkProgramService] that provides access to raw HTTP responses for each method.
@@ -121,10 +99,7 @@ interface NetworkProgramService {
          */
         @MustBeClosed
         fun retrieve(networkProgramToken: String): HttpResponseFor<NetworkProgram> =
-            retrieve(
-                networkProgramToken,
-                NetworkProgramRetrieveParams.none(),
-            )
+            retrieve(networkProgramToken, NetworkProgramRetrieveParams.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -144,11 +119,7 @@ interface NetworkProgramService {
             networkProgramToken: String,
             params: NetworkProgramRetrieveParams = NetworkProgramRetrieveParams.none(),
         ): HttpResponseFor<NetworkProgram> =
-            retrieve(
-                networkProgramToken,
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(networkProgramToken, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -160,10 +131,7 @@ interface NetworkProgramService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: NetworkProgramRetrieveParams): HttpResponseFor<NetworkProgram> =
-            retrieve(
-                params,
-                RequestOptions.none(),
-            )
+            retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -171,11 +139,7 @@ interface NetworkProgramService {
             networkProgramToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<NetworkProgram> =
-            retrieve(
-                networkProgramToken,
-                NetworkProgramRetrieveParams.none(),
-                requestOptions,
-            )
+            retrieve(networkProgramToken, NetworkProgramRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /v1/network_programs`, but is otherwise the same as
@@ -195,18 +159,11 @@ interface NetworkProgramService {
         @MustBeClosed
         fun list(
             params: NetworkProgramListParams = NetworkProgramListParams.none()
-        ): HttpResponseFor<NetworkProgramListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<NetworkProgramListPage> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<NetworkProgramListPage> =
-            list(
-                NetworkProgramListParams.none(),
-                requestOptions,
-            )
+            list(NetworkProgramListParams.none(), requestOptions)
     }
 }

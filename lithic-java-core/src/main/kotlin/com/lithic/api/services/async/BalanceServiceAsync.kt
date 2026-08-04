@@ -36,18 +36,11 @@ interface BalanceServiceAsync {
     /** @see list */
     fun list(
         params: BalanceListParams = BalanceListParams.none()
-    ): CompletableFuture<BalanceListPageAsync> =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<BalanceListPageAsync> = list(params, RequestOptions.none())
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<BalanceListPageAsync> =
-        list(
-            BalanceListParams.none(),
-            requestOptions,
-        )
+        list(BalanceListParams.none(), requestOptions)
 
     /**
      * A view of [BalanceServiceAsync] that provides access to raw HTTP responses for each method.
@@ -80,18 +73,12 @@ interface BalanceServiceAsync {
         fun list(
             params: BalanceListParams = BalanceListParams.none()
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+            list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<BalanceListPageAsync>> =
-            list(
-                BalanceListParams.none(),
-                requestOptions,
-            )
+            list(BalanceListParams.none(), requestOptions)
     }
 }

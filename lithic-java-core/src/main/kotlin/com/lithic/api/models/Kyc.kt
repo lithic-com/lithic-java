@@ -44,14 +44,7 @@ private constructor(
         @JsonProperty("kyc_passed_timestamp")
         @ExcludeMissing
         kycPassedTimestamp: JsonField<String> = JsonMissing.of(),
-    ) : this(
-        individual,
-        tosTimestamp,
-        workflow,
-        externalId,
-        kycPassedTimestamp,
-        mutableMapOf(),
-    )
+    ) : this(individual, tosTimestamp, workflow, externalId, kycPassedTimestamp, mutableMapOf())
 
     /**
      * Information on individual for whom the account is being opened and KYC is being run.
@@ -198,9 +191,7 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun individual(individual: JsonField<Individual>) = apply {
-            this.individual = individual
-        }
+        fun individual(individual: JsonField<Individual>) = apply { this.individual = individual }
 
         /**
          * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
@@ -230,9 +221,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun workflow(workflow: JsonField<Workflow>) = apply {
-            this.workflow = workflow
-        }
+        fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
         /** A user provided id that can be used to link an account holder with an external system */
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
@@ -244,9 +233,7 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun externalId(externalId: JsonField<String>) = apply {
-            this.externalId = externalId
-        }
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
          * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
@@ -281,9 +268,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -305,18 +290,9 @@ private constructor(
          */
         fun build(): Kyc =
             Kyc(
-                checkRequired(
-                    "individual",
-                    individual,
-                ),
-                checkRequired(
-                    "tosTimestamp",
-                    tosTimestamp,
-                ),
-                checkRequired(
-                    "workflow",
-                    workflow,
-                ),
+                checkRequired("individual", individual),
+                checkRequired("tosTimestamp", tosTimestamp),
+                checkRequired("workflow", workflow),
                 externalId,
                 kycPassedTimestamp,
                 additionalProperties.toMutableMap(),
@@ -592,9 +568,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun address(address: JsonField<Address>) = apply {
-                this.address = address
-            }
+            fun address(address: JsonField<Address>) = apply { this.address = address }
 
             /** Individual's date of birth, as an RFC 3339 date. */
             fun dob(dob: String) = dob(JsonField.of(dob))
@@ -606,9 +580,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun dob(dob: JsonField<String>) = apply {
-                this.dob = dob
-            }
+            fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
             /**
              * Individual's email address. If utilizing Lithic for chargeback processing, this
@@ -623,9 +595,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun email(email: JsonField<String>) = apply {
-                this.email = email
-            }
+            fun email(email: JsonField<String>) = apply { this.email = email }
 
             /** Individual's first name, as it appears on government-issued identity documents. */
             fun firstName(firstName: String) = firstName(JsonField.of(firstName))
@@ -637,9 +607,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun firstName(firstName: JsonField<String>) = apply {
-                this.firstName = firstName
-            }
+            fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
             /**
              * Government-issued identification number (required for identity verification and
@@ -670,9 +638,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun lastName(lastName: JsonField<String>) = apply {
-                this.lastName = lastName
-            }
+            fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
             /** Individual's phone number, entered in E.164 format. */
             fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -701,9 +667,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -729,34 +693,13 @@ private constructor(
              */
             fun build(): Individual =
                 Individual(
-                    checkRequired(
-                        "address",
-                        address,
-                    ),
-                    checkRequired(
-                        "dob",
-                        dob,
-                    ),
-                    checkRequired(
-                        "email",
-                        email,
-                    ),
-                    checkRequired(
-                        "firstName",
-                        firstName,
-                    ),
-                    checkRequired(
-                        "governmentId",
-                        governmentId,
-                    ),
-                    checkRequired(
-                        "lastName",
-                        lastName,
-                    ),
-                    checkRequired(
-                        "phoneNumber",
-                        phoneNumber,
-                    ),
+                    checkRequired("address", address),
+                    checkRequired("dob", dob),
+                    checkRequired("email", email),
+                    checkRequired("firstName", firstName),
+                    checkRequired("governmentId", governmentId),
+                    checkRequired("lastName", lastName),
+                    checkRequired("phoneNumber", phoneNumber),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -878,11 +821,9 @@ private constructor(
          * An enum containing [Workflow]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Workflow] can contain an unknown value in a couple of cases:
-         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
-         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

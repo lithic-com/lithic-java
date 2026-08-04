@@ -36,11 +36,7 @@ private constructor(
         @ExcludeMissing
         data: JsonField<List<StatementLineItemResponse>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
-    ) : this(
-        data,
-        hasMore,
-        mutableMapOf(),
-    )
+    ) : this(data, hasMore, mutableMapOf())
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -143,9 +139,7 @@ private constructor(
          * You should usually call [Builder.hasMore] with a well-typed [Boolean] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun hasMore(hasMore: JsonField<Boolean>) = apply {
-            this.hasMore = hasMore
-        }
+        fun hasMore(hasMore: JsonField<Boolean>) = apply { this.hasMore = hasMore }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -160,9 +154,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply {
-            additionalProperties.remove(key)
-        }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -183,15 +175,8 @@ private constructor(
          */
         fun build(): StatementLineItems =
             StatementLineItems(
-                checkRequired(
-                        "data",
-                        data,
-                    )
-                    .map { it.toImmutable() },
-                checkRequired(
-                    "hasMore",
-                    hasMore,
-                ),
+                checkRequired("data", data).map { it.toImmutable() },
+                checkRequired("hasMore", hasMore),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -630,9 +615,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Transaction amount in cents */
             fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -644,9 +627,7 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /**
              * Note: Inbound wire transfers are coming soon (availability varies by partner bank).
@@ -675,9 +656,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun created(created: JsonField<OffsetDateTime>) = apply {
-                this.created = created
-            }
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /** 3-character alphabetic ISO 4217 code for the settling currency of the transaction */
             fun currency(currency: String) = currency(JsonField.of(currency))
@@ -689,9 +668,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun currency(currency: JsonField<String>) = apply {
-                this.currency = currency
-            }
+            fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
             /** Date that the transaction effected the account balance */
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
@@ -779,9 +756,7 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun cardToken(cardToken: JsonField<String>) = apply {
-                this.cardToken = cardToken
-            }
+            fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
             fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
@@ -792,9 +767,7 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun descriptor(descriptor: JsonField<String>) = apply {
-                this.descriptor = descriptor
-            }
+            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /** Subtype of the event that generated the line items */
             fun eventSubtype(eventSubtype: String?) =
@@ -847,9 +820,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply {
-                additionalProperties.remove(key)
-            }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -878,46 +849,16 @@ private constructor(
              */
             fun build(): StatementLineItemResponse =
                 StatementLineItemResponse(
-                    checkRequired(
-                        "token",
-                        token,
-                    ),
-                    checkRequired(
-                        "amount",
-                        amount,
-                    ),
-                    checkRequired(
-                        "category",
-                        category,
-                    ),
-                    checkRequired(
-                        "created",
-                        created,
-                    ),
-                    checkRequired(
-                        "currency",
-                        currency,
-                    ),
-                    checkRequired(
-                        "effectiveDate",
-                        effectiveDate,
-                    ),
-                    checkRequired(
-                        "eventType",
-                        eventType,
-                    ),
-                    checkRequired(
-                        "financialAccountToken",
-                        financialAccountToken,
-                    ),
-                    checkRequired(
-                        "financialTransactionEventToken",
-                        financialTransactionEventToken,
-                    ),
-                    checkRequired(
-                        "financialTransactionToken",
-                        financialTransactionToken,
-                    ),
+                    checkRequired("token", token),
+                    checkRequired("amount", amount),
+                    checkRequired("category", category),
+                    checkRequired("created", created),
+                    checkRequired("currency", currency),
+                    checkRequired("effectiveDate", effectiveDate),
+                    checkRequired("eventType", eventType),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("financialTransactionEventToken", financialTransactionEventToken),
+                    checkRequired("financialTransactionToken", financialTransactionToken),
                     cardToken,
                     descriptor,
                     eventSubtype,
@@ -1095,11 +1036,9 @@ private constructor(
              *
              * An instance of [TransactionCategory] can contain an unknown value in a couple of
              * cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1580,11 +1519,9 @@ private constructor(
              *
              * An instance of [FinancialEventType] can contain an unknown value in a couple of
              * cases:
-             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
-             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {

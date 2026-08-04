@@ -47,10 +47,7 @@ private constructor(
         service.list(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<AccountHolder> =
-        AutoPagerAsync.from(
-            this,
-            streamHandlerExecutor,
-        )
+        AutoPagerAsync.from(this, streamHandlerExecutor)
 
     /** The parameters that were used to request this page. */
     fun params(): AccountHolderListParams = params
@@ -92,23 +89,17 @@ private constructor(
             response = accountHolderListPageAsync.response
         }
 
-        fun service(service: AccountHolderServiceAsync) = apply {
-            this.service = service
-        }
+        fun service(service: AccountHolderServiceAsync) = apply { this.service = service }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: AccountHolderListParams) = apply {
-            this.params = params
-        }
+        fun params(params: AccountHolderListParams) = apply { this.params = params }
 
         /** The response that this page was parsed from. */
-        fun response(response: AccountHolderListPageResponse) = apply {
-            this.response = response
-        }
+        fun response(response: AccountHolderListPageResponse) = apply { this.response = response }
 
         /**
          * Returns an immutable instance of [AccountHolderListPageAsync].
@@ -127,22 +118,10 @@ private constructor(
          */
         fun build(): AccountHolderListPageAsync =
             AccountHolderListPageAsync(
-                checkRequired(
-                    "service",
-                    service,
-                ),
-                checkRequired(
-                    "streamHandlerExecutor",
-                    streamHandlerExecutor,
-                ),
-                checkRequired(
-                    "params",
-                    params,
-                ),
-                checkRequired(
-                    "response",
-                    response,
-                ),
+                checkRequired("service", service),
+                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
+                checkRequired("params", params),
+                checkRequired("response", response),
             )
     }
 

@@ -26,10 +26,7 @@ interface BalanceService {
 
     /** Get the balances for a given financial account. */
     fun list(financialAccountToken: String): FinancialAccountBalanceListPage =
-        list(
-            financialAccountToken,
-            FinancialAccountBalanceListParams.none(),
-        )
+        list(financialAccountToken, FinancialAccountBalanceListParams.none())
 
     /** @see list */
     fun list(
@@ -46,12 +43,7 @@ interface BalanceService {
     fun list(
         financialAccountToken: String,
         params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
-    ): FinancialAccountBalanceListPage =
-        list(
-            financialAccountToken,
-            params,
-            RequestOptions.none(),
-        )
+    ): FinancialAccountBalanceListPage = list(financialAccountToken, params, RequestOptions.none())
 
     /** @see list */
     fun list(
@@ -61,21 +53,14 @@ interface BalanceService {
 
     /** @see list */
     fun list(params: FinancialAccountBalanceListParams): FinancialAccountBalanceListPage =
-        list(
-            params,
-            RequestOptions.none(),
-        )
+        list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
     ): FinancialAccountBalanceListPage =
-        list(
-            financialAccountToken,
-            FinancialAccountBalanceListParams.none(),
-            requestOptions,
-        )
+        list(financialAccountToken, FinancialAccountBalanceListParams.none(), requestOptions)
 
     /** A view of [BalanceService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -94,10 +79,7 @@ interface BalanceService {
          */
         @MustBeClosed
         fun list(financialAccountToken: String): HttpResponseFor<FinancialAccountBalanceListPage> =
-            list(
-                financialAccountToken,
-                FinancialAccountBalanceListParams.none(),
-            )
+            list(financialAccountToken, FinancialAccountBalanceListParams.none())
 
         /** @see list */
         @MustBeClosed
@@ -117,11 +99,7 @@ interface BalanceService {
             financialAccountToken: String,
             params: FinancialAccountBalanceListParams = FinancialAccountBalanceListParams.none(),
         ): HttpResponseFor<FinancialAccountBalanceListPage> =
-            list(
-                financialAccountToken,
-                params,
-                RequestOptions.none(),
-            )
+            list(financialAccountToken, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -134,11 +112,7 @@ interface BalanceService {
         @MustBeClosed
         fun list(
             params: FinancialAccountBalanceListParams
-        ): HttpResponseFor<FinancialAccountBalanceListPage> =
-            list(
-                params,
-                RequestOptions.none(),
-            )
+        ): HttpResponseFor<FinancialAccountBalanceListPage> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
@@ -146,10 +120,6 @@ interface BalanceService {
             financialAccountToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<FinancialAccountBalanceListPage> =
-            list(
-                financialAccountToken,
-                FinancialAccountBalanceListParams.none(),
-                requestOptions,
-            )
+            list(financialAccountToken, FinancialAccountBalanceListParams.none(), requestOptions)
     }
 }

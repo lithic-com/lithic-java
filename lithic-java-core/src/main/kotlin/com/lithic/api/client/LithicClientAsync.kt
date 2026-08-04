@@ -166,18 +166,11 @@ interface LithicClientAsync {
     /** @see apiStatus */
     fun apiStatus(
         params: ClientApiStatusParams = ClientApiStatusParams.none()
-    ): CompletableFuture<ApiStatus> =
-        apiStatus(
-            params,
-            RequestOptions.none(),
-        )
+    ): CompletableFuture<ApiStatus> = apiStatus(params, RequestOptions.none())
 
     /** @see apiStatus */
     fun apiStatus(requestOptions: RequestOptions): CompletableFuture<ApiStatus> =
-        apiStatus(
-            ClientApiStatusParams.none(),
-            requestOptions,
-        )
+        apiStatus(ClientApiStatusParams.none(), requestOptions)
 
     /**
      * Closes this client, relinquishing any underlying resources.
@@ -292,19 +285,12 @@ interface LithicClientAsync {
         /** @see apiStatus */
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none()
-        ): CompletableFuture<HttpResponseFor<ApiStatus>> =
-            apiStatus(
-                params,
-                RequestOptions.none(),
-            )
+        ): CompletableFuture<HttpResponseFor<ApiStatus>> = apiStatus(params, RequestOptions.none())
 
         /** @see apiStatus */
         fun apiStatus(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ApiStatus>> =
-            apiStatus(
-                ClientApiStatusParams.none(),
-                requestOptions,
-            )
+            apiStatus(ClientApiStatusParams.none(), requestOptions)
     }
 }
