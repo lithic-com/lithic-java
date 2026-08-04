@@ -53,7 +53,9 @@ private constructor(
             additionalQueryParams = reportSettlementSummaryParams.additionalQueryParams.toBuilder()
         }
 
-        fun reportDate(reportDate: LocalDate?) = apply { this.reportDate = reportDate }
+        fun reportDate(reportDate: LocalDate?) = apply {
+            this.reportDate = reportDate
+        }
 
         /** Alias for calling [Builder.reportDate] with `reportDate.orElse(null)`. */
         fun reportDate(reportDate: Optional<LocalDate>) = reportDate(reportDate.getOrNull())
@@ -100,7 +102,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -150,7 +154,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

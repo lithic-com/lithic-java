@@ -114,9 +114,13 @@ private constructor(
                 transactionMonitoringCaseCommentUpdateParams.additionalQueryParams.toBuilder()
         }
 
-        fun caseToken(caseToken: String) = apply { this.caseToken = caseToken }
+        fun caseToken(caseToken: String) = apply {
+            this.caseToken = caseToken
+        }
 
-        fun commentToken(commentToken: String?) = apply { this.commentToken = commentToken }
+        fun commentToken(commentToken: String?) = apply {
+            this.commentToken = commentToken
+        }
 
         /** Alias for calling [Builder.commentToken] with `commentToken.orElse(null)`. */
         fun commentToken(commentToken: Optional<String>) = commentToken(commentToken.getOrNull())
@@ -129,10 +133,14 @@ private constructor(
          * - [comment]
          * - [actorToken]
          */
-        fun body(body: EditCommentRequest) = apply { this.body = body.toBuilder() }
+        fun body(body: EditCommentRequest) = apply {
+            this.body = body.toBuilder()
+        }
 
         /** New text of the comment */
-        fun comment(comment: String) = apply { body.comment(comment) }
+        fun comment(comment: String) = apply {
+            body.comment(comment)
+        }
 
         /**
          * Sets [Builder.comment] to an arbitrary JSON value.
@@ -140,14 +148,18 @@ private constructor(
          * You should usually call [Builder.comment] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun comment(comment: JsonField<String>) = apply { body.comment(comment) }
+        fun comment(comment: JsonField<String>) = apply {
+            body.comment(comment)
+        }
 
         /**
          * Optional client-provided identifier for the actor performing this action, recorded on the
          * resulting activity entry. This value is supplied by the client (for example, your own
          * internal user ID) and is not authenticated by Lithic
          */
-        fun actorToken(actorToken: String) = apply { body.actorToken(actorToken) }
+        fun actorToken(actorToken: String) = apply {
+            body.actorToken(actorToken)
+        }
 
         /**
          * Sets [Builder.actorToken] to an arbitrary JSON value.
@@ -156,14 +168,19 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun actorToken(actorToken: JsonField<String>) = apply { body.actorToken(actorToken) }
+        fun actorToken(actorToken: JsonField<String>) = apply {
+            body.actorToken(actorToken)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -171,7 +188,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -219,7 +238,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -269,7 +290,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -290,7 +313,10 @@ private constructor(
          */
         fun build(): TransactionMonitoringCaseCommentUpdateParams =
             TransactionMonitoringCaseCommentUpdateParams(
-                checkRequired("caseToken", caseToken),
+                checkRequired(
+                    "caseToken",
+                    caseToken,
+                ),
                 commentToken,
                 body.build(),
                 additionalHeaders.build(),
@@ -326,7 +352,11 @@ private constructor(
             @JsonProperty("actor_token")
             @ExcludeMissing
             actorToken: JsonField<String> = JsonMissing.of(),
-        ) : this(comment, actorToken, mutableMapOf())
+        ) : this(
+            comment,
+            actorToken,
+            mutableMapOf(),
+        )
 
         /**
          * New text of the comment
@@ -411,7 +441,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun comment(comment: JsonField<String>) = apply { this.comment = comment }
+            fun comment(comment: JsonField<String>) = apply {
+                this.comment = comment
+            }
 
             /**
              * Optional client-provided identifier for the actor performing this action, recorded on
@@ -427,7 +459,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun actorToken(actorToken: JsonField<String>) = apply { this.actorToken = actorToken }
+            fun actorToken(actorToken: JsonField<String>) = apply {
+                this.actorToken = actorToken
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -442,7 +476,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -462,7 +498,10 @@ private constructor(
              */
             fun build(): EditCommentRequest =
                 EditCommentRequest(
-                    checkRequired("comment", comment),
+                    checkRequired(
+                        "comment",
+                        comment,
+                    ),
                     actorToken,
                     additionalProperties.toMutableMap(),
                 )

@@ -76,13 +76,17 @@ private constructor(
         }
 
         /** List balances for all financial accounts of a given account_token. */
-        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+        fun accountToken(accountToken: String?) = apply {
+            this.accountToken = accountToken
+        }
 
         /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
-        fun balanceDate(balanceDate: OffsetDateTime?) = apply { this.balanceDate = balanceDate }
+        fun balanceDate(balanceDate: OffsetDateTime?) = apply {
+            this.balanceDate = balanceDate
+        }
 
         /** Alias for calling [Builder.balanceDate] with `balanceDate.orElse(null)`. */
         fun balanceDate(balanceDate: Optional<OffsetDateTime>) =
@@ -154,7 +158,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -204,7 +210,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -282,9 +290,11 @@ private constructor(
          * member.
          *
          * An instance of [FinancialAccountType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

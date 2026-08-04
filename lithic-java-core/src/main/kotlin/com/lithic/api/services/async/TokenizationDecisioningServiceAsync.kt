@@ -47,11 +47,18 @@ interface TokenizationDecisioningServiceAsync {
     fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams =
             TokenizationDecisioningRetrieveSecretParams.none()
-    ): CompletableFuture<TokenizationSecret> = retrieveSecret(params, RequestOptions.none())
+    ): CompletableFuture<TokenizationSecret> =
+        retrieveSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): CompletableFuture<TokenizationSecret> =
-        retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none(), requestOptions)
+        retrieveSecret(
+            TokenizationDecisioningRetrieveSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * Generate a new Tokenization Decisioning secret key. The old Tokenization Decisioning secret
@@ -72,13 +79,19 @@ interface TokenizationDecisioningServiceAsync {
         params: TokenizationDecisioningRotateSecretParams =
             TokenizationDecisioningRotateSecretParams.none()
     ): CompletableFuture<TokenizationDecisioningRotateSecretResponse> =
-        rotateSecret(params, RequestOptions.none())
+        rotateSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see rotateSecret */
     fun rotateSecret(
         requestOptions: RequestOptions
     ): CompletableFuture<TokenizationDecisioningRotateSecretResponse> =
-        rotateSecret(TokenizationDecisioningRotateSecretParams.none(), requestOptions)
+        rotateSecret(
+            TokenizationDecisioningRotateSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [TokenizationDecisioningServiceAsync] that provides access to raw HTTP responses
@@ -114,13 +127,19 @@ interface TokenizationDecisioningServiceAsync {
             params: TokenizationDecisioningRetrieveSecretParams =
                 TokenizationDecisioningRetrieveSecretParams.none()
         ): CompletableFuture<HttpResponseFor<TokenizationSecret>> =
-            retrieveSecret(params, RequestOptions.none())
+            retrieveSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveSecret */
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TokenizationSecret>> =
-            retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none(), requestOptions)
+            retrieveSecret(
+                TokenizationDecisioningRetrieveSecretParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenization_decisioning/secret/rotate`, but is
@@ -142,12 +161,18 @@ interface TokenizationDecisioningServiceAsync {
             params: TokenizationDecisioningRotateSecretParams =
                 TokenizationDecisioningRotateSecretParams.none()
         ): CompletableFuture<HttpResponseFor<TokenizationDecisioningRotateSecretResponse>> =
-            rotateSecret(params, RequestOptions.none())
+            rotateSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see rotateSecret */
         fun rotateSecret(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TokenizationDecisioningRotateSecretResponse>> =
-            rotateSecret(TokenizationDecisioningRotateSecretParams.none(), requestOptions)
+            rotateSecret(
+                TokenizationDecisioningRotateSecretParams.none(),
+                requestOptions,
+            )
     }
 }

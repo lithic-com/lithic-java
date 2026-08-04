@@ -32,7 +32,10 @@ private constructor(
     private val idempotencyHeader: String?,
 ) : HttpClient {
 
-    override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
+    override fun execute(
+        request: HttpRequest,
+        requestOptions: RequestOptions,
+    ): HttpResponse {
         var modifiedRequest = maybeAddIdempotencyHeader(request)
 
         // Don't send the current retry count in the headers if the caller set their own value.

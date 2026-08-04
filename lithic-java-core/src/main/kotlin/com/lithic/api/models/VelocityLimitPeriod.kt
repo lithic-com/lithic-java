@@ -409,7 +409,11 @@ private constructor(
         private constructor(
             @JsonProperty("duration") @ExcludeMissing duration: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-        ) : this(duration, type, mutableMapOf())
+        ) : this(
+            duration,
+            type,
+            mutableMapOf(),
+        )
 
         /**
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
@@ -493,7 +497,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun duration(duration: JsonField<Long>) = apply { this.duration = duration }
+            fun duration(duration: JsonField<Long>) = apply {
+                this.duration = duration
+            }
 
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -504,7 +510,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply {
+                this.type = type
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -519,7 +527,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -540,8 +550,14 @@ private constructor(
              */
             fun build(): TrailingWindowObject =
                 TrailingWindowObject(
-                    checkRequired("duration", duration),
-                    checkRequired("type", type),
+                    checkRequired(
+                        "duration",
+                        duration,
+                    ),
+                    checkRequired(
+                        "type",
+                        type,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -614,9 +630,11 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -747,7 +765,10 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of()
-        ) : this(type, mutableMapOf())
+        ) : this(
+            type,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -808,7 +829,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply {
+                this.type = type
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -823,7 +846,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -842,7 +867,13 @@ private constructor(
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): FixedWindowDay =
-                FixedWindowDay(checkRequired("type", type), additionalProperties.toMutableMap())
+                FixedWindowDay(
+                    checkRequired(
+                        "type",
+                        type,
+                    ),
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -909,9 +940,11 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1047,7 +1080,11 @@ private constructor(
             @JsonProperty("day_of_week")
             @ExcludeMissing
             dayOfWeek: JsonField<Long> = JsonMissing.of(),
-        ) : this(type, dayOfWeek, mutableMapOf())
+        ) : this(
+            type,
+            dayOfWeek,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1126,7 +1163,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply {
+                this.type = type
+            }
 
             /**
              * The day of the week to start the week from. Following ISO-8601, 1 is Monday and 7 is
@@ -1141,7 +1180,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun dayOfWeek(dayOfWeek: JsonField<Long>) = apply { this.dayOfWeek = dayOfWeek }
+            fun dayOfWeek(dayOfWeek: JsonField<Long>) = apply {
+                this.dayOfWeek = dayOfWeek
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1156,7 +1197,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1176,7 +1219,10 @@ private constructor(
              */
             fun build(): FixedWindowWeek =
                 FixedWindowWeek(
-                    checkRequired("type", type),
+                    checkRequired(
+                        "type",
+                        type,
+                    ),
                     dayOfWeek,
                     additionalProperties.toMutableMap(),
                 )
@@ -1250,9 +1296,11 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1390,7 +1438,11 @@ private constructor(
             @JsonProperty("day_of_month")
             @ExcludeMissing
             dayOfMonth: JsonField<Long> = JsonMissing.of(),
-        ) : this(type, dayOfMonth, mutableMapOf())
+        ) : this(
+            type,
+            dayOfMonth,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1472,7 +1524,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply {
+                this.type = type
+            }
 
             /**
              * The day of the month to start from. Accepts values from 1 to 31, and will reset at
@@ -1488,7 +1542,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun dayOfMonth(dayOfMonth: JsonField<Long>) = apply { this.dayOfMonth = dayOfMonth }
+            fun dayOfMonth(dayOfMonth: JsonField<Long>) = apply {
+                this.dayOfMonth = dayOfMonth
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1503,7 +1559,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1523,7 +1581,10 @@ private constructor(
              */
             fun build(): FixedWindowMonth =
                 FixedWindowMonth(
-                    checkRequired("type", type),
+                    checkRequired(
+                        "type",
+                        type,
+                    ),
                     dayOfMonth,
                     additionalProperties.toMutableMap(),
                 )
@@ -1597,9 +1658,11 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -1741,7 +1804,12 @@ private constructor(
             @ExcludeMissing
             dayOfMonth: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("month") @ExcludeMissing month: JsonField<Long> = JsonMissing.of(),
-        ) : this(type, dayOfMonth, month, mutableMapOf())
+        ) : this(
+            type,
+            dayOfMonth,
+            month,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1839,7 +1907,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply {
+                this.type = type
+            }
 
             /**
              * The day of the month to start from. Defaults to the 1st of the month if not
@@ -1854,7 +1924,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun dayOfMonth(dayOfMonth: JsonField<Long>) = apply { this.dayOfMonth = dayOfMonth }
+            fun dayOfMonth(dayOfMonth: JsonField<Long>) = apply {
+                this.dayOfMonth = dayOfMonth
+            }
 
             /**
              * The month to start from. 1 is January and 12 is December. Defaults to January if not
@@ -1869,7 +1941,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun month(month: JsonField<Long>) = apply { this.month = month }
+            fun month(month: JsonField<Long>) = apply {
+                this.month = month
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1884,7 +1958,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1904,7 +1980,10 @@ private constructor(
              */
             fun build(): FixedWindowYear =
                 FixedWindowYear(
-                    checkRequired("type", type),
+                    checkRequired(
+                        "type",
+                        type,
+                    ),
                     dayOfMonth,
                     month,
                     additionalProperties.toMutableMap(),
@@ -1981,9 +2060,11 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {

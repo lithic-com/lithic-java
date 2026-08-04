@@ -54,7 +54,10 @@ interface AccountHolderService {
      * program that the calling API key manages.
      */
     fun create(params: AccountHolderCreateParams): AccountHolderCreateResponse =
-        create(params, RequestOptions.none())
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -67,58 +70,94 @@ interface AccountHolderService {
         body: AccountHolderCreateParams.Body,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderCreateResponse =
-        create(AccountHolderCreateParams.builder().body(body).build(), requestOptions)
+        create(
+            AccountHolderCreateParams.builder().body(body).build(),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(body: AccountHolderCreateParams.Body): AccountHolderCreateResponse =
-        create(body, RequestOptions.none())
+        create(
+            body,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
         kyb: Kyb,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderCreateResponse =
-        create(AccountHolderCreateParams.Body.ofKyb(kyb), requestOptions)
+        create(
+            AccountHolderCreateParams.Body.ofKyb(kyb),
+            requestOptions,
+        )
 
     /** @see create */
-    fun create(kyb: Kyb): AccountHolderCreateResponse = create(kyb, RequestOptions.none())
+    fun create(kyb: Kyb): AccountHolderCreateResponse =
+        create(
+            kyb,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
         kybDelegated: AccountHolderCreateParams.Body.KybDelegated,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderCreateResponse =
-        create(AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated), requestOptions)
+        create(
+            AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(
         kybDelegated: AccountHolderCreateParams.Body.KybDelegated
-    ): AccountHolderCreateResponse = create(kybDelegated, RequestOptions.none())
+    ): AccountHolderCreateResponse =
+        create(
+            kybDelegated,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
         kyc: Kyc,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderCreateResponse =
-        create(AccountHolderCreateParams.Body.ofKyc(kyc), requestOptions)
+        create(
+            AccountHolderCreateParams.Body.ofKyc(kyc),
+            requestOptions,
+        )
 
     /** @see create */
-    fun create(kyc: Kyc): AccountHolderCreateResponse = create(kyc, RequestOptions.none())
+    fun create(kyc: Kyc): AccountHolderCreateResponse =
+        create(
+            kyc,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
         kycExempt: KycExempt,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderCreateResponse =
-        create(AccountHolderCreateParams.Body.ofKycExempt(kycExempt), requestOptions)
+        create(
+            AccountHolderCreateParams.Body.ofKycExempt(kycExempt),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(kycExempt: KycExempt): AccountHolderCreateResponse =
-        create(kycExempt, RequestOptions.none())
+        create(
+            kycExempt,
+            RequestOptions.none(),
+        )
 
     /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     fun retrieve(accountHolderToken: String): AccountHolder =
-        retrieve(accountHolderToken, AccountHolderRetrieveParams.none())
+        retrieve(
+            accountHolderToken,
+            AccountHolderRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -126,13 +165,21 @@ interface AccountHolderService {
         params: AccountHolderRetrieveParams = AccountHolderRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolder =
-        retrieve(params.toBuilder().accountHolderToken(accountHolderToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().accountHolderToken(accountHolderToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         accountHolderToken: String,
         params: AccountHolderRetrieveParams = AccountHolderRetrieveParams.none(),
-    ): AccountHolder = retrieve(accountHolderToken, params, RequestOptions.none())
+    ): AccountHolder =
+        retrieve(
+            accountHolderToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -142,11 +189,18 @@ interface AccountHolderService {
 
     /** @see retrieve */
     fun retrieve(params: AccountHolderRetrieveParams): AccountHolder =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(accountHolderToken: String, requestOptions: RequestOptions): AccountHolder =
-        retrieve(accountHolderToken, AccountHolderRetrieveParams.none(), requestOptions)
+        retrieve(
+            accountHolderToken,
+            AccountHolderRetrieveParams.none(),
+            requestOptions,
+        )
 
     /**
      * Update the information associated with a particular account holder (including business owners
@@ -162,7 +216,12 @@ interface AccountHolderService {
     fun update(
         accountHolderToken: String,
         params: AccountHolderUpdateParams,
-    ): AccountHolderUpdateResponse = update(accountHolderToken, params, RequestOptions.none())
+    ): AccountHolderUpdateResponse =
+        update(
+            accountHolderToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -170,11 +229,17 @@ interface AccountHolderService {
         params: AccountHolderUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderUpdateResponse =
-        update(params.toBuilder().accountHolderToken(accountHolderToken).build(), requestOptions)
+        update(
+            params.toBuilder().accountHolderToken(accountHolderToken).build(),
+            requestOptions,
+        )
 
     /** @see update */
     fun update(params: AccountHolderUpdateParams): AccountHolderUpdateResponse =
-        update(params, RequestOptions.none())
+        update(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -196,11 +261,18 @@ interface AccountHolderService {
     /** @see list */
     fun list(
         params: AccountHolderListParams = AccountHolderListParams.none()
-    ): AccountHolderListPage = list(params, RequestOptions.none())
+    ): AccountHolderListPage =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): AccountHolderListPage =
-        list(AccountHolderListParams.none(), requestOptions)
+        list(
+            AccountHolderListParams.none(),
+            requestOptions,
+        )
 
     /**
      * Retrieve the status of account holder document uploads, or retrieve the upload URLs to
@@ -218,7 +290,10 @@ interface AccountHolderService {
      * corresponding `image_type`.
      */
     fun listDocuments(accountHolderToken: String): AccountHolderListDocumentsResponse =
-        listDocuments(accountHolderToken, AccountHolderListDocumentsParams.none())
+        listDocuments(
+            accountHolderToken,
+            AccountHolderListDocumentsParams.none(),
+        )
 
     /** @see listDocuments */
     fun listDocuments(
@@ -236,7 +311,11 @@ interface AccountHolderService {
         accountHolderToken: String,
         params: AccountHolderListDocumentsParams = AccountHolderListDocumentsParams.none(),
     ): AccountHolderListDocumentsResponse =
-        listDocuments(accountHolderToken, params, RequestOptions.none())
+        listDocuments(
+            accountHolderToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listDocuments */
     fun listDocuments(
@@ -247,14 +326,22 @@ interface AccountHolderService {
     /** @see listDocuments */
     fun listDocuments(
         params: AccountHolderListDocumentsParams
-    ): AccountHolderListDocumentsResponse = listDocuments(params, RequestOptions.none())
+    ): AccountHolderListDocumentsResponse =
+        listDocuments(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listDocuments */
     fun listDocuments(
         accountHolderToken: String,
         requestOptions: RequestOptions,
     ): AccountHolderListDocumentsResponse =
-        listDocuments(accountHolderToken, AccountHolderListDocumentsParams.none(), requestOptions)
+        listDocuments(
+            accountHolderToken,
+            AccountHolderListDocumentsParams.none(),
+            requestOptions,
+        )
 
     /**
      * Check the status of an account holder document upload, or retrieve the upload URLs to process
@@ -274,7 +361,12 @@ interface AccountHolderService {
     fun retrieveDocument(
         documentToken: String,
         params: AccountHolderRetrieveDocumentParams,
-    ): Document = retrieveDocument(documentToken, params, RequestOptions.none())
+    ): Document =
+        retrieveDocument(
+            documentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveDocument */
     fun retrieveDocument(
@@ -282,11 +374,17 @@ interface AccountHolderService {
         params: AccountHolderRetrieveDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Document =
-        retrieveDocument(params.toBuilder().documentToken(documentToken).build(), requestOptions)
+        retrieveDocument(
+            params.toBuilder().documentToken(documentToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieveDocument */
     fun retrieveDocument(params: AccountHolderRetrieveDocumentParams): Document =
-        retrieveDocument(params, RequestOptions.none())
+        retrieveDocument(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveDocument */
     fun retrieveDocument(
@@ -297,7 +395,11 @@ interface AccountHolderService {
     /** Simulates a review for an account holder document upload. */
     fun simulateEnrollmentDocumentReview(
         params: AccountHolderSimulateEnrollmentDocumentReviewParams
-    ): Document = simulateEnrollmentDocumentReview(params, RequestOptions.none())
+    ): Document =
+        simulateEnrollmentDocumentReview(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulateEnrollmentDocumentReview */
     fun simulateEnrollmentDocumentReview(
@@ -324,13 +426,19 @@ interface AccountHolderService {
         params: AccountHolderSimulateEnrollmentReviewParams =
             AccountHolderSimulateEnrollmentReviewParams.none()
     ): AccountHolderSimulateEnrollmentReviewResponse =
-        simulateEnrollmentReview(params, RequestOptions.none())
+        simulateEnrollmentReview(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulateEnrollmentReview */
     fun simulateEnrollmentReview(
         requestOptions: RequestOptions
     ): AccountHolderSimulateEnrollmentReviewResponse =
-        simulateEnrollmentReview(AccountHolderSimulateEnrollmentReviewParams.none(), requestOptions)
+        simulateEnrollmentReview(
+            AccountHolderSimulateEnrollmentReviewParams.none(),
+            requestOptions,
+        )
 
     /**
      * Use this endpoint to identify which type of supported government-issued documentation you
@@ -353,7 +461,12 @@ interface AccountHolderService {
     fun uploadDocument(
         accountHolderToken: String,
         params: AccountHolderUploadDocumentParams,
-    ): Document = uploadDocument(accountHolderToken, params, RequestOptions.none())
+    ): Document =
+        uploadDocument(
+            accountHolderToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see uploadDocument */
     fun uploadDocument(
@@ -368,7 +481,10 @@ interface AccountHolderService {
 
     /** @see uploadDocument */
     fun uploadDocument(params: AccountHolderUploadDocumentParams): Document =
-        uploadDocument(params, RequestOptions.none())
+        uploadDocument(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see uploadDocument */
     fun uploadDocument(
@@ -399,7 +515,11 @@ interface AccountHolderService {
         @MustBeClosed
         fun create(
             params: AccountHolderCreateParams
-        ): HttpResponseFor<AccountHolderCreateResponse> = create(params, RequestOptions.none())
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -414,13 +534,20 @@ interface AccountHolderService {
             body: AccountHolderCreateParams.Body,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountHolderCreateResponse> =
-            create(AccountHolderCreateParams.builder().body(body).build(), requestOptions)
+            create(
+                AccountHolderCreateParams.builder().body(body).build(),
+                requestOptions,
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(
             body: AccountHolderCreateParams.Body
-        ): HttpResponseFor<AccountHolderCreateResponse> = create(body, RequestOptions.none())
+        ): HttpResponseFor<AccountHolderCreateResponse> =
+            create(
+                body,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -428,12 +555,18 @@ interface AccountHolderService {
             kyb: Kyb,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountHolderCreateResponse> =
-            create(AccountHolderCreateParams.Body.ofKyb(kyb), requestOptions)
+            create(
+                AccountHolderCreateParams.Body.ofKyb(kyb),
+                requestOptions,
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(kyb: Kyb): HttpResponseFor<AccountHolderCreateResponse> =
-            create(kyb, RequestOptions.none())
+            create(
+                kyb,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -441,14 +574,20 @@ interface AccountHolderService {
             kybDelegated: AccountHolderCreateParams.Body.KybDelegated,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountHolderCreateResponse> =
-            create(AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated), requestOptions)
+            create(
+                AccountHolderCreateParams.Body.ofKybDelegated(kybDelegated),
+                requestOptions,
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(
             kybDelegated: AccountHolderCreateParams.Body.KybDelegated
         ): HttpResponseFor<AccountHolderCreateResponse> =
-            create(kybDelegated, RequestOptions.none())
+            create(
+                kybDelegated,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -456,12 +595,18 @@ interface AccountHolderService {
             kyc: Kyc,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountHolderCreateResponse> =
-            create(AccountHolderCreateParams.Body.ofKyc(kyc), requestOptions)
+            create(
+                AccountHolderCreateParams.Body.ofKyc(kyc),
+                requestOptions,
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(kyc: Kyc): HttpResponseFor<AccountHolderCreateResponse> =
-            create(kyc, RequestOptions.none())
+            create(
+                kyc,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -469,12 +614,18 @@ interface AccountHolderService {
             kycExempt: KycExempt,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountHolderCreateResponse> =
-            create(AccountHolderCreateParams.Body.ofKycExempt(kycExempt), requestOptions)
+            create(
+                AccountHolderCreateParams.Body.ofKycExempt(kycExempt),
+                requestOptions,
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(kycExempt: KycExempt): HttpResponseFor<AccountHolderCreateResponse> =
-            create(kycExempt, RequestOptions.none())
+            create(
+                kycExempt,
+                RequestOptions.none(),
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/account_holders/{account_holder_token}`, but is
@@ -482,7 +633,10 @@ interface AccountHolderService {
          */
         @MustBeClosed
         fun retrieve(accountHolderToken: String): HttpResponseFor<AccountHolder> =
-            retrieve(accountHolderToken, AccountHolderRetrieveParams.none())
+            retrieve(
+                accountHolderToken,
+                AccountHolderRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -502,7 +656,11 @@ interface AccountHolderService {
             accountHolderToken: String,
             params: AccountHolderRetrieveParams = AccountHolderRetrieveParams.none(),
         ): HttpResponseFor<AccountHolder> =
-            retrieve(accountHolderToken, params, RequestOptions.none())
+            retrieve(
+                accountHolderToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -514,7 +672,10 @@ interface AccountHolderService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: AccountHolderRetrieveParams): HttpResponseFor<AccountHolder> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -522,7 +683,11 @@ interface AccountHolderService {
             accountHolderToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<AccountHolder> =
-            retrieve(accountHolderToken, AccountHolderRetrieveParams.none(), requestOptions)
+            retrieve(
+                accountHolderToken,
+                AccountHolderRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `patch /v1/account_holders/{account_holder_token}`, but
@@ -533,7 +698,11 @@ interface AccountHolderService {
             accountHolderToken: String,
             params: AccountHolderUpdateParams,
         ): HttpResponseFor<AccountHolderUpdateResponse> =
-            update(accountHolderToken, params, RequestOptions.none())
+            update(
+                accountHolderToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         @MustBeClosed
@@ -551,7 +720,11 @@ interface AccountHolderService {
         @MustBeClosed
         fun update(
             params: AccountHolderUpdateParams
-        ): HttpResponseFor<AccountHolderUpdateResponse> = update(params, RequestOptions.none())
+        ): HttpResponseFor<AccountHolderUpdateResponse> =
+            update(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         @MustBeClosed
@@ -578,12 +751,19 @@ interface AccountHolderService {
         @MustBeClosed
         fun list(
             params: AccountHolderListParams = AccountHolderListParams.none()
-        ): HttpResponseFor<AccountHolderListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<AccountHolderListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<AccountHolderListPage> =
-            list(AccountHolderListParams.none(), requestOptions)
+            list(
+                AccountHolderListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get
@@ -594,7 +774,10 @@ interface AccountHolderService {
         fun listDocuments(
             accountHolderToken: String
         ): HttpResponseFor<AccountHolderListDocumentsResponse> =
-            listDocuments(accountHolderToken, AccountHolderListDocumentsParams.none())
+            listDocuments(
+                accountHolderToken,
+                AccountHolderListDocumentsParams.none(),
+            )
 
         /** @see listDocuments */
         @MustBeClosed
@@ -614,7 +797,11 @@ interface AccountHolderService {
             accountHolderToken: String,
             params: AccountHolderListDocumentsParams = AccountHolderListDocumentsParams.none(),
         ): HttpResponseFor<AccountHolderListDocumentsResponse> =
-            listDocuments(accountHolderToken, params, RequestOptions.none())
+            listDocuments(
+                accountHolderToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listDocuments */
         @MustBeClosed
@@ -628,7 +815,10 @@ interface AccountHolderService {
         fun listDocuments(
             params: AccountHolderListDocumentsParams
         ): HttpResponseFor<AccountHolderListDocumentsResponse> =
-            listDocuments(params, RequestOptions.none())
+            listDocuments(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listDocuments */
         @MustBeClosed
@@ -652,7 +842,11 @@ interface AccountHolderService {
             documentToken: String,
             params: AccountHolderRetrieveDocumentParams,
         ): HttpResponseFor<Document> =
-            retrieveDocument(documentToken, params, RequestOptions.none())
+            retrieveDocument(
+                documentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveDocument */
         @MustBeClosed
@@ -670,7 +864,11 @@ interface AccountHolderService {
         @MustBeClosed
         fun retrieveDocument(
             params: AccountHolderRetrieveDocumentParams
-        ): HttpResponseFor<Document> = retrieveDocument(params, RequestOptions.none())
+        ): HttpResponseFor<Document> =
+            retrieveDocument(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveDocument */
         @MustBeClosed
@@ -688,7 +886,10 @@ interface AccountHolderService {
         fun simulateEnrollmentDocumentReview(
             params: AccountHolderSimulateEnrollmentDocumentReviewParams
         ): HttpResponseFor<Document> =
-            simulateEnrollmentDocumentReview(params, RequestOptions.none())
+            simulateEnrollmentDocumentReview(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulateEnrollmentDocumentReview */
         @MustBeClosed
@@ -720,7 +921,10 @@ interface AccountHolderService {
             params: AccountHolderSimulateEnrollmentReviewParams =
                 AccountHolderSimulateEnrollmentReviewParams.none()
         ): HttpResponseFor<AccountHolderSimulateEnrollmentReviewResponse> =
-            simulateEnrollmentReview(params, RequestOptions.none())
+            simulateEnrollmentReview(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulateEnrollmentReview */
         @MustBeClosed
@@ -742,7 +946,11 @@ interface AccountHolderService {
             accountHolderToken: String,
             params: AccountHolderUploadDocumentParams,
         ): HttpResponseFor<Document> =
-            uploadDocument(accountHolderToken, params, RequestOptions.none())
+            uploadDocument(
+                accountHolderToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see uploadDocument */
         @MustBeClosed
@@ -759,7 +967,10 @@ interface AccountHolderService {
         /** @see uploadDocument */
         @MustBeClosed
         fun uploadDocument(params: AccountHolderUploadDocumentParams): HttpResponseFor<Document> =
-            uploadDocument(params, RequestOptions.none())
+            uploadDocument(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see uploadDocument */
         @MustBeClosed

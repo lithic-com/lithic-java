@@ -26,7 +26,11 @@ interface TransferService {
 
     /** Transfer funds between two financial accounts or between a financial account and card */
     @Deprecated("deprecated")
-    fun create(params: TransferCreateParams): Transfer = create(params, RequestOptions.none())
+    fun create(params: TransferCreateParams): Transfer =
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     @Deprecated("deprecated")
@@ -52,7 +56,10 @@ interface TransferService {
         @Deprecated("deprecated")
         @MustBeClosed
         fun create(params: TransferCreateParams): HttpResponseFor<Transfer> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @Deprecated("deprecated")

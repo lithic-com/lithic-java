@@ -369,7 +369,14 @@ internal class AccountHolderUpdateResponseTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(JsonValue.from(listOf("invalid", "array"))),
+        ARRAY(
+            JsonValue.from(
+                listOf(
+                    "invalid",
+                    "array",
+                )
+            )
+        ),
     }
 
     @ParameterizedTest
@@ -378,7 +385,10 @@ internal class AccountHolderUpdateResponseTest {
         val accountHolderUpdateResponse =
             jsonMapper().convertValue(testCase.value, jacksonTypeRef<AccountHolderUpdateResponse>())
 
-        val e = assertThrows<LithicInvalidDataException> { accountHolderUpdateResponse.validate() }
+        val e =
+            assertThrows<LithicInvalidDataException> {
+                accountHolderUpdateResponse.validate()
+            }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

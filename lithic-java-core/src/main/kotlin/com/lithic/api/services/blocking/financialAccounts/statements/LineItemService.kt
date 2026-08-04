@@ -29,7 +29,11 @@ interface LineItemService {
         statementToken: String,
         params: FinancialAccountStatementLineItemListParams,
     ): FinancialAccountStatementLineItemListPage =
-        list(statementToken, params, RequestOptions.none())
+        list(
+            statementToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -37,12 +41,19 @@ interface LineItemService {
         params: FinancialAccountStatementLineItemListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): FinancialAccountStatementLineItemListPage =
-        list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+        list(
+            params.toBuilder().statementToken(statementToken).build(),
+            requestOptions,
+        )
 
     /** @see list */
     fun list(
         params: FinancialAccountStatementLineItemListParams
-    ): FinancialAccountStatementLineItemListPage = list(params, RequestOptions.none())
+    ): FinancialAccountStatementLineItemListPage =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -70,7 +81,11 @@ interface LineItemService {
             statementToken: String,
             params: FinancialAccountStatementLineItemListParams,
         ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
-            list(statementToken, params, RequestOptions.none())
+            list(
+                statementToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
@@ -79,14 +94,20 @@ interface LineItemService {
             params: FinancialAccountStatementLineItemListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
-            list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+            list(
+                params.toBuilder().statementToken(statementToken).build(),
+                requestOptions,
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: FinancialAccountStatementLineItemListParams
         ): HttpResponseFor<FinancialAccountStatementLineItemListPage> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed

@@ -252,7 +252,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: JsonField<String>) = apply {
+            this.cardToken = cardToken
+        }
 
         /** Indicate when the request was received from Mastercard or Visa */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -264,7 +266,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -276,7 +280,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         /** Unique identifier for the tokenization */
         fun tokenizationToken(tokenizationToken: String) =
@@ -306,7 +312,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -332,12 +340,30 @@ private constructor(
          */
         fun build(): TokenizationTwoFactorAuthenticationCodeSentWebhookEvent =
             TokenizationTwoFactorAuthenticationCodeSentWebhookEvent(
-                checkRequired("accountToken", accountToken),
-                checkRequired("activationMethod", activationMethod),
-                checkRequired("cardToken", cardToken),
-                checkRequired("created", created),
-                checkRequired("eventType", eventType),
-                checkRequired("tokenizationToken", tokenizationToken),
+                checkRequired(
+                    "accountToken",
+                    accountToken,
+                ),
+                checkRequired(
+                    "activationMethod",
+                    activationMethod,
+                ),
+                checkRequired(
+                    "cardToken",
+                    cardToken,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
+                checkRequired(
+                    "tokenizationToken",
+                    tokenizationToken,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -400,7 +426,11 @@ private constructor(
         private constructor(
             @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
             @JsonProperty("value") @ExcludeMissing value: JsonField<String> = JsonMissing.of(),
-        ) : this(type, value, mutableMapOf())
+        ) : this(
+            type,
+            value,
+            mutableMapOf(),
+        )
 
         /**
          * The communication method that the user has selected to use to receive the authentication
@@ -490,7 +520,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply {
+                this.type = type
+            }
 
             /**
              * The location to which the authentication code was sent. The format depends on the
@@ -506,7 +538,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun value(value: JsonField<String>) = apply { this.value = value }
+            fun value(value: JsonField<String>) = apply {
+                this.value = value
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -521,7 +555,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -542,8 +578,14 @@ private constructor(
              */
             fun build(): ActivationMethod =
                 ActivationMethod(
-                    checkRequired("type", type),
-                    checkRequired("value", value),
+                    checkRequired(
+                        "type",
+                        type,
+                    ),
+                    checkRequired(
+                        "value",
+                        value,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -624,9 +666,11 @@ private constructor(
              * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Type] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -780,9 +824,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

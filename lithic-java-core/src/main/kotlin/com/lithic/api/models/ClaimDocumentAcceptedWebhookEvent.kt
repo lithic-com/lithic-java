@@ -391,7 +391,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** When the document was created */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -403,7 +405,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /**
          * Presigned URL for downloading the uploaded document. Available once the document is being
@@ -421,7 +425,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
+        fun downloadUrl(downloadUrl: JsonField<String>) = apply {
+            this.downloadUrl = downloadUrl
+        }
 
         /** When the download URL expires */
         fun downloadUrlExpiresAt(downloadUrlExpiresAt: OffsetDateTime?) =
@@ -455,7 +461,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         /** Reason the document failed validation. Null unless `status` is `REJECTED` */
         fun failureReason(failureReason: FailureReason?) =
@@ -485,7 +493,9 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { this.name = name }
+        fun name(name: JsonField<String>) = apply {
+            this.name = name
+        }
 
         /**
          * Identifier of the document requirement this document satisfies. Null for supplemental
@@ -518,7 +528,9 @@ private constructor(
          * You should usually call [Builder.status] with a well-typed [Status] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun status(status: JsonField<Status>) = apply { this.status = status }
+        fun status(status: JsonField<Status>) = apply {
+            this.status = status
+        }
 
         /** When the document was last updated */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -530,7 +542,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply {
+            this.updated = updated
+        }
 
         /** Constraints that an uploaded file must satisfy. */
         fun uploadConstraints(uploadConstraints: UploadConstraints2?) =
@@ -567,7 +581,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
+        fun uploadUrl(uploadUrl: JsonField<String>) = apply {
+            this.uploadUrl = uploadUrl
+        }
 
         /** When the upload URL expires */
         fun uploadUrlExpiresAt(uploadUrlExpiresAt: OffsetDateTime?) =
@@ -603,7 +619,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -635,19 +653,58 @@ private constructor(
          */
         fun build(): ClaimDocumentAcceptedWebhookEvent =
             ClaimDocumentAcceptedWebhookEvent(
-                checkRequired("token", token),
-                checkRequired("created", created),
-                checkRequired("downloadUrl", downloadUrl),
-                checkRequired("downloadUrlExpiresAt", downloadUrlExpiresAt),
-                checkRequired("eventType", eventType),
-                checkRequired("failureReason", failureReason),
-                checkRequired("name", name),
-                checkRequired("requirementId", requirementId),
-                checkRequired("status", status),
-                checkRequired("updated", updated),
-                checkRequired("uploadConstraints", uploadConstraints),
-                checkRequired("uploadUrl", uploadUrl),
-                checkRequired("uploadUrlExpiresAt", uploadUrlExpiresAt),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "downloadUrl",
+                    downloadUrl,
+                ),
+                checkRequired(
+                    "downloadUrlExpiresAt",
+                    downloadUrlExpiresAt,
+                ),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
+                checkRequired(
+                    "failureReason",
+                    failureReason,
+                ),
+                checkRequired(
+                    "name",
+                    name,
+                ),
+                checkRequired(
+                    "requirementId",
+                    requirementId,
+                ),
+                checkRequired(
+                    "status",
+                    status,
+                ),
+                checkRequired(
+                    "updated",
+                    updated,
+                ),
+                checkRequired(
+                    "uploadConstraints",
+                    uploadConstraints,
+                ),
+                checkRequired(
+                    "uploadUrl",
+                    uploadUrl,
+                ),
+                checkRequired(
+                    "uploadUrlExpiresAt",
+                    uploadUrlExpiresAt,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -741,9 +798,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -885,9 +944,11 @@ private constructor(
          * An enum containing [FailureReason]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [FailureReason] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1038,9 +1099,11 @@ private constructor(
          * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Status] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1164,7 +1227,11 @@ private constructor(
             @JsonProperty("max_size_bytes")
             @ExcludeMissing
             maxSizeBytes: JsonField<Long> = JsonMissing.of(),
-        ) : this(acceptedMimeTypes, maxSizeBytes, mutableMapOf())
+        ) : this(
+            acceptedMimeTypes,
+            maxSizeBytes,
+            mutableMapOf(),
+        )
 
         /**
          * MIME types accepted for upload
@@ -1306,7 +1373,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1327,8 +1396,15 @@ private constructor(
              */
             fun build(): UploadConstraints2 =
                 UploadConstraints2(
-                    checkRequired("acceptedMimeTypes", acceptedMimeTypes).map { it.toImmutable() },
-                    checkRequired("maxSizeBytes", maxSizeBytes),
+                    checkRequired(
+                            "acceptedMimeTypes",
+                            acceptedMimeTypes,
+                        )
+                        .map { it.toImmutable() },
+                    checkRequired(
+                        "maxSizeBytes",
+                        maxSizeBytes,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }

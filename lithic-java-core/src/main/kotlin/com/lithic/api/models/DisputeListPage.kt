@@ -84,13 +84,19 @@ private constructor(
             response = disputeListPage.response
         }
 
-        fun service(service: DisputeService) = apply { this.service = service }
+        fun service(service: DisputeService) = apply {
+            this.service = service
+        }
 
         /** The parameters that were used to request this page. */
-        fun params(params: DisputeListParams) = apply { this.params = params }
+        fun params(params: DisputeListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
-        fun response(response: DisputeListPageResponse) = apply { this.response = response }
+        fun response(response: DisputeListPageResponse) = apply {
+            this.response = response
+        }
 
         /**
          * Returns an immutable instance of [DisputeListPage].
@@ -108,9 +114,18 @@ private constructor(
          */
         fun build(): DisputeListPage =
             DisputeListPage(
-                checkRequired("service", service),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

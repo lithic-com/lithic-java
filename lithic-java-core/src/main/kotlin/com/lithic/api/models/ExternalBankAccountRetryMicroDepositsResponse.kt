@@ -599,7 +599,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * The country that the bank account is located in using ISO 3166-1. We will only accept USA
@@ -613,7 +615,9 @@ private constructor(
          * You should usually call [Builder.country] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun country(country: JsonField<String>) = apply { this.country = country }
+        fun country(country: JsonField<String>) = apply {
+            this.country = country
+        }
 
         /**
          * An ISO 8601 string representing when this funding source was added to the Lithic account.
@@ -627,7 +631,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** currency of the external account 3-character alphabetic ISO 4217 code */
         fun currency(currency: String) = currency(JsonField.of(currency))
@@ -638,7 +644,9 @@ private constructor(
          * You should usually call [Builder.currency] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
+        fun currency(currency: JsonField<String>) = apply {
+            this.currency = currency
+        }
 
         /**
          * The last 4 digits of the bank account. Derived by Lithic from the account number passed
@@ -651,7 +659,9 @@ private constructor(
          * You should usually call [Builder.lastFour] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
+        fun lastFour(lastFour: JsonField<String>) = apply {
+            this.lastFour = lastFour
+        }
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
@@ -665,7 +675,9 @@ private constructor(
          * You should usually call [Builder.owner] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun owner(owner: JsonField<String>) = apply { this.owner = owner }
+        fun owner(owner: JsonField<String>) = apply {
+            this.owner = owner
+        }
 
         /** Owner Type */
         fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
@@ -677,7 +689,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun ownerType(ownerType: JsonField<OwnerType>) = apply { this.ownerType = ownerType }
+        fun ownerType(ownerType: JsonField<OwnerType>) = apply {
+            this.ownerType = ownerType
+        }
 
         /** Routing Number */
         fun routingNumber(routingNumber: String) = routingNumber(JsonField.of(routingNumber))
@@ -702,7 +716,9 @@ private constructor(
          * You should usually call [Builder.state] with a well-typed [State] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun state(state: JsonField<State>) = apply { this.state = state }
+        fun state(state: JsonField<State>) = apply {
+            this.state = state
+        }
 
         /** Account Type */
         fun type(type: AccountType) = type(JsonField.of(type))
@@ -714,7 +730,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun type(type: JsonField<AccountType>) = apply { this.type = type }
+        fun type(type: JsonField<AccountType>) = apply {
+            this.type = type
+        }
 
         /** The number of attempts at verification */
         fun verificationAttempts(verificationAttempts: Long) =
@@ -811,7 +829,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
+        fun companyId(companyId: JsonField<String>) = apply {
+            this.companyId = companyId
+        }
 
         /** Date of Birth of the Individual that owns the external bank account */
         fun dob(dob: LocalDate?) = dob(JsonField.ofNullable(dob))
@@ -825,7 +845,9 @@ private constructor(
          * You should usually call [Builder.dob] with a well-typed [LocalDate] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
+        fun dob(dob: JsonField<LocalDate>) = apply {
+            this.dob = dob
+        }
 
         /** Doing Business As */
         fun doingBusinessAs(doingBusinessAs: String?) =
@@ -880,7 +902,9 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { this.name = name }
+        fun name(name: JsonField<String>) = apply {
+            this.name = name
+        }
 
         /** User Defined ID */
         fun userDefinedId(userDefinedId: String?) =
@@ -940,7 +964,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -972,19 +998,58 @@ private constructor(
          */
         fun build(): ExternalBankAccountRetryMicroDepositsResponse =
             ExternalBankAccountRetryMicroDepositsResponse(
-                checkRequired("token", token),
-                checkRequired("country", country),
-                checkRequired("created", created),
-                checkRequired("currency", currency),
-                checkRequired("lastFour", lastFour),
-                checkRequired("owner", owner),
-                checkRequired("ownerType", ownerType),
-                checkRequired("routingNumber", routingNumber),
-                checkRequired("state", state),
-                checkRequired("type", type),
-                checkRequired("verificationAttempts", verificationAttempts),
-                checkRequired("verificationMethod", verificationMethod),
-                checkRequired("verificationState", verificationState),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "country",
+                    country,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "currency",
+                    currency,
+                ),
+                checkRequired(
+                    "lastFour",
+                    lastFour,
+                ),
+                checkRequired(
+                    "owner",
+                    owner,
+                ),
+                checkRequired(
+                    "ownerType",
+                    ownerType,
+                ),
+                checkRequired(
+                    "routingNumber",
+                    routingNumber,
+                ),
+                checkRequired(
+                    "state",
+                    state,
+                ),
+                checkRequired(
+                    "type",
+                    type,
+                ),
+                checkRequired(
+                    "verificationAttempts",
+                    verificationAttempts,
+                ),
+                checkRequired(
+                    "verificationMethod",
+                    verificationMethod,
+                ),
+                checkRequired(
+                    "verificationState",
+                    verificationState,
+                ),
                 accountToken,
                 address,
                 companyId,
@@ -1108,9 +1173,11 @@ private constructor(
          * An enum containing [OwnerType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [OwnerType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1248,9 +1315,11 @@ private constructor(
          * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [State] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1387,9 +1456,11 @@ private constructor(
          * An enum containing [AccountType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [AccountType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1532,9 +1603,11 @@ private constructor(
          * An enum containing [VerificationMethod]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [VerificationMethod] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -1683,9 +1756,11 @@ private constructor(
          * An enum containing [VerificationState]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [VerificationState] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

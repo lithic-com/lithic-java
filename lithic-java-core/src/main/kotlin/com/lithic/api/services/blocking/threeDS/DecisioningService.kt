@@ -35,7 +35,10 @@ interface DecisioningService {
      * receive it (see https://docs.lithic.com/docs/3ds-challenge-flow for more information).
      */
     fun challengeResponse(params: ThreeDSDecisioningChallengeResponseParams) =
-        challengeResponse(params, RequestOptions.none())
+        challengeResponse(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see challengeResponse */
     fun challengeResponse(
@@ -57,7 +60,10 @@ interface DecisioningService {
 
     /** @see challengeResponse */
     fun challengeResponse(challengeResponse: ChallengeResponse) =
-        challengeResponse(challengeResponse, RequestOptions.none())
+        challengeResponse(
+            challengeResponse,
+            RequestOptions.none(),
+        )
 
     /**
      * Retrieve the 3DS Decisioning HMAC secret key. If one does not exist for your program yet,
@@ -81,11 +87,18 @@ interface DecisioningService {
     fun retrieveSecret(
         params: ThreeDSDecisioningRetrieveSecretParams =
             ThreeDSDecisioningRetrieveSecretParams.none()
-    ): DecisioningRetrieveSecretResponse = retrieveSecret(params, RequestOptions.none())
+    ): DecisioningRetrieveSecretResponse =
+        retrieveSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): DecisioningRetrieveSecretResponse =
-        retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none(), requestOptions)
+        retrieveSecret(
+            ThreeDSDecisioningRetrieveSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * Generate a new 3DS Decisioning HMAC secret key. The old secret key will be deactivated 24
@@ -104,11 +117,18 @@ interface DecisioningService {
     /** @see rotateSecret */
     fun rotateSecret(
         params: ThreeDSDecisioningRotateSecretParams = ThreeDSDecisioningRotateSecretParams.none()
-    ) = rotateSecret(params, RequestOptions.none())
+    ) =
+        rotateSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions) =
-        rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
+        rotateSecret(
+            ThreeDSDecisioningRotateSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [DecisioningService] that provides access to raw HTTP responses for each method.
@@ -130,7 +150,10 @@ interface DecisioningService {
          */
         @MustBeClosed
         fun challengeResponse(params: ThreeDSDecisioningChallengeResponseParams): HttpResponse =
-            challengeResponse(params, RequestOptions.none())
+            challengeResponse(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see challengeResponse */
         @MustBeClosed
@@ -155,7 +178,10 @@ interface DecisioningService {
         /** @see challengeResponse */
         @MustBeClosed
         fun challengeResponse(challengeResponse: ChallengeResponse): HttpResponse =
-            challengeResponse(challengeResponse, RequestOptions.none())
+            challengeResponse(
+                challengeResponse,
+                RequestOptions.none(),
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/three_ds_decisioning/secret`, but is otherwise
@@ -179,14 +205,20 @@ interface DecisioningService {
             params: ThreeDSDecisioningRetrieveSecretParams =
                 ThreeDSDecisioningRetrieveSecretParams.none()
         ): HttpResponseFor<DecisioningRetrieveSecretResponse> =
-            retrieveSecret(params, RequestOptions.none())
+            retrieveSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(
             requestOptions: RequestOptions
         ): HttpResponseFor<DecisioningRetrieveSecretResponse> =
-            retrieveSecret(ThreeDSDecisioningRetrieveSecretParams.none(), requestOptions)
+            retrieveSecret(
+                ThreeDSDecisioningRetrieveSecretParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/three_ds_decisioning/secret/rotate`, but is
@@ -208,11 +240,18 @@ interface DecisioningService {
         fun rotateSecret(
             params: ThreeDSDecisioningRotateSecretParams =
                 ThreeDSDecisioningRotateSecretParams.none()
-        ): HttpResponse = rotateSecret(params, RequestOptions.none())
+        ): HttpResponse =
+            rotateSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): HttpResponse =
-            rotateSecret(ThreeDSDecisioningRotateSecretParams.none(), requestOptions)
+            rotateSecret(
+                ThreeDSDecisioningRotateSecretParams.none(),
+                requestOptions,
+            )
     }
 }

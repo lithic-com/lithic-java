@@ -852,7 +852,14 @@ internal class RuleFeatureTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(JsonValue.from(listOf("invalid", "array"))),
+        ARRAY(
+            JsonValue.from(
+                listOf(
+                    "invalid",
+                    "array",
+                )
+            )
+        ),
     }
 
     @ParameterizedTest
@@ -860,7 +867,10 @@ internal class RuleFeatureTest {
     fun incompatibleJsonShapeDeserializesToUnknown(testCase: IncompatibleJsonShapeTestCase) {
         val ruleFeature = jsonMapper().convertValue(testCase.value, jacksonTypeRef<RuleFeature>())
 
-        val e = assertThrows<LithicInvalidDataException> { ruleFeature.validate() }
+        val e =
+            assertThrows<LithicInvalidDataException> {
+                ruleFeature.validate()
+            }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

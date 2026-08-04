@@ -116,7 +116,9 @@ private constructor(
         }
 
         /** Only return Auth Rules that are bound to the provided account token. */
-        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+        fun accountToken(accountToken: String?) = apply {
+            this.accountToken = accountToken
+        }
 
         /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
@@ -134,7 +136,9 @@ private constructor(
             businessAccountToken(businessAccountToken.getOrNull())
 
         /** Only return Auth Rules that are bound to the provided card token. */
-        fun cardToken(cardToken: String?) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: String?) = apply {
+            this.cardToken = cardToken
+        }
 
         /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
         fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
@@ -143,7 +147,9 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
+        fun endingBefore(endingBefore: String?) = apply {
+            this.endingBefore = endingBefore
+        }
 
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
@@ -152,7 +158,9 @@ private constructor(
          * Deprecated: Use event_streams instead. Only return Auth rules that are executed during
          * the provided event stream.
          */
-        fun eventStream(eventStream: EventStream?) = apply { this.eventStream = eventStream }
+        fun eventStream(eventStream: EventStream?) = apply {
+            this.eventStream = eventStream
+        }
 
         /** Alias for calling [Builder.eventStream] with `eventStream.orElse(null)`. */
         fun eventStream(eventStream: Optional<EventStream>) = eventStream(eventStream.getOrNull())
@@ -179,7 +187,9 @@ private constructor(
         }
 
         /** Page size (for pagination). */
-        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+        fun pageSize(pageSize: Long?) = apply {
+            this.pageSize = pageSize
+        }
 
         /**
          * Alias for [Builder.pageSize].
@@ -192,7 +202,9 @@ private constructor(
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** Only return Auth Rules that are bound to the provided scope. */
-        fun scope(scope: Scope?) = apply { this.scope = scope }
+        fun scope(scope: Scope?) = apply {
+            this.scope = scope
+        }
 
         /** Alias for calling [Builder.scope] with `scope.orElse(null)`. */
         fun scope(scope: Optional<Scope>) = scope(scope.getOrNull())
@@ -201,7 +213,9 @@ private constructor(
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
+        fun startingAfter(startingAfter: String?) = apply {
+            this.startingAfter = startingAfter
+        }
 
         /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
@@ -249,7 +263,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -299,7 +315,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -385,9 +403,11 @@ private constructor(
          * An enum containing [Scope]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Scope] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

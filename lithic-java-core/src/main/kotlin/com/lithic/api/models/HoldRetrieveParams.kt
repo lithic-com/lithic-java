@@ -49,7 +49,9 @@ private constructor(
             additionalQueryParams = holdRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun holdToken(holdToken: String?) = apply { this.holdToken = holdToken }
+        fun holdToken(holdToken: String?) = apply {
+            this.holdToken = holdToken
+        }
 
         /** Alias for calling [Builder.holdToken] with `holdToken.orElse(null)`. */
         fun holdToken(holdToken: Optional<String>) = holdToken(holdToken.getOrNull())
@@ -96,7 +98,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -146,7 +150,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -158,7 +164,11 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): HoldRetrieveParams =
-            HoldRetrieveParams(holdToken, additionalHeaders.build(), additionalQueryParams.build())
+            HoldRetrieveParams(
+                holdToken,
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
     }
 
     fun _pathParam(index: Int): String =

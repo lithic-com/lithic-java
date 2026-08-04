@@ -42,7 +42,10 @@ interface ExternalBankAccountService {
 
     /** Creates an external bank account within a program or Lithic account. */
     fun create(params: ExternalBankAccountCreateParams): ExternalBankAccountCreateResponse =
-        create(params, RequestOptions.none())
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -55,11 +58,17 @@ interface ExternalBankAccountService {
         body: ExternalBankAccountCreateParams.Body,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountCreateResponse =
-        create(ExternalBankAccountCreateParams.builder().body(body).build(), requestOptions)
+        create(
+            ExternalBankAccountCreateParams.builder().body(body).build(),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(body: ExternalBankAccountCreateParams.Body): ExternalBankAccountCreateResponse =
-        create(body, RequestOptions.none())
+        create(
+            body,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -79,7 +88,10 @@ interface ExternalBankAccountService {
         bankVerifiedCreateBankAccountApiRequest:
             ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
     ): ExternalBankAccountCreateResponse =
-        create(bankVerifiedCreateBankAccountApiRequest, RequestOptions.none())
+        create(
+            bankVerifiedCreateBankAccountApiRequest,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -96,23 +108,37 @@ interface ExternalBankAccountService {
     fun create(
         externallyVerified:
             ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest
-    ): ExternalBankAccountCreateResponse = create(externallyVerified, RequestOptions.none())
+    ): ExternalBankAccountCreateResponse =
+        create(
+            externallyVerified,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
         unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ExternalBankAccountCreateResponse =
-        create(ExternalBankAccountCreateParams.Body.ofUnverified(unverified), requestOptions)
+        create(
+            ExternalBankAccountCreateParams.Body.ofUnverified(unverified),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(
         unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest
-    ): ExternalBankAccountCreateResponse = create(unverified, RequestOptions.none())
+    ): ExternalBankAccountCreateResponse =
+        create(
+            unverified,
+            RequestOptions.none(),
+        )
 
     /** Get the external bank account by token. */
     fun retrieve(externalBankAccountToken: String): ExternalBankAccountRetrieveResponse =
-        retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none())
+        retrieve(
+            externalBankAccountToken,
+            ExternalBankAccountRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -130,7 +156,11 @@ interface ExternalBankAccountService {
         externalBankAccountToken: String,
         params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
     ): ExternalBankAccountRetrieveResponse =
-        retrieve(externalBankAccountToken, params, RequestOptions.none())
+        retrieve(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -140,18 +170,28 @@ interface ExternalBankAccountService {
 
     /** @see retrieve */
     fun retrieve(params: ExternalBankAccountRetrieveParams): ExternalBankAccountRetrieveResponse =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): ExternalBankAccountRetrieveResponse =
-        retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none(), requestOptions)
+        retrieve(
+            externalBankAccountToken,
+            ExternalBankAccountRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** Update the external bank account by token. */
     fun update(externalBankAccountToken: String): ExternalBankAccountUpdateResponse =
-        update(externalBankAccountToken, ExternalBankAccountUpdateParams.none())
+        update(
+            externalBankAccountToken,
+            ExternalBankAccountUpdateParams.none(),
+        )
 
     /** @see update */
     fun update(
@@ -169,7 +209,11 @@ interface ExternalBankAccountService {
         externalBankAccountToken: String,
         params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
     ): ExternalBankAccountUpdateResponse =
-        update(externalBankAccountToken, params, RequestOptions.none())
+        update(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -179,14 +223,21 @@ interface ExternalBankAccountService {
 
     /** @see update */
     fun update(params: ExternalBankAccountUpdateParams): ExternalBankAccountUpdateResponse =
-        update(params, RequestOptions.none())
+        update(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): ExternalBankAccountUpdateResponse =
-        update(externalBankAccountToken, ExternalBankAccountUpdateParams.none(), requestOptions)
+        update(
+            externalBankAccountToken,
+            ExternalBankAccountUpdateParams.none(),
+            requestOptions,
+        )
 
     /** List all the external bank accounts for the provided search criteria. */
     fun list(): ExternalBankAccountListPage = list(ExternalBankAccountListParams.none())
@@ -200,15 +251,25 @@ interface ExternalBankAccountService {
     /** @see list */
     fun list(
         params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
-    ): ExternalBankAccountListPage = list(params, RequestOptions.none())
+    ): ExternalBankAccountListPage =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): ExternalBankAccountListPage =
-        list(ExternalBankAccountListParams.none(), requestOptions)
+        list(
+            ExternalBankAccountListParams.none(),
+            requestOptions,
+        )
 
     /** Pause an external bank account */
     fun pause(externalBankAccountToken: String): ExternalBankAccount =
-        pause(externalBankAccountToken, ExternalBankAccountPauseParams.none())
+        pause(
+            externalBankAccountToken,
+            ExternalBankAccountPauseParams.none(),
+        )
 
     /** @see pause */
     fun pause(
@@ -225,7 +286,12 @@ interface ExternalBankAccountService {
     fun pause(
         externalBankAccountToken: String,
         params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
-    ): ExternalBankAccount = pause(externalBankAccountToken, params, RequestOptions.none())
+    ): ExternalBankAccount =
+        pause(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see pause */
     fun pause(
@@ -235,14 +301,21 @@ interface ExternalBankAccountService {
 
     /** @see pause */
     fun pause(params: ExternalBankAccountPauseParams): ExternalBankAccount =
-        pause(params, RequestOptions.none())
+        pause(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see pause */
     fun pause(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): ExternalBankAccount =
-        pause(externalBankAccountToken, ExternalBankAccountPauseParams.none(), requestOptions)
+        pause(
+            externalBankAccountToken,
+            ExternalBankAccountPauseParams.none(),
+            requestOptions,
+        )
 
     /** Retry external bank account micro deposit verification. */
     fun retryMicroDeposits(
@@ -271,7 +344,11 @@ interface ExternalBankAccountService {
         params: ExternalBankAccountRetryMicroDepositsParams =
             ExternalBankAccountRetryMicroDepositsParams.none(),
     ): ExternalBankAccountRetryMicroDepositsResponse =
-        retryMicroDeposits(externalBankAccountToken, params, RequestOptions.none())
+        retryMicroDeposits(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryMicroDeposits */
     fun retryMicroDeposits(
@@ -283,7 +360,10 @@ interface ExternalBankAccountService {
     fun retryMicroDeposits(
         params: ExternalBankAccountRetryMicroDepositsParams
     ): ExternalBankAccountRetryMicroDepositsResponse =
-        retryMicroDeposits(params, RequestOptions.none())
+        retryMicroDeposits(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryMicroDeposits */
     fun retryMicroDeposits(
@@ -298,7 +378,10 @@ interface ExternalBankAccountService {
 
     /** Retry external bank account prenote verification. */
     fun retryPrenote(externalBankAccountToken: String): ExternalBankAccount =
-        retryPrenote(externalBankAccountToken, ExternalBankAccountRetryPrenoteParams.none())
+        retryPrenote(
+            externalBankAccountToken,
+            ExternalBankAccountRetryPrenoteParams.none(),
+        )
 
     /** @see retryPrenote */
     fun retryPrenote(
@@ -316,7 +399,12 @@ interface ExternalBankAccountService {
     fun retryPrenote(
         externalBankAccountToken: String,
         params: ExternalBankAccountRetryPrenoteParams = ExternalBankAccountRetryPrenoteParams.none(),
-    ): ExternalBankAccount = retryPrenote(externalBankAccountToken, params, RequestOptions.none())
+    ): ExternalBankAccount =
+        retryPrenote(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryPrenote */
     fun retryPrenote(
@@ -326,7 +414,10 @@ interface ExternalBankAccountService {
 
     /** @see retryPrenote */
     fun retryPrenote(params: ExternalBankAccountRetryPrenoteParams): ExternalBankAccount =
-        retryPrenote(params, RequestOptions.none())
+        retryPrenote(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryPrenote */
     fun retryPrenote(
@@ -347,7 +438,11 @@ interface ExternalBankAccountService {
         externalBankAccountToken: String,
         params: ExternalBankAccountSetVerificationMethodParams,
     ): ExternalBankAccount =
-        setVerificationMethod(externalBankAccountToken, params, RequestOptions.none())
+        setVerificationMethod(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see setVerificationMethod */
     fun setVerificationMethod(
@@ -363,7 +458,11 @@ interface ExternalBankAccountService {
     /** @see setVerificationMethod */
     fun setVerificationMethod(
         params: ExternalBankAccountSetVerificationMethodParams
-    ): ExternalBankAccount = setVerificationMethod(params, RequestOptions.none())
+    ): ExternalBankAccount =
+        setVerificationMethod(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see setVerificationMethod */
     fun setVerificationMethod(
@@ -373,7 +472,10 @@ interface ExternalBankAccountService {
 
     /** Unpause an external bank account */
     fun unpause(externalBankAccountToken: String): ExternalBankAccount =
-        unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none())
+        unpause(
+            externalBankAccountToken,
+            ExternalBankAccountUnpauseParams.none(),
+        )
 
     /** @see unpause */
     fun unpause(
@@ -390,7 +492,12 @@ interface ExternalBankAccountService {
     fun unpause(
         externalBankAccountToken: String,
         params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
-    ): ExternalBankAccount = unpause(externalBankAccountToken, params, RequestOptions.none())
+    ): ExternalBankAccount =
+        unpause(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see unpause */
     fun unpause(
@@ -400,14 +507,21 @@ interface ExternalBankAccountService {
 
     /** @see unpause */
     fun unpause(params: ExternalBankAccountUnpauseParams): ExternalBankAccount =
-        unpause(params, RequestOptions.none())
+        unpause(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see unpause */
     fun unpause(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): ExternalBankAccount =
-        unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none(), requestOptions)
+        unpause(
+            externalBankAccountToken,
+            ExternalBankAccountUnpauseParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [ExternalBankAccountService] that provides access to raw HTTP responses for each
@@ -434,7 +548,10 @@ interface ExternalBankAccountService {
         fun create(
             params: ExternalBankAccountCreateParams
         ): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -449,13 +566,20 @@ interface ExternalBankAccountService {
             body: ExternalBankAccountCreateParams.Body,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(ExternalBankAccountCreateParams.builder().body(body).build(), requestOptions)
+            create(
+                ExternalBankAccountCreateParams.builder().body(body).build(),
+                requestOptions,
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(
             body: ExternalBankAccountCreateParams.Body
-        ): HttpResponseFor<ExternalBankAccountCreateResponse> = create(body, RequestOptions.none())
+        ): HttpResponseFor<ExternalBankAccountCreateResponse> =
+            create(
+                body,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -477,7 +601,10 @@ interface ExternalBankAccountService {
             bankVerifiedCreateBankAccountApiRequest:
                 ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
         ): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(bankVerifiedCreateBankAccountApiRequest, RequestOptions.none())
+            create(
+                bankVerifiedCreateBankAccountApiRequest,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -497,7 +624,10 @@ interface ExternalBankAccountService {
             externallyVerified:
                 ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest
         ): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(externallyVerified, RequestOptions.none())
+            create(
+                externallyVerified,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -505,14 +635,20 @@ interface ExternalBankAccountService {
             unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(ExternalBankAccountCreateParams.Body.ofUnverified(unverified), requestOptions)
+            create(
+                ExternalBankAccountCreateParams.Body.ofUnverified(unverified),
+                requestOptions,
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(
             unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest
         ): HttpResponseFor<ExternalBankAccountCreateResponse> =
-            create(unverified, RequestOptions.none())
+            create(
+                unverified,
+                RequestOptions.none(),
+            )
 
         /**
          * Returns a raw HTTP response for `get
@@ -523,7 +659,10 @@ interface ExternalBankAccountService {
         fun retrieve(
             externalBankAccountToken: String
         ): HttpResponseFor<ExternalBankAccountRetrieveResponse> =
-            retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none())
+            retrieve(
+                externalBankAccountToken,
+                ExternalBankAccountRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -543,7 +682,11 @@ interface ExternalBankAccountService {
             externalBankAccountToken: String,
             params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
         ): HttpResponseFor<ExternalBankAccountRetrieveResponse> =
-            retrieve(externalBankAccountToken, params, RequestOptions.none())
+            retrieve(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -557,7 +700,10 @@ interface ExternalBankAccountService {
         fun retrieve(
             params: ExternalBankAccountRetrieveParams
         ): HttpResponseFor<ExternalBankAccountRetrieveResponse> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -580,7 +726,10 @@ interface ExternalBankAccountService {
         fun update(
             externalBankAccountToken: String
         ): HttpResponseFor<ExternalBankAccountUpdateResponse> =
-            update(externalBankAccountToken, ExternalBankAccountUpdateParams.none())
+            update(
+                externalBankAccountToken,
+                ExternalBankAccountUpdateParams.none(),
+            )
 
         /** @see update */
         @MustBeClosed
@@ -600,7 +749,11 @@ interface ExternalBankAccountService {
             externalBankAccountToken: String,
             params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
         ): HttpResponseFor<ExternalBankAccountUpdateResponse> =
-            update(externalBankAccountToken, params, RequestOptions.none())
+            update(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         @MustBeClosed
@@ -614,7 +767,10 @@ interface ExternalBankAccountService {
         fun update(
             params: ExternalBankAccountUpdateParams
         ): HttpResponseFor<ExternalBankAccountUpdateResponse> =
-            update(params, RequestOptions.none())
+            update(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         @MustBeClosed
@@ -622,7 +778,11 @@ interface ExternalBankAccountService {
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ExternalBankAccountUpdateResponse> =
-            update(externalBankAccountToken, ExternalBankAccountUpdateParams.none(), requestOptions)
+            update(
+                externalBankAccountToken,
+                ExternalBankAccountUpdateParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/external_bank_accounts`, but is otherwise the
@@ -643,12 +803,19 @@ interface ExternalBankAccountService {
         @MustBeClosed
         fun list(
             params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
-        ): HttpResponseFor<ExternalBankAccountListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<ExternalBankAccountListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<ExternalBankAccountListPage> =
-            list(ExternalBankAccountListParams.none(), requestOptions)
+            list(
+                ExternalBankAccountListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
@@ -657,7 +824,10 @@ interface ExternalBankAccountService {
          */
         @MustBeClosed
         fun pause(externalBankAccountToken: String): HttpResponseFor<ExternalBankAccount> =
-            pause(externalBankAccountToken, ExternalBankAccountPauseParams.none())
+            pause(
+                externalBankAccountToken,
+                ExternalBankAccountPauseParams.none(),
+            )
 
         /** @see pause */
         @MustBeClosed
@@ -677,7 +847,11 @@ interface ExternalBankAccountService {
             externalBankAccountToken: String,
             params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
         ): HttpResponseFor<ExternalBankAccount> =
-            pause(externalBankAccountToken, params, RequestOptions.none())
+            pause(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see pause */
         @MustBeClosed
@@ -689,7 +863,10 @@ interface ExternalBankAccountService {
         /** @see pause */
         @MustBeClosed
         fun pause(params: ExternalBankAccountPauseParams): HttpResponseFor<ExternalBankAccount> =
-            pause(params, RequestOptions.none())
+            pause(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see pause */
         @MustBeClosed
@@ -697,7 +874,11 @@ interface ExternalBankAccountService {
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ExternalBankAccount> =
-            pause(externalBankAccountToken, ExternalBankAccountPauseParams.none(), requestOptions)
+            pause(
+                externalBankAccountToken,
+                ExternalBankAccountPauseParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
@@ -733,7 +914,11 @@ interface ExternalBankAccountService {
             params: ExternalBankAccountRetryMicroDepositsParams =
                 ExternalBankAccountRetryMicroDepositsParams.none(),
         ): HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse> =
-            retryMicroDeposits(externalBankAccountToken, params, RequestOptions.none())
+            retryMicroDeposits(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryMicroDeposits */
         @MustBeClosed
@@ -747,7 +932,10 @@ interface ExternalBankAccountService {
         fun retryMicroDeposits(
             params: ExternalBankAccountRetryMicroDepositsParams
         ): HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse> =
-            retryMicroDeposits(params, RequestOptions.none())
+            retryMicroDeposits(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryMicroDeposits */
         @MustBeClosed
@@ -768,7 +956,10 @@ interface ExternalBankAccountService {
          */
         @MustBeClosed
         fun retryPrenote(externalBankAccountToken: String): HttpResponseFor<ExternalBankAccount> =
-            retryPrenote(externalBankAccountToken, ExternalBankAccountRetryPrenoteParams.none())
+            retryPrenote(
+                externalBankAccountToken,
+                ExternalBankAccountRetryPrenoteParams.none(),
+            )
 
         /** @see retryPrenote */
         @MustBeClosed
@@ -790,7 +981,11 @@ interface ExternalBankAccountService {
             params: ExternalBankAccountRetryPrenoteParams =
                 ExternalBankAccountRetryPrenoteParams.none(),
         ): HttpResponseFor<ExternalBankAccount> =
-            retryPrenote(externalBankAccountToken, params, RequestOptions.none())
+            retryPrenote(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryPrenote */
         @MustBeClosed
@@ -803,7 +998,11 @@ interface ExternalBankAccountService {
         @MustBeClosed
         fun retryPrenote(
             params: ExternalBankAccountRetryPrenoteParams
-        ): HttpResponseFor<ExternalBankAccount> = retryPrenote(params, RequestOptions.none())
+        ): HttpResponseFor<ExternalBankAccount> =
+            retryPrenote(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryPrenote */
         @MustBeClosed
@@ -827,7 +1026,11 @@ interface ExternalBankAccountService {
             externalBankAccountToken: String,
             params: ExternalBankAccountSetVerificationMethodParams,
         ): HttpResponseFor<ExternalBankAccount> =
-            setVerificationMethod(externalBankAccountToken, params, RequestOptions.none())
+            setVerificationMethod(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see setVerificationMethod */
         @MustBeClosed
@@ -846,7 +1049,10 @@ interface ExternalBankAccountService {
         fun setVerificationMethod(
             params: ExternalBankAccountSetVerificationMethodParams
         ): HttpResponseFor<ExternalBankAccount> =
-            setVerificationMethod(params, RequestOptions.none())
+            setVerificationMethod(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see setVerificationMethod */
         @MustBeClosed
@@ -862,7 +1068,10 @@ interface ExternalBankAccountService {
          */
         @MustBeClosed
         fun unpause(externalBankAccountToken: String): HttpResponseFor<ExternalBankAccount> =
-            unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none())
+            unpause(
+                externalBankAccountToken,
+                ExternalBankAccountUnpauseParams.none(),
+            )
 
         /** @see unpause */
         @MustBeClosed
@@ -882,7 +1091,11 @@ interface ExternalBankAccountService {
             externalBankAccountToken: String,
             params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
         ): HttpResponseFor<ExternalBankAccount> =
-            unpause(externalBankAccountToken, params, RequestOptions.none())
+            unpause(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see unpause */
         @MustBeClosed
@@ -895,7 +1108,11 @@ interface ExternalBankAccountService {
         @MustBeClosed
         fun unpause(
             params: ExternalBankAccountUnpauseParams
-        ): HttpResponseFor<ExternalBankAccount> = unpause(params, RequestOptions.none())
+        ): HttpResponseFor<ExternalBankAccount> =
+            unpause(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see unpause */
         @MustBeClosed

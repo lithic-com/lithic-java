@@ -32,7 +32,11 @@ private constructor(
         @ExcludeMissing
         data: JsonField<List<BookTransferResponse>> = JsonMissing.of(),
         @JsonProperty("has_more") @ExcludeMissing hasMore: JsonField<Boolean> = JsonMissing.of(),
-    ) : this(data, hasMore, mutableMapOf())
+    ) : this(
+        data,
+        hasMore,
+        mutableMapOf(),
+    )
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -133,7 +137,9 @@ private constructor(
          * You should usually call [Builder.hasMore] with a well-typed [Boolean] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun hasMore(hasMore: JsonField<Boolean>) = apply { this.hasMore = hasMore }
+        fun hasMore(hasMore: JsonField<Boolean>) = apply {
+            this.hasMore = hasMore
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -148,7 +154,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -169,8 +177,15 @@ private constructor(
          */
         fun build(): BookTransferListPageResponse =
             BookTransferListPageResponse(
-                checkRequired("data", data).map { it.toImmutable() },
-                checkRequired("hasMore", hasMore),
+                checkRequired(
+                        "data",
+                        data,
+                    )
+                    .map { it.toImmutable() },
+                checkRequired(
+                    "hasMore",
+                    hasMore,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }

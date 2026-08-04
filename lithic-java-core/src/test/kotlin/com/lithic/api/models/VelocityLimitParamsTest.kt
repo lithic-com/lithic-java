@@ -30,6 +30,8 @@ internal class VelocityLimitParamsTest {
                         .build()
                 )
                 .limitAmount(10000L)
+                .limitCashAmount(5000L)
+                .limitCashCount(0L)
                 .limitCount(0L)
                 .build()
 
@@ -54,6 +56,8 @@ internal class VelocityLimitParamsTest {
                     .build()
             )
         assertThat(velocityLimitParams.limitAmount()).contains(10000L)
+        assertThat(velocityLimitParams.limitCashAmount()).contains(5000L)
+        assertThat(velocityLimitParams.limitCashCount()).contains(0L)
         assertThat(velocityLimitParams.limitCount()).contains(0L)
     }
 
@@ -79,6 +83,8 @@ internal class VelocityLimitParamsTest {
                         .build()
                 )
                 .limitAmount(10000L)
+                .limitCashAmount(5000L)
+                .limitCashCount(0L)
                 .limitCount(0L)
                 .build()
 

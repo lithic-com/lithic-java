@@ -270,7 +270,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: JsonField<String>) = apply {
+            this.cardToken = cardToken
+        }
 
         /** The method used to deliver the challenge to the cardholder */
         fun challengeMethod(challengeMethod: ChallengeMethod) =
@@ -300,7 +302,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun completed(completed: JsonField<OffsetDateTime>) = apply { this.completed = completed }
+        fun completed(completed: JsonField<OffsetDateTime>) = apply {
+            this.completed = completed
+        }
 
         /** The timestamp of when the challenge was created */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -312,7 +316,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Globally unique identifier for the event */
         fun eventToken(eventToken: String) = eventToken(JsonField.of(eventToken))
@@ -324,7 +330,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventToken(eventToken: JsonField<String>) = apply { this.eventToken = eventToken }
+        fun eventToken(eventToken: JsonField<String>) = apply {
+            this.eventToken = eventToken
+        }
 
         /** Event type */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -336,7 +344,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         /** The cardholder's response to the challenge */
         fun response(response: Response) = response(JsonField.of(response))
@@ -348,7 +358,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun response(response: JsonField<Response>) = apply { this.response = response }
+        fun response(response: JsonField<Response>) = apply {
+            this.response = response
+        }
 
         /** The token of the transaction associated with the authorization event being challenged */
         fun transactionToken(transactionToken: String?) =
@@ -382,7 +394,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -409,14 +423,38 @@ private constructor(
          */
         fun build(): CardAuthorizationChallengeResponseWebhookEvent =
             CardAuthorizationChallengeResponseWebhookEvent(
-                checkRequired("cardToken", cardToken),
-                checkRequired("challengeMethod", challengeMethod),
-                checkRequired("completed", completed),
-                checkRequired("created", created),
-                checkRequired("eventToken", eventToken),
-                checkRequired("eventType", eventType),
-                checkRequired("response", response),
-                checkRequired("transactionToken", transactionToken),
+                checkRequired(
+                    "cardToken",
+                    cardToken,
+                ),
+                checkRequired(
+                    "challengeMethod",
+                    challengeMethod,
+                ),
+                checkRequired(
+                    "completed",
+                    completed,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "eventToken",
+                    eventToken,
+                ),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
+                checkRequired(
+                    "transactionToken",
+                    transactionToken,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -504,9 +542,11 @@ private constructor(
          * An enum containing [ChallengeMethod]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [ChallengeMethod] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -640,9 +680,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -774,9 +816,11 @@ private constructor(
          * An enum containing [Response]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Response] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

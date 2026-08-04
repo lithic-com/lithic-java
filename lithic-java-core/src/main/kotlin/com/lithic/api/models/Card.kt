@@ -240,6 +240,7 @@ private constructor(
 
     /**
      * Spend limit duration values:
+     *
      * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
      * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
      * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
@@ -780,7 +781,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Globally unique identifier for the account to which the card belongs. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -821,7 +824,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Funding account for a card */
         fun funding(funding: NonPciCard.FundingAccount?) = funding(JsonField.ofNullable(funding))
@@ -849,7 +854,9 @@ private constructor(
          * You should usually call [Builder.lastFour] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
+        fun lastFour(lastFour: JsonField<String>) = apply {
+            this.lastFour = lastFour
+        }
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
@@ -880,10 +887,13 @@ private constructor(
          * You should usually call [Builder.spendLimit] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
+        fun spendLimit(spendLimit: JsonField<Long>) = apply {
+            this.spendLimit = spendLimit
+        }
 
         /**
          * Spend limit duration values:
+         *
          * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
          *   card.
@@ -932,7 +942,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun state(state: JsonField<NonPciCard.State>) = apply { this.state = state }
+        fun state(state: JsonField<NonPciCard.State>) = apply {
+            this.state = state
+        }
 
         /**
          * Card types: * `VIRTUAL` - Card will authorize at any merchant and can be added to a
@@ -954,7 +966,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun type(type: JsonField<NonPciCard.Type>) = apply { this.type = type }
+        fun type(type: JsonField<NonPciCard.Type>) = apply {
+            this.type = type
+        }
 
         /**
          * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
@@ -1037,7 +1051,9 @@ private constructor(
          * You should usually call [Builder.comment] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun comment(comment: JsonField<String>) = apply { this.comment = comment }
+        fun comment(comment: JsonField<String>) = apply {
+            this.comment = comment
+        }
 
         /**
          * Specifies the digital card art to be displayed in the user's digital wallet after
@@ -1073,7 +1089,9 @@ private constructor(
          * You should usually call [Builder.expMonth] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
+        fun expMonth(expMonth: JsonField<String>) = apply {
+            this.expMonth = expMonth
+        }
 
         /** Four digit (yyyy) expiry year. */
         fun expYear(expYear: String) = expYear(JsonField.of(expYear))
@@ -1084,7 +1102,9 @@ private constructor(
          * You should usually call [Builder.expYear] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
+        fun expYear(expYear: JsonField<String>) = apply {
+            this.expYear = expYear
+        }
 
         /** Hostname of card's locked merchant (will be empty if not applicable). */
         fun hostname(hostname: String) = hostname(JsonField.of(hostname))
@@ -1095,7 +1115,9 @@ private constructor(
          * You should usually call [Builder.hostname] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun hostname(hostname: JsonField<String>) = apply { this.hostname = hostname }
+        fun hostname(hostname: JsonField<String>) = apply {
+            this.hostname = hostname
+        }
 
         /** Friendly name to identify the card. */
         fun memo(memo: String) = memo(JsonField.of(memo))
@@ -1106,7 +1128,9 @@ private constructor(
          * You should usually call [Builder.memo] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+        fun memo(memo: JsonField<String>) = apply {
+            this.memo = memo
+        }
 
         /**
          * Globally unique identifier for the card's network program. Null if the card is not
@@ -1181,7 +1205,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun productId(productId: JsonField<String>) = apply { this.productId = productId }
+        fun productId(productId: JsonField<String>) = apply {
+            this.productId = productId
+        }
 
         /**
          * If the card is a replacement for another card, the globally unique identifier for the
@@ -1250,7 +1276,9 @@ private constructor(
          * You should usually call [Builder.cvv] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
+        fun cvv(cvv: JsonField<String>) = apply {
+            this.cvv = cvv
+        }
 
         /**
          * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
@@ -1265,7 +1293,9 @@ private constructor(
          * You should usually call [Builder.pan] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+        fun pan(pan: JsonField<String>) = apply {
+            this.pan = pan
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -1280,7 +1310,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1310,17 +1342,50 @@ private constructor(
          */
         fun build(): Card =
             Card(
-                checkRequired("token", token),
-                checkRequired("accountToken", accountToken),
-                checkRequired("cardProgramToken", cardProgramToken),
-                checkRequired("created", created),
-                checkRequired("funding", funding),
-                checkRequired("lastFour", lastFour),
-                checkRequired("pinStatus", pinStatus),
-                checkRequired("spendLimit", spendLimit),
-                checkRequired("spendLimitDuration", spendLimitDuration),
-                checkRequired("state", state),
-                checkRequired("type", type),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "accountToken",
+                    accountToken,
+                ),
+                checkRequired(
+                    "cardProgramToken",
+                    cardProgramToken,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "funding",
+                    funding,
+                ),
+                checkRequired(
+                    "lastFour",
+                    lastFour,
+                ),
+                checkRequired(
+                    "pinStatus",
+                    pinStatus,
+                ),
+                checkRequired(
+                    "spendLimit",
+                    spendLimit,
+                ),
+                checkRequired(
+                    "spendLimitDuration",
+                    spendLimitDuration,
+                ),
+                checkRequired(
+                    "state",
+                    state,
+                ),
+                checkRequired(
+                    "type",
+                    type,
+                ),
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 bulkOrderToken,
                 cardholderCurrency,

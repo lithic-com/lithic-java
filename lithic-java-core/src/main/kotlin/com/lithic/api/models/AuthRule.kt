@@ -200,6 +200,7 @@ private constructor(
      * The type of Auth Rule. For certain rule types, this determines the event stream during which
      * it will be evaluated. For rules that can be applied to one of several event streams, the
      * effective one is defined by the separate `event_stream` field.
+     *
      * - `CONDITIONAL_BLOCK`: Deprecated. Use `CONDITIONAL_ACTION` instead. AUTHORIZATION event
      *   stream.
      * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
@@ -460,7 +461,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Account tokens to which the Auth Rule applies. */
         fun accountTokens(accountTokens: List<String>) = accountTokens(JsonField.of(accountTokens))
@@ -620,7 +623,9 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { this.name = name }
+        fun name(name: JsonField<String>) = apply {
+            this.name = name
+        }
 
         /** Whether the Auth Rule applies to all authorizations on the card program. */
         fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
@@ -646,12 +651,15 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun state(state: JsonField<AuthRuleState>) = apply { this.state = state }
+        fun state(state: JsonField<AuthRuleState>) = apply {
+            this.state = state
+        }
 
         /**
          * The type of Auth Rule. For certain rule types, this determines the event stream during
          * which it will be evaluated. For rules that can be applied to one of several event
          * streams, the effective one is defined by the separate `event_stream` field.
+         *
          * - `CONDITIONAL_BLOCK`: Deprecated. Use `CONDITIONAL_ACTION` instead. AUTHORIZATION event
          *   stream.
          * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
@@ -672,7 +680,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
+        fun type(type: JsonField<AuthRuleType>) = apply {
+            this.type = type
+        }
 
         /** Account tokens to which the Auth Rule does not apply. */
         fun excludedAccountTokens(excludedAccountTokens: List<String>) =
@@ -714,8 +724,9 @@ private constructor(
          */
         fun excludedBusinessAccountTokens(excludedBusinessAccountTokens: JsonField<List<String>>) =
             apply {
-                this.excludedBusinessAccountTokens =
-                    excludedBusinessAccountTokens.map { it.toMutableList() }
+                this.excludedBusinessAccountTokens = excludedBusinessAccountTokens.map {
+                    it.toMutableList()
+                }
             }
 
         /**
@@ -771,7 +782,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -802,20 +815,57 @@ private constructor(
          */
         fun build(): AuthRule =
             AuthRule(
-                checkRequired("token", token),
-                checkRequired("accountTokens", accountTokens).map { it.toImmutable() },
-                checkRequired("businessAccountTokens", businessAccountTokens).map {
-                    it.toImmutable()
-                },
-                checkRequired("cardTokens", cardTokens).map { it.toImmutable() },
-                checkRequired("currentVersion", currentVersion),
-                checkRequired("draftVersion", draftVersion),
-                checkRequired("eventStream", eventStream),
-                checkRequired("lithicManaged", lithicManaged),
-                checkRequired("name", name),
-                checkRequired("programLevel", programLevel),
-                checkRequired("state", state),
-                checkRequired("type", type),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                        "accountTokens",
+                        accountTokens,
+                    )
+                    .map { it.toImmutable() },
+                checkRequired(
+                        "businessAccountTokens",
+                        businessAccountTokens,
+                    )
+                    .map { it.toImmutable() },
+                checkRequired(
+                        "cardTokens",
+                        cardTokens,
+                    )
+                    .map { it.toImmutable() },
+                checkRequired(
+                    "currentVersion",
+                    currentVersion,
+                ),
+                checkRequired(
+                    "draftVersion",
+                    draftVersion,
+                ),
+                checkRequired(
+                    "eventStream",
+                    eventStream,
+                ),
+                checkRequired(
+                    "lithicManaged",
+                    lithicManaged,
+                ),
+                checkRequired(
+                    "name",
+                    name,
+                ),
+                checkRequired(
+                    "programLevel",
+                    programLevel,
+                ),
+                checkRequired(
+                    "state",
+                    state,
+                ),
+                checkRequired(
+                    "type",
+                    type,
+                ),
                 (excludedAccountTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 (excludedBusinessAccountTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 (excludedCardTokens ?: JsonMissing.of()).map { it.toImmutable() },
@@ -901,7 +951,11 @@ private constructor(
             @ExcludeMissing
             parameters: JsonField<Parameters> = JsonMissing.of(),
             @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
-        ) : this(parameters, version, mutableMapOf())
+        ) : this(
+            parameters,
+            version,
+            mutableMapOf(),
+        )
 
         /**
          * Parameters for the Auth Rule
@@ -1100,7 +1154,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun version(version: JsonField<Long>) = apply { this.version = version }
+            fun version(version: JsonField<Long>) = apply {
+                this.version = version
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1115,7 +1171,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1136,8 +1194,14 @@ private constructor(
              */
             fun build(): CurrentVersion =
                 CurrentVersion(
-                    checkRequired("parameters", parameters),
-                    checkRequired("version", version),
+                    checkRequired(
+                        "parameters",
+                        parameters,
+                    ),
+                    checkRequired(
+                        "version",
+                        version,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1724,17 +1788,23 @@ private constructor(
                     val bestMatches =
                         sequenceOf(
                                 tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())
-                                    ?.let { Parameters(conditionalBlock = it, _json = json) },
+                                    ?.let {
+                                        Parameters(conditionalBlock = it, _json = json)
+                                    },
                                 tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
                                     Parameters(velocityLimitParams = it, _json = json)
                                 },
                                 tryDeserialize(node, jacksonTypeRef<MerchantLockParameters>())
-                                    ?.let { Parameters(merchantLock = it, _json = json) },
+                                    ?.let {
+                                        Parameters(merchantLock = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<Conditional3dsActionParameters>(),
                                     )
-                                    ?.let { Parameters(conditional3dsAction = it, _json = json) },
+                                    ?.let {
+                                        Parameters(conditional3dsAction = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<ConditionalAuthorizationActionParameters>(),
@@ -1749,7 +1819,9 @@ private constructor(
                                         node,
                                         jacksonTypeRef<ConditionalAchActionParameters>(),
                                     )
-                                    ?.let { Parameters(conditionalAchAction = it, _json = json) },
+                                    ?.let {
+                                        Parameters(conditionalAchAction = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<ConditionalTokenizationActionParameters>(),
@@ -1782,7 +1854,9 @@ private constructor(
                                         )
                                     },
                                 tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
-                                    ?.let { Parameters(typescriptCode = it, _json = json) },
+                                    ?.let {
+                                        Parameters(typescriptCode = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<
@@ -1886,7 +1960,13 @@ private constructor(
             parameters: JsonField<Parameters> = JsonMissing.of(),
             @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
             @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
-        ) : this(error, parameters, state, version, mutableMapOf())
+        ) : this(
+            error,
+            parameters,
+            state,
+            version,
+            mutableMapOf(),
+        )
 
         /**
          * An error message if the draft version failed compilation. Populated when `state` is
@@ -1910,6 +1990,7 @@ private constructor(
          * immediately `SHADOWING`. Rules backed by TypeScript code are compiled asynchronously —
          * the state starts as `PENDING` and transitions to `SHADOWING` on success or `ERROR` on
          * failure.
+         *
          * - `PENDING`: Compilation of the rule is in progress (TypeScript rules only).
          * - `SHADOWING`: The draft version is ready and evaluating in shadow mode alongside the
          *   current active version. It can be promoted to the active version.
@@ -2020,7 +2101,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun error(error: JsonField<String>) = apply { this.error = error }
+            fun error(error: JsonField<String>) = apply {
+                this.error = error
+            }
 
             /** Parameters for the Auth Rule */
             fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
@@ -2140,6 +2223,7 @@ private constructor(
              * immediately `SHADOWING`. Rules backed by TypeScript code are compiled asynchronously
              * — the state starts as `PENDING` and transitions to `SHADOWING` on success or `ERROR`
              * on failure.
+             *
              * - `PENDING`: Compilation of the rule is in progress (TypeScript rules only).
              * - `SHADOWING`: The draft version is ready and evaluating in shadow mode alongside the
              *   current active version. It can be promoted to the active version.
@@ -2154,7 +2238,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun state(state: JsonField<State>) = apply { this.state = state }
+            fun state(state: JsonField<State>) = apply {
+                this.state = state
+            }
 
             /**
              * The version of the rule, this is incremented whenever the rule's parameters change.
@@ -2168,7 +2254,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun version(version: JsonField<Long>) = apply { this.version = version }
+            fun version(version: JsonField<Long>) = apply {
+                this.version = version
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -2183,7 +2271,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -2206,10 +2296,22 @@ private constructor(
              */
             fun build(): DraftVersion =
                 DraftVersion(
-                    checkRequired("error", error),
-                    checkRequired("parameters", parameters),
-                    checkRequired("state", state),
-                    checkRequired("version", version),
+                    checkRequired(
+                        "error",
+                        error,
+                    ),
+                    checkRequired(
+                        "parameters",
+                        parameters,
+                    ),
+                    checkRequired(
+                        "state",
+                        state,
+                    ),
+                    checkRequired(
+                        "version",
+                        version,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -2800,17 +2902,23 @@ private constructor(
                     val bestMatches =
                         sequenceOf(
                                 tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())
-                                    ?.let { Parameters(conditionalBlock = it, _json = json) },
+                                    ?.let {
+                                        Parameters(conditionalBlock = it, _json = json)
+                                    },
                                 tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
                                     Parameters(velocityLimitParams = it, _json = json)
                                 },
                                 tryDeserialize(node, jacksonTypeRef<MerchantLockParameters>())
-                                    ?.let { Parameters(merchantLock = it, _json = json) },
+                                    ?.let {
+                                        Parameters(merchantLock = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<Conditional3dsActionParameters>(),
                                     )
-                                    ?.let { Parameters(conditional3dsAction = it, _json = json) },
+                                    ?.let {
+                                        Parameters(conditional3dsAction = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<ConditionalAuthorizationActionParameters>(),
@@ -2825,7 +2933,9 @@ private constructor(
                                         node,
                                         jacksonTypeRef<ConditionalAchActionParameters>(),
                                     )
-                                    ?.let { Parameters(conditionalAchAction = it, _json = json) },
+                                    ?.let {
+                                        Parameters(conditionalAchAction = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<ConditionalTokenizationActionParameters>(),
@@ -2858,7 +2968,9 @@ private constructor(
                                         )
                                     },
                                 tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
-                                    ?.let { Parameters(typescriptCode = it, _json = json) },
+                                    ?.let {
+                                        Parameters(typescriptCode = it, _json = json)
+                                    },
                                 tryDeserialize(
                                         node,
                                         jacksonTypeRef<
@@ -2928,6 +3040,7 @@ private constructor(
          * immediately `SHADOWING`. Rules backed by TypeScript code are compiled asynchronously —
          * the state starts as `PENDING` and transitions to `SHADOWING` on success or `ERROR` on
          * failure.
+         *
          * - `PENDING`: Compilation of the rule is in progress (TypeScript rules only).
          * - `SHADOWING`: The draft version is ready and evaluating in shadow mode alongside the
          *   current active version. It can be promoted to the active version.
@@ -2967,9 +3080,11 @@ private constructor(
              * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [State] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -3134,9 +3249,11 @@ private constructor(
          * An enum containing [AuthRuleState]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [AuthRuleState] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -3244,6 +3361,7 @@ private constructor(
      * The type of Auth Rule. For certain rule types, this determines the event stream during which
      * it will be evaluated. For rules that can be applied to one of several event streams, the
      * effective one is defined by the separate `event_stream` field.
+     *
      * - `CONDITIONAL_BLOCK`: Deprecated. Use `CONDITIONAL_ACTION` instead. AUTHORIZATION event
      *   stream.
      * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
@@ -3296,9 +3414,11 @@ private constructor(
          * An enum containing [AuthRuleType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [AuthRuleType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

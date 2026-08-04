@@ -31,7 +31,12 @@ interface CommentServiceAsync {
     fun create(
         caseToken: String,
         params: TransactionMonitoringCaseCommentCreateParams,
-    ): CompletableFuture<CaseActivityEntry> = create(caseToken, params, RequestOptions.none())
+    ): CompletableFuture<CaseActivityEntry> =
+        create(
+            caseToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -39,12 +44,19 @@ interface CommentServiceAsync {
         params: TransactionMonitoringCaseCommentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CaseActivityEntry> =
-        create(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+        create(
+            params.toBuilder().caseToken(caseToken).build(),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(
         params: TransactionMonitoringCaseCommentCreateParams
-    ): CompletableFuture<CaseActivityEntry> = create(params, RequestOptions.none())
+    ): CompletableFuture<CaseActivityEntry> =
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -56,7 +68,12 @@ interface CommentServiceAsync {
     fun update(
         commentToken: String,
         params: TransactionMonitoringCaseCommentUpdateParams,
-    ): CompletableFuture<CaseActivityEntry> = update(commentToken, params, RequestOptions.none())
+    ): CompletableFuture<CaseActivityEntry> =
+        update(
+            commentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -64,12 +81,19 @@ interface CommentServiceAsync {
         params: TransactionMonitoringCaseCommentUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CaseActivityEntry> =
-        update(params.toBuilder().commentToken(commentToken).build(), requestOptions)
+        update(
+            params.toBuilder().commentToken(commentToken).build(),
+            requestOptions,
+        )
 
     /** @see update */
     fun update(
         params: TransactionMonitoringCaseCommentUpdateParams
-    ): CompletableFuture<CaseActivityEntry> = update(params, RequestOptions.none())
+    ): CompletableFuture<CaseActivityEntry> =
+        update(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -81,7 +105,12 @@ interface CommentServiceAsync {
     fun delete(
         commentToken: String,
         params: TransactionMonitoringCaseCommentDeleteParams,
-    ): CompletableFuture<Void?> = delete(commentToken, params, RequestOptions.none())
+    ): CompletableFuture<Void?> =
+        delete(
+            commentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -89,11 +118,17 @@ interface CommentServiceAsync {
         params: TransactionMonitoringCaseCommentDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?> =
-        delete(params.toBuilder().commentToken(commentToken).build(), requestOptions)
+        delete(
+            params.toBuilder().commentToken(commentToken).build(),
+            requestOptions,
+        )
 
     /** @see delete */
     fun delete(params: TransactionMonitoringCaseCommentDeleteParams): CompletableFuture<Void?> =
-        delete(params, RequestOptions.none())
+        delete(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -124,7 +159,11 @@ interface CommentServiceAsync {
             caseToken: String,
             params: TransactionMonitoringCaseCommentCreateParams,
         ): CompletableFuture<HttpResponseFor<CaseActivityEntry>> =
-            create(caseToken, params, RequestOptions.none())
+            create(
+                caseToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -132,13 +171,19 @@ interface CommentServiceAsync {
             params: TransactionMonitoringCaseCommentCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CaseActivityEntry>> =
-            create(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+            create(
+                params.toBuilder().caseToken(caseToken).build(),
+                requestOptions,
+            )
 
         /** @see create */
         fun create(
             params: TransactionMonitoringCaseCommentCreateParams
         ): CompletableFuture<HttpResponseFor<CaseActivityEntry>> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -155,7 +200,11 @@ interface CommentServiceAsync {
             commentToken: String,
             params: TransactionMonitoringCaseCommentUpdateParams,
         ): CompletableFuture<HttpResponseFor<CaseActivityEntry>> =
-            update(commentToken, params, RequestOptions.none())
+            update(
+                commentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
@@ -163,13 +212,19 @@ interface CommentServiceAsync {
             params: TransactionMonitoringCaseCommentUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CaseActivityEntry>> =
-            update(params.toBuilder().commentToken(commentToken).build(), requestOptions)
+            update(
+                params.toBuilder().commentToken(commentToken).build(),
+                requestOptions,
+            )
 
         /** @see update */
         fun update(
             params: TransactionMonitoringCaseCommentUpdateParams
         ): CompletableFuture<HttpResponseFor<CaseActivityEntry>> =
-            update(params, RequestOptions.none())
+            update(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
@@ -185,7 +240,12 @@ interface CommentServiceAsync {
         fun delete(
             commentToken: String,
             params: TransactionMonitoringCaseCommentDeleteParams,
-        ): CompletableFuture<HttpResponse> = delete(commentToken, params, RequestOptions.none())
+        ): CompletableFuture<HttpResponse> =
+            delete(
+                commentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         fun delete(
@@ -193,12 +253,19 @@ interface CommentServiceAsync {
             params: TransactionMonitoringCaseCommentDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse> =
-            delete(params.toBuilder().commentToken(commentToken).build(), requestOptions)
+            delete(
+                params.toBuilder().commentToken(commentToken).build(),
+                requestOptions,
+            )
 
         /** @see delete */
         fun delete(
             params: TransactionMonitoringCaseCommentDeleteParams
-        ): CompletableFuture<HttpResponse> = delete(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponse> =
+            delete(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         fun delete(

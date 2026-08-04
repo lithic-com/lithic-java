@@ -72,7 +72,9 @@ private constructor(
                     eventEventSubscriptionResendParams.additionalBodyProperties.toMutableMap()
             }
 
-        fun eventToken(eventToken: String) = apply { this.eventToken = eventToken }
+        fun eventToken(eventToken: String) = apply {
+            this.eventToken = eventToken
+        }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String?) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
@@ -127,7 +129,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -177,7 +181,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -219,7 +225,10 @@ private constructor(
          */
         fun build(): EventEventSubscriptionResendParams =
             EventEventSubscriptionResendParams(
-                checkRequired("eventToken", eventToken),
+                checkRequired(
+                    "eventToken",
+                    eventToken,
+                ),
                 eventSubscriptionToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

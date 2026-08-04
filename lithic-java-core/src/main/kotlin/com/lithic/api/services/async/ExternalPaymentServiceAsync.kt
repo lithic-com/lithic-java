@@ -33,7 +33,10 @@ interface ExternalPaymentServiceAsync {
 
     /** Create external payment */
     fun create(params: ExternalPaymentCreateParams): CompletableFuture<ExternalPayment> =
-        create(params, RequestOptions.none())
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -43,7 +46,10 @@ interface ExternalPaymentServiceAsync {
 
     /** Get external payment */
     fun retrieve(externalPaymentToken: String): CompletableFuture<ExternalPayment> =
-        retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none())
+        retrieve(
+            externalPaymentToken,
+            ExternalPaymentRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -61,7 +67,11 @@ interface ExternalPaymentServiceAsync {
         externalPaymentToken: String,
         params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
     ): CompletableFuture<ExternalPayment> =
-        retrieve(externalPaymentToken, params, RequestOptions.none())
+        retrieve(
+            externalPaymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -71,14 +81,21 @@ interface ExternalPaymentServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: ExternalPaymentRetrieveParams): CompletableFuture<ExternalPayment> =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         externalPaymentToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ExternalPayment> =
-        retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none(), requestOptions)
+        retrieve(
+            externalPaymentToken,
+            ExternalPaymentRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** List external payments */
     fun list(): CompletableFuture<ExternalPaymentListPageAsync> =
@@ -93,18 +110,29 @@ interface ExternalPaymentServiceAsync {
     /** @see list */
     fun list(
         params: ExternalPaymentListParams = ExternalPaymentListParams.none()
-    ): CompletableFuture<ExternalPaymentListPageAsync> = list(params, RequestOptions.none())
+    ): CompletableFuture<ExternalPaymentListPageAsync> =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<ExternalPaymentListPageAsync> =
-        list(ExternalPaymentListParams.none(), requestOptions)
+        list(
+            ExternalPaymentListParams.none(),
+            requestOptions,
+        )
 
     /** Cancel external payment */
     fun cancel(
         externalPaymentToken: String,
         params: ExternalPaymentCancelParams,
     ): CompletableFuture<ExternalPayment> =
-        cancel(externalPaymentToken, params, RequestOptions.none())
+        cancel(
+            externalPaymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see cancel */
     fun cancel(
@@ -119,7 +147,10 @@ interface ExternalPaymentServiceAsync {
 
     /** @see cancel */
     fun cancel(params: ExternalPaymentCancelParams): CompletableFuture<ExternalPayment> =
-        cancel(params, RequestOptions.none())
+        cancel(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see cancel */
     fun cancel(
@@ -132,7 +163,11 @@ interface ExternalPaymentServiceAsync {
         externalPaymentToken: String,
         params: ExternalPaymentReleaseParams,
     ): CompletableFuture<ExternalPayment> =
-        release(externalPaymentToken, params, RequestOptions.none())
+        release(
+            externalPaymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see release */
     fun release(
@@ -147,7 +182,10 @@ interface ExternalPaymentServiceAsync {
 
     /** @see release */
     fun release(params: ExternalPaymentReleaseParams): CompletableFuture<ExternalPayment> =
-        release(params, RequestOptions.none())
+        release(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see release */
     fun release(
@@ -160,7 +198,11 @@ interface ExternalPaymentServiceAsync {
         externalPaymentToken: String,
         params: ExternalPaymentReverseParams,
     ): CompletableFuture<ExternalPayment> =
-        reverse(externalPaymentToken, params, RequestOptions.none())
+        reverse(
+            externalPaymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see reverse */
     fun reverse(
@@ -175,7 +217,10 @@ interface ExternalPaymentServiceAsync {
 
     /** @see reverse */
     fun reverse(params: ExternalPaymentReverseParams): CompletableFuture<ExternalPayment> =
-        reverse(params, RequestOptions.none())
+        reverse(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see reverse */
     fun reverse(
@@ -188,7 +233,11 @@ interface ExternalPaymentServiceAsync {
         externalPaymentToken: String,
         params: ExternalPaymentSettleParams,
     ): CompletableFuture<ExternalPayment> =
-        settle(externalPaymentToken, params, RequestOptions.none())
+        settle(
+            externalPaymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see settle */
     fun settle(
@@ -203,7 +252,10 @@ interface ExternalPaymentServiceAsync {
 
     /** @see settle */
     fun settle(params: ExternalPaymentSettleParams): CompletableFuture<ExternalPayment> =
-        settle(params, RequestOptions.none())
+        settle(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see settle */
     fun settle(
@@ -233,7 +285,10 @@ interface ExternalPaymentServiceAsync {
         fun create(
             params: ExternalPaymentCreateParams
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -248,7 +303,10 @@ interface ExternalPaymentServiceAsync {
         fun retrieve(
             externalPaymentToken: String
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none())
+            retrieve(
+                externalPaymentToken,
+                ExternalPaymentRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -266,7 +324,11 @@ interface ExternalPaymentServiceAsync {
             externalPaymentToken: String,
             params: ExternalPaymentRetrieveParams = ExternalPaymentRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            retrieve(externalPaymentToken, params, RequestOptions.none())
+            retrieve(
+                externalPaymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -278,14 +340,21 @@ interface ExternalPaymentServiceAsync {
         fun retrieve(
             params: ExternalPaymentRetrieveParams
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
             externalPaymentToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            retrieve(externalPaymentToken, ExternalPaymentRetrieveParams.none(), requestOptions)
+            retrieve(
+                externalPaymentToken,
+                ExternalPaymentRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/external_payments`, but is otherwise the same as
@@ -304,13 +373,19 @@ interface ExternalPaymentServiceAsync {
         fun list(
             params: ExternalPaymentListParams = ExternalPaymentListParams.none()
         ): CompletableFuture<HttpResponseFor<ExternalPaymentListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ExternalPaymentListPageAsync>> =
-            list(ExternalPaymentListParams.none(), requestOptions)
+            list(
+                ExternalPaymentListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
@@ -321,7 +396,11 @@ interface ExternalPaymentServiceAsync {
             externalPaymentToken: String,
             params: ExternalPaymentCancelParams,
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            cancel(externalPaymentToken, params, RequestOptions.none())
+            cancel(
+                externalPaymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see cancel */
         fun cancel(
@@ -338,7 +417,10 @@ interface ExternalPaymentServiceAsync {
         fun cancel(
             params: ExternalPaymentCancelParams
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            cancel(params, RequestOptions.none())
+            cancel(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see cancel */
         fun cancel(
@@ -355,7 +437,11 @@ interface ExternalPaymentServiceAsync {
             externalPaymentToken: String,
             params: ExternalPaymentReleaseParams,
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            release(externalPaymentToken, params, RequestOptions.none())
+            release(
+                externalPaymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see release */
         fun release(
@@ -372,7 +458,10 @@ interface ExternalPaymentServiceAsync {
         fun release(
             params: ExternalPaymentReleaseParams
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            release(params, RequestOptions.none())
+            release(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see release */
         fun release(
@@ -389,7 +478,11 @@ interface ExternalPaymentServiceAsync {
             externalPaymentToken: String,
             params: ExternalPaymentReverseParams,
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            reverse(externalPaymentToken, params, RequestOptions.none())
+            reverse(
+                externalPaymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see reverse */
         fun reverse(
@@ -406,7 +499,10 @@ interface ExternalPaymentServiceAsync {
         fun reverse(
             params: ExternalPaymentReverseParams
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            reverse(params, RequestOptions.none())
+            reverse(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see reverse */
         fun reverse(
@@ -423,7 +519,11 @@ interface ExternalPaymentServiceAsync {
             externalPaymentToken: String,
             params: ExternalPaymentSettleParams,
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            settle(externalPaymentToken, params, RequestOptions.none())
+            settle(
+                externalPaymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see settle */
         fun settle(
@@ -440,7 +540,10 @@ interface ExternalPaymentServiceAsync {
         fun settle(
             params: ExternalPaymentSettleParams
         ): CompletableFuture<HttpResponseFor<ExternalPayment>> =
-            settle(params, RequestOptions.none())
+            settle(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see settle */
         fun settle(

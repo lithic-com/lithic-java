@@ -29,7 +29,10 @@ interface EnhancedCommercialDataService {
      * sandbox.
      */
     fun retrieve(transactionToken: String): EnhancedCommercialDataRetrieveResponse =
-        retrieve(transactionToken, TransactionEnhancedCommercialDataRetrieveParams.none())
+        retrieve(
+            transactionToken,
+            TransactionEnhancedCommercialDataRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -38,7 +41,10 @@ interface EnhancedCommercialDataService {
             TransactionEnhancedCommercialDataRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EnhancedCommercialDataRetrieveResponse =
-        retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().transactionToken(transactionToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -46,7 +52,11 @@ interface EnhancedCommercialDataService {
         params: TransactionEnhancedCommercialDataRetrieveParams =
             TransactionEnhancedCommercialDataRetrieveParams.none(),
     ): EnhancedCommercialDataRetrieveResponse =
-        retrieve(transactionToken, params, RequestOptions.none())
+        retrieve(
+            transactionToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -57,7 +67,11 @@ interface EnhancedCommercialDataService {
     /** @see retrieve */
     fun retrieve(
         params: TransactionEnhancedCommercialDataRetrieveParams
-    ): EnhancedCommercialDataRetrieveResponse = retrieve(params, RequestOptions.none())
+    ): EnhancedCommercialDataRetrieveResponse =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -94,7 +108,10 @@ interface EnhancedCommercialDataService {
         fun retrieve(
             transactionToken: String
         ): HttpResponseFor<EnhancedCommercialDataRetrieveResponse> =
-            retrieve(transactionToken, TransactionEnhancedCommercialDataRetrieveParams.none())
+            retrieve(
+                transactionToken,
+                TransactionEnhancedCommercialDataRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -104,7 +121,10 @@ interface EnhancedCommercialDataService {
                 TransactionEnhancedCommercialDataRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<EnhancedCommercialDataRetrieveResponse> =
-            retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().transactionToken(transactionToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -113,7 +133,11 @@ interface EnhancedCommercialDataService {
             params: TransactionEnhancedCommercialDataRetrieveParams =
                 TransactionEnhancedCommercialDataRetrieveParams.none(),
         ): HttpResponseFor<EnhancedCommercialDataRetrieveResponse> =
-            retrieve(transactionToken, params, RequestOptions.none())
+            retrieve(
+                transactionToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -127,7 +151,10 @@ interface EnhancedCommercialDataService {
         fun retrieve(
             params: TransactionEnhancedCommercialDataRetrieveParams
         ): HttpResponseFor<EnhancedCommercialDataRetrieveResponse> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed

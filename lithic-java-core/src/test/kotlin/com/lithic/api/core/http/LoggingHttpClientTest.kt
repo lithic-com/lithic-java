@@ -680,7 +680,10 @@ internal class LoggingHttpClientTest {
     @ValueSource(booleans = [false, true])
     fun infoLevel_doesNotLogRequestFailure(async: Boolean) {
         val client =
-            loggingClient(failingHttpClient(IOException("Connection refused")), LogLevel.INFO)
+            loggingClient(
+                failingHttpClient(IOException("Connection refused")),
+                LogLevel.INFO,
+            )
 
         assertThatThrownBy { client.execute(simpleGetRequest(), async) }
 
@@ -697,7 +700,10 @@ internal class LoggingHttpClientTest {
     @ValueSource(booleans = [false, true])
     fun debugLevel_logsRequestFailureAfterHeaders(async: Boolean) {
         val client =
-            loggingClient(failingHttpClient(IOException("Connection refused")), LogLevel.DEBUG)
+            loggingClient(
+                failingHttpClient(IOException("Connection refused")),
+                LogLevel.DEBUG,
+            )
 
         assertThatThrownBy { client.execute(simpleGetRequest(), async) }
 
@@ -716,7 +722,11 @@ internal class LoggingHttpClientTest {
     @ParameterizedTest
     @ValueSource(booleans = [false, true])
     fun errorLevel_logsRequestFailureWithoutMessage(async: Boolean) {
-        val client = loggingClient(failingHttpClient(IOException()), LogLevel.ERROR)
+        val client =
+            loggingClient(
+                failingHttpClient(IOException()),
+                LogLevel.ERROR,
+            )
 
         assertThatThrownBy { client.execute(simpleGetRequest(), async) }
 
@@ -734,7 +744,10 @@ internal class LoggingHttpClientTest {
     @ValueSource(booleans = [false, true])
     fun offLevel_doesNotLogRequestFailure(async: Boolean) {
         val client =
-            loggingClient(failingHttpClient(IOException("Connection refused")), LogLevel.OFF)
+            loggingClient(
+                failingHttpClient(IOException("Connection refused")),
+                LogLevel.OFF,
+            )
 
         assertThatThrownBy { client.execute(simpleGetRequest(), async) }
 

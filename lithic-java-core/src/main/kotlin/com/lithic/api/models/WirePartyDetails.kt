@@ -34,7 +34,13 @@ private constructor(
         @JsonProperty("agent_id") @ExcludeMissing agentId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("agent_name") @ExcludeMissing agentName: JsonField<String> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-    ) : this(accountNumber, agentId, agentName, name, mutableMapOf())
+    ) : this(
+        accountNumber,
+        agentId,
+        agentName,
+        name,
+        mutableMapOf(),
+    )
 
     /**
      * Account number
@@ -165,7 +171,9 @@ private constructor(
          * You should usually call [Builder.agentId] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun agentId(agentId: JsonField<String>) = apply { this.agentId = agentId }
+        fun agentId(agentId: JsonField<String>) = apply {
+            this.agentId = agentId
+        }
 
         /** Name of the financial institution */
         fun agentName(agentName: String?) = agentName(JsonField.ofNullable(agentName))
@@ -180,7 +188,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun agentName(agentName: JsonField<String>) = apply { this.agentName = agentName }
+        fun agentName(agentName: JsonField<String>) = apply {
+            this.agentName = agentName
+        }
 
         /** Name of the person or company */
         fun name(name: String?) = name(JsonField.ofNullable(name))
@@ -194,7 +204,9 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { this.name = name }
+        fun name(name: JsonField<String>) = apply {
+            this.name = name
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -209,7 +221,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)

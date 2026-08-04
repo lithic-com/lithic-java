@@ -79,14 +79,24 @@ internal constructor(private val clientOptions: ClientOptions) : LoanTapeConfigu
                         "loan_tape_configuration",
                     )
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { retrieveHandler.handle(it) }
+                            .use {
+                                retrieveHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

@@ -47,7 +47,9 @@ private constructor(
                 is JsonString -> put(name, value.value)
                 is JsonArray -> value.values.forEach { put(name, it) }
                 is JsonObject ->
-                    value.values.forEach { (nestedName, value) -> put("$name.$nestedName", value) }
+                    value.values.forEach { (nestedName, value) ->
+                        put("$name.$nestedName", value)
+                    }
             }
         }
 

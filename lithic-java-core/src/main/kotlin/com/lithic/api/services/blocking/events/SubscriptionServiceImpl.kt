@@ -152,12 +152,21 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments("v1", "event_subscriptions")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { createHandler.handle(it) }
+                    .use {
+                        createHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -182,12 +191,21 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "event_subscriptions", params._pathParam(0))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { retrieveHandler.handle(it) }
+                    .use {
+                        retrieveHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -213,12 +231,21 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments("v1", "event_subscriptions", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { updateHandler.handle(it) }
+                    .use {
+                        updateHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -240,12 +267,21 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "event_subscriptions")
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { listHandler.handle(it) }
+                    .use {
+                        listHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -277,11 +313,20 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments("v1", "event_subscriptions", params._pathParam(0))
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
-                response.use { deleteHandler.handle(it) }
+                response.use {
+                    deleteHandler.handle(it)
+                }
             }
         }
 
@@ -301,12 +346,21 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "event_subscriptions", params._pathParam(0), "attempts")
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { listAttemptsHandler.handle(it) }
+                    .use {
+                        listAttemptsHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -338,11 +392,20 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments("v1", "event_subscriptions", params._pathParam(0), "recover")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
-                response.use { recoverHandler.handle(it) }
+                response.use {
+                    recoverHandler.handle(it)
+                }
             }
         }
 
@@ -367,11 +430,20 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     )
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
-                response.use { replayMissingHandler.handle(it) }
+                response.use {
+                    replayMissingHandler.handle(it)
+                }
             }
         }
 
@@ -391,12 +463,21 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "event_subscriptions", params._pathParam(0), "secret")
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { retrieveSecretHandler.handle(it) }
+                    .use {
+                        retrieveSecretHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -427,11 +508,20 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     )
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
-                response.use { rotateSecretHandler.handle(it) }
+                response.use {
+                    rotateSecretHandler.handle(it)
+                }
             }
         }
 
@@ -457,11 +547,20 @@ class SubscriptionServiceImpl internal constructor(private val clientOptions: Cl
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
-                response.use { sendSimulatedExampleHandler.handle(it) }
+                response.use {
+                    sendSimulatedExampleHandler.handle(it)
+                }
             }
         }
     }

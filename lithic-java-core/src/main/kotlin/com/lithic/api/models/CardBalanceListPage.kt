@@ -81,13 +81,19 @@ private constructor(
             response = cardBalanceListPage.response
         }
 
-        fun service(service: BalanceService) = apply { this.service = service }
+        fun service(service: BalanceService) = apply {
+            this.service = service
+        }
 
         /** The parameters that were used to request this page. */
-        fun params(params: CardBalanceListParams) = apply { this.params = params }
+        fun params(params: CardBalanceListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
-        fun response(response: CardBalanceListPageResponse) = apply { this.response = response }
+        fun response(response: CardBalanceListPageResponse) = apply {
+            this.response = response
+        }
 
         /**
          * Returns an immutable instance of [CardBalanceListPage].
@@ -105,9 +111,18 @@ private constructor(
          */
         fun build(): CardBalanceListPage =
             CardBalanceListPage(
-                checkRequired("service", service),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

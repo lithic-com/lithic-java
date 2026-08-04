@@ -31,18 +31,29 @@ interface CardAuthorizationService {
      * using this endpoint after the cardholder completes the challenge.
      */
     fun challengeResponse(eventToken: String, params: CardAuthorizationChallengeResponseParams) =
-        challengeResponse(eventToken, params, RequestOptions.none())
+        challengeResponse(
+            eventToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see challengeResponse */
     fun challengeResponse(
         eventToken: String,
         params: CardAuthorizationChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ) = challengeResponse(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+    ) =
+        challengeResponse(
+            params.toBuilder().eventToken(eventToken).build(),
+            requestOptions,
+        )
 
     /** @see challengeResponse */
     fun challengeResponse(params: CardAuthorizationChallengeResponseParams) =
-        challengeResponse(params, RequestOptions.none())
+        challengeResponse(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see challengeResponse */
     fun challengeResponse(
@@ -74,7 +85,12 @@ interface CardAuthorizationService {
         fun challengeResponse(
             eventToken: String,
             params: CardAuthorizationChallengeResponseParams,
-        ): HttpResponse = challengeResponse(eventToken, params, RequestOptions.none())
+        ): HttpResponse =
+            challengeResponse(
+                eventToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see challengeResponse */
         @MustBeClosed
@@ -83,12 +99,18 @@ interface CardAuthorizationService {
             params: CardAuthorizationChallengeResponseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse =
-            challengeResponse(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+            challengeResponse(
+                params.toBuilder().eventToken(eventToken).build(),
+                requestOptions,
+            )
 
         /** @see challengeResponse */
         @MustBeClosed
         fun challengeResponse(params: CardAuthorizationChallengeResponseParams): HttpResponse =
-            challengeResponse(params, RequestOptions.none())
+            challengeResponse(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see challengeResponse */
         @MustBeClosed

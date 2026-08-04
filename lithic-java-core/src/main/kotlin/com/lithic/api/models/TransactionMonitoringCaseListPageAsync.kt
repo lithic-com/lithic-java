@@ -53,7 +53,10 @@ private constructor(
         service.list(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<MonitoringCase> =
-        AutoPagerAsync.from(this, streamHandlerExecutor)
+        AutoPagerAsync.from(
+            this,
+            streamHandlerExecutor,
+        )
 
     /** The parameters that were used to request this page. */
     fun params(): TransactionMonitoringCaseListParams = params
@@ -98,14 +101,18 @@ private constructor(
             response = transactionMonitoringCaseListPageAsync.response
         }
 
-        fun service(service: CaseServiceAsync) = apply { this.service = service }
+        fun service(service: CaseServiceAsync) = apply {
+            this.service = service
+        }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: TransactionMonitoringCaseListParams) = apply { this.params = params }
+        fun params(params: TransactionMonitoringCaseListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
         fun response(response: TransactionMonitoringCaseListPageResponse) = apply {
@@ -129,10 +136,22 @@ private constructor(
          */
         fun build(): TransactionMonitoringCaseListPageAsync =
             TransactionMonitoringCaseListPageAsync(
-                checkRequired("service", service),
-                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "streamHandlerExecutor",
+                    streamHandlerExecutor,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

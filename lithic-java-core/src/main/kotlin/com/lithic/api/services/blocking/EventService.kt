@@ -36,20 +36,33 @@ interface EventService {
     fun eventSubscriptions(): EventSubscriptionService
 
     /** Get an event. */
-    fun retrieve(eventToken: String): Event = retrieve(eventToken, EventRetrieveParams.none())
+    fun retrieve(eventToken: String): Event =
+        retrieve(
+            eventToken,
+            EventRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         eventToken: String,
         params: EventRetrieveParams = EventRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Event = retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+    ): Event =
+        retrieve(
+            params.toBuilder().eventToken(eventToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         eventToken: String,
         params: EventRetrieveParams = EventRetrieveParams.none(),
-    ): Event = retrieve(eventToken, params, RequestOptions.none())
+    ): Event =
+        retrieve(
+            eventToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -58,11 +71,19 @@ interface EventService {
     ): Event
 
     /** @see retrieve */
-    fun retrieve(params: EventRetrieveParams): Event = retrieve(params, RequestOptions.none())
+    fun retrieve(params: EventRetrieveParams): Event =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(eventToken: String, requestOptions: RequestOptions): Event =
-        retrieve(eventToken, EventRetrieveParams.none(), requestOptions)
+        retrieve(
+            eventToken,
+            EventRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** List all events. */
     fun list(): EventListPage = list(EventListParams.none())
@@ -75,15 +96,24 @@ interface EventService {
 
     /** @see list */
     fun list(params: EventListParams = EventListParams.none()): EventListPage =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): EventListPage =
-        list(EventListParams.none(), requestOptions)
+        list(
+            EventListParams.none(),
+            requestOptions,
+        )
 
     /** List all the message attempts for a given event. */
     fun listAttempts(eventToken: String): EventListAttemptsPage =
-        listAttempts(eventToken, EventListAttemptsParams.none())
+        listAttempts(
+            eventToken,
+            EventListAttemptsParams.none(),
+        )
 
     /** @see listAttempts */
     fun listAttempts(
@@ -91,13 +121,21 @@ interface EventService {
         params: EventListAttemptsParams = EventListAttemptsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EventListAttemptsPage =
-        listAttempts(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+        listAttempts(
+            params.toBuilder().eventToken(eventToken).build(),
+            requestOptions,
+        )
 
     /** @see listAttempts */
     fun listAttempts(
         eventToken: String,
         params: EventListAttemptsParams = EventListAttemptsParams.none(),
-    ): EventListAttemptsPage = listAttempts(eventToken, params, RequestOptions.none())
+    ): EventListAttemptsPage =
+        listAttempts(
+            eventToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listAttempts */
     fun listAttempts(
@@ -107,11 +145,18 @@ interface EventService {
 
     /** @see listAttempts */
     fun listAttempts(params: EventListAttemptsParams): EventListAttemptsPage =
-        listAttempts(params, RequestOptions.none())
+        listAttempts(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listAttempts */
     fun listAttempts(eventToken: String, requestOptions: RequestOptions): EventListAttemptsPage =
-        listAttempts(eventToken, EventListAttemptsParams.none(), requestOptions)
+        listAttempts(
+            eventToken,
+            EventListAttemptsParams.none(),
+            requestOptions,
+        )
 
     fun resend(eventToken: String, eventSubscriptionToken: String, body: JsonValue)
 
@@ -135,7 +180,10 @@ interface EventService {
          */
         @MustBeClosed
         fun retrieve(eventToken: String): HttpResponseFor<Event> =
-            retrieve(eventToken, EventRetrieveParams.none())
+            retrieve(
+                eventToken,
+                EventRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -144,14 +192,22 @@ interface EventService {
             params: EventRetrieveParams = EventRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Event> =
-            retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().eventToken(eventToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             eventToken: String,
             params: EventRetrieveParams = EventRetrieveParams.none(),
-        ): HttpResponseFor<Event> = retrieve(eventToken, params, RequestOptions.none())
+        ): HttpResponseFor<Event> =
+            retrieve(
+                eventToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -163,12 +219,19 @@ interface EventService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: EventRetrieveParams): HttpResponseFor<Event> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(eventToken: String, requestOptions: RequestOptions): HttpResponseFor<Event> =
-            retrieve(eventToken, EventRetrieveParams.none(), requestOptions)
+            retrieve(
+                eventToken,
+                EventRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/events`, but is otherwise the same as
@@ -186,12 +249,18 @@ interface EventService {
         /** @see list */
         @MustBeClosed
         fun list(params: EventListParams = EventListParams.none()): HttpResponseFor<EventListPage> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<EventListPage> =
-            list(EventListParams.none(), requestOptions)
+            list(
+                EventListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/events/{event_token}/attempts`, but is otherwise
@@ -199,7 +268,10 @@ interface EventService {
          */
         @MustBeClosed
         fun listAttempts(eventToken: String): HttpResponseFor<EventListAttemptsPage> =
-            listAttempts(eventToken, EventListAttemptsParams.none())
+            listAttempts(
+                eventToken,
+                EventListAttemptsParams.none(),
+            )
 
         /** @see listAttempts */
         @MustBeClosed
@@ -208,7 +280,10 @@ interface EventService {
             params: EventListAttemptsParams = EventListAttemptsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<EventListAttemptsPage> =
-            listAttempts(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+            listAttempts(
+                params.toBuilder().eventToken(eventToken).build(),
+                requestOptions,
+            )
 
         /** @see listAttempts */
         @MustBeClosed
@@ -216,7 +291,11 @@ interface EventService {
             eventToken: String,
             params: EventListAttemptsParams = EventListAttemptsParams.none(),
         ): HttpResponseFor<EventListAttemptsPage> =
-            listAttempts(eventToken, params, RequestOptions.none())
+            listAttempts(
+                eventToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listAttempts */
         @MustBeClosed
@@ -228,7 +307,10 @@ interface EventService {
         /** @see listAttempts */
         @MustBeClosed
         fun listAttempts(params: EventListAttemptsParams): HttpResponseFor<EventListAttemptsPage> =
-            listAttempts(params, RequestOptions.none())
+            listAttempts(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listAttempts */
         @MustBeClosed
@@ -236,6 +318,10 @@ interface EventService {
             eventToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<EventListAttemptsPage> =
-            listAttempts(eventToken, EventListAttemptsParams.none(), requestOptions)
+            listAttempts(
+                eventToken,
+                EventListAttemptsParams.none(),
+                requestOptions,
+            )
     }
 }

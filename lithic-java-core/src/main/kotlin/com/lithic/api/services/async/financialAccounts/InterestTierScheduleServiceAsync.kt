@@ -36,7 +36,11 @@ interface InterestTierScheduleServiceAsync {
         financialAccountToken: String,
         params: FinancialAccountInterestTierScheduleCreateParams,
     ): CompletableFuture<InterestTierSchedule> =
-        create(financialAccountToken, params, RequestOptions.none())
+        create(
+            financialAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -52,7 +56,11 @@ interface InterestTierScheduleServiceAsync {
     /** @see create */
     fun create(
         params: FinancialAccountInterestTierScheduleCreateParams
-    ): CompletableFuture<InterestTierSchedule> = create(params, RequestOptions.none())
+    ): CompletableFuture<InterestTierSchedule> =
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -65,7 +73,11 @@ interface InterestTierScheduleServiceAsync {
         effectiveDate: LocalDate,
         params: FinancialAccountInterestTierScheduleRetrieveParams,
     ): CompletableFuture<InterestTierSchedule> =
-        retrieve(effectiveDate, params, RequestOptions.none())
+        retrieve(
+            effectiveDate,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -73,12 +85,19 @@ interface InterestTierScheduleServiceAsync {
         params: FinancialAccountInterestTierScheduleRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<InterestTierSchedule> =
-        retrieve(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
+        retrieve(
+            params.toBuilder().effectiveDate(effectiveDate).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         params: FinancialAccountInterestTierScheduleRetrieveParams
-    ): CompletableFuture<InterestTierSchedule> = retrieve(params, RequestOptions.none())
+    ): CompletableFuture<InterestTierSchedule> =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -91,7 +110,11 @@ interface InterestTierScheduleServiceAsync {
         effectiveDate: LocalDate,
         params: FinancialAccountInterestTierScheduleUpdateParams,
     ): CompletableFuture<InterestTierSchedule> =
-        update(effectiveDate, params, RequestOptions.none())
+        update(
+            effectiveDate,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -99,12 +122,19 @@ interface InterestTierScheduleServiceAsync {
         params: FinancialAccountInterestTierScheduleUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<InterestTierSchedule> =
-        update(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
+        update(
+            params.toBuilder().effectiveDate(effectiveDate).build(),
+            requestOptions,
+        )
 
     /** @see update */
     fun update(
         params: FinancialAccountInterestTierScheduleUpdateParams
-    ): CompletableFuture<InterestTierSchedule> = update(params, RequestOptions.none())
+    ): CompletableFuture<InterestTierSchedule> =
+        update(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -125,7 +155,10 @@ interface InterestTierScheduleServiceAsync {
     fun list(
         financialAccountToken: String
     ): CompletableFuture<FinancialAccountInterestTierScheduleListPageAsync> =
-        list(financialAccountToken, FinancialAccountInterestTierScheduleListParams.none())
+        list(
+            financialAccountToken,
+            FinancialAccountInterestTierScheduleListParams.none(),
+        )
 
     /** @see list */
     fun list(
@@ -145,7 +178,11 @@ interface InterestTierScheduleServiceAsync {
         params: FinancialAccountInterestTierScheduleListParams =
             FinancialAccountInterestTierScheduleListParams.none(),
     ): CompletableFuture<FinancialAccountInterestTierScheduleListPageAsync> =
-        list(financialAccountToken, params, RequestOptions.none())
+        list(
+            financialAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -157,7 +194,10 @@ interface InterestTierScheduleServiceAsync {
     fun list(
         params: FinancialAccountInterestTierScheduleListParams
     ): CompletableFuture<FinancialAccountInterestTierScheduleListPageAsync> =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -189,7 +229,12 @@ interface InterestTierScheduleServiceAsync {
     fun delete(
         effectiveDate: LocalDate,
         params: FinancialAccountInterestTierScheduleDeleteParams,
-    ): CompletableFuture<Void?> = delete(effectiveDate, params, RequestOptions.none())
+    ): CompletableFuture<Void?> =
+        delete(
+            effectiveDate,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -197,11 +242,17 @@ interface InterestTierScheduleServiceAsync {
         params: FinancialAccountInterestTierScheduleDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?> =
-        delete(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
+        delete(
+            params.toBuilder().effectiveDate(effectiveDate).build(),
+            requestOptions,
+        )
 
     /** @see delete */
     fun delete(params: FinancialAccountInterestTierScheduleDeleteParams): CompletableFuture<Void?> =
-        delete(params, RequestOptions.none())
+        delete(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -233,7 +284,11 @@ interface InterestTierScheduleServiceAsync {
             financialAccountToken: String,
             params: FinancialAccountInterestTierScheduleCreateParams,
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            create(financialAccountToken, params, RequestOptions.none())
+            create(
+                financialAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -250,7 +305,10 @@ interface InterestTierScheduleServiceAsync {
         fun create(
             params: FinancialAccountInterestTierScheduleCreateParams
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -267,7 +325,11 @@ interface InterestTierScheduleServiceAsync {
             effectiveDate: LocalDate,
             params: FinancialAccountInterestTierScheduleRetrieveParams,
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            retrieve(effectiveDate, params, RequestOptions.none())
+            retrieve(
+                effectiveDate,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -275,13 +337,19 @@ interface InterestTierScheduleServiceAsync {
             params: FinancialAccountInterestTierScheduleRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            retrieve(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
+            retrieve(
+                params.toBuilder().effectiveDate(effectiveDate).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         fun retrieve(
             params: FinancialAccountInterestTierScheduleRetrieveParams
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -298,7 +366,11 @@ interface InterestTierScheduleServiceAsync {
             effectiveDate: LocalDate,
             params: FinancialAccountInterestTierScheduleUpdateParams,
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            update(effectiveDate, params, RequestOptions.none())
+            update(
+                effectiveDate,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
@@ -306,13 +378,19 @@ interface InterestTierScheduleServiceAsync {
             params: FinancialAccountInterestTierScheduleUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            update(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
+            update(
+                params.toBuilder().effectiveDate(effectiveDate).build(),
+                requestOptions,
+            )
 
         /** @see update */
         fun update(
             params: FinancialAccountInterestTierScheduleUpdateParams
         ): CompletableFuture<HttpResponseFor<InterestTierSchedule>> =
-            update(params, RequestOptions.none())
+            update(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
@@ -328,7 +406,10 @@ interface InterestTierScheduleServiceAsync {
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountInterestTierScheduleListPageAsync>> =
-            list(financialAccountToken, FinancialAccountInterestTierScheduleListParams.none())
+            list(
+                financialAccountToken,
+                FinancialAccountInterestTierScheduleListParams.none(),
+            )
 
         /** @see list */
         fun list(
@@ -348,7 +429,11 @@ interface InterestTierScheduleServiceAsync {
             params: FinancialAccountInterestTierScheduleListParams =
                 FinancialAccountInterestTierScheduleListParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountInterestTierScheduleListPageAsync>> =
-            list(financialAccountToken, params, RequestOptions.none())
+            list(
+                financialAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
@@ -360,7 +445,10 @@ interface InterestTierScheduleServiceAsync {
         fun list(
             params: FinancialAccountInterestTierScheduleListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountInterestTierScheduleListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
@@ -381,7 +469,12 @@ interface InterestTierScheduleServiceAsync {
         fun delete(
             effectiveDate: LocalDate,
             params: FinancialAccountInterestTierScheduleDeleteParams,
-        ): CompletableFuture<HttpResponse> = delete(effectiveDate, params, RequestOptions.none())
+        ): CompletableFuture<HttpResponse> =
+            delete(
+                effectiveDate,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         fun delete(
@@ -389,12 +482,19 @@ interface InterestTierScheduleServiceAsync {
             params: FinancialAccountInterestTierScheduleDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse> =
-            delete(params.toBuilder().effectiveDate(effectiveDate).build(), requestOptions)
+            delete(
+                params.toBuilder().effectiveDate(effectiveDate).build(),
+                requestOptions,
+            )
 
         /** @see delete */
         fun delete(
             params: FinancialAccountInterestTierScheduleDeleteParams
-        ): CompletableFuture<HttpResponse> = delete(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponse> =
+            delete(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         fun delete(

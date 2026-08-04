@@ -33,7 +33,10 @@ interface BookTransferService {
      * Book transfer funds between two financial accounts or between a financial account and card
      */
     fun create(params: BookTransferCreateParams): BookTransferResponse =
-        create(params, RequestOptions.none())
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -43,7 +46,10 @@ interface BookTransferService {
 
     /** Get book transfer by token */
     fun retrieve(bookTransferToken: String): BookTransferResponse =
-        retrieve(bookTransferToken, BookTransferRetrieveParams.none())
+        retrieve(
+            bookTransferToken,
+            BookTransferRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -51,13 +57,21 @@ interface BookTransferService {
         params: BookTransferRetrieveParams = BookTransferRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BookTransferResponse =
-        retrieve(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().bookTransferToken(bookTransferToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         bookTransferToken: String,
         params: BookTransferRetrieveParams = BookTransferRetrieveParams.none(),
-    ): BookTransferResponse = retrieve(bookTransferToken, params, RequestOptions.none())
+    ): BookTransferResponse =
+        retrieve(
+            bookTransferToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -67,11 +81,18 @@ interface BookTransferService {
 
     /** @see retrieve */
     fun retrieve(params: BookTransferRetrieveParams): BookTransferResponse =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(bookTransferToken: String, requestOptions: RequestOptions): BookTransferResponse =
-        retrieve(bookTransferToken, BookTransferRetrieveParams.none(), requestOptions)
+        retrieve(
+            bookTransferToken,
+            BookTransferRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** List book transfers */
     fun list(): BookTransferListPage = list(BookTransferListParams.none())
@@ -84,15 +105,25 @@ interface BookTransferService {
 
     /** @see list */
     fun list(params: BookTransferListParams = BookTransferListParams.none()): BookTransferListPage =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): BookTransferListPage =
-        list(BookTransferListParams.none(), requestOptions)
+        list(
+            BookTransferListParams.none(),
+            requestOptions,
+        )
 
     /** Retry a book transfer that has been declined */
     fun retry(bookTransferToken: String, params: BookTransferRetryParams): BookTransferResponse =
-        retry(bookTransferToken, params, RequestOptions.none())
+        retry(
+            bookTransferToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retry */
     fun retry(
@@ -100,11 +131,17 @@ interface BookTransferService {
         params: BookTransferRetryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BookTransferResponse =
-        retry(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+        retry(
+            params.toBuilder().bookTransferToken(bookTransferToken).build(),
+            requestOptions,
+        )
 
     /** @see retry */
     fun retry(params: BookTransferRetryParams): BookTransferResponse =
-        retry(params, RequestOptions.none())
+        retry(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retry */
     fun retry(
@@ -114,7 +151,10 @@ interface BookTransferService {
 
     /** Reverse a book transfer */
     fun reverse(bookTransferToken: String): BookTransferResponse =
-        reverse(bookTransferToken, BookTransferReverseParams.none())
+        reverse(
+            bookTransferToken,
+            BookTransferReverseParams.none(),
+        )
 
     /** @see reverse */
     fun reverse(
@@ -122,13 +162,21 @@ interface BookTransferService {
         params: BookTransferReverseParams = BookTransferReverseParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BookTransferResponse =
-        reverse(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+        reverse(
+            params.toBuilder().bookTransferToken(bookTransferToken).build(),
+            requestOptions,
+        )
 
     /** @see reverse */
     fun reverse(
         bookTransferToken: String,
         params: BookTransferReverseParams = BookTransferReverseParams.none(),
-    ): BookTransferResponse = reverse(bookTransferToken, params, RequestOptions.none())
+    ): BookTransferResponse =
+        reverse(
+            bookTransferToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see reverse */
     fun reverse(
@@ -138,11 +186,18 @@ interface BookTransferService {
 
     /** @see reverse */
     fun reverse(params: BookTransferReverseParams): BookTransferResponse =
-        reverse(params, RequestOptions.none())
+        reverse(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see reverse */
     fun reverse(bookTransferToken: String, requestOptions: RequestOptions): BookTransferResponse =
-        reverse(bookTransferToken, BookTransferReverseParams.none(), requestOptions)
+        reverse(
+            bookTransferToken,
+            BookTransferReverseParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [BookTransferService] that provides access to raw HTTP responses for each method.
@@ -164,7 +219,10 @@ interface BookTransferService {
          */
         @MustBeClosed
         fun create(params: BookTransferCreateParams): HttpResponseFor<BookTransferResponse> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -179,7 +237,10 @@ interface BookTransferService {
          */
         @MustBeClosed
         fun retrieve(bookTransferToken: String): HttpResponseFor<BookTransferResponse> =
-            retrieve(bookTransferToken, BookTransferRetrieveParams.none())
+            retrieve(
+                bookTransferToken,
+                BookTransferRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -199,7 +260,11 @@ interface BookTransferService {
             bookTransferToken: String,
             params: BookTransferRetrieveParams = BookTransferRetrieveParams.none(),
         ): HttpResponseFor<BookTransferResponse> =
-            retrieve(bookTransferToken, params, RequestOptions.none())
+            retrieve(
+                bookTransferToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -211,7 +276,10 @@ interface BookTransferService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: BookTransferRetrieveParams): HttpResponseFor<BookTransferResponse> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -219,7 +287,11 @@ interface BookTransferService {
             bookTransferToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<BookTransferResponse> =
-            retrieve(bookTransferToken, BookTransferRetrieveParams.none(), requestOptions)
+            retrieve(
+                bookTransferToken,
+                BookTransferRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/book_transfers`, but is otherwise the same as
@@ -239,12 +311,19 @@ interface BookTransferService {
         @MustBeClosed
         fun list(
             params: BookTransferListParams = BookTransferListParams.none()
-        ): HttpResponseFor<BookTransferListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<BookTransferListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<BookTransferListPage> =
-            list(BookTransferListParams.none(), requestOptions)
+            list(
+                BookTransferListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/book_transfers/{book_transfer_token}/retry`,
@@ -255,7 +334,11 @@ interface BookTransferService {
             bookTransferToken: String,
             params: BookTransferRetryParams,
         ): HttpResponseFor<BookTransferResponse> =
-            retry(bookTransferToken, params, RequestOptions.none())
+            retry(
+                bookTransferToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retry */
         @MustBeClosed
@@ -264,12 +347,18 @@ interface BookTransferService {
             params: BookTransferRetryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BookTransferResponse> =
-            retry(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+            retry(
+                params.toBuilder().bookTransferToken(bookTransferToken).build(),
+                requestOptions,
+            )
 
         /** @see retry */
         @MustBeClosed
         fun retry(params: BookTransferRetryParams): HttpResponseFor<BookTransferResponse> =
-            retry(params, RequestOptions.none())
+            retry(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retry */
         @MustBeClosed
@@ -284,7 +373,10 @@ interface BookTransferService {
          */
         @MustBeClosed
         fun reverse(bookTransferToken: String): HttpResponseFor<BookTransferResponse> =
-            reverse(bookTransferToken, BookTransferReverseParams.none())
+            reverse(
+                bookTransferToken,
+                BookTransferReverseParams.none(),
+            )
 
         /** @see reverse */
         @MustBeClosed
@@ -293,7 +385,10 @@ interface BookTransferService {
             params: BookTransferReverseParams = BookTransferReverseParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BookTransferResponse> =
-            reverse(params.toBuilder().bookTransferToken(bookTransferToken).build(), requestOptions)
+            reverse(
+                params.toBuilder().bookTransferToken(bookTransferToken).build(),
+                requestOptions,
+            )
 
         /** @see reverse */
         @MustBeClosed
@@ -301,7 +396,11 @@ interface BookTransferService {
             bookTransferToken: String,
             params: BookTransferReverseParams = BookTransferReverseParams.none(),
         ): HttpResponseFor<BookTransferResponse> =
-            reverse(bookTransferToken, params, RequestOptions.none())
+            reverse(
+                bookTransferToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see reverse */
         @MustBeClosed
@@ -313,7 +412,10 @@ interface BookTransferService {
         /** @see reverse */
         @MustBeClosed
         fun reverse(params: BookTransferReverseParams): HttpResponseFor<BookTransferResponse> =
-            reverse(params, RequestOptions.none())
+            reverse(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see reverse */
         @MustBeClosed
@@ -321,6 +423,10 @@ interface BookTransferService {
             bookTransferToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<BookTransferResponse> =
-            reverse(bookTransferToken, BookTransferReverseParams.none(), requestOptions)
+            reverse(
+                bookTransferToken,
+                BookTransferReverseParams.none(),
+                requestOptions,
+            )
     }
 }

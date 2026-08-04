@@ -56,7 +56,9 @@ private constructor(
                 transactionMonitoringCaseRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun caseToken(caseToken: String?) = apply { this.caseToken = caseToken }
+        fun caseToken(caseToken: String?) = apply {
+            this.caseToken = caseToken
+        }
 
         /** Alias for calling [Builder.caseToken] with `caseToken.orElse(null)`. */
         fun caseToken(caseToken: Optional<String>) = caseToken(caseToken.getOrNull())
@@ -103,7 +105,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -153,7 +157,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

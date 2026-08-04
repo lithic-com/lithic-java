@@ -72,9 +72,13 @@ private constructor(
                 disputeDeleteEvidenceParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
+        fun disputeToken(disputeToken: String) = apply {
+            this.disputeToken = disputeToken
+        }
 
-        fun evidenceToken(evidenceToken: String?) = apply { this.evidenceToken = evidenceToken }
+        fun evidenceToken(evidenceToken: String?) = apply {
+            this.evidenceToken = evidenceToken
+        }
 
         /** Alias for calling [Builder.evidenceToken] with `evidenceToken.orElse(null)`. */
         fun evidenceToken(evidenceToken: Optional<String>) =
@@ -122,7 +126,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -172,7 +178,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -214,7 +222,10 @@ private constructor(
          */
         fun build(): DisputeDeleteEvidenceParams =
             DisputeDeleteEvidenceParams(
-                checkRequired("disputeToken", disputeToken),
+                checkRequired(
+                    "disputeToken",
+                    disputeToken,
+                ),
                 evidenceToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

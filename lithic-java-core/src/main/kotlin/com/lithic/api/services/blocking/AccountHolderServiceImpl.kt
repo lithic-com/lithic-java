@@ -151,15 +151,24 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .addPathSegments("v1", "account_holders")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions =
                 requestOptions
                     .applyDefaults(RequestOptions.from(clientOptions))
                     .applyDefaults(RequestOptions.builder().timeout(Duration.ofMinutes(5)).build())
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { createHandler.handle(it) }
+                    .use {
+                        createHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -184,12 +193,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders", params._pathParam(0))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { retrieveHandler.handle(it) }
+                    .use {
+                        retrieveHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -215,12 +233,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .addPathSegments("v1", "account_holders", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { updateHandler.handle(it) }
+                    .use {
+                        updateHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -242,12 +269,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders")
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { listHandler.handle(it) }
+                    .use {
+                        listHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -279,12 +315,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "account_holders", params._pathParam(0), "documents")
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { listDocumentsHandler.handle(it) }
+                    .use {
+                        listDocumentsHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -315,12 +360,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                         params._pathParam(1),
                     )
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { retrieveDocumentHandler.handle(it) }
+                    .use {
+                        retrieveDocumentHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -348,12 +402,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { simulateEnrollmentDocumentReviewHandler.handle(it) }
+                    .use {
+                        simulateEnrollmentDocumentReviewHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -377,12 +440,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .addPathSegments("v1", "simulate", "account_holders", "enrollment_review")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { simulateEnrollmentReviewHandler.handle(it) }
+                    .use {
+                        simulateEnrollmentReviewHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -408,12 +480,21 @@ class AccountHolderServiceImpl internal constructor(private val clientOptions: C
                     .addPathSegments("v1", "account_holders", params._pathParam(0), "documents")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { uploadDocumentHandler.handle(it) }
+                    .use {
+                        uploadDocumentHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

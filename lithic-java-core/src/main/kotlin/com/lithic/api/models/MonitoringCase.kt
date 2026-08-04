@@ -470,7 +470,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Identifier of the user the case is currently assigned to */
         fun assignee(assignee: String?) = assignee(JsonField.ofNullable(assignee))
@@ -484,7 +486,9 @@ private constructor(
          * You should usually call [Builder.assignee] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun assignee(assignee: JsonField<String>) = apply { this.assignee = assignee }
+        fun assignee(assignee: JsonField<String>) = apply {
+            this.assignee = assignee
+        }
 
         /** Date and time at which transaction collection stopped for the case */
         fun collectionStopped(collectionStopped: OffsetDateTime?) =
@@ -515,7 +519,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** The entity a case is associated with */
         fun entity(entity: CaseEntity?) = entity(JsonField.ofNullable(entity))
@@ -530,7 +536,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun entity(entity: JsonField<CaseEntity>) = apply { this.entity = entity }
+        fun entity(entity: JsonField<CaseEntity>) = apply {
+            this.entity = entity
+        }
 
         /** Whether the case still has transaction scopes pending resolution */
         fun pendingTransactions(pendingTransactions: Boolean) =
@@ -557,7 +565,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun priority(priority: JsonField<CasePriority>) = apply { this.priority = priority }
+        fun priority(priority: JsonField<CasePriority>) = apply {
+            this.priority = priority
+        }
 
         /** Token of the queue the case belongs to */
         fun queueToken(queueToken: String) = queueToken(JsonField.of(queueToken))
@@ -569,7 +579,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun queueToken(queueToken: JsonField<String>) = apply { this.queueToken = queueToken }
+        fun queueToken(queueToken: JsonField<String>) = apply {
+            this.queueToken = queueToken
+        }
 
         /**
          * Outcome recorded when the case was resolved, from the `allowed_resolutions` configured on
@@ -587,7 +599,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun resolution(resolution: JsonField<String>) = apply { this.resolution = resolution }
+        fun resolution(resolution: JsonField<String>) = apply {
+            this.resolution = resolution
+        }
 
         /** Free-form notes describing the resolution */
         fun resolutionNotes(resolutionNotes: String?) =
@@ -621,7 +635,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun resolved(resolved: JsonField<OffsetDateTime>) = apply { this.resolved = resolved }
+        fun resolved(resolved: JsonField<OffsetDateTime>) = apply {
+            this.resolved = resolved
+        }
 
         /** Token of the transaction monitoring rule that triggered the case */
         fun ruleToken(ruleToken: String?) = ruleToken(JsonField.ofNullable(ruleToken))
@@ -636,7 +652,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun ruleToken(ruleToken: JsonField<String>) = apply { this.ruleToken = ruleToken }
+        fun ruleToken(ruleToken: JsonField<String>) = apply {
+            this.ruleToken = ruleToken
+        }
 
         /** Deadline by which the case is expected to be resolved */
         fun slaDeadline(slaDeadline: OffsetDateTime?) =
@@ -675,7 +693,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun status(status: JsonField<CaseStatus>) = apply { this.status = status }
+        fun status(status: JsonField<CaseStatus>) = apply {
+            this.status = status
+        }
 
         /** Arbitrary key-value metadata associated with the case */
         fun tags(tags: Tags) = tags(JsonField.of(tags))
@@ -686,7 +706,9 @@ private constructor(
          * You should usually call [Builder.tags] with a well-typed [Tags] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun tags(tags: JsonField<Tags>) = apply { this.tags = tags }
+        fun tags(tags: JsonField<Tags>) = apply {
+            this.tags = tags
+        }
 
         /** Short, human-readable summary of the case */
         fun title(title: String?) = title(JsonField.ofNullable(title))
@@ -700,7 +722,9 @@ private constructor(
          * You should usually call [Builder.title] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun title(title: JsonField<String>) = apply { this.title = title }
+        fun title(title: JsonField<String>) = apply {
+            this.title = title
+        }
 
         /** Date and time at which the case was last updated */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -712,7 +736,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply {
+            this.updated = updated
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -727,7 +753,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -763,23 +791,74 @@ private constructor(
          */
         fun build(): MonitoringCase =
             MonitoringCase(
-                checkRequired("token", token),
-                checkRequired("assignee", assignee),
-                checkRequired("collectionStopped", collectionStopped),
-                checkRequired("created", created),
-                checkRequired("entity", entity),
-                checkRequired("pendingTransactions", pendingTransactions),
-                checkRequired("priority", priority),
-                checkRequired("queueToken", queueToken),
-                checkRequired("resolution", resolution),
-                checkRequired("resolutionNotes", resolutionNotes),
-                checkRequired("resolved", resolved),
-                checkRequired("ruleToken", ruleToken),
-                checkRequired("slaDeadline", slaDeadline),
-                checkRequired("status", status),
-                checkRequired("tags", tags),
-                checkRequired("title", title),
-                checkRequired("updated", updated),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "assignee",
+                    assignee,
+                ),
+                checkRequired(
+                    "collectionStopped",
+                    collectionStopped,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "entity",
+                    entity,
+                ),
+                checkRequired(
+                    "pendingTransactions",
+                    pendingTransactions,
+                ),
+                checkRequired(
+                    "priority",
+                    priority,
+                ),
+                checkRequired(
+                    "queueToken",
+                    queueToken,
+                ),
+                checkRequired(
+                    "resolution",
+                    resolution,
+                ),
+                checkRequired(
+                    "resolutionNotes",
+                    resolutionNotes,
+                ),
+                checkRequired(
+                    "resolved",
+                    resolved,
+                ),
+                checkRequired(
+                    "ruleToken",
+                    ruleToken,
+                ),
+                checkRequired(
+                    "slaDeadline",
+                    slaDeadline,
+                ),
+                checkRequired(
+                    "status",
+                    status,
+                ),
+                checkRequired(
+                    "tags",
+                    tags,
+                ),
+                checkRequired(
+                    "title",
+                    title,
+                ),
+                checkRequired(
+                    "updated",
+                    updated,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -895,7 +974,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -943,8 +1024,9 @@ private constructor(
          * Used for best match union deserialization.
          */
         @JvmSynthetic
-        internal fun validity(): Int =
-            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+        internal fun validity(): Int = additionalProperties.count { (_, value) ->
+            !value.isNull() && !value.isMissing()
+        }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

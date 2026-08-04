@@ -239,7 +239,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: JsonField<String>) = apply {
+            this.cardToken = cardToken
+        }
 
         /** Created date */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -251,7 +253,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -263,7 +267,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         /** The result of the tokenization request. */
         fun tokenizationResultDetails(tokenizationResultDetails: TokenizationResultDetails) =
@@ -278,7 +284,9 @@ private constructor(
          */
         fun tokenizationResultDetails(
             tokenizationResultDetails: JsonField<TokenizationResultDetails>
-        ) = apply { this.tokenizationResultDetails = tokenizationResultDetails }
+        ) = apply {
+            this.tokenizationResultDetails = tokenizationResultDetails
+        }
 
         /** Tokenization token */
         fun tokenizationToken(tokenizationToken: String) =
@@ -308,7 +316,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -333,12 +343,30 @@ private constructor(
          */
         fun build(): TokenizationResultWebhookEvent =
             TokenizationResultWebhookEvent(
-                checkRequired("accountToken", accountToken),
-                checkRequired("cardToken", cardToken),
-                checkRequired("created", created),
-                checkRequired("eventType", eventType),
-                checkRequired("tokenizationResultDetails", tokenizationResultDetails),
-                checkRequired("tokenizationToken", tokenizationToken),
+                checkRequired(
+                    "accountToken",
+                    accountToken,
+                ),
+                checkRequired(
+                    "cardToken",
+                    cardToken,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
+                checkRequired(
+                    "tokenizationResultDetails",
+                    tokenizationResultDetails,
+                ),
+                checkRequired(
+                    "tokenizationToken",
+                    tokenizationToken,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -418,9 +446,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -786,8 +816,9 @@ private constructor(
             fun tokenizationDeclineReasons(
                 tokenizationDeclineReasons: JsonField<List<TokenizationDeclineReason>>
             ) = apply {
-                this.tokenizationDeclineReasons =
-                    tokenizationDeclineReasons.map { it.toMutableList() }
+                this.tokenizationDeclineReasons = tokenizationDeclineReasons.map {
+                    it.toMutableList()
+                }
             }
 
             /**
@@ -935,7 +966,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -956,10 +989,15 @@ private constructor(
              */
             fun build(): TokenizationResultDetails =
                 TokenizationResultDetails(
-                    checkRequired("issuerDecision", issuerDecision),
-                    checkRequired("tokenizationDeclineReasons", tokenizationDeclineReasons).map {
-                        it.toImmutable()
-                    },
+                    checkRequired(
+                        "issuerDecision",
+                        issuerDecision,
+                    ),
+                    checkRequired(
+                            "tokenizationDeclineReasons",
+                            tokenizationDeclineReasons,
+                        )
+                        .map { it.toImmutable() },
                     customerDecision,
                     (ruleResults ?: JsonMissing.of()).map { it.toImmutable() },
                     tokenActivatedDateTime,
@@ -1088,9 +1126,11 @@ private constructor(
              *
              * An instance of [TokenizationDeclineReason] can contain an unknown value in a couple
              * of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {

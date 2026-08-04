@@ -110,9 +110,13 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [microDeposits]
          */
-        fun body(body: MicroDepositVerificationRequest) = apply { this.body = body.toBuilder() }
+        fun body(body: MicroDepositVerificationRequest) = apply {
+            this.body = body.toBuilder()
+        }
 
-        fun microDeposits(microDeposits: List<Long>) = apply { body.microDeposits(microDeposits) }
+        fun microDeposits(microDeposits: List<Long>) = apply {
+            body.microDeposits(microDeposits)
+        }
 
         /**
          * Sets [Builder.microDeposits] to an arbitrary JSON value.
@@ -130,14 +134,19 @@ private constructor(
          *
          * @throws IllegalStateException if the field was previously set to a non-list.
          */
-        fun addMicroDeposit(microDeposit: Long) = apply { body.addMicroDeposit(microDeposit) }
+        fun addMicroDeposit(microDeposit: Long) = apply {
+            body.addMicroDeposit(microDeposit)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -145,7 +154,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -193,7 +204,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -243,7 +256,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -294,7 +309,10 @@ private constructor(
             @JsonProperty("micro_deposits")
             @ExcludeMissing
             microDeposits: JsonField<List<Long>> = JsonMissing.of()
-        ) : this(microDeposits, mutableMapOf())
+        ) : this(
+            microDeposits,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -392,7 +410,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -412,7 +432,11 @@ private constructor(
              */
             fun build(): MicroDepositVerificationRequest =
                 MicroDepositVerificationRequest(
-                    checkRequired("microDeposits", microDeposits).map { it.toImmutable() },
+                    checkRequired(
+                            "microDeposits",
+                            microDeposits,
+                        )
+                        .map { it.toImmutable() },
                     additionalProperties.toMutableMap(),
                 )
         }

@@ -106,14 +106,24 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts", params._pathParam(0))
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { retrieveHandler.handle(it) }
+                            .use {
+                                retrieveHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -139,14 +149,24 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     .addPathSegments("v1", "accounts", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { updateHandler.handle(it) }
+                            .use {
+                                updateHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -169,14 +189,24 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts")
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { listHandler.handle(it) }
+                            .use {
+                                listHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -210,14 +240,24 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts", params._pathParam(0), "signals")
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { retrieveSignalsHandler.handle(it) }
+                            .use {
+                                retrieveSignalsHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -243,14 +283,24 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "accounts", params._pathParam(0), "spend_limits")
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { retrieveSpendLimitsHandler.handle(it) }
+                            .use {
+                                retrieveSpendLimitsHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

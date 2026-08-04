@@ -140,10 +140,14 @@ private constructor(
          * - [documentType]
          * - [entityToken]
          */
-        fun body(body: Body) = apply { this.body = body.toBuilder() }
+        fun body(body: Body) = apply {
+            this.body = body.toBuilder()
+        }
 
         /** The type of document to upload */
-        fun documentType(documentType: DocumentType) = apply { body.documentType(documentType) }
+        fun documentType(documentType: DocumentType) = apply {
+            body.documentType(documentType)
+        }
 
         /**
          * Sets [Builder.documentType] to an arbitrary JSON value.
@@ -157,7 +161,9 @@ private constructor(
         }
 
         /** Globally unique identifier for the entity. */
-        fun entityToken(entityToken: String) = apply { body.entityToken(entityToken) }
+        fun entityToken(entityToken: String) = apply {
+            body.entityToken(entityToken)
+        }
 
         /**
          * Sets [Builder.entityToken] to an arbitrary JSON value.
@@ -166,14 +172,19 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun entityToken(entityToken: JsonField<String>) = apply { body.entityToken(entityToken) }
+        fun entityToken(entityToken: JsonField<String>) = apply {
+            body.entityToken(entityToken)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -181,7 +192,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -229,7 +242,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -279,7 +294,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -335,7 +352,11 @@ private constructor(
             @JsonProperty("entity_token")
             @ExcludeMissing
             entityToken: JsonField<String> = JsonMissing.of(),
-        ) : this(documentType, entityToken, mutableMapOf())
+        ) : this(
+            documentType,
+            entityToken,
+            mutableMapOf(),
+        )
 
         /**
          * The type of document to upload
@@ -453,7 +474,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -474,8 +497,14 @@ private constructor(
              */
             fun build(): Body =
                 Body(
-                    checkRequired("documentType", documentType),
-                    checkRequired("entityToken", entityToken),
+                    checkRequired(
+                        "documentType",
+                        documentType,
+                    ),
+                    checkRequired(
+                        "entityToken",
+                        entityToken,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -625,9 +654,11 @@ private constructor(
          * An enum containing [DocumentType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [DocumentType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

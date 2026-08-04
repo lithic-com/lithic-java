@@ -43,7 +43,11 @@ interface ExternalBankAccountServiceAsync {
     /** Creates an external bank account within a program or Lithic account. */
     fun create(
         params: ExternalBankAccountCreateParams
-    ): CompletableFuture<ExternalBankAccountCreateResponse> = create(params, RequestOptions.none())
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -56,12 +60,19 @@ interface ExternalBankAccountServiceAsync {
         body: ExternalBankAccountCreateParams.Body,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountCreateResponse> =
-        create(ExternalBankAccountCreateParams.builder().body(body).build(), requestOptions)
+        create(
+            ExternalBankAccountCreateParams.builder().body(body).build(),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(
         body: ExternalBankAccountCreateParams.Body
-    ): CompletableFuture<ExternalBankAccountCreateResponse> = create(body, RequestOptions.none())
+    ): CompletableFuture<ExternalBankAccountCreateResponse> =
+        create(
+            body,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -81,7 +92,10 @@ interface ExternalBankAccountServiceAsync {
         bankVerifiedCreateBankAccountApiRequest:
             ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
     ): CompletableFuture<ExternalBankAccountCreateResponse> =
-        create(bankVerifiedCreateBankAccountApiRequest, RequestOptions.none())
+        create(
+            bankVerifiedCreateBankAccountApiRequest,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -99,26 +113,38 @@ interface ExternalBankAccountServiceAsync {
         externallyVerified:
             ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest
     ): CompletableFuture<ExternalBankAccountCreateResponse> =
-        create(externallyVerified, RequestOptions.none())
+        create(
+            externallyVerified,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
         unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ExternalBankAccountCreateResponse> =
-        create(ExternalBankAccountCreateParams.Body.ofUnverified(unverified), requestOptions)
+        create(
+            ExternalBankAccountCreateParams.Body.ofUnverified(unverified),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(
         unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest
     ): CompletableFuture<ExternalBankAccountCreateResponse> =
-        create(unverified, RequestOptions.none())
+        create(
+            unverified,
+            RequestOptions.none(),
+        )
 
     /** Get the external bank account by token. */
     fun retrieve(
         externalBankAccountToken: String
     ): CompletableFuture<ExternalBankAccountRetrieveResponse> =
-        retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none())
+        retrieve(
+            externalBankAccountToken,
+            ExternalBankAccountRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -136,7 +162,11 @@ interface ExternalBankAccountServiceAsync {
         externalBankAccountToken: String,
         params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
     ): CompletableFuture<ExternalBankAccountRetrieveResponse> =
-        retrieve(externalBankAccountToken, params, RequestOptions.none())
+        retrieve(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -148,20 +178,30 @@ interface ExternalBankAccountServiceAsync {
     fun retrieve(
         params: ExternalBankAccountRetrieveParams
     ): CompletableFuture<ExternalBankAccountRetrieveResponse> =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ExternalBankAccountRetrieveResponse> =
-        retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none(), requestOptions)
+        retrieve(
+            externalBankAccountToken,
+            ExternalBankAccountRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** Update the external bank account by token. */
     fun update(
         externalBankAccountToken: String
     ): CompletableFuture<ExternalBankAccountUpdateResponse> =
-        update(externalBankAccountToken, ExternalBankAccountUpdateParams.none())
+        update(
+            externalBankAccountToken,
+            ExternalBankAccountUpdateParams.none(),
+        )
 
     /** @see update */
     fun update(
@@ -179,7 +219,11 @@ interface ExternalBankAccountServiceAsync {
         externalBankAccountToken: String,
         params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
     ): CompletableFuture<ExternalBankAccountUpdateResponse> =
-        update(externalBankAccountToken, params, RequestOptions.none())
+        update(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -190,14 +234,22 @@ interface ExternalBankAccountServiceAsync {
     /** @see update */
     fun update(
         params: ExternalBankAccountUpdateParams
-    ): CompletableFuture<ExternalBankAccountUpdateResponse> = update(params, RequestOptions.none())
+    ): CompletableFuture<ExternalBankAccountUpdateResponse> =
+        update(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ExternalBankAccountUpdateResponse> =
-        update(externalBankAccountToken, ExternalBankAccountUpdateParams.none(), requestOptions)
+        update(
+            externalBankAccountToken,
+            ExternalBankAccountUpdateParams.none(),
+            requestOptions,
+        )
 
     /** List all the external bank accounts for the provided search criteria. */
     fun list(): CompletableFuture<ExternalBankAccountListPageAsync> =
@@ -212,15 +264,25 @@ interface ExternalBankAccountServiceAsync {
     /** @see list */
     fun list(
         params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
-    ): CompletableFuture<ExternalBankAccountListPageAsync> = list(params, RequestOptions.none())
+    ): CompletableFuture<ExternalBankAccountListPageAsync> =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<ExternalBankAccountListPageAsync> =
-        list(ExternalBankAccountListParams.none(), requestOptions)
+        list(
+            ExternalBankAccountListParams.none(),
+            requestOptions,
+        )
 
     /** Pause an external bank account */
     fun pause(externalBankAccountToken: String): CompletableFuture<ExternalBankAccount> =
-        pause(externalBankAccountToken, ExternalBankAccountPauseParams.none())
+        pause(
+            externalBankAccountToken,
+            ExternalBankAccountPauseParams.none(),
+        )
 
     /** @see pause */
     fun pause(
@@ -238,7 +300,11 @@ interface ExternalBankAccountServiceAsync {
         externalBankAccountToken: String,
         params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
     ): CompletableFuture<ExternalBankAccount> =
-        pause(externalBankAccountToken, params, RequestOptions.none())
+        pause(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see pause */
     fun pause(
@@ -248,14 +314,21 @@ interface ExternalBankAccountServiceAsync {
 
     /** @see pause */
     fun pause(params: ExternalBankAccountPauseParams): CompletableFuture<ExternalBankAccount> =
-        pause(params, RequestOptions.none())
+        pause(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see pause */
     fun pause(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ExternalBankAccount> =
-        pause(externalBankAccountToken, ExternalBankAccountPauseParams.none(), requestOptions)
+        pause(
+            externalBankAccountToken,
+            ExternalBankAccountPauseParams.none(),
+            requestOptions,
+        )
 
     /** Retry external bank account micro deposit verification. */
     fun retryMicroDeposits(
@@ -284,7 +357,11 @@ interface ExternalBankAccountServiceAsync {
         params: ExternalBankAccountRetryMicroDepositsParams =
             ExternalBankAccountRetryMicroDepositsParams.none(),
     ): CompletableFuture<ExternalBankAccountRetryMicroDepositsResponse> =
-        retryMicroDeposits(externalBankAccountToken, params, RequestOptions.none())
+        retryMicroDeposits(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryMicroDeposits */
     fun retryMicroDeposits(
@@ -296,7 +373,10 @@ interface ExternalBankAccountServiceAsync {
     fun retryMicroDeposits(
         params: ExternalBankAccountRetryMicroDepositsParams
     ): CompletableFuture<ExternalBankAccountRetryMicroDepositsResponse> =
-        retryMicroDeposits(params, RequestOptions.none())
+        retryMicroDeposits(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryMicroDeposits */
     fun retryMicroDeposits(
@@ -311,7 +391,10 @@ interface ExternalBankAccountServiceAsync {
 
     /** Retry external bank account prenote verification. */
     fun retryPrenote(externalBankAccountToken: String): CompletableFuture<ExternalBankAccount> =
-        retryPrenote(externalBankAccountToken, ExternalBankAccountRetryPrenoteParams.none())
+        retryPrenote(
+            externalBankAccountToken,
+            ExternalBankAccountRetryPrenoteParams.none(),
+        )
 
     /** @see retryPrenote */
     fun retryPrenote(
@@ -330,7 +413,11 @@ interface ExternalBankAccountServiceAsync {
         externalBankAccountToken: String,
         params: ExternalBankAccountRetryPrenoteParams = ExternalBankAccountRetryPrenoteParams.none(),
     ): CompletableFuture<ExternalBankAccount> =
-        retryPrenote(externalBankAccountToken, params, RequestOptions.none())
+        retryPrenote(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryPrenote */
     fun retryPrenote(
@@ -341,7 +428,11 @@ interface ExternalBankAccountServiceAsync {
     /** @see retryPrenote */
     fun retryPrenote(
         params: ExternalBankAccountRetryPrenoteParams
-    ): CompletableFuture<ExternalBankAccount> = retryPrenote(params, RequestOptions.none())
+    ): CompletableFuture<ExternalBankAccount> =
+        retryPrenote(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retryPrenote */
     fun retryPrenote(
@@ -362,7 +453,11 @@ interface ExternalBankAccountServiceAsync {
         externalBankAccountToken: String,
         params: ExternalBankAccountSetVerificationMethodParams,
     ): CompletableFuture<ExternalBankAccount> =
-        setVerificationMethod(externalBankAccountToken, params, RequestOptions.none())
+        setVerificationMethod(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see setVerificationMethod */
     fun setVerificationMethod(
@@ -378,7 +473,11 @@ interface ExternalBankAccountServiceAsync {
     /** @see setVerificationMethod */
     fun setVerificationMethod(
         params: ExternalBankAccountSetVerificationMethodParams
-    ): CompletableFuture<ExternalBankAccount> = setVerificationMethod(params, RequestOptions.none())
+    ): CompletableFuture<ExternalBankAccount> =
+        setVerificationMethod(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see setVerificationMethod */
     fun setVerificationMethod(
@@ -388,7 +487,10 @@ interface ExternalBankAccountServiceAsync {
 
     /** Unpause an external bank account */
     fun unpause(externalBankAccountToken: String): CompletableFuture<ExternalBankAccount> =
-        unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none())
+        unpause(
+            externalBankAccountToken,
+            ExternalBankAccountUnpauseParams.none(),
+        )
 
     /** @see unpause */
     fun unpause(
@@ -406,7 +508,11 @@ interface ExternalBankAccountServiceAsync {
         externalBankAccountToken: String,
         params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
     ): CompletableFuture<ExternalBankAccount> =
-        unpause(externalBankAccountToken, params, RequestOptions.none())
+        unpause(
+            externalBankAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see unpause */
     fun unpause(
@@ -416,14 +522,21 @@ interface ExternalBankAccountServiceAsync {
 
     /** @see unpause */
     fun unpause(params: ExternalBankAccountUnpauseParams): CompletableFuture<ExternalBankAccount> =
-        unpause(params, RequestOptions.none())
+        unpause(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see unpause */
     fun unpause(
         externalBankAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<ExternalBankAccount> =
-        unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none(), requestOptions)
+        unpause(
+            externalBankAccountToken,
+            ExternalBankAccountUnpauseParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [ExternalBankAccountServiceAsync] that provides access to raw HTTP responses for
@@ -449,7 +562,10 @@ interface ExternalBankAccountServiceAsync {
         fun create(
             params: ExternalBankAccountCreateParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -462,13 +578,19 @@ interface ExternalBankAccountServiceAsync {
             body: ExternalBankAccountCreateParams.Body,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(ExternalBankAccountCreateParams.builder().body(body).build(), requestOptions)
+            create(
+                ExternalBankAccountCreateParams.builder().body(body).build(),
+                requestOptions,
+            )
 
         /** @see create */
         fun create(
             body: ExternalBankAccountCreateParams.Body
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(body, RequestOptions.none())
+            create(
+                body,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -488,7 +610,10 @@ interface ExternalBankAccountServiceAsync {
             bankVerifiedCreateBankAccountApiRequest:
                 ExternalBankAccountCreateParams.Body.BankVerifiedCreateBankAccountApiRequest
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(bankVerifiedCreateBankAccountApiRequest, RequestOptions.none())
+            create(
+                bankVerifiedCreateBankAccountApiRequest,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
@@ -506,20 +631,29 @@ interface ExternalBankAccountServiceAsync {
             externallyVerified:
                 ExternalBankAccountCreateParams.Body.ExternallyVerifiedCreateBankAccountApiRequest
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(externallyVerified, RequestOptions.none())
+            create(
+                externallyVerified,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         fun create(
             unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(ExternalBankAccountCreateParams.Body.ofUnverified(unverified), requestOptions)
+            create(
+                ExternalBankAccountCreateParams.Body.ofUnverified(unverified),
+                requestOptions,
+            )
 
         /** @see create */
         fun create(
             unverified: ExternalBankAccountCreateParams.Body.UnverifiedCreateBankAccountApiRequest
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountCreateResponse>> =
-            create(unverified, RequestOptions.none())
+            create(
+                unverified,
+                RequestOptions.none(),
+            )
 
         /**
          * Returns a raw HTTP response for `get
@@ -529,7 +663,10 @@ interface ExternalBankAccountServiceAsync {
         fun retrieve(
             externalBankAccountToken: String
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>> =
-            retrieve(externalBankAccountToken, ExternalBankAccountRetrieveParams.none())
+            retrieve(
+                externalBankAccountToken,
+                ExternalBankAccountRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -547,7 +684,11 @@ interface ExternalBankAccountServiceAsync {
             externalBankAccountToken: String,
             params: ExternalBankAccountRetrieveParams = ExternalBankAccountRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>> =
-            retrieve(externalBankAccountToken, params, RequestOptions.none())
+            retrieve(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -559,7 +700,10 @@ interface ExternalBankAccountServiceAsync {
         fun retrieve(
             params: ExternalBankAccountRetrieveParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetrieveResponse>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -580,7 +724,10 @@ interface ExternalBankAccountServiceAsync {
         fun update(
             externalBankAccountToken: String
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> =
-            update(externalBankAccountToken, ExternalBankAccountUpdateParams.none())
+            update(
+                externalBankAccountToken,
+                ExternalBankAccountUpdateParams.none(),
+            )
 
         /** @see update */
         fun update(
@@ -598,7 +745,11 @@ interface ExternalBankAccountServiceAsync {
             externalBankAccountToken: String,
             params: ExternalBankAccountUpdateParams = ExternalBankAccountUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> =
-            update(externalBankAccountToken, params, RequestOptions.none())
+            update(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
@@ -610,14 +761,21 @@ interface ExternalBankAccountServiceAsync {
         fun update(
             params: ExternalBankAccountUpdateParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> =
-            update(params, RequestOptions.none())
+            update(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountUpdateResponse>> =
-            update(externalBankAccountToken, ExternalBankAccountUpdateParams.none(), requestOptions)
+            update(
+                externalBankAccountToken,
+                ExternalBankAccountUpdateParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/external_bank_accounts`, but is otherwise the
@@ -636,13 +794,19 @@ interface ExternalBankAccountServiceAsync {
         fun list(
             params: ExternalBankAccountListParams = ExternalBankAccountListParams.none()
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountListPageAsync>> =
-            list(ExternalBankAccountListParams.none(), requestOptions)
+            list(
+                ExternalBankAccountListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
@@ -652,7 +816,10 @@ interface ExternalBankAccountServiceAsync {
         fun pause(
             externalBankAccountToken: String
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            pause(externalBankAccountToken, ExternalBankAccountPauseParams.none())
+            pause(
+                externalBankAccountToken,
+                ExternalBankAccountPauseParams.none(),
+            )
 
         /** @see pause */
         fun pause(
@@ -670,7 +837,11 @@ interface ExternalBankAccountServiceAsync {
             externalBankAccountToken: String,
             params: ExternalBankAccountPauseParams = ExternalBankAccountPauseParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            pause(externalBankAccountToken, params, RequestOptions.none())
+            pause(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see pause */
         fun pause(
@@ -682,14 +853,21 @@ interface ExternalBankAccountServiceAsync {
         fun pause(
             params: ExternalBankAccountPauseParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            pause(params, RequestOptions.none())
+            pause(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see pause */
         fun pause(
             externalBankAccountToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            pause(externalBankAccountToken, ExternalBankAccountPauseParams.none(), requestOptions)
+            pause(
+                externalBankAccountToken,
+                ExternalBankAccountPauseParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
@@ -722,7 +900,11 @@ interface ExternalBankAccountServiceAsync {
             params: ExternalBankAccountRetryMicroDepositsParams =
                 ExternalBankAccountRetryMicroDepositsParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse>> =
-            retryMicroDeposits(externalBankAccountToken, params, RequestOptions.none())
+            retryMicroDeposits(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryMicroDeposits */
         fun retryMicroDeposits(
@@ -734,7 +916,10 @@ interface ExternalBankAccountServiceAsync {
         fun retryMicroDeposits(
             params: ExternalBankAccountRetryMicroDepositsParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccountRetryMicroDepositsResponse>> =
-            retryMicroDeposits(params, RequestOptions.none())
+            retryMicroDeposits(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryMicroDeposits */
         fun retryMicroDeposits(
@@ -755,7 +940,10 @@ interface ExternalBankAccountServiceAsync {
         fun retryPrenote(
             externalBankAccountToken: String
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            retryPrenote(externalBankAccountToken, ExternalBankAccountRetryPrenoteParams.none())
+            retryPrenote(
+                externalBankAccountToken,
+                ExternalBankAccountRetryPrenoteParams.none(),
+            )
 
         /** @see retryPrenote */
         fun retryPrenote(
@@ -775,7 +963,11 @@ interface ExternalBankAccountServiceAsync {
             params: ExternalBankAccountRetryPrenoteParams =
                 ExternalBankAccountRetryPrenoteParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            retryPrenote(externalBankAccountToken, params, RequestOptions.none())
+            retryPrenote(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryPrenote */
         fun retryPrenote(
@@ -787,7 +979,10 @@ interface ExternalBankAccountServiceAsync {
         fun retryPrenote(
             params: ExternalBankAccountRetryPrenoteParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            retryPrenote(params, RequestOptions.none())
+            retryPrenote(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retryPrenote */
         fun retryPrenote(
@@ -809,7 +1004,11 @@ interface ExternalBankAccountServiceAsync {
             externalBankAccountToken: String,
             params: ExternalBankAccountSetVerificationMethodParams,
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            setVerificationMethod(externalBankAccountToken, params, RequestOptions.none())
+            setVerificationMethod(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see setVerificationMethod */
         fun setVerificationMethod(
@@ -826,7 +1025,10 @@ interface ExternalBankAccountServiceAsync {
         fun setVerificationMethod(
             params: ExternalBankAccountSetVerificationMethodParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            setVerificationMethod(params, RequestOptions.none())
+            setVerificationMethod(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see setVerificationMethod */
         fun setVerificationMethod(
@@ -842,7 +1044,10 @@ interface ExternalBankAccountServiceAsync {
         fun unpause(
             externalBankAccountToken: String
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            unpause(externalBankAccountToken, ExternalBankAccountUnpauseParams.none())
+            unpause(
+                externalBankAccountToken,
+                ExternalBankAccountUnpauseParams.none(),
+            )
 
         /** @see unpause */
         fun unpause(
@@ -860,7 +1065,11 @@ interface ExternalBankAccountServiceAsync {
             externalBankAccountToken: String,
             params: ExternalBankAccountUnpauseParams = ExternalBankAccountUnpauseParams.none(),
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            unpause(externalBankAccountToken, params, RequestOptions.none())
+            unpause(
+                externalBankAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see unpause */
         fun unpause(
@@ -872,7 +1081,10 @@ interface ExternalBankAccountServiceAsync {
         fun unpause(
             params: ExternalBankAccountUnpauseParams
         ): CompletableFuture<HttpResponseFor<ExternalBankAccount>> =
-            unpause(params, RequestOptions.none())
+            unpause(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see unpause */
         fun unpause(

@@ -35,7 +35,13 @@ private constructor(
         @JsonProperty("registered_program_identification_number")
         @ExcludeMissing
         registeredProgramIdentificationNumber: JsonField<String> = JsonMissing.of(),
-    ) : this(token, defaultProductCode, name, registeredProgramIdentificationNumber, mutableMapOf())
+    ) : this(
+        token,
+        defaultProductCode,
+        name,
+        registeredProgramIdentificationNumber,
+        mutableMapOf(),
+    )
 
     /**
      * Lithic-generated unique identifier for the program
@@ -163,7 +169,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Network product ID associated with this program. */
         fun defaultProductCode(defaultProductCode: String) =
@@ -189,7 +197,9 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { this.name = name }
+        fun name(name: JsonField<String>) = apply {
+            this.name = name
+        }
 
         /** RPIN value assigned by the network. */
         fun registeredProgramIdentificationNumber(registeredProgramIdentificationNumber: String) =
@@ -223,7 +233,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -246,9 +258,18 @@ private constructor(
          */
         fun build(): NetworkProgram =
             NetworkProgram(
-                checkRequired("token", token),
-                checkRequired("defaultProductCode", defaultProductCode),
-                checkRequired("name", name),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "defaultProductCode",
+                    defaultProductCode,
+                ),
+                checkRequired(
+                    "name",
+                    name,
+                ),
                 checkRequired(
                     "registeredProgramIdentificationNumber",
                     registeredProgramIdentificationNumber,

@@ -812,7 +812,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply { this.token = token }
+            fun token(token: JsonField<String>) = apply {
+                this.token = token
+            }
 
             /** Globally unique identifier for the account. */
             fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -849,8 +851,9 @@ private constructor(
             fun beneficialOwnerIndividuals(
                 beneficialOwnerIndividuals: JsonField<List<Individual>>
             ) = apply {
-                this.beneficialOwnerIndividuals =
-                    beneficialOwnerIndividuals.map { it.toMutableList() }
+                this.beneficialOwnerIndividuals = beneficialOwnerIndividuals.map {
+                    it.toMutableList()
+                }
             }
 
             /**
@@ -945,7 +948,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+            fun created(created: JsonField<OffsetDateTime>) = apply {
+                this.created = created
+            }
 
             /**
              * (Deprecated. Use control_person.email when user_type == "BUSINESS". Use
@@ -961,7 +966,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun email(email: JsonField<String>) = apply { this.email = email }
+            fun email(email: JsonField<String>) = apply {
+                this.email = email
+            }
 
             /**
              * The type of KYC exemption for a KYC-Exempt Account Holder. `null` if the account
@@ -994,7 +1001,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+            fun externalId(externalId: JsonField<String>) = apply {
+                this.externalId = externalId
+            }
 
             /**
              * Only present when user_type == "INDIVIDUAL". Information about the individual for
@@ -1026,7 +1035,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun naicsCode(naicsCode: JsonField<String>) = apply { this.naicsCode = naicsCode }
+            fun naicsCode(naicsCode: JsonField<String>) = apply {
+                this.naicsCode = naicsCode
+            }
 
             /**
              * Only present when user_type == "BUSINESS". User-submitted description of the
@@ -1110,7 +1121,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun status(status: JsonField<Status>) = apply { this.status = status }
+            fun status(status: JsonField<Status>) = apply {
+                this.status = status
+            }
 
             /**
              * (Deprecated. Use verification_application.status_reasons) Reason for the evaluation
@@ -1159,7 +1172,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun userType(userType: JsonField<UserType>) = apply { this.userType = userType }
+            fun userType(userType: JsonField<UserType>) = apply {
+                this.userType = userType
+            }
 
             /** Information about the most recent identity verification attempt */
             fun verificationApplication(verificationApplication: VerificationApplication) =
@@ -1174,7 +1189,9 @@ private constructor(
              */
             fun verificationApplication(
                 verificationApplication: JsonField<VerificationApplication>
-            ) = apply { this.verificationApplication = verificationApplication }
+            ) = apply {
+                this.verificationApplication = verificationApplication
+            }
 
             /** Only present when user_type == "BUSINESS". Business's primary website. */
             fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
@@ -1186,7 +1203,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
+            fun websiteUrl(websiteUrl: JsonField<String>) = apply {
+                this.websiteUrl = websiteUrl
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1201,7 +1220,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1533,7 +1554,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun address(address: JsonField<Address>) = apply { this.address = address }
+                fun address(address: JsonField<Address>) = apply {
+                    this.address = address
+                }
 
                 /** Individual's date of birth, as an RFC 3339 date. */
                 fun dob(dob: String) = dob(JsonField.of(dob))
@@ -1545,7 +1568,9 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun dob(dob: JsonField<String>) = apply { this.dob = dob }
+                fun dob(dob: JsonField<String>) = apply {
+                    this.dob = dob
+                }
 
                 /**
                  * Individual's email address. If utilizing Lithic for chargeback processing, this
@@ -1560,7 +1585,9 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun email(email: JsonField<String>) = apply { this.email = email }
+                fun email(email: JsonField<String>) = apply {
+                    this.email = email
+                }
 
                 /**
                  * Individual's first name, as it appears on government-issued identity documents.
@@ -1574,7 +1601,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
+                fun firstName(firstName: JsonField<String>) = apply {
+                    this.firstName = firstName
+                }
 
                 /**
                  * Government-issued identification number (required for identity verification and
@@ -1607,7 +1636,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
+                fun lastName(lastName: JsonField<String>) = apply {
+                    this.lastName = lastName
+                }
 
                 /** Individual's phone number, entered in E.164 format. */
                 fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -1750,7 +1781,15 @@ private constructor(
                     @JsonProperty("address2")
                     @ExcludeMissing
                     address2: JsonField<String> = JsonMissing.of(),
-                ) : this(address1, city, country, postalCode, state, address2, mutableMapOf())
+                ) : this(
+                    address1,
+                    city,
+                    country,
+                    postalCode,
+                    state,
+                    address2,
+                    mutableMapOf(),
+                )
 
                 /**
                  * Valid deliverable address (no PO boxes).
@@ -1923,7 +1962,9 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
+                    fun address1(address1: JsonField<String>) = apply {
+                        this.address1 = address1
+                    }
 
                     /** Name of city. */
                     fun city(city: String) = city(JsonField.of(city))
@@ -1935,7 +1976,9 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun city(city: JsonField<String>) = apply { this.city = city }
+                    fun city(city: JsonField<String>) = apply {
+                        this.city = city
+                    }
 
                     /**
                      * Valid country code. Only USA is currently supported, entered in uppercase ISO
@@ -1950,7 +1993,9 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun country(country: JsonField<String>) = apply { this.country = country }
+                    fun country(country: JsonField<String>) = apply {
+                        this.country = country
+                    }
 
                     /**
                      * Valid postal code. Only USA ZIP codes are currently supported, entered as a
@@ -1982,7 +2027,9 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun state(state: JsonField<String>) = apply { this.state = state }
+                    fun state(state: JsonField<String>) = apply {
+                        this.state = state
+                    }
 
                     /** Unit or apartment number (if applicable). */
                     fun address2(address2: String) = address2(JsonField.of(address2))
@@ -1994,7 +2041,9 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
+                    fun address2(address2: JsonField<String>) = apply {
+                        this.address2 = address2
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -2036,11 +2085,26 @@ private constructor(
                      */
                     fun build(): Address =
                         Address(
-                            checkRequired("address1", address1),
-                            checkRequired("city", city),
-                            checkRequired("country", country),
-                            checkRequired("postalCode", postalCode),
-                            checkRequired("state", state),
+                            checkRequired(
+                                "address1",
+                                address1,
+                            ),
+                            checkRequired(
+                                "city",
+                                city,
+                            ),
+                            checkRequired(
+                                "country",
+                                country,
+                            ),
+                            checkRequired(
+                                "postalCode",
+                                postalCode,
+                            ),
+                            checkRequired(
+                                "state",
+                                state,
+                            ),
                             address2,
                             additionalProperties.toMutableMap(),
                         )
@@ -2199,9 +2263,11 @@ private constructor(
              * An enum containing [ExemptionType]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [ExemptionType] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2351,9 +2417,11 @@ private constructor(
              * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Status] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2590,9 +2658,11 @@ private constructor(
              * An enum containing [StatusReasons]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [StatusReasons] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2831,9 +2901,11 @@ private constructor(
              * An enum containing [UserType]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [UserType] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -2968,7 +3040,14 @@ private constructor(
                 @JsonProperty("ky_passed_at")
                 @ExcludeMissing
                 kyPassedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
-            ) : this(created, status, statusReasons, updated, kyPassedAt, mutableMapOf())
+            ) : this(
+                created,
+                status,
+                statusReasons,
+                updated,
+                kyPassedAt,
+                mutableMapOf(),
+            )
 
             /**
              * Timestamp of when the application was created.
@@ -3123,7 +3202,9 @@ private constructor(
                  * value instead. This method is primarily for setting the field to an undocumented
                  * or not yet supported value.
                  */
-                fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+                fun created(created: JsonField<OffsetDateTime>) = apply {
+                    this.created = created
+                }
 
                 /**
                  * KYC and KYB evaluation states.
@@ -3140,7 +3221,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun status(status: JsonField<Status>) = apply { this.status = status }
+                fun status(status: JsonField<Status>) = apply {
+                    this.status = status
+                }
 
                 /** Reason for the evaluation status. */
                 fun statusReasons(statusReasons: List<StatusReasons>) =
@@ -3179,7 +3262,9 @@ private constructor(
                  * value instead. This method is primarily for setting the field to an undocumented
                  * or not yet supported value.
                  */
-                fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+                fun updated(updated: JsonField<OffsetDateTime>) = apply {
+                    this.updated = updated
+                }
 
                 /**
                  * Timestamp of when the application passed the verification process. Only present
@@ -3237,10 +3322,23 @@ private constructor(
                  */
                 fun build(): VerificationApplication =
                     VerificationApplication(
-                        checkRequired("created", created),
-                        checkRequired("status", status),
-                        checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
-                        checkRequired("updated", updated),
+                        checkRequired(
+                            "created",
+                            created,
+                        ),
+                        checkRequired(
+                            "status",
+                            status,
+                        ),
+                        checkRequired(
+                                "statusReasons",
+                                statusReasons,
+                            )
+                            .map { it.toImmutable() },
+                        checkRequired(
+                            "updated",
+                            updated,
+                        ),
                         kyPassedAt,
                         additionalProperties.toMutableMap(),
                     )
@@ -3337,9 +3435,11 @@ private constructor(
                  * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
                  *
                  * An instance of [Status] can contain an unknown value in a couple of cases:
+                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
+                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -3580,9 +3680,11 @@ private constructor(
                  * member.
                  *
                  * An instance of [StatusReasons] can contain an unknown value in a couple of cases:
+                 *
                  * - It was deserialized from data that doesn't match any known member. For example,
                  *   if the SDK is on an older version than the API, then the API may respond with
                  *   new members that the SDK is unaware of.
+                 *
                  * - It was constructed with an arbitrary value using the [of] method.
                  */
                 enum class Value {
@@ -4103,7 +4205,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun token(token: JsonField<String>) = apply { this.token = token }
+            fun token(token: JsonField<String>) = apply {
+                this.token = token
+            }
 
             /** The address for the account holder */
             fun address(address: Address) = address(JsonField.of(address))
@@ -4115,7 +4219,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun address(address: JsonField<Address>) = apply { this.address = address }
+            fun address(address: JsonField<Address>) = apply {
+                this.address = address
+            }
 
             /** The token for the business account that the account holder is associated with */
             fun businessAccountToken(businessAccountToken: String?) =
@@ -4149,7 +4255,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun email(email: JsonField<String>) = apply { this.email = email }
+            fun email(email: JsonField<String>) = apply {
+                this.email = email
+            }
 
             /** The first name for the account holder */
             fun firstName(firstName: String) = firstName(JsonField.of(firstName))
@@ -4161,7 +4269,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
+            fun firstName(firstName: JsonField<String>) = apply {
+                this.firstName = firstName
+            }
 
             /** The last name for the account holder */
             fun lastName(lastName: String) = lastName(JsonField.of(lastName))
@@ -4173,7 +4283,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
+            fun lastName(lastName: JsonField<String>) = apply {
+                this.lastName = lastName
+            }
 
             /** The legal business name for the account holder */
             fun legalBusinessName(legalBusinessName: String) =
@@ -4217,7 +4329,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -4323,7 +4437,15 @@ private constructor(
                 @JsonProperty("address2")
                 @ExcludeMissing
                 address2: JsonField<String> = JsonMissing.of(),
-            ) : this(address1, city, country, postalCode, state, address2, mutableMapOf())
+            ) : this(
+                address1,
+                city,
+                country,
+                postalCode,
+                state,
+                address2,
+                mutableMapOf(),
+            )
 
             /**
              * Valid deliverable address (no PO boxes).
@@ -4489,7 +4611,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
+                fun address1(address1: JsonField<String>) = apply {
+                    this.address1 = address1
+                }
 
                 /** Name of city. */
                 fun city(city: String) = city(JsonField.of(city))
@@ -4501,7 +4625,9 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun city(city: JsonField<String>) = apply { this.city = city }
+                fun city(city: JsonField<String>) = apply {
+                    this.city = city
+                }
 
                 /**
                  * Valid country code. Only USA is currently supported, entered in uppercase ISO
@@ -4516,7 +4642,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun country(country: JsonField<String>) = apply { this.country = country }
+                fun country(country: JsonField<String>) = apply {
+                    this.country = country
+                }
 
                 /**
                  * Valid postal code. Only USA ZIP codes are currently supported, entered as a
@@ -4548,7 +4676,9 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun state(state: JsonField<String>) = apply { this.state = state }
+                fun state(state: JsonField<String>) = apply {
+                    this.state = state
+                }
 
                 /** Unit or apartment number (if applicable). */
                 fun address2(address2: String) = address2(JsonField.of(address2))
@@ -4560,7 +4690,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
+                fun address2(address2: JsonField<String>) = apply {
+                    this.address2 = address2
+                }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -4602,11 +4734,26 @@ private constructor(
                  */
                 fun build(): Address =
                     Address(
-                        checkRequired("address1", address1),
-                        checkRequired("city", city),
-                        checkRequired("country", country),
-                        checkRequired("postalCode", postalCode),
-                        checkRequired("state", state),
+                        checkRequired(
+                            "address1",
+                            address1,
+                        ),
+                        checkRequired(
+                            "city",
+                            city,
+                        ),
+                        checkRequired(
+                            "country",
+                            country,
+                        ),
+                        checkRequired(
+                            "postalCode",
+                            postalCode,
+                        ),
+                        checkRequired(
+                            "state",
+                            state,
+                        ),
                         address2,
                         additionalProperties.toMutableMap(),
                     )

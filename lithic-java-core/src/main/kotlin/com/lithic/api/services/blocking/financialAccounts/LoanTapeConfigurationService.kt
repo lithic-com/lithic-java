@@ -26,7 +26,10 @@ interface LoanTapeConfigurationService {
 
     /** Get the loan tape configuration for a given financial account. */
     fun retrieve(financialAccountToken: String): LoanTapeConfiguration =
-        retrieve(financialAccountToken, FinancialAccountLoanTapeConfigurationRetrieveParams.none())
+        retrieve(
+            financialAccountToken,
+            FinancialAccountLoanTapeConfigurationRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -45,7 +48,12 @@ interface LoanTapeConfigurationService {
         financialAccountToken: String,
         params: FinancialAccountLoanTapeConfigurationRetrieveParams =
             FinancialAccountLoanTapeConfigurationRetrieveParams.none(),
-    ): LoanTapeConfiguration = retrieve(financialAccountToken, params, RequestOptions.none())
+    ): LoanTapeConfiguration =
+        retrieve(
+            financialAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -56,7 +64,11 @@ interface LoanTapeConfigurationService {
     /** @see retrieve */
     fun retrieve(
         params: FinancialAccountLoanTapeConfigurationRetrieveParams
-    ): LoanTapeConfiguration = retrieve(params, RequestOptions.none())
+    ): LoanTapeConfiguration =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -116,7 +128,11 @@ interface LoanTapeConfigurationService {
             params: FinancialAccountLoanTapeConfigurationRetrieveParams =
                 FinancialAccountLoanTapeConfigurationRetrieveParams.none(),
         ): HttpResponseFor<LoanTapeConfiguration> =
-            retrieve(financialAccountToken, params, RequestOptions.none())
+            retrieve(
+                financialAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -129,7 +145,11 @@ interface LoanTapeConfigurationService {
         @MustBeClosed
         fun retrieve(
             params: FinancialAccountLoanTapeConfigurationRetrieveParams
-        ): HttpResponseFor<LoanTapeConfiguration> = retrieve(params, RequestOptions.none())
+        ): HttpResponseFor<LoanTapeConfiguration> =
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed

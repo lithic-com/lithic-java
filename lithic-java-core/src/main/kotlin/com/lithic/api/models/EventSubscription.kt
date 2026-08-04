@@ -43,7 +43,14 @@ private constructor(
         @JsonProperty("event_types")
         @ExcludeMissing
         eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
-    ) : this(token, description, disabled, url, eventTypes, mutableMapOf())
+    ) : this(
+        token,
+        description,
+        disabled,
+        url,
+        eventTypes,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier.
@@ -175,7 +182,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** A description of the subscription. */
         fun description(description: String) = description(JsonField.of(description))
@@ -187,7 +196,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun description(description: JsonField<String>) = apply { this.description = description }
+        fun description(description: JsonField<String>) = apply {
+            this.description = description
+        }
 
         /** Whether the subscription is disabled. */
         fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
@@ -199,7 +210,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
+        fun disabled(disabled: JsonField<Boolean>) = apply {
+            this.disabled = disabled
+        }
 
         fun url(url: String) = url(JsonField.of(url))
 
@@ -209,7 +222,9 @@ private constructor(
          * You should usually call [Builder.url] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun url(url: JsonField<String>) = apply { this.url = url }
+        fun url(url: JsonField<String>) = apply {
+            this.url = url
+        }
 
         fun eventTypes(eventTypes: List<EventType>?) = eventTypes(JsonField.ofNullable(eventTypes))
 
@@ -252,7 +267,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -275,10 +292,22 @@ private constructor(
          */
         fun build(): EventSubscription =
             EventSubscription(
-                checkRequired("token", token),
-                checkRequired("description", description),
-                checkRequired("disabled", disabled),
-                checkRequired("url", url),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "description",
+                    description,
+                ),
+                checkRequired(
+                    "disabled",
+                    disabled,
+                ),
+                checkRequired(
+                    "url",
+                    url,
+                ),
                 (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
@@ -330,6 +359,7 @@ private constructor(
 
     /**
      * The type of event that occurred. Possible values:
+     *
      * - account_holder_document.updated: Occurs when an account holder's document upload status has
      *   been updated.
      * - account_holder.created: Occurs when a new account_holder is created.
@@ -662,9 +692,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

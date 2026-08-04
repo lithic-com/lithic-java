@@ -41,7 +41,10 @@ interface PaymentService {
 
     /** Initiates a payment between a financial account and an external bank account. */
     fun create(params: PaymentCreateParams): PaymentCreateResponse =
-        create(params, RequestOptions.none())
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -51,20 +54,32 @@ interface PaymentService {
 
     /** Get the payment by token. */
     fun retrieve(paymentToken: String): Payment =
-        retrieve(paymentToken, PaymentRetrieveParams.none())
+        retrieve(
+            paymentToken,
+            PaymentRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         paymentToken: String,
         params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Payment = retrieve(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+    ): Payment =
+        retrieve(
+            params.toBuilder().paymentToken(paymentToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         paymentToken: String,
         params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
-    ): Payment = retrieve(paymentToken, params, RequestOptions.none())
+    ): Payment =
+        retrieve(
+            paymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -73,11 +88,19 @@ interface PaymentService {
     ): Payment
 
     /** @see retrieve */
-    fun retrieve(params: PaymentRetrieveParams): Payment = retrieve(params, RequestOptions.none())
+    fun retrieve(params: PaymentRetrieveParams): Payment =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(paymentToken: String, requestOptions: RequestOptions): Payment =
-        retrieve(paymentToken, PaymentRetrieveParams.none(), requestOptions)
+        retrieve(
+            paymentToken,
+            PaymentRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** List all the payments for the provided search criteria. */
     fun list(): PaymentListPage = list(PaymentListParams.none())
@@ -90,15 +113,24 @@ interface PaymentService {
 
     /** @see list */
     fun list(params: PaymentListParams = PaymentListParams.none()): PaymentListPage =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): PaymentListPage =
-        list(PaymentListParams.none(), requestOptions)
+        list(
+            PaymentListParams.none(),
+            requestOptions,
+        )
 
     /** Retry an origination which has been returned. */
     fun retry(paymentToken: String): PaymentRetryResponse =
-        retry(paymentToken, PaymentRetryParams.none())
+        retry(
+            paymentToken,
+            PaymentRetryParams.none(),
+        )
 
     /** @see retry */
     fun retry(
@@ -106,13 +138,21 @@ interface PaymentService {
         params: PaymentRetryParams = PaymentRetryParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentRetryResponse =
-        retry(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+        retry(
+            params.toBuilder().paymentToken(paymentToken).build(),
+            requestOptions,
+        )
 
     /** @see retry */
     fun retry(
         paymentToken: String,
         params: PaymentRetryParams = PaymentRetryParams.none(),
-    ): PaymentRetryResponse = retry(paymentToken, params, RequestOptions.none())
+    ): PaymentRetryResponse =
+        retry(
+            paymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retry */
     fun retry(
@@ -122,11 +162,18 @@ interface PaymentService {
 
     /** @see retry */
     fun retry(params: PaymentRetryParams): PaymentRetryResponse =
-        retry(params, RequestOptions.none())
+        retry(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retry */
     fun retry(paymentToken: String, requestOptions: RequestOptions): PaymentRetryResponse =
-        retry(paymentToken, PaymentRetryParams.none(), requestOptions)
+        retry(
+            paymentToken,
+            PaymentRetryParams.none(),
+            requestOptions,
+        )
 
     /**
      * Return an ACH payment with a specified return reason code. Returns must be initiated within
@@ -144,17 +191,29 @@ interface PaymentService {
      *   implementations manager to enable this feature.
      */
     fun return_(paymentToken: String, params: PaymentReturnParams): Payment =
-        return_(paymentToken, params, RequestOptions.none())
+        return_(
+            paymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see return_ */
     fun return_(
         paymentToken: String,
         params: PaymentReturnParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Payment = return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+    ): Payment =
+        return_(
+            params.toBuilder().paymentToken(paymentToken).build(),
+            requestOptions,
+        )
 
     /** @see return_ */
-    fun return_(params: PaymentReturnParams): Payment = return_(params, RequestOptions.none())
+    fun return_(params: PaymentReturnParams): Payment =
+        return_(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see return_ */
     fun return_(
@@ -166,7 +225,12 @@ interface PaymentService {
     fun simulateAction(
         paymentToken: String,
         params: PaymentSimulateActionParams,
-    ): PaymentSimulateActionResponse = simulateAction(paymentToken, params, RequestOptions.none())
+    ): PaymentSimulateActionResponse =
+        simulateAction(
+            paymentToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulateAction */
     fun simulateAction(
@@ -174,11 +238,17 @@ interface PaymentService {
         params: PaymentSimulateActionParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): PaymentSimulateActionResponse =
-        simulateAction(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+        simulateAction(
+            params.toBuilder().paymentToken(paymentToken).build(),
+            requestOptions,
+        )
 
     /** @see simulateAction */
     fun simulateAction(params: PaymentSimulateActionParams): PaymentSimulateActionResponse =
-        simulateAction(params, RequestOptions.none())
+        simulateAction(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulateAction */
     fun simulateAction(
@@ -188,7 +258,10 @@ interface PaymentService {
 
     /** Simulates a receipt of a Payment. */
     fun simulateReceipt(params: PaymentSimulateReceiptParams): PaymentSimulateReceiptResponse =
-        simulateReceipt(params, RequestOptions.none())
+        simulateReceipt(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulateReceipt */
     fun simulateReceipt(
@@ -198,7 +271,10 @@ interface PaymentService {
 
     /** Simulates a release of a Payment. */
     fun simulateRelease(params: PaymentSimulateReleaseParams): PaymentSimulateReleaseResponse =
-        simulateRelease(params, RequestOptions.none())
+        simulateRelease(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulateRelease */
     fun simulateRelease(
@@ -208,7 +284,10 @@ interface PaymentService {
 
     /** Simulates a return of a Payment. */
     fun simulateReturn(params: PaymentSimulateReturnParams): PaymentSimulateReturnResponse =
-        simulateReturn(params, RequestOptions.none())
+        simulateReturn(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulateReturn */
     fun simulateReturn(
@@ -232,7 +311,10 @@ interface PaymentService {
          */
         @MustBeClosed
         fun create(params: PaymentCreateParams): HttpResponseFor<PaymentCreateResponse> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -247,7 +329,10 @@ interface PaymentService {
          */
         @MustBeClosed
         fun retrieve(paymentToken: String): HttpResponseFor<Payment> =
-            retrieve(paymentToken, PaymentRetrieveParams.none())
+            retrieve(
+                paymentToken,
+                PaymentRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -256,14 +341,22 @@ interface PaymentService {
             params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Payment> =
-            retrieve(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().paymentToken(paymentToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             paymentToken: String,
             params: PaymentRetrieveParams = PaymentRetrieveParams.none(),
-        ): HttpResponseFor<Payment> = retrieve(paymentToken, params, RequestOptions.none())
+        ): HttpResponseFor<Payment> =
+            retrieve(
+                paymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -275,7 +368,10 @@ interface PaymentService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: PaymentRetrieveParams): HttpResponseFor<Payment> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -283,7 +379,11 @@ interface PaymentService {
             paymentToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Payment> =
-            retrieve(paymentToken, PaymentRetrieveParams.none(), requestOptions)
+            retrieve(
+                paymentToken,
+                PaymentRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/payments`, but is otherwise the same as
@@ -302,12 +402,19 @@ interface PaymentService {
         @MustBeClosed
         fun list(
             params: PaymentListParams = PaymentListParams.none()
-        ): HttpResponseFor<PaymentListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<PaymentListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<PaymentListPage> =
-            list(PaymentListParams.none(), requestOptions)
+            list(
+                PaymentListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/payments/{payment_token}/retry`, but is
@@ -315,7 +422,10 @@ interface PaymentService {
          */
         @MustBeClosed
         fun retry(paymentToken: String): HttpResponseFor<PaymentRetryResponse> =
-            retry(paymentToken, PaymentRetryParams.none())
+            retry(
+                paymentToken,
+                PaymentRetryParams.none(),
+            )
 
         /** @see retry */
         @MustBeClosed
@@ -324,7 +434,10 @@ interface PaymentService {
             params: PaymentRetryParams = PaymentRetryParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PaymentRetryResponse> =
-            retry(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+            retry(
+                params.toBuilder().paymentToken(paymentToken).build(),
+                requestOptions,
+            )
 
         /** @see retry */
         @MustBeClosed
@@ -332,7 +445,11 @@ interface PaymentService {
             paymentToken: String,
             params: PaymentRetryParams = PaymentRetryParams.none(),
         ): HttpResponseFor<PaymentRetryResponse> =
-            retry(paymentToken, params, RequestOptions.none())
+            retry(
+                paymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retry */
         @MustBeClosed
@@ -344,7 +461,10 @@ interface PaymentService {
         /** @see retry */
         @MustBeClosed
         fun retry(params: PaymentRetryParams): HttpResponseFor<PaymentRetryResponse> =
-            retry(params, RequestOptions.none())
+            retry(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retry */
         @MustBeClosed
@@ -352,7 +472,11 @@ interface PaymentService {
             paymentToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<PaymentRetryResponse> =
-            retry(paymentToken, PaymentRetryParams.none(), requestOptions)
+            retry(
+                paymentToken,
+                PaymentRetryParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/payments/{payment_token}/return`, but is
@@ -360,7 +484,11 @@ interface PaymentService {
          */
         @MustBeClosed
         fun return_(paymentToken: String, params: PaymentReturnParams): HttpResponseFor<Payment> =
-            return_(paymentToken, params, RequestOptions.none())
+            return_(
+                paymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see return_ */
         @MustBeClosed
@@ -369,12 +497,18 @@ interface PaymentService {
             params: PaymentReturnParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Payment> =
-            return_(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+            return_(
+                params.toBuilder().paymentToken(paymentToken).build(),
+                requestOptions,
+            )
 
         /** @see return_ */
         @MustBeClosed
         fun return_(params: PaymentReturnParams): HttpResponseFor<Payment> =
-            return_(params, RequestOptions.none())
+            return_(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see return_ */
         @MustBeClosed
@@ -392,7 +526,11 @@ interface PaymentService {
             paymentToken: String,
             params: PaymentSimulateActionParams,
         ): HttpResponseFor<PaymentSimulateActionResponse> =
-            simulateAction(paymentToken, params, RequestOptions.none())
+            simulateAction(
+                paymentToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulateAction */
         @MustBeClosed
@@ -401,14 +539,20 @@ interface PaymentService {
             params: PaymentSimulateActionParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<PaymentSimulateActionResponse> =
-            simulateAction(params.toBuilder().paymentToken(paymentToken).build(), requestOptions)
+            simulateAction(
+                params.toBuilder().paymentToken(paymentToken).build(),
+                requestOptions,
+            )
 
         /** @see simulateAction */
         @MustBeClosed
         fun simulateAction(
             params: PaymentSimulateActionParams
         ): HttpResponseFor<PaymentSimulateActionResponse> =
-            simulateAction(params, RequestOptions.none())
+            simulateAction(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulateAction */
         @MustBeClosed
@@ -425,7 +569,10 @@ interface PaymentService {
         fun simulateReceipt(
             params: PaymentSimulateReceiptParams
         ): HttpResponseFor<PaymentSimulateReceiptResponse> =
-            simulateReceipt(params, RequestOptions.none())
+            simulateReceipt(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulateReceipt */
         @MustBeClosed
@@ -442,7 +589,10 @@ interface PaymentService {
         fun simulateRelease(
             params: PaymentSimulateReleaseParams
         ): HttpResponseFor<PaymentSimulateReleaseResponse> =
-            simulateRelease(params, RequestOptions.none())
+            simulateRelease(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulateRelease */
         @MustBeClosed
@@ -459,7 +609,10 @@ interface PaymentService {
         fun simulateReturn(
             params: PaymentSimulateReturnParams
         ): HttpResponseFor<PaymentSimulateReturnResponse> =
-            simulateReturn(params, RequestOptions.none())
+            simulateReturn(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulateReturn */
         @MustBeClosed

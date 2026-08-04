@@ -31,7 +31,10 @@ interface TransactionServiceAsync {
      * token.
      */
     fun retrieve(transactionToken: String): CompletableFuture<TransactionRetrieveResponse> =
-        retrieve(transactionToken, FraudTransactionRetrieveParams.none())
+        retrieve(
+            transactionToken,
+            FraudTransactionRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -39,14 +42,21 @@ interface TransactionServiceAsync {
         params: FraudTransactionRetrieveParams = FraudTransactionRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionRetrieveResponse> =
-        retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().transactionToken(transactionToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         transactionToken: String,
         params: FraudTransactionRetrieveParams = FraudTransactionRetrieveParams.none(),
     ): CompletableFuture<TransactionRetrieveResponse> =
-        retrieve(transactionToken, params, RequestOptions.none())
+        retrieve(
+            transactionToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -57,14 +67,22 @@ interface TransactionServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: FraudTransactionRetrieveParams
-    ): CompletableFuture<TransactionRetrieveResponse> = retrieve(params, RequestOptions.none())
+    ): CompletableFuture<TransactionRetrieveResponse> =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         transactionToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<TransactionRetrieveResponse> =
-        retrieve(transactionToken, FraudTransactionRetrieveParams.none(), requestOptions)
+        retrieve(
+            transactionToken,
+            FraudTransactionRetrieveParams.none(),
+            requestOptions,
+        )
 
     /**
      * Report fraud for a specific transaction token by providing details such as fraud type, fraud
@@ -74,7 +92,11 @@ interface TransactionServiceAsync {
         transactionToken: String,
         params: FraudTransactionReportParams,
     ): CompletableFuture<TransactionReportResponse> =
-        report(transactionToken, params, RequestOptions.none())
+        report(
+            transactionToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see report */
     fun report(
@@ -82,11 +104,17 @@ interface TransactionServiceAsync {
         params: FraudTransactionReportParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionReportResponse> =
-        report(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+        report(
+            params.toBuilder().transactionToken(transactionToken).build(),
+            requestOptions,
+        )
 
     /** @see report */
     fun report(params: FraudTransactionReportParams): CompletableFuture<TransactionReportResponse> =
-        report(params, RequestOptions.none())
+        report(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see report */
     fun report(
@@ -116,7 +144,10 @@ interface TransactionServiceAsync {
         fun retrieve(
             transactionToken: String
         ): CompletableFuture<HttpResponseFor<TransactionRetrieveResponse>> =
-            retrieve(transactionToken, FraudTransactionRetrieveParams.none())
+            retrieve(
+                transactionToken,
+                FraudTransactionRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -124,14 +155,21 @@ interface TransactionServiceAsync {
             params: FraudTransactionRetrieveParams = FraudTransactionRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TransactionRetrieveResponse>> =
-            retrieve(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().transactionToken(transactionToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         fun retrieve(
             transactionToken: String,
             params: FraudTransactionRetrieveParams = FraudTransactionRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<TransactionRetrieveResponse>> =
-            retrieve(transactionToken, params, RequestOptions.none())
+            retrieve(
+                transactionToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -143,14 +181,21 @@ interface TransactionServiceAsync {
         fun retrieve(
             params: FraudTransactionRetrieveParams
         ): CompletableFuture<HttpResponseFor<TransactionRetrieveResponse>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
             transactionToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<TransactionRetrieveResponse>> =
-            retrieve(transactionToken, FraudTransactionRetrieveParams.none(), requestOptions)
+            retrieve(
+                transactionToken,
+                FraudTransactionRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/fraud/transactions/{transaction_token}`, but is
@@ -160,7 +205,11 @@ interface TransactionServiceAsync {
             transactionToken: String,
             params: FraudTransactionReportParams,
         ): CompletableFuture<HttpResponseFor<TransactionReportResponse>> =
-            report(transactionToken, params, RequestOptions.none())
+            report(
+                transactionToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see report */
         fun report(
@@ -168,13 +217,19 @@ interface TransactionServiceAsync {
             params: FraudTransactionReportParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TransactionReportResponse>> =
-            report(params.toBuilder().transactionToken(transactionToken).build(), requestOptions)
+            report(
+                params.toBuilder().transactionToken(transactionToken).build(),
+                requestOptions,
+            )
 
         /** @see report */
         fun report(
             params: FraudTransactionReportParams
         ): CompletableFuture<HttpResponseFor<TransactionReportResponse>> =
-            report(params, RequestOptions.none())
+            report(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see report */
         fun report(

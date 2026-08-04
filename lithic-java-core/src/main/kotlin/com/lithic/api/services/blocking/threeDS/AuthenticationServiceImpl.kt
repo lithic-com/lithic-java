@@ -91,12 +91,21 @@ class AuthenticationServiceImpl internal constructor(private val clientOptions: 
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "three_ds_authentication", params._pathParam(0))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { retrieveHandler.handle(it) }
+                    .use {
+                        retrieveHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -119,12 +128,21 @@ class AuthenticationServiceImpl internal constructor(private val clientOptions: 
                     .addPathSegments("v1", "three_ds_authentication", "simulate")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { simulateHandler.handle(it) }
+                    .use {
+                        simulateHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
@@ -146,11 +164,20 @@ class AuthenticationServiceImpl internal constructor(private val clientOptions: 
                     .addPathSegments("v1", "three_ds_decisioning", "simulate", "enter_otp")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
-                response.use { simulateOtpEntryHandler.handle(it) }
+                response.use {
+                    simulateOtpEntryHandler.handle(it)
+                }
             }
         }
     }

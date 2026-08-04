@@ -98,19 +98,25 @@ private constructor(
             financialAccountToken(financialAccountToken.getOrNull())
 
         /** Return schedules with effective_date >= after_date (ISO format YYYY-MM-DD) */
-        fun afterDate(afterDate: LocalDate?) = apply { this.afterDate = afterDate }
+        fun afterDate(afterDate: LocalDate?) = apply {
+            this.afterDate = afterDate
+        }
 
         /** Alias for calling [Builder.afterDate] with `afterDate.orElse(null)`. */
         fun afterDate(afterDate: Optional<LocalDate>) = afterDate(afterDate.getOrNull())
 
         /** Return schedules with effective_date <= before_date (ISO format YYYY-MM-DD) */
-        fun beforeDate(beforeDate: LocalDate?) = apply { this.beforeDate = beforeDate }
+        fun beforeDate(beforeDate: LocalDate?) = apply {
+            this.beforeDate = beforeDate
+        }
 
         /** Alias for calling [Builder.beforeDate] with `beforeDate.orElse(null)`. */
         fun beforeDate(beforeDate: Optional<LocalDate>) = beforeDate(beforeDate.getOrNull())
 
         /** Return schedule with effective_date == for_date (ISO format YYYY-MM-DD) */
-        fun forDate(forDate: LocalDate?) = apply { this.forDate = forDate }
+        fun forDate(forDate: LocalDate?) = apply {
+            this.forDate = forDate
+        }
 
         /** Alias for calling [Builder.forDate] with `forDate.orElse(null)`. */
         fun forDate(forDate: Optional<LocalDate>) = forDate(forDate.getOrNull())
@@ -157,7 +163,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -207,7 +215,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)

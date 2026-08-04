@@ -229,10 +229,14 @@ private constructor(
          * - [name]
          * - etc.
          */
-        fun body(body: UpdateBankAccountApiRequest) = apply { this.body = body.toBuilder() }
+        fun body(body: UpdateBankAccountApiRequest) = apply {
+            this.body = body.toBuilder()
+        }
 
         /** Address */
-        fun address(address: ExternalBankAccountAddress) = apply { body.address(address) }
+        fun address(address: ExternalBankAccountAddress) = apply {
+            body.address(address)
+        }
 
         /**
          * Sets [Builder.address] to an arbitrary JSON value.
@@ -246,7 +250,9 @@ private constructor(
         }
 
         /** Optional field that helps identify bank accounts in receipts */
-        fun companyId(companyId: String) = apply { body.companyId(companyId) }
+        fun companyId(companyId: String) = apply {
+            body.companyId(companyId)
+        }
 
         /**
          * Sets [Builder.companyId] to an arbitrary JSON value.
@@ -255,10 +261,14 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun companyId(companyId: JsonField<String>) = apply { body.companyId(companyId) }
+        fun companyId(companyId: JsonField<String>) = apply {
+            body.companyId(companyId)
+        }
 
         /** Date of Birth of the Individual that owns the external bank account */
-        fun dob(dob: LocalDate) = apply { body.dob(dob) }
+        fun dob(dob: LocalDate) = apply {
+            body.dob(dob)
+        }
 
         /**
          * Sets [Builder.dob] to an arbitrary JSON value.
@@ -266,7 +276,9 @@ private constructor(
          * You should usually call [Builder.dob] with a well-typed [LocalDate] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun dob(dob: JsonField<LocalDate>) = apply { body.dob(dob) }
+        fun dob(dob: JsonField<LocalDate>) = apply {
+            body.dob(dob)
+        }
 
         /** Doing Business As */
         fun doingBusinessAs(doingBusinessAs: String) = apply {
@@ -285,7 +297,9 @@ private constructor(
         }
 
         /** The nickname for this External Bank Account */
-        fun name(name: String) = apply { body.name(name) }
+        fun name(name: String) = apply {
+            body.name(name)
+        }
 
         /**
          * Sets [Builder.name] to an arbitrary JSON value.
@@ -293,13 +307,17 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { body.name(name) }
+        fun name(name: JsonField<String>) = apply {
+            body.name(name)
+        }
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
          * in statements
          */
-        fun owner(owner: String) = apply { body.owner(owner) }
+        fun owner(owner: String) = apply {
+            body.owner(owner)
+        }
 
         /**
          * Sets [Builder.owner] to an arbitrary JSON value.
@@ -307,10 +325,14 @@ private constructor(
          * You should usually call [Builder.owner] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun owner(owner: JsonField<String>) = apply { body.owner(owner) }
+        fun owner(owner: JsonField<String>) = apply {
+            body.owner(owner)
+        }
 
         /** Owner Type */
-        fun ownerType(ownerType: OwnerType) = apply { body.ownerType(ownerType) }
+        fun ownerType(ownerType: OwnerType) = apply {
+            body.ownerType(ownerType)
+        }
 
         /**
          * Sets [Builder.ownerType] to an arbitrary JSON value.
@@ -319,9 +341,13 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun ownerType(ownerType: JsonField<OwnerType>) = apply { body.ownerType(ownerType) }
+        fun ownerType(ownerType: JsonField<OwnerType>) = apply {
+            body.ownerType(ownerType)
+        }
 
-        fun type(type: AccountTypeExternal) = apply { body.type(type) }
+        fun type(type: AccountTypeExternal) = apply {
+            body.type(type)
+        }
 
         /**
          * Sets [Builder.type] to an arbitrary JSON value.
@@ -330,10 +356,14 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun type(type: JsonField<AccountTypeExternal>) = apply { body.type(type) }
+        fun type(type: JsonField<AccountTypeExternal>) = apply {
+            body.type(type)
+        }
 
         /** User Defined ID */
-        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
+        fun userDefinedId(userDefinedId: String) = apply {
+            body.userDefinedId(userDefinedId)
+        }
 
         /**
          * Sets [Builder.userDefinedId] to an arbitrary JSON value.
@@ -351,7 +381,10 @@ private constructor(
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -359,7 +392,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -407,7 +442,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -457,7 +494,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -758,7 +797,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
+            fun companyId(companyId: JsonField<String>) = apply {
+                this.companyId = companyId
+            }
 
             /** Date of Birth of the Individual that owns the external bank account */
             fun dob(dob: LocalDate) = dob(JsonField.of(dob))
@@ -770,7 +811,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
+            fun dob(dob: JsonField<LocalDate>) = apply {
+                this.dob = dob
+            }
 
             /** Doing Business As */
             fun doingBusinessAs(doingBusinessAs: String) =
@@ -797,7 +840,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun name(name: JsonField<String>) = apply { this.name = name }
+            fun name(name: JsonField<String>) = apply {
+                this.name = name
+            }
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
@@ -812,7 +857,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun owner(owner: JsonField<String>) = apply { this.owner = owner }
+            fun owner(owner: JsonField<String>) = apply {
+                this.owner = owner
+            }
 
             /** Owner Type */
             fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
@@ -824,7 +871,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun ownerType(ownerType: JsonField<OwnerType>) = apply { this.ownerType = ownerType }
+            fun ownerType(ownerType: JsonField<OwnerType>) = apply {
+                this.ownerType = ownerType
+            }
 
             fun type(type: AccountTypeExternal) = type(JsonField.of(type))
 
@@ -835,7 +884,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun type(type: JsonField<AccountTypeExternal>) = apply { this.type = type }
+            fun type(type: JsonField<AccountTypeExternal>) = apply {
+                this.type = type
+            }
 
             /** User Defined ID */
             fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
@@ -864,7 +915,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1016,9 +1069,11 @@ private constructor(
          * An enum containing [AccountTypeExternal]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [AccountTypeExternal] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

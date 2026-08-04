@@ -29,7 +29,12 @@ private constructor(
         @JsonProperty("fees") @ExcludeMissing fees: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("interest") @ExcludeMissing interest: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("principal") @ExcludeMissing principal: JsonField<Long> = JsonMissing.of(),
-    ) : this(fees, interest, principal, mutableMapOf())
+    ) : this(
+        fees,
+        interest,
+        principal,
+        mutableMapOf(),
+    )
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -121,7 +126,9 @@ private constructor(
          * You should usually call [Builder.fees] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
+        fun fees(fees: JsonField<Long>) = apply {
+            this.fees = fees
+        }
 
         fun interest(interest: Long) = interest(JsonField.of(interest))
 
@@ -131,7 +138,9 @@ private constructor(
          * You should usually call [Builder.interest] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
+        fun interest(interest: JsonField<Long>) = apply {
+            this.interest = interest
+        }
 
         fun principal(principal: Long) = principal(JsonField.of(principal))
 
@@ -141,7 +150,9 @@ private constructor(
          * You should usually call [Builder.principal] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun principal(principal: JsonField<Long>) = apply { this.principal = principal }
+        fun principal(principal: JsonField<Long>) = apply {
+            this.principal = principal
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -156,7 +167,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -178,9 +191,18 @@ private constructor(
          */
         fun build(): CategoryBalances =
             CategoryBalances(
-                checkRequired("fees", fees),
-                checkRequired("interest", interest),
-                checkRequired("principal", principal),
+                checkRequired(
+                    "fees",
+                    fees,
+                ),
+                checkRequired(
+                    "interest",
+                    interest,
+                ),
+                checkRequired(
+                    "principal",
+                    principal,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }

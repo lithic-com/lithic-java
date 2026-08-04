@@ -581,7 +581,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Timestamp of when the account holder was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -593,7 +595,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Globally unique identifier for the account. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -719,7 +723,9 @@ private constructor(
          * You should usually call [Builder.email] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun email(email: JsonField<String>) = apply { this.email = email }
+        fun email(email: JsonField<String>) = apply {
+            this.email = email
+        }
 
         /** The type of KYC exemption for a KYC-Exempt Account Holder. */
         fun exemptionType(exemptionType: ExemptionType) = exemptionType(JsonField.of(exemptionType))
@@ -748,7 +754,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+        fun externalId(externalId: JsonField<String>) = apply {
+            this.externalId = externalId
+        }
 
         /**
          * Only present when user_type == "INDIVIDUAL". Information about the individual for which
@@ -781,7 +789,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun naicsCode(naicsCode: JsonField<String>) = apply { this.naicsCode = naicsCode }
+        fun naicsCode(naicsCode: JsonField<String>) = apply {
+            this.naicsCode = naicsCode
+        }
 
         /**
          * Only present when user_type == "BUSINESS". User-submitted description of the business.
@@ -814,7 +824,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
+        fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+            this.phoneNumber = phoneNumber
+        }
 
         /**
          * Only present for "KYB_BASIC" workflow. A list of documents required for the account
@@ -862,7 +874,9 @@ private constructor(
          * You should usually call [Builder.status] with a well-typed [Status] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun status(status: JsonField<Status>) = apply { this.status = status }
+        fun status(status: JsonField<Status>) = apply {
+            this.status = status
+        }
 
         /**
          * (Deprecated. Use verification_application.status_reasons)
@@ -910,7 +924,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun userType(userType: JsonField<UserType>) = apply { this.userType = userType }
+        fun userType(userType: JsonField<UserType>) = apply {
+            this.userType = userType
+        }
 
         /** Information about the most recent identity verification attempt */
         fun verificationApplication(verificationApplication: AccountHolderVerificationApplication) =
@@ -925,7 +941,9 @@ private constructor(
          */
         fun verificationApplication(
             verificationApplication: JsonField<AccountHolderVerificationApplication>
-        ) = apply { this.verificationApplication = verificationApplication }
+        ) = apply {
+            this.verificationApplication = verificationApplication
+        }
 
         /** Only present when user_type == "BUSINESS". Business's primary website. */
         fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
@@ -937,7 +955,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
+        fun websiteUrl(websiteUrl: JsonField<String>) = apply {
+            this.websiteUrl = websiteUrl
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -952,7 +972,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -973,8 +995,14 @@ private constructor(
          */
         fun build(): AccountHolder =
             AccountHolder(
-                checkRequired("token", token),
-                checkRequired("created", created),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
                 accountToken,
                 (beneficialOwnerIndividuals ?: JsonMissing.of()).map { it.toImmutable() },
                 businessAccountToken,
@@ -1106,7 +1134,16 @@ private constructor(
             @JsonProperty("phone_number")
             @ExcludeMissing
             phoneNumber: JsonField<String> = JsonMissing.of(),
-        ) : this(address, dob, email, entityToken, firstName, lastName, phoneNumber, mutableMapOf())
+        ) : this(
+            address,
+            dob,
+            email,
+            entityToken,
+            firstName,
+            lastName,
+            phoneNumber,
+            mutableMapOf(),
+        )
 
         /**
          * Individual's current address
@@ -1285,7 +1322,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun address(address: JsonField<Address>) = apply { this.address = address }
+            fun address(address: JsonField<Address>) = apply {
+                this.address = address
+            }
 
             /** Individual's date of birth, as an RFC 3339 date. */
             fun dob(dob: String) = dob(JsonField.of(dob))
@@ -1297,7 +1336,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun dob(dob: JsonField<String>) = apply { this.dob = dob }
+            fun dob(dob: JsonField<String>) = apply {
+                this.dob = dob
+            }
 
             /** Individual's email address. */
             fun email(email: String) = email(JsonField.of(email))
@@ -1309,7 +1350,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun email(email: JsonField<String>) = apply { this.email = email }
+            fun email(email: JsonField<String>) = apply {
+                this.email = email
+            }
 
             /** Globally unique identifier for the entity. */
             fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
@@ -1335,7 +1378,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
+            fun firstName(firstName: JsonField<String>) = apply {
+                this.firstName = firstName
+            }
 
             /** Individual's last name, as it appears on government-issued identity documents. */
             fun lastName(lastName: String) = lastName(JsonField.of(lastName))
@@ -1347,7 +1392,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
+            fun lastName(lastName: JsonField<String>) = apply {
+                this.lastName = lastName
+            }
 
             /** Individual's phone number, entered in E.164 format. */
             fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -1376,7 +1423,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1402,13 +1451,34 @@ private constructor(
              */
             fun build(): AccountHolderIndividualResponse =
                 AccountHolderIndividualResponse(
-                    checkRequired("address", address),
-                    checkRequired("dob", dob),
-                    checkRequired("email", email),
-                    checkRequired("entityToken", entityToken),
-                    checkRequired("firstName", firstName),
-                    checkRequired("lastName", lastName),
-                    checkRequired("phoneNumber", phoneNumber),
+                    checkRequired(
+                        "address",
+                        address,
+                    ),
+                    checkRequired(
+                        "dob",
+                        dob,
+                    ),
+                    checkRequired(
+                        "email",
+                        email,
+                    ),
+                    checkRequired(
+                        "entityToken",
+                        entityToken,
+                    ),
+                    checkRequired(
+                        "firstName",
+                        firstName,
+                    ),
+                    checkRequired(
+                        "lastName",
+                        lastName,
+                    ),
+                    checkRequired(
+                        "phoneNumber",
+                        phoneNumber,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1743,7 +1813,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun address(address: JsonField<Address>) = apply { this.address = address }
+            fun address(address: JsonField<Address>) = apply {
+                this.address = address
+            }
 
             /**
              * Any name that the business operates under that is not its legal business name (if
@@ -1862,7 +1934,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -1887,12 +1961,31 @@ private constructor(
              */
             fun build(): AccountHolderBusinessResponse =
                 AccountHolderBusinessResponse(
-                    checkRequired("address", address),
-                    checkRequired("dbaBusinessName", dbaBusinessName),
-                    checkRequired("entityToken", entityToken),
-                    checkRequired("governmentId", governmentId),
-                    checkRequired("legalBusinessName", legalBusinessName),
-                    checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
+                    checkRequired(
+                        "address",
+                        address,
+                    ),
+                    checkRequired(
+                        "dbaBusinessName",
+                        dbaBusinessName,
+                    ),
+                    checkRequired(
+                        "entityToken",
+                        entityToken,
+                    ),
+                    checkRequired(
+                        "governmentId",
+                        governmentId,
+                    ),
+                    checkRequired(
+                        "legalBusinessName",
+                        legalBusinessName,
+                    ),
+                    checkRequired(
+                            "phoneNumbers",
+                            phoneNumbers,
+                        )
+                        .map { it.toImmutable() },
                     parentCompany,
                     additionalProperties.toMutableMap(),
                 )
@@ -2016,9 +2109,11 @@ private constructor(
          * An enum containing [ExemptionType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [ExemptionType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -2170,9 +2265,11 @@ private constructor(
          * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Status] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -2341,9 +2438,11 @@ private constructor(
          * An enum containing [StatusReason]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [StatusReason] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -2510,9 +2609,11 @@ private constructor(
          * An enum containing [UserType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [UserType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -2636,7 +2737,13 @@ private constructor(
             @JsonProperty("updated")
             @ExcludeMissing
             updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-        ) : this(created, status, statusReasons, updated, mutableMapOf())
+        ) : this(
+            created,
+            status,
+            statusReasons,
+            updated,
+            mutableMapOf(),
+        )
 
         /**
          * Timestamp of when the application was created.
@@ -2758,7 +2865,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+            fun created(created: JsonField<OffsetDateTime>) = apply {
+                this.created = created
+            }
 
             /**
              * KYC and KYB evaluation states.
@@ -2775,7 +2884,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun status(status: JsonField<Status>) = apply { this.status = status }
+            fun status(status: JsonField<Status>) = apply {
+                this.status = status
+            }
 
             /** Reason for the evaluation status. */
             fun statusReasons(statusReasons: List<StatusReason>) =
@@ -2814,7 +2925,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+            fun updated(updated: JsonField<OffsetDateTime>) = apply {
+                this.updated = updated
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -2829,7 +2942,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -2940,9 +3055,11 @@ private constructor(
              * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [Status] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -3116,9 +3233,11 @@ private constructor(
              * An enum containing [StatusReason]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [StatusReason] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {

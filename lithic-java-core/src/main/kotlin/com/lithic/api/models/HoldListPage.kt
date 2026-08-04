@@ -84,13 +84,19 @@ private constructor(
             response = holdListPage.response
         }
 
-        fun service(service: HoldService) = apply { this.service = service }
+        fun service(service: HoldService) = apply {
+            this.service = service
+        }
 
         /** The parameters that were used to request this page. */
-        fun params(params: HoldListParams) = apply { this.params = params }
+        fun params(params: HoldListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
-        fun response(response: HoldListPageResponse) = apply { this.response = response }
+        fun response(response: HoldListPageResponse) = apply {
+            this.response = response
+        }
 
         /**
          * Returns an immutable instance of [HoldListPage].
@@ -108,9 +114,18 @@ private constructor(
          */
         fun build(): HoldListPage =
             HoldListPage(
-                checkRequired("service", service),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

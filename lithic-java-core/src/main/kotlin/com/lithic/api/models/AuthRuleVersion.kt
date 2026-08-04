@@ -52,7 +52,13 @@ private constructor(
         @ExcludeMissing
         state: JsonField<AuthRuleVersionState> = JsonMissing.of(),
         @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
-    ) : this(created, parameters, state, version, mutableMapOf())
+    ) : this(
+        created,
+        parameters,
+        state,
+        version,
+        mutableMapOf(),
+    )
 
     /**
      * Timestamp of when this version was created.
@@ -172,7 +178,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Parameters for the Auth Rule */
         fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
@@ -184,7 +192,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun parameters(parameters: JsonField<Parameters>) = apply { this.parameters = parameters }
+        fun parameters(parameters: JsonField<Parameters>) = apply {
+            this.parameters = parameters
+        }
 
         /**
          * Alias for calling [parameters] with `Parameters.ofConditionalBlock(conditionalBlock)`.
@@ -281,7 +291,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun state(state: JsonField<AuthRuleVersionState>) = apply { this.state = state }
+        fun state(state: JsonField<AuthRuleVersionState>) = apply {
+            this.state = state
+        }
 
         /** The version of the rule, this is incremented whenever the rule's parameters change. */
         fun version(version: Long) = version(JsonField.of(version))
@@ -292,7 +304,9 @@ private constructor(
          * You should usually call [Builder.version] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun version(version: JsonField<Long>) = apply { this.version = version }
+        fun version(version: JsonField<Long>) = apply {
+            this.version = version
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -307,7 +321,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -330,10 +346,22 @@ private constructor(
          */
         fun build(): AuthRuleVersion =
             AuthRuleVersion(
-                checkRequired("created", created),
-                checkRequired("parameters", parameters),
-                checkRequired("state", state),
-                checkRequired("version", version),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "parameters",
+                    parameters,
+                ),
+                checkRequired(
+                    "state",
+                    state,
+                ),
+                checkRequired(
+                    "version",
+                    version,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -904,7 +932,9 @@ private constructor(
                 val bestMatches =
                     sequenceOf(
                             tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())
-                                ?.let { Parameters(conditionalBlock = it, _json = json) },
+                                ?.let {
+                                    Parameters(conditionalBlock = it, _json = json)
+                                },
                             tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
                                 Parameters(velocityLimitParams = it, _json = json)
                             },
@@ -912,7 +942,9 @@ private constructor(
                                 Parameters(merchantLock = it, _json = json)
                             },
                             tryDeserialize(node, jacksonTypeRef<Conditional3dsActionParameters>())
-                                ?.let { Parameters(conditional3dsAction = it, _json = json) },
+                                ?.let {
+                                    Parameters(conditional3dsAction = it, _json = json)
+                                },
                             tryDeserialize(
                                     node,
                                     jacksonTypeRef<ConditionalAuthorizationActionParameters>(),
@@ -921,7 +953,9 @@ private constructor(
                                     Parameters(conditionalAuthorizationAction = it, _json = json)
                                 },
                             tryDeserialize(node, jacksonTypeRef<ConditionalAchActionParameters>())
-                                ?.let { Parameters(conditionalAchAction = it, _json = json) },
+                                ?.let {
+                                    Parameters(conditionalAchAction = it, _json = json)
+                                },
                             tryDeserialize(
                                     node,
                                     jacksonTypeRef<ConditionalTokenizationActionParameters>(),
@@ -1050,9 +1084,11 @@ private constructor(
          * member.
          *
          * An instance of [AuthRuleVersionState] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

@@ -27,7 +27,10 @@ private constructor(
         @JsonProperty("backtest_token")
         @ExcludeMissing
         backtestToken: JsonField<String> = JsonMissing.of()
-    ) : this(backtestToken, mutableMapOf())
+    ) : this(
+        backtestToken,
+        mutableMapOf(),
+    )
 
     /**
      * Auth Rule Backtest Token
@@ -103,7 +106,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -115,7 +120,10 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): BacktestCreateResponse =
-            BacktestCreateResponse(backtestToken, additionalProperties.toMutableMap())
+            BacktestCreateResponse(
+                backtestToken,
+                additionalProperties.toMutableMap(),
+            )
     }
 
     private var validated: Boolean = false

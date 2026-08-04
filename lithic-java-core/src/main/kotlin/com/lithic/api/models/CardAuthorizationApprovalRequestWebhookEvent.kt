@@ -927,7 +927,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * Fee (in cents) assessed by the merchant and paid for by the cardholder. Will be zero if
@@ -943,7 +945,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun acquirerFee(acquirerFee: JsonField<Long>) = apply { this.acquirerFee = acquirerFee }
+        fun acquirerFee(acquirerFee: JsonField<Long>) = apply {
+            this.acquirerFee = acquirerFee
+        }
 
         /**
          * Deprecated, use `amounts`. Authorization amount of the transaction (in cents), including
@@ -958,7 +962,9 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         @Deprecated("deprecated")
-        fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+        fun amount(amount: JsonField<Long>) = apply {
+            this.amount = amount
+        }
 
         /**
          * Structured amounts for this authorization. The `cardholder` and `merchant` amounts
@@ -1010,7 +1016,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun avs(avs: JsonField<CardAuthorization.Avs>) = apply { this.avs = avs }
+        fun avs(avs: JsonField<CardAuthorization.Avs>) = apply {
+            this.avs = avs
+        }
 
         /** Card object in ASA */
         fun card(card: CardAuthorization.AsaRequestCard) = card(JsonField.of(card))
@@ -1022,7 +1030,9 @@ private constructor(
          * [CardAuthorization.AsaRequestCard] value instead. This method is primarily for setting
          * the field to an undocumented or not yet supported value.
          */
-        fun card(card: JsonField<CardAuthorization.AsaRequestCard>) = apply { this.card = card }
+        fun card(card: JsonField<CardAuthorization.AsaRequestCard>) = apply {
+            this.card = card
+        }
 
         /**
          * Deprecated, use `amounts`. 3-character alphabetic ISO 4217 code for cardholder's billing
@@ -1060,7 +1070,9 @@ private constructor(
          * You should usually call [Builder.cashAmount] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun cashAmount(cashAmount: JsonField<Long>) = apply { this.cashAmount = cashAmount }
+        fun cashAmount(cashAmount: JsonField<Long>) = apply {
+            this.cashAmount = cashAmount
+        }
 
         /** Date and time when the transaction first occurred in UTC. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -1072,7 +1084,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Merchant information including full location details. */
         fun merchant(merchant: CardAuthorization.TransactionMerchant) =
@@ -1223,7 +1237,9 @@ private constructor(
          */
         fun transactionInitiator(
             transactionInitiator: JsonField<CardAuthorization.TransactionInitiator>
-        ) = apply { this.transactionInitiator = transactionInitiator }
+        ) = apply {
+            this.transactionInitiator = transactionInitiator
+        }
 
         fun accountType(accountType: CardAuthorization.AccountType) =
             accountType(JsonField.of(accountType))
@@ -1251,7 +1267,9 @@ private constructor(
          */
         fun cardholderAuthentication(
             cardholderAuthentication: JsonField<CardholderAuthentication>
-        ) = apply { this.cardholderAuthentication = cardholderAuthentication }
+        ) = apply {
+            this.cardholderAuthentication = cardholderAuthentication
+        }
 
         /** Deprecated, use `cash_amount`. */
         fun cashback(cashback: Long) = cashback(JsonField.of(cashback))
@@ -1262,7 +1280,9 @@ private constructor(
          * You should usually call [Builder.cashback] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun cashback(cashback: JsonField<Long>) = apply { this.cashback = cashback }
+        fun cashback(cashback: JsonField<Long>) = apply {
+            this.cashback = cashback
+        }
 
         /**
          * Deprecated, use `amounts`. If the transaction was requested in a currency other than the
@@ -1299,7 +1319,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventToken(eventToken: JsonField<String>) = apply { this.eventToken = eventToken }
+        fun eventToken(eventToken: JsonField<String>) = apply {
+            this.eventToken = eventToken
+        }
 
         /**
          * Optional Object containing information if the Card is a part of a Fleet managed program
@@ -1411,7 +1433,9 @@ private constructor(
          */
         fun networkSpecificData(
             networkSpecificData: JsonField<CardAuthorization.AsaNetworkSpecificData>
-        ) = apply { this.networkSpecificData = networkSpecificData }
+        ) = apply {
+            this.networkSpecificData = networkSpecificData
+        }
 
         fun pos(pos: CardAuthorization.Pos) = pos(JsonField.of(pos))
 
@@ -1422,7 +1446,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun pos(pos: JsonField<CardAuthorization.Pos>) = apply { this.pos = pos }
+        fun pos(pos: JsonField<CardAuthorization.Pos>) = apply {
+            this.pos = pos
+        }
 
         fun tokenInfo(tokenInfo: TokenInfo?) = tokenInfo(JsonField.ofNullable(tokenInfo))
 
@@ -1436,7 +1462,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply { this.tokenInfo = tokenInfo }
+        fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply {
+            this.tokenInfo = tokenInfo
+        }
 
         /** Deprecated: approximate time-to-live for the authorization. */
         fun ttl(ttl: OffsetDateTime) = ttl(JsonField.of(ttl))
@@ -1448,7 +1476,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun ttl(ttl: JsonField<OffsetDateTime>) = apply { this.ttl = ttl }
+        fun ttl(ttl: JsonField<OffsetDateTime>) = apply {
+            this.ttl = ttl
+        }
 
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
@@ -1459,7 +1489,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -1474,7 +1506,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1512,24 +1546,78 @@ private constructor(
          */
         fun build(): CardAuthorizationApprovalRequestWebhookEvent =
             CardAuthorizationApprovalRequestWebhookEvent(
-                checkRequired("token", token),
-                checkRequired("acquirerFee", acquirerFee),
-                checkRequired("amount", amount),
-                checkRequired("amounts", amounts),
-                checkRequired("authorizationAmount", authorizationAmount),
-                checkRequired("avs", avs),
-                checkRequired("card", card),
-                checkRequired("cardholderCurrency", cardholderCurrency),
-                checkRequired("cashAmount", cashAmount),
-                checkRequired("created", created),
-                checkRequired("merchant", merchant),
-                checkRequired("merchantAmount", merchantAmount),
-                checkRequired("merchantCurrency", merchantCurrency),
-                checkRequired("nameValidation", nameValidation),
-                checkRequired("serviceLocation", serviceLocation),
-                checkRequired("settledAmount", settledAmount),
-                checkRequired("status", status),
-                checkRequired("transactionInitiator", transactionInitiator),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "acquirerFee",
+                    acquirerFee,
+                ),
+                checkRequired(
+                    "amount",
+                    amount,
+                ),
+                checkRequired(
+                    "amounts",
+                    amounts,
+                ),
+                checkRequired(
+                    "authorizationAmount",
+                    authorizationAmount,
+                ),
+                checkRequired(
+                    "avs",
+                    avs,
+                ),
+                checkRequired(
+                    "card",
+                    card,
+                ),
+                checkRequired(
+                    "cardholderCurrency",
+                    cardholderCurrency,
+                ),
+                checkRequired(
+                    "cashAmount",
+                    cashAmount,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "merchant",
+                    merchant,
+                ),
+                checkRequired(
+                    "merchantAmount",
+                    merchantAmount,
+                ),
+                checkRequired(
+                    "merchantCurrency",
+                    merchantCurrency,
+                ),
+                checkRequired(
+                    "nameValidation",
+                    nameValidation,
+                ),
+                checkRequired(
+                    "serviceLocation",
+                    serviceLocation,
+                ),
+                checkRequired(
+                    "settledAmount",
+                    settledAmount,
+                ),
+                checkRequired(
+                    "status",
+                    status,
+                ),
+                checkRequired(
+                    "transactionInitiator",
+                    transactionInitiator,
+                ),
                 accountType,
                 cardholderAuthentication,
                 cashback,
@@ -1543,7 +1631,10 @@ private constructor(
                 pos,
                 tokenInfo,
                 ttl,
-                checkRequired("eventType", eventType),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -1675,9 +1766,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

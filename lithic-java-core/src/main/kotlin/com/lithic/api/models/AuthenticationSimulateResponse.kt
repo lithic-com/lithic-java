@@ -25,7 +25,10 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of()
-    ) : this(token, mutableMapOf())
+    ) : this(
+        token,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the 3DS authentication.
@@ -85,7 +88,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -100,7 +105,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -112,7 +119,10 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): AuthenticationSimulateResponse =
-            AuthenticationSimulateResponse(token, additionalProperties.toMutableMap())
+            AuthenticationSimulateResponse(
+                token,
+                additionalProperties.toMutableMap(),
+            )
     }
 
     private var validated: Boolean = false

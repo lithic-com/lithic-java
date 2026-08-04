@@ -51,7 +51,10 @@ private constructor(
         service.listEvidences(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<DisputeEvidence> =
-        AutoPagerAsync.from(this, streamHandlerExecutor)
+        AutoPagerAsync.from(
+            this,
+            streamHandlerExecutor,
+        )
 
     /** The parameters that were used to request this page. */
     fun params(): DisputeListEvidencesParams = params
@@ -94,14 +97,18 @@ private constructor(
             response = disputeListEvidencesPageAsync.response
         }
 
-        fun service(service: DisputeServiceAsync) = apply { this.service = service }
+        fun service(service: DisputeServiceAsync) = apply {
+            this.service = service
+        }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: DisputeListEvidencesParams) = apply { this.params = params }
+        fun params(params: DisputeListEvidencesParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
         fun response(response: DisputeListEvidencesPageResponse) = apply {
@@ -125,10 +132,22 @@ private constructor(
          */
         fun build(): DisputeListEvidencesPageAsync =
             DisputeListEvidencesPageAsync(
-                checkRequired("service", service),
-                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "streamHandlerExecutor",
+                    streamHandlerExecutor,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

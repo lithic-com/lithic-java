@@ -34,6 +34,7 @@ private constructor(
     private val updated: JsonField<OffsetDateTime>,
     private val userDefinedStatus: JsonField<String>,
     private val accountNumber: JsonField<String>,
+    private val blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses>,
     private val routingNumber: JsonField<String>,
     private val eventType: JsonField<EventType>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -74,6 +75,9 @@ private constructor(
         @JsonProperty("account_number")
         @ExcludeMissing
         accountNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("blockchain_addresses")
+        @ExcludeMissing
+        blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses> = JsonMissing.of(),
         @JsonProperty("routing_number")
         @ExcludeMissing
         routingNumber: JsonField<String> = JsonMissing.of(),
@@ -93,6 +97,7 @@ private constructor(
         updated,
         userDefinedStatus,
         accountNumber,
+        blockchainAddresses,
         routingNumber,
         eventType,
         mutableMapOf(),
@@ -112,6 +117,7 @@ private constructor(
             .updated(updated)
             .userDefinedStatus(userDefinedStatus)
             .accountNumber(accountNumber)
+            .blockchainAddresses(blockchainAddresses)
             .routingNumber(routingNumber)
             .build()
 
@@ -198,6 +204,16 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun accountNumber(): Optional<String> = accountNumber.getOptional("account_number")
+
+    /**
+     * Provisioned blockchain deposit addresses for this financial account, keyed by the blockchain
+     * network that each address belongs to
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun blockchainAddresses(): Optional<FinancialAccount.BlockchainAddresses> =
+        blockchainAddresses.getOptional("blockchain_addresses")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -315,6 +331,17 @@ private constructor(
     fun _accountNumber(): JsonField<String> = accountNumber
 
     /**
+     * Returns the raw JSON value of [blockchainAddresses].
+     *
+     * Unlike [blockchainAddresses], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("blockchain_addresses")
+    @ExcludeMissing
+    fun _blockchainAddresses(): JsonField<FinancialAccount.BlockchainAddresses> =
+        blockchainAddresses
+
+    /**
      * Returns the raw JSON value of [routingNumber].
      *
      * Unlike [routingNumber], this method doesn't throw if the JSON field has an unexpected type.
@@ -383,6 +410,8 @@ private constructor(
         private var updated: JsonField<OffsetDateTime>? = null
         private var userDefinedStatus: JsonField<String>? = null
         private var accountNumber: JsonField<String> = JsonMissing.of()
+        private var blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses> =
+            JsonMissing.of()
         private var routingNumber: JsonField<String> = JsonMissing.of()
         private var eventType: JsonField<EventType>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -403,6 +432,7 @@ private constructor(
             updated = financialAccountCreatedWebhookEvent.updated
             userDefinedStatus = financialAccountCreatedWebhookEvent.userDefinedStatus
             accountNumber = financialAccountCreatedWebhookEvent.accountNumber
+            blockchainAddresses = financialAccountCreatedWebhookEvent.blockchainAddresses
             routingNumber = financialAccountCreatedWebhookEvent.routingNumber
             eventType = financialAccountCreatedWebhookEvent.eventType
             additionalProperties =
@@ -418,7 +448,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         fun accountToken(accountToken: String?) = accountToken(JsonField.ofNullable(accountToken))
 
@@ -445,7 +477,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         fun creditConfiguration(
             creditConfiguration: FinancialAccount.FinancialAccountCreditConfig?
@@ -467,7 +501,9 @@ private constructor(
          */
         fun creditConfiguration(
             creditConfiguration: JsonField<FinancialAccount.FinancialAccountCreditConfig>
-        ) = apply { this.creditConfiguration = creditConfiguration }
+        ) = apply {
+            this.creditConfiguration = creditConfiguration
+        }
 
         /** Whether financial account is for the benefit of another entity */
         fun isForBenefitOf(isForBenefitOf: Boolean) = isForBenefitOf(JsonField.of(isForBenefitOf))
@@ -494,7 +530,9 @@ private constructor(
          * You should usually call [Builder.nickname] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
+        fun nickname(nickname: JsonField<String>) = apply {
+            this.nickname = nickname
+        }
 
         /** Status of the financial account */
         fun status(status: FinancialAccount.FinancialAccountStatus) = status(JsonField.of(status))
@@ -538,7 +576,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun type(type: JsonField<FinancialAccount.Type>) = apply { this.type = type }
+        fun type(type: JsonField<FinancialAccount.Type>) = apply {
+            this.type = type
+        }
 
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
@@ -549,7 +589,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply {
+            this.updated = updated
+        }
 
         /** User-defined status for the financial account */
         fun userDefinedStatus(userDefinedStatus: String?) =
@@ -588,6 +630,33 @@ private constructor(
             this.accountNumber = accountNumber
         }
 
+        /**
+         * Provisioned blockchain deposit addresses for this financial account, keyed by the
+         * blockchain network that each address belongs to
+         */
+        fun blockchainAddresses(blockchainAddresses: FinancialAccount.BlockchainAddresses?) =
+            blockchainAddresses(JsonField.ofNullable(blockchainAddresses))
+
+        /**
+         * Alias for calling [Builder.blockchainAddresses] with `blockchainAddresses.orElse(null)`.
+         */
+        fun blockchainAddresses(
+            blockchainAddresses: Optional<FinancialAccount.BlockchainAddresses>
+        ) = blockchainAddresses(blockchainAddresses.getOrNull())
+
+        /**
+         * Sets [Builder.blockchainAddresses] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.blockchainAddresses] with a well-typed
+         * [FinancialAccount.BlockchainAddresses] value instead. This method is primarily for
+         * setting the field to an undocumented or not yet supported value.
+         */
+        fun blockchainAddresses(
+            blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses>
+        ) = apply {
+            this.blockchainAddresses = blockchainAddresses
+        }
+
         fun routingNumber(routingNumber: String?) =
             routingNumber(JsonField.ofNullable(routingNumber))
 
@@ -616,7 +685,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -631,7 +702,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -662,20 +735,57 @@ private constructor(
          */
         fun build(): FinancialAccountCreatedWebhookEvent =
             FinancialAccountCreatedWebhookEvent(
-                checkRequired("token", token),
-                checkRequired("accountToken", accountToken),
-                checkRequired("created", created),
-                checkRequired("creditConfiguration", creditConfiguration),
-                checkRequired("isForBenefitOf", isForBenefitOf),
-                checkRequired("nickname", nickname),
-                checkRequired("status", status),
-                checkRequired("substatus", substatus),
-                checkRequired("type", type),
-                checkRequired("updated", updated),
-                checkRequired("userDefinedStatus", userDefinedStatus),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "accountToken",
+                    accountToken,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "creditConfiguration",
+                    creditConfiguration,
+                ),
+                checkRequired(
+                    "isForBenefitOf",
+                    isForBenefitOf,
+                ),
+                checkRequired(
+                    "nickname",
+                    nickname,
+                ),
+                checkRequired(
+                    "status",
+                    status,
+                ),
+                checkRequired(
+                    "substatus",
+                    substatus,
+                ),
+                checkRequired(
+                    "type",
+                    type,
+                ),
+                checkRequired(
+                    "updated",
+                    updated,
+                ),
+                checkRequired(
+                    "userDefinedStatus",
+                    userDefinedStatus,
+                ),
                 accountNumber,
+                blockchainAddresses,
                 routingNumber,
-                checkRequired("eventType", eventType),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -707,6 +817,7 @@ private constructor(
         updated()
         userDefinedStatus()
         accountNumber()
+        blockchainAddresses().ifPresent { it.validate() }
         routingNumber()
         eventType().validate()
         validated = true
@@ -739,6 +850,7 @@ private constructor(
             (if (updated.asKnown().isPresent) 1 else 0) +
             (if (userDefinedStatus.asKnown().isPresent) 1 else 0) +
             (if (accountNumber.asKnown().isPresent) 1 else 0) +
+            (blockchainAddresses.asKnown().getOrNull()?.validity() ?: 0) +
             (if (routingNumber.asKnown().isPresent) 1 else 0) +
             (eventType.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -771,9 +883,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -891,6 +1005,7 @@ private constructor(
             updated == other.updated &&
             userDefinedStatus == other.userDefinedStatus &&
             accountNumber == other.accountNumber &&
+            blockchainAddresses == other.blockchainAddresses &&
             routingNumber == other.routingNumber &&
             eventType == other.eventType &&
             additionalProperties == other.additionalProperties
@@ -910,6 +1025,7 @@ private constructor(
             updated,
             userDefinedStatus,
             accountNumber,
+            blockchainAddresses,
             routingNumber,
             eventType,
             additionalProperties,
@@ -919,5 +1035,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "FinancialAccountCreatedWebhookEvent{token=$token, accountToken=$accountToken, created=$created, creditConfiguration=$creditConfiguration, isForBenefitOf=$isForBenefitOf, nickname=$nickname, status=$status, substatus=$substatus, type=$type, updated=$updated, userDefinedStatus=$userDefinedStatus, accountNumber=$accountNumber, routingNumber=$routingNumber, eventType=$eventType, additionalProperties=$additionalProperties}"
+        "FinancialAccountCreatedWebhookEvent{token=$token, accountToken=$accountToken, created=$created, creditConfiguration=$creditConfiguration, isForBenefitOf=$isForBenefitOf, nickname=$nickname, status=$status, substatus=$substatus, type=$type, updated=$updated, userDefinedStatus=$userDefinedStatus, accountNumber=$accountNumber, blockchainAddresses=$blockchainAddresses, routingNumber=$routingNumber, eventType=$eventType, additionalProperties=$additionalProperties}"
 }

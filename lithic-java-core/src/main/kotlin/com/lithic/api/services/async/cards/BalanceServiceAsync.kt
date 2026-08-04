@@ -26,7 +26,10 @@ interface BalanceServiceAsync {
 
     /** Get the balances for a given card. */
     fun list(cardToken: String): CompletableFuture<CardBalanceListPageAsync> =
-        list(cardToken, CardBalanceListParams.none())
+        list(
+            cardToken,
+            CardBalanceListParams.none(),
+        )
 
     /** @see list */
     fun list(
@@ -34,13 +37,21 @@ interface BalanceServiceAsync {
         params: CardBalanceListParams = CardBalanceListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardBalanceListPageAsync> =
-        list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+        list(
+            params.toBuilder().cardToken(cardToken).build(),
+            requestOptions,
+        )
 
     /** @see list */
     fun list(
         cardToken: String,
         params: CardBalanceListParams = CardBalanceListParams.none(),
-    ): CompletableFuture<CardBalanceListPageAsync> = list(cardToken, params, RequestOptions.none())
+    ): CompletableFuture<CardBalanceListPageAsync> =
+        list(
+            cardToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -50,14 +61,21 @@ interface BalanceServiceAsync {
 
     /** @see list */
     fun list(params: CardBalanceListParams): CompletableFuture<CardBalanceListPageAsync> =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
         cardToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<CardBalanceListPageAsync> =
-        list(cardToken, CardBalanceListParams.none(), requestOptions)
+        list(
+            cardToken,
+            CardBalanceListParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [BalanceServiceAsync] that provides access to raw HTTP responses for each method.
@@ -78,7 +96,10 @@ interface BalanceServiceAsync {
          * the same as [BalanceServiceAsync.list].
          */
         fun list(cardToken: String): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
-            list(cardToken, CardBalanceListParams.none())
+            list(
+                cardToken,
+                CardBalanceListParams.none(),
+            )
 
         /** @see list */
         fun list(
@@ -86,14 +107,21 @@ interface BalanceServiceAsync {
             params: CardBalanceListParams = CardBalanceListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
-            list(params.toBuilder().cardToken(cardToken).build(), requestOptions)
+            list(
+                params.toBuilder().cardToken(cardToken).build(),
+                requestOptions,
+            )
 
         /** @see list */
         fun list(
             cardToken: String,
             params: CardBalanceListParams = CardBalanceListParams.none(),
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
-            list(cardToken, params, RequestOptions.none())
+            list(
+                cardToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
@@ -105,13 +133,20 @@ interface BalanceServiceAsync {
         fun list(
             params: CardBalanceListParams
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             cardToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<CardBalanceListPageAsync>> =
-            list(cardToken, CardBalanceListParams.none(), requestOptions)
+            list(
+                cardToken,
+                CardBalanceListParams.none(),
+                requestOptions,
+            )
     }
 }

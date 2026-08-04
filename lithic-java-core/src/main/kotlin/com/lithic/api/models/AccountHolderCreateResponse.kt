@@ -244,7 +244,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Globally unique identifier for the account. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -274,7 +276,9 @@ private constructor(
          * You should usually call [Builder.status] with a well-typed [Status] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun status(status: JsonField<Status>) = apply { this.status = status }
+        fun status(status: JsonField<Status>) = apply {
+            this.status = status
+        }
 
         /** Reason for the evaluation status. */
         fun statusReasons(statusReasons: List<StatusReasons>) =
@@ -313,7 +317,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /**
          * Customer-provided token that indicates a relationship with an object outside of the
@@ -328,7 +334,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+        fun externalId(externalId: JsonField<String>) = apply {
+            this.externalId = externalId
+        }
 
         /**
          * Only present for "KYB_BASIC" workflow. A list of documents required for the account
@@ -373,7 +381,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -396,10 +406,23 @@ private constructor(
          */
         fun build(): AccountHolderCreateResponse =
             AccountHolderCreateResponse(
-                checkRequired("token", token),
-                checkRequired("accountToken", accountToken),
-                checkRequired("status", status),
-                checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "accountToken",
+                    accountToken,
+                ),
+                checkRequired(
+                    "status",
+                    status,
+                ),
+                checkRequired(
+                        "statusReasons",
+                        statusReasons,
+                    )
+                    .map { it.toImmutable() },
                 created,
                 externalId,
                 (requiredDocuments ?: JsonMissing.of()).map { it.toImmutable() },
@@ -501,9 +524,11 @@ private constructor(
          * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Status] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -737,9 +762,11 @@ private constructor(
          * An enum containing [StatusReasons]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [StatusReasons] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

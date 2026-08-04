@@ -271,7 +271,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * Whether the card program is participating in Account Level Management. Currently
@@ -302,7 +304,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** The name of the card program. */
         fun name(name: String) = name(JsonField.of(name))
@@ -313,7 +317,9 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { this.name = name }
+        fun name(name: JsonField<String>) = apply {
+            this.name = name
+        }
 
         /** The first digits of the card number that this card program ends with. */
         fun panRangeEnd(panRangeEnd: String) = panRangeEnd(JsonField.of(panRangeEnd))
@@ -325,7 +331,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun panRangeEnd(panRangeEnd: JsonField<String>) = apply { this.panRangeEnd = panRangeEnd }
+        fun panRangeEnd(panRangeEnd: JsonField<String>) = apply {
+            this.panRangeEnd = panRangeEnd
+        }
 
         /** The first digits of the card number that this card program starts with. */
         fun panRangeStart(panRangeStart: String) = panRangeStart(JsonField.of(panRangeStart))
@@ -405,7 +413,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -430,12 +440,30 @@ private constructor(
          */
         fun build(): CardProgram =
             CardProgram(
-                checkRequired("token", token),
-                checkRequired("accountLevelManagementEnabled", accountLevelManagementEnabled),
-                checkRequired("created", created),
-                checkRequired("name", name),
-                checkRequired("panRangeEnd", panRangeEnd),
-                checkRequired("panRangeStart", panRangeStart),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "accountLevelManagementEnabled",
+                    accountLevelManagementEnabled,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "name",
+                    name,
+                ),
+                checkRequired(
+                    "panRangeEnd",
+                    panRangeEnd,
+                ),
+                checkRequired(
+                    "panRangeStart",
+                    panRangeStart,
+                ),
                 cardholderCurrency,
                 (settlementCurrencies ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),

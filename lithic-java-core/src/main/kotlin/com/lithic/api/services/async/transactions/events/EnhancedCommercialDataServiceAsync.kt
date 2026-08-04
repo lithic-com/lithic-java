@@ -29,7 +29,10 @@ interface EnhancedCommercialDataServiceAsync {
      * sandbox.
      */
     fun retrieve(eventToken: String): CompletableFuture<EnhancedData> =
-        retrieve(eventToken, TransactionEventEnhancedCommercialDataRetrieveParams.none())
+        retrieve(
+            eventToken,
+            TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -38,14 +41,22 @@ interface EnhancedCommercialDataServiceAsync {
             TransactionEventEnhancedCommercialDataRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<EnhancedData> =
-        retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().eventToken(eventToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         eventToken: String,
         params: TransactionEventEnhancedCommercialDataRetrieveParams =
             TransactionEventEnhancedCommercialDataRetrieveParams.none(),
-    ): CompletableFuture<EnhancedData> = retrieve(eventToken, params, RequestOptions.none())
+    ): CompletableFuture<EnhancedData> =
+        retrieve(
+            eventToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -56,7 +67,11 @@ interface EnhancedCommercialDataServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams
-    ): CompletableFuture<EnhancedData> = retrieve(params, RequestOptions.none())
+    ): CompletableFuture<EnhancedData> =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -90,7 +105,10 @@ interface EnhancedCommercialDataServiceAsync {
          * same as [EnhancedCommercialDataServiceAsync.retrieve].
          */
         fun retrieve(eventToken: String): CompletableFuture<HttpResponseFor<EnhancedData>> =
-            retrieve(eventToken, TransactionEventEnhancedCommercialDataRetrieveParams.none())
+            retrieve(
+                eventToken,
+                TransactionEventEnhancedCommercialDataRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -99,7 +117,10 @@ interface EnhancedCommercialDataServiceAsync {
                 TransactionEventEnhancedCommercialDataRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedData>> =
-            retrieve(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().eventToken(eventToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -107,7 +128,11 @@ interface EnhancedCommercialDataServiceAsync {
             params: TransactionEventEnhancedCommercialDataRetrieveParams =
                 TransactionEventEnhancedCommercialDataRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<EnhancedData>> =
-            retrieve(eventToken, params, RequestOptions.none())
+            retrieve(
+                eventToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -119,7 +144,10 @@ interface EnhancedCommercialDataServiceAsync {
         fun retrieve(
             params: TransactionEventEnhancedCommercialDataRetrieveParams
         ): CompletableFuture<HttpResponseFor<EnhancedData>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(

@@ -40,14 +40,25 @@ interface ResponderEndpointService {
     /** @see create */
     fun create(
         params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
-    ): ResponderEndpointCreateResponse = create(params, RequestOptions.none())
+    ): ResponderEndpointCreateResponse =
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(requestOptions: RequestOptions): ResponderEndpointCreateResponse =
-        create(ResponderEndpointCreateParams.none(), requestOptions)
+        create(
+            ResponderEndpointCreateParams.none(),
+            requestOptions,
+        )
 
     /** Disenroll a responder endpoint */
-    fun delete(params: ResponderEndpointDeleteParams) = delete(params, RequestOptions.none())
+    fun delete(params: ResponderEndpointDeleteParams) =
+        delete(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -57,7 +68,10 @@ interface ResponderEndpointService {
 
     /** Check the status of a responder endpoint */
     fun checkStatus(params: ResponderEndpointCheckStatusParams): ResponderEndpointStatus =
-        checkStatus(params, RequestOptions.none())
+        checkStatus(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see checkStatus */
     fun checkStatus(
@@ -99,14 +113,21 @@ interface ResponderEndpointService {
         @MustBeClosed
         fun create(
             params: ResponderEndpointCreateParams = ResponderEndpointCreateParams.none()
-        ): HttpResponseFor<ResponderEndpointCreateResponse> = create(params, RequestOptions.none())
+        ): HttpResponseFor<ResponderEndpointCreateResponse> =
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
         fun create(
             requestOptions: RequestOptions
         ): HttpResponseFor<ResponderEndpointCreateResponse> =
-            create(ResponderEndpointCreateParams.none(), requestOptions)
+            create(
+                ResponderEndpointCreateParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `delete /v1/responder_endpoints`, but is otherwise the
@@ -114,7 +135,10 @@ interface ResponderEndpointService {
          */
         @MustBeClosed
         fun delete(params: ResponderEndpointDeleteParams): HttpResponse =
-            delete(params, RequestOptions.none())
+            delete(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         @MustBeClosed
@@ -130,7 +154,11 @@ interface ResponderEndpointService {
         @MustBeClosed
         fun checkStatus(
             params: ResponderEndpointCheckStatusParams
-        ): HttpResponseFor<ResponderEndpointStatus> = checkStatus(params, RequestOptions.none())
+        ): HttpResponseFor<ResponderEndpointStatus> =
+            checkStatus(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see checkStatus */
         @MustBeClosed

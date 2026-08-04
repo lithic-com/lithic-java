@@ -31,7 +31,12 @@ private constructor(
         @JsonProperty("imei") @ExcludeMissing imei: JsonField<String> = JsonMissing.of(),
         @JsonProperty("ip_address") @ExcludeMissing ipAddress: JsonField<String> = JsonMissing.of(),
         @JsonProperty("location") @ExcludeMissing location: JsonField<String> = JsonMissing.of(),
-    ) : this(imei, ipAddress, location, mutableMapOf())
+    ) : this(
+        imei,
+        ipAddress,
+        location,
+        mutableMapOf(),
+    )
 
     /**
      * The IMEI number of the device being provisioned. For Amex, this field contains device ID
@@ -137,7 +142,9 @@ private constructor(
          * You should usually call [Builder.imei] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun imei(imei: JsonField<String>) = apply { this.imei = imei }
+        fun imei(imei: JsonField<String>) = apply {
+            this.imei = imei
+        }
 
         /** The IP address of the device initiating the request */
         fun ipAddress(ipAddress: String?) = ipAddress(JsonField.ofNullable(ipAddress))
@@ -152,7 +159,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun ipAddress(ipAddress: JsonField<String>) = apply { this.ipAddress = ipAddress }
+        fun ipAddress(ipAddress: JsonField<String>) = apply {
+            this.ipAddress = ipAddress
+        }
 
         /** Latitude and longitude where the device is located during the authorization attempt */
         fun location(location: String?) = location(JsonField.ofNullable(location))
@@ -166,7 +175,9 @@ private constructor(
          * You should usually call [Builder.location] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun location(location: JsonField<String>) = apply { this.location = location }
+        fun location(location: JsonField<String>) = apply {
+            this.location = location
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -181,7 +192,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -203,9 +216,18 @@ private constructor(
          */
         fun build(): Device =
             Device(
-                checkRequired("imei", imei),
-                checkRequired("ipAddress", ipAddress),
-                checkRequired("location", location),
+                checkRequired(
+                    "imei",
+                    imei,
+                ),
+                checkRequired(
+                    "ipAddress",
+                    ipAddress,
+                ),
+                checkRequired(
+                    "location",
+                    location,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }

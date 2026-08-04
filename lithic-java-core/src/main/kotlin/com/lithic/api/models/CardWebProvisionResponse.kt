@@ -289,7 +289,11 @@ private constructor(
             @ExcludeMissing
             jws: JsonField<WebPushProvisioningResponseJws> = JsonMissing.of(),
             @JsonProperty("state") @ExcludeMissing state: JsonField<String> = JsonMissing.of(),
-        ) : this(jws, state, mutableMapOf())
+        ) : this(
+            jws,
+            state,
+            mutableMapOf(),
+        )
 
         /**
          * JWS object required for handoff to Apple's script.
@@ -376,7 +380,9 @@ private constructor(
              * [WebPushProvisioningResponseJws] value instead. This method is primarily for setting
              * the field to an undocumented or not yet supported value.
              */
-            fun jws(jws: JsonField<WebPushProvisioningResponseJws>) = apply { this.jws = jws }
+            fun jws(jws: JsonField<WebPushProvisioningResponseJws>) = apply {
+                this.jws = jws
+            }
 
             /** A unique identifier for the JWS object. */
             fun state(state: String) = state(JsonField.of(state))
@@ -388,7 +394,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun state(state: JsonField<String>) = apply { this.state = state }
+            fun state(state: JsonField<String>) = apply {
+                this.state = state
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -403,7 +411,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -424,8 +434,14 @@ private constructor(
              */
             fun build(): AppleWebPushProvisioningResponse =
                 AppleWebPushProvisioningResponse(
-                    checkRequired("jws", jws),
-                    checkRequired("state", state),
+                    checkRequired(
+                        "jws",
+                        jws,
+                    ),
+                    checkRequired(
+                        "state",
+                        state,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -494,7 +510,13 @@ private constructor(
                 @JsonProperty("signature")
                 @ExcludeMissing
                 signature: JsonField<String> = JsonMissing.of(),
-            ) : this(header, payload, protected_, signature, mutableMapOf())
+            ) : this(
+                header,
+                payload,
+                protected_,
+                signature,
+                mutableMapOf(),
+            )
 
             /**
              * JWS unprotected headers containing header parameters that aren't integrity-protected
@@ -634,7 +656,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun payload(payload: JsonField<String>) = apply { this.payload = payload }
+                fun payload(payload: JsonField<String>) = apply {
+                    this.payload = payload
+                }
 
                 /**
                  * Base64url encoded JWS protected headers containing the header parameters that are
@@ -663,7 +687,9 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
-                fun signature(signature: JsonField<String>) = apply { this.signature = signature }
+                fun signature(signature: JsonField<String>) = apply {
+                    this.signature = signature
+                }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -761,7 +787,10 @@ private constructor(
                 @JsonCreator
                 private constructor(
                     @JsonProperty("kid") @ExcludeMissing kid: JsonField<String> = JsonMissing.of()
-                ) : this(kid, mutableMapOf())
+                ) : this(
+                    kid,
+                    mutableMapOf(),
+                )
 
                 /**
                  * The ID for the JWS Public Key of the key pair used to generate the signature.
@@ -826,7 +855,9 @@ private constructor(
                      * instead. This method is primarily for setting the field to an undocumented or
                      * not yet supported value.
                      */
-                    fun kid(kid: JsonField<String>) = apply { this.kid = kid }
+                    fun kid(kid: JsonField<String>) = apply {
+                        this.kid = kid
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -856,7 +887,10 @@ private constructor(
                      * Further updates to this [Builder] will not mutate the returned instance.
                      */
                     fun build(): WebPushProvisioningResponseHeader =
-                        WebPushProvisioningResponseHeader(kid, additionalProperties.toMutableMap())
+                        WebPushProvisioningResponseHeader(
+                            kid,
+                            additionalProperties.toMutableMap(),
+                        )
                 }
 
                 private var validated: Boolean = false
@@ -970,7 +1004,11 @@ private constructor(
             @ExcludeMissing
             googleOpc: JsonField<String> = JsonMissing.of(),
             @JsonProperty("tsp_opc") @ExcludeMissing tspOpc: JsonField<String> = JsonMissing.of(),
-        ) : this(googleOpc, tspOpc, mutableMapOf())
+        ) : this(
+            googleOpc,
+            tspOpc,
+            mutableMapOf(),
+        )
 
         /**
          * A base64 encoded and encrypted payload representing card data for the Google Pay UWPP
@@ -1055,7 +1093,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun googleOpc(googleOpc: JsonField<String>) = apply { this.googleOpc = googleOpc }
+            fun googleOpc(googleOpc: JsonField<String>) = apply {
+                this.googleOpc = googleOpc
+            }
 
             /**
              * A base64 encoded and encrypted payload representing card data for the Google Pay UWPP
@@ -1070,7 +1110,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun tspOpc(tspOpc: JsonField<String>) = apply { this.tspOpc = tspOpc }
+            fun tspOpc(tspOpc: JsonField<String>) = apply {
+                this.tspOpc = tspOpc
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1085,7 +1127,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)

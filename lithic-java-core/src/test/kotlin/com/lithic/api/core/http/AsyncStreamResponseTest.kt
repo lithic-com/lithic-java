@@ -28,10 +28,10 @@ internal class AsyncStreamResponseTest {
         spy<StreamResponse<String>> {
             doReturn(
                     sequence {
-                            yield("chunk1")
-                            yield("chunk2")
-                            throw ERROR
-                        }
+                        yield("chunk1")
+                        yield("chunk2")
+                        throw ERROR
+                    }
                         .asStream()
                 )
                 .whenever(it)

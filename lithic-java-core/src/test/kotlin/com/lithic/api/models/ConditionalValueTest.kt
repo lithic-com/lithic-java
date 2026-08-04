@@ -162,7 +162,10 @@ internal class ConditionalValueTest {
         val conditionalValue =
             jsonMapper().convertValue(testCase.value, jacksonTypeRef<ConditionalValue>())
 
-        val e = assertThrows<LithicInvalidDataException> { conditionalValue.validate() }
+        val e =
+            assertThrows<LithicInvalidDataException> {
+                conditionalValue.validate()
+            }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

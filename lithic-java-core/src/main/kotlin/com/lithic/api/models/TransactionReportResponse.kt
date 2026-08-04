@@ -61,6 +61,7 @@ private constructor(
 
     /**
      * The fraud status of the transaction, string (enum) supporting the following values:
+     *
      * - `SUSPECTED_FRAUD`: The transaction is suspected to be fraudulent, but this hasn’t been
      *   confirmed.
      * - `FRAUDULENT`: The transaction is confirmed to be fraudulent. A transaction may immediately
@@ -104,6 +105,7 @@ private constructor(
     /**
      * Specifies the type or category of fraud that the transaction is suspected or confirmed to
      * involve, string (enum) supporting the following values:
+     *
      * - `FIRST_PARTY_FRAUD`: First-party fraud occurs when a legitimate account or cardholder
      *   intentionally misuses financial services for personal gain. This includes actions such as
      *   disputing legitimate transactions to obtain a refund, abusing return policies, or
@@ -235,6 +237,7 @@ private constructor(
 
         /**
          * The fraud status of the transaction, string (enum) supporting the following values:
+         *
          * - `SUSPECTED_FRAUD`: The transaction is suspected to be fraudulent, but this hasn’t been
          *   confirmed.
          * - `FRAUDULENT`: The transaction is confirmed to be fraudulent. A transaction may
@@ -289,7 +292,9 @@ private constructor(
          * You should usually call [Builder.comment] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun comment(comment: JsonField<String>) = apply { this.comment = comment }
+        fun comment(comment: JsonField<String>) = apply {
+            this.comment = comment
+        }
 
         /** Timestamp representing when the fraud report was created. */
         fun createdAt(createdAt: OffsetDateTime?) = createdAt(JsonField.ofNullable(createdAt))
@@ -304,11 +309,14 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
+        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply {
+            this.createdAt = createdAt
+        }
 
         /**
          * Specifies the type or category of fraud that the transaction is suspected or confirmed to
          * involve, string (enum) supporting the following values:
+         *
          * - `FIRST_PARTY_FRAUD`: First-party fraud occurs when a legitimate account or cardholder
          *   intentionally misuses financial services for personal gain. This includes actions such
          *   as disputing legitimate transactions to obtain a refund, abusing return policies, or
@@ -338,7 +346,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun fraudType(fraudType: JsonField<FraudType>) = apply { this.fraudType = fraudType }
+        fun fraudType(fraudType: JsonField<FraudType>) = apply {
+            this.fraudType = fraudType
+        }
 
         /** Timestamp representing the last update to the fraud report. */
         fun updatedAt(updatedAt: OffsetDateTime?) = updatedAt(JsonField.ofNullable(updatedAt))
@@ -353,7 +363,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply { this.updatedAt = updatedAt }
+        fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply {
+            this.updatedAt = updatedAt
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -368,7 +380,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -389,8 +403,14 @@ private constructor(
          */
         fun build(): TransactionReportResponse =
             TransactionReportResponse(
-                checkRequired("fraudStatus", fraudStatus),
-                checkRequired("transactionToken", transactionToken),
+                checkRequired(
+                    "fraudStatus",
+                    fraudStatus,
+                ),
+                checkRequired(
+                    "transactionToken",
+                    transactionToken,
+                ),
                 comment,
                 createdAt,
                 fraudType,
@@ -447,6 +467,7 @@ private constructor(
 
     /**
      * The fraud status of the transaction, string (enum) supporting the following values:
+     *
      * - `SUSPECTED_FRAUD`: The transaction is suspected to be fraudulent, but this hasn’t been
      *   confirmed.
      * - `FRAUDULENT`: The transaction is confirmed to be fraudulent. A transaction may immediately
@@ -496,9 +517,11 @@ private constructor(
          * An enum containing [FraudStatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [FraudStatus] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -610,6 +633,7 @@ private constructor(
     /**
      * Specifies the type or category of fraud that the transaction is suspected or confirmed to
      * involve, string (enum) supporting the following values:
+     *
      * - `FIRST_PARTY_FRAUD`: First-party fraud occurs when a legitimate account or cardholder
      *   intentionally misuses financial services for personal gain. This includes actions such as
      *   disputing legitimate transactions to obtain a refund, abusing return policies, or
@@ -667,9 +691,11 @@ private constructor(
          * An enum containing [FraudType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [FraudType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

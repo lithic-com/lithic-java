@@ -84,13 +84,19 @@ private constructor(
             response = cardListPage.response
         }
 
-        fun service(service: CardService) = apply { this.service = service }
+        fun service(service: CardService) = apply {
+            this.service = service
+        }
 
         /** The parameters that were used to request this page. */
-        fun params(params: CardListParams) = apply { this.params = params }
+        fun params(params: CardListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
-        fun response(response: CardListPageResponse) = apply { this.response = response }
+        fun response(response: CardListPageResponse) = apply {
+            this.response = response
+        }
 
         /**
          * Returns an immutable instance of [CardListPage].
@@ -108,9 +114,18 @@ private constructor(
          */
         fun build(): CardListPage =
             CardListPage(
-                checkRequired("service", service),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

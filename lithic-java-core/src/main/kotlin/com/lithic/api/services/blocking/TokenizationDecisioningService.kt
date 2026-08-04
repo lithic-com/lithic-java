@@ -47,11 +47,18 @@ interface TokenizationDecisioningService {
     fun retrieveSecret(
         params: TokenizationDecisioningRetrieveSecretParams =
             TokenizationDecisioningRetrieveSecretParams.none()
-    ): TokenizationSecret = retrieveSecret(params, RequestOptions.none())
+    ): TokenizationSecret =
+        retrieveSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): TokenizationSecret =
-        retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none(), requestOptions)
+        retrieveSecret(
+            TokenizationDecisioningRetrieveSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * Generate a new Tokenization Decisioning secret key. The old Tokenization Decisioning secret
@@ -71,11 +78,18 @@ interface TokenizationDecisioningService {
     fun rotateSecret(
         params: TokenizationDecisioningRotateSecretParams =
             TokenizationDecisioningRotateSecretParams.none()
-    ): TokenizationDecisioningRotateSecretResponse = rotateSecret(params, RequestOptions.none())
+    ): TokenizationDecisioningRotateSecretResponse =
+        rotateSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions): TokenizationDecisioningRotateSecretResponse =
-        rotateSecret(TokenizationDecisioningRotateSecretParams.none(), requestOptions)
+        rotateSecret(
+            TokenizationDecisioningRotateSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [TokenizationDecisioningService] that provides access to raw HTTP responses for
@@ -113,12 +127,19 @@ interface TokenizationDecisioningService {
         fun retrieveSecret(
             params: TokenizationDecisioningRetrieveSecretParams =
                 TokenizationDecisioningRetrieveSecretParams.none()
-        ): HttpResponseFor<TokenizationSecret> = retrieveSecret(params, RequestOptions.none())
+        ): HttpResponseFor<TokenizationSecret> =
+            retrieveSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(requestOptions: RequestOptions): HttpResponseFor<TokenizationSecret> =
-            retrieveSecret(TokenizationDecisioningRetrieveSecretParams.none(), requestOptions)
+            retrieveSecret(
+                TokenizationDecisioningRetrieveSecretParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenization_decisioning/secret/rotate`, but is
@@ -142,13 +163,19 @@ interface TokenizationDecisioningService {
             params: TokenizationDecisioningRotateSecretParams =
                 TokenizationDecisioningRotateSecretParams.none()
         ): HttpResponseFor<TokenizationDecisioningRotateSecretResponse> =
-            rotateSecret(params, RequestOptions.none())
+            rotateSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(
             requestOptions: RequestOptions
         ): HttpResponseFor<TokenizationDecisioningRotateSecretResponse> =
-            rotateSecret(TokenizationDecisioningRotateSecretParams.none(), requestOptions)
+            rotateSecret(
+                TokenizationDecisioningRotateSecretParams.none(),
+                requestOptions,
+            )
     }
 }

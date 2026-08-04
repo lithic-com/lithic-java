@@ -9,6 +9,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 
 /**
  * Spend limit duration values:
+ *
  * * `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
  * * `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
  * * `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
@@ -55,9 +56,11 @@ class SpendLimitDuration @JsonCreator private constructor(private val value: Jso
      * An enum containing [SpendLimitDuration]'s known values, as well as an [_UNKNOWN] member.
      *
      * An instance of [SpendLimitDuration] can contain an unknown value in a couple of cases:
+     *
      * - It was deserialized from data that doesn't match any known member. For example, if the SDK
      *   is on an older version than the API, then the API may respond with new members that the SDK
      *   is unaware of.
+     *
      * - It was constructed with an arbitrary value using the [of] method.
      */
     enum class Value {

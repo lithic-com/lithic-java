@@ -127,10 +127,14 @@ private constructor(
          * - [allowedResolutions]
          * - [description]
          */
-        fun body(body: CreateQueueRequest) = apply { this.body = body.toBuilder() }
+        fun body(body: CreateQueueRequest) = apply {
+            this.body = body.toBuilder()
+        }
 
         /** Human-readable name of the queue */
-        fun name(name: String) = apply { body.name(name) }
+        fun name(name: String) = apply {
+            body.name(name)
+        }
 
         /**
          * Sets [Builder.name] to an arbitrary JSON value.
@@ -138,7 +142,9 @@ private constructor(
          * You should usually call [Builder.name] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun name(name: JsonField<String>) = apply { body.name(name) }
+        fun name(name: JsonField<String>) = apply {
+            body.name(name)
+        }
 
         /**
          * Resolutions that can be recorded on cases in this queue. Omit or send `null` to use the
@@ -175,7 +181,9 @@ private constructor(
         }
 
         /** Optional description of the queue */
-        fun description(description: String?) = apply { body.description(description) }
+        fun description(description: String?) = apply {
+            body.description(description)
+        }
 
         /** Alias for calling [Builder.description] with `description.orElse(null)`. */
         fun description(description: Optional<String>) = description(description.getOrNull())
@@ -187,14 +195,19 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun description(description: JsonField<String>) = apply { body.description(description) }
+        fun description(description: JsonField<String>) = apply {
+            body.description(description)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -202,7 +215,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -250,7 +265,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -300,7 +317,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -351,7 +370,12 @@ private constructor(
             @JsonProperty("description")
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
-        ) : this(name, allowedResolutions, description, mutableMapOf())
+        ) : this(
+            name,
+            allowedResolutions,
+            description,
+            mutableMapOf(),
+        )
 
         /**
          * Human-readable name of the queue
@@ -457,7 +481,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun name(name: JsonField<String>) = apply { this.name = name }
+            fun name(name: JsonField<String>) = apply {
+                this.name = name
+            }
 
             /**
              * Resolutions that can be recorded on cases in this queue. Omit or send `null` to use
@@ -526,7 +552,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -546,7 +574,10 @@ private constructor(
              */
             fun build(): CreateQueueRequest =
                 CreateQueueRequest(
-                    checkRequired("name", name),
+                    checkRequired(
+                        "name",
+                        name,
+                    ),
                     (allowedResolutions ?: JsonMissing.of()).map { it.toImmutable() },
                     description,
                     additionalProperties.toMutableMap(),

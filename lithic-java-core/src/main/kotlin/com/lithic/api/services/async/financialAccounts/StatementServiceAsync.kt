@@ -33,7 +33,12 @@ interface StatementServiceAsync {
     fun retrieve(
         statementToken: String,
         params: FinancialAccountStatementRetrieveParams,
-    ): CompletableFuture<Statement> = retrieve(statementToken, params, RequestOptions.none())
+    ): CompletableFuture<Statement> =
+        retrieve(
+            statementToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -41,11 +46,17 @@ interface StatementServiceAsync {
         params: FinancialAccountStatementRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Statement> =
-        retrieve(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().statementToken(statementToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(params: FinancialAccountStatementRetrieveParams): CompletableFuture<Statement> =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -57,7 +68,10 @@ interface StatementServiceAsync {
     fun list(
         financialAccountToken: String
     ): CompletableFuture<FinancialAccountStatementListPageAsync> =
-        list(financialAccountToken, FinancialAccountStatementListParams.none())
+        list(
+            financialAccountToken,
+            FinancialAccountStatementListParams.none(),
+        )
 
     /** @see list */
     fun list(
@@ -75,7 +89,11 @@ interface StatementServiceAsync {
         financialAccountToken: String,
         params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
     ): CompletableFuture<FinancialAccountStatementListPageAsync> =
-        list(financialAccountToken, params, RequestOptions.none())
+        list(
+            financialAccountToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -87,14 +105,21 @@ interface StatementServiceAsync {
     fun list(
         params: FinancialAccountStatementListParams
     ): CompletableFuture<FinancialAccountStatementListPageAsync> =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
         financialAccountToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<FinancialAccountStatementListPageAsync> =
-        list(financialAccountToken, FinancialAccountStatementListParams.none(), requestOptions)
+        list(
+            financialAccountToken,
+            FinancialAccountStatementListParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [StatementServiceAsync] that provides access to raw HTTP responses for each method.
@@ -121,7 +146,11 @@ interface StatementServiceAsync {
             statementToken: String,
             params: FinancialAccountStatementRetrieveParams,
         ): CompletableFuture<HttpResponseFor<Statement>> =
-            retrieve(statementToken, params, RequestOptions.none())
+            retrieve(
+                statementToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -129,12 +158,19 @@ interface StatementServiceAsync {
             params: FinancialAccountStatementRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Statement>> =
-            retrieve(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().statementToken(statementToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         fun retrieve(
             params: FinancialAccountStatementRetrieveParams
-        ): CompletableFuture<HttpResponseFor<Statement>> = retrieve(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponseFor<Statement>> =
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -150,7 +186,10 @@ interface StatementServiceAsync {
         fun list(
             financialAccountToken: String
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
-            list(financialAccountToken, FinancialAccountStatementListParams.none())
+            list(
+                financialAccountToken,
+                FinancialAccountStatementListParams.none(),
+            )
 
         /** @see list */
         fun list(
@@ -169,7 +208,11 @@ interface StatementServiceAsync {
             financialAccountToken: String,
             params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
-            list(financialAccountToken, params, RequestOptions.none())
+            list(
+                financialAccountToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
@@ -181,13 +224,20 @@ interface StatementServiceAsync {
         fun list(
             params: FinancialAccountStatementListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             financialAccountToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
-            list(financialAccountToken, FinancialAccountStatementListParams.none(), requestOptions)
+            list(
+                financialAccountToken,
+                FinancialAccountStatementListParams.none(),
+                requestOptions,
+            )
     }
 }

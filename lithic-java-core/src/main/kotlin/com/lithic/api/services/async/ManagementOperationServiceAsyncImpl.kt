@@ -99,14 +99,24 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .addPathSegments("v1", "management_operations")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { createHandler.handle(it) }
+                            .use {
+                                createHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -132,14 +142,24 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "management_operations", params._pathParam(0))
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { retrieveHandler.handle(it) }
+                            .use {
+                                retrieveHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -162,14 +182,24 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "management_operations")
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { listHandler.handle(it) }
+                            .use {
+                                listHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -204,14 +234,24 @@ internal constructor(private val clientOptions: ClientOptions) : ManagementOpera
                     .addPathSegments("v1", "management_operations", params._pathParam(0), "reverse")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { reverseHandler.handle(it) }
+                            .use {
+                                reverseHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

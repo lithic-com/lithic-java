@@ -47,11 +47,18 @@ interface AuthStreamEnrollmentService {
     fun retrieveSecret(
         params: AuthStreamEnrollmentRetrieveSecretParams =
             AuthStreamEnrollmentRetrieveSecretParams.none()
-    ): AuthStreamSecret = retrieveSecret(params, RequestOptions.none())
+    ): AuthStreamSecret =
+        retrieveSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveSecret */
     fun retrieveSecret(requestOptions: RequestOptions): AuthStreamSecret =
-        retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
+        retrieveSecret(
+            AuthStreamEnrollmentRetrieveSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * Generate a new ASA HMAC secret key. The old ASA HMAC secret key will be deactivated 24 hours
@@ -72,11 +79,18 @@ interface AuthStreamEnrollmentService {
     fun rotateSecret(
         params: AuthStreamEnrollmentRotateSecretParams =
             AuthStreamEnrollmentRotateSecretParams.none()
-    ) = rotateSecret(params, RequestOptions.none())
+    ) =
+        rotateSecret(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see rotateSecret */
     fun rotateSecret(requestOptions: RequestOptions) =
-        rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
+        rotateSecret(
+            AuthStreamEnrollmentRotateSecretParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [AuthStreamEnrollmentService] that provides access to raw HTTP responses for each
@@ -114,12 +128,19 @@ interface AuthStreamEnrollmentService {
         fun retrieveSecret(
             params: AuthStreamEnrollmentRetrieveSecretParams =
                 AuthStreamEnrollmentRetrieveSecretParams.none()
-        ): HttpResponseFor<AuthStreamSecret> = retrieveSecret(params, RequestOptions.none())
+        ): HttpResponseFor<AuthStreamSecret> =
+            retrieveSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveSecret */
         @MustBeClosed
         fun retrieveSecret(requestOptions: RequestOptions): HttpResponseFor<AuthStreamSecret> =
-            retrieveSecret(AuthStreamEnrollmentRetrieveSecretParams.none(), requestOptions)
+            retrieveSecret(
+                AuthStreamEnrollmentRetrieveSecretParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/auth_stream/secret/rotate`, but is otherwise
@@ -142,11 +163,18 @@ interface AuthStreamEnrollmentService {
         fun rotateSecret(
             params: AuthStreamEnrollmentRotateSecretParams =
                 AuthStreamEnrollmentRotateSecretParams.none()
-        ): HttpResponse = rotateSecret(params, RequestOptions.none())
+        ): HttpResponse =
+            rotateSecret(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see rotateSecret */
         @MustBeClosed
         fun rotateSecret(requestOptions: RequestOptions): HttpResponse =
-            rotateSecret(AuthStreamEnrollmentRotateSecretParams.none(), requestOptions)
+            rotateSecret(
+                AuthStreamEnrollmentRotateSecretParams.none(),
+                requestOptions,
+            )
     }
 }

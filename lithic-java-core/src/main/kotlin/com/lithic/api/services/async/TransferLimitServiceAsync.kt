@@ -36,11 +36,18 @@ interface TransferLimitServiceAsync {
     /** @see list */
     fun list(
         params: TransferLimitListParams = TransferLimitListParams.none()
-    ): CompletableFuture<TransferLimitListPageAsync> = list(params, RequestOptions.none())
+    ): CompletableFuture<TransferLimitListPageAsync> =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<TransferLimitListPageAsync> =
-        list(TransferLimitListParams.none(), requestOptions)
+        list(
+            TransferLimitListParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [TransferLimitServiceAsync] that provides access to raw HTTP responses for each
@@ -74,12 +81,18 @@ interface TransferLimitServiceAsync {
         fun list(
             params: TransferLimitListParams = TransferLimitListParams.none()
         ): CompletableFuture<HttpResponseFor<TransferLimitListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TransferLimitListPageAsync>> =
-            list(TransferLimitListParams.none(), requestOptions)
+            list(
+                TransferLimitListParams.none(),
+                requestOptions,
+            )
     }
 }

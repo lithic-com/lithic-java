@@ -28,7 +28,11 @@ private constructor(
     private constructor(
         @JsonProperty("cap_rate") @ExcludeMissing capRate: JsonField<String> = JsonMissing.of(),
         @JsonProperty("rate") @ExcludeMissing rate: JsonField<String> = JsonMissing.of(),
-    ) : this(capRate, rate, mutableMapOf())
+    ) : this(
+        capRate,
+        rate,
+        mutableMapOf(),
+    )
 
     /**
      * Maximum interest rate for this category, e.g. '0.0525' for 5.25%
@@ -101,7 +105,9 @@ private constructor(
          * You should usually call [Builder.capRate] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun capRate(capRate: JsonField<String>) = apply { this.capRate = capRate }
+        fun capRate(capRate: JsonField<String>) = apply {
+            this.capRate = capRate
+        }
 
         /** Interest rate for this category, e.g. '0.0525' for 5.25% */
         fun rate(rate: String) = rate(JsonField.of(rate))
@@ -112,7 +118,9 @@ private constructor(
          * You should usually call [Builder.rate] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun rate(rate: JsonField<String>) = apply { this.rate = rate }
+        fun rate(rate: JsonField<String>) = apply {
+            this.rate = rate
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -127,7 +135,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -138,7 +148,12 @@ private constructor(
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): CategoryTier = CategoryTier(capRate, rate, additionalProperties.toMutableMap())
+        fun build(): CategoryTier =
+            CategoryTier(
+                capRate,
+                rate,
+                additionalProperties.toMutableMap(),
+            )
     }
 
     private var validated: Boolean = false

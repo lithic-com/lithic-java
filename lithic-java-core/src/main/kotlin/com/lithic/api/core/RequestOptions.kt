@@ -2,7 +2,11 @@ package com.lithic.api.core
 
 import java.time.Duration
 
-class RequestOptions private constructor(val responseValidation: Boolean?, val timeout: Timeout?) {
+class RequestOptions
+private constructor(
+    val responseValidation: Boolean?,
+    val timeout: Timeout?,
+) {
 
     companion object {
 
@@ -46,7 +50,9 @@ class RequestOptions private constructor(val responseValidation: Boolean?, val t
             this.responseValidation = responseValidation
         }
 
-        fun timeout(timeout: Timeout) = apply { this.timeout = timeout }
+        fun timeout(timeout: Timeout) = apply {
+            this.timeout = timeout
+        }
 
         fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
 

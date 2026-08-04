@@ -256,6 +256,7 @@ private constructor(
 
     /**
      * Indicates whether a challenge is requested for this transaction
+     *
      * * `NO_PREFERENCE` - No Preference
      * * `NO_CHALLENGE_REQUESTED` - No Challenge Requested
      * * `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
@@ -680,7 +681,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
@@ -717,7 +720,9 @@ private constructor(
          */
         fun authenticationResult(
             authenticationResult: JsonField<ThreeDSAuthentication.AuthenticationResult>
-        ) = apply { this.authenticationResult = authenticationResult }
+        ) = apply {
+            this.authenticationResult = authenticationResult
+        }
 
         /**
          * Indicates whether the expiration date provided by the cardholder during checkout matches
@@ -751,7 +756,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: JsonField<String>) = apply {
+            this.cardToken = cardToken
+        }
 
         /** Object containing data about the cardholder provided during the transaction. */
         fun cardholder(cardholder: ThreeDSAuthentication.Cardholder) =
@@ -795,7 +802,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Object containing data about the merchant involved in the e-commerce transaction. */
         fun merchant(merchant: ThreeDSAuthentication.Merchant) = merchant(JsonField.of(merchant))
@@ -832,6 +841,7 @@ private constructor(
 
         /**
          * Indicates whether a challenge is requested for this transaction
+         *
          * * `NO_PREFERENCE` - No Preference
          * * `NO_CHALLENGE_REQUESTED` - No Challenge Requested
          * * `CHALLENGE_PREFERENCE` - Challenge requested (3DS Requestor preference)
@@ -856,7 +866,9 @@ private constructor(
         fun threeDSRequestorChallengeIndicator(
             threeDSRequestorChallengeIndicator:
                 JsonField<ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator>
-        ) = apply { this.threeDSRequestorChallengeIndicator = threeDSRequestorChallengeIndicator }
+        ) = apply {
+            this.threeDSRequestorChallengeIndicator = threeDSRequestorChallengeIndicator
+        }
 
         /**
          * Object containing additional data about the 3DS request that is beyond the EMV 3DS
@@ -898,7 +910,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun app(app: JsonField<ThreeDSAuthentication.App>) = apply { this.app = app }
+        fun app(app: JsonField<ThreeDSAuthentication.App>) = apply {
+            this.app = app
+        }
 
         /**
          * Type of authentication request - i.e., the type of transaction or interaction is causing
@@ -926,7 +940,9 @@ private constructor(
          */
         fun authenticationRequestType(
             authenticationRequestType: JsonField<ThreeDSAuthentication.AuthenticationRequestType>
-        ) = apply { this.authenticationRequestType = authenticationRequestType }
+        ) = apply {
+            this.authenticationRequestType = authenticationRequestType
+        }
 
         /**
          * Object containing data about the browser used in the e-commerce transaction. Present if
@@ -970,7 +986,9 @@ private constructor(
          */
         fun challengeMetadata(
             challengeMetadata: JsonField<ThreeDSAuthentication.ChallengeMetadata>
-        ) = apply { this.challengeMetadata = challengeMetadata }
+        ) = apply {
+            this.challengeMetadata = challengeMetadata
+        }
 
         /**
          * Entity that orchestrates the challenge. This won't be set for authentications for which a
@@ -997,7 +1015,9 @@ private constructor(
          */
         fun challengeOrchestratedBy(
             challengeOrchestratedBy: JsonField<ThreeDSAuthentication.ChallengeOrchestratedBy>
-        ) = apply { this.challengeOrchestratedBy = challengeOrchestratedBy }
+        ) = apply {
+            this.challengeOrchestratedBy = challengeOrchestratedBy
+        }
 
         /**
          * Entity that made the authentication decision. This won't be set for authentications for
@@ -1048,7 +1068,9 @@ private constructor(
          */
         fun threeRiRequestType(
             threeRiRequestType: JsonField<ThreeDSAuthentication.ThreeRiRequestType>
-        ) = apply { this.threeRiRequestType = threeRiRequestType }
+        ) = apply {
+            this.threeRiRequestType = threeRiRequestType
+        }
 
         /**
          * Object containing data about the e-commerce transaction for which the merchant is
@@ -1082,7 +1104,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -1097,7 +1121,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1128,16 +1154,46 @@ private constructor(
          */
         fun build(): ThreeDSAuthenticationUpdatedWebhookEvent =
             ThreeDSAuthenticationUpdatedWebhookEvent(
-                checkRequired("token", token),
-                checkRequired("accountType", accountType),
-                checkRequired("authenticationResult", authenticationResult),
-                checkRequired("cardExpiryCheck", cardExpiryCheck),
-                checkRequired("cardToken", cardToken),
-                checkRequired("cardholder", cardholder),
-                checkRequired("channel", channel),
-                checkRequired("created", created),
-                checkRequired("merchant", merchant),
-                checkRequired("messageCategory", messageCategory),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "accountType",
+                    accountType,
+                ),
+                checkRequired(
+                    "authenticationResult",
+                    authenticationResult,
+                ),
+                checkRequired(
+                    "cardExpiryCheck",
+                    cardExpiryCheck,
+                ),
+                checkRequired(
+                    "cardToken",
+                    cardToken,
+                ),
+                checkRequired(
+                    "cardholder",
+                    cardholder,
+                ),
+                checkRequired(
+                    "channel",
+                    channel,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "merchant",
+                    merchant,
+                ),
+                checkRequired(
+                    "messageCategory",
+                    messageCategory,
+                ),
                 checkRequired(
                     "threeDSRequestorChallengeIndicator",
                     threeDSRequestorChallengeIndicator,
@@ -1151,7 +1207,10 @@ private constructor(
                 decisionMadeBy,
                 threeRiRequestType,
                 transaction,
-                checkRequired("eventType", eventType),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -1261,9 +1320,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

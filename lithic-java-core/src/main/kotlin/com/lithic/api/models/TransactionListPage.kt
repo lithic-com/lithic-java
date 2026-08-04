@@ -84,13 +84,19 @@ private constructor(
             response = transactionListPage.response
         }
 
-        fun service(service: TransactionService) = apply { this.service = service }
+        fun service(service: TransactionService) = apply {
+            this.service = service
+        }
 
         /** The parameters that were used to request this page. */
-        fun params(params: TransactionListParams) = apply { this.params = params }
+        fun params(params: TransactionListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
-        fun response(response: TransactionListPageResponse) = apply { this.response = response }
+        fun response(response: TransactionListPageResponse) = apply {
+            this.response = response
+        }
 
         /**
          * Returns an immutable instance of [TransactionListPage].
@@ -108,9 +114,18 @@ private constructor(
          */
         fun build(): TransactionListPage =
             TransactionListPage(
-                checkRequired("service", service),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

@@ -133,7 +133,10 @@ private constructor(
         service.listResults(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<V2ListResultsResponse> =
-        AutoPagerAsync.from(this, streamHandlerExecutor)
+        AutoPagerAsync.from(
+            this,
+            streamHandlerExecutor,
+        )
 
     /** The parameters that were used to request this page. */
     fun params(): AuthRuleV2ListResultsParams = params
@@ -176,14 +179,18 @@ private constructor(
             response = authRuleV2ListResultsPageAsync.response
         }
 
-        fun service(service: V2ServiceAsync) = apply { this.service = service }
+        fun service(service: V2ServiceAsync) = apply {
+            this.service = service
+        }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: AuthRuleV2ListResultsParams) = apply { this.params = params }
+        fun params(params: AuthRuleV2ListResultsParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
         fun response(response: AuthRuleV2ListResultsPageResponse) = apply {
@@ -207,10 +214,22 @@ private constructor(
          */
         fun build(): AuthRuleV2ListResultsPageAsync =
             AuthRuleV2ListResultsPageAsync(
-                checkRequired("service", service),
-                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "streamHandlerExecutor",
+                    streamHandlerExecutor,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

@@ -86,14 +86,24 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
                     .addPathSegments("v1", "responder_endpoints")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { createHandler.handle(it) }
+                            .use {
+                                createHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -116,13 +126,23 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
                     .addPathSegments("v1", "responder_endpoints")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
-                        response.use { deleteHandler.handle(it) }
+                        response.use {
+                            deleteHandler.handle(it)
+                        }
                     }
                 }
         }
@@ -140,14 +160,24 @@ internal constructor(private val clientOptions: ClientOptions) : ResponderEndpoi
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "responder_endpoints")
                     .build()
-                    .prepareAsync(clientOptions, params)
+                    .prepareAsync(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenComposeAsync {
+                    clientOptions.httpClient.executeAsync(
+                        it,
+                        requestOptions,
+                    )
+                }
                 .thenApply { response ->
                     errorHandler.handle(response).parseable {
                         response
-                            .use { checkStatusHandler.handle(it) }
+                            .use {
+                                checkStatusHandler.handle(it)
+                            }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

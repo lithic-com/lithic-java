@@ -36,7 +36,10 @@ interface TokenizationService {
 
     /** Get tokenization */
     fun retrieve(tokenizationToken: String): Tokenization =
-        retrieve(tokenizationToken, TokenizationRetrieveParams.none())
+        retrieve(
+            tokenizationToken,
+            TokenizationRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -44,13 +47,21 @@ interface TokenizationService {
         params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Tokenization =
-        retrieve(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().tokenizationToken(tokenizationToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         tokenizationToken: String,
         params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
-    ): Tokenization = retrieve(tokenizationToken, params, RequestOptions.none())
+    ): Tokenization =
+        retrieve(
+            tokenizationToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -60,11 +71,18 @@ interface TokenizationService {
 
     /** @see retrieve */
     fun retrieve(params: TokenizationRetrieveParams): Tokenization =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(tokenizationToken: String, requestOptions: RequestOptions): Tokenization =
-        retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
+        retrieve(
+            tokenizationToken,
+            TokenizationRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** List card tokenizations */
     fun list(): TokenizationListPage = list(TokenizationListParams.none())
@@ -77,11 +95,17 @@ interface TokenizationService {
 
     /** @see list */
     fun list(params: TokenizationListParams = TokenizationListParams.none()): TokenizationListPage =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): TokenizationListPage =
-        list(TokenizationListParams.none(), requestOptions)
+        list(
+            TokenizationListParams.none(),
+            requestOptions,
+        )
 
     /**
      * This endpoint is used to ask the card network to activate a tokenization. A successful
@@ -93,20 +117,32 @@ interface TokenizationService {
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
     fun activate(tokenizationToken: String) =
-        activate(tokenizationToken, TokenizationActivateParams.none())
+        activate(
+            tokenizationToken,
+            TokenizationActivateParams.none(),
+        )
 
     /** @see activate */
     fun activate(
         tokenizationToken: String,
         params: TokenizationActivateParams = TokenizationActivateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ) = activate(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+    ) =
+        activate(
+            params.toBuilder().tokenizationToken(tokenizationToken).build(),
+            requestOptions,
+        )
 
     /** @see activate */
     fun activate(
         tokenizationToken: String,
         params: TokenizationActivateParams = TokenizationActivateParams.none(),
-    ) = activate(tokenizationToken, params, RequestOptions.none())
+    ) =
+        activate(
+            tokenizationToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see activate */
     fun activate(
@@ -115,11 +151,19 @@ interface TokenizationService {
     )
 
     /** @see activate */
-    fun activate(params: TokenizationActivateParams) = activate(params, RequestOptions.none())
+    fun activate(params: TokenizationActivateParams) =
+        activate(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see activate */
     fun activate(tokenizationToken: String, requestOptions: RequestOptions) =
-        activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
+        activate(
+            tokenizationToken,
+            TokenizationActivateParams.none(),
+            requestOptions,
+        )
 
     /**
      * This endpoint is used to ask the card network to deactivate a tokenization. A successful
@@ -132,20 +176,32 @@ interface TokenizationService {
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
     fun deactivate(tokenizationToken: String) =
-        deactivate(tokenizationToken, TokenizationDeactivateParams.none())
+        deactivate(
+            tokenizationToken,
+            TokenizationDeactivateParams.none(),
+        )
 
     /** @see deactivate */
     fun deactivate(
         tokenizationToken: String,
         params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ) = deactivate(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+    ) =
+        deactivate(
+            params.toBuilder().tokenizationToken(tokenizationToken).build(),
+            requestOptions,
+        )
 
     /** @see deactivate */
     fun deactivate(
         tokenizationToken: String,
         params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
-    ) = deactivate(tokenizationToken, params, RequestOptions.none())
+    ) =
+        deactivate(
+            tokenizationToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see deactivate */
     fun deactivate(
@@ -154,11 +210,19 @@ interface TokenizationService {
     )
 
     /** @see deactivate */
-    fun deactivate(params: TokenizationDeactivateParams) = deactivate(params, RequestOptions.none())
+    fun deactivate(params: TokenizationDeactivateParams) =
+        deactivate(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see deactivate */
     fun deactivate(tokenizationToken: String, requestOptions: RequestOptions) =
-        deactivate(tokenizationToken, TokenizationDeactivateParams.none(), requestOptions)
+        deactivate(
+            tokenizationToken,
+            TokenizationDeactivateParams.none(),
+            requestOptions,
+        )
 
     /**
      * This endpoint is used to ask the card network to pause a tokenization. A successful response
@@ -169,20 +233,33 @@ interface TokenizationService {
      * be changed. Reach out at [lithic.com/contact](https://lithic.com/contact) for more
      * information.
      */
-    fun pause(tokenizationToken: String) = pause(tokenizationToken, TokenizationPauseParams.none())
+    fun pause(tokenizationToken: String) =
+        pause(
+            tokenizationToken,
+            TokenizationPauseParams.none(),
+        )
 
     /** @see pause */
     fun pause(
         tokenizationToken: String,
         params: TokenizationPauseParams = TokenizationPauseParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ) = pause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+    ) =
+        pause(
+            params.toBuilder().tokenizationToken(tokenizationToken).build(),
+            requestOptions,
+        )
 
     /** @see pause */
     fun pause(
         tokenizationToken: String,
         params: TokenizationPauseParams = TokenizationPauseParams.none(),
-    ) = pause(tokenizationToken, params, RequestOptions.none())
+    ) =
+        pause(
+            tokenizationToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see pause */
     fun pause(
@@ -191,11 +268,19 @@ interface TokenizationService {
     )
 
     /** @see pause */
-    fun pause(params: TokenizationPauseParams) = pause(params, RequestOptions.none())
+    fun pause(params: TokenizationPauseParams) =
+        pause(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see pause */
     fun pause(tokenizationToken: String, requestOptions: RequestOptions) =
-        pause(tokenizationToken, TokenizationPauseParams.none(), requestOptions)
+        pause(
+            tokenizationToken,
+            TokenizationPauseParams.none(),
+            requestOptions,
+        )
 
     /**
      * This endpoint is used to ask the card network to send another activation code to a cardholder
@@ -209,7 +294,10 @@ interface TokenizationService {
      * for more information.
      */
     fun resendActivationCode(tokenizationToken: String) =
-        resendActivationCode(tokenizationToken, TokenizationResendActivationCodeParams.none())
+        resendActivationCode(
+            tokenizationToken,
+            TokenizationResendActivationCodeParams.none(),
+        )
 
     /** @see resendActivationCode */
     fun resendActivationCode(
@@ -228,7 +316,12 @@ interface TokenizationService {
         tokenizationToken: String,
         params: TokenizationResendActivationCodeParams =
             TokenizationResendActivationCodeParams.none(),
-    ) = resendActivationCode(tokenizationToken, params, RequestOptions.none())
+    ) =
+        resendActivationCode(
+            tokenizationToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see resendActivationCode */
     fun resendActivationCode(
@@ -238,7 +331,10 @@ interface TokenizationService {
 
     /** @see resendActivationCode */
     fun resendActivationCode(params: TokenizationResendActivationCodeParams) =
-        resendActivationCode(params, RequestOptions.none())
+        resendActivationCode(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see resendActivationCode */
     fun resendActivationCode(tokenizationToken: String, requestOptions: RequestOptions) =
@@ -253,7 +349,10 @@ interface TokenizationService {
      * tokenization ecosystem.
      */
     fun simulate(params: TokenizationSimulateParams): Tokenization =
-        simulate(params, RequestOptions.none())
+        simulate(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see simulate */
     fun simulate(
@@ -270,20 +369,32 @@ interface TokenizationService {
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
     fun unpause(tokenizationToken: String) =
-        unpause(tokenizationToken, TokenizationUnpauseParams.none())
+        unpause(
+            tokenizationToken,
+            TokenizationUnpauseParams.none(),
+        )
 
     /** @see unpause */
     fun unpause(
         tokenizationToken: String,
         params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ) = unpause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+    ) =
+        unpause(
+            params.toBuilder().tokenizationToken(tokenizationToken).build(),
+            requestOptions,
+        )
 
     /** @see unpause */
     fun unpause(
         tokenizationToken: String,
         params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
-    ) = unpause(tokenizationToken, params, RequestOptions.none())
+    ) =
+        unpause(
+            tokenizationToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see unpause */
     fun unpause(
@@ -292,11 +403,19 @@ interface TokenizationService {
     )
 
     /** @see unpause */
-    fun unpause(params: TokenizationUnpauseParams) = unpause(params, RequestOptions.none())
+    fun unpause(params: TokenizationUnpauseParams) =
+        unpause(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see unpause */
     fun unpause(tokenizationToken: String, requestOptions: RequestOptions) =
-        unpause(tokenizationToken, TokenizationUnpauseParams.none(), requestOptions)
+        unpause(
+            tokenizationToken,
+            TokenizationUnpauseParams.none(),
+            requestOptions,
+        )
 
     /**
      * This endpoint is used update the digital card art for a digital wallet tokenization. A
@@ -308,7 +427,10 @@ interface TokenizationService {
      * [lithic.com/contact](https://lithic.com/contact) for more information.
      */
     fun updateDigitalCardArt(tokenizationToken: String): Tokenization =
-        updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
+        updateDigitalCardArt(
+            tokenizationToken,
+            TokenizationUpdateDigitalCardArtParams.none(),
+        )
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
@@ -327,7 +449,12 @@ interface TokenizationService {
         tokenizationToken: String,
         params: TokenizationUpdateDigitalCardArtParams =
             TokenizationUpdateDigitalCardArtParams.none(),
-    ): Tokenization = updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
+    ): Tokenization =
+        updateDigitalCardArt(
+            tokenizationToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
@@ -337,7 +464,10 @@ interface TokenizationService {
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(params: TokenizationUpdateDigitalCardArtParams): Tokenization =
-        updateDigitalCardArt(params, RequestOptions.none())
+        updateDigitalCardArt(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see updateDigitalCardArt */
     fun updateDigitalCardArt(
@@ -370,7 +500,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun retrieve(tokenizationToken: String): HttpResponseFor<Tokenization> =
-            retrieve(tokenizationToken, TokenizationRetrieveParams.none())
+            retrieve(
+                tokenizationToken,
+                TokenizationRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -390,7 +523,11 @@ interface TokenizationService {
             tokenizationToken: String,
             params: TokenizationRetrieveParams = TokenizationRetrieveParams.none(),
         ): HttpResponseFor<Tokenization> =
-            retrieve(tokenizationToken, params, RequestOptions.none())
+            retrieve(
+                tokenizationToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -402,7 +539,10 @@ interface TokenizationService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: TokenizationRetrieveParams): HttpResponseFor<Tokenization> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -410,7 +550,11 @@ interface TokenizationService {
             tokenizationToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Tokenization> =
-            retrieve(tokenizationToken, TokenizationRetrieveParams.none(), requestOptions)
+            retrieve(
+                tokenizationToken,
+                TokenizationRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/tokenizations`, but is otherwise the same as
@@ -430,12 +574,19 @@ interface TokenizationService {
         @MustBeClosed
         fun list(
             params: TokenizationListParams = TokenizationListParams.none()
-        ): HttpResponseFor<TokenizationListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<TokenizationListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<TokenizationListPage> =
-            list(TokenizationListParams.none(), requestOptions)
+            list(
+                TokenizationListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/activate`,
@@ -443,7 +594,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun activate(tokenizationToken: String): HttpResponse =
-            activate(tokenizationToken, TokenizationActivateParams.none())
+            activate(
+                tokenizationToken,
+                TokenizationActivateParams.none(),
+            )
 
         /** @see activate */
         @MustBeClosed
@@ -462,7 +616,12 @@ interface TokenizationService {
         fun activate(
             tokenizationToken: String,
             params: TokenizationActivateParams = TokenizationActivateParams.none(),
-        ): HttpResponse = activate(tokenizationToken, params, RequestOptions.none())
+        ): HttpResponse =
+            activate(
+                tokenizationToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see activate */
         @MustBeClosed
@@ -474,12 +633,19 @@ interface TokenizationService {
         /** @see activate */
         @MustBeClosed
         fun activate(params: TokenizationActivateParams): HttpResponse =
-            activate(params, RequestOptions.none())
+            activate(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see activate */
         @MustBeClosed
         fun activate(tokenizationToken: String, requestOptions: RequestOptions): HttpResponse =
-            activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
+            activate(
+                tokenizationToken,
+                TokenizationActivateParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/deactivate`,
@@ -487,7 +653,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun deactivate(tokenizationToken: String): HttpResponse =
-            deactivate(tokenizationToken, TokenizationDeactivateParams.none())
+            deactivate(
+                tokenizationToken,
+                TokenizationDeactivateParams.none(),
+            )
 
         /** @see deactivate */
         @MustBeClosed
@@ -506,7 +675,12 @@ interface TokenizationService {
         fun deactivate(
             tokenizationToken: String,
             params: TokenizationDeactivateParams = TokenizationDeactivateParams.none(),
-        ): HttpResponse = deactivate(tokenizationToken, params, RequestOptions.none())
+        ): HttpResponse =
+            deactivate(
+                tokenizationToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see deactivate */
         @MustBeClosed
@@ -518,12 +692,19 @@ interface TokenizationService {
         /** @see deactivate */
         @MustBeClosed
         fun deactivate(params: TokenizationDeactivateParams): HttpResponse =
-            deactivate(params, RequestOptions.none())
+            deactivate(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see deactivate */
         @MustBeClosed
         fun deactivate(tokenizationToken: String, requestOptions: RequestOptions): HttpResponse =
-            deactivate(tokenizationToken, TokenizationDeactivateParams.none(), requestOptions)
+            deactivate(
+                tokenizationToken,
+                TokenizationDeactivateParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/pause`, but
@@ -531,7 +712,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun pause(tokenizationToken: String): HttpResponse =
-            pause(tokenizationToken, TokenizationPauseParams.none())
+            pause(
+                tokenizationToken,
+                TokenizationPauseParams.none(),
+            )
 
         /** @see pause */
         @MustBeClosed
@@ -540,14 +724,22 @@ interface TokenizationService {
             params: TokenizationPauseParams = TokenizationPauseParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse =
-            pause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+            pause(
+                params.toBuilder().tokenizationToken(tokenizationToken).build(),
+                requestOptions,
+            )
 
         /** @see pause */
         @MustBeClosed
         fun pause(
             tokenizationToken: String,
             params: TokenizationPauseParams = TokenizationPauseParams.none(),
-        ): HttpResponse = pause(tokenizationToken, params, RequestOptions.none())
+        ): HttpResponse =
+            pause(
+                tokenizationToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see pause */
         @MustBeClosed
@@ -559,12 +751,19 @@ interface TokenizationService {
         /** @see pause */
         @MustBeClosed
         fun pause(params: TokenizationPauseParams): HttpResponse =
-            pause(params, RequestOptions.none())
+            pause(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see pause */
         @MustBeClosed
         fun pause(tokenizationToken: String, requestOptions: RequestOptions): HttpResponse =
-            pause(tokenizationToken, TokenizationPauseParams.none(), requestOptions)
+            pause(
+                tokenizationToken,
+                TokenizationPauseParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
@@ -573,7 +772,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun resendActivationCode(tokenizationToken: String): HttpResponse =
-            resendActivationCode(tokenizationToken, TokenizationResendActivationCodeParams.none())
+            resendActivationCode(
+                tokenizationToken,
+                TokenizationResendActivationCodeParams.none(),
+            )
 
         /** @see resendActivationCode */
         @MustBeClosed
@@ -594,7 +796,12 @@ interface TokenizationService {
             tokenizationToken: String,
             params: TokenizationResendActivationCodeParams =
                 TokenizationResendActivationCodeParams.none(),
-        ): HttpResponse = resendActivationCode(tokenizationToken, params, RequestOptions.none())
+        ): HttpResponse =
+            resendActivationCode(
+                tokenizationToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see resendActivationCode */
         @MustBeClosed
@@ -606,7 +813,10 @@ interface TokenizationService {
         /** @see resendActivationCode */
         @MustBeClosed
         fun resendActivationCode(params: TokenizationResendActivationCodeParams): HttpResponse =
-            resendActivationCode(params, RequestOptions.none())
+            resendActivationCode(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see resendActivationCode */
         @MustBeClosed
@@ -626,7 +836,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun simulate(params: TokenizationSimulateParams): HttpResponseFor<Tokenization> =
-            simulate(params, RequestOptions.none())
+            simulate(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see simulate */
         @MustBeClosed
@@ -641,7 +854,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun unpause(tokenizationToken: String): HttpResponse =
-            unpause(tokenizationToken, TokenizationUnpauseParams.none())
+            unpause(
+                tokenizationToken,
+                TokenizationUnpauseParams.none(),
+            )
 
         /** @see unpause */
         @MustBeClosed
@@ -650,14 +866,22 @@ interface TokenizationService {
             params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse =
-            unpause(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
+            unpause(
+                params.toBuilder().tokenizationToken(tokenizationToken).build(),
+                requestOptions,
+            )
 
         /** @see unpause */
         @MustBeClosed
         fun unpause(
             tokenizationToken: String,
             params: TokenizationUnpauseParams = TokenizationUnpauseParams.none(),
-        ): HttpResponse = unpause(tokenizationToken, params, RequestOptions.none())
+        ): HttpResponse =
+            unpause(
+                tokenizationToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see unpause */
         @MustBeClosed
@@ -669,12 +893,19 @@ interface TokenizationService {
         /** @see unpause */
         @MustBeClosed
         fun unpause(params: TokenizationUnpauseParams): HttpResponse =
-            unpause(params, RequestOptions.none())
+            unpause(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see unpause */
         @MustBeClosed
         fun unpause(tokenizationToken: String, requestOptions: RequestOptions): HttpResponse =
-            unpause(tokenizationToken, TokenizationUnpauseParams.none(), requestOptions)
+            unpause(
+                tokenizationToken,
+                TokenizationUnpauseParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `post
@@ -683,7 +914,10 @@ interface TokenizationService {
          */
         @MustBeClosed
         fun updateDigitalCardArt(tokenizationToken: String): HttpResponseFor<Tokenization> =
-            updateDigitalCardArt(tokenizationToken, TokenizationUpdateDigitalCardArtParams.none())
+            updateDigitalCardArt(
+                tokenizationToken,
+                TokenizationUpdateDigitalCardArtParams.none(),
+            )
 
         /** @see updateDigitalCardArt */
         @MustBeClosed
@@ -705,7 +939,11 @@ interface TokenizationService {
             params: TokenizationUpdateDigitalCardArtParams =
                 TokenizationUpdateDigitalCardArtParams.none(),
         ): HttpResponseFor<Tokenization> =
-            updateDigitalCardArt(tokenizationToken, params, RequestOptions.none())
+            updateDigitalCardArt(
+                tokenizationToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see updateDigitalCardArt */
         @MustBeClosed
@@ -718,7 +956,11 @@ interface TokenizationService {
         @MustBeClosed
         fun updateDigitalCardArt(
             params: TokenizationUpdateDigitalCardArtParams
-        ): HttpResponseFor<Tokenization> = updateDigitalCardArt(params, RequestOptions.none())
+        ): HttpResponseFor<Tokenization> =
+            updateDigitalCardArt(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see updateDigitalCardArt */
         @MustBeClosed

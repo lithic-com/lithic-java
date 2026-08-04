@@ -31,7 +31,11 @@ private constructor(
         @JsonProperty("challenge_response")
         @ExcludeMissing
         challengeResponse: JsonField<ChallengeResult> = JsonMissing.of(),
-    ) : this(token, challengeResponse, mutableMapOf())
+    ) : this(
+        token,
+        challengeResponse,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for 3DS Authentication that resulted in PENDING_CHALLENGE
@@ -119,7 +123,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Whether the Cardholder has approved or declined the issued Challenge */
         fun challengeResponse(challengeResponse: ChallengeResult) =
@@ -149,7 +155,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -170,8 +178,14 @@ private constructor(
          */
         fun build(): ChallengeResponse =
             ChallengeResponse(
-                checkRequired("token", token),
-                checkRequired("challengeResponse", challengeResponse),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "challengeResponse",
+                    challengeResponse,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }

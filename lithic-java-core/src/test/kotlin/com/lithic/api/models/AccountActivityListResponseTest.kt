@@ -1218,7 +1218,14 @@ internal class AccountActivityListResponseTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(JsonValue.from(listOf("invalid", "array"))),
+        ARRAY(
+            JsonValue.from(
+                listOf(
+                    "invalid",
+                    "array",
+                )
+            )
+        ),
     }
 
     @ParameterizedTest
@@ -1227,7 +1234,10 @@ internal class AccountActivityListResponseTest {
         val accountActivityListResponse =
             jsonMapper().convertValue(testCase.value, jacksonTypeRef<AccountActivityListResponse>())
 
-        val e = assertThrows<LithicInvalidDataException> { accountActivityListResponse.validate() }
+        val e =
+            assertThrows<LithicInvalidDataException> {
+                accountActivityListResponse.validate()
+            }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

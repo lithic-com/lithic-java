@@ -41,7 +41,10 @@ interface CaseServiceAsync {
 
     /** Retrieves a single transaction monitoring case. */
     fun retrieve(caseToken: String): CompletableFuture<MonitoringCase> =
-        retrieve(caseToken, TransactionMonitoringCaseRetrieveParams.none())
+        retrieve(
+            caseToken,
+            TransactionMonitoringCaseRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -50,14 +53,22 @@ interface CaseServiceAsync {
             TransactionMonitoringCaseRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<MonitoringCase> =
-        retrieve(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().caseToken(caseToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         caseToken: String,
         params: TransactionMonitoringCaseRetrieveParams =
             TransactionMonitoringCaseRetrieveParams.none(),
-    ): CompletableFuture<MonitoringCase> = retrieve(caseToken, params, RequestOptions.none())
+    ): CompletableFuture<MonitoringCase> =
+        retrieve(
+            caseToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -68,18 +79,29 @@ interface CaseServiceAsync {
     /** @see retrieve */
     fun retrieve(
         params: TransactionMonitoringCaseRetrieveParams
-    ): CompletableFuture<MonitoringCase> = retrieve(params, RequestOptions.none())
+    ): CompletableFuture<MonitoringCase> =
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         caseToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<MonitoringCase> =
-        retrieve(caseToken, TransactionMonitoringCaseRetrieveParams.none(), requestOptions)
+        retrieve(
+            caseToken,
+            TransactionMonitoringCaseRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** Updates a transaction monitoring case. */
     fun update(caseToken: String): CompletableFuture<MonitoringCase> =
-        update(caseToken, TransactionMonitoringCaseUpdateParams.none())
+        update(
+            caseToken,
+            TransactionMonitoringCaseUpdateParams.none(),
+        )
 
     /** @see update */
     fun update(
@@ -88,13 +110,21 @@ interface CaseServiceAsync {
             TransactionMonitoringCaseUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<MonitoringCase> =
-        update(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+        update(
+            params.toBuilder().caseToken(caseToken).build(),
+            requestOptions,
+        )
 
     /** @see update */
     fun update(
         caseToken: String,
         params: TransactionMonitoringCaseUpdateParams = TransactionMonitoringCaseUpdateParams.none(),
-    ): CompletableFuture<MonitoringCase> = update(caseToken, params, RequestOptions.none())
+    ): CompletableFuture<MonitoringCase> =
+        update(
+            caseToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -104,14 +134,21 @@ interface CaseServiceAsync {
 
     /** @see update */
     fun update(params: TransactionMonitoringCaseUpdateParams): CompletableFuture<MonitoringCase> =
-        update(params, RequestOptions.none())
+        update(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
         caseToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<MonitoringCase> =
-        update(caseToken, TransactionMonitoringCaseUpdateParams.none(), requestOptions)
+        update(
+            caseToken,
+            TransactionMonitoringCaseUpdateParams.none(),
+            requestOptions,
+        )
 
     /** Lists transaction monitoring cases, optionally filtered. */
     fun list(): CompletableFuture<TransactionMonitoringCaseListPageAsync> =
@@ -127,19 +164,28 @@ interface CaseServiceAsync {
     fun list(
         params: TransactionMonitoringCaseListParams = TransactionMonitoringCaseListParams.none()
     ): CompletableFuture<TransactionMonitoringCaseListPageAsync> =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
         requestOptions: RequestOptions
     ): CompletableFuture<TransactionMonitoringCaseListPageAsync> =
-        list(TransactionMonitoringCaseListParams.none(), requestOptions)
+        list(
+            TransactionMonitoringCaseListParams.none(),
+            requestOptions,
+        )
 
     /** Lists the activity feed for a case. */
     fun listActivity(
         caseToken: String
     ): CompletableFuture<TransactionMonitoringCaseListActivityPageAsync> =
-        listActivity(caseToken, TransactionMonitoringCaseListActivityParams.none())
+        listActivity(
+            caseToken,
+            TransactionMonitoringCaseListActivityParams.none(),
+        )
 
     /** @see listActivity */
     fun listActivity(
@@ -148,7 +194,10 @@ interface CaseServiceAsync {
             TransactionMonitoringCaseListActivityParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionMonitoringCaseListActivityPageAsync> =
-        listActivity(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+        listActivity(
+            params.toBuilder().caseToken(caseToken).build(),
+            requestOptions,
+        )
 
     /** @see listActivity */
     fun listActivity(
@@ -156,7 +205,11 @@ interface CaseServiceAsync {
         params: TransactionMonitoringCaseListActivityParams =
             TransactionMonitoringCaseListActivityParams.none(),
     ): CompletableFuture<TransactionMonitoringCaseListActivityPageAsync> =
-        listActivity(caseToken, params, RequestOptions.none())
+        listActivity(
+            caseToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listActivity */
     fun listActivity(
@@ -168,20 +221,30 @@ interface CaseServiceAsync {
     fun listActivity(
         params: TransactionMonitoringCaseListActivityParams
     ): CompletableFuture<TransactionMonitoringCaseListActivityPageAsync> =
-        listActivity(params, RequestOptions.none())
+        listActivity(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listActivity */
     fun listActivity(
         caseToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<TransactionMonitoringCaseListActivityPageAsync> =
-        listActivity(caseToken, TransactionMonitoringCaseListActivityParams.none(), requestOptions)
+        listActivity(
+            caseToken,
+            TransactionMonitoringCaseListActivityParams.none(),
+            requestOptions,
+        )
 
     /** Lists the transactions associated with a case. */
     fun listTransactions(
         caseToken: String
     ): CompletableFuture<TransactionMonitoringCaseListTransactionsPageAsync> =
-        listTransactions(caseToken, TransactionMonitoringCaseListTransactionsParams.none())
+        listTransactions(
+            caseToken,
+            TransactionMonitoringCaseListTransactionsParams.none(),
+        )
 
     /** @see listTransactions */
     fun listTransactions(
@@ -190,7 +253,10 @@ interface CaseServiceAsync {
             TransactionMonitoringCaseListTransactionsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<TransactionMonitoringCaseListTransactionsPageAsync> =
-        listTransactions(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+        listTransactions(
+            params.toBuilder().caseToken(caseToken).build(),
+            requestOptions,
+        )
 
     /** @see listTransactions */
     fun listTransactions(
@@ -198,7 +264,11 @@ interface CaseServiceAsync {
         params: TransactionMonitoringCaseListTransactionsParams =
             TransactionMonitoringCaseListTransactionsParams.none(),
     ): CompletableFuture<TransactionMonitoringCaseListTransactionsPageAsync> =
-        listTransactions(caseToken, params, RequestOptions.none())
+        listTransactions(
+            caseToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listTransactions */
     fun listTransactions(
@@ -210,7 +280,10 @@ interface CaseServiceAsync {
     fun listTransactions(
         params: TransactionMonitoringCaseListTransactionsParams
     ): CompletableFuture<TransactionMonitoringCaseListTransactionsPageAsync> =
-        listTransactions(params, RequestOptions.none())
+        listTransactions(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see listTransactions */
     fun listTransactions(
@@ -225,7 +298,10 @@ interface CaseServiceAsync {
 
     /** Lists the cards involved in a case, with per-card transaction counts. */
     fun retrieveCards(caseToken: String): CompletableFuture<List<CaseCard>> =
-        retrieveCards(caseToken, TransactionMonitoringCaseRetrieveCardsParams.none())
+        retrieveCards(
+            caseToken,
+            TransactionMonitoringCaseRetrieveCardsParams.none(),
+        )
 
     /** @see retrieveCards */
     fun retrieveCards(
@@ -234,14 +310,22 @@ interface CaseServiceAsync {
             TransactionMonitoringCaseRetrieveCardsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<CaseCard>> =
-        retrieveCards(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+        retrieveCards(
+            params.toBuilder().caseToken(caseToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieveCards */
     fun retrieveCards(
         caseToken: String,
         params: TransactionMonitoringCaseRetrieveCardsParams =
             TransactionMonitoringCaseRetrieveCardsParams.none(),
-    ): CompletableFuture<List<CaseCard>> = retrieveCards(caseToken, params, RequestOptions.none())
+    ): CompletableFuture<List<CaseCard>> =
+        retrieveCards(
+            caseToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveCards */
     fun retrieveCards(
@@ -252,7 +336,11 @@ interface CaseServiceAsync {
     /** @see retrieveCards */
     fun retrieveCards(
         params: TransactionMonitoringCaseRetrieveCardsParams
-    ): CompletableFuture<List<CaseCard>> = retrieveCards(params, RequestOptions.none())
+    ): CompletableFuture<List<CaseCard>> =
+        retrieveCards(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveCards */
     fun retrieveCards(
@@ -284,7 +372,10 @@ interface CaseServiceAsync {
          * is otherwise the same as [CaseServiceAsync.retrieve].
          */
         fun retrieve(caseToken: String): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            retrieve(caseToken, TransactionMonitoringCaseRetrieveParams.none())
+            retrieve(
+                caseToken,
+                TransactionMonitoringCaseRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -293,7 +384,10 @@ interface CaseServiceAsync {
                 TransactionMonitoringCaseRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            retrieve(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().caseToken(caseToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -301,7 +395,11 @@ interface CaseServiceAsync {
             params: TransactionMonitoringCaseRetrieveParams =
                 TransactionMonitoringCaseRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            retrieve(caseToken, params, RequestOptions.none())
+            retrieve(
+                caseToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -313,21 +411,31 @@ interface CaseServiceAsync {
         fun retrieve(
             params: TransactionMonitoringCaseRetrieveParams
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
             caseToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            retrieve(caseToken, TransactionMonitoringCaseRetrieveParams.none(), requestOptions)
+            retrieve(
+                caseToken,
+                TransactionMonitoringCaseRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `patch /v1/transaction_monitoring/cases/{case_token}`,
          * but is otherwise the same as [CaseServiceAsync.update].
          */
         fun update(caseToken: String): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            update(caseToken, TransactionMonitoringCaseUpdateParams.none())
+            update(
+                caseToken,
+                TransactionMonitoringCaseUpdateParams.none(),
+            )
 
         /** @see update */
         fun update(
@@ -336,7 +444,10 @@ interface CaseServiceAsync {
                 TransactionMonitoringCaseUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            update(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+            update(
+                params.toBuilder().caseToken(caseToken).build(),
+                requestOptions,
+            )
 
         /** @see update */
         fun update(
@@ -344,7 +455,11 @@ interface CaseServiceAsync {
             params: TransactionMonitoringCaseUpdateParams =
                 TransactionMonitoringCaseUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            update(caseToken, params, RequestOptions.none())
+            update(
+                caseToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
@@ -356,14 +471,21 @@ interface CaseServiceAsync {
         fun update(
             params: TransactionMonitoringCaseUpdateParams
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            update(params, RequestOptions.none())
+            update(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         fun update(
             caseToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<MonitoringCase>> =
-            update(caseToken, TransactionMonitoringCaseUpdateParams.none(), requestOptions)
+            update(
+                caseToken,
+                TransactionMonitoringCaseUpdateParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/transaction_monitoring/cases`, but is otherwise
@@ -383,13 +505,19 @@ interface CaseServiceAsync {
         fun list(
             params: TransactionMonitoringCaseListParams = TransactionMonitoringCaseListParams.none()
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListPageAsync>> =
-            list(TransactionMonitoringCaseListParams.none(), requestOptions)
+            list(
+                TransactionMonitoringCaseListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get
@@ -399,7 +527,10 @@ interface CaseServiceAsync {
         fun listActivity(
             caseToken: String
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListActivityPageAsync>> =
-            listActivity(caseToken, TransactionMonitoringCaseListActivityParams.none())
+            listActivity(
+                caseToken,
+                TransactionMonitoringCaseListActivityParams.none(),
+            )
 
         /** @see listActivity */
         fun listActivity(
@@ -408,7 +539,10 @@ interface CaseServiceAsync {
                 TransactionMonitoringCaseListActivityParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListActivityPageAsync>> =
-            listActivity(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+            listActivity(
+                params.toBuilder().caseToken(caseToken).build(),
+                requestOptions,
+            )
 
         /** @see listActivity */
         fun listActivity(
@@ -416,7 +550,11 @@ interface CaseServiceAsync {
             params: TransactionMonitoringCaseListActivityParams =
                 TransactionMonitoringCaseListActivityParams.none(),
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListActivityPageAsync>> =
-            listActivity(caseToken, params, RequestOptions.none())
+            listActivity(
+                caseToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listActivity */
         fun listActivity(
@@ -428,7 +566,10 @@ interface CaseServiceAsync {
         fun listActivity(
             params: TransactionMonitoringCaseListActivityParams
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListActivityPageAsync>> =
-            listActivity(params, RequestOptions.none())
+            listActivity(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listActivity */
         fun listActivity(
@@ -449,7 +590,10 @@ interface CaseServiceAsync {
         fun listTransactions(
             caseToken: String
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListTransactionsPageAsync>> =
-            listTransactions(caseToken, TransactionMonitoringCaseListTransactionsParams.none())
+            listTransactions(
+                caseToken,
+                TransactionMonitoringCaseListTransactionsParams.none(),
+            )
 
         /** @see listTransactions */
         fun listTransactions(
@@ -458,7 +602,10 @@ interface CaseServiceAsync {
                 TransactionMonitoringCaseListTransactionsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListTransactionsPageAsync>> =
-            listTransactions(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+            listTransactions(
+                params.toBuilder().caseToken(caseToken).build(),
+                requestOptions,
+            )
 
         /** @see listTransactions */
         fun listTransactions(
@@ -466,7 +613,11 @@ interface CaseServiceAsync {
             params: TransactionMonitoringCaseListTransactionsParams =
                 TransactionMonitoringCaseListTransactionsParams.none(),
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListTransactionsPageAsync>> =
-            listTransactions(caseToken, params, RequestOptions.none())
+            listTransactions(
+                caseToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listTransactions */
         fun listTransactions(
@@ -478,7 +629,10 @@ interface CaseServiceAsync {
         fun listTransactions(
             params: TransactionMonitoringCaseListTransactionsParams
         ): CompletableFuture<HttpResponseFor<TransactionMonitoringCaseListTransactionsPageAsync>> =
-            listTransactions(params, RequestOptions.none())
+            listTransactions(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see listTransactions */
         fun listTransactions(
@@ -497,7 +651,10 @@ interface CaseServiceAsync {
          * [CaseServiceAsync.retrieveCards].
          */
         fun retrieveCards(caseToken: String): CompletableFuture<HttpResponseFor<List<CaseCard>>> =
-            retrieveCards(caseToken, TransactionMonitoringCaseRetrieveCardsParams.none())
+            retrieveCards(
+                caseToken,
+                TransactionMonitoringCaseRetrieveCardsParams.none(),
+            )
 
         /** @see retrieveCards */
         fun retrieveCards(
@@ -506,7 +663,10 @@ interface CaseServiceAsync {
                 TransactionMonitoringCaseRetrieveCardsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<CaseCard>>> =
-            retrieveCards(params.toBuilder().caseToken(caseToken).build(), requestOptions)
+            retrieveCards(
+                params.toBuilder().caseToken(caseToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieveCards */
         fun retrieveCards(
@@ -514,7 +674,11 @@ interface CaseServiceAsync {
             params: TransactionMonitoringCaseRetrieveCardsParams =
                 TransactionMonitoringCaseRetrieveCardsParams.none(),
         ): CompletableFuture<HttpResponseFor<List<CaseCard>>> =
-            retrieveCards(caseToken, params, RequestOptions.none())
+            retrieveCards(
+                caseToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveCards */
         fun retrieveCards(
@@ -526,7 +690,10 @@ interface CaseServiceAsync {
         fun retrieveCards(
             params: TransactionMonitoringCaseRetrieveCardsParams
         ): CompletableFuture<HttpResponseFor<List<CaseCard>>> =
-            retrieveCards(params, RequestOptions.none())
+            retrieveCards(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveCards */
         fun retrieveCards(

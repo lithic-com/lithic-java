@@ -73,11 +73,20 @@ class CardAuthorizationServiceImpl internal constructor(private val clientOption
                     )
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
-                response.use { challengeResponseHandler.handle(it) }
+                response.use {
+                    challengeResponseHandler.handle(it)
+                }
             }
         }
     }

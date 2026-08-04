@@ -97,7 +97,9 @@ private constructor(
                 cardAuthorizationChallengeResponseParams.additionalQueryParams.toBuilder()
         }
 
-        fun eventToken(eventToken: String?) = apply { this.eventToken = eventToken }
+        fun eventToken(eventToken: String?) = apply {
+            this.eventToken = eventToken
+        }
 
         /** Alias for calling [Builder.eventToken] with `eventToken.orElse(null)`. */
         fun eventToken(eventToken: Optional<String>) = eventToken(eventToken.getOrNull())
@@ -109,10 +111,14 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [response]
          */
-        fun body(body: Body) = apply { this.body = body.toBuilder() }
+        fun body(body: Body) = apply {
+            this.body = body.toBuilder()
+        }
 
         /** Whether the cardholder has approved or declined the issued challenge */
-        fun response(response: Response) = apply { body.response(response) }
+        fun response(response: Response) = apply {
+            body.response(response)
+        }
 
         /**
          * Sets [Builder.response] to an arbitrary JSON value.
@@ -121,14 +127,19 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun response(response: JsonField<Response>) = apply { body.response(response) }
+        fun response(response: JsonField<Response>) = apply {
+            body.response(response)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -136,7 +147,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -184,7 +197,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -234,7 +249,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -286,7 +303,10 @@ private constructor(
             @JsonProperty("response")
             @ExcludeMissing
             response: JsonField<Response> = JsonMissing.of()
-        ) : this(response, mutableMapOf())
+        ) : this(
+            response,
+            mutableMapOf(),
+        )
 
         /**
          * Whether the cardholder has approved or declined the issued challenge
@@ -350,7 +370,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun response(response: JsonField<Response>) = apply { this.response = response }
+            fun response(response: JsonField<Response>) = apply {
+                this.response = response
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -365,7 +387,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -384,7 +408,13 @@ private constructor(
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Body =
-                Body(checkRequired("response", response), additionalProperties.toMutableMap())
+                Body(
+                    checkRequired(
+                        "response",
+                        response,
+                    ),
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false
@@ -474,9 +504,11 @@ private constructor(
          * An enum containing [Response]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Response] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

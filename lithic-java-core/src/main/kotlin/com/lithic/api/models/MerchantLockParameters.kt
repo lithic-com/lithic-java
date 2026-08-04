@@ -31,7 +31,10 @@ private constructor(
         @JsonProperty("merchants")
         @ExcludeMissing
         merchants: JsonField<List<Merchant>> = JsonMissing.of()
-    ) : this(merchants, mutableMapOf())
+    ) : this(
+        merchants,
+        mutableMapOf(),
+    )
 
     /**
      * A list of merchant locks defining specific merchants or groups of merchants (based on
@@ -130,7 +133,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -150,7 +155,11 @@ private constructor(
          */
         fun build(): MerchantLockParameters =
             MerchantLockParameters(
-                checkRequired("merchants", merchants).map { it.toImmutable() },
+                checkRequired(
+                        "merchants",
+                        merchants,
+                    )
+                    .map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -214,7 +223,12 @@ private constructor(
             @JsonProperty("merchant_id")
             @ExcludeMissing
             merchantId: JsonField<String> = JsonMissing.of(),
-        ) : this(comment, descriptor, merchantId, mutableMapOf())
+        ) : this(
+            comment,
+            descriptor,
+            merchantId,
+            mutableMapOf(),
+        )
 
         /**
          * A comment or explanation about the merchant, used internally for rule management
@@ -316,7 +330,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun comment(comment: JsonField<String>) = apply { this.comment = comment }
+            fun comment(comment: JsonField<String>) = apply {
+                this.comment = comment
+            }
 
             /**
              * Short description of the merchant, often used to provide more human-readable context
@@ -332,7 +348,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
+            fun descriptor(descriptor: JsonField<String>) = apply {
+                this.descriptor = descriptor
+            }
 
             /**
              * Unique alphanumeric identifier for the payment card acceptor (merchant). This
@@ -348,7 +366,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun merchantId(merchantId: JsonField<String>) = apply { this.merchantId = merchantId }
+            fun merchantId(merchantId: JsonField<String>) = apply {
+                this.merchantId = merchantId
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -363,7 +383,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -375,7 +397,12 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): Merchant =
-                Merchant(comment, descriptor, merchantId, additionalProperties.toMutableMap())
+                Merchant(
+                    comment,
+                    descriptor,
+                    merchantId,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false

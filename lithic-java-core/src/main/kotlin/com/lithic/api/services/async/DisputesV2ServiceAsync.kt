@@ -28,7 +28,10 @@ interface DisputesV2ServiceAsync {
 
     /** Retrieves a specific dispute by its token. */
     fun retrieve(disputeToken: String): CompletableFuture<DisputeV2> =
-        retrieve(disputeToken, DisputesV2RetrieveParams.none())
+        retrieve(
+            disputeToken,
+            DisputesV2RetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -36,13 +39,21 @@ interface DisputesV2ServiceAsync {
         params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DisputeV2> =
-        retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().disputeToken(disputeToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         disputeToken: String,
         params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
-    ): CompletableFuture<DisputeV2> = retrieve(disputeToken, params, RequestOptions.none())
+    ): CompletableFuture<DisputeV2> =
+        retrieve(
+            disputeToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -52,14 +63,21 @@ interface DisputesV2ServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: DisputesV2RetrieveParams): CompletableFuture<DisputeV2> =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         disputeToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<DisputeV2> =
-        retrieve(disputeToken, DisputesV2RetrieveParams.none(), requestOptions)
+        retrieve(
+            disputeToken,
+            DisputesV2RetrieveParams.none(),
+            requestOptions,
+        )
 
     /** Returns a paginated list of disputes. */
     fun list(): CompletableFuture<DisputesV2ListPageAsync> = list(DisputesV2ListParams.none())
@@ -73,11 +91,18 @@ interface DisputesV2ServiceAsync {
     /** @see list */
     fun list(
         params: DisputesV2ListParams = DisputesV2ListParams.none()
-    ): CompletableFuture<DisputesV2ListPageAsync> = list(params, RequestOptions.none())
+    ): CompletableFuture<DisputesV2ListPageAsync> =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<DisputesV2ListPageAsync> =
-        list(DisputesV2ListParams.none(), requestOptions)
+        list(
+            DisputesV2ListParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [DisputesV2ServiceAsync] that provides access to raw HTTP responses for each
@@ -99,7 +124,10 @@ interface DisputesV2ServiceAsync {
          * same as [DisputesV2ServiceAsync.retrieve].
          */
         fun retrieve(disputeToken: String): CompletableFuture<HttpResponseFor<DisputeV2>> =
-            retrieve(disputeToken, DisputesV2RetrieveParams.none())
+            retrieve(
+                disputeToken,
+                DisputesV2RetrieveParams.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -107,14 +135,21 @@ interface DisputesV2ServiceAsync {
             params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DisputeV2>> =
-            retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().disputeToken(disputeToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         fun retrieve(
             disputeToken: String,
             params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<DisputeV2>> =
-            retrieve(disputeToken, params, RequestOptions.none())
+            retrieve(
+                disputeToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -125,14 +160,22 @@ interface DisputesV2ServiceAsync {
         /** @see retrieve */
         fun retrieve(
             params: DisputesV2RetrieveParams
-        ): CompletableFuture<HttpResponseFor<DisputeV2>> = retrieve(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponseFor<DisputeV2>> =
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
             disputeToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DisputeV2>> =
-            retrieve(disputeToken, DisputesV2RetrieveParams.none(), requestOptions)
+            retrieve(
+                disputeToken,
+                DisputesV2RetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v2/disputes`, but is otherwise the same as
@@ -151,12 +194,18 @@ interface DisputesV2ServiceAsync {
         fun list(
             params: DisputesV2ListParams = DisputesV2ListParams.none()
         ): CompletableFuture<HttpResponseFor<DisputesV2ListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<DisputesV2ListPageAsync>> =
-            list(DisputesV2ListParams.none(), requestOptions)
+            list(
+                DisputesV2ListParams.none(),
+                requestOptions,
+            )
     }
 }

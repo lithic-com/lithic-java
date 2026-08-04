@@ -402,7 +402,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         fun amounts(amounts: NetworkTotal.Amounts) = amounts(JsonField.of(amounts))
 
@@ -413,7 +415,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun amounts(amounts: JsonField<NetworkTotal.Amounts>) = apply { this.amounts = amounts }
+        fun amounts(amounts: JsonField<NetworkTotal.Amounts>) = apply {
+            this.amounts = amounts
+        }
 
         /** RFC 3339 timestamp for when the record was created. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -425,7 +429,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** 3-character alphabetic ISO 4217 code. */
         fun currency(currency: String) = currency(JsonField.of(currency))
@@ -436,7 +442,9 @@ private constructor(
          * You should usually call [Builder.currency] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
+        fun currency(currency: JsonField<String>) = apply {
+            this.currency = currency
+        }
 
         /**
          * The institution that activity occurred on. For Mastercard: ICA (Interbank Card
@@ -469,7 +477,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun isComplete(isComplete: JsonField<Boolean>) = apply { this.isComplete = isComplete }
+        fun isComplete(isComplete: JsonField<Boolean>) = apply {
+            this.isComplete = isComplete
+        }
 
         /**
          * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or
@@ -484,7 +494,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun network(network: JsonField<NetworkTotal.Network>) = apply { this.network = network }
+        fun network(network: JsonField<NetworkTotal.Network>) = apply {
+            this.network = network
+        }
 
         /** Date that the network total record applies to. YYYY-MM-DD format. */
         fun reportDate(reportDate: LocalDate) = reportDate(JsonField.of(reportDate))
@@ -496,7 +508,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun reportDate(reportDate: JsonField<LocalDate>) = apply { this.reportDate = reportDate }
+        fun reportDate(reportDate: JsonField<LocalDate>) = apply {
+            this.reportDate = reportDate
+        }
 
         /**
          * The institution responsible for settlement. For Mastercard: same as `institution_id`. For
@@ -541,7 +555,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply {
+            this.updated = updated
+        }
 
         /** The clearing cycle that the network total record applies to. Mastercard only. */
         fun cycle(cycle: Long) = cycle(JsonField.of(cycle))
@@ -552,7 +568,9 @@ private constructor(
          * You should usually call [Builder.cycle] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun cycle(cycle: JsonField<Long>) = apply { this.cycle = cycle }
+        fun cycle(cycle: JsonField<Long>) = apply {
+            this.cycle = cycle
+        }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -564,7 +582,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -579,7 +599,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -610,19 +632,55 @@ private constructor(
          */
         fun build(): NetworkTotalUpdatedWebhookEvent =
             NetworkTotalUpdatedWebhookEvent(
-                checkRequired("token", token),
-                checkRequired("amounts", amounts),
-                checkRequired("created", created),
-                checkRequired("currency", currency),
-                checkRequired("institutionId", institutionId),
-                checkRequired("isComplete", isComplete),
-                checkRequired("network", network),
-                checkRequired("reportDate", reportDate),
-                checkRequired("settlementInstitutionId", settlementInstitutionId),
-                checkRequired("settlementService", settlementService),
-                checkRequired("updated", updated),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "amounts",
+                    amounts,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "currency",
+                    currency,
+                ),
+                checkRequired(
+                    "institutionId",
+                    institutionId,
+                ),
+                checkRequired(
+                    "isComplete",
+                    isComplete,
+                ),
+                checkRequired(
+                    "network",
+                    network,
+                ),
+                checkRequired(
+                    "reportDate",
+                    reportDate,
+                ),
+                checkRequired(
+                    "settlementInstitutionId",
+                    settlementInstitutionId,
+                ),
+                checkRequired(
+                    "settlementService",
+                    settlementService,
+                ),
+                checkRequired(
+                    "updated",
+                    updated,
+                ),
                 cycle,
-                checkRequired("eventType", eventType),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -716,9 +774,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

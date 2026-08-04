@@ -35,7 +35,12 @@ interface EntityService {
     fun create(
         accountHolderToken: String,
         params: AccountHolderEntityCreateParams,
-    ): EntityCreateResponse = create(accountHolderToken, params, RequestOptions.none())
+    ): EntityCreateResponse =
+        create(
+            accountHolderToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -43,11 +48,17 @@ interface EntityService {
         params: AccountHolderEntityCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): EntityCreateResponse =
-        create(params.toBuilder().accountHolderToken(accountHolderToken).build(), requestOptions)
+        create(
+            params.toBuilder().accountHolderToken(accountHolderToken).build(),
+            requestOptions,
+        )
 
     /** @see create */
     fun create(params: AccountHolderEntityCreateParams): EntityCreateResponse =
-        create(params, RequestOptions.none())
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -60,7 +71,11 @@ interface EntityService {
      * owner individuals can be deactivated.
      */
     fun delete(entityToken: String, params: AccountHolderEntityDeleteParams): AccountHolderEntity =
-        delete(entityToken, params, RequestOptions.none())
+        delete(
+            entityToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -68,11 +83,17 @@ interface EntityService {
         params: AccountHolderEntityDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountHolderEntity =
-        delete(params.toBuilder().entityToken(entityToken).build(), requestOptions)
+        delete(
+            params.toBuilder().entityToken(entityToken).build(),
+            requestOptions,
+        )
 
     /** @see delete */
     fun delete(params: AccountHolderEntityDeleteParams): AccountHolderEntity =
-        delete(params, RequestOptions.none())
+        delete(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -100,7 +121,11 @@ interface EntityService {
             accountHolderToken: String,
             params: AccountHolderEntityCreateParams,
         ): HttpResponseFor<EntityCreateResponse> =
-            create(accountHolderToken, params, RequestOptions.none())
+            create(
+                accountHolderToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -117,7 +142,10 @@ interface EntityService {
         /** @see create */
         @MustBeClosed
         fun create(params: AccountHolderEntityCreateParams): HttpResponseFor<EntityCreateResponse> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -135,7 +163,12 @@ interface EntityService {
         fun delete(
             entityToken: String,
             params: AccountHolderEntityDeleteParams,
-        ): HttpResponseFor<AccountHolderEntity> = delete(entityToken, params, RequestOptions.none())
+        ): HttpResponseFor<AccountHolderEntity> =
+            delete(
+                entityToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         @MustBeClosed
@@ -144,12 +177,18 @@ interface EntityService {
             params: AccountHolderEntityDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountHolderEntity> =
-            delete(params.toBuilder().entityToken(entityToken).build(), requestOptions)
+            delete(
+                params.toBuilder().entityToken(entityToken).build(),
+                requestOptions,
+            )
 
         /** @see delete */
         @MustBeClosed
         fun delete(params: AccountHolderEntityDeleteParams): HttpResponseFor<AccountHolderEntity> =
-            delete(params, RequestOptions.none())
+            delete(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         @MustBeClosed

@@ -570,12 +570,21 @@ class LithicClientImpl(private val clientOptions: ClientOptions) : LithicClient 
                     .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("v1", "status")
                     .build()
-                    .prepare(clientOptions, params)
+                    .prepare(
+                        clientOptions,
+                        params,
+                    )
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
+            val response =
+                clientOptions.httpClient.execute(
+                    request,
+                    requestOptions,
+                )
             return errorHandler.handle(response).parseable {
                 response
-                    .use { apiStatusHandler.handle(it) }
+                    .use {
+                        apiStatusHandler.handle(it)
+                    }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

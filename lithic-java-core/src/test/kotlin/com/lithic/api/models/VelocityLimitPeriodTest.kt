@@ -204,7 +204,14 @@ internal class VelocityLimitPeriodTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(JsonValue.from(listOf("invalid", "array"))),
+        ARRAY(
+            JsonValue.from(
+                listOf(
+                    "invalid",
+                    "array",
+                )
+            )
+        ),
     }
 
     @ParameterizedTest
@@ -213,7 +220,10 @@ internal class VelocityLimitPeriodTest {
         val velocityLimitPeriod =
             jsonMapper().convertValue(testCase.value, jacksonTypeRef<VelocityLimitPeriod>())
 
-        val e = assertThrows<LithicInvalidDataException> { velocityLimitPeriod.validate() }
+        val e =
+            assertThrows<LithicInvalidDataException> {
+                velocityLimitPeriod.validate()
+            }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

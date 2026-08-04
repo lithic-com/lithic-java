@@ -125,7 +125,9 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
+        fun begin(begin: OffsetDateTime?) = apply {
+            this.begin = begin
+        }
 
         /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
         fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
@@ -142,7 +144,9 @@ private constructor(
             businessAccountToken(businessAccountToken.getOrNull())
 
         /** Management operation category to be returned. */
-        fun category(category: ManagementOperationCategory?) = apply { this.category = category }
+        fun category(category: ManagementOperationCategory?) = apply {
+            this.category = category
+        }
 
         /** Alias for calling [Builder.category] with `category.orElse(null)`. */
         fun category(category: Optional<ManagementOperationCategory>) =
@@ -152,7 +156,9 @@ private constructor(
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime?) = apply { this.end = end }
+        fun end(end: OffsetDateTime?) = apply {
+            this.end = end
+        }
 
         /** Alias for calling [Builder.end] with `end.orElse(null)`. */
         fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
@@ -161,7 +167,9 @@ private constructor(
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
+        fun endingBefore(endingBefore: String?) = apply {
+            this.endingBefore = endingBefore
+        }
 
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
@@ -182,7 +190,9 @@ private constructor(
             financialAccountToken(financialAccountToken.getOrNull())
 
         /** Page size (for pagination). */
-        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+        fun pageSize(pageSize: Long?) = apply {
+            this.pageSize = pageSize
+        }
 
         /**
          * Alias for [Builder.pageSize].
@@ -198,14 +208,18 @@ private constructor(
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
+        fun startingAfter(startingAfter: String?) = apply {
+            this.startingAfter = startingAfter
+        }
 
         /** Alias for calling [Builder.startingAfter] with `startingAfter.orElse(null)`. */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.getOrNull())
 
         /** Management operation status to be returned. */
-        fun status(status: TransactionStatus?) = apply { this.status = status }
+        fun status(status: TransactionStatus?) = apply {
+            this.status = status
+        }
 
         /** Alias for calling [Builder.status] with `status.orElse(null)`. */
         fun status(status: Optional<TransactionStatus>) = status(status.getOrNull())
@@ -252,7 +266,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -302,7 +318,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -392,9 +410,11 @@ private constructor(
          *
          * An instance of [ManagementOperationCategory] can contain an unknown value in a couple of
          * cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -553,9 +573,11 @@ private constructor(
          * An enum containing [TransactionStatus]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [TransactionStatus] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

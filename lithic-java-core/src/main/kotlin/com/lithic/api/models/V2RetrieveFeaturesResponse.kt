@@ -36,7 +36,11 @@ private constructor(
         @JsonProperty("features")
         @ExcludeMissing
         features: JsonField<List<SpendFeatureState>> = JsonMissing.of(),
-    ) : this(evaluated, features, mutableMapOf())
+    ) : this(
+        evaluated,
+        features,
+        mutableMapOf(),
+    )
 
     /**
      * Timestamp at which the Features were evaluated
@@ -122,7 +126,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun evaluated(evaluated: JsonField<OffsetDateTime>) = apply { this.evaluated = evaluated }
+        fun evaluated(evaluated: JsonField<OffsetDateTime>) = apply {
+            this.evaluated = evaluated
+        }
 
         /** Calculated Features used for evaluation of the provided Auth Rule */
         fun features(features: List<SpendFeatureState>) = features(JsonField.of(features))
@@ -163,7 +169,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -184,8 +192,15 @@ private constructor(
          */
         fun build(): V2RetrieveFeaturesResponse =
             V2RetrieveFeaturesResponse(
-                checkRequired("evaluated", evaluated),
-                checkRequired("features", features).map { it.toImmutable() },
+                checkRequired(
+                    "evaluated",
+                    evaluated,
+                ),
+                checkRequired(
+                        "features",
+                        features,
+                    )
+                    .map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -250,7 +265,13 @@ private constructor(
             @ExcludeMissing
             scope: JsonField<VelocityScope> = JsonMissing.of(),
             @JsonProperty("value") @ExcludeMissing value: JsonField<Value> = JsonMissing.of(),
-        ) : this(filters, period, scope, value, mutableMapOf())
+        ) : this(
+            filters,
+            period,
+            scope,
+            value,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -367,7 +388,9 @@ private constructor(
              * value instead. This method is primarily for setting the field to an undocumented or
              * not yet supported value.
              */
-            fun filters(filters: JsonField<VelocityLimitFilters>) = apply { this.filters = filters }
+            fun filters(filters: JsonField<VelocityLimitFilters>) = apply {
+                this.filters = filters
+            }
 
             /** Velocity over the current day since 00:00 / 12 AM in Eastern Time */
             fun period(period: VelocityLimitPeriod) = period(JsonField.of(period))
@@ -379,7 +402,9 @@ private constructor(
              * value instead. This method is primarily for setting the field to an undocumented or
              * not yet supported value.
              */
-            fun period(period: JsonField<VelocityLimitPeriod>) = apply { this.period = period }
+            fun period(period: JsonField<VelocityLimitPeriod>) = apply {
+                this.period = period
+            }
 
             /**
              * Alias for calling [period] with
@@ -426,7 +451,9 @@ private constructor(
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun scope(scope: JsonField<VelocityScope>) = apply { this.scope = scope }
+            fun scope(scope: JsonField<VelocityScope>) = apply {
+                this.scope = scope
+            }
 
             fun value(value: Value) = value(JsonField.of(value))
 
@@ -437,7 +464,9 @@ private constructor(
              * method is primarily for setting the field to an undocumented or not yet supported
              * value.
              */
-            fun value(value: JsonField<Value>) = apply { this.value = value }
+            fun value(value: JsonField<Value>) = apply {
+                this.value = value
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -452,7 +481,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -475,10 +506,22 @@ private constructor(
              */
             fun build(): SpendFeatureState =
                 SpendFeatureState(
-                    checkRequired("filters", filters),
-                    checkRequired("period", period),
-                    checkRequired("scope", scope),
-                    checkRequired("value", value),
+                    checkRequired(
+                        "filters",
+                        filters,
+                    ),
+                    checkRequired(
+                        "period",
+                        period,
+                    ),
+                    checkRequired(
+                        "scope",
+                        scope,
+                    ),
+                    checkRequired(
+                        "value",
+                        value,
+                    ),
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -560,9 +603,11 @@ private constructor(
              * An enum containing [VelocityScope]'s known values, as well as an [_UNKNOWN] member.
              *
              * An instance of [VelocityScope] can contain an unknown value in a couple of cases:
+             *
              * - It was deserialized from data that doesn't match any known member. For example, if
              *   the SDK is on an older version than the API, then the API may respond with new
              *   members that the SDK is unaware of.
+             *
              * - It was constructed with an arbitrary value using the [of] method.
              */
             enum class Value {
@@ -681,7 +726,11 @@ private constructor(
             private constructor(
                 @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
                 @JsonProperty("count") @ExcludeMissing count: JsonField<Long> = JsonMissing.of(),
-            ) : this(amount, count, mutableMapOf())
+            ) : this(
+                amount,
+                count,
+                mutableMapOf(),
+            )
 
             /**
              * Amount (in cents) for the given Auth Rule that is used as input for calculating the
@@ -772,7 +821,9 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+                fun amount(amount: JsonField<Long>) = apply {
+                    this.amount = amount
+                }
 
                 /**
                  * Number of velocity impacting transactions matching the given scope, period and
@@ -787,7 +838,9 @@ private constructor(
                  * This method is primarily for setting the field to an undocumented or not yet
                  * supported value.
                  */
-                fun count(count: JsonField<Long>) = apply { this.count = count }
+                fun count(count: JsonField<Long>) = apply {
+                    this.count = count
+                }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -826,8 +879,14 @@ private constructor(
                  */
                 fun build(): Value =
                     Value(
-                        checkRequired("amount", amount),
-                        checkRequired("count", count),
+                        checkRequired(
+                            "amount",
+                            amount,
+                        ),
+                        checkRequired(
+                            "count",
+                            count,
+                        ),
                         additionalProperties.toMutableMap(),
                     )
             }

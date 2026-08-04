@@ -29,7 +29,11 @@ interface LineItemServiceAsync {
         statementToken: String,
         params: FinancialAccountStatementLineItemListParams,
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
-        list(statementToken, params, RequestOptions.none())
+        list(
+            statementToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -37,13 +41,19 @@ interface LineItemServiceAsync {
         params: FinancialAccountStatementLineItemListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
-        list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+        list(
+            params.toBuilder().statementToken(statementToken).build(),
+            requestOptions,
+        )
 
     /** @see list */
     fun list(
         params: FinancialAccountStatementLineItemListParams
     ): CompletableFuture<FinancialAccountStatementLineItemListPageAsync> =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(
@@ -74,7 +84,11 @@ interface LineItemServiceAsync {
             statementToken: String,
             params: FinancialAccountStatementLineItemListParams,
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
-            list(statementToken, params, RequestOptions.none())
+            list(
+                statementToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
@@ -82,13 +96,19 @@ interface LineItemServiceAsync {
             params: FinancialAccountStatementLineItemListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
-            list(params.toBuilder().statementToken(statementToken).build(), requestOptions)
+            list(
+                params.toBuilder().statementToken(statementToken).build(),
+                requestOptions,
+            )
 
         /** @see list */
         fun list(
             params: FinancialAccountStatementLineItemListParams
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementLineItemListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(

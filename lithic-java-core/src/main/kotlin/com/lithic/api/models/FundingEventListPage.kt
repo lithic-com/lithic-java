@@ -84,13 +84,19 @@ private constructor(
             response = fundingEventListPage.response
         }
 
-        fun service(service: FundingEventService) = apply { this.service = service }
+        fun service(service: FundingEventService) = apply {
+            this.service = service
+        }
 
         /** The parameters that were used to request this page. */
-        fun params(params: FundingEventListParams) = apply { this.params = params }
+        fun params(params: FundingEventListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
-        fun response(response: FundingEventListPageResponse) = apply { this.response = response }
+        fun response(response: FundingEventListPageResponse) = apply {
+            this.response = response
+        }
 
         /**
          * Returns an immutable instance of [FundingEventListPage].
@@ -108,9 +114,18 @@ private constructor(
          */
         fun build(): FundingEventListPage =
             FundingEventListPage(
-                checkRequired("service", service),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

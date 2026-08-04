@@ -670,7 +670,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         fun accountStanding(accountStanding: LoanTape.AccountStanding) =
             accountStanding(JsonField.of(accountStanding))
@@ -709,7 +711,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun balances(balances: JsonField<LoanTape.Balances>) = apply { this.balances = balances }
+        fun balances(balances: JsonField<LoanTape.Balances>) = apply {
+            this.balances = balances
+        }
 
         /** Timestamp of when the loan tape was created */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -721,7 +725,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /**
          * For prepay accounts, this is the minimum prepay balance that must be maintained. For
@@ -736,7 +742,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
+        fun creditLimit(creditLimit: JsonField<Long>) = apply {
+            this.creditLimit = creditLimit
+        }
 
         /** Globally unique identifier for a credit product */
         fun creditProductToken(creditProductToken: String) =
@@ -762,7 +770,9 @@ private constructor(
          * You should usually call [Builder.date] with a well-typed [LocalDate] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun date(date: JsonField<LocalDate>) = apply { this.date = date }
+        fun date(date: JsonField<LocalDate>) = apply {
+            this.date = date
+        }
 
         fun dayTotals(dayTotals: StatementTotals) = dayTotals(JsonField.of(dayTotals))
 
@@ -773,7 +783,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun dayTotals(dayTotals: JsonField<StatementTotals>) = apply { this.dayTotals = dayTotals }
+        fun dayTotals(dayTotals: JsonField<StatementTotals>) = apply {
+            this.dayTotals = dayTotals
+        }
 
         /** Balance at the end of the day */
         fun endingBalance(endingBalance: Long) = endingBalance(JsonField.of(endingBalance))
@@ -921,7 +933,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+        fun updated(updated: JsonField<OffsetDateTime>) = apply {
+            this.updated = updated
+        }
 
         /** Version number of the loan tape. This starts at 1 */
         fun version(version: Long) = version(JsonField.of(version))
@@ -932,7 +946,9 @@ private constructor(
          * You should usually call [Builder.version] with a well-typed [Long] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun version(version: JsonField<Long>) = apply { this.version = version }
+        fun version(version: JsonField<Long>) = apply {
+            this.version = version
+        }
 
         fun ytdTotals(ytdTotals: StatementTotals) = ytdTotals(JsonField.of(ytdTotals))
 
@@ -943,7 +959,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun ytdTotals(ytdTotals: JsonField<StatementTotals>) = apply { this.ytdTotals = ytdTotals }
+        fun ytdTotals(ytdTotals: JsonField<StatementTotals>) = apply {
+            this.ytdTotals = ytdTotals
+        }
 
         /** Day of the billing period that this loan tape covers, starting at 1 */
         fun dayOfPeriod(dayOfPeriod: Long?) = dayOfPeriod(JsonField.ofNullable(dayOfPeriod))
@@ -965,7 +983,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun dayOfPeriod(dayOfPeriod: JsonField<Long>) = apply { this.dayOfPeriod = dayOfPeriod }
+        fun dayOfPeriod(dayOfPeriod: JsonField<Long>) = apply {
+            this.dayOfPeriod = dayOfPeriod
+        }
 
         /** Interest tier to which this account belongs to */
         fun tier(tier: String?) = tier(JsonField.ofNullable(tier))
@@ -979,7 +999,9 @@ private constructor(
          * You should usually call [Builder.tier] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun tier(tier: JsonField<String>) = apply { this.tier = tier }
+        fun tier(tier: JsonField<String>) = apply {
+            this.tier = tier
+        }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -991,7 +1013,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -1006,7 +1030,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1047,30 +1073,96 @@ private constructor(
          */
         fun build(): LoanTapeCreatedWebhookEvent =
             LoanTapeCreatedWebhookEvent(
-                checkRequired("token", token),
-                checkRequired("accountStanding", accountStanding),
-                checkRequired("availableCredit", availableCredit),
-                checkRequired("balances", balances),
-                checkRequired("created", created),
-                checkRequired("creditLimit", creditLimit),
-                checkRequired("creditProductToken", creditProductToken),
-                checkRequired("date", date),
-                checkRequired("dayTotals", dayTotals),
-                checkRequired("endingBalance", endingBalance),
-                checkRequired("excessCredits", excessCredits),
-                checkRequired("financialAccountToken", financialAccountToken),
-                checkRequired("interestDetails", interestDetails),
-                checkRequired("minimumPaymentBalance", minimumPaymentBalance),
-                checkRequired("paymentAllocation", paymentAllocation),
-                checkRequired("periodTotals", periodTotals),
-                checkRequired("previousStatementBalance", previousStatementBalance),
-                checkRequired("startingBalance", startingBalance),
-                checkRequired("updated", updated),
-                checkRequired("version", version),
-                checkRequired("ytdTotals", ytdTotals),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "accountStanding",
+                    accountStanding,
+                ),
+                checkRequired(
+                    "availableCredit",
+                    availableCredit,
+                ),
+                checkRequired(
+                    "balances",
+                    balances,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "creditLimit",
+                    creditLimit,
+                ),
+                checkRequired(
+                    "creditProductToken",
+                    creditProductToken,
+                ),
+                checkRequired(
+                    "date",
+                    date,
+                ),
+                checkRequired(
+                    "dayTotals",
+                    dayTotals,
+                ),
+                checkRequired(
+                    "endingBalance",
+                    endingBalance,
+                ),
+                checkRequired(
+                    "excessCredits",
+                    excessCredits,
+                ),
+                checkRequired(
+                    "financialAccountToken",
+                    financialAccountToken,
+                ),
+                checkRequired(
+                    "interestDetails",
+                    interestDetails,
+                ),
+                checkRequired(
+                    "minimumPaymentBalance",
+                    minimumPaymentBalance,
+                ),
+                checkRequired(
+                    "paymentAllocation",
+                    paymentAllocation,
+                ),
+                checkRequired(
+                    "periodTotals",
+                    periodTotals,
+                ),
+                checkRequired(
+                    "previousStatementBalance",
+                    previousStatementBalance,
+                ),
+                checkRequired(
+                    "startingBalance",
+                    startingBalance,
+                ),
+                checkRequired(
+                    "updated",
+                    updated,
+                ),
+                checkRequired(
+                    "version",
+                    version,
+                ),
+                checkRequired(
+                    "ytdTotals",
+                    ytdTotals,
+                ),
                 dayOfPeriod,
                 tier,
-                checkRequired("eventType", eventType),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -1186,9 +1278,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

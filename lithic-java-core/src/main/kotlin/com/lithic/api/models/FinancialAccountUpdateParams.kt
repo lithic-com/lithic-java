@@ -98,9 +98,13 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [nickname]
          */
-        fun body(body: UpdateFinancialAccountRequest) = apply { this.body = body.toBuilder() }
+        fun body(body: UpdateFinancialAccountRequest) = apply {
+            this.body = body.toBuilder()
+        }
 
-        fun nickname(nickname: String) = apply { body.nickname(nickname) }
+        fun nickname(nickname: String) = apply {
+            body.nickname(nickname)
+        }
 
         /**
          * Sets [Builder.nickname] to an arbitrary JSON value.
@@ -108,14 +112,19 @@ private constructor(
          * You should usually call [Builder.nickname] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun nickname(nickname: JsonField<String>) = apply { body.nickname(nickname) }
+        fun nickname(nickname: JsonField<String>) = apply {
+            body.nickname(nickname)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -123,7 +132,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -171,7 +182,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -221,7 +234,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -263,7 +278,10 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("nickname") @ExcludeMissing nickname: JsonField<String> = JsonMissing.of()
-        ) : this(nickname, mutableMapOf())
+        ) : this(
+            nickname,
+            mutableMapOf(),
+        )
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -322,7 +340,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
+            fun nickname(nickname: JsonField<String>) = apply {
+                this.nickname = nickname
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -337,7 +357,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -349,7 +371,10 @@ private constructor(
              * Further updates to this [Builder] will not mutate the returned instance.
              */
             fun build(): UpdateFinancialAccountRequest =
-                UpdateFinancialAccountRequest(nickname, additionalProperties.toMutableMap())
+                UpdateFinancialAccountRequest(
+                    nickname,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false

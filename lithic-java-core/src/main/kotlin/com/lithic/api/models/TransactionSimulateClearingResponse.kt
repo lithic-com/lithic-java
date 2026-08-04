@@ -27,7 +27,10 @@ private constructor(
         @JsonProperty("debugging_request_id")
         @ExcludeMissing
         debuggingRequestId: JsonField<String> = JsonMissing.of()
-    ) : this(debuggingRequestId, mutableMapOf())
+    ) : this(
+        debuggingRequestId,
+        mutableMapOf(),
+    )
 
     /**
      * Debugging request ID to share with Lithic Support team.
@@ -112,7 +115,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)

@@ -276,7 +276,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Timestamp of when dispute evidence was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -288,7 +290,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Dispute token evidence is attached to. */
         fun disputeToken(disputeToken: String) = disputeToken(JsonField.of(disputeToken))
@@ -336,7 +340,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
+        fun downloadUrl(downloadUrl: JsonField<String>) = apply {
+            this.downloadUrl = downloadUrl
+        }
 
         /**
          * File name of evidence. Recommended to give the dispute evidence a human-readable
@@ -350,7 +356,9 @@ private constructor(
          * You should usually call [Builder.filename] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun filename(filename: JsonField<String>) = apply { this.filename = filename }
+        fun filename(filename: JsonField<String>) = apply {
+            this.filename = filename
+        }
 
         /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
         fun uploadUrl(uploadUrl: String) = uploadUrl(JsonField.of(uploadUrl))
@@ -362,7 +370,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
+        fun uploadUrl(uploadUrl: JsonField<String>) = apply {
+            this.uploadUrl = uploadUrl
+        }
 
         /** The type of event that occurred. */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
@@ -374,7 +384,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -389,7 +401,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -413,14 +427,29 @@ private constructor(
          */
         fun build(): DisputeEvidenceUploadFailedWebhookEvent =
             DisputeEvidenceUploadFailedWebhookEvent(
-                checkRequired("token", token),
-                checkRequired("created", created),
-                checkRequired("disputeToken", disputeToken),
-                checkRequired("uploadStatus", uploadStatus),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "disputeToken",
+                    disputeToken,
+                ),
+                checkRequired(
+                    "uploadStatus",
+                    uploadStatus,
+                ),
                 downloadUrl,
                 filename,
                 uploadUrl,
-                checkRequired("eventType", eventType),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -504,9 +533,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

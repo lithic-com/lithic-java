@@ -32,7 +32,10 @@ interface QueueService {
 
     /** Creates a new queue for grouping transaction monitoring cases. */
     fun create(params: TransactionMonitoringQueueCreateParams): Queue =
-        create(params, RequestOptions.none())
+        create(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see create */
     fun create(
@@ -42,7 +45,10 @@ interface QueueService {
 
     /** Retrieves a single transaction monitoring queue. */
     fun retrieve(queueToken: String): Queue =
-        retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none())
+        retrieve(
+            queueToken,
+            TransactionMonitoringQueueRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -50,14 +56,23 @@ interface QueueService {
         params: TransactionMonitoringQueueRetrieveParams =
             TransactionMonitoringQueueRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Queue = retrieve(params.toBuilder().queueToken(queueToken).build(), requestOptions)
+    ): Queue =
+        retrieve(
+            params.toBuilder().queueToken(queueToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         queueToken: String,
         params: TransactionMonitoringQueueRetrieveParams =
             TransactionMonitoringQueueRetrieveParams.none(),
-    ): Queue = retrieve(queueToken, params, RequestOptions.none())
+    ): Queue =
+        retrieve(
+            queueToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -67,15 +82,25 @@ interface QueueService {
 
     /** @see retrieve */
     fun retrieve(params: TransactionMonitoringQueueRetrieveParams): Queue =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(queueToken: String, requestOptions: RequestOptions): Queue =
-        retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none(), requestOptions)
+        retrieve(
+            queueToken,
+            TransactionMonitoringQueueRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** Updates a transaction monitoring queue. */
     fun update(queueToken: String): Queue =
-        update(queueToken, TransactionMonitoringQueueUpdateParams.none())
+        update(
+            queueToken,
+            TransactionMonitoringQueueUpdateParams.none(),
+        )
 
     /** @see update */
     fun update(
@@ -83,14 +108,23 @@ interface QueueService {
         params: TransactionMonitoringQueueUpdateParams =
             TransactionMonitoringQueueUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Queue = update(params.toBuilder().queueToken(queueToken).build(), requestOptions)
+    ): Queue =
+        update(
+            params.toBuilder().queueToken(queueToken).build(),
+            requestOptions,
+        )
 
     /** @see update */
     fun update(
         queueToken: String,
         params: TransactionMonitoringQueueUpdateParams =
             TransactionMonitoringQueueUpdateParams.none(),
-    ): Queue = update(queueToken, params, RequestOptions.none())
+    ): Queue =
+        update(
+            queueToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(
@@ -100,11 +134,18 @@ interface QueueService {
 
     /** @see update */
     fun update(params: TransactionMonitoringQueueUpdateParams): Queue =
-        update(params, RequestOptions.none())
+        update(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see update */
     fun update(queueToken: String, requestOptions: RequestOptions): Queue =
-        update(queueToken, TransactionMonitoringQueueUpdateParams.none(), requestOptions)
+        update(
+            queueToken,
+            TransactionMonitoringQueueUpdateParams.none(),
+            requestOptions,
+        )
 
     /** Lists transaction monitoring queues. */
     fun list(): TransactionMonitoringQueueListPage =
@@ -119,15 +160,25 @@ interface QueueService {
     /** @see list */
     fun list(
         params: TransactionMonitoringQueueListParams = TransactionMonitoringQueueListParams.none()
-    ): TransactionMonitoringQueueListPage = list(params, RequestOptions.none())
+    ): TransactionMonitoringQueueListPage =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): TransactionMonitoringQueueListPage =
-        list(TransactionMonitoringQueueListParams.none(), requestOptions)
+        list(
+            TransactionMonitoringQueueListParams.none(),
+            requestOptions,
+        )
 
     /** Deletes a transaction monitoring queue. */
     fun delete(queueToken: String) =
-        delete(queueToken, TransactionMonitoringQueueDeleteParams.none())
+        delete(
+            queueToken,
+            TransactionMonitoringQueueDeleteParams.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -135,14 +186,23 @@ interface QueueService {
         params: TransactionMonitoringQueueDeleteParams =
             TransactionMonitoringQueueDeleteParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ) = delete(params.toBuilder().queueToken(queueToken).build(), requestOptions)
+    ) =
+        delete(
+            params.toBuilder().queueToken(queueToken).build(),
+            requestOptions,
+        )
 
     /** @see delete */
     fun delete(
         queueToken: String,
         params: TransactionMonitoringQueueDeleteParams =
             TransactionMonitoringQueueDeleteParams.none(),
-    ) = delete(queueToken, params, RequestOptions.none())
+    ) =
+        delete(
+            queueToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(
@@ -152,11 +212,18 @@ interface QueueService {
 
     /** @see delete */
     fun delete(params: TransactionMonitoringQueueDeleteParams) =
-        delete(params, RequestOptions.none())
+        delete(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see delete */
     fun delete(queueToken: String, requestOptions: RequestOptions) =
-        delete(queueToken, TransactionMonitoringQueueDeleteParams.none(), requestOptions)
+        delete(
+            queueToken,
+            TransactionMonitoringQueueDeleteParams.none(),
+            requestOptions,
+        )
 
     /** A view of [QueueService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -174,7 +241,10 @@ interface QueueService {
          */
         @MustBeClosed
         fun create(params: TransactionMonitoringQueueCreateParams): HttpResponseFor<Queue> =
-            create(params, RequestOptions.none())
+            create(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see create */
         @MustBeClosed
@@ -189,7 +259,10 @@ interface QueueService {
          */
         @MustBeClosed
         fun retrieve(queueToken: String): HttpResponseFor<Queue> =
-            retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none())
+            retrieve(
+                queueToken,
+                TransactionMonitoringQueueRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -199,7 +272,10 @@ interface QueueService {
                 TransactionMonitoringQueueRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Queue> =
-            retrieve(params.toBuilder().queueToken(queueToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().queueToken(queueToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -207,7 +283,12 @@ interface QueueService {
             queueToken: String,
             params: TransactionMonitoringQueueRetrieveParams =
                 TransactionMonitoringQueueRetrieveParams.none(),
-        ): HttpResponseFor<Queue> = retrieve(queueToken, params, RequestOptions.none())
+        ): HttpResponseFor<Queue> =
+            retrieve(
+                queueToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -219,12 +300,19 @@ interface QueueService {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: TransactionMonitoringQueueRetrieveParams): HttpResponseFor<Queue> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(queueToken: String, requestOptions: RequestOptions): HttpResponseFor<Queue> =
-            retrieve(queueToken, TransactionMonitoringQueueRetrieveParams.none(), requestOptions)
+            retrieve(
+                queueToken,
+                TransactionMonitoringQueueRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `patch /v1/transaction_monitoring/queues/{queue_token}`,
@@ -232,7 +320,10 @@ interface QueueService {
          */
         @MustBeClosed
         fun update(queueToken: String): HttpResponseFor<Queue> =
-            update(queueToken, TransactionMonitoringQueueUpdateParams.none())
+            update(
+                queueToken,
+                TransactionMonitoringQueueUpdateParams.none(),
+            )
 
         /** @see update */
         @MustBeClosed
@@ -242,7 +333,10 @@ interface QueueService {
                 TransactionMonitoringQueueUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Queue> =
-            update(params.toBuilder().queueToken(queueToken).build(), requestOptions)
+            update(
+                params.toBuilder().queueToken(queueToken).build(),
+                requestOptions,
+            )
 
         /** @see update */
         @MustBeClosed
@@ -250,7 +344,12 @@ interface QueueService {
             queueToken: String,
             params: TransactionMonitoringQueueUpdateParams =
                 TransactionMonitoringQueueUpdateParams.none(),
-        ): HttpResponseFor<Queue> = update(queueToken, params, RequestOptions.none())
+        ): HttpResponseFor<Queue> =
+            update(
+                queueToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         @MustBeClosed
@@ -262,12 +361,19 @@ interface QueueService {
         /** @see update */
         @MustBeClosed
         fun update(params: TransactionMonitoringQueueUpdateParams): HttpResponseFor<Queue> =
-            update(params, RequestOptions.none())
+            update(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see update */
         @MustBeClosed
         fun update(queueToken: String, requestOptions: RequestOptions): HttpResponseFor<Queue> =
-            update(queueToken, TransactionMonitoringQueueUpdateParams.none(), requestOptions)
+            update(
+                queueToken,
+                TransactionMonitoringQueueUpdateParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/transaction_monitoring/queues`, but is otherwise
@@ -290,14 +396,21 @@ interface QueueService {
         fun list(
             params: TransactionMonitoringQueueListParams =
                 TransactionMonitoringQueueListParams.none()
-        ): HttpResponseFor<TransactionMonitoringQueueListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<TransactionMonitoringQueueListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): HttpResponseFor<TransactionMonitoringQueueListPage> =
-            list(TransactionMonitoringQueueListParams.none(), requestOptions)
+            list(
+                TransactionMonitoringQueueListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `delete /v1/transaction_monitoring/queues/{queue_token}`,
@@ -305,7 +418,10 @@ interface QueueService {
          */
         @MustBeClosed
         fun delete(queueToken: String): HttpResponse =
-            delete(queueToken, TransactionMonitoringQueueDeleteParams.none())
+            delete(
+                queueToken,
+                TransactionMonitoringQueueDeleteParams.none(),
+            )
 
         /** @see delete */
         @MustBeClosed
@@ -314,7 +430,11 @@ interface QueueService {
             params: TransactionMonitoringQueueDeleteParams =
                 TransactionMonitoringQueueDeleteParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponse = delete(params.toBuilder().queueToken(queueToken).build(), requestOptions)
+        ): HttpResponse =
+            delete(
+                params.toBuilder().queueToken(queueToken).build(),
+                requestOptions,
+            )
 
         /** @see delete */
         @MustBeClosed
@@ -322,7 +442,12 @@ interface QueueService {
             queueToken: String,
             params: TransactionMonitoringQueueDeleteParams =
                 TransactionMonitoringQueueDeleteParams.none(),
-        ): HttpResponse = delete(queueToken, params, RequestOptions.none())
+        ): HttpResponse =
+            delete(
+                queueToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         @MustBeClosed
@@ -334,11 +459,18 @@ interface QueueService {
         /** @see delete */
         @MustBeClosed
         fun delete(params: TransactionMonitoringQueueDeleteParams): HttpResponse =
-            delete(params, RequestOptions.none())
+            delete(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see delete */
         @MustBeClosed
         fun delete(queueToken: String, requestOptions: RequestOptions): HttpResponse =
-            delete(queueToken, TransactionMonitoringQueueDeleteParams.none(), requestOptions)
+            delete(
+                queueToken,
+                TransactionMonitoringQueueDeleteParams.none(),
+                requestOptions,
+            )
     }
 }

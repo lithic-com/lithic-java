@@ -85,10 +85,14 @@ private constructor(
             response = disputeListEvidencesPage.response
         }
 
-        fun service(service: DisputeService) = apply { this.service = service }
+        fun service(service: DisputeService) = apply {
+            this.service = service
+        }
 
         /** The parameters that were used to request this page. */
-        fun params(params: DisputeListEvidencesParams) = apply { this.params = params }
+        fun params(params: DisputeListEvidencesParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
         fun response(response: DisputeListEvidencesPageResponse) = apply {
@@ -111,9 +115,18 @@ private constructor(
          */
         fun build(): DisputeListEvidencesPage =
             DisputeListEvidencesPage(
-                checkRequired("service", service),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

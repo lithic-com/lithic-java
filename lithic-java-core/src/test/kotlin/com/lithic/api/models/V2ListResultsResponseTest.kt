@@ -493,7 +493,14 @@ internal class V2ListResultsResponseTest {
         STRING(JsonValue.from("invalid")),
         INTEGER(JsonValue.from(-1)),
         FLOAT(JsonValue.from(3.14)),
-        ARRAY(JsonValue.from(listOf("invalid", "array"))),
+        ARRAY(
+            JsonValue.from(
+                listOf(
+                    "invalid",
+                    "array",
+                )
+            )
+        ),
     }
 
     @ParameterizedTest
@@ -502,7 +509,10 @@ internal class V2ListResultsResponseTest {
         val v2ListResultsResponse =
             jsonMapper().convertValue(testCase.value, jacksonTypeRef<V2ListResultsResponse>())
 
-        val e = assertThrows<LithicInvalidDataException> { v2ListResultsResponse.validate() }
+        val e =
+            assertThrows<LithicInvalidDataException> {
+                v2ListResultsResponse.validate()
+            }
         assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }

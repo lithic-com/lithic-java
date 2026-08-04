@@ -1838,7 +1838,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -1888,37 +1890,133 @@ private constructor(
          */
         fun build(): SignalsResponse =
             SignalsResponse(
-                checkRequired("approvedTxnAmountM2", approvedTxnAmountM2),
-                checkRequired("approvedTxnAmountM2_30d", approvedTxnAmountM2_30d),
-                checkRequired("approvedTxnAmountM2_7d", approvedTxnAmountM2_7d),
-                checkRequired("approvedTxnAmountM2_90d", approvedTxnAmountM2_90d),
-                checkRequired("approvedTxnCount", approvedTxnCount),
-                checkRequired("approvedTxnCount30d", approvedTxnCount30d),
-                checkRequired("approvedTxnCount7d", approvedTxnCount7d),
-                checkRequired("approvedTxnCount90d", approvedTxnCount90d),
-                checkRequired("avgTransactionAmount", avgTransactionAmount),
-                checkRequired("avgTransactionAmount30d", avgTransactionAmount30d),
-                checkRequired("avgTransactionAmount7d", avgTransactionAmount7d),
-                checkRequired("avgTransactionAmount90d", avgTransactionAmount90d),
-                checkRequired("distinctCountryCount", distinctCountryCount),
-                checkRequired("distinctMccCount", distinctMccCount),
-                checkRequired("firstTxnAt", firstTxnAt),
-                checkRequired("isFirstTransaction", isFirstTransaction),
-                checkRequired("lastCpCountry", lastCpCountry),
-                checkRequired("lastCpPostalCode", lastCpPostalCode),
-                checkRequired("lastCpTimestamp", lastCpTimestamp),
-                checkRequired("lastTxnApprovedAt", lastTxnApprovedAt),
-                checkRequired("seenCountries", seenCountries).map { it.toImmutable() },
-                checkRequired("seenMccs", seenMccs).map { it.toImmutable() },
-                checkRequired("seenMerchants", seenMerchants).map { it.toImmutable() },
-                checkRequired("stdevTransactionAmount", stdevTransactionAmount),
-                checkRequired("stdevTransactionAmount30d", stdevTransactionAmount30d),
-                checkRequired("stdevTransactionAmount7d", stdevTransactionAmount7d),
-                checkRequired("stdevTransactionAmount90d", stdevTransactionAmount90d),
-                checkRequired("threeDSSuccessCount", threeDSSuccessCount),
-                checkRequired("threeDSSuccessRate", threeDSSuccessRate),
-                checkRequired("threeDSTotalCount", threeDSTotalCount),
-                checkRequired("timeSinceLastTransactionDays", timeSinceLastTransactionDays),
+                checkRequired(
+                    "approvedTxnAmountM2",
+                    approvedTxnAmountM2,
+                ),
+                checkRequired(
+                    "approvedTxnAmountM2_30d",
+                    approvedTxnAmountM2_30d,
+                ),
+                checkRequired(
+                    "approvedTxnAmountM2_7d",
+                    approvedTxnAmountM2_7d,
+                ),
+                checkRequired(
+                    "approvedTxnAmountM2_90d",
+                    approvedTxnAmountM2_90d,
+                ),
+                checkRequired(
+                    "approvedTxnCount",
+                    approvedTxnCount,
+                ),
+                checkRequired(
+                    "approvedTxnCount30d",
+                    approvedTxnCount30d,
+                ),
+                checkRequired(
+                    "approvedTxnCount7d",
+                    approvedTxnCount7d,
+                ),
+                checkRequired(
+                    "approvedTxnCount90d",
+                    approvedTxnCount90d,
+                ),
+                checkRequired(
+                    "avgTransactionAmount",
+                    avgTransactionAmount,
+                ),
+                checkRequired(
+                    "avgTransactionAmount30d",
+                    avgTransactionAmount30d,
+                ),
+                checkRequired(
+                    "avgTransactionAmount7d",
+                    avgTransactionAmount7d,
+                ),
+                checkRequired(
+                    "avgTransactionAmount90d",
+                    avgTransactionAmount90d,
+                ),
+                checkRequired(
+                    "distinctCountryCount",
+                    distinctCountryCount,
+                ),
+                checkRequired(
+                    "distinctMccCount",
+                    distinctMccCount,
+                ),
+                checkRequired(
+                    "firstTxnAt",
+                    firstTxnAt,
+                ),
+                checkRequired(
+                    "isFirstTransaction",
+                    isFirstTransaction,
+                ),
+                checkRequired(
+                    "lastCpCountry",
+                    lastCpCountry,
+                ),
+                checkRequired(
+                    "lastCpPostalCode",
+                    lastCpPostalCode,
+                ),
+                checkRequired(
+                    "lastCpTimestamp",
+                    lastCpTimestamp,
+                ),
+                checkRequired(
+                    "lastTxnApprovedAt",
+                    lastTxnApprovedAt,
+                ),
+                checkRequired(
+                        "seenCountries",
+                        seenCountries,
+                    )
+                    .map { it.toImmutable() },
+                checkRequired(
+                        "seenMccs",
+                        seenMccs,
+                    )
+                    .map { it.toImmutable() },
+                checkRequired(
+                        "seenMerchants",
+                        seenMerchants,
+                    )
+                    .map { it.toImmutable() },
+                checkRequired(
+                    "stdevTransactionAmount",
+                    stdevTransactionAmount,
+                ),
+                checkRequired(
+                    "stdevTransactionAmount30d",
+                    stdevTransactionAmount30d,
+                ),
+                checkRequired(
+                    "stdevTransactionAmount7d",
+                    stdevTransactionAmount7d,
+                ),
+                checkRequired(
+                    "stdevTransactionAmount90d",
+                    stdevTransactionAmount90d,
+                ),
+                checkRequired(
+                    "threeDSSuccessCount",
+                    threeDSSuccessCount,
+                ),
+                checkRequired(
+                    "threeDSSuccessRate",
+                    threeDSSuccessRate,
+                ),
+                checkRequired(
+                    "threeDSTotalCount",
+                    threeDSTotalCount,
+                ),
+                checkRequired(
+                    "timeSinceLastTransactionDays",
+                    timeSinceLastTransactionDays,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }

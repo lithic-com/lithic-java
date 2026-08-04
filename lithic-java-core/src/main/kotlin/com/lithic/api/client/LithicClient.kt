@@ -165,11 +165,17 @@ interface LithicClient {
 
     /** @see apiStatus */
     fun apiStatus(params: ClientApiStatusParams = ClientApiStatusParams.none()): ApiStatus =
-        apiStatus(params, RequestOptions.none())
+        apiStatus(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see apiStatus */
     fun apiStatus(requestOptions: RequestOptions): ApiStatus =
-        apiStatus(ClientApiStatusParams.none(), requestOptions)
+        apiStatus(
+            ClientApiStatusParams.none(),
+            requestOptions,
+        )
 
     /**
      * Closes this client, relinquishing any underlying resources.
@@ -284,11 +290,18 @@ interface LithicClient {
         @MustBeClosed
         fun apiStatus(
             params: ClientApiStatusParams = ClientApiStatusParams.none()
-        ): HttpResponseFor<ApiStatus> = apiStatus(params, RequestOptions.none())
+        ): HttpResponseFor<ApiStatus> =
+            apiStatus(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see apiStatus */
         @MustBeClosed
         fun apiStatus(requestOptions: RequestOptions): HttpResponseFor<ApiStatus> =
-            apiStatus(ClientApiStatusParams.none(), requestOptions)
+            apiStatus(
+                ClientApiStatusParams.none(),
+                requestOptions,
+            )
     }
 }

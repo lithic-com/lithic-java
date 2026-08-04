@@ -49,7 +49,10 @@ private constructor(
         service.list(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<InterestTierSchedule> =
-        AutoPagerAsync.from(this, streamHandlerExecutor)
+        AutoPagerAsync.from(
+            this,
+            streamHandlerExecutor,
+        )
 
     /** The parameters that were used to request this page. */
     fun params(): FinancialAccountInterestTierScheduleListParams = params
@@ -96,7 +99,9 @@ private constructor(
             response = financialAccountInterestTierScheduleListPageAsync.response
         }
 
-        fun service(service: InterestTierScheduleServiceAsync) = apply { this.service = service }
+        fun service(service: InterestTierScheduleServiceAsync) = apply {
+            this.service = service
+        }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
@@ -129,10 +134,22 @@ private constructor(
          */
         fun build(): FinancialAccountInterestTierScheduleListPageAsync =
             FinancialAccountInterestTierScheduleListPageAsync(
-                checkRequired("service", service),
-                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "streamHandlerExecutor",
+                    streamHandlerExecutor,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

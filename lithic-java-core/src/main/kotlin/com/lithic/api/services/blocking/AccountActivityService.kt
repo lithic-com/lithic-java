@@ -38,15 +38,25 @@ interface AccountActivityService {
     /** @see list */
     fun list(
         params: AccountActivityListParams = AccountActivityListParams.none()
-    ): AccountActivityListPage = list(params, RequestOptions.none())
+    ): AccountActivityListPage =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): AccountActivityListPage =
-        list(AccountActivityListParams.none(), requestOptions)
+        list(
+            AccountActivityListParams.none(),
+            requestOptions,
+        )
 
     /** Retrieve a single transaction */
     fun retrieveTransaction(transactionToken: String): AccountActivityRetrieveTransactionResponse =
-        retrieveTransaction(transactionToken, AccountActivityRetrieveTransactionParams.none())
+        retrieveTransaction(
+            transactionToken,
+            AccountActivityRetrieveTransactionParams.none(),
+        )
 
     /** @see retrieveTransaction */
     fun retrieveTransaction(
@@ -66,7 +76,11 @@ interface AccountActivityService {
         params: AccountActivityRetrieveTransactionParams =
             AccountActivityRetrieveTransactionParams.none(),
     ): AccountActivityRetrieveTransactionResponse =
-        retrieveTransaction(transactionToken, params, RequestOptions.none())
+        retrieveTransaction(
+            transactionToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveTransaction */
     fun retrieveTransaction(
@@ -78,7 +92,10 @@ interface AccountActivityService {
     fun retrieveTransaction(
         params: AccountActivityRetrieveTransactionParams
     ): AccountActivityRetrieveTransactionResponse =
-        retrieveTransaction(params, RequestOptions.none())
+        retrieveTransaction(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieveTransaction */
     fun retrieveTransaction(
@@ -125,12 +142,19 @@ interface AccountActivityService {
         @MustBeClosed
         fun list(
             params: AccountActivityListParams = AccountActivityListParams.none()
-        ): HttpResponseFor<AccountActivityListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<AccountActivityListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<AccountActivityListPage> =
-            list(AccountActivityListParams.none(), requestOptions)
+            list(
+                AccountActivityListParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/account_activity/{transaction_token}`, but is
@@ -140,7 +164,10 @@ interface AccountActivityService {
         fun retrieveTransaction(
             transactionToken: String
         ): HttpResponseFor<AccountActivityRetrieveTransactionResponse> =
-            retrieveTransaction(transactionToken, AccountActivityRetrieveTransactionParams.none())
+            retrieveTransaction(
+                transactionToken,
+                AccountActivityRetrieveTransactionParams.none(),
+            )
 
         /** @see retrieveTransaction */
         @MustBeClosed
@@ -162,7 +189,11 @@ interface AccountActivityService {
             params: AccountActivityRetrieveTransactionParams =
                 AccountActivityRetrieveTransactionParams.none(),
         ): HttpResponseFor<AccountActivityRetrieveTransactionResponse> =
-            retrieveTransaction(transactionToken, params, RequestOptions.none())
+            retrieveTransaction(
+                transactionToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveTransaction */
         @MustBeClosed
@@ -176,7 +207,10 @@ interface AccountActivityService {
         fun retrieveTransaction(
             params: AccountActivityRetrieveTransactionParams
         ): HttpResponseFor<AccountActivityRetrieveTransactionResponse> =
-            retrieveTransaction(params, RequestOptions.none())
+            retrieveTransaction(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieveTransaction */
         @MustBeClosed

@@ -28,7 +28,10 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("data") @ExcludeMissing data: JsonField<List<Document>> = JsonMissing.of()
-    ) : this(data, mutableMapOf())
+    ) : this(
+        data,
+        mutableMapOf(),
+    )
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -116,7 +119,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)

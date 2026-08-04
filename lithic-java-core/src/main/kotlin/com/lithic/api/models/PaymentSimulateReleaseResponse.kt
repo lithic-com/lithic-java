@@ -35,7 +35,12 @@ private constructor(
         @JsonProperty("transaction_event_token")
         @ExcludeMissing
         transactionEventToken: JsonField<String> = JsonMissing.of(),
-    ) : this(debuggingRequestId, result, transactionEventToken, mutableMapOf())
+    ) : this(
+        debuggingRequestId,
+        result,
+        transactionEventToken,
+        mutableMapOf(),
+    )
 
     /**
      * Debugging Request Id
@@ -158,7 +163,9 @@ private constructor(
          * You should usually call [Builder.result] with a well-typed [Result] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun result(result: JsonField<Result>) = apply { this.result = result }
+        fun result(result: JsonField<Result>) = apply {
+            this.result = result
+        }
 
         /** Transaction Event Token */
         fun transactionEventToken(transactionEventToken: String) =
@@ -188,7 +195,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -210,9 +219,18 @@ private constructor(
          */
         fun build(): PaymentSimulateReleaseResponse =
             PaymentSimulateReleaseResponse(
-                checkRequired("debuggingRequestId", debuggingRequestId),
-                checkRequired("result", result),
-                checkRequired("transactionEventToken", transactionEventToken),
+                checkRequired(
+                    "debuggingRequestId",
+                    debuggingRequestId,
+                ),
+                checkRequired(
+                    "result",
+                    result,
+                ),
+                checkRequired(
+                    "transactionEventToken",
+                    transactionEventToken,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -289,9 +307,11 @@ private constructor(
          * An enum containing [Result]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Result] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

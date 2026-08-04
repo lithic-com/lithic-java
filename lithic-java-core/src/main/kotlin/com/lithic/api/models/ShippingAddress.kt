@@ -311,7 +311,9 @@ private constructor(
          * You should usually call [Builder.address1] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
+        fun address1(address1: JsonField<String>) = apply {
+            this.address1 = address1
+        }
 
         /** City */
         fun city(city: String) = city(JsonField.of(city))
@@ -322,7 +324,9 @@ private constructor(
          * You should usually call [Builder.city] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun city(city: JsonField<String>) = apply { this.city = city }
+        fun city(city: JsonField<String>) = apply {
+            this.city = city
+        }
 
         /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
         fun country(country: String) = country(JsonField.of(country))
@@ -333,7 +337,9 @@ private constructor(
          * You should usually call [Builder.country] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun country(country: JsonField<String>) = apply { this.country = country }
+        fun country(country: JsonField<String>) = apply {
+            this.country = country
+        }
 
         /**
          * Customer's first name. This will be the first name printed on the physical card. The
@@ -348,7 +354,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
+        fun firstName(firstName: JsonField<String>) = apply {
+            this.firstName = firstName
+        }
 
         /**
          * Customer's surname (family name). This will be the last name printed on the physical
@@ -362,7 +370,9 @@ private constructor(
          * You should usually call [Builder.lastName] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
+        fun lastName(lastName: JsonField<String>) = apply {
+            this.lastName = lastName
+        }
 
         /**
          * Postal code (formerly zipcode). For US addresses, either five-digit postal code or
@@ -377,7 +387,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
+        fun postalCode(postalCode: JsonField<String>) = apply {
+            this.postalCode = postalCode
+        }
 
         /**
          * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of
@@ -391,7 +403,9 @@ private constructor(
          * You should usually call [Builder.state] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun state(state: JsonField<String>) = apply { this.state = state }
+        fun state(state: JsonField<String>) = apply {
+            this.state = state
+        }
 
         /** Unit number (if applicable). */
         fun address2(address2: String) = address2(JsonField.of(address2))
@@ -402,7 +416,9 @@ private constructor(
          * You should usually call [Builder.address2] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
+        fun address2(address2: JsonField<String>) = apply {
+            this.address2 = address2
+        }
 
         /**
          * Email address to be contacted for expedited shipping process purposes. Required if
@@ -416,7 +432,9 @@ private constructor(
          * You should usually call [Builder.email] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun email(email: JsonField<String>) = apply { this.email = email }
+        fun email(email: JsonField<String>) = apply {
+            this.email = email
+        }
 
         /**
          * Text to be printed on line two of the physical card. Use of this field requires
@@ -431,7 +449,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun line2Text(line2Text: JsonField<String>) = apply { this.line2Text = line2Text }
+        fun line2Text(line2Text: JsonField<String>) = apply {
+            this.line2Text = line2Text
+        }
 
         /**
          * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
@@ -446,7 +466,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
+        fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+            this.phoneNumber = phoneNumber
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -461,7 +483,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -487,13 +511,34 @@ private constructor(
          */
         fun build(): ShippingAddress =
             ShippingAddress(
-                checkRequired("address1", address1),
-                checkRequired("city", city),
-                checkRequired("country", country),
-                checkRequired("firstName", firstName),
-                checkRequired("lastName", lastName),
-                checkRequired("postalCode", postalCode),
-                checkRequired("state", state),
+                checkRequired(
+                    "address1",
+                    address1,
+                ),
+                checkRequired(
+                    "city",
+                    city,
+                ),
+                checkRequired(
+                    "country",
+                    country,
+                ),
+                checkRequired(
+                    "firstName",
+                    firstName,
+                ),
+                checkRequired(
+                    "lastName",
+                    lastName,
+                ),
+                checkRequired(
+                    "postalCode",
+                    postalCode,
+                ),
+                checkRequired(
+                    "state",
+                    state,
+                ),
                 address2,
                 email,
                 line2Text,

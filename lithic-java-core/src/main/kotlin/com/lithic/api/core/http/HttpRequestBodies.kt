@@ -143,7 +143,10 @@ private fun serializePart(name: String, node: JsonNode): Sequence<Pair<String, I
     }
 
 private class MultipartBody
-private constructor(private val boundary: String, private val parts: List<Part>) : HttpRequestBody {
+private constructor(
+    private val boundary: String,
+    private val parts: List<Part>,
+) : HttpRequestBody {
     private val boundaryBytes: ByteArray = boundary.toByteArray()
     private val contentType = "multipart/form-data; boundary=$boundary"
 

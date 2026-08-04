@@ -6,7 +6,10 @@ import org.junit.jupiter.params.provider.EnumSource
 
 internal class HttpRequestTest {
 
-    enum class UrlTestCase(val request: HttpRequest, val expectedUrl: String) {
+    enum class UrlTestCase(
+        val request: HttpRequest,
+        val expectedUrl: String,
+    ) {
         BASE_URL_ONLY(
             HttpRequest.builder().method(HttpMethod.GET).baseUrl("https://api.example.com").build(),
             expectedUrl = "https://api.example.com",

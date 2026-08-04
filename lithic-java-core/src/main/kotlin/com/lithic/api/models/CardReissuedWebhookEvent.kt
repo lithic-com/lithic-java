@@ -32,7 +32,11 @@ private constructor(
         @ExcludeMissing
         eventType: JsonField<EventType> = JsonMissing.of(),
         @JsonProperty("card_token") @ExcludeMissing cardToken: JsonField<String> = JsonMissing.of(),
-    ) : this(eventType, cardToken, mutableMapOf())
+    ) : this(
+        eventType,
+        cardToken,
+        mutableMapOf(),
+    )
 
     /**
      * The type of event that occurred.
@@ -113,7 +117,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         /** The token of the card that was reissued. */
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
@@ -125,7 +131,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+        fun cardToken(cardToken: JsonField<String>) = apply {
+            this.cardToken = cardToken
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -140,7 +148,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -160,7 +170,10 @@ private constructor(
          */
         fun build(): CardReissuedWebhookEvent =
             CardReissuedWebhookEvent(
-                checkRequired("eventType", eventType),
+                checkRequired(
+                    "eventType",
+                    eventType,
+                ),
                 cardToken,
                 additionalProperties.toMutableMap(),
             )
@@ -233,9 +246,11 @@ private constructor(
          * An enum containing [EventType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EventType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

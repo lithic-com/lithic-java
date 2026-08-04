@@ -34,7 +34,11 @@ private constructor(
         @JsonProperty("entity_type")
         @ExcludeMissing
         entityType: JsonField<EntityType2> = JsonMissing.of(),
-    ) : this(entityToken, entityType, mutableMapOf())
+    ) : this(
+        entityToken,
+        entityType,
+        mutableMapOf(),
+    )
 
     /**
      * Globally unique identifier for the associated entity
@@ -122,7 +126,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
+        fun entityToken(entityToken: JsonField<String>) = apply {
+            this.entityToken = entityToken
+        }
 
         /**
          * The type of entity a case is associated with:
@@ -138,7 +144,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun entityType(entityType: JsonField<EntityType2>) = apply { this.entityType = entityType }
+        fun entityType(entityType: JsonField<EntityType2>) = apply {
+            this.entityType = entityType
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -153,7 +161,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -174,8 +184,14 @@ private constructor(
          */
         fun build(): CaseEntity =
             CaseEntity(
-                checkRequired("entityToken", entityToken),
-                checkRequired("entityType", entityType),
+                checkRequired(
+                    "entityToken",
+                    entityToken,
+                ),
+                checkRequired(
+                    "entityType",
+                    entityType,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -255,9 +271,11 @@ private constructor(
          * An enum containing [EntityType2]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [EntityType2] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

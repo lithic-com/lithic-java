@@ -231,7 +231,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun acceptorId(acceptorId: JsonField<String>) = apply { this.acceptorId = acceptorId }
+        fun acceptorId(acceptorId: JsonField<String>) = apply {
+            this.acceptorId = acceptorId
+        }
 
         /** Unique numeric identifier of the acquiring institution. */
         fun acquiringInstitutionId(acquiringInstitutionId: String) =
@@ -260,7 +262,9 @@ private constructor(
          * You should usually call [Builder.city] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun city(city: JsonField<String>) = apply { this.city = city }
+        fun city(city: JsonField<String>) = apply {
+            this.city = city
+        }
 
         /**
          * Country or entity of card acceptor. Possible values are: (1) all ISO 3166-1 alpha-3
@@ -274,7 +278,9 @@ private constructor(
          * You should usually call [Builder.country] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun country(country: JsonField<String>) = apply { this.country = country }
+        fun country(country: JsonField<String>) = apply {
+            this.country = country
+        }
 
         /** Short description of card acceptor. */
         fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
@@ -286,7 +292,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
+        fun descriptor(descriptor: JsonField<String>) = apply {
+            this.descriptor = descriptor
+        }
 
         /**
          * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used to
@@ -300,7 +308,9 @@ private constructor(
          * You should usually call [Builder.mcc] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
+        fun mcc(mcc: JsonField<String>) = apply {
+            this.mcc = mcc
+        }
 
         /** Geographic state of card acceptor. */
         fun state(state: String) = state(JsonField.of(state))
@@ -311,7 +321,9 @@ private constructor(
          * You should usually call [Builder.state] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun state(state: JsonField<String>) = apply { this.state = state }
+        fun state(state: JsonField<String>) = apply {
+            this.state = state
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -326,7 +338,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -352,13 +366,34 @@ private constructor(
          */
         fun build(): Merchant =
             Merchant(
-                checkRequired("acceptorId", acceptorId),
-                checkRequired("acquiringInstitutionId", acquiringInstitutionId),
-                checkRequired("city", city),
-                checkRequired("country", country),
-                checkRequired("descriptor", descriptor),
-                checkRequired("mcc", mcc),
-                checkRequired("state", state),
+                checkRequired(
+                    "acceptorId",
+                    acceptorId,
+                ),
+                checkRequired(
+                    "acquiringInstitutionId",
+                    acquiringInstitutionId,
+                ),
+                checkRequired(
+                    "city",
+                    city,
+                ),
+                checkRequired(
+                    "country",
+                    country,
+                ),
+                checkRequired(
+                    "descriptor",
+                    descriptor,
+                ),
+                checkRequired(
+                    "mcc",
+                    mcc,
+                ),
+                checkRequired(
+                    "state",
+                    state,
+                ),
                 additionalProperties.toMutableMap(),
             )
     }

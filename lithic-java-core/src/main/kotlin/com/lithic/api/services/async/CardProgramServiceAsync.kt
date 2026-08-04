@@ -28,7 +28,10 @@ interface CardProgramServiceAsync {
 
     /** Get card program. */
     fun retrieve(cardProgramToken: String): CompletableFuture<CardProgram> =
-        retrieve(cardProgramToken, CardProgramRetrieveParams.none())
+        retrieve(
+            cardProgramToken,
+            CardProgramRetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -36,13 +39,21 @@ interface CardProgramServiceAsync {
         params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<CardProgram> =
-        retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
+        retrieve(
+            params.toBuilder().cardProgramToken(cardProgramToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         cardProgramToken: String,
         params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
-    ): CompletableFuture<CardProgram> = retrieve(cardProgramToken, params, RequestOptions.none())
+    ): CompletableFuture<CardProgram> =
+        retrieve(
+            cardProgramToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -52,14 +63,21 @@ interface CardProgramServiceAsync {
 
     /** @see retrieve */
     fun retrieve(params: CardProgramRetrieveParams): CompletableFuture<CardProgram> =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         cardProgramToken: String,
         requestOptions: RequestOptions,
     ): CompletableFuture<CardProgram> =
-        retrieve(cardProgramToken, CardProgramRetrieveParams.none(), requestOptions)
+        retrieve(
+            cardProgramToken,
+            CardProgramRetrieveParams.none(),
+            requestOptions,
+        )
 
     /** List card programs. */
     fun list(): CompletableFuture<CardProgramListPageAsync> = list(CardProgramListParams.none())
@@ -73,11 +91,18 @@ interface CardProgramServiceAsync {
     /** @see list */
     fun list(
         params: CardProgramListParams = CardProgramListParams.none()
-    ): CompletableFuture<CardProgramListPageAsync> = list(params, RequestOptions.none())
+    ): CompletableFuture<CardProgramListPageAsync> =
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<CardProgramListPageAsync> =
-        list(CardProgramListParams.none(), requestOptions)
+        list(
+            CardProgramListParams.none(),
+            requestOptions,
+        )
 
     /**
      * A view of [CardProgramServiceAsync] that provides access to raw HTTP responses for each
@@ -99,7 +124,10 @@ interface CardProgramServiceAsync {
          * otherwise the same as [CardProgramServiceAsync.retrieve].
          */
         fun retrieve(cardProgramToken: String): CompletableFuture<HttpResponseFor<CardProgram>> =
-            retrieve(cardProgramToken, CardProgramRetrieveParams.none())
+            retrieve(
+                cardProgramToken,
+                CardProgramRetrieveParams.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -107,14 +135,21 @@ interface CardProgramServiceAsync {
             params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<CardProgram>> =
-            retrieve(params.toBuilder().cardProgramToken(cardProgramToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().cardProgramToken(cardProgramToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         fun retrieve(
             cardProgramToken: String,
             params: CardProgramRetrieveParams = CardProgramRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<CardProgram>> =
-            retrieve(cardProgramToken, params, RequestOptions.none())
+            retrieve(
+                cardProgramToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
@@ -125,14 +160,22 @@ interface CardProgramServiceAsync {
         /** @see retrieve */
         fun retrieve(
             params: CardProgramRetrieveParams
-        ): CompletableFuture<HttpResponseFor<CardProgram>> = retrieve(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponseFor<CardProgram>> =
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         fun retrieve(
             cardProgramToken: String,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<CardProgram>> =
-            retrieve(cardProgramToken, CardProgramRetrieveParams.none(), requestOptions)
+            retrieve(
+                cardProgramToken,
+                CardProgramRetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v1/card_programs`, but is otherwise the same as
@@ -151,12 +194,18 @@ interface CardProgramServiceAsync {
         fun list(
             params: CardProgramListParams = CardProgramListParams.none()
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
-            list(params, RequestOptions.none())
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<CardProgramListPageAsync>> =
-            list(CardProgramListParams.none(), requestOptions)
+            list(
+                CardProgramListParams.none(),
+                requestOptions,
+            )
     }
 }

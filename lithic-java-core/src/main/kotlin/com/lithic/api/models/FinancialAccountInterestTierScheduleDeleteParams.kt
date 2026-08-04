@@ -96,7 +96,9 @@ private constructor(
             this.financialAccountToken = financialAccountToken
         }
 
-        fun effectiveDate(effectiveDate: LocalDate?) = apply { this.effectiveDate = effectiveDate }
+        fun effectiveDate(effectiveDate: LocalDate?) = apply {
+            this.effectiveDate = effectiveDate
+        }
 
         /** Alias for calling [Builder.effectiveDate] with `effectiveDate.orElse(null)`. */
         fun effectiveDate(effectiveDate: Optional<LocalDate>) =
@@ -144,7 +146,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -194,7 +198,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -236,7 +242,10 @@ private constructor(
          */
         fun build(): FinancialAccountInterestTierScheduleDeleteParams =
             FinancialAccountInterestTierScheduleDeleteParams(
-                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired(
+                    "financialAccountToken",
+                    financialAccountToken,
+                ),
                 effectiveDate,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

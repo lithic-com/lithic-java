@@ -90,7 +90,9 @@ private constructor(
                 disputeInitiateEvidenceUploadParams.additionalQueryParams.toBuilder()
         }
 
-        fun disputeToken(disputeToken: String?) = apply { this.disputeToken = disputeToken }
+        fun disputeToken(disputeToken: String?) = apply {
+            this.disputeToken = disputeToken
+        }
 
         /** Alias for calling [Builder.disputeToken] with `disputeToken.orElse(null)`. */
         fun disputeToken(disputeToken: Optional<String>) = disputeToken(disputeToken.getOrNull())
@@ -102,10 +104,14 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [filename]
          */
-        fun body(body: Body) = apply { this.body = body.toBuilder() }
+        fun body(body: Body) = apply {
+            this.body = body.toBuilder()
+        }
 
         /** Filename of the evidence. */
-        fun filename(filename: String) = apply { body.filename(filename) }
+        fun filename(filename: String) = apply {
+            body.filename(filename)
+        }
 
         /**
          * Sets [Builder.filename] to an arbitrary JSON value.
@@ -113,14 +119,19 @@ private constructor(
          * You should usually call [Builder.filename] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun filename(filename: JsonField<String>) = apply { body.filename(filename) }
+        fun filename(filename: JsonField<String>) = apply {
+            body.filename(filename)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
+            body.putAdditionalProperty(
+                key,
+                value,
+            )
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
@@ -128,7 +139,9 @@ private constructor(
                 body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+        fun removeAdditionalBodyProperty(key: String) = apply {
+            body.removeAdditionalProperty(key)
+        }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
             body.removeAllAdditionalProperties(keys)
@@ -176,7 +189,9 @@ private constructor(
             this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+        fun removeAdditionalHeaders(name: String) = apply {
+            additionalHeaders.remove(name)
+        }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
             additionalHeaders.removeAll(names)
@@ -226,7 +241,9 @@ private constructor(
                 this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+        fun removeAdditionalQueryParams(key: String) = apply {
+            additionalQueryParams.remove(key)
+        }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
@@ -268,7 +285,10 @@ private constructor(
         @JsonCreator
         private constructor(
             @JsonProperty("filename") @ExcludeMissing filename: JsonField<String> = JsonMissing.of()
-        ) : this(filename, mutableMapOf())
+        ) : this(
+            filename,
+            mutableMapOf(),
+        )
 
         /**
          * Filename of the evidence.
@@ -325,7 +345,9 @@ private constructor(
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun filename(filename: JsonField<String>) = apply { this.filename = filename }
+            fun filename(filename: JsonField<String>) = apply {
+                this.filename = filename
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -340,7 +362,9 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) = apply {
+                additionalProperties.remove(key)
+            }
 
             fun removeAllAdditionalProperties(keys: Set<String>) = apply {
                 keys.forEach(::removeAdditionalProperty)
@@ -351,7 +375,11 @@ private constructor(
              *
              * Further updates to this [Builder] will not mutate the returned instance.
              */
-            fun build(): Body = Body(filename, additionalProperties.toMutableMap())
+            fun build(): Body =
+                Body(
+                    filename,
+                    additionalProperties.toMutableMap(),
+                )
         }
 
         private var validated: Boolean = false

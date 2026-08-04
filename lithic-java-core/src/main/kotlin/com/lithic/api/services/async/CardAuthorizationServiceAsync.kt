@@ -33,7 +33,12 @@ interface CardAuthorizationServiceAsync {
     fun challengeResponse(
         eventToken: String,
         params: CardAuthorizationChallengeResponseParams,
-    ): CompletableFuture<Void?> = challengeResponse(eventToken, params, RequestOptions.none())
+    ): CompletableFuture<Void?> =
+        challengeResponse(
+            eventToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see challengeResponse */
     fun challengeResponse(
@@ -41,12 +46,19 @@ interface CardAuthorizationServiceAsync {
         params: CardAuthorizationChallengeResponseParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?> =
-        challengeResponse(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+        challengeResponse(
+            params.toBuilder().eventToken(eventToken).build(),
+            requestOptions,
+        )
 
     /** @see challengeResponse */
     fun challengeResponse(
         params: CardAuthorizationChallengeResponseParams
-    ): CompletableFuture<Void?> = challengeResponse(params, RequestOptions.none())
+    ): CompletableFuture<Void?> =
+        challengeResponse(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see challengeResponse */
     fun challengeResponse(
@@ -78,7 +90,11 @@ interface CardAuthorizationServiceAsync {
             eventToken: String,
             params: CardAuthorizationChallengeResponseParams,
         ): CompletableFuture<HttpResponse> =
-            challengeResponse(eventToken, params, RequestOptions.none())
+            challengeResponse(
+                eventToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see challengeResponse */
         fun challengeResponse(
@@ -86,12 +102,19 @@ interface CardAuthorizationServiceAsync {
             params: CardAuthorizationChallengeResponseParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse> =
-            challengeResponse(params.toBuilder().eventToken(eventToken).build(), requestOptions)
+            challengeResponse(
+                params.toBuilder().eventToken(eventToken).build(),
+                requestOptions,
+            )
 
         /** @see challengeResponse */
         fun challengeResponse(
             params: CardAuthorizationChallengeResponseParams
-        ): CompletableFuture<HttpResponse> = challengeResponse(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponse> =
+            challengeResponse(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see challengeResponse */
         fun challengeResponse(

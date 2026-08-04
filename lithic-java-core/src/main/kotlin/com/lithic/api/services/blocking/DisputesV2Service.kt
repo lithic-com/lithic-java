@@ -28,20 +28,32 @@ interface DisputesV2Service {
 
     /** Retrieves a specific dispute by its token. */
     fun retrieve(disputeToken: String): DisputeV2 =
-        retrieve(disputeToken, DisputesV2RetrieveParams.none())
+        retrieve(
+            disputeToken,
+            DisputesV2RetrieveParams.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
         disputeToken: String,
         params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): DisputeV2 = retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
+    ): DisputeV2 =
+        retrieve(
+            params.toBuilder().disputeToken(disputeToken).build(),
+            requestOptions,
+        )
 
     /** @see retrieve */
     fun retrieve(
         disputeToken: String,
         params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
-    ): DisputeV2 = retrieve(disputeToken, params, RequestOptions.none())
+    ): DisputeV2 =
+        retrieve(
+            disputeToken,
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(
@@ -51,11 +63,18 @@ interface DisputesV2Service {
 
     /** @see retrieve */
     fun retrieve(params: DisputesV2RetrieveParams): DisputeV2 =
-        retrieve(params, RequestOptions.none())
+        retrieve(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see retrieve */
     fun retrieve(disputeToken: String, requestOptions: RequestOptions): DisputeV2 =
-        retrieve(disputeToken, DisputesV2RetrieveParams.none(), requestOptions)
+        retrieve(
+            disputeToken,
+            DisputesV2RetrieveParams.none(),
+            requestOptions,
+        )
 
     /** Returns a paginated list of disputes. */
     fun list(): DisputesV2ListPage = list(DisputesV2ListParams.none())
@@ -68,11 +87,17 @@ interface DisputesV2Service {
 
     /** @see list */
     fun list(params: DisputesV2ListParams = DisputesV2ListParams.none()): DisputesV2ListPage =
-        list(params, RequestOptions.none())
+        list(
+            params,
+            RequestOptions.none(),
+        )
 
     /** @see list */
     fun list(requestOptions: RequestOptions): DisputesV2ListPage =
-        list(DisputesV2ListParams.none(), requestOptions)
+        list(
+            DisputesV2ListParams.none(),
+            requestOptions,
+        )
 
     /** A view of [DisputesV2Service] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -92,7 +117,10 @@ interface DisputesV2Service {
          */
         @MustBeClosed
         fun retrieve(disputeToken: String): HttpResponseFor<DisputeV2> =
-            retrieve(disputeToken, DisputesV2RetrieveParams.none())
+            retrieve(
+                disputeToken,
+                DisputesV2RetrieveParams.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -101,14 +129,22 @@ interface DisputesV2Service {
             params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DisputeV2> =
-            retrieve(params.toBuilder().disputeToken(disputeToken).build(), requestOptions)
+            retrieve(
+                params.toBuilder().disputeToken(disputeToken).build(),
+                requestOptions,
+            )
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             disputeToken: String,
             params: DisputesV2RetrieveParams = DisputesV2RetrieveParams.none(),
-        ): HttpResponseFor<DisputeV2> = retrieve(disputeToken, params, RequestOptions.none())
+        ): HttpResponseFor<DisputeV2> =
+            retrieve(
+                disputeToken,
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -120,7 +156,10 @@ interface DisputesV2Service {
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: DisputesV2RetrieveParams): HttpResponseFor<DisputeV2> =
-            retrieve(params, RequestOptions.none())
+            retrieve(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see retrieve */
         @MustBeClosed
@@ -128,7 +167,11 @@ interface DisputesV2Service {
             disputeToken: String,
             requestOptions: RequestOptions,
         ): HttpResponseFor<DisputeV2> =
-            retrieve(disputeToken, DisputesV2RetrieveParams.none(), requestOptions)
+            retrieve(
+                disputeToken,
+                DisputesV2RetrieveParams.none(),
+                requestOptions,
+            )
 
         /**
          * Returns a raw HTTP response for `get /v2/disputes`, but is otherwise the same as
@@ -148,11 +191,18 @@ interface DisputesV2Service {
         @MustBeClosed
         fun list(
             params: DisputesV2ListParams = DisputesV2ListParams.none()
-        ): HttpResponseFor<DisputesV2ListPage> = list(params, RequestOptions.none())
+        ): HttpResponseFor<DisputesV2ListPage> =
+            list(
+                params,
+                RequestOptions.none(),
+            )
 
         /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<DisputesV2ListPage> =
-            list(DisputesV2ListParams.none(), requestOptions)
+            list(
+                DisputesV2ListParams.none(),
+                requestOptions,
+            )
     }
 }

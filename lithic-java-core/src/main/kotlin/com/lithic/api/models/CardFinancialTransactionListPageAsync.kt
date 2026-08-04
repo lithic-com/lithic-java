@@ -47,7 +47,10 @@ private constructor(
         service.list(nextPageParams())
 
     fun autoPager(): AutoPagerAsync<FinancialTransaction> =
-        AutoPagerAsync.from(this, streamHandlerExecutor)
+        AutoPagerAsync.from(
+            this,
+            streamHandlerExecutor,
+        )
 
     /** The parameters that were used to request this page. */
     fun params(): CardFinancialTransactionListParams = params
@@ -92,14 +95,18 @@ private constructor(
             response = cardFinancialTransactionListPageAsync.response
         }
 
-        fun service(service: FinancialTransactionServiceAsync) = apply { this.service = service }
+        fun service(service: FinancialTransactionServiceAsync) = apply {
+            this.service = service
+        }
 
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             this.streamHandlerExecutor = streamHandlerExecutor
         }
 
         /** The parameters that were used to request this page. */
-        fun params(params: CardFinancialTransactionListParams) = apply { this.params = params }
+        fun params(params: CardFinancialTransactionListParams) = apply {
+            this.params = params
+        }
 
         /** The response that this page was parsed from. */
         fun response(response: CardFinancialTransactionListPageResponse) = apply {
@@ -123,10 +130,22 @@ private constructor(
          */
         fun build(): CardFinancialTransactionListPageAsync =
             CardFinancialTransactionListPageAsync(
-                checkRequired("service", service),
-                checkRequired("streamHandlerExecutor", streamHandlerExecutor),
-                checkRequired("params", params),
-                checkRequired("response", response),
+                checkRequired(
+                    "service",
+                    service,
+                ),
+                checkRequired(
+                    "streamHandlerExecutor",
+                    streamHandlerExecutor,
+                ),
+                checkRequired(
+                    "params",
+                    params,
+                ),
+                checkRequired(
+                    "response",
+                    response,
+                ),
             )
     }
 

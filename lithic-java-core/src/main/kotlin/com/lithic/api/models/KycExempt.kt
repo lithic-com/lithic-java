@@ -283,7 +283,9 @@ private constructor(
          * You should usually call [Builder.address] with a well-typed [Address] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun address(address: JsonField<Address>) = apply { this.address = address }
+        fun address(address: JsonField<Address>) = apply {
+            this.address = address
+        }
 
         /** The KYC Exempt user's email */
         fun email(email: String) = email(JsonField.of(email))
@@ -294,7 +296,9 @@ private constructor(
          * You should usually call [Builder.email] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun email(email: JsonField<String>) = apply { this.email = email }
+        fun email(email: JsonField<String>) = apply {
+            this.email = email
+        }
 
         /** The KYC Exempt user's first name */
         fun firstName(firstName: String) = firstName(JsonField.of(firstName))
@@ -306,7 +310,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
+        fun firstName(firstName: JsonField<String>) = apply {
+            this.firstName = firstName
+        }
 
         /** Specifies the type of KYC Exempt user */
         fun kycExemptionType(kycExemptionType: KycExemptionType) =
@@ -332,7 +338,9 @@ private constructor(
          * You should usually call [Builder.lastName] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
+        fun lastName(lastName: JsonField<String>) = apply {
+            this.lastName = lastName
+        }
 
         /** The KYC Exempt user's phone number, entered in E.164 format. */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -344,7 +352,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
+        fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+            this.phoneNumber = phoneNumber
+        }
 
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
         fun workflow(workflow: Workflow) = workflow(JsonField.of(workflow))
@@ -356,7 +366,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
+        fun workflow(workflow: JsonField<Workflow>) = apply {
+            this.workflow = workflow
+        }
 
         /**
          * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
@@ -387,7 +399,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+        fun externalId(externalId: JsonField<String>) = apply {
+            this.externalId = externalId
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -402,7 +416,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -428,13 +444,34 @@ private constructor(
          */
         fun build(): KycExempt =
             KycExempt(
-                checkRequired("address", address),
-                checkRequired("email", email),
-                checkRequired("firstName", firstName),
-                checkRequired("kycExemptionType", kycExemptionType),
-                checkRequired("lastName", lastName),
-                checkRequired("phoneNumber", phoneNumber),
-                checkRequired("workflow", workflow),
+                checkRequired(
+                    "address",
+                    address,
+                ),
+                checkRequired(
+                    "email",
+                    email,
+                ),
+                checkRequired(
+                    "firstName",
+                    firstName,
+                ),
+                checkRequired(
+                    "kycExemptionType",
+                    kycExemptionType,
+                ),
+                checkRequired(
+                    "lastName",
+                    lastName,
+                ),
+                checkRequired(
+                    "phoneNumber",
+                    phoneNumber,
+                ),
+                checkRequired(
+                    "workflow",
+                    workflow,
+                ),
                 businessAccountToken,
                 externalId,
                 additionalProperties.toMutableMap(),
@@ -526,9 +563,11 @@ private constructor(
          * An enum containing [KycExemptionType]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [KycExemptionType] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
@@ -661,9 +700,11 @@ private constructor(
          * An enum containing [Workflow]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Workflow] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {

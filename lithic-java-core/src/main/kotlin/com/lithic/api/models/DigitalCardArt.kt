@@ -237,7 +237,9 @@ private constructor(
          * You should usually call [Builder.token] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** Globally unique identifier for the card program. */
         fun cardProgramToken(cardProgramToken: String) =
@@ -264,7 +266,9 @@ private constructor(
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Description of the card art. */
         fun description(description: String) = description(JsonField.of(description))
@@ -276,7 +280,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun description(description: JsonField<String>) = apply { this.description = description }
+        fun description(description: JsonField<String>) = apply {
+            this.description = description
+        }
 
         /** Whether the card art is enabled. */
         fun isEnabled(isEnabled: Boolean) = isEnabled(JsonField.of(isEnabled))
@@ -288,7 +294,9 @@ private constructor(
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun isEnabled(isEnabled: JsonField<Boolean>) = apply { this.isEnabled = isEnabled }
+        fun isEnabled(isEnabled: JsonField<Boolean>) = apply {
+            this.isEnabled = isEnabled
+        }
 
         /** Card network. */
         fun network(network: Network) = network(JsonField.of(network))
@@ -299,7 +307,9 @@ private constructor(
          * You should usually call [Builder.network] with a well-typed [Network] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun network(network: JsonField<Network>) = apply { this.network = network }
+        fun network(network: JsonField<Network>) = apply {
+            this.network = network
+        }
 
         /** Whether the card art is the default card art to be added upon tokenization. */
         fun isCardProgramDefault(isCardProgramDefault: Boolean) =
@@ -329,7 +339,9 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) = apply {
+            additionalProperties.remove(key)
+        }
 
         fun removeAllAdditionalProperties(keys: Set<String>) = apply {
             keys.forEach(::removeAdditionalProperty)
@@ -354,12 +366,30 @@ private constructor(
          */
         fun build(): DigitalCardArt =
             DigitalCardArt(
-                checkRequired("token", token),
-                checkRequired("cardProgramToken", cardProgramToken),
-                checkRequired("created", created),
-                checkRequired("description", description),
-                checkRequired("isEnabled", isEnabled),
-                checkRequired("network", network),
+                checkRequired(
+                    "token",
+                    token,
+                ),
+                checkRequired(
+                    "cardProgramToken",
+                    cardProgramToken,
+                ),
+                checkRequired(
+                    "created",
+                    created,
+                ),
+                checkRequired(
+                    "description",
+                    description,
+                ),
+                checkRequired(
+                    "isEnabled",
+                    isEnabled,
+                ),
+                checkRequired(
+                    "network",
+                    network,
+                ),
                 isCardProgramDefault,
                 additionalProperties.toMutableMap(),
             )
@@ -445,9 +475,11 @@ private constructor(
          * An enum containing [Network]'s known values, as well as an [_UNKNOWN] member.
          *
          * An instance of [Network] can contain an unknown value in a couple of cases:
+         *
          * - It was deserialized from data that doesn't match any known member. For example, if the
          *   SDK is on an older version than the API, then the API may respond with new members that
          *   the SDK is unaware of.
+         *
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
