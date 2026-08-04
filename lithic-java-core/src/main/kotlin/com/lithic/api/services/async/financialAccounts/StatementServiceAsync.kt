@@ -206,8 +206,7 @@ interface StatementServiceAsync {
         /** @see list */
         fun list(
             financialAccountToken: String,
-            params: FinancialAccountStatementListParams =
-                FinancialAccountStatementListParams.none(),
+            params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
         ): CompletableFuture<HttpResponseFor<FinancialAccountStatementListPageAsync>> =
             list(
                 financialAccountToken,

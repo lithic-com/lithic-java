@@ -161,8 +161,7 @@ interface AuthenticationService {
         @MustBeClosed
         fun retrieve(
             threeDSAuthenticationToken: String,
-            params: ThreeDSAuthenticationRetrieveParams =
-                ThreeDSAuthenticationRetrieveParams.none(),
+            params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
         ): HttpResponseFor<ThreeDSAuthentication> =
             retrieve(
                 threeDSAuthenticationToken,

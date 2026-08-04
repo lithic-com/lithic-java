@@ -113,8 +113,7 @@ interface CaseService {
     /** @see update */
     fun update(
         caseToken: String,
-        params: TransactionMonitoringCaseUpdateParams =
-            TransactionMonitoringCaseUpdateParams.none(),
+        params: TransactionMonitoringCaseUpdateParams = TransactionMonitoringCaseUpdateParams.none(),
     ): MonitoringCase =
         update(
             caseToken,

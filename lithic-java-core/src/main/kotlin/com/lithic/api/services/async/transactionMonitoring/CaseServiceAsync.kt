@@ -118,8 +118,7 @@ interface CaseServiceAsync {
     /** @see update */
     fun update(
         caseToken: String,
-        params: TransactionMonitoringCaseUpdateParams =
-            TransactionMonitoringCaseUpdateParams.none(),
+        params: TransactionMonitoringCaseUpdateParams = TransactionMonitoringCaseUpdateParams.none(),
     ): CompletableFuture<MonitoringCase> =
         update(
             caseToken,

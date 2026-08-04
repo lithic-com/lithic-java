@@ -410,8 +410,7 @@ interface SubscriptionServiceAsync {
     /** @see retrieveSecret */
     fun retrieveSecret(
         eventSubscriptionToken: String,
-        params: EventSubscriptionRetrieveSecretParams =
-            EventSubscriptionRetrieveSecretParams.none(),
+        params: EventSubscriptionRetrieveSecretParams = EventSubscriptionRetrieveSecretParams.none(),
     ): CompletableFuture<SubscriptionRetrieveSecretResponse> =
         retrieveSecret(
             eventSubscriptionToken,
@@ -808,8 +807,7 @@ interface SubscriptionServiceAsync {
         /** @see listAttempts */
         fun listAttempts(
             eventSubscriptionToken: String,
-            params: EventSubscriptionListAttemptsParams =
-                EventSubscriptionListAttemptsParams.none(),
+            params: EventSubscriptionListAttemptsParams = EventSubscriptionListAttemptsParams.none(),
         ): CompletableFuture<HttpResponseFor<EventSubscriptionListAttemptsPageAsync>> =
             listAttempts(
                 eventSubscriptionToken,
@@ -1050,8 +1048,7 @@ interface SubscriptionServiceAsync {
         /** @see rotateSecret */
         fun rotateSecret(
             eventSubscriptionToken: String,
-            params: EventSubscriptionRotateSecretParams =
-                EventSubscriptionRotateSecretParams.none(),
+            params: EventSubscriptionRotateSecretParams = EventSubscriptionRotateSecretParams.none(),
         ): CompletableFuture<HttpResponse> =
             rotateSecret(
                 eventSubscriptionToken,

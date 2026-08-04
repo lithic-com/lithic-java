@@ -203,8 +203,7 @@ interface StatementService {
         @MustBeClosed
         fun list(
             financialAccountToken: String,
-            params: FinancialAccountStatementListParams =
-                FinancialAccountStatementListParams.none(),
+            params: FinancialAccountStatementListParams = FinancialAccountStatementListParams.none(),
         ): HttpResponseFor<FinancialAccountStatementListPage> =
             list(
                 financialAccountToken,
