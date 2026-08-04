@@ -34,6 +34,7 @@ private constructor(
     private val updated: JsonField<OffsetDateTime>,
     private val userDefinedStatus: JsonField<String>,
     private val accountNumber: JsonField<String>,
+    private val blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses>,
     private val routingNumber: JsonField<String>,
     private val eventType: JsonField<EventType>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -74,6 +75,9 @@ private constructor(
         @JsonProperty("account_number")
         @ExcludeMissing
         accountNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("blockchain_addresses")
+        @ExcludeMissing
+        blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses> = JsonMissing.of(),
         @JsonProperty("routing_number")
         @ExcludeMissing
         routingNumber: JsonField<String> = JsonMissing.of(),
@@ -93,6 +97,7 @@ private constructor(
         updated,
         userDefinedStatus,
         accountNumber,
+        blockchainAddresses,
         routingNumber,
         eventType,
         mutableMapOf(),
@@ -112,6 +117,7 @@ private constructor(
             .updated(updated)
             .userDefinedStatus(userDefinedStatus)
             .accountNumber(accountNumber)
+            .blockchainAddresses(blockchainAddresses)
             .routingNumber(routingNumber)
             .build()
 
@@ -198,6 +204,16 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun accountNumber(): Optional<String> = accountNumber.getOptional("account_number")
+
+    /**
+     * Provisioned blockchain deposit addresses for this financial account, keyed by the blockchain
+     * network that each address belongs to
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun blockchainAddresses(): Optional<FinancialAccount.BlockchainAddresses> =
+        blockchainAddresses.getOptional("blockchain_addresses")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -315,6 +331,17 @@ private constructor(
     fun _accountNumber(): JsonField<String> = accountNumber
 
     /**
+     * Returns the raw JSON value of [blockchainAddresses].
+     *
+     * Unlike [blockchainAddresses], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("blockchain_addresses")
+    @ExcludeMissing
+    fun _blockchainAddresses(): JsonField<FinancialAccount.BlockchainAddresses> =
+        blockchainAddresses
+
+    /**
      * Returns the raw JSON value of [routingNumber].
      *
      * Unlike [routingNumber], this method doesn't throw if the JSON field has an unexpected type.
@@ -383,6 +410,8 @@ private constructor(
         private var updated: JsonField<OffsetDateTime>? = null
         private var userDefinedStatus: JsonField<String>? = null
         private var accountNumber: JsonField<String> = JsonMissing.of()
+        private var blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses> =
+            JsonMissing.of()
         private var routingNumber: JsonField<String> = JsonMissing.of()
         private var eventType: JsonField<EventType>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -403,6 +432,7 @@ private constructor(
             updated = financialAccountUpdatedWebhookEvent.updated
             userDefinedStatus = financialAccountUpdatedWebhookEvent.userDefinedStatus
             accountNumber = financialAccountUpdatedWebhookEvent.accountNumber
+            blockchainAddresses = financialAccountUpdatedWebhookEvent.blockchainAddresses
             routingNumber = financialAccountUpdatedWebhookEvent.routingNumber
             eventType = financialAccountUpdatedWebhookEvent.eventType
             additionalProperties =
@@ -588,6 +618,31 @@ private constructor(
             this.accountNumber = accountNumber
         }
 
+        /**
+         * Provisioned blockchain deposit addresses for this financial account, keyed by the
+         * blockchain network that each address belongs to
+         */
+        fun blockchainAddresses(blockchainAddresses: FinancialAccount.BlockchainAddresses?) =
+            blockchainAddresses(JsonField.ofNullable(blockchainAddresses))
+
+        /**
+         * Alias for calling [Builder.blockchainAddresses] with `blockchainAddresses.orElse(null)`.
+         */
+        fun blockchainAddresses(
+            blockchainAddresses: Optional<FinancialAccount.BlockchainAddresses>
+        ) = blockchainAddresses(blockchainAddresses.getOrNull())
+
+        /**
+         * Sets [Builder.blockchainAddresses] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.blockchainAddresses] with a well-typed
+         * [FinancialAccount.BlockchainAddresses] value instead. This method is primarily for
+         * setting the field to an undocumented or not yet supported value.
+         */
+        fun blockchainAddresses(
+            blockchainAddresses: JsonField<FinancialAccount.BlockchainAddresses>
+        ) = apply { this.blockchainAddresses = blockchainAddresses }
+
         fun routingNumber(routingNumber: String?) =
             routingNumber(JsonField.ofNullable(routingNumber))
 
@@ -674,6 +729,7 @@ private constructor(
                 checkRequired("updated", updated),
                 checkRequired("userDefinedStatus", userDefinedStatus),
                 accountNumber,
+                blockchainAddresses,
                 routingNumber,
                 checkRequired("eventType", eventType),
                 additionalProperties.toMutableMap(),
@@ -707,6 +763,7 @@ private constructor(
         updated()
         userDefinedStatus()
         accountNumber()
+        blockchainAddresses().ifPresent { it.validate() }
         routingNumber()
         eventType().validate()
         validated = true
@@ -739,6 +796,7 @@ private constructor(
             (if (updated.asKnown().isPresent) 1 else 0) +
             (if (userDefinedStatus.asKnown().isPresent) 1 else 0) +
             (if (accountNumber.asKnown().isPresent) 1 else 0) +
+            (blockchainAddresses.asKnown().getOrNull()?.validity() ?: 0) +
             (if (routingNumber.asKnown().isPresent) 1 else 0) +
             (eventType.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -891,6 +949,7 @@ private constructor(
             updated == other.updated &&
             userDefinedStatus == other.userDefinedStatus &&
             accountNumber == other.accountNumber &&
+            blockchainAddresses == other.blockchainAddresses &&
             routingNumber == other.routingNumber &&
             eventType == other.eventType &&
             additionalProperties == other.additionalProperties
@@ -910,6 +969,7 @@ private constructor(
             updated,
             userDefinedStatus,
             accountNumber,
+            blockchainAddresses,
             routingNumber,
             eventType,
             additionalProperties,
@@ -919,5 +979,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "FinancialAccountUpdatedWebhookEvent{token=$token, accountToken=$accountToken, created=$created, creditConfiguration=$creditConfiguration, isForBenefitOf=$isForBenefitOf, nickname=$nickname, status=$status, substatus=$substatus, type=$type, updated=$updated, userDefinedStatus=$userDefinedStatus, accountNumber=$accountNumber, routingNumber=$routingNumber, eventType=$eventType, additionalProperties=$additionalProperties}"
+        "FinancialAccountUpdatedWebhookEvent{token=$token, accountToken=$accountToken, created=$created, creditConfiguration=$creditConfiguration, isForBenefitOf=$isForBenefitOf, nickname=$nickname, status=$status, substatus=$substatus, type=$type, updated=$updated, userDefinedStatus=$userDefinedStatus, accountNumber=$accountNumber, blockchainAddresses=$blockchainAddresses, routingNumber=$routingNumber, eventType=$eventType, additionalProperties=$additionalProperties}"
 }
