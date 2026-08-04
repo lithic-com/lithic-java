@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.checkRequired
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Collections
@@ -34,6 +35,7 @@ private constructor(
     private val updated: JsonField<OffsetDateTime>,
     private val userDefinedStatus: JsonField<String>,
     private val accountNumber: JsonField<String>,
+    private val blockchainAddresses: JsonField<BlockchainAddresses>,
     private val routingNumber: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -70,6 +72,9 @@ private constructor(
         @JsonProperty("account_number")
         @ExcludeMissing
         accountNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("blockchain_addresses")
+        @ExcludeMissing
+        blockchainAddresses: JsonField<BlockchainAddresses> = JsonMissing.of(),
         @JsonProperty("routing_number")
         @ExcludeMissing
         routingNumber: JsonField<String> = JsonMissing.of(),
@@ -86,6 +91,7 @@ private constructor(
         updated,
         userDefinedStatus,
         accountNumber,
+        blockchainAddresses,
         routingNumber,
         mutableMapOf(),
     )
@@ -172,6 +178,16 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun accountNumber(): Optional<String> = accountNumber.getOptional("account_number")
+
+    /**
+     * Provisioned blockchain deposit addresses for this financial account, keyed by the blockchain
+     * network that each address belongs to
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun blockchainAddresses(): Optional<BlockchainAddresses> =
+        blockchainAddresses.getOptional("blockchain_addresses")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -280,6 +296,16 @@ private constructor(
     fun _accountNumber(): JsonField<String> = accountNumber
 
     /**
+     * Returns the raw JSON value of [blockchainAddresses].
+     *
+     * Unlike [blockchainAddresses], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("blockchain_addresses")
+    @ExcludeMissing
+    fun _blockchainAddresses(): JsonField<BlockchainAddresses> = blockchainAddresses
+
+    /**
      * Returns the raw JSON value of [routingNumber].
      *
      * Unlike [routingNumber], this method doesn't throw if the JSON field has an unexpected type.
@@ -338,6 +364,7 @@ private constructor(
         private var updated: JsonField<OffsetDateTime>? = null
         private var userDefinedStatus: JsonField<String>? = null
         private var accountNumber: JsonField<String> = JsonMissing.of()
+        private var blockchainAddresses: JsonField<BlockchainAddresses> = JsonMissing.of()
         private var routingNumber: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -355,6 +382,7 @@ private constructor(
             updated = financialAccount.updated
             userDefinedStatus = financialAccount.userDefinedStatus
             accountNumber = financialAccount.accountNumber
+            blockchainAddresses = financialAccount.blockchainAddresses
             routingNumber = financialAccount.routingNumber
             additionalProperties = financialAccount.additionalProperties.toMutableMap()
         }
@@ -534,6 +562,30 @@ private constructor(
             this.accountNumber = accountNumber
         }
 
+        /**
+         * Provisioned blockchain deposit addresses for this financial account, keyed by the
+         * blockchain network that each address belongs to
+         */
+        fun blockchainAddresses(blockchainAddresses: BlockchainAddresses?) =
+            blockchainAddresses(JsonField.ofNullable(blockchainAddresses))
+
+        /**
+         * Alias for calling [Builder.blockchainAddresses] with `blockchainAddresses.orElse(null)`.
+         */
+        fun blockchainAddresses(blockchainAddresses: Optional<BlockchainAddresses>) =
+            blockchainAddresses(blockchainAddresses.getOrNull())
+
+        /**
+         * Sets [Builder.blockchainAddresses] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.blockchainAddresses] with a well-typed
+         * [BlockchainAddresses] value instead. This method is primarily for setting the field to an
+         * undocumented or not yet supported value.
+         */
+        fun blockchainAddresses(blockchainAddresses: JsonField<BlockchainAddresses>) = apply {
+            this.blockchainAddresses = blockchainAddresses
+        }
+
         fun routingNumber(routingNumber: String?) =
             routingNumber(JsonField.ofNullable(routingNumber))
 
@@ -607,6 +659,7 @@ private constructor(
                 checkRequired("updated", updated),
                 checkRequired("userDefinedStatus", userDefinedStatus),
                 accountNumber,
+                blockchainAddresses,
                 routingNumber,
                 additionalProperties.toMutableMap(),
             )
@@ -639,6 +692,7 @@ private constructor(
         updated()
         userDefinedStatus()
         accountNumber()
+        blockchainAddresses().ifPresent { it.validate() }
         routingNumber()
         validated = true
     }
@@ -670,6 +724,7 @@ private constructor(
             (if (updated.asKnown().isPresent) 1 else 0) +
             (if (userDefinedStatus.asKnown().isPresent) 1 else 0) +
             (if (accountNumber.asKnown().isPresent) 1 else 0) +
+            (blockchainAddresses.asKnown().getOrNull()?.validity() ?: 0) +
             (if (routingNumber.asKnown().isPresent) 1 else 0)
 
     class FinancialAccountCreditConfig
@@ -1776,6 +1831,120 @@ private constructor(
         override fun toString() = value.toString()
     }
 
+    /**
+     * Provisioned blockchain deposit addresses for this financial account, keyed by the blockchain
+     * network that each address belongs to
+     */
+    class BlockchainAddresses
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [BlockchainAddresses]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [BlockchainAddresses]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(blockchainAddresses: BlockchainAddresses) = apply {
+                additionalProperties = blockchainAddresses.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [BlockchainAddresses].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): BlockchainAddresses =
+                BlockchainAddresses(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LithicInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): BlockchainAddresses = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is BlockchainAddresses &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "BlockchainAddresses{additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -1794,6 +1963,7 @@ private constructor(
             updated == other.updated &&
             userDefinedStatus == other.userDefinedStatus &&
             accountNumber == other.accountNumber &&
+            blockchainAddresses == other.blockchainAddresses &&
             routingNumber == other.routingNumber &&
             additionalProperties == other.additionalProperties
     }
@@ -1812,6 +1982,7 @@ private constructor(
             updated,
             userDefinedStatus,
             accountNumber,
+            blockchainAddresses,
             routingNumber,
             additionalProperties,
         )
@@ -1820,5 +1991,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "FinancialAccount{token=$token, accountToken=$accountToken, created=$created, creditConfiguration=$creditConfiguration, isForBenefitOf=$isForBenefitOf, nickname=$nickname, status=$status, substatus=$substatus, type=$type, updated=$updated, userDefinedStatus=$userDefinedStatus, accountNumber=$accountNumber, routingNumber=$routingNumber, additionalProperties=$additionalProperties}"
+        "FinancialAccount{token=$token, accountToken=$accountToken, created=$created, creditConfiguration=$creditConfiguration, isForBenefitOf=$isForBenefitOf, nickname=$nickname, status=$status, substatus=$substatus, type=$type, updated=$updated, userDefinedStatus=$userDefinedStatus, accountNumber=$accountNumber, blockchainAddresses=$blockchainAddresses, routingNumber=$routingNumber, additionalProperties=$additionalProperties}"
 }

@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -40,6 +41,14 @@ internal class FinancialAccountTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedStatus("user_defined_status")
                 .accountNumber("account_number")
+                .blockchainAddresses(
+                    FinancialAccount.BlockchainAddresses.builder()
+                        .putAdditionalProperty(
+                            "ETH",
+                            JsonValue.from("0x5f2b9e8a1c4d7f0e3a6b9c2d5e8f1a4b7c0d3e6f"),
+                        )
+                        .build()
+                )
                 .routingNumber("routing_number")
                 .build()
 
@@ -74,6 +83,15 @@ internal class FinancialAccountTest {
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(financialAccount.userDefinedStatus()).contains("user_defined_status")
         assertThat(financialAccount.accountNumber()).contains("account_number")
+        assertThat(financialAccount.blockchainAddresses())
+            .contains(
+                FinancialAccount.BlockchainAddresses.builder()
+                    .putAdditionalProperty(
+                        "ETH",
+                        JsonValue.from("0x5f2b9e8a1c4d7f0e3a6b9c2d5e8f1a4b7c0d3e6f"),
+                    )
+                    .build()
+            )
         assertThat(financialAccount.routingNumber()).contains("routing_number")
     }
 
@@ -108,6 +126,14 @@ internal class FinancialAccountTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedStatus("user_defined_status")
                 .accountNumber("account_number")
+                .blockchainAddresses(
+                    FinancialAccount.BlockchainAddresses.builder()
+                        .putAdditionalProperty(
+                            "ETH",
+                            JsonValue.from("0x5f2b9e8a1c4d7f0e3a6b9c2d5e8f1a4b7c0d3e6f"),
+                        )
+                        .build()
+                )
                 .routingNumber("routing_number")
                 .build()
 
