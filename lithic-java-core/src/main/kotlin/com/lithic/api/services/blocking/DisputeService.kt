@@ -718,7 +718,8 @@ interface DisputeService {
         @MustBeClosed
         fun initiateEvidenceUpload(
             disputeToken: String,
-            params: DisputeInitiateEvidenceUploadParams = DisputeInitiateEvidenceUploadParams.none(),
+            params: DisputeInitiateEvidenceUploadParams =
+                DisputeInitiateEvidenceUploadParams.none(),
         ): HttpResponseFor<DisputeEvidence> =
             initiateEvidenceUpload(
                 disputeToken,

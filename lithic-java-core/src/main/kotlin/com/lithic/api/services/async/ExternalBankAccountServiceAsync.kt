@@ -411,7 +411,8 @@ interface ExternalBankAccountServiceAsync {
     /** @see retryPrenote */
     fun retryPrenote(
         externalBankAccountToken: String,
-        params: ExternalBankAccountRetryPrenoteParams = ExternalBankAccountRetryPrenoteParams.none(),
+        params: ExternalBankAccountRetryPrenoteParams =
+            ExternalBankAccountRetryPrenoteParams.none(),
     ): CompletableFuture<ExternalBankAccount> =
         retryPrenote(
             externalBankAccountToken,

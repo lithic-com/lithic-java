@@ -396,7 +396,8 @@ interface SubscriptionService {
     /** @see retrieveSecret */
     fun retrieveSecret(
         eventSubscriptionToken: String,
-        params: EventSubscriptionRetrieveSecretParams = EventSubscriptionRetrieveSecretParams.none(),
+        params: EventSubscriptionRetrieveSecretParams =
+            EventSubscriptionRetrieveSecretParams.none(),
     ): SubscriptionRetrieveSecretResponse =
         retrieveSecret(
             eventSubscriptionToken,
@@ -796,7 +797,8 @@ interface SubscriptionService {
         @MustBeClosed
         fun listAttempts(
             eventSubscriptionToken: String,
-            params: EventSubscriptionListAttemptsParams = EventSubscriptionListAttemptsParams.none(),
+            params: EventSubscriptionListAttemptsParams =
+                EventSubscriptionListAttemptsParams.none(),
         ): HttpResponseFor<EventSubscriptionListAttemptsPage> =
             listAttempts(
                 eventSubscriptionToken,
@@ -1056,7 +1058,8 @@ interface SubscriptionService {
         @MustBeClosed
         fun rotateSecret(
             eventSubscriptionToken: String,
-            params: EventSubscriptionRotateSecretParams = EventSubscriptionRotateSecretParams.none(),
+            params: EventSubscriptionRotateSecretParams =
+                EventSubscriptionRotateSecretParams.none(),
         ): HttpResponse =
             rotateSecret(
                 eventSubscriptionToken,

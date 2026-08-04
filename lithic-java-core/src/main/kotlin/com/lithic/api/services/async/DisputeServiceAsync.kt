@@ -713,7 +713,8 @@ interface DisputeServiceAsync {
         /** @see initiateEvidenceUpload */
         fun initiateEvidenceUpload(
             disputeToken: String,
-            params: DisputeInitiateEvidenceUploadParams = DisputeInitiateEvidenceUploadParams.none(),
+            params: DisputeInitiateEvidenceUploadParams =
+                DisputeInitiateEvidenceUploadParams.none(),
         ): CompletableFuture<HttpResponseFor<DisputeEvidence>> =
             initiateEvidenceUpload(
                 disputeToken,

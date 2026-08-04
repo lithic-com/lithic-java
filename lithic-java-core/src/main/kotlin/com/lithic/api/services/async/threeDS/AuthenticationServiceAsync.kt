@@ -167,7 +167,8 @@ interface AuthenticationServiceAsync {
         /** @see retrieve */
         fun retrieve(
             threeDSAuthenticationToken: String,
-            params: ThreeDSAuthenticationRetrieveParams = ThreeDSAuthenticationRetrieveParams.none(),
+            params: ThreeDSAuthenticationRetrieveParams =
+                ThreeDSAuthenticationRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<ThreeDSAuthentication>> =
             retrieve(
                 threeDSAuthenticationToken,
