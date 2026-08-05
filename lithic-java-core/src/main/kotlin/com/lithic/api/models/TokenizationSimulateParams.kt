@@ -33,7 +33,7 @@ private constructor(
 ) : Params {
 
     /**
-     * The three digit cvv for the card.
+     * The three or four digit CVV for the card. AMEX cards use four digit CVVs.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -213,7 +213,7 @@ private constructor(
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** The three digit cvv for the card. */
+        /** The three or four digit CVV for the card. AMEX cards use four digit CVVs. */
         fun cvv(cvv: String) = apply { body.cvv(cvv) }
 
         /**
@@ -519,7 +519,7 @@ private constructor(
         )
 
         /**
-         * The three digit cvv for the card.
+         * The three or four digit CVV for the card. AMEX cards use four digit CVVs.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -713,7 +713,7 @@ private constructor(
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** The three digit cvv for the card. */
+            /** The three or four digit CVV for the card. AMEX cards use four digit CVVs. */
             fun cvv(cvv: String) = cvv(JsonField.of(cvv))
 
             /**
