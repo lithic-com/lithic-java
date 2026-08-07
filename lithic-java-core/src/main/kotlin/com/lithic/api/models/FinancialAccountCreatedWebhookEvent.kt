@@ -206,8 +206,8 @@ private constructor(
     fun accountNumber(): Optional<String> = accountNumber.getOptional("account_number")
 
     /**
-     * Provisioned blockchain deposit addresses for this financial account, keyed by the blockchain
-     * network that each address belongs to
+     * Provisioned blockchain deposit addresses for this financial account, keyed by the full name
+     * of the blockchain network that each address belongs to (e.g. `ETHEREUM`)
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -619,8 +619,8 @@ private constructor(
         }
 
         /**
-         * Provisioned blockchain deposit addresses for this financial account, keyed by the
-         * blockchain network that each address belongs to
+         * Provisioned blockchain deposit addresses for this financial account, keyed by the full
+         * name of the blockchain network that each address belongs to (e.g. `ETHEREUM`)
          */
         fun blockchainAddresses(blockchainAddresses: FinancialAccount.BlockchainAddresses?) =
             blockchainAddresses(JsonField.ofNullable(blockchainAddresses))
