@@ -1645,8 +1645,16 @@ private constructor(
          * Stablecoin events:
          * * `STABLECOIN_RECEIVED` - Stablecoin pay-in received on-chain and pending release to
          *   available balance.
-         * * `STABLECOIN_REVIEWED` - Stablecoin pay-in has completed the review process.
-         * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance.
+         * * `STABLECOIN_INITIATED` - Stablecoin withdrawal initiated, with the funds placed on
+         *   hold.
+         * * `STABLECOIN_REVIEWED` - Stablecoin pay-in or withdrawal has completed the review
+         *   process.
+         * * `STABLECOIN_SENT` - Stablecoin withdrawal accepted for on-chain submission to the
+         *   destination address, and pending confirmation.
+         * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance, or
+         *   stablecoin withdrawal confirmed on-chain.
+         * * `STABLECOIN_REJECTED` - Stablecoin withdrawal failed and the hold placed at initiation
+         *   has been reversed.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -1664,7 +1672,9 @@ private constructor(
 
         /**
          * Payment event external ID. For ACH transactions, this is the ACH trace number. For
-         * inbound wire transfers, this is the IMAD (Input Message Accountability Data).
+         * inbound wire transfers, this is the IMAD (Input Message Accountability Data). For
+         * stablecoin payments, this is the on-chain transaction hash of the transfer; it is present
+         * on events that reflect on-chain activity and null on internal lifecycle events.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -1885,8 +1895,16 @@ private constructor(
              * Stablecoin events:
              * * `STABLECOIN_RECEIVED` - Stablecoin pay-in received on-chain and pending release to
              *   available balance.
-             * * `STABLECOIN_REVIEWED` - Stablecoin pay-in has completed the review process.
-             * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance.
+             * * `STABLECOIN_INITIATED` - Stablecoin withdrawal initiated, with the funds placed on
+             *   hold.
+             * * `STABLECOIN_REVIEWED` - Stablecoin pay-in or withdrawal has completed the review
+             *   process.
+             * * `STABLECOIN_SENT` - Stablecoin withdrawal accepted for on-chain submission to the
+             *   destination address, and pending confirmation.
+             * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance, or
+             *   stablecoin withdrawal confirmed on-chain.
+             * * `STABLECOIN_REJECTED` - Stablecoin withdrawal failed and the hold placed at
+             *   initiation has been reversed.
              */
             fun type(type: PaymentEventType) = type(JsonField.of(type))
 
@@ -1928,7 +1946,10 @@ private constructor(
 
             /**
              * Payment event external ID. For ACH transactions, this is the ACH trace number. For
-             * inbound wire transfers, this is the IMAD (Input Message Accountability Data).
+             * inbound wire transfers, this is the IMAD (Input Message Accountability Data). For
+             * stablecoin payments, this is the on-chain transaction hash of the transfer; it is
+             * present on events that reflect on-chain activity and null on internal lifecycle
+             * events.
              */
             fun externalId(externalId: String?) = externalId(JsonField.ofNullable(externalId))
 
@@ -2237,8 +2258,16 @@ private constructor(
          * Stablecoin events:
          * * `STABLECOIN_RECEIVED` - Stablecoin pay-in received on-chain and pending release to
          *   available balance.
-         * * `STABLECOIN_REVIEWED` - Stablecoin pay-in has completed the review process.
-         * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance.
+         * * `STABLECOIN_INITIATED` - Stablecoin withdrawal initiated, with the funds placed on
+         *   hold.
+         * * `STABLECOIN_REVIEWED` - Stablecoin pay-in or withdrawal has completed the review
+         *   process.
+         * * `STABLECOIN_SENT` - Stablecoin withdrawal accepted for on-chain submission to the
+         *   destination address, and pending confirmation.
+         * * `STABLECOIN_SETTLED` - Stablecoin pay-in funds released to available balance, or
+         *   stablecoin withdrawal confirmed on-chain.
+         * * `STABLECOIN_REJECTED` - Stablecoin withdrawal failed and the hold placed at initiation
+         *   has been reversed.
          */
         class PaymentEventType
         @JsonCreator
@@ -2302,9 +2331,15 @@ private constructor(
 
                 @JvmField val STABLECOIN_RECEIVED = of("STABLECOIN_RECEIVED")
 
+                @JvmField val STABLECOIN_INITIATED = of("STABLECOIN_INITIATED")
+
                 @JvmField val STABLECOIN_REVIEWED = of("STABLECOIN_REVIEWED")
 
+                @JvmField val STABLECOIN_SENT = of("STABLECOIN_SENT")
+
                 @JvmField val STABLECOIN_SETTLED = of("STABLECOIN_SETTLED")
+
+                @JvmField val STABLECOIN_REJECTED = of("STABLECOIN_REJECTED")
 
                 @JvmStatic fun of(value: String) = PaymentEventType(JsonField.of(value))
             }
@@ -2334,8 +2369,11 @@ private constructor(
                 WIRE_RETURN_OUTBOUND_SETTLED,
                 WIRE_RETURN_OUTBOUND_REJECTED,
                 STABLECOIN_RECEIVED,
+                STABLECOIN_INITIATED,
                 STABLECOIN_REVIEWED,
+                STABLECOIN_SENT,
                 STABLECOIN_SETTLED,
+                STABLECOIN_REJECTED,
             }
 
             /**
@@ -2372,8 +2410,11 @@ private constructor(
                 WIRE_RETURN_OUTBOUND_SETTLED,
                 WIRE_RETURN_OUTBOUND_REJECTED,
                 STABLECOIN_RECEIVED,
+                STABLECOIN_INITIATED,
                 STABLECOIN_REVIEWED,
+                STABLECOIN_SENT,
                 STABLECOIN_SETTLED,
+                STABLECOIN_REJECTED,
                 /**
                  * An enum member indicating that [PaymentEventType] was instantiated with an
                  * unknown value.
@@ -2413,8 +2454,11 @@ private constructor(
                     WIRE_RETURN_OUTBOUND_SETTLED -> Value.WIRE_RETURN_OUTBOUND_SETTLED
                     WIRE_RETURN_OUTBOUND_REJECTED -> Value.WIRE_RETURN_OUTBOUND_REJECTED
                     STABLECOIN_RECEIVED -> Value.STABLECOIN_RECEIVED
+                    STABLECOIN_INITIATED -> Value.STABLECOIN_INITIATED
                     STABLECOIN_REVIEWED -> Value.STABLECOIN_REVIEWED
+                    STABLECOIN_SENT -> Value.STABLECOIN_SENT
                     STABLECOIN_SETTLED -> Value.STABLECOIN_SETTLED
+                    STABLECOIN_REJECTED -> Value.STABLECOIN_REJECTED
                     else -> Value._UNKNOWN
                 }
 
@@ -2452,8 +2496,11 @@ private constructor(
                     WIRE_RETURN_OUTBOUND_SETTLED -> Known.WIRE_RETURN_OUTBOUND_SETTLED
                     WIRE_RETURN_OUTBOUND_REJECTED -> Known.WIRE_RETURN_OUTBOUND_REJECTED
                     STABLECOIN_RECEIVED -> Known.STABLECOIN_RECEIVED
+                    STABLECOIN_INITIATED -> Known.STABLECOIN_INITIATED
                     STABLECOIN_REVIEWED -> Known.STABLECOIN_REVIEWED
+                    STABLECOIN_SENT -> Known.STABLECOIN_SENT
                     STABLECOIN_SETTLED -> Known.STABLECOIN_SETTLED
+                    STABLECOIN_REJECTED -> Known.STABLECOIN_REJECTED
                     else -> throw LithicInvalidDataException("Unknown PaymentEventType: $value")
                 }
 

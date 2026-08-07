@@ -44,7 +44,7 @@ internal class FinancialAccountUpdatedWebhookEventTest {
                 .blockchainAddresses(
                     FinancialAccount.BlockchainAddresses.builder()
                         .putAdditionalProperty(
-                            "ETH",
+                            "ETHEREUM",
                             JsonValue.from("0x5f2b9e8a1c4d7f0e3a6b9c2d5e8f1a4b7c0d3e6f"),
                         )
                         .build()
@@ -92,7 +92,7 @@ internal class FinancialAccountUpdatedWebhookEventTest {
             .contains(
                 FinancialAccount.BlockchainAddresses.builder()
                     .putAdditionalProperty(
-                        "ETH",
+                        "ETHEREUM",
                         JsonValue.from("0x5f2b9e8a1c4d7f0e3a6b9c2d5e8f1a4b7c0d3e6f"),
                     )
                     .build()
@@ -136,7 +136,7 @@ internal class FinancialAccountUpdatedWebhookEventTest {
                 .blockchainAddresses(
                     FinancialAccount.BlockchainAddresses.builder()
                         .putAdditionalProperty(
-                            "ETH",
+                            "ETHEREUM",
                             JsonValue.from("0x5f2b9e8a1c4d7f0e3a6b9c2d5e8f1a4b7c0d3e6f"),
                         )
                         .build()
