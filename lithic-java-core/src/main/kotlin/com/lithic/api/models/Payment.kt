@@ -5465,6 +5465,8 @@ private constructor(
 
             @JvmField val WIRE_INBOUND_DRAWDOWN_REQUEST = of("WIRE_INBOUND_DRAWDOWN_REQUEST")
 
+            @JvmField val STABLECOIN = of("STABLECOIN")
+
             @JvmStatic fun of(value: String) = TransferType(JsonField.of(value))
         }
 
@@ -5479,6 +5481,7 @@ private constructor(
             WIRE_OUTBOUND_PAYMENT,
             WIRE_OUTBOUND_ADMIN,
             WIRE_INBOUND_DRAWDOWN_REQUEST,
+            STABLECOIN,
         }
 
         /**
@@ -5500,6 +5503,7 @@ private constructor(
             WIRE_OUTBOUND_PAYMENT,
             WIRE_OUTBOUND_ADMIN,
             WIRE_INBOUND_DRAWDOWN_REQUEST,
+            STABLECOIN,
             /**
              * An enum member indicating that [TransferType] was instantiated with an unknown value.
              */
@@ -5524,6 +5528,7 @@ private constructor(
                 WIRE_OUTBOUND_PAYMENT -> Value.WIRE_OUTBOUND_PAYMENT
                 WIRE_OUTBOUND_ADMIN -> Value.WIRE_OUTBOUND_ADMIN
                 WIRE_INBOUND_DRAWDOWN_REQUEST -> Value.WIRE_INBOUND_DRAWDOWN_REQUEST
+                STABLECOIN -> Value.STABLECOIN
                 else -> Value._UNKNOWN
             }
 
@@ -5547,6 +5552,7 @@ private constructor(
                 WIRE_OUTBOUND_PAYMENT -> Known.WIRE_OUTBOUND_PAYMENT
                 WIRE_OUTBOUND_ADMIN -> Known.WIRE_OUTBOUND_ADMIN
                 WIRE_INBOUND_DRAWDOWN_REQUEST -> Known.WIRE_INBOUND_DRAWDOWN_REQUEST
+                STABLECOIN -> Known.STABLECOIN
                 else -> throw LithicInvalidDataException("Unknown TransferType: $value")
             }
 
