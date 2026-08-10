@@ -62,7 +62,11 @@ private constructor(
      */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
-    /** Only return cases associated with the provided entity. */
+    /**
+     * Only return cases associated with the provided entity. Accepts a card, account, or financial
+     * account token. Cases with a `PROGRAM` entity have no entity token and are never returned by
+     * this filter.
+     */
     fun entityToken(): Optional<String> = Optional.ofNullable(entityToken)
 
     /** Page size (for pagination). */
@@ -199,7 +203,11 @@ private constructor(
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
 
-        /** Only return cases associated with the provided entity. */
+        /**
+         * Only return cases associated with the provided entity. Accepts a card, account, or
+         * financial account token. Cases with a `PROGRAM` entity have no entity token and are never
+         * returned by this filter.
+         */
         fun entityToken(entityToken: String?) = apply { this.entityToken = entityToken }
 
         /** Alias for calling [Builder.entityToken] with `entityToken.orElse(null)`. */
