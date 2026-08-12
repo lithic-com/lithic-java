@@ -14,6 +14,7 @@ import com.lithic.api.services.blocking.AccountService
 import com.lithic.api.services.blocking.AuthRuleService
 import com.lithic.api.services.blocking.AuthStreamEnrollmentService
 import com.lithic.api.services.blocking.BalanceService
+import com.lithic.api.services.blocking.BlockchainRecipientService
 import com.lithic.api.services.blocking.BookTransferService
 import com.lithic.api.services.blocking.CardAuthorizationService
 import com.lithic.api.services.blocking.CardBulkOrderService
@@ -119,6 +120,8 @@ interface LithicClient {
     fun responderEndpoints(): ResponderEndpointService
 
     fun externalBankAccounts(): ExternalBankAccountService
+
+    fun blockchainRecipients(): BlockchainRecipientService
 
     fun payments(): PaymentService
 
@@ -231,6 +234,8 @@ interface LithicClient {
         fun responderEndpoints(): ResponderEndpointService.WithRawResponse
 
         fun externalBankAccounts(): ExternalBankAccountService.WithRawResponse
+
+        fun blockchainRecipients(): BlockchainRecipientService.WithRawResponse
 
         fun payments(): PaymentService.WithRawResponse
 
