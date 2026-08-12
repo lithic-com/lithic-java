@@ -818,6 +818,13 @@ private constructor(
         fun methodAttributes(wire: Payment.MethodAttributes.WireMethodAttributes) =
             methodAttributes(Payment.MethodAttributes.ofWire(wire))
 
+        /**
+         * Alias for calling [methodAttributes] with
+         * `Payment.MethodAttributes.ofStablecoin(stablecoin)`.
+         */
+        fun methodAttributes(stablecoin: Payment.MethodAttributes.StablecoinMethodAttributes) =
+            methodAttributes(Payment.MethodAttributes.ofStablecoin(stablecoin))
+
         /** Pending amount in cents */
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
