@@ -54,6 +54,7 @@ private constructor(
     private val source: JsonField<Source>,
     private val status: JsonField<TransactionStatus>,
     private val updated: JsonField<OffsetDateTime>,
+    private val blockchainRecipientToken: JsonField<String>,
     private val currency: JsonField<String>,
     private val expectedReleaseDate: JsonField<LocalDate>,
     private val externalBankAccountToken: JsonField<String>,
@@ -108,6 +109,9 @@ private constructor(
         @JsonProperty("updated")
         @ExcludeMissing
         updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("blockchain_recipient_token")
+        @ExcludeMissing
+        blockchainRecipientToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
         @JsonProperty("expected_release_date")
         @ExcludeMissing
@@ -138,6 +142,7 @@ private constructor(
         source,
         status,
         updated,
+        blockchainRecipientToken,
         currency,
         expectedReleaseDate,
         externalBankAccountToken,
@@ -284,6 +289,15 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
+
+    /**
+     * Token of the blockchain recipient the payout is sent to
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun blockchainRecipientToken(): Optional<String> =
+        blockchainRecipientToken.getOptional("blockchain_recipient_token")
 
     /**
      * Currency of the transaction in ISO 4217 format
@@ -469,6 +483,16 @@ private constructor(
     @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     /**
+     * Returns the raw JSON value of [blockchainRecipientToken].
+     *
+     * Unlike [blockchainRecipientToken], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("blockchain_recipient_token")
+    @ExcludeMissing
+    fun _blockchainRecipientToken(): JsonField<String> = blockchainRecipientToken
+
+    /**
      * Returns the raw JSON value of [currency].
      *
      * Unlike [currency], this method doesn't throw if the JSON field has an unexpected type.
@@ -579,6 +603,7 @@ private constructor(
         private var source: JsonField<Source>? = null
         private var status: JsonField<TransactionStatus>? = null
         private var updated: JsonField<OffsetDateTime>? = null
+        private var blockchainRecipientToken: JsonField<String> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
         private var expectedReleaseDate: JsonField<LocalDate> = JsonMissing.of()
         private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
@@ -606,6 +631,7 @@ private constructor(
             source = payment.source
             status = payment.status
             updated = payment.updated
+            blockchainRecipientToken = payment.blockchainRecipientToken
             currency = payment.currency
             expectedReleaseDate = payment.expectedReleaseDate
             externalBankAccountToken = payment.externalBankAccountToken
@@ -863,6 +889,28 @@ private constructor(
          */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
+        /** Token of the blockchain recipient the payout is sent to */
+        fun blockchainRecipientToken(blockchainRecipientToken: String?) =
+            blockchainRecipientToken(JsonField.ofNullable(blockchainRecipientToken))
+
+        /**
+         * Alias for calling [Builder.blockchainRecipientToken] with
+         * `blockchainRecipientToken.orElse(null)`.
+         */
+        fun blockchainRecipientToken(blockchainRecipientToken: Optional<String>) =
+            blockchainRecipientToken(blockchainRecipientToken.getOrNull())
+
+        /**
+         * Sets [Builder.blockchainRecipientToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.blockchainRecipientToken] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun blockchainRecipientToken(blockchainRecipientToken: JsonField<String>) = apply {
+            this.blockchainRecipientToken = blockchainRecipientToken
+        }
+
         /** Currency of the transaction in ISO 4217 format */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
@@ -1027,6 +1075,7 @@ private constructor(
                 checkRequired("source", source),
                 checkRequired("status", status),
                 checkRequired("updated", updated),
+                blockchainRecipientToken,
                 currency,
                 expectedReleaseDate,
                 externalBankAccountToken,
@@ -1069,6 +1118,7 @@ private constructor(
         source().validate()
         status().validate()
         updated()
+        blockchainRecipientToken()
         currency()
         expectedReleaseDate()
         externalBankAccountToken()
@@ -1110,6 +1160,7 @@ private constructor(
             (source.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (if (updated.asKnown().isPresent) 1 else 0) +
+            (if (blockchainRecipientToken.asKnown().isPresent) 1 else 0) +
             (if (currency.asKnown().isPresent) 1 else 0) +
             (if (expectedReleaseDate.asKnown().isPresent) 1 else 0) +
             (if (externalBankAccountToken.asKnown().isPresent) 1 else 0) +
@@ -5913,6 +5964,7 @@ private constructor(
             source == other.source &&
             status == other.status &&
             updated == other.updated &&
+            blockchainRecipientToken == other.blockchainRecipientToken &&
             currency == other.currency &&
             expectedReleaseDate == other.expectedReleaseDate &&
             externalBankAccountToken == other.externalBankAccountToken &&
@@ -5941,6 +5993,7 @@ private constructor(
             source,
             status,
             updated,
+            blockchainRecipientToken,
             currency,
             expectedReleaseDate,
             externalBankAccountToken,
@@ -5954,5 +6007,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Payment{token=$token, category=$category, created=$created, descriptor=$descriptor, direction=$direction, events=$events, family=$family, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, currency=$currency, expectedReleaseDate=$expectedReleaseDate, externalBankAccountToken=$externalBankAccountToken, tags=$tags, type=$type, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+        "Payment{token=$token, category=$category, created=$created, descriptor=$descriptor, direction=$direction, events=$events, family=$family, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, relatedAccountTokens=$relatedAccountTokens, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, blockchainRecipientToken=$blockchainRecipientToken, currency=$currency, expectedReleaseDate=$expectedReleaseDate, externalBankAccountToken=$externalBankAccountToken, tags=$tags, type=$type, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 }
