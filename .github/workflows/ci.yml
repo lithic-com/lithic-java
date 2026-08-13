@@ -66,25 +66,26 @@ jobs:
       - name: Build SDK
         run: ./scripts/build
 
-      - name: Get GitHub OIDC Token
-        if: |-
-          github.repository == 'stainless-sdks/lithic-java' &&
-          !startsWith(github.ref, 'refs/heads/stl/')
-        id: github-oidc
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
-        with:
-          script: core.setOutput('github_token', await core.getIDToken());
-
-      - name: Build and upload Maven artifacts
-        if: |-
-          github.repository == 'stainless-sdks/lithic-java' &&
-          !startsWith(github.ref, 'refs/heads/stl/')
-        env:
-          URL: https://pkg.stainless.com/s
-          AUTH: ${{ steps.github-oidc.outputs.github_token }}
-          SHA: ${{ github.sha }}
-          PROJECT: lithic-java
-        run: ./scripts/upload-artifacts
+      # Commented out (not deleted) 2026-08-12 — see PR description.
+      # - name: Get GitHub OIDC Token
+      #   if: |-
+      #     github.repository == 'stainless-sdks/lithic-java' &&
+      #     !startsWith(github.ref, 'refs/heads/stl/')
+      #   id: github-oidc
+      #   uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      #   with:
+      #     script: core.setOutput('github_token', await core.getIDToken());
+      #
+      # - name: Build and upload Maven artifacts
+      #   if: |-
+      #     github.repository == 'stainless-sdks/lithic-java' &&
+      #     !startsWith(github.ref, 'refs/heads/stl/')
+      #   env:
+      #     URL: https://pkg.stainless.com/s
+      #     AUTH: ${{ steps.github-oidc.outputs.github_token }}
+      #     SHA: ${{ github.sha }}
+      #     PROJECT: lithic-java
+      #   run: ./scripts/upload-artifacts
   test:
     timeout-minutes: 15
     name: test
