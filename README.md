@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.132.0)
-[![javadoc](https://javadoc.io/badge2/com.lithic.api/lithic-java/0.132.0/javadoc.svg)](https://javadoc.io/doc/com.lithic.api/lithic-java/0.132.0)
+[![javadoc](https://javadoc.io/badge2/com.lithic.api/lithic-java/javadoc.svg)](https://javadoc.io/doc/com.lithic.api/lithic-java/0.132.0)
 
 <!-- x-release-please-end -->
 
