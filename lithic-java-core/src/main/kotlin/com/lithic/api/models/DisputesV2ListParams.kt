@@ -17,6 +17,7 @@ private constructor(
     private val accountToken: String?,
     private val begin: OffsetDateTime?,
     private val cardToken: String?,
+    private val claimToken: String?,
     private val disputedTransactionToken: String?,
     private val end: OffsetDateTime?,
     private val endingBefore: String?,
@@ -34,6 +35,12 @@ private constructor(
 
     /** Filter by card token. */
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
+
+    /**
+     * Filter by the token of the claim the dispute was filed under. Returns the disputes created
+     * from that claim's disputed transaction events.
+     */
+    fun claimToken(): Optional<String> = Optional.ofNullable(claimToken)
 
     /**
      * Filter by the token of the transaction being disputed. Corresponds with
@@ -81,6 +88,7 @@ private constructor(
         private var accountToken: String? = null
         private var begin: OffsetDateTime? = null
         private var cardToken: String? = null
+        private var claimToken: String? = null
         private var disputedTransactionToken: String? = null
         private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
@@ -94,6 +102,7 @@ private constructor(
             accountToken = disputesV2ListParams.accountToken
             begin = disputesV2ListParams.begin
             cardToken = disputesV2ListParams.cardToken
+            claimToken = disputesV2ListParams.claimToken
             disputedTransactionToken = disputesV2ListParams.disputedTransactionToken
             end = disputesV2ListParams.end
             endingBefore = disputesV2ListParams.endingBefore
@@ -120,6 +129,15 @@ private constructor(
 
         /** Alias for calling [Builder.cardToken] with `cardToken.orElse(null)`. */
         fun cardToken(cardToken: Optional<String>) = cardToken(cardToken.getOrNull())
+
+        /**
+         * Filter by the token of the claim the dispute was filed under. Returns the disputes
+         * created from that claim's disputed transaction events.
+         */
+        fun claimToken(claimToken: String?) = apply { this.claimToken = claimToken }
+
+        /** Alias for calling [Builder.claimToken] with `claimToken.orElse(null)`. */
+        fun claimToken(claimToken: Optional<String>) = claimToken(claimToken.getOrNull())
 
         /**
          * Filter by the token of the transaction being disputed. Corresponds with
@@ -282,6 +300,7 @@ private constructor(
                 accountToken,
                 begin,
                 cardToken,
+                claimToken,
                 disputedTransactionToken,
                 end,
                 endingBefore,
@@ -300,6 +319,7 @@ private constructor(
                 accountToken?.let { put("account_token", it) }
                 begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 cardToken?.let { put("card_token", it) }
+                claimToken?.let { put("claim_token", it) }
                 disputedTransactionToken?.let { put("disputed_transaction_token", it) }
                 end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
@@ -318,6 +338,7 @@ private constructor(
             accountToken == other.accountToken &&
             begin == other.begin &&
             cardToken == other.cardToken &&
+            claimToken == other.claimToken &&
             disputedTransactionToken == other.disputedTransactionToken &&
             end == other.end &&
             endingBefore == other.endingBefore &&
@@ -332,6 +353,7 @@ private constructor(
             accountToken,
             begin,
             cardToken,
+            claimToken,
             disputedTransactionToken,
             end,
             endingBefore,
@@ -342,5 +364,5 @@ private constructor(
         )
 
     override fun toString() =
-        "DisputesV2ListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, disputedTransactionToken=$disputedTransactionToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DisputesV2ListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, claimToken=$claimToken, disputedTransactionToken=$disputedTransactionToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

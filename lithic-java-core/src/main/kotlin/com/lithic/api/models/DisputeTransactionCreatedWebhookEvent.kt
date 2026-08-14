@@ -29,6 +29,7 @@ private constructor(
     private val accountToken: JsonField<String>,
     private val cardToken: JsonField<String>,
     private val caseId: JsonField<String>,
+    private val claimToken: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
     private val disposition: JsonField<DisputeV2.Disposition>,
@@ -51,6 +52,9 @@ private constructor(
         accountToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("card_token") @ExcludeMissing cardToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("case_id") @ExcludeMissing caseId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("claim_token")
+        @ExcludeMissing
+        claimToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("created")
         @ExcludeMissing
         created: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -85,6 +89,7 @@ private constructor(
         accountToken,
         cardToken,
         caseId,
+        claimToken,
         created,
         currency,
         disposition,
@@ -105,6 +110,7 @@ private constructor(
             .accountToken(accountToken)
             .cardToken(cardToken)
             .caseId(caseId)
+            .claimToken(claimToken)
             .created(created)
             .currency(currency)
             .disposition(disposition)
@@ -148,6 +154,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun caseId(): Optional<String> = caseId.getOptional("case_id")
+
+    /**
+     * Token for the claim this dispute was filed under, in UUID format. Null for disputes not
+     * initiated through the Dispute Intake API.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun claimToken(): Optional<String> = claimToken.getOptional("claim_token")
 
     /**
      * When the dispute was created.
@@ -269,6 +284,13 @@ private constructor(
     @JsonProperty("case_id") @ExcludeMissing fun _caseId(): JsonField<String> = caseId
 
     /**
+     * Returns the raw JSON value of [claimToken].
+     *
+     * Unlike [claimToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("claim_token") @ExcludeMissing fun _claimToken(): JsonField<String> = claimToken
+
+    /**
      * Returns the raw JSON value of [created].
      *
      * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
@@ -377,6 +399,7 @@ private constructor(
          * .accountToken()
          * .cardToken()
          * .caseId()
+         * .claimToken()
          * .created()
          * .currency()
          * .disposition()
@@ -400,6 +423,7 @@ private constructor(
         private var accountToken: JsonField<String>? = null
         private var cardToken: JsonField<String>? = null
         private var caseId: JsonField<String>? = null
+        private var claimToken: JsonField<String>? = null
         private var created: JsonField<OffsetDateTime>? = null
         private var currency: JsonField<String>? = null
         private var disposition: JsonField<DisputeV2.Disposition>? = null
@@ -421,6 +445,7 @@ private constructor(
             accountToken = disputeTransactionCreatedWebhookEvent.accountToken
             cardToken = disputeTransactionCreatedWebhookEvent.cardToken
             caseId = disputeTransactionCreatedWebhookEvent.caseId
+            claimToken = disputeTransactionCreatedWebhookEvent.claimToken
             created = disputeTransactionCreatedWebhookEvent.created
             currency = disputeTransactionCreatedWebhookEvent.currency
             disposition = disputeTransactionCreatedWebhookEvent.disposition
@@ -486,6 +511,24 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun caseId(caseId: JsonField<String>) = apply { this.caseId = caseId }
+
+        /**
+         * Token for the claim this dispute was filed under, in UUID format. Null for disputes not
+         * initiated through the Dispute Intake API.
+         */
+        fun claimToken(claimToken: String?) = claimToken(JsonField.ofNullable(claimToken))
+
+        /** Alias for calling [Builder.claimToken] with `claimToken.orElse(null)`. */
+        fun claimToken(claimToken: Optional<String>) = claimToken(claimToken.getOrNull())
+
+        /**
+         * Sets [Builder.claimToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.claimToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun claimToken(claimToken: JsonField<String>) = apply { this.claimToken = claimToken }
 
         /** When the dispute was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -685,6 +728,7 @@ private constructor(
          * .accountToken()
          * .cardToken()
          * .caseId()
+         * .claimToken()
          * .created()
          * .currency()
          * .disposition()
@@ -706,6 +750,7 @@ private constructor(
                 checkRequired("accountToken", accountToken),
                 checkRequired("cardToken", cardToken),
                 checkRequired("caseId", caseId),
+                checkRequired("claimToken", claimToken),
                 checkRequired("created", created),
                 checkRequired("currency", currency),
                 checkRequired("disposition", disposition),
@@ -740,6 +785,7 @@ private constructor(
         accountToken()
         cardToken()
         caseId()
+        claimToken()
         created()
         currency()
         disposition().ifPresent { it.validate() }
@@ -773,6 +819,7 @@ private constructor(
             (if (accountToken.asKnown().isPresent) 1 else 0) +
             (if (cardToken.asKnown().isPresent) 1 else 0) +
             (if (caseId.asKnown().isPresent) 1 else 0) +
+            (if (claimToken.asKnown().isPresent) 1 else 0) +
             (if (created.asKnown().isPresent) 1 else 0) +
             (if (currency.asKnown().isPresent) 1 else 0) +
             (disposition.asKnown().getOrNull()?.validity() ?: 0) +
@@ -926,6 +973,7 @@ private constructor(
             accountToken == other.accountToken &&
             cardToken == other.cardToken &&
             caseId == other.caseId &&
+            claimToken == other.claimToken &&
             created == other.created &&
             currency == other.currency &&
             disposition == other.disposition &&
@@ -946,6 +994,7 @@ private constructor(
             accountToken,
             cardToken,
             caseId,
+            claimToken,
             created,
             currency,
             disposition,
@@ -964,5 +1013,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DisputeTransactionCreatedWebhookEvent{token=$token, accountToken=$accountToken, cardToken=$cardToken, caseId=$caseId, created=$created, currency=$currency, disposition=$disposition, events=$events, liabilityAllocation=$liabilityAllocation, merchant=$merchant, network=$network, status=$status, transactionSeries=$transactionSeries, updated=$updated, eventType=$eventType, additionalProperties=$additionalProperties}"
+        "DisputeTransactionCreatedWebhookEvent{token=$token, accountToken=$accountToken, cardToken=$cardToken, caseId=$caseId, claimToken=$claimToken, created=$created, currency=$currency, disposition=$disposition, events=$events, liabilityAllocation=$liabilityAllocation, merchant=$merchant, network=$network, status=$status, transactionSeries=$transactionSeries, updated=$updated, eventType=$eventType, additionalProperties=$additionalProperties}"
 }
