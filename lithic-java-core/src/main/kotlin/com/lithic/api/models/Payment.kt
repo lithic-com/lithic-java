@@ -5791,6 +5791,10 @@ private constructor(
 
             @JvmField val STABLECOIN = of("STABLECOIN")
 
+            @JvmField val STABLECOIN_INBOUND = of("STABLECOIN_INBOUND")
+
+            @JvmField val STABLECOIN_OUTBOUND = of("STABLECOIN_OUTBOUND")
+
             @JvmStatic fun of(value: String) = TransferType(JsonField.of(value))
         }
 
@@ -5806,6 +5810,8 @@ private constructor(
             WIRE_OUTBOUND_ADMIN,
             WIRE_INBOUND_DRAWDOWN_REQUEST,
             STABLECOIN,
+            STABLECOIN_INBOUND,
+            STABLECOIN_OUTBOUND,
         }
 
         /**
@@ -5828,6 +5834,8 @@ private constructor(
             WIRE_OUTBOUND_ADMIN,
             WIRE_INBOUND_DRAWDOWN_REQUEST,
             STABLECOIN,
+            STABLECOIN_INBOUND,
+            STABLECOIN_OUTBOUND,
             /**
              * An enum member indicating that [TransferType] was instantiated with an unknown value.
              */
@@ -5853,6 +5861,8 @@ private constructor(
                 WIRE_OUTBOUND_ADMIN -> Value.WIRE_OUTBOUND_ADMIN
                 WIRE_INBOUND_DRAWDOWN_REQUEST -> Value.WIRE_INBOUND_DRAWDOWN_REQUEST
                 STABLECOIN -> Value.STABLECOIN
+                STABLECOIN_INBOUND -> Value.STABLECOIN_INBOUND
+                STABLECOIN_OUTBOUND -> Value.STABLECOIN_OUTBOUND
                 else -> Value._UNKNOWN
             }
 
@@ -5877,6 +5887,8 @@ private constructor(
                 WIRE_OUTBOUND_ADMIN -> Known.WIRE_OUTBOUND_ADMIN
                 WIRE_INBOUND_DRAWDOWN_REQUEST -> Known.WIRE_INBOUND_DRAWDOWN_REQUEST
                 STABLECOIN -> Known.STABLECOIN
+                STABLECOIN_INBOUND -> Known.STABLECOIN_INBOUND
+                STABLECOIN_OUTBOUND -> Known.STABLECOIN_OUTBOUND
                 else -> throw LithicInvalidDataException("Unknown TransferType: $value")
             }
 
