@@ -5789,8 +5789,6 @@ private constructor(
 
             @JvmField val WIRE_INBOUND_DRAWDOWN_REQUEST = of("WIRE_INBOUND_DRAWDOWN_REQUEST")
 
-            @JvmField val STABLECOIN = of("STABLECOIN")
-
             @JvmField val STABLECOIN_INBOUND = of("STABLECOIN_INBOUND")
 
             @JvmField val STABLECOIN_OUTBOUND = of("STABLECOIN_OUTBOUND")
@@ -5809,7 +5807,6 @@ private constructor(
             WIRE_OUTBOUND_PAYMENT,
             WIRE_OUTBOUND_ADMIN,
             WIRE_INBOUND_DRAWDOWN_REQUEST,
-            STABLECOIN,
             STABLECOIN_INBOUND,
             STABLECOIN_OUTBOUND,
         }
@@ -5833,7 +5830,6 @@ private constructor(
             WIRE_OUTBOUND_PAYMENT,
             WIRE_OUTBOUND_ADMIN,
             WIRE_INBOUND_DRAWDOWN_REQUEST,
-            STABLECOIN,
             STABLECOIN_INBOUND,
             STABLECOIN_OUTBOUND,
             /**
@@ -5860,7 +5856,6 @@ private constructor(
                 WIRE_OUTBOUND_PAYMENT -> Value.WIRE_OUTBOUND_PAYMENT
                 WIRE_OUTBOUND_ADMIN -> Value.WIRE_OUTBOUND_ADMIN
                 WIRE_INBOUND_DRAWDOWN_REQUEST -> Value.WIRE_INBOUND_DRAWDOWN_REQUEST
-                STABLECOIN -> Value.STABLECOIN
                 STABLECOIN_INBOUND -> Value.STABLECOIN_INBOUND
                 STABLECOIN_OUTBOUND -> Value.STABLECOIN_OUTBOUND
                 else -> Value._UNKNOWN
@@ -5886,7 +5881,6 @@ private constructor(
                 WIRE_OUTBOUND_PAYMENT -> Known.WIRE_OUTBOUND_PAYMENT
                 WIRE_OUTBOUND_ADMIN -> Known.WIRE_OUTBOUND_ADMIN
                 WIRE_INBOUND_DRAWDOWN_REQUEST -> Known.WIRE_INBOUND_DRAWDOWN_REQUEST
-                STABLECOIN -> Known.STABLECOIN
                 STABLECOIN_INBOUND -> Known.STABLECOIN_INBOUND
                 STABLECOIN_OUTBOUND -> Known.STABLECOIN_OUTBOUND
                 else -> throw LithicInvalidDataException("Unknown TransferType: $value")
