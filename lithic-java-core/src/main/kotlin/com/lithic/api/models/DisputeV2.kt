@@ -554,6 +554,16 @@ private constructor(
                 }
         }
 
+        /** Alias for calling [addEvent] with `Event.ofWorkflow(workflow)`. */
+        fun addEvent(workflow: Event.WorkflowEvent) = addEvent(Event.ofWorkflow(workflow))
+
+        /** Alias for calling [addEvent] with `Event.ofFinancial(financial)`. */
+        fun addEvent(financial: Event.FinancialEvent) = addEvent(Event.ofFinancial(financial))
+
+        /** Alias for calling [addEvent] with `Event.ofCardholderLiability(cardholderLiability)`. */
+        fun addEvent(cardholderLiability: Event.CardholderLiabilityEvent) =
+            addEvent(Event.ofCardholderLiability(cardholderLiability))
+
         /** Current breakdown of how liability is allocated for the disputed amount */
         fun liabilityAllocation(liabilityAllocation: LiabilityAllocation) =
             liabilityAllocation(JsonField.of(liabilityAllocation))
@@ -925,234 +935,84 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    /** Event that occurred in the dispute lifecycle */
+    /**
+     * Event that occurred in the dispute lifecycle. The `type` field identifies the event variant
+     * and determines the shape of `data`
+     */
+    @JsonDeserialize(using = Event.Deserializer::class)
+    @JsonSerialize(using = Event.Serializer::class)
     class Event
-    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val token: JsonField<String>,
-        private val created: JsonField<OffsetDateTime>,
-        private val data: JsonField<Data>,
-        private val type: JsonField<Type>,
-        private val additionalProperties: MutableMap<String, JsonValue>,
+        private val workflow: WorkflowEvent? = null,
+        private val financial: FinancialEvent? = null,
+        private val cardholderLiability: CardholderLiabilityEvent? = null,
+        private val _json: JsonValue? = null,
     ) {
 
-        @JsonCreator
-        private constructor(
-            @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("created")
-            @ExcludeMissing
-            created: JsonField<OffsetDateTime> = JsonMissing.of(),
-            @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
-            @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-        ) : this(token, created, data, type, mutableMapOf())
+        /** Event tracking the dispute's case management workflow */
+        fun workflow(): Optional<WorkflowEvent> = Optional.ofNullable(workflow)
+
+        /** Event tracking a funds movement between issuer and acquirer */
+        fun financial(): Optional<FinancialEvent> = Optional.ofNullable(financial)
+
+        /** Event tracking a change in cardholder liability */
+        fun cardholderLiability(): Optional<CardholderLiabilityEvent> =
+            Optional.ofNullable(cardholderLiability)
+
+        fun isWorkflow(): Boolean = workflow != null
+
+        fun isFinancial(): Boolean = financial != null
+
+        fun isCardholderLiability(): Boolean = cardholderLiability != null
+
+        /** Event tracking the dispute's case management workflow */
+        fun asWorkflow(): WorkflowEvent = workflow.getOrThrow("workflow")
+
+        /** Event tracking a funds movement between issuer and acquirer */
+        fun asFinancial(): FinancialEvent = financial.getOrThrow("financial")
+
+        /** Event tracking a change in cardholder liability */
+        fun asCardholderLiability(): CardholderLiabilityEvent =
+            cardholderLiability.getOrThrow("cardholderLiability")
+
+        fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
         /**
-         * Unique identifier for the event, in UUID format
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun token(): String = token.getRequired("token")
-
-        /**
-         * When the event occurred
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.lithic.api.core.JsonValue;
+         * import java.util.Optional;
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun created(): OffsetDateTime = created.getRequired("created")
-
-        /**
-         * Details specific to the event type
+         * Optional<String> result = event.accept(new Event.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitWorkflow(WorkflowEvent workflow) {
+         *         return Optional.of(workflow.toString());
+         *     }
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun data(): Data = data.getRequired("data")
-
-        /**
-         * Type of event
+         *     // ...
          *
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun type(): Type = type.getRequired("type")
-
-        /**
-         * Returns the raw JSON value of [token].
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
          *
-         * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+         * @throws LithicInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
          */
-        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
-
-        /**
-         * Returns the raw JSON value of [created].
-         *
-         * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
-
-        /**
-         * Returns the raw JSON value of [data].
-         *
-         * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
-
-        /**
-         * Returns the raw JSON value of [type].
-         *
-         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
-        @JsonAnySetter
-        private fun putAdditionalProperty(key: String, value: JsonValue) {
-            additionalProperties.put(key, value)
-        }
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> =
-            Collections.unmodifiableMap(additionalProperties)
-
-        fun toBuilder() = Builder().from(this)
-
-        companion object {
-
-            /**
-             * Returns a mutable builder for constructing an instance of [Event].
-             *
-             * The following fields are required:
-             * ```java
-             * .token()
-             * .created()
-             * .data()
-             * .type()
-             * ```
-             */
-            @JvmStatic fun builder() = Builder()
-        }
-
-        /** A builder for [Event]. */
-        class Builder internal constructor() {
-
-            private var token: JsonField<String>? = null
-            private var created: JsonField<OffsetDateTime>? = null
-            private var data: JsonField<Data>? = null
-            private var type: JsonField<Type>? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(event: Event) = apply {
-                token = event.token
-                created = event.created
-                data = event.data
-                type = event.type
-                additionalProperties = event.additionalProperties.toMutableMap()
+        fun <T> accept(visitor: Visitor<T>): T =
+            when {
+                workflow != null -> visitor.visitWorkflow(workflow)
+                financial != null -> visitor.visitFinancial(financial)
+                cardholderLiability != null -> visitor.visitCardholderLiability(cardholderLiability)
+                else -> visitor.unknown(_json)
             }
-
-            /** Unique identifier for the event, in UUID format */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /**
-             * Sets [Builder.token] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.token] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
-            /** When the event occurred */
-            fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-            /**
-             * Sets [Builder.created] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-            /** Details specific to the event type */
-            fun data(data: Data) = data(JsonField.of(data))
-
-            /**
-             * Sets [Builder.data] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.data] with a well-typed [Data] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun data(data: JsonField<Data>) = apply { this.data = data }
-
-            /** Alias for calling [data] with `Data.ofWorkflow(workflow)`. */
-            fun data(workflow: Data.WorkflowEventData) = data(Data.ofWorkflow(workflow))
-
-            /** Alias for calling [data] with `Data.ofFinancial(financial)`. */
-            fun data(financial: Data.FinancialEventData) = data(Data.ofFinancial(financial))
-
-            /** Alias for calling [data] with `Data.ofCardholderLiability(cardholderLiability)`. */
-            fun data(cardholderLiability: Data.CardholderLiabilityEventData) =
-                data(Data.ofCardholderLiability(cardholderLiability))
-
-            /** Type of event */
-            fun type(type: Type) = type(JsonField.of(type))
-
-            /**
-             * Sets [Builder.type] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.type] with a well-typed [Type] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun type(type: JsonField<Type>) = apply { this.type = type }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
-
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
-
-            /**
-             * Returns an immutable instance of [Event].
-             *
-             * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .token()
-             * .created()
-             * .data()
-             * .type()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
-             */
-            fun build(): Event =
-                Event(
-                    checkRequired("token", token),
-                    checkRequired("created", created),
-                    checkRequired("data", data),
-                    checkRequired("type", type),
-                    additionalProperties.toMutableMap(),
-                )
-        }
 
         private var validated: Boolean = false
 
@@ -1170,10 +1030,23 @@ private constructor(
                 return@apply
             }
 
-            token()
-            created()
-            data().validate()
-            type().validate()
+            accept(
+                object : Visitor<Unit> {
+                    override fun visitWorkflow(workflow: WorkflowEvent) {
+                        workflow.validate()
+                    }
+
+                    override fun visitFinancial(financial: FinancialEvent) {
+                        financial.validate()
+                    }
+
+                    override fun visitCardholderLiability(
+                        cardholderLiability: CardholderLiabilityEvent
+                    ) {
+                        cardholderLiability.validate()
+                    }
+                }
+            )
             validated = true
         }
 
@@ -1193,88 +1066,358 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (token.asKnown().isPresent) 1 else 0) +
-                (if (created.asKnown().isPresent) 1 else 0) +
-                (data.asKnown().getOrNull()?.validity() ?: 0) +
-                (type.asKnown().getOrNull()?.validity() ?: 0)
+            accept(
+                object : Visitor<Int> {
+                    override fun visitWorkflow(workflow: WorkflowEvent) = workflow.validity()
 
-        /** Details specific to the event type */
-        @JsonDeserialize(using = Data.Deserializer::class)
-        @JsonSerialize(using = Data.Serializer::class)
-        class Data
-        private constructor(
-            private val workflow: WorkflowEventData? = null,
-            private val financial: FinancialEventData? = null,
-            private val cardholderLiability: CardholderLiabilityEventData? = null,
-            private val _json: JsonValue? = null,
-        ) {
+                    override fun visitFinancial(financial: FinancialEvent) = financial.validity()
 
-            /** Details specific to workflow events */
-            fun workflow(): Optional<WorkflowEventData> = Optional.ofNullable(workflow)
+                    override fun visitCardholderLiability(
+                        cardholderLiability: CardholderLiabilityEvent
+                    ) = cardholderLiability.validity()
 
-            /** Details specific to financial events */
-            fun financial(): Optional<FinancialEventData> = Optional.ofNullable(financial)
+                    override fun unknown(json: JsonValue?) = 0
+                }
+            )
 
-            /** Details specific to cardholder liability events */
-            fun cardholderLiability(): Optional<CardholderLiabilityEventData> =
-                Optional.ofNullable(cardholderLiability)
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
 
-            fun isWorkflow(): Boolean = workflow != null
+            return other is Event &&
+                workflow == other.workflow &&
+                financial == other.financial &&
+                cardholderLiability == other.cardholderLiability
+        }
 
-            fun isFinancial(): Boolean = financial != null
+        override fun hashCode(): Int = Objects.hash(workflow, financial, cardholderLiability)
 
-            fun isCardholderLiability(): Boolean = cardholderLiability != null
+        override fun toString(): String =
+            when {
+                workflow != null -> "Event{workflow=$workflow}"
+                financial != null -> "Event{financial=$financial}"
+                cardholderLiability != null -> "Event{cardholderLiability=$cardholderLiability}"
+                _json != null -> "Event{_unknown=$_json}"
+                else -> throw IllegalStateException("Invalid Event")
+            }
 
-            /** Details specific to workflow events */
-            fun asWorkflow(): WorkflowEventData = workflow.getOrThrow("workflow")
+        companion object {
 
-            /** Details specific to financial events */
-            fun asFinancial(): FinancialEventData = financial.getOrThrow("financial")
+            /** Event tracking the dispute's case management workflow */
+            @JvmStatic fun ofWorkflow(workflow: WorkflowEvent) = Event(workflow = workflow)
 
-            /** Details specific to cardholder liability events */
-            fun asCardholderLiability(): CardholderLiabilityEventData =
-                cardholderLiability.getOrThrow("cardholderLiability")
+            /** Event tracking a funds movement between issuer and acquirer */
+            @JvmStatic fun ofFinancial(financial: FinancialEvent) = Event(financial = financial)
 
-            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+            /** Event tracking a change in cardholder liability */
+            @JvmStatic
+            fun ofCardholderLiability(cardholderLiability: CardholderLiabilityEvent) =
+                Event(cardholderLiability = cardholderLiability)
+        }
+
+        /** An interface that defines how to map each variant of [Event] to a value of type [T]. */
+        interface Visitor<out T> {
+
+            /** Event tracking the dispute's case management workflow */
+            fun visitWorkflow(workflow: WorkflowEvent): T
+
+            /** Event tracking a funds movement between issuer and acquirer */
+            fun visitFinancial(financial: FinancialEvent): T
+
+            /** Event tracking a change in cardholder liability */
+            fun visitCardholderLiability(cardholderLiability: CardholderLiabilityEvent): T
 
             /**
-             * Maps this instance's current variant to a value of type [T] using the given
-             * [visitor].
+             * Maps an unknown variant of [Event] to a value of type [T].
              *
-             * Note that this method is _not_ forwards compatible with new variants from the API,
-             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
-             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
-             * ```java
-             * import com.lithic.api.core.JsonValue;
-             * import java.util.Optional;
+             * An instance of [Event] can contain an unknown variant if it was deserialized from
+             * data that doesn't match any known variant. For example, if the SDK is on an older
+             * version than the API, then the API may respond with new variants that the SDK is
+             * unaware of.
              *
-             * Optional<String> result = data.accept(new Data.Visitor<Optional<String>>() {
-             *     @Override
-             *     public Optional<String> visitWorkflow(WorkflowEventData workflow) {
-             *         return Optional.of(workflow.toString());
-             *     }
-             *
-             *     // ...
-             *
-             *     @Override
-             *     public Optional<String> unknown(JsonValue json) {
-             *         // Or inspect the `json`.
-             *         return Optional.empty();
-             *     }
-             * });
-             * ```
-             *
-             * @throws LithicInvalidDataException if [Visitor.unknown] is not overridden in
-             *   [visitor] and the current variant is unknown.
+             * @throws LithicInvalidDataException in the default implementation.
              */
-            fun <T> accept(visitor: Visitor<T>): T =
-                when {
-                    workflow != null -> visitor.visitWorkflow(workflow)
-                    financial != null -> visitor.visitFinancial(financial)
-                    cardholderLiability != null ->
-                        visitor.visitCardholderLiability(cardholderLiability)
-                    else -> visitor.unknown(_json)
+            fun unknown(json: JsonValue?): T {
+                throw LithicInvalidDataException("Unknown Event: $json")
+            }
+        }
+
+        internal class Deserializer : BaseDeserializer<Event>(Event::class) {
+
+            override fun ObjectCodec.deserialize(node: JsonNode): Event {
+                val json = JsonValue.fromJsonNode(node)
+                val type = json.asObject().getOrNull()?.get("type")?.asString()?.getOrNull()
+
+                when (type) {
+                    "WORKFLOW" -> {
+                        return tryDeserialize(node, jacksonTypeRef<WorkflowEvent>())?.let {
+                            Event(workflow = it, _json = json)
+                        } ?: Event(_json = json)
+                    }
+                    "FINANCIAL" -> {
+                        return tryDeserialize(node, jacksonTypeRef<FinancialEvent>())?.let {
+                            Event(financial = it, _json = json)
+                        } ?: Event(_json = json)
+                    }
+                    "CARDHOLDER_LIABILITY" -> {
+                        return tryDeserialize(node, jacksonTypeRef<CardholderLiabilityEvent>())
+                            ?.let { Event(cardholderLiability = it, _json = json) }
+                            ?: Event(_json = json)
+                    }
                 }
+
+                return Event(_json = json)
+            }
+        }
+
+        internal class Serializer : BaseSerializer<Event>(Event::class) {
+
+            override fun serialize(
+                value: Event,
+                generator: JsonGenerator,
+                provider: SerializerProvider,
+            ) {
+                when {
+                    value.workflow != null -> generator.writeObject(value.workflow)
+                    value.financial != null -> generator.writeObject(value.financial)
+                    value.cardholderLiability != null ->
+                        generator.writeObject(value.cardholderLiability)
+                    value._json != null -> generator.writeObject(value._json)
+                    else -> throw IllegalStateException("Invalid Event")
+                }
+            }
+        }
+
+        /** Event tracking the dispute's case management workflow */
+        class WorkflowEvent
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val token: JsonField<String>,
+            private val created: JsonField<OffsetDateTime>,
+            private val data: JsonField<WorkflowEventData>,
+            private val type: JsonField<Type>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("created")
+                @ExcludeMissing
+                created: JsonField<OffsetDateTime> = JsonMissing.of(),
+                @JsonProperty("data")
+                @ExcludeMissing
+                data: JsonField<WorkflowEventData> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            ) : this(token, created, data, type, mutableMapOf())
+
+            /**
+             * Unique identifier for the event, in UUID format
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun token(): String = token.getRequired("token")
+
+            /**
+             * When the event occurred
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun created(): OffsetDateTime = created.getRequired("created")
+
+            /**
+             * Details specific to workflow events
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun data(): WorkflowEventData = data.getRequired("data")
+
+            /**
+             * Type of event. Always `WORKFLOW`
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun type(): Type = type.getRequired("type")
+
+            /**
+             * Returns the raw JSON value of [token].
+             *
+             * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+            /**
+             * Returns the raw JSON value of [created].
+             *
+             * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("created")
+            @ExcludeMissing
+            fun _created(): JsonField<OffsetDateTime> = created
+
+            /**
+             * Returns the raw JSON value of [data].
+             *
+             * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<WorkflowEventData> = data
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [WorkflowEvent].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .token()
+                 * .created()
+                 * .data()
+                 * .type()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [WorkflowEvent]. */
+            class Builder internal constructor() {
+
+                private var token: JsonField<String>? = null
+                private var created: JsonField<OffsetDateTime>? = null
+                private var data: JsonField<WorkflowEventData>? = null
+                private var type: JsonField<Type>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(workflowEvent: WorkflowEvent) = apply {
+                    token = workflowEvent.token
+                    created = workflowEvent.created
+                    data = workflowEvent.data
+                    type = workflowEvent.type
+                    additionalProperties = workflowEvent.additionalProperties.toMutableMap()
+                }
+
+                /** Unique identifier for the event, in UUID format */
+                fun token(token: String) = token(JsonField.of(token))
+
+                /**
+                 * Sets [Builder.token] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.token] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun token(token: JsonField<String>) = apply { this.token = token }
+
+                /** When the event occurred */
+                fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+                /**
+                 * Sets [Builder.created] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.created] with a well-typed [OffsetDateTime]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+                /** Details specific to workflow events */
+                fun data(data: WorkflowEventData) = data(JsonField.of(data))
+
+                /**
+                 * Sets [Builder.data] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.data] with a well-typed [WorkflowEventData]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun data(data: JsonField<WorkflowEventData>) = apply { this.data = data }
+
+                /** Type of event. Always `WORKFLOW` */
+                fun type(type: Type) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [WorkflowEvent].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .token()
+                 * .created()
+                 * .data()
+                 * .type()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): WorkflowEvent =
+                    WorkflowEvent(
+                        checkRequired("token", token),
+                        checkRequired("created", created),
+                        checkRequired("data", data),
+                        checkRequired("type", type),
+                        additionalProperties.toMutableMap(),
+                    )
+            }
 
             private var validated: Boolean = false
 
@@ -1288,28 +1431,15 @@ private constructor(
              * @throws LithicInvalidDataException if any value type in this object doesn't match its
              *   expected type.
              */
-            fun validate(): Data = apply {
+            fun validate(): WorkflowEvent = apply {
                 if (validated) {
                     return@apply
                 }
 
-                accept(
-                    object : Visitor<Unit> {
-                        override fun visitWorkflow(workflow: WorkflowEventData) {
-                            workflow.validate()
-                        }
-
-                        override fun visitFinancial(financial: FinancialEventData) {
-                            financial.validate()
-                        }
-
-                        override fun visitCardholderLiability(
-                            cardholderLiability: CardholderLiabilityEventData
-                        ) {
-                            cardholderLiability.validate()
-                        }
-                    }
-                )
+                token()
+                created()
+                data().validate()
+                type().validate()
                 validated = true
             }
 
@@ -1329,136 +1459,10 @@ private constructor(
              */
             @JvmSynthetic
             internal fun validity(): Int =
-                accept(
-                    object : Visitor<Int> {
-                        override fun visitWorkflow(workflow: WorkflowEventData) =
-                            workflow.validity()
-
-                        override fun visitFinancial(financial: FinancialEventData) =
-                            financial.validity()
-
-                        override fun visitCardholderLiability(
-                            cardholderLiability: CardholderLiabilityEventData
-                        ) = cardholderLiability.validity()
-
-                        override fun unknown(json: JsonValue?) = 0
-                    }
-                )
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Data &&
-                    workflow == other.workflow &&
-                    financial == other.financial &&
-                    cardholderLiability == other.cardholderLiability
-            }
-
-            override fun hashCode(): Int = Objects.hash(workflow, financial, cardholderLiability)
-
-            override fun toString(): String =
-                when {
-                    workflow != null -> "Data{workflow=$workflow}"
-                    financial != null -> "Data{financial=$financial}"
-                    cardholderLiability != null -> "Data{cardholderLiability=$cardholderLiability}"
-                    _json != null -> "Data{_unknown=$_json}"
-                    else -> throw IllegalStateException("Invalid Data")
-                }
-
-            companion object {
-
-                /** Details specific to workflow events */
-                @JvmStatic fun ofWorkflow(workflow: WorkflowEventData) = Data(workflow = workflow)
-
-                /** Details specific to financial events */
-                @JvmStatic
-                fun ofFinancial(financial: FinancialEventData) = Data(financial = financial)
-
-                /** Details specific to cardholder liability events */
-                @JvmStatic
-                fun ofCardholderLiability(cardholderLiability: CardholderLiabilityEventData) =
-                    Data(cardholderLiability = cardholderLiability)
-            }
-
-            /**
-             * An interface that defines how to map each variant of [Data] to a value of type [T].
-             */
-            interface Visitor<out T> {
-
-                /** Details specific to workflow events */
-                fun visitWorkflow(workflow: WorkflowEventData): T
-
-                /** Details specific to financial events */
-                fun visitFinancial(financial: FinancialEventData): T
-
-                /** Details specific to cardholder liability events */
-                fun visitCardholderLiability(cardholderLiability: CardholderLiabilityEventData): T
-
-                /**
-                 * Maps an unknown variant of [Data] to a value of type [T].
-                 *
-                 * An instance of [Data] can contain an unknown variant if it was deserialized from
-                 * data that doesn't match any known variant. For example, if the SDK is on an older
-                 * version than the API, then the API may respond with new variants that the SDK is
-                 * unaware of.
-                 *
-                 * @throws LithicInvalidDataException in the default implementation.
-                 */
-                fun unknown(json: JsonValue?): T {
-                    throw LithicInvalidDataException("Unknown Data: $json")
-                }
-            }
-
-            internal class Deserializer : BaseDeserializer<Data>(Data::class) {
-
-                override fun ObjectCodec.deserialize(node: JsonNode): Data {
-                    val json = JsonValue.fromJsonNode(node)
-                    val type = json.asObject().getOrNull()?.get("type")?.asString()?.getOrNull()
-
-                    when (type) {
-                        "WORKFLOW" -> {
-                            return tryDeserialize(node, jacksonTypeRef<WorkflowEventData>())?.let {
-                                Data(workflow = it, _json = json)
-                            } ?: Data(_json = json)
-                        }
-                        "FINANCIAL" -> {
-                            return tryDeserialize(node, jacksonTypeRef<FinancialEventData>())?.let {
-                                Data(financial = it, _json = json)
-                            } ?: Data(_json = json)
-                        }
-                        "CARDHOLDER_LIABILITY" -> {
-                            return tryDeserialize(
-                                    node,
-                                    jacksonTypeRef<CardholderLiabilityEventData>(),
-                                )
-                                ?.let { Data(cardholderLiability = it, _json = json) }
-                                ?: Data(_json = json)
-                        }
-                    }
-
-                    return Data(_json = json)
-                }
-            }
-
-            internal class Serializer : BaseSerializer<Data>(Data::class) {
-
-                override fun serialize(
-                    value: Data,
-                    generator: JsonGenerator,
-                    provider: SerializerProvider,
-                ) {
-                    when {
-                        value.workflow != null -> generator.writeObject(value.workflow)
-                        value.financial != null -> generator.writeObject(value.financial)
-                        value.cardholderLiability != null ->
-                            generator.writeObject(value.cardholderLiability)
-                        value._json != null -> generator.writeObject(value._json)
-                        else -> throw IllegalStateException("Invalid Data")
-                    }
-                }
-            }
+                (if (token.asKnown().isPresent) 1 else 0) +
+                    (if (created.asKnown().isPresent) 1 else 0) +
+                    (data.asKnown().getOrNull()?.validity() ?: 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0)
 
             /** Details specific to workflow events */
             class WorkflowEventData
@@ -1469,7 +1473,6 @@ private constructor(
                 private val disposition: JsonField<Disposition>,
                 private val reason: JsonField<String>,
                 private val stage: JsonField<Stage>,
-                private val type: JsonField<Type>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
@@ -1490,8 +1493,7 @@ private constructor(
                     @JsonProperty("stage")
                     @ExcludeMissing
                     stage: JsonField<Stage> = JsonMissing.of(),
-                    @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-                ) : this(action, amount, disposition, reason, stage, type, mutableMapOf())
+                ) : this(action, amount, disposition, reason, stage, mutableMapOf())
 
                 /**
                  * Action taken in this stage
@@ -1536,15 +1538,6 @@ private constructor(
                 fun stage(): Stage = stage.getRequired("stage")
 
                 /**
-                 * Event type discriminator
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
-                 */
-                fun type(): Type = type.getRequired("type")
-
-                /**
                  * Returns the raw JSON value of [action].
                  *
                  * Unlike [action], this method doesn't throw if the JSON field has an unexpected
@@ -1586,14 +1579,6 @@ private constructor(
                  */
                 @JsonProperty("stage") @ExcludeMissing fun _stage(): JsonField<Stage> = stage
 
-                /**
-                 * Returns the raw JSON value of [type].
-                 *
-                 * Unlike [type], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
                 @JsonAnySetter
                 private fun putAdditionalProperty(key: String, value: JsonValue) {
                     additionalProperties.put(key, value)
@@ -1619,7 +1604,6 @@ private constructor(
                      * .disposition()
                      * .reason()
                      * .stage()
-                     * .type()
                      * ```
                      */
                     @JvmStatic fun builder() = Builder()
@@ -1633,7 +1617,6 @@ private constructor(
                     private var disposition: JsonField<Disposition>? = null
                     private var reason: JsonField<String>? = null
                     private var stage: JsonField<Stage>? = null
-                    private var type: JsonField<Type>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -1643,7 +1626,6 @@ private constructor(
                         disposition = workflowEventData.disposition
                         reason = workflowEventData.reason
                         stage = workflowEventData.stage
-                        type = workflowEventData.type
                         additionalProperties = workflowEventData.additionalProperties.toMutableMap()
                     }
 
@@ -1727,18 +1709,6 @@ private constructor(
                      */
                     fun stage(stage: JsonField<Stage>) = apply { this.stage = stage }
 
-                    /** Event type discriminator */
-                    fun type(type: Type) = type(JsonField.of(type))
-
-                    /**
-                     * Sets [Builder.type] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.type] with a well-typed [Type] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun type(type: JsonField<Type>) = apply { this.type = type }
-
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
                         putAllAdditionalProperties(additionalProperties)
@@ -1773,7 +1743,6 @@ private constructor(
                      * .disposition()
                      * .reason()
                      * .stage()
-                     * .type()
                      * ```
                      *
                      * @throws IllegalStateException if any required field is unset.
@@ -1785,7 +1754,6 @@ private constructor(
                             checkRequired("disposition", disposition),
                             checkRequired("reason", reason),
                             checkRequired("stage", stage),
-                            checkRequired("type", type),
                             additionalProperties.toMutableMap(),
                         )
                 }
@@ -1812,7 +1780,6 @@ private constructor(
                     disposition().ifPresent { it.validate() }
                     reason()
                     stage().validate()
-                    type().validate()
                     validated = true
                 }
 
@@ -1836,8 +1803,7 @@ private constructor(
                         (if (amount.asKnown().isPresent) 1 else 0) +
                         (disposition.asKnown().getOrNull()?.validity() ?: 0) +
                         (if (reason.asKnown().isPresent) 1 else 0) +
-                        (stage.asKnown().getOrNull()?.validity() ?: 0) +
-                        (type.asKnown().getOrNull()?.validity() ?: 0)
+                        (stage.asKnown().getOrNull()?.validity() ?: 0)
 
                 /** Action taken in this stage */
                 class Action
@@ -2293,144 +2259,6 @@ private constructor(
                     override fun toString() = value.toString()
                 }
 
-                /** Event type discriminator */
-                class Type @JsonCreator private constructor(private val value: JsonField<String>) :
-                    Enum {
-
-                    /**
-                     * Returns this class instance's raw value.
-                     *
-                     * This is usually only useful if this instance was deserialized from data that
-                     * doesn't match any known member, and you want to know that value. For example,
-                     * if the SDK is on an older version than the API, then the API may respond with
-                     * new members that the SDK is unaware of.
-                     */
-                    @com.fasterxml.jackson.annotation.JsonValue
-                    fun _value(): JsonField<String> = value
-
-                    companion object {
-
-                        @JvmField val WORKFLOW = of("WORKFLOW")
-
-                        @JvmStatic fun of(value: String) = Type(JsonField.of(value))
-                    }
-
-                    /** An enum containing [Type]'s known values. */
-                    enum class Known {
-                        WORKFLOW
-                    }
-
-                    /**
-                     * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
-                     *
-                     * An instance of [Type] can contain an unknown value in a couple of cases:
-                     * - It was deserialized from data that doesn't match any known member. For
-                     *   example, if the SDK is on an older version than the API, then the API may
-                     *   respond with new members that the SDK is unaware of.
-                     * - It was constructed with an arbitrary value using the [of] method.
-                     */
-                    enum class Value {
-                        WORKFLOW,
-                        /**
-                         * An enum member indicating that [Type] was instantiated with an unknown
-                         * value.
-                         */
-                        _UNKNOWN,
-                    }
-
-                    /**
-                     * Returns an enum member corresponding to this class instance's value, or
-                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                     *
-                     * Use the [known] method instead if you're certain the value is always known or
-                     * if you want to throw for the unknown case.
-                     */
-                    fun value(): Value =
-                        when (this) {
-                            WORKFLOW -> Value.WORKFLOW
-                            else -> Value._UNKNOWN
-                        }
-
-                    /**
-                     * Returns an enum member corresponding to this class instance's value.
-                     *
-                     * Use the [value] method instead if you're uncertain the value is always known
-                     * and don't want to throw for the unknown case.
-                     *
-                     * @throws LithicInvalidDataException if this class instance's value is a not a
-                     *   known member.
-                     */
-                    fun known(): Known =
-                        when (this) {
-                            WORKFLOW -> Known.WORKFLOW
-                            else -> throw LithicInvalidDataException("Unknown Type: $value")
-                        }
-
-                    /**
-                     * Returns this class instance's primitive wire representation.
-                     *
-                     * This differs from the [toString] method because that method is primarily for
-                     * debugging and generally doesn't throw.
-                     *
-                     * @throws LithicInvalidDataException if this class instance's value does not
-                     *   have the expected primitive type.
-                     */
-                    fun asString(): String =
-                        _value().asString().orElseThrow {
-                            LithicInvalidDataException("Value is not a String")
-                        }
-
-                    private var validated: Boolean = false
-
-                    /**
-                     * Validates that the types of all values in this object match their expected
-                     * types recursively.
-                     *
-                     * This method is _not_ forwards compatible with new types from the API for
-                     * existing fields.
-                     *
-                     * @throws LithicInvalidDataException if any value type in this object doesn't
-                     *   match its expected type.
-                     */
-                    fun validate(): Type = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        known()
-                        validated = true
-                    }
-
-                    fun isValid(): Boolean =
-                        try {
-                            validate()
-                            true
-                        } catch (e: LithicInvalidDataException) {
-                            false
-                        }
-
-                    /**
-                     * Returns a score indicating how many valid values are contained in this object
-                     * recursively.
-                     *
-                     * Used for best match union deserialization.
-                     */
-                    @JvmSynthetic
-                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Type && value == other.value
-                    }
-
-                    override fun hashCode() = value.hashCode()
-
-                    override fun toString() = value.toString()
-                }
-
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
                         return true
@@ -2442,27 +2270,451 @@ private constructor(
                         disposition == other.disposition &&
                         reason == other.reason &&
                         stage == other.stage &&
-                        type == other.type &&
                         additionalProperties == other.additionalProperties
                 }
 
                 private val hashCode: Int by lazy {
-                    Objects.hash(
-                        action,
-                        amount,
-                        disposition,
-                        reason,
-                        stage,
-                        type,
-                        additionalProperties,
-                    )
+                    Objects.hash(action, amount, disposition, reason, stage, additionalProperties)
                 }
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "WorkflowEventData{action=$action, amount=$amount, disposition=$disposition, reason=$reason, stage=$stage, type=$type, additionalProperties=$additionalProperties}"
+                    "WorkflowEventData{action=$action, amount=$amount, disposition=$disposition, reason=$reason, stage=$stage, additionalProperties=$additionalProperties}"
             }
+
+            /** Type of event. Always `WORKFLOW` */
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val WORKFLOW = of("WORKFLOW")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    WORKFLOW
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    WORKFLOW,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        WORKFLOW -> Value.WORKFLOW
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        WORKFLOW -> Known.WORKFLOW
+                        else -> throw LithicInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Type && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is WorkflowEvent &&
+                    token == other.token &&
+                    created == other.created &&
+                    data == other.data &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(token, created, data, type, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "WorkflowEvent{token=$token, created=$created, data=$data, type=$type, additionalProperties=$additionalProperties}"
+        }
+
+        /** Event tracking a funds movement between issuer and acquirer */
+        class FinancialEvent
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val token: JsonField<String>,
+            private val created: JsonField<OffsetDateTime>,
+            private val data: JsonField<FinancialEventData>,
+            private val type: JsonField<Type>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("created")
+                @ExcludeMissing
+                created: JsonField<OffsetDateTime> = JsonMissing.of(),
+                @JsonProperty("data")
+                @ExcludeMissing
+                data: JsonField<FinancialEventData> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            ) : this(token, created, data, type, mutableMapOf())
+
+            /**
+             * Unique identifier for the event, in UUID format
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun token(): String = token.getRequired("token")
+
+            /**
+             * When the event occurred
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun created(): OffsetDateTime = created.getRequired("created")
+
+            /**
+             * Details specific to financial events
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun data(): FinancialEventData = data.getRequired("data")
+
+            /**
+             * Type of event. Always `FINANCIAL`
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun type(): Type = type.getRequired("type")
+
+            /**
+             * Returns the raw JSON value of [token].
+             *
+             * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+            /**
+             * Returns the raw JSON value of [created].
+             *
+             * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("created")
+            @ExcludeMissing
+            fun _created(): JsonField<OffsetDateTime> = created
+
+            /**
+             * Returns the raw JSON value of [data].
+             *
+             * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<FinancialEventData> = data
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [FinancialEvent].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .token()
+                 * .created()
+                 * .data()
+                 * .type()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [FinancialEvent]. */
+            class Builder internal constructor() {
+
+                private var token: JsonField<String>? = null
+                private var created: JsonField<OffsetDateTime>? = null
+                private var data: JsonField<FinancialEventData>? = null
+                private var type: JsonField<Type>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(financialEvent: FinancialEvent) = apply {
+                    token = financialEvent.token
+                    created = financialEvent.created
+                    data = financialEvent.data
+                    type = financialEvent.type
+                    additionalProperties = financialEvent.additionalProperties.toMutableMap()
+                }
+
+                /** Unique identifier for the event, in UUID format */
+                fun token(token: String) = token(JsonField.of(token))
+
+                /**
+                 * Sets [Builder.token] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.token] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun token(token: JsonField<String>) = apply { this.token = token }
+
+                /** When the event occurred */
+                fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+                /**
+                 * Sets [Builder.created] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.created] with a well-typed [OffsetDateTime]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+                /** Details specific to financial events */
+                fun data(data: FinancialEventData) = data(JsonField.of(data))
+
+                /**
+                 * Sets [Builder.data] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.data] with a well-typed [FinancialEventData]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun data(data: JsonField<FinancialEventData>) = apply { this.data = data }
+
+                /** Type of event. Always `FINANCIAL` */
+                fun type(type: Type) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [FinancialEvent].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .token()
+                 * .created()
+                 * .data()
+                 * .type()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): FinancialEvent =
+                    FinancialEvent(
+                        checkRequired("token", token),
+                        checkRequired("created", created),
+                        checkRequired("data", data),
+                        checkRequired("type", type),
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): FinancialEvent = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                token()
+                created()
+                data().validate()
+                type().validate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (token.asKnown().isPresent) 1 else 0) +
+                    (if (created.asKnown().isPresent) 1 else 0) +
+                    (data.asKnown().getOrNull()?.validity() ?: 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0)
 
             /** Details specific to financial events */
             class FinancialEventData
@@ -2471,7 +2723,6 @@ private constructor(
                 private val amount: JsonField<Long>,
                 private val polarity: JsonField<Polarity>,
                 private val stage: JsonField<Stage>,
-                private val type: JsonField<Type>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
@@ -2486,8 +2737,7 @@ private constructor(
                     @JsonProperty("stage")
                     @ExcludeMissing
                     stage: JsonField<Stage> = JsonMissing.of(),
-                    @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-                ) : this(amount, polarity, stage, type, mutableMapOf())
+                ) : this(amount, polarity, stage, mutableMapOf())
 
                 /**
                  * Amount in minor units
@@ -2517,15 +2767,6 @@ private constructor(
                 fun stage(): Stage = stage.getRequired("stage")
 
                 /**
-                 * Event type discriminator
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
-                 */
-                fun type(): Type = type.getRequired("type")
-
-                /**
                  * Returns the raw JSON value of [amount].
                  *
                  * Unlike [amount], this method doesn't throw if the JSON field has an unexpected
@@ -2551,14 +2792,6 @@ private constructor(
                  */
                 @JsonProperty("stage") @ExcludeMissing fun _stage(): JsonField<Stage> = stage
 
-                /**
-                 * Returns the raw JSON value of [type].
-                 *
-                 * Unlike [type], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
                 @JsonAnySetter
                 private fun putAdditionalProperty(key: String, value: JsonValue) {
                     additionalProperties.put(key, value)
@@ -2582,7 +2815,6 @@ private constructor(
                      * .amount()
                      * .polarity()
                      * .stage()
-                     * .type()
                      * ```
                      */
                     @JvmStatic fun builder() = Builder()
@@ -2594,7 +2826,6 @@ private constructor(
                     private var amount: JsonField<Long>? = null
                     private var polarity: JsonField<Polarity>? = null
                     private var stage: JsonField<Stage>? = null
-                    private var type: JsonField<Type>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -2602,7 +2833,6 @@ private constructor(
                         amount = financialEventData.amount
                         polarity = financialEventData.polarity
                         stage = financialEventData.stage
-                        type = financialEventData.type
                         additionalProperties =
                             financialEventData.additionalProperties.toMutableMap()
                     }
@@ -2643,18 +2873,6 @@ private constructor(
                      */
                     fun stage(stage: JsonField<Stage>) = apply { this.stage = stage }
 
-                    /** Event type discriminator */
-                    fun type(type: Type) = type(JsonField.of(type))
-
-                    /**
-                     * Sets [Builder.type] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.type] with a well-typed [Type] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun type(type: JsonField<Type>) = apply { this.type = type }
-
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
                         putAllAdditionalProperties(additionalProperties)
@@ -2687,7 +2905,6 @@ private constructor(
                      * .amount()
                      * .polarity()
                      * .stage()
-                     * .type()
                      * ```
                      *
                      * @throws IllegalStateException if any required field is unset.
@@ -2697,7 +2914,6 @@ private constructor(
                             checkRequired("amount", amount),
                             checkRequired("polarity", polarity),
                             checkRequired("stage", stage),
-                            checkRequired("type", type),
                             additionalProperties.toMutableMap(),
                         )
                 }
@@ -2722,7 +2938,6 @@ private constructor(
                     amount()
                     polarity().validate()
                     stage().validate()
-                    type().validate()
                     validated = true
                 }
 
@@ -2744,8 +2959,7 @@ private constructor(
                 internal fun validity(): Int =
                     (if (amount.asKnown().isPresent) 1 else 0) +
                         (polarity.asKnown().getOrNull()?.validity() ?: 0) +
-                        (stage.asKnown().getOrNull()?.validity() ?: 0) +
-                        (type.asKnown().getOrNull()?.validity() ?: 0)
+                        (stage.asKnown().getOrNull()?.validity() ?: 0)
 
                 /** Direction of funds flow */
                 class Polarity
@@ -3055,144 +3269,6 @@ private constructor(
                     override fun toString() = value.toString()
                 }
 
-                /** Event type discriminator */
-                class Type @JsonCreator private constructor(private val value: JsonField<String>) :
-                    Enum {
-
-                    /**
-                     * Returns this class instance's raw value.
-                     *
-                     * This is usually only useful if this instance was deserialized from data that
-                     * doesn't match any known member, and you want to know that value. For example,
-                     * if the SDK is on an older version than the API, then the API may respond with
-                     * new members that the SDK is unaware of.
-                     */
-                    @com.fasterxml.jackson.annotation.JsonValue
-                    fun _value(): JsonField<String> = value
-
-                    companion object {
-
-                        @JvmField val FINANCIAL = of("FINANCIAL")
-
-                        @JvmStatic fun of(value: String) = Type(JsonField.of(value))
-                    }
-
-                    /** An enum containing [Type]'s known values. */
-                    enum class Known {
-                        FINANCIAL
-                    }
-
-                    /**
-                     * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
-                     *
-                     * An instance of [Type] can contain an unknown value in a couple of cases:
-                     * - It was deserialized from data that doesn't match any known member. For
-                     *   example, if the SDK is on an older version than the API, then the API may
-                     *   respond with new members that the SDK is unaware of.
-                     * - It was constructed with an arbitrary value using the [of] method.
-                     */
-                    enum class Value {
-                        FINANCIAL,
-                        /**
-                         * An enum member indicating that [Type] was instantiated with an unknown
-                         * value.
-                         */
-                        _UNKNOWN,
-                    }
-
-                    /**
-                     * Returns an enum member corresponding to this class instance's value, or
-                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                     *
-                     * Use the [known] method instead if you're certain the value is always known or
-                     * if you want to throw for the unknown case.
-                     */
-                    fun value(): Value =
-                        when (this) {
-                            FINANCIAL -> Value.FINANCIAL
-                            else -> Value._UNKNOWN
-                        }
-
-                    /**
-                     * Returns an enum member corresponding to this class instance's value.
-                     *
-                     * Use the [value] method instead if you're uncertain the value is always known
-                     * and don't want to throw for the unknown case.
-                     *
-                     * @throws LithicInvalidDataException if this class instance's value is a not a
-                     *   known member.
-                     */
-                    fun known(): Known =
-                        when (this) {
-                            FINANCIAL -> Known.FINANCIAL
-                            else -> throw LithicInvalidDataException("Unknown Type: $value")
-                        }
-
-                    /**
-                     * Returns this class instance's primitive wire representation.
-                     *
-                     * This differs from the [toString] method because that method is primarily for
-                     * debugging and generally doesn't throw.
-                     *
-                     * @throws LithicInvalidDataException if this class instance's value does not
-                     *   have the expected primitive type.
-                     */
-                    fun asString(): String =
-                        _value().asString().orElseThrow {
-                            LithicInvalidDataException("Value is not a String")
-                        }
-
-                    private var validated: Boolean = false
-
-                    /**
-                     * Validates that the types of all values in this object match their expected
-                     * types recursively.
-                     *
-                     * This method is _not_ forwards compatible with new types from the API for
-                     * existing fields.
-                     *
-                     * @throws LithicInvalidDataException if any value type in this object doesn't
-                     *   match its expected type.
-                     */
-                    fun validate(): Type = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        known()
-                        validated = true
-                    }
-
-                    fun isValid(): Boolean =
-                        try {
-                            validate()
-                            true
-                        } catch (e: LithicInvalidDataException) {
-                            false
-                        }
-
-                    /**
-                     * Returns a score indicating how many valid values are contained in this object
-                     * recursively.
-                     *
-                     * Used for best match union deserialization.
-                     */
-                    @JvmSynthetic
-                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Type && value == other.value
-                    }
-
-                    override fun hashCode() = value.hashCode()
-
-                    override fun toString() = value.toString()
-                }
-
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
                         return true
@@ -3202,19 +3278,455 @@ private constructor(
                         amount == other.amount &&
                         polarity == other.polarity &&
                         stage == other.stage &&
-                        type == other.type &&
                         additionalProperties == other.additionalProperties
                 }
 
                 private val hashCode: Int by lazy {
-                    Objects.hash(amount, polarity, stage, type, additionalProperties)
+                    Objects.hash(amount, polarity, stage, additionalProperties)
                 }
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "FinancialEventData{amount=$amount, polarity=$polarity, stage=$stage, type=$type, additionalProperties=$additionalProperties}"
+                    "FinancialEventData{amount=$amount, polarity=$polarity, stage=$stage, additionalProperties=$additionalProperties}"
             }
+
+            /** Type of event. Always `FINANCIAL` */
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val FINANCIAL = of("FINANCIAL")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    FINANCIAL
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    FINANCIAL,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        FINANCIAL -> Value.FINANCIAL
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        FINANCIAL -> Known.FINANCIAL
+                        else -> throw LithicInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Type && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is FinancialEvent &&
+                    token == other.token &&
+                    created == other.created &&
+                    data == other.data &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(token, created, data, type, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "FinancialEvent{token=$token, created=$created, data=$data, type=$type, additionalProperties=$additionalProperties}"
+        }
+
+        /** Event tracking a change in cardholder liability */
+        class CardholderLiabilityEvent
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val token: JsonField<String>,
+            private val created: JsonField<OffsetDateTime>,
+            private val data: JsonField<CardholderLiabilityEventData>,
+            private val type: JsonField<Type>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("created")
+                @ExcludeMissing
+                created: JsonField<OffsetDateTime> = JsonMissing.of(),
+                @JsonProperty("data")
+                @ExcludeMissing
+                data: JsonField<CardholderLiabilityEventData> = JsonMissing.of(),
+                @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
+            ) : this(token, created, data, type, mutableMapOf())
+
+            /**
+             * Unique identifier for the event, in UUID format
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun token(): String = token.getRequired("token")
+
+            /**
+             * When the event occurred
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun created(): OffsetDateTime = created.getRequired("created")
+
+            /**
+             * Details specific to cardholder liability events
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun data(): CardholderLiabilityEventData = data.getRequired("data")
+
+            /**
+             * Type of event. Always `CARDHOLDER_LIABILITY`
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun type(): Type = type.getRequired("type")
+
+            /**
+             * Returns the raw JSON value of [token].
+             *
+             * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+            /**
+             * Returns the raw JSON value of [created].
+             *
+             * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("created")
+            @ExcludeMissing
+            fun _created(): JsonField<OffsetDateTime> = created
+
+            /**
+             * Returns the raw JSON value of [data].
+             *
+             * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("data")
+            @ExcludeMissing
+            fun _data(): JsonField<CardholderLiabilityEventData> = data
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of
+                 * [CardholderLiabilityEvent].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .token()
+                 * .created()
+                 * .data()
+                 * .type()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [CardholderLiabilityEvent]. */
+            class Builder internal constructor() {
+
+                private var token: JsonField<String>? = null
+                private var created: JsonField<OffsetDateTime>? = null
+                private var data: JsonField<CardholderLiabilityEventData>? = null
+                private var type: JsonField<Type>? = null
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(cardholderLiabilityEvent: CardholderLiabilityEvent) = apply {
+                    token = cardholderLiabilityEvent.token
+                    created = cardholderLiabilityEvent.created
+                    data = cardholderLiabilityEvent.data
+                    type = cardholderLiabilityEvent.type
+                    additionalProperties =
+                        cardholderLiabilityEvent.additionalProperties.toMutableMap()
+                }
+
+                /** Unique identifier for the event, in UUID format */
+                fun token(token: String) = token(JsonField.of(token))
+
+                /**
+                 * Sets [Builder.token] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.token] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun token(token: JsonField<String>) = apply { this.token = token }
+
+                /** When the event occurred */
+                fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+                /**
+                 * Sets [Builder.created] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.created] with a well-typed [OffsetDateTime]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+                /** Details specific to cardholder liability events */
+                fun data(data: CardholderLiabilityEventData) = data(JsonField.of(data))
+
+                /**
+                 * Sets [Builder.data] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.data] with a well-typed
+                 * [CardholderLiabilityEventData] value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
+                 */
+                fun data(data: JsonField<CardholderLiabilityEventData>) = apply { this.data = data }
+
+                /** Type of event. Always `CARDHOLDER_LIABILITY` */
+                fun type(type: Type) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [Type] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun type(type: JsonField<Type>) = apply { this.type = type }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [CardholderLiabilityEvent].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .token()
+                 * .created()
+                 * .data()
+                 * .type()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): CardholderLiabilityEvent =
+                    CardholderLiabilityEvent(
+                        checkRequired("token", token),
+                        checkRequired("created", created),
+                        checkRequired("data", data),
+                        checkRequired("type", type),
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): CardholderLiabilityEvent = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                token()
+                created()
+                data().validate()
+                type().validate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (token.asKnown().isPresent) 1 else 0) +
+                    (if (created.asKnown().isPresent) 1 else 0) +
+                    (data.asKnown().getOrNull()?.validity() ?: 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0)
 
             /** Details specific to cardholder liability events */
             class CardholderLiabilityEventData
@@ -3223,7 +3735,6 @@ private constructor(
                 private val action: JsonField<Action>,
                 private val amount: JsonField<Long>,
                 private val reason: JsonField<String>,
-                private val type: JsonField<Type>,
                 private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
@@ -3238,8 +3749,7 @@ private constructor(
                     @JsonProperty("reason")
                     @ExcludeMissing
                     reason: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
-                ) : this(action, amount, reason, type, mutableMapOf())
+                ) : this(action, amount, reason, mutableMapOf())
 
                 /**
                  * Action taken regarding cardholder liability
@@ -3262,20 +3772,10 @@ private constructor(
                 /**
                  * Reason for the action
                  *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
+                 * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
+                 *   if the server responded with an unexpected value).
                  */
-                fun reason(): String = reason.getRequired("reason")
-
-                /**
-                 * Event type discriminator
-                 *
-                 * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-                 *   unexpectedly missing or null (e.g. if the server responded with an unexpected
-                 *   value).
-                 */
-                fun type(): Type = type.getRequired("type")
+                fun reason(): Optional<String> = reason.getOptional("reason")
 
                 /**
                  * Returns the raw JSON value of [action].
@@ -3301,14 +3801,6 @@ private constructor(
                  */
                 @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
 
-                /**
-                 * Returns the raw JSON value of [type].
-                 *
-                 * Unlike [type], this method doesn't throw if the JSON field has an unexpected
-                 * type.
-                 */
-                @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
-
                 @JsonAnySetter
                 private fun putAdditionalProperty(key: String, value: JsonValue) {
                     additionalProperties.put(key, value)
@@ -3332,7 +3824,6 @@ private constructor(
                      * .action()
                      * .amount()
                      * .reason()
-                     * .type()
                      * ```
                      */
                     @JvmStatic fun builder() = Builder()
@@ -3344,7 +3835,6 @@ private constructor(
                     private var action: JsonField<Action>? = null
                     private var amount: JsonField<Long>? = null
                     private var reason: JsonField<String>? = null
-                    private var type: JsonField<Type>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -3353,7 +3843,6 @@ private constructor(
                             action = cardholderLiabilityEventData.action
                             amount = cardholderLiabilityEventData.amount
                             reason = cardholderLiabilityEventData.reason
-                            type = cardholderLiabilityEventData.type
                             additionalProperties =
                                 cardholderLiabilityEventData.additionalProperties.toMutableMap()
                         }
@@ -3383,7 +3872,10 @@ private constructor(
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                     /** Reason for the action */
-                    fun reason(reason: String) = reason(JsonField.of(reason))
+                    fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+                    /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+                    fun reason(reason: Optional<String>) = reason(reason.getOrNull())
 
                     /**
                      * Sets [Builder.reason] to an arbitrary JSON value.
@@ -3393,18 +3885,6 @@ private constructor(
                      * not yet supported value.
                      */
                     fun reason(reason: JsonField<String>) = apply { this.reason = reason }
-
-                    /** Event type discriminator */
-                    fun type(type: Type) = type(JsonField.of(type))
-
-                    /**
-                     * Sets [Builder.type] to an arbitrary JSON value.
-                     *
-                     * You should usually call [Builder.type] with a well-typed [Type] value
-                     * instead. This method is primarily for setting the field to an undocumented or
-                     * not yet supported value.
-                     */
-                    fun type(type: JsonField<Type>) = apply { this.type = type }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -3438,7 +3918,6 @@ private constructor(
                      * .action()
                      * .amount()
                      * .reason()
-                     * .type()
                      * ```
                      *
                      * @throws IllegalStateException if any required field is unset.
@@ -3448,7 +3927,6 @@ private constructor(
                             checkRequired("action", action),
                             checkRequired("amount", amount),
                             checkRequired("reason", reason),
-                            checkRequired("type", type),
                             additionalProperties.toMutableMap(),
                         )
                 }
@@ -3473,7 +3951,6 @@ private constructor(
                     action().validate()
                     amount()
                     reason()
-                    type().validate()
                     validated = true
                 }
 
@@ -3495,8 +3972,7 @@ private constructor(
                 internal fun validity(): Int =
                     (action.asKnown().getOrNull()?.validity() ?: 0) +
                         (if (amount.asKnown().isPresent) 1 else 0) +
-                        (if (reason.asKnown().isPresent) 1 else 0) +
-                        (type.asKnown().getOrNull()?.validity() ?: 0)
+                        (if (reason.asKnown().isPresent) 1 else 0)
 
                 /** Action taken regarding cardholder liability */
                 class Action
@@ -3656,144 +4132,6 @@ private constructor(
                     override fun toString() = value.toString()
                 }
 
-                /** Event type discriminator */
-                class Type @JsonCreator private constructor(private val value: JsonField<String>) :
-                    Enum {
-
-                    /**
-                     * Returns this class instance's raw value.
-                     *
-                     * This is usually only useful if this instance was deserialized from data that
-                     * doesn't match any known member, and you want to know that value. For example,
-                     * if the SDK is on an older version than the API, then the API may respond with
-                     * new members that the SDK is unaware of.
-                     */
-                    @com.fasterxml.jackson.annotation.JsonValue
-                    fun _value(): JsonField<String> = value
-
-                    companion object {
-
-                        @JvmField val CARDHOLDER_LIABILITY = of("CARDHOLDER_LIABILITY")
-
-                        @JvmStatic fun of(value: String) = Type(JsonField.of(value))
-                    }
-
-                    /** An enum containing [Type]'s known values. */
-                    enum class Known {
-                        CARDHOLDER_LIABILITY
-                    }
-
-                    /**
-                     * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
-                     *
-                     * An instance of [Type] can contain an unknown value in a couple of cases:
-                     * - It was deserialized from data that doesn't match any known member. For
-                     *   example, if the SDK is on an older version than the API, then the API may
-                     *   respond with new members that the SDK is unaware of.
-                     * - It was constructed with an arbitrary value using the [of] method.
-                     */
-                    enum class Value {
-                        CARDHOLDER_LIABILITY,
-                        /**
-                         * An enum member indicating that [Type] was instantiated with an unknown
-                         * value.
-                         */
-                        _UNKNOWN,
-                    }
-
-                    /**
-                     * Returns an enum member corresponding to this class instance's value, or
-                     * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-                     *
-                     * Use the [known] method instead if you're certain the value is always known or
-                     * if you want to throw for the unknown case.
-                     */
-                    fun value(): Value =
-                        when (this) {
-                            CARDHOLDER_LIABILITY -> Value.CARDHOLDER_LIABILITY
-                            else -> Value._UNKNOWN
-                        }
-
-                    /**
-                     * Returns an enum member corresponding to this class instance's value.
-                     *
-                     * Use the [value] method instead if you're uncertain the value is always known
-                     * and don't want to throw for the unknown case.
-                     *
-                     * @throws LithicInvalidDataException if this class instance's value is a not a
-                     *   known member.
-                     */
-                    fun known(): Known =
-                        when (this) {
-                            CARDHOLDER_LIABILITY -> Known.CARDHOLDER_LIABILITY
-                            else -> throw LithicInvalidDataException("Unknown Type: $value")
-                        }
-
-                    /**
-                     * Returns this class instance's primitive wire representation.
-                     *
-                     * This differs from the [toString] method because that method is primarily for
-                     * debugging and generally doesn't throw.
-                     *
-                     * @throws LithicInvalidDataException if this class instance's value does not
-                     *   have the expected primitive type.
-                     */
-                    fun asString(): String =
-                        _value().asString().orElseThrow {
-                            LithicInvalidDataException("Value is not a String")
-                        }
-
-                    private var validated: Boolean = false
-
-                    /**
-                     * Validates that the types of all values in this object match their expected
-                     * types recursively.
-                     *
-                     * This method is _not_ forwards compatible with new types from the API for
-                     * existing fields.
-                     *
-                     * @throws LithicInvalidDataException if any value type in this object doesn't
-                     *   match its expected type.
-                     */
-                    fun validate(): Type = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        known()
-                        validated = true
-                    }
-
-                    fun isValid(): Boolean =
-                        try {
-                            validate()
-                            true
-                        } catch (e: LithicInvalidDataException) {
-                            false
-                        }
-
-                    /**
-                     * Returns a score indicating how many valid values are contained in this object
-                     * recursively.
-                     *
-                     * Used for best match union deserialization.
-                     */
-                    @JvmSynthetic
-                    internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Type && value == other.value
-                    }
-
-                    override fun hashCode() = value.hashCode()
-
-                    override fun toString() = value.toString()
-                }
-
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
                         return true
@@ -3803,186 +4141,176 @@ private constructor(
                         action == other.action &&
                         amount == other.amount &&
                         reason == other.reason &&
-                        type == other.type &&
                         additionalProperties == other.additionalProperties
                 }
 
                 private val hashCode: Int by lazy {
-                    Objects.hash(action, amount, reason, type, additionalProperties)
+                    Objects.hash(action, amount, reason, additionalProperties)
                 }
 
                 override fun hashCode(): Int = hashCode
 
                 override fun toString() =
-                    "CardholderLiabilityEventData{action=$action, amount=$amount, reason=$reason, type=$type, additionalProperties=$additionalProperties}"
-            }
-        }
-
-        /** Type of event */
-        class Type @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
-
-            /**
-             * Returns this class instance's raw value.
-             *
-             * This is usually only useful if this instance was deserialized from data that doesn't
-             * match any known member, and you want to know that value. For example, if the SDK is
-             * on an older version than the API, then the API may respond with new members that the
-             * SDK is unaware of.
-             */
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            companion object {
-
-                @JvmField val WORKFLOW = of("WORKFLOW")
-
-                @JvmField val FINANCIAL = of("FINANCIAL")
-
-                @JvmField val CARDHOLDER_LIABILITY = of("CARDHOLDER_LIABILITY")
-
-                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                    "CardholderLiabilityEventData{action=$action, amount=$amount, reason=$reason, additionalProperties=$additionalProperties}"
             }
 
-            /** An enum containing [Type]'s known values. */
-            enum class Known {
-                WORKFLOW,
-                FINANCIAL,
-                CARDHOLDER_LIABILITY,
+            /** Type of event. Always `CARDHOLDER_LIABILITY` */
+            class Type @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val CARDHOLDER_LIABILITY = of("CARDHOLDER_LIABILITY")
+
+                    @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                }
+
+                /** An enum containing [Type]'s known values. */
+                enum class Known {
+                    CARDHOLDER_LIABILITY
+                }
+
+                /**
+                 * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [Type] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    CARDHOLDER_LIABILITY,
+                    /**
+                     * An enum member indicating that [Type] was instantiated with an unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        CARDHOLDER_LIABILITY -> Value.CARDHOLDER_LIABILITY
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        CARDHOLDER_LIABILITY -> Known.CARDHOLDER_LIABILITY
+                        else -> throw LithicInvalidDataException("Unknown Type: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): Type = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Type && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
-
-            /**
-             * An enum containing [Type]'s known values, as well as an [_UNKNOWN] member.
-             *
-             * An instance of [Type] can contain an unknown value in a couple of cases:
-             * - It was deserialized from data that doesn't match any known member. For example, if
-             *   the SDK is on an older version than the API, then the API may respond with new
-             *   members that the SDK is unaware of.
-             * - It was constructed with an arbitrary value using the [of] method.
-             */
-            enum class Value {
-                WORKFLOW,
-                FINANCIAL,
-                CARDHOLDER_LIABILITY,
-                /** An enum member indicating that [Type] was instantiated with an unknown value. */
-                _UNKNOWN,
-            }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value, or
-             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
-             *
-             * Use the [known] method instead if you're certain the value is always known or if you
-             * want to throw for the unknown case.
-             */
-            fun value(): Value =
-                when (this) {
-                    WORKFLOW -> Value.WORKFLOW
-                    FINANCIAL -> Value.FINANCIAL
-                    CARDHOLDER_LIABILITY -> Value.CARDHOLDER_LIABILITY
-                    else -> Value._UNKNOWN
-                }
-
-            /**
-             * Returns an enum member corresponding to this class instance's value.
-             *
-             * Use the [value] method instead if you're uncertain the value is always known and
-             * don't want to throw for the unknown case.
-             *
-             * @throws LithicInvalidDataException if this class instance's value is a not a known
-             *   member.
-             */
-            fun known(): Known =
-                when (this) {
-                    WORKFLOW -> Known.WORKFLOW
-                    FINANCIAL -> Known.FINANCIAL
-                    CARDHOLDER_LIABILITY -> Known.CARDHOLDER_LIABILITY
-                    else -> throw LithicInvalidDataException("Unknown Type: $value")
-                }
-
-            /**
-             * Returns this class instance's primitive wire representation.
-             *
-             * This differs from the [toString] method because that method is primarily for
-             * debugging and generally doesn't throw.
-             *
-             * @throws LithicInvalidDataException if this class instance's value does not have the
-             *   expected primitive type.
-             */
-            fun asString(): String =
-                _value().asString().orElseThrow {
-                    LithicInvalidDataException("Value is not a String")
-                }
-
-            private var validated: Boolean = false
-
-            /**
-             * Validates that the types of all values in this object match their expected types
-             * recursively.
-             *
-             * This method is _not_ forwards compatible with new types from the API for existing
-             * fields.
-             *
-             * @throws LithicInvalidDataException if any value type in this object doesn't match its
-             *   expected type.
-             */
-            fun validate(): Type = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                known()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: LithicInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
                 }
 
-                return other is Type && value == other.value
+                return other is CardholderLiabilityEvent &&
+                    token == other.token &&
+                    created == other.created &&
+                    data == other.data &&
+                    type == other.type &&
+                    additionalProperties == other.additionalProperties
             }
 
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
+            private val hashCode: Int by lazy {
+                Objects.hash(token, created, data, type, additionalProperties)
             }
 
-            return other is Event &&
-                token == other.token &&
-                created == other.created &&
-                data == other.data &&
-                type == other.type &&
-                additionalProperties == other.additionalProperties
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "CardholderLiabilityEvent{token=$token, created=$created, data=$data, type=$type, additionalProperties=$additionalProperties}"
         }
-
-        private val hashCode: Int by lazy {
-            Objects.hash(token, created, data, type, additionalProperties)
-        }
-
-        override fun hashCode(): Int = hashCode
-
-        override fun toString() =
-            "Event{token=$token, created=$created, data=$data, type=$type, additionalProperties=$additionalProperties}"
     }
 
     /** Current breakdown of how liability is allocated for the disputed amount */
