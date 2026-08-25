@@ -12989,20 +12989,23 @@ internal class ParsedWebhookEventTest {
                 .currency("USD")
                 .disposition(DisputeV2.Disposition.WON)
                 .addEvent(
-                    DisputeV2.Event.builder()
+                    DisputeV2.Event.WorkflowEvent.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .data(
-                            DisputeV2.Event.Data.WorkflowEventData.builder()
-                                .action(DisputeV2.Event.Data.WorkflowEventData.Action.OPENED)
+                            DisputeV2.Event.WorkflowEvent.WorkflowEventData.builder()
+                                .action(
+                                    DisputeV2.Event.WorkflowEvent.WorkflowEventData.Action.OPENED
+                                )
                                 .amount(0L)
-                                .disposition(DisputeV2.Event.Data.WorkflowEventData.Disposition.WON)
+                                .disposition(
+                                    DisputeV2.Event.WorkflowEvent.WorkflowEventData.Disposition.WON
+                                )
                                 .reason("reason")
-                                .stage(DisputeV2.Event.Data.WorkflowEventData.Stage.CLAIM)
-                                .type(DisputeV2.Event.Data.WorkflowEventData.Type.WORKFLOW)
+                                .stage(DisputeV2.Event.WorkflowEvent.WorkflowEventData.Stage.CLAIM)
                                 .build()
                         )
-                        .type(DisputeV2.Event.Type.WORKFLOW)
+                        .type(DisputeV2.Event.WorkflowEvent.Type.WORKFLOW)
                         .build()
                 )
                 .liabilityAllocation(
@@ -13129,22 +13132,27 @@ internal class ParsedWebhookEventTest {
                     .currency("USD")
                     .disposition(DisputeV2.Disposition.WON)
                     .addEvent(
-                        DisputeV2.Event.builder()
+                        DisputeV2.Event.WorkflowEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .data(
-                                DisputeV2.Event.Data.WorkflowEventData.builder()
-                                    .action(DisputeV2.Event.Data.WorkflowEventData.Action.OPENED)
+                                DisputeV2.Event.WorkflowEvent.WorkflowEventData.builder()
+                                    .action(
+                                        DisputeV2.Event.WorkflowEvent.WorkflowEventData.Action
+                                            .OPENED
+                                    )
                                     .amount(0L)
                                     .disposition(
-                                        DisputeV2.Event.Data.WorkflowEventData.Disposition.WON
+                                        DisputeV2.Event.WorkflowEvent.WorkflowEventData.Disposition
+                                            .WON
                                     )
                                     .reason("reason")
-                                    .stage(DisputeV2.Event.Data.WorkflowEventData.Stage.CLAIM)
-                                    .type(DisputeV2.Event.Data.WorkflowEventData.Type.WORKFLOW)
+                                    .stage(
+                                        DisputeV2.Event.WorkflowEvent.WorkflowEventData.Stage.CLAIM
+                                    )
                                     .build()
                             )
-                            .type(DisputeV2.Event.Type.WORKFLOW)
+                            .type(DisputeV2.Event.WorkflowEvent.Type.WORKFLOW)
                             .build()
                     )
                     .liabilityAllocation(
@@ -13205,20 +13213,23 @@ internal class ParsedWebhookEventTest {
                 .currency("USD")
                 .disposition(DisputeV2.Disposition.WON)
                 .addEvent(
-                    DisputeV2.Event.builder()
+                    DisputeV2.Event.WorkflowEvent.builder()
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .data(
-                            DisputeV2.Event.Data.WorkflowEventData.builder()
-                                .action(DisputeV2.Event.Data.WorkflowEventData.Action.OPENED)
+                            DisputeV2.Event.WorkflowEvent.WorkflowEventData.builder()
+                                .action(
+                                    DisputeV2.Event.WorkflowEvent.WorkflowEventData.Action.OPENED
+                                )
                                 .amount(0L)
-                                .disposition(DisputeV2.Event.Data.WorkflowEventData.Disposition.WON)
+                                .disposition(
+                                    DisputeV2.Event.WorkflowEvent.WorkflowEventData.Disposition.WON
+                                )
                                 .reason("reason")
-                                .stage(DisputeV2.Event.Data.WorkflowEventData.Stage.CLAIM)
-                                .type(DisputeV2.Event.Data.WorkflowEventData.Type.WORKFLOW)
+                                .stage(DisputeV2.Event.WorkflowEvent.WorkflowEventData.Stage.CLAIM)
                                 .build()
                         )
-                        .type(DisputeV2.Event.Type.WORKFLOW)
+                        .type(DisputeV2.Event.WorkflowEvent.Type.WORKFLOW)
                         .build()
                 )
                 .liabilityAllocation(
@@ -13345,22 +13356,27 @@ internal class ParsedWebhookEventTest {
                     .currency("USD")
                     .disposition(DisputeV2.Disposition.WON)
                     .addEvent(
-                        DisputeV2.Event.builder()
+                        DisputeV2.Event.WorkflowEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .data(
-                                DisputeV2.Event.Data.WorkflowEventData.builder()
-                                    .action(DisputeV2.Event.Data.WorkflowEventData.Action.OPENED)
+                                DisputeV2.Event.WorkflowEvent.WorkflowEventData.builder()
+                                    .action(
+                                        DisputeV2.Event.WorkflowEvent.WorkflowEventData.Action
+                                            .OPENED
+                                    )
                                     .amount(0L)
                                     .disposition(
-                                        DisputeV2.Event.Data.WorkflowEventData.Disposition.WON
+                                        DisputeV2.Event.WorkflowEvent.WorkflowEventData.Disposition
+                                            .WON
                                     )
                                     .reason("reason")
-                                    .stage(DisputeV2.Event.Data.WorkflowEventData.Stage.CLAIM)
-                                    .type(DisputeV2.Event.Data.WorkflowEventData.Type.WORKFLOW)
+                                    .stage(
+                                        DisputeV2.Event.WorkflowEvent.WorkflowEventData.Stage.CLAIM
+                                    )
                                     .build()
                             )
-                            .type(DisputeV2.Event.Type.WORKFLOW)
+                            .type(DisputeV2.Event.WorkflowEvent.Type.WORKFLOW)
                             .build()
                     )
                     .liabilityAllocation(

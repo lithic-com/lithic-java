@@ -598,6 +598,21 @@ private constructor(
                 }
         }
 
+        /** Alias for calling [addEvent] with `DisputeV2.Event.ofWorkflow(workflow)`. */
+        fun addEvent(workflow: DisputeV2.Event.WorkflowEvent) =
+            addEvent(DisputeV2.Event.ofWorkflow(workflow))
+
+        /** Alias for calling [addEvent] with `DisputeV2.Event.ofFinancial(financial)`. */
+        fun addEvent(financial: DisputeV2.Event.FinancialEvent) =
+            addEvent(DisputeV2.Event.ofFinancial(financial))
+
+        /**
+         * Alias for calling [addEvent] with
+         * `DisputeV2.Event.ofCardholderLiability(cardholderLiability)`.
+         */
+        fun addEvent(cardholderLiability: DisputeV2.Event.CardholderLiabilityEvent) =
+            addEvent(DisputeV2.Event.ofCardholderLiability(cardholderLiability))
+
         /** Current breakdown of how liability is allocated for the disputed amount */
         fun liabilityAllocation(liabilityAllocation: DisputeV2.LiabilityAllocation) =
             liabilityAllocation(JsonField.of(liabilityAllocation))
