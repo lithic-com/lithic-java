@@ -93,12 +93,13 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /**
-     * The financial account the blockchain recipient belongs to
+     * The financial account the blockchain recipient belongs to, or null when the recipient is
+     * registered against the program rather than a financial account
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun accountToken(): String = accountToken.getRequired("account_token")
+    fun accountToken(): Optional<String> = accountToken.getOptional("account_token")
 
     /**
      * An optional tag or memo used by some chains to identify the destination of a transfer within
@@ -369,8 +370,14 @@ private constructor(
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        /** The financial account the blockchain recipient belongs to */
-        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
+        /**
+         * The financial account the blockchain recipient belongs to, or null when the recipient is
+         * registered against the program rather than a financial account
+         */
+        fun accountToken(accountToken: String?) = accountToken(JsonField.ofNullable(accountToken))
+
+        /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
         /**
          * Sets [Builder.accountToken] to an arbitrary JSON value.
