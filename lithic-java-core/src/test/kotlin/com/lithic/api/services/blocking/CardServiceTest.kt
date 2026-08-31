@@ -10,6 +10,7 @@ import com.lithic.api.models.CardEmbedParams
 import com.lithic.api.models.CardGetEmbedHtmlParams
 import com.lithic.api.models.CardGetEmbedUrlParams
 import com.lithic.api.models.CardProvisionParams
+import com.lithic.api.models.CardReassignAccountParams
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardSearchByPanParams
@@ -211,6 +212,26 @@ internal class CardServiceTest {
             )
 
         response.validate()
+    }
+
+    @Test
+    fun reassignAccount() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val cardService = client.cards()
+
+        val card =
+            cardService.reassignAccount(
+                CardReassignAccountParams.builder()
+                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .newAccountToken("82d7c408-2bbb-4f63-889a-8a2a2b1601af")
+                    .build()
+            )
+
+        card.validate()
     }
 
     @Test
