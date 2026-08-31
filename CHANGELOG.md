@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.133.0 (2026-08-31)
+
+Full Changelog: [v0.132.0...v0.133.0](https://github.com/lithic-com/lithic-java/compare/v0.132.0...v0.133.0)
+
+### Features
+
+* **api:** add blockchain_addresses field to FinancialAccount and webhook events ([3ac1807](https://github.com/lithic-com/lithic-java/commit/3ac18071466c0d8e43570f4cdf878ec1a506a40c))
+* **api:** add blockchain_recipients create endpoint ([0188b4a](https://github.com/lithic-com/lithic-java/commit/0188b4ae0bc6b0df2b453cca67ddd0a1cd37c47d))
+* **api:** add claimToken field to disputes/webhooks, claim filter, write_off_reversed action ([6c4513a](https://github.com/lithic-com/lithic-java/commit/6c4513ac0ce50e18378690069181fa6e865f3808))
+* **api:** add limitCashAmount/limitCashCount fields to VelocityLimitParams ([9507834](https://github.com/lithic-com/lithic-java/commit/9507834f2c34614684d100e960b40a1dca2ce9c5))
+* **api:** add PROGRAM scope to AchPayment/CardTransaction, entity types to Case ([cd6e1c3](https://github.com/lithic-com/lithic-java/commit/cd6e1c3244d56d6c37ea9806d4de572a19ca5244))
+* **api:** add reassign account endpoint to cards ([9f1c947](https://github.com/lithic-com/lithic-java/commit/9f1c9476336a2d595f7e80fd63931705218076ac))
+* **api:** add stablecoin event types to FinancialEvent/Payment/StatementLineItems ([46fa6f1](https://github.com/lithic-com/lithic-java/commit/46fa6f1495cab9c378cf03932090cb6710fff7ed))
+* **api:** add STABLECOIN method to Payment and related responses ([5c383bd](https://github.com/lithic-com/lithic-java/commit/5c383bd94b665fc89aa5d1bc1dbe298329a8cc57))
+* **api:** Add STABLECOIN to approvals request and transfer type enums ([3b3dd7a](https://github.com/lithic-com/lithic-java/commit/3b3dd7ae05e57fd7d4112db5dab1a752cdacbe72))
+* **api:** add STABLECOIN_INBOUND/STABLECOIN_OUTBOUND to Payment.TransferType ([3f8fb7f](https://github.com/lithic-com/lithic-java/commit/3f8fb7f989c23a62781d16fb9f224e4a766862ad))
+* Make blockchain recipient account_token nullable ([987f46b](https://github.com/lithic-com/lithic-java/commit/987f46b640d2c3f2087cd30b15170b5479c1332c))
+* Remove stablecoin transfer type ([f07b217](https://github.com/lithic-com/lithic-java/commit/f07b217e8e7c332f4bb8182a182492829c5245ce))
+
+
+### Bug Fixes
+
+* **docs:** link the javadoc badge so the version stays current after release ([d886c69](https://github.com/lithic-com/lithic-java/commit/d886c69a4a93db7f6ebe88a914cacd67fa942b50))
+* **types:** make methodAttributes optional in Payment models, add STABLECOIN method ([6af3f53](https://github.com/lithic-com/lithic-java/commit/6af3f53be4b1d6ee4181049af0e232d011a975db))
+* **types:** remove type discriminator, rename methods in DisputeV2 event data variants ([4979042](https://github.com/lithic-com/lithic-java/commit/4979042ad05224e10d01d6b3fcb4dd659f0389b2))
+
+
+### Chores
+
+* **internal:** allow the mock server port to be set with STAINLESS_MOCK_PORT ([af428ae](https://github.com/lithic-com/lithic-java/commit/af428ae2f8a8d05c07487261911244e5217a9a4b))
+* **internal:** codegen related update ([52d6ae2](https://github.com/lithic-com/lithic-java/commit/52d6ae231494ee41dd93a30d361dddd1b87063f9))
+* **internal:** codegen related update ([39e4623](https://github.com/lithic-com/lithic-java/commit/39e4623d63b58bc9f048cc6a2592e657cf1706b8))
+
+
+### Documentation
+
+* **api:** clarify wallet ID parameter requirements in card provision ([4e66287](https://github.com/lithic-com/lithic-java/commit/4e6628735e0aa2cccf50fc191a3b0c06dc5dfb0f))
+* **api:** update CVV field descriptions to note AMEX uses 4 digits ([2892515](https://github.com/lithic-com/lithic-java/commit/28925154b2b09da8cfc8e8a01d38886698df0156))
+
 ## 0.132.0 (2026-08-03)
 
 Full Changelog: [v0.131.0...v0.132.0](https://github.com/lithic-com/lithic-java/compare/v0.131.0...v0.132.0)
