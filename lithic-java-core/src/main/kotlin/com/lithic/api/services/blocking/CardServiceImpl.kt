@@ -28,6 +28,7 @@ import com.lithic.api.models.CardListPageResponse
 import com.lithic.api.models.CardListParams
 import com.lithic.api.models.CardProvisionParams
 import com.lithic.api.models.CardProvisionResponse
+import com.lithic.api.models.CardReassignAccountParams
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardRetrieveParams
@@ -105,6 +106,13 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
     ): CardProvisionResponse =
         // post /v1/cards/{card_token}/provision
         withRawResponse().provision(params, requestOptions).parse()
+
+    override fun reassignAccount(
+        params: CardReassignAccountParams,
+        requestOptions: RequestOptions,
+    ): Card =
+        // post /v1/cards/{card_token}/reassign_account
+        withRawResponse().reassignAccount(params, requestOptions).parse()
 
     override fun reissue(params: CardReissueParams, requestOptions: RequestOptions): Card =
         // post /v1/cards/{card_token}/reissue
@@ -361,6 +369,37 @@ class CardServiceImpl internal constructor(private val clientOptions: ClientOpti
             return errorHandler.handle(response).parseable {
                 response
                     .use { provisionHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val reassignAccountHandler: Handler<Card> =
+            jsonHandler<Card>(clientOptions.jsonMapper)
+
+        override fun reassignAccount(
+            params: CardReassignAccountParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Card> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "cards", params._pathParam(0), "reassign_account")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { reassignAccountHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
