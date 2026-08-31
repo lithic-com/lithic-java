@@ -49,8 +49,10 @@ private constructor(
     fun certificate(): Optional<String> = body.certificate()
 
     /**
-     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
-     * Visa network. Stable device identification set by the wallet provider.
+     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Stable device
+     * identification set by the wallet provider. Required for both wallets regardless of network,
+     * though the value is only used for cards on the Visa network and is ignored on Amex and
+     * Mastercard.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -58,8 +60,10 @@ private constructor(
     fun clientDeviceId(): Optional<String> = body.clientDeviceId()
 
     /**
-     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
-     * Visa network. Consumer ID that identifies the wallet account holder entity.
+     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Consumer ID that
+     * identifies the wallet account holder entity. Required for both wallets regardless of network,
+     * though the value is only used for cards on the Visa network and is ignored on Amex and
+     * Mastercard.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -206,8 +210,10 @@ private constructor(
         fun certificate(certificate: JsonField<String>) = apply { body.certificate(certificate) }
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Stable device identification set by the wallet provider.
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Stable device
+         * identification set by the wallet provider. Required for both wallets regardless of
+         * network, though the value is only used for cards on the Visa network and is ignored on
+         * Amex and Mastercard.
          */
         fun clientDeviceId(clientDeviceId: String) = apply { body.clientDeviceId(clientDeviceId) }
 
@@ -223,8 +229,10 @@ private constructor(
         }
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Consumer ID that
+         * identifies the wallet account holder entity. Required for both wallets regardless of
+         * network, though the value is only used for cards on the Visa network and is ignored on
+         * Amex and Mastercard.
          */
         fun clientWalletAccountId(clientWalletAccountId: String) = apply {
             body.clientWalletAccountId(clientWalletAccountId)
@@ -483,8 +491,10 @@ private constructor(
         fun certificate(): Optional<String> = certificate.getOptional("certificate")
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Stable device identification set by the wallet provider.
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Stable device
+         * identification set by the wallet provider. Required for both wallets regardless of
+         * network, though the value is only used for cards on the Visa network and is ignored on
+         * Amex and Mastercard.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -492,8 +502,10 @@ private constructor(
         fun clientDeviceId(): Optional<String> = clientDeviceId.getOptional("client_device_id")
 
         /**
-         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
-         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Consumer ID that
+         * identifies the wallet account holder entity. Required for both wallets regardless of
+         * network, though the value is only used for cards on the Visa network and is ignored on
+         * Amex and Mastercard.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -643,8 +655,10 @@ private constructor(
             }
 
             /**
-             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Stable device identification set by the wallet provider.
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Stable device
+             * identification set by the wallet provider. Required for both wallets regardless of
+             * network, though the value is only used for cards on the Visa network and is ignored
+             * on Amex and Mastercard.
              */
             fun clientDeviceId(clientDeviceId: String) =
                 clientDeviceId(JsonField.of(clientDeviceId))
@@ -661,8 +675,10 @@ private constructor(
             }
 
             /**
-             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY`. Consumer ID
+             * that identifies the wallet account holder entity. Required for both wallets
+             * regardless of network, though the value is only used for cards on the Visa network
+             * and is ignored on Amex and Mastercard.
              */
             fun clientWalletAccountId(clientWalletAccountId: String) =
                 clientWalletAccountId(JsonField.of(clientWalletAccountId))

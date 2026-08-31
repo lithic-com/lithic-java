@@ -862,12 +862,15 @@ private constructor(
 
                 @JvmField val FINANCIAL_ACCOUNT = of("FINANCIAL_ACCOUNT")
 
+                @JvmField val PROGRAM = of("PROGRAM")
+
                 @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
             }
 
             /** An enum containing [Scope]'s known values. */
             enum class Known {
-                FINANCIAL_ACCOUNT
+                FINANCIAL_ACCOUNT,
+                PROGRAM,
             }
 
             /**
@@ -881,6 +884,7 @@ private constructor(
              */
             enum class Value {
                 FINANCIAL_ACCOUNT,
+                PROGRAM,
                 /**
                  * An enum member indicating that [Scope] was instantiated with an unknown value.
                  */
@@ -897,6 +901,7 @@ private constructor(
             fun value(): Value =
                 when (this) {
                     FINANCIAL_ACCOUNT -> Value.FINANCIAL_ACCOUNT
+                    PROGRAM -> Value.PROGRAM
                     else -> Value._UNKNOWN
                 }
 
@@ -912,6 +917,7 @@ private constructor(
             fun known(): Known =
                 when (this) {
                     FINANCIAL_ACCOUNT -> Known.FINANCIAL_ACCOUNT
+                    PROGRAM -> Known.PROGRAM
                     else -> throw LithicInvalidDataException("Unknown Scope: $value")
                 }
 

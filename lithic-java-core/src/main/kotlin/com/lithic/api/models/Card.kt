@@ -434,7 +434,7 @@ private constructor(
     fun substatus(): Optional<NonPciCard.Substatus> = substatus.getOptional("substatus")
 
     /**
-     * Three digit cvv printed on the back of the card.
+     * Three or four digit CVV printed on the card. Amex cards use four digit CVVs
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -1241,7 +1241,7 @@ private constructor(
             this.substatus = substatus
         }
 
-        /** Three digit cvv printed on the back of the card. */
+        /** Three or four digit CVV printed on the card. Amex cards use four digit CVVs */
         fun cvv(cvv: String) = cvv(JsonField.of(cvv))
 
         /**

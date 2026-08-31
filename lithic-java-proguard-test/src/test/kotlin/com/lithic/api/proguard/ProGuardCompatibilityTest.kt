@@ -68,6 +68,7 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.transactions()).isNotNull()
         assertThat(client.responderEndpoints()).isNotNull()
         assertThat(client.externalBankAccounts()).isNotNull()
+        assertThat(client.blockchainRecipients()).isNotNull()
         assertThat(client.payments()).isNotNull()
         assertThat(client.threeDS()).isNotNull()
         assertThat(client.reports()).isNotNull()

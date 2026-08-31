@@ -17,7 +17,7 @@ internal class CaseEntityTest {
                 .entityType(CaseEntity.EntityType2.CARD)
                 .build()
 
-        assertThat(caseEntity.entityToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(caseEntity.entityToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(caseEntity.entityType()).isEqualTo(CaseEntity.EntityType2.CARD)
     }
 
