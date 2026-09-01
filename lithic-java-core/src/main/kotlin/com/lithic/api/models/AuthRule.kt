@@ -210,6 +210,8 @@ private constructor(
      * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
      *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or ACH_PAYMENT_UPDATE event
      *   stream.
+     * - `OTHER`: A rule whose type is not exposed through this API. Rules of this type are
+     *   read-only; `OTHER` cannot be used when creating a rule.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -662,6 +664,8 @@ private constructor(
          * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
          *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or ACH_PAYMENT_UPDATE
          *   event stream.
+         * - `OTHER`: A rule whose type is not exposed through this API. Rules of this type are
+         *   read-only; `OTHER` cannot be used when creating a rule.
          */
         fun type(type: AuthRuleType) = type(JsonField.of(type))
 
@@ -3254,6 +3258,8 @@ private constructor(
      * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
      *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or ACH_PAYMENT_UPDATE event
      *   stream.
+     * - `OTHER`: A rule whose type is not exposed through this API. Rules of this type are
+     *   read-only; `OTHER` cannot be used when creating a rule.
      */
     class AuthRuleType @JsonCreator private constructor(private val value: JsonField<String>) :
         Enum {
@@ -3280,6 +3286,8 @@ private constructor(
 
             @JvmField val TYPESCRIPT_CODE = of("TYPESCRIPT_CODE")
 
+            @JvmField val OTHER = of("OTHER")
+
             @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
         }
 
@@ -3290,6 +3298,7 @@ private constructor(
             MERCHANT_LOCK,
             CONDITIONAL_ACTION,
             TYPESCRIPT_CODE,
+            OTHER,
         }
 
         /**
@@ -3307,6 +3316,7 @@ private constructor(
             MERCHANT_LOCK,
             CONDITIONAL_ACTION,
             TYPESCRIPT_CODE,
+            OTHER,
             /**
              * An enum member indicating that [AuthRuleType] was instantiated with an unknown value.
              */
@@ -3327,6 +3337,7 @@ private constructor(
                 MERCHANT_LOCK -> Value.MERCHANT_LOCK
                 CONDITIONAL_ACTION -> Value.CONDITIONAL_ACTION
                 TYPESCRIPT_CODE -> Value.TYPESCRIPT_CODE
+                OTHER -> Value.OTHER
                 else -> Value._UNKNOWN
             }
 
@@ -3346,6 +3357,7 @@ private constructor(
                 MERCHANT_LOCK -> Known.MERCHANT_LOCK
                 CONDITIONAL_ACTION -> Known.CONDITIONAL_ACTION
                 TYPESCRIPT_CODE -> Known.TYPESCRIPT_CODE
+                OTHER -> Known.OTHER
                 else -> throw LithicInvalidDataException("Unknown AuthRuleType: $value")
             }
 
