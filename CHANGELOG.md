@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.134.0 (2026-09-03)
+
+Full Changelog: [v0.133.0...v0.134.0](https://github.com/lithic-com/lithic-java/compare/v0.133.0...v0.134.0)
+
+### Features
+
+* **api:** add EXTERNAL_STABLECOIN category/events to payments and account activity models ([71a8dc7](https://github.com/lithic-com/lithic-java/commit/71a8dc7df0db29dc489ba45c3c677e3d1dbeafa1))
+* **types:** add OTHER enum value to AuthRuleType ([498c5fe](https://github.com/lithic-com/lithic-java/commit/498c5fe9b52733f1723a1f5014b354c0b52a3d3b))
+
 ## 0.133.0 (2026-08-31)
 
 Full Changelog: [v0.132.0...v0.133.0](https://github.com/lithic-com/lithic-java/compare/v0.132.0...v0.133.0)
