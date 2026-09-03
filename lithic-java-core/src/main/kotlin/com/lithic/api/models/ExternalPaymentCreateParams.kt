@@ -1006,6 +1006,8 @@ private constructor(
 
             @JvmField val EXTERNAL_RTP = of("EXTERNAL_RTP")
 
+            @JvmField val EXTERNAL_STABLECOIN = of("EXTERNAL_STABLECOIN")
+
             @JvmField val EXTERNAL_TRANSFER = of("EXTERNAL_TRANSFER")
 
             @JvmStatic fun of(value: String) = ExternalPaymentCategory(JsonField.of(value))
@@ -1018,6 +1020,7 @@ private constructor(
             EXTERNAL_CHECK,
             EXTERNAL_FEDNOW,
             EXTERNAL_RTP,
+            EXTERNAL_STABLECOIN,
             EXTERNAL_TRANSFER,
         }
 
@@ -1038,6 +1041,7 @@ private constructor(
             EXTERNAL_CHECK,
             EXTERNAL_FEDNOW,
             EXTERNAL_RTP,
+            EXTERNAL_STABLECOIN,
             EXTERNAL_TRANSFER,
             /**
              * An enum member indicating that [ExternalPaymentCategory] was instantiated with an
@@ -1060,6 +1064,7 @@ private constructor(
                 EXTERNAL_CHECK -> Value.EXTERNAL_CHECK
                 EXTERNAL_FEDNOW -> Value.EXTERNAL_FEDNOW
                 EXTERNAL_RTP -> Value.EXTERNAL_RTP
+                EXTERNAL_STABLECOIN -> Value.EXTERNAL_STABLECOIN
                 EXTERNAL_TRANSFER -> Value.EXTERNAL_TRANSFER
                 else -> Value._UNKNOWN
             }
@@ -1080,6 +1085,7 @@ private constructor(
                 EXTERNAL_CHECK -> Known.EXTERNAL_CHECK
                 EXTERNAL_FEDNOW -> Known.EXTERNAL_FEDNOW
                 EXTERNAL_RTP -> Known.EXTERNAL_RTP
+                EXTERNAL_STABLECOIN -> Known.EXTERNAL_STABLECOIN
                 EXTERNAL_TRANSFER -> Known.EXTERNAL_TRANSFER
                 else -> throw LithicInvalidDataException("Unknown ExternalPaymentCategory: $value")
             }
