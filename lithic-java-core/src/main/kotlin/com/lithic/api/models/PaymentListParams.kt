@@ -371,12 +371,15 @@ private constructor(
 
             @JvmField val ACH = of("ACH")
 
+            @JvmField val STABLECOIN = of("STABLECOIN")
+
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
 
         /** An enum containing [Category]'s known values. */
         enum class Known {
-            ACH
+            ACH,
+            STABLECOIN,
         }
 
         /**
@@ -390,6 +393,7 @@ private constructor(
          */
         enum class Value {
             ACH,
+            STABLECOIN,
             /** An enum member indicating that [Category] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -404,6 +408,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 ACH -> Value.ACH
+                STABLECOIN -> Value.STABLECOIN
                 else -> Value._UNKNOWN
             }
 
@@ -419,6 +424,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 ACH -> Known.ACH
+                STABLECOIN -> Known.STABLECOIN
                 else -> throw LithicInvalidDataException("Unknown Category: $value")
             }
 

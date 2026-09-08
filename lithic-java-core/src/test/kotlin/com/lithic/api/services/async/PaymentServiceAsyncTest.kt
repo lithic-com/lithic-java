@@ -5,6 +5,7 @@ package com.lithic.api.services.async
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
 import com.lithic.api.models.PaymentCreateParams
+import com.lithic.api.models.PaymentCreateStablecoinParams
 import com.lithic.api.models.PaymentReturnParams
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -85,6 +86,36 @@ internal class PaymentServiceAsyncTest {
 
         val page = pageFuture.get()
         page.response().validate()
+    }
+
+    @Test
+    fun createStablecoin() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val paymentServiceAsync = client.payments()
+
+        val responseFuture =
+            paymentServiceAsync.createStablecoin(
+                PaymentCreateStablecoinParams.builder()
+                    .amount(1588L)
+                    .blockchainRecipientToken("1e3fdb71-4b52-4a30-a7a9-52c85e26a1d9")
+                    .financialAccountToken("35b0c466-a3e3-519a-9549-ead6a6a2277d")
+                    .type(PaymentCreateStablecoinParams.Type.PAYMENT)
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .hold(
+                        PaymentCreateStablecoinParams.Hold.builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
+                    .memo("Vendor payout")
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 
     @Test
