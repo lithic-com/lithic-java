@@ -1373,6 +1373,10 @@ private constructor(
 
                 @JvmField val FINANCIAL_CREDIT_AUTHORIZATION = of("FINANCIAL_CREDIT_AUTHORIZATION")
 
+                @JvmField val INSTALLMENT_FEE = of("INSTALLMENT_FEE")
+
+                @JvmField val INSTALLMENT_FEE_REVERSAL = of("INSTALLMENT_FEE_REVERSAL")
+
                 @JvmField val INTEREST = of("INTEREST")
 
                 @JvmField val INTEREST_REVERSAL = of("INTEREST_REVERSAL")
@@ -1510,6 +1514,8 @@ private constructor(
                 EXTERNAL_WIRE_SETTLED,
                 FINANCIAL_AUTHORIZATION,
                 FINANCIAL_CREDIT_AUTHORIZATION,
+                INSTALLMENT_FEE,
+                INSTALLMENT_FEE_REVERSAL,
                 INTEREST,
                 INTEREST_REVERSAL,
                 INTERNAL_ADJUSTMENT,
@@ -1625,6 +1631,8 @@ private constructor(
                 EXTERNAL_WIRE_SETTLED,
                 FINANCIAL_AUTHORIZATION,
                 FINANCIAL_CREDIT_AUTHORIZATION,
+                INSTALLMENT_FEE,
+                INSTALLMENT_FEE_REVERSAL,
                 INTEREST,
                 INTEREST_REVERSAL,
                 INTERNAL_ADJUSTMENT,
@@ -1742,6 +1750,8 @@ private constructor(
                     EXTERNAL_WIRE_SETTLED -> Value.EXTERNAL_WIRE_SETTLED
                     FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
                     FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
+                    INSTALLMENT_FEE -> Value.INSTALLMENT_FEE
+                    INSTALLMENT_FEE_REVERSAL -> Value.INSTALLMENT_FEE_REVERSAL
                     INTEREST -> Value.INTEREST
                     INTEREST_REVERSAL -> Value.INTEREST_REVERSAL
                     INTERNAL_ADJUSTMENT -> Value.INTERNAL_ADJUSTMENT
@@ -1857,6 +1867,8 @@ private constructor(
                     EXTERNAL_WIRE_SETTLED -> Known.EXTERNAL_WIRE_SETTLED
                     FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
                     FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
+                    INSTALLMENT_FEE -> Known.INSTALLMENT_FEE
+                    INSTALLMENT_FEE_REVERSAL -> Known.INSTALLMENT_FEE_REVERSAL
                     INTEREST -> Known.INTEREST
                     INTEREST_REVERSAL -> Known.INTEREST_REVERSAL
                     INTERNAL_ADJUSTMENT -> Known.INTERNAL_ADJUSTMENT
