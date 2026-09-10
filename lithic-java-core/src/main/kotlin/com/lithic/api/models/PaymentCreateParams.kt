@@ -21,7 +21,14 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Initiates a payment between a financial account and an external bank account. */
+/**
+ * Initiates an ACH payment between a financial account and an external bank account.
+ *
+ * This endpoint originates on the ACH rail only. To send a stablecoin payout, use the
+ * [Create stablecoin payment](https://docs.lithic.com/reference/createstablecoinpayment) endpoint.
+ * Payments on every rail are read back through
+ * [List payments](https://docs.lithic.com/reference/searchpayments).
+ */
 class PaymentCreateParams
 private constructor(
     private val body: CreatePaymentRequest,
