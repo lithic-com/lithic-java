@@ -7,6 +7,7 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.BlockchainRecipient
 import com.lithic.api.models.BlockchainRecipientCreateParams
+import com.lithic.api.models.BlockchainRecipientRetrieveParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -42,6 +43,51 @@ interface BlockchainRecipientServiceAsync {
     ): CompletableFuture<BlockchainRecipient>
 
     /**
+     * Get a blockchain recipient by token
+     *
+     * Use this to poll the `verification_state` after registering an address: a recipient cannot
+     * receive a payout until screening completes and moves it out of `PENDING`
+     */
+    fun retrieve(blockchainRecipientToken: String): CompletableFuture<BlockchainRecipient> =
+        retrieve(blockchainRecipientToken, BlockchainRecipientRetrieveParams.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        blockchainRecipientToken: String,
+        params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BlockchainRecipient> =
+        retrieve(
+            params.toBuilder().blockchainRecipientToken(blockchainRecipientToken).build(),
+            requestOptions,
+        )
+
+    /** @see retrieve */
+    fun retrieve(
+        blockchainRecipientToken: String,
+        params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+    ): CompletableFuture<BlockchainRecipient> =
+        retrieve(blockchainRecipientToken, params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        params: BlockchainRecipientRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<BlockchainRecipient>
+
+    /** @see retrieve */
+    fun retrieve(
+        params: BlockchainRecipientRetrieveParams
+    ): CompletableFuture<BlockchainRecipient> = retrieve(params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        blockchainRecipientToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<BlockchainRecipient> =
+        retrieve(blockchainRecipientToken, BlockchainRecipientRetrieveParams.none(), requestOptions)
+
+    /**
      * A view of [BlockchainRecipientServiceAsync] that provides access to raw HTTP responses for
      * each method.
      */
@@ -70,5 +116,56 @@ interface BlockchainRecipientServiceAsync {
             params: BlockchainRecipientCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<BlockchainRecipient>>
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /v1/blockchain_recipients/{blockchain_recipient_token}`, but is otherwise the same as
+         * [BlockchainRecipientServiceAsync.retrieve].
+         */
+        fun retrieve(
+            blockchainRecipientToken: String
+        ): CompletableFuture<HttpResponseFor<BlockchainRecipient>> =
+            retrieve(blockchainRecipientToken, BlockchainRecipientRetrieveParams.none())
+
+        /** @see retrieve */
+        fun retrieve(
+            blockchainRecipientToken: String,
+            params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BlockchainRecipient>> =
+            retrieve(
+                params.toBuilder().blockchainRecipientToken(blockchainRecipientToken).build(),
+                requestOptions,
+            )
+
+        /** @see retrieve */
+        fun retrieve(
+            blockchainRecipientToken: String,
+            params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<BlockchainRecipient>> =
+            retrieve(blockchainRecipientToken, params, RequestOptions.none())
+
+        /** @see retrieve */
+        fun retrieve(
+            params: BlockchainRecipientRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<BlockchainRecipient>>
+
+        /** @see retrieve */
+        fun retrieve(
+            params: BlockchainRecipientRetrieveParams
+        ): CompletableFuture<HttpResponseFor<BlockchainRecipient>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see retrieve */
+        fun retrieve(
+            blockchainRecipientToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<BlockchainRecipient>> =
+            retrieve(
+                blockchainRecipientToken,
+                BlockchainRecipientRetrieveParams.none(),
+                requestOptions,
+            )
     }
 }
