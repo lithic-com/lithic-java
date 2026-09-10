@@ -37,4 +37,20 @@ internal class BlockchainRecipientServiceAsyncTest {
         val blockchainRecipient = blockchainRecipientFuture.get()
         blockchainRecipient.validate()
     }
+
+    @Test
+    fun retrieve() {
+        val client =
+            LithicOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val blockchainRecipientServiceAsync = client.blockchainRecipients()
+
+        val blockchainRecipientFuture =
+            blockchainRecipientServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+        val blockchainRecipient = blockchainRecipientFuture.get()
+        blockchainRecipient.validate()
+    }
 }
