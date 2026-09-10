@@ -8,6 +8,7 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.BlockchainRecipient
 import com.lithic.api.models.BlockchainRecipientCreateParams
+import com.lithic.api.models.BlockchainRecipientRetrieveParams
 import java.util.function.Consumer
 
 interface BlockchainRecipientService {
@@ -42,6 +43,49 @@ interface BlockchainRecipientService {
     ): BlockchainRecipient
 
     /**
+     * Get a blockchain recipient by token
+     *
+     * Use this to poll the `verification_state` after registering an address: a recipient cannot
+     * receive a payout until screening completes and moves it out of `PENDING`
+     */
+    fun retrieve(blockchainRecipientToken: String): BlockchainRecipient =
+        retrieve(blockchainRecipientToken, BlockchainRecipientRetrieveParams.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        blockchainRecipientToken: String,
+        params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BlockchainRecipient =
+        retrieve(
+            params.toBuilder().blockchainRecipientToken(blockchainRecipientToken).build(),
+            requestOptions,
+        )
+
+    /** @see retrieve */
+    fun retrieve(
+        blockchainRecipientToken: String,
+        params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+    ): BlockchainRecipient = retrieve(blockchainRecipientToken, params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        params: BlockchainRecipientRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BlockchainRecipient
+
+    /** @see retrieve */
+    fun retrieve(params: BlockchainRecipientRetrieveParams): BlockchainRecipient =
+        retrieve(params, RequestOptions.none())
+
+    /** @see retrieve */
+    fun retrieve(
+        blockchainRecipientToken: String,
+        requestOptions: RequestOptions,
+    ): BlockchainRecipient =
+        retrieve(blockchainRecipientToken, BlockchainRecipientRetrieveParams.none(), requestOptions)
+
+    /**
      * A view of [BlockchainRecipientService] that provides access to raw HTTP responses for each
      * method.
      */
@@ -70,5 +114,59 @@ interface BlockchainRecipientService {
             params: BlockchainRecipientCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BlockchainRecipient>
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /v1/blockchain_recipients/{blockchain_recipient_token}`, but is otherwise the same as
+         * [BlockchainRecipientService.retrieve].
+         */
+        @MustBeClosed
+        fun retrieve(blockchainRecipientToken: String): HttpResponseFor<BlockchainRecipient> =
+            retrieve(blockchainRecipientToken, BlockchainRecipientRetrieveParams.none())
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            blockchainRecipientToken: String,
+            params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BlockchainRecipient> =
+            retrieve(
+                params.toBuilder().blockchainRecipientToken(blockchainRecipientToken).build(),
+                requestOptions,
+            )
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            blockchainRecipientToken: String,
+            params: BlockchainRecipientRetrieveParams = BlockchainRecipientRetrieveParams.none(),
+        ): HttpResponseFor<BlockchainRecipient> =
+            retrieve(blockchainRecipientToken, params, RequestOptions.none())
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            params: BlockchainRecipientRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BlockchainRecipient>
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            params: BlockchainRecipientRetrieveParams
+        ): HttpResponseFor<BlockchainRecipient> = retrieve(params, RequestOptions.none())
+
+        /** @see retrieve */
+        @MustBeClosed
+        fun retrieve(
+            blockchainRecipientToken: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BlockchainRecipient> =
+            retrieve(
+                blockchainRecipientToken,
+                BlockchainRecipientRetrieveParams.none(),
+                requestOptions,
+            )
     }
 }
