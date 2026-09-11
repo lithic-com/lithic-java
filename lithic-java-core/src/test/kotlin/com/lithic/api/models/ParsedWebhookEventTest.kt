@@ -10811,6 +10811,14 @@ internal class ParsedWebhookEventTest {
                 )
                 .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
                 .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                .psd2Context(
+                    ThreeDSAuthentication.Psd2Context.builder()
+                        .acquirerExemption(ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE)
+                        .lithicExemptionValidation(
+                            ThreeDSAuthentication.Psd2Context.LithicExemptionValidation.ACCEPTED
+                        )
+                        .build()
+                )
                 .threeRiRequestType(ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION)
                 .transaction(
                     ThreeDSAuthentication.Transaction.builder()
@@ -11038,6 +11046,16 @@ internal class ParsedWebhookEventTest {
                     )
                     .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
                     .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                    .psd2Context(
+                        ThreeDSAuthentication.Psd2Context.builder()
+                            .acquirerExemption(
+                                ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE
+                            )
+                            .lithicExemptionValidation(
+                                ThreeDSAuthentication.Psd2Context.LithicExemptionValidation.ACCEPTED
+                            )
+                            .build()
+                    )
                     .threeRiRequestType(
                         ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION
                     )
@@ -11194,6 +11212,14 @@ internal class ParsedWebhookEventTest {
                 )
                 .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
                 .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                .psd2Context(
+                    ThreeDSAuthentication.Psd2Context.builder()
+                        .acquirerExemption(ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE)
+                        .lithicExemptionValidation(
+                            ThreeDSAuthentication.Psd2Context.LithicExemptionValidation.ACCEPTED
+                        )
+                        .build()
+                )
                 .threeRiRequestType(ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION)
                 .transaction(
                     ThreeDSAuthentication.Transaction.builder()
@@ -11421,6 +11447,16 @@ internal class ParsedWebhookEventTest {
                     )
                     .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
                     .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                    .psd2Context(
+                        ThreeDSAuthentication.Psd2Context.builder()
+                            .acquirerExemption(
+                                ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE
+                            )
+                            .lithicExemptionValidation(
+                                ThreeDSAuthentication.Psd2Context.LithicExemptionValidation.ACCEPTED
+                            )
+                            .build()
+                    )
                     .threeRiRequestType(
                         ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION
                     )
@@ -11591,6 +11627,17 @@ internal class ParsedWebhookEventTest {
                             ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC
                         )
                         .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                        .psd2Context(
+                            ThreeDSAuthentication.Psd2Context.builder()
+                                .acquirerExemption(
+                                    ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE
+                                )
+                                .lithicExemptionValidation(
+                                    ThreeDSAuthentication.Psd2Context.LithicExemptionValidation
+                                        .ACCEPTED
+                                )
+                                .build()
+                        )
                         .threeRiRequestType(
                             ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION
                         )
@@ -11845,6 +11892,17 @@ internal class ParsedWebhookEventTest {
                                 ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC
                             )
                             .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                            .psd2Context(
+                                ThreeDSAuthentication.Psd2Context.builder()
+                                    .acquirerExemption(
+                                        ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE
+                                    )
+                                    .lithicExemptionValidation(
+                                        ThreeDSAuthentication.Psd2Context.LithicExemptionValidation
+                                            .ACCEPTED
+                                    )
+                                    .build()
+                            )
                             .threeRiRequestType(
                                 ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION
                             )
@@ -12887,6 +12945,14 @@ internal class ParsedWebhookEventTest {
                 )
                 .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
                 .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                .psd2Context(
+                    ThreeDSAuthentication.Psd2Context.builder()
+                        .acquirerExemption(ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE)
+                        .lithicExemptionValidation(
+                            ThreeDSAuthentication.Psd2Context.LithicExemptionValidation.ACCEPTED
+                        )
+                        .build()
+                )
                 .threeRiRequestType(ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION)
                 .transaction(
                     ThreeDSAuthentication.Transaction.builder()
@@ -13116,6 +13182,16 @@ internal class ParsedWebhookEventTest {
                     )
                     .challengeOrchestratedBy(ThreeDSAuthentication.ChallengeOrchestratedBy.LITHIC)
                     .decisionMadeBy(ThreeDSAuthentication.DecisionMadeBy.LITHIC_RULES)
+                    .psd2Context(
+                        ThreeDSAuthentication.Psd2Context.builder()
+                            .acquirerExemption(
+                                ThreeDSAuthentication.Psd2Context.AcquirerExemption.NONE
+                            )
+                            .lithicExemptionValidation(
+                                ThreeDSAuthentication.Psd2Context.LithicExemptionValidation.ACCEPTED
+                            )
+                            .build()
+                    )
                     .threeRiRequestType(
                         ThreeDSAuthentication.ThreeRiRequestType.ACCOUNT_VERIFICATION
                     )
