@@ -85,6 +85,8 @@ private constructor(
      * - card_transaction.updated: Occurs when a card transaction happens.
      * - card.converted: Occurs when a card is converted from virtual to physical cards.
      * - card.created: Occurs when a new card is created.
+     * - card.pin_updated: Occurs when a card's PIN is set, changed, unblocked, or blocked due to
+     *   excessive incorrect PIN attempts.
      * - card.reissued: Occurs when a card is reissued.
      * - card.renewed: Occurs when a card is renewed.
      * - card.shipped: Occurs when a card is shipped.
@@ -304,6 +306,8 @@ private constructor(
          * - card_transaction.updated: Occurs when a card transaction happens.
          * - card.converted: Occurs when a card is converted from virtual to physical cards.
          * - card.created: Occurs when a new card is created.
+         * - card.pin_updated: Occurs when a card's PIN is set, changed, unblocked, or blocked due
+         *   to excessive incorrect PIN attempts.
          * - card.reissued: Occurs when a card is reissued.
          * - card.renewed: Occurs when a card is renewed.
          * - card.shipped: Occurs when a card is shipped.
@@ -522,6 +526,8 @@ private constructor(
      * - card_transaction.updated: Occurs when a card transaction happens.
      * - card.converted: Occurs when a card is converted from virtual to physical cards.
      * - card.created: Occurs when a new card is created.
+     * - card.pin_updated: Occurs when a card's PIN is set, changed, unblocked, or blocked due to
+     *   excessive incorrect PIN attempts.
      * - card.reissued: Occurs when a card is reissued.
      * - card.renewed: Occurs when a card is renewed.
      * - card.shipped: Occurs when a card is shipped.
@@ -656,6 +662,8 @@ private constructor(
 
             @JvmField val CARD_CREATED = of("card.created")
 
+            @JvmField val CARD_PIN_UPDATED = of("card.pin_updated")
+
             @JvmField val CARD_REISSUED = of("card.reissued")
 
             @JvmField val CARD_RENEWED = of("card.renewed")
@@ -779,6 +787,7 @@ private constructor(
             CARD_TRANSACTION_UPDATED,
             CARD_CONVERTED,
             CARD_CREATED,
+            CARD_PIN_UPDATED,
             CARD_REISSUED,
             CARD_RENEWED,
             CARD_SHIPPED,
@@ -852,6 +861,7 @@ private constructor(
             CARD_TRANSACTION_UPDATED,
             CARD_CONVERTED,
             CARD_CREATED,
+            CARD_PIN_UPDATED,
             CARD_REISSUED,
             CARD_RENEWED,
             CARD_SHIPPED,
@@ -930,6 +940,7 @@ private constructor(
                 CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
                 CARD_CONVERTED -> Value.CARD_CONVERTED
                 CARD_CREATED -> Value.CARD_CREATED
+                CARD_PIN_UPDATED -> Value.CARD_PIN_UPDATED
                 CARD_REISSUED -> Value.CARD_REISSUED
                 CARD_RENEWED -> Value.CARD_RENEWED
                 CARD_SHIPPED -> Value.CARD_SHIPPED
@@ -1011,6 +1022,7 @@ private constructor(
                 CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
                 CARD_CONVERTED -> Known.CARD_CONVERTED
                 CARD_CREATED -> Known.CARD_CREATED
+                CARD_PIN_UPDATED -> Known.CARD_PIN_UPDATED
                 CARD_REISSUED -> Known.CARD_REISSUED
                 CARD_RENEWED -> Known.CARD_RENEWED
                 CARD_SHIPPED -> Known.CARD_SHIPPED
