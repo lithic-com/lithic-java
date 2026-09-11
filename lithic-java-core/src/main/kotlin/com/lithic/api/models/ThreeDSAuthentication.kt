@@ -41,6 +41,7 @@ private constructor(
     private val challengeMetadata: JsonField<ChallengeMetadata>,
     private val challengeOrchestratedBy: JsonField<ChallengeOrchestratedBy>,
     private val decisionMadeBy: JsonField<DecisionMadeBy>,
+    private val psd2Context: JsonField<Psd2Context>,
     private val threeRiRequestType: JsonField<ThreeRiRequestType>,
     private val transaction: JsonField<Transaction>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -91,6 +92,9 @@ private constructor(
         @JsonProperty("decision_made_by")
         @ExcludeMissing
         decisionMadeBy: JsonField<DecisionMadeBy> = JsonMissing.of(),
+        @JsonProperty("psd2_context")
+        @ExcludeMissing
+        psd2Context: JsonField<Psd2Context> = JsonMissing.of(),
         @JsonProperty("three_ri_request_type")
         @ExcludeMissing
         threeRiRequestType: JsonField<ThreeRiRequestType> = JsonMissing.of(),
@@ -116,6 +120,7 @@ private constructor(
         challengeMetadata,
         challengeOrchestratedBy,
         decisionMadeBy,
+        psd2Context,
         threeRiRequestType,
         transaction,
         mutableMapOf(),
@@ -291,6 +296,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun decisionMadeBy(): Optional<DecisionMadeBy> = decisionMadeBy.getOptional("decision_made_by")
+
+    /**
+     * PSD2/SCA context for EEA and UK transactions. Present when Lithic determines the transaction
+     * is in scope for PSD2 Strong Customer Authentication. Absent for out-of-scope transactions.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun psd2Context(): Optional<Psd2Context> = psd2Context.getOptional("psd2_context")
 
     /**
      * Type of 3DS Requestor Initiated (3RI) request — i.e., a 3DS authentication that takes place
@@ -469,6 +483,15 @@ private constructor(
     fun _decisionMadeBy(): JsonField<DecisionMadeBy> = decisionMadeBy
 
     /**
+     * Returns the raw JSON value of [psd2Context].
+     *
+     * Unlike [psd2Context], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("psd2_context")
+    @ExcludeMissing
+    fun _psd2Context(): JsonField<Psd2Context> = psd2Context
+
+    /**
      * Returns the raw JSON value of [threeRiRequestType].
      *
      * Unlike [threeRiRequestType], this method doesn't throw if the JSON field has an unexpected
@@ -546,6 +569,7 @@ private constructor(
         private var challengeMetadata: JsonField<ChallengeMetadata> = JsonMissing.of()
         private var challengeOrchestratedBy: JsonField<ChallengeOrchestratedBy> = JsonMissing.of()
         private var decisionMadeBy: JsonField<DecisionMadeBy> = JsonMissing.of()
+        private var psd2Context: JsonField<Psd2Context> = JsonMissing.of()
         private var threeRiRequestType: JsonField<ThreeRiRequestType> = JsonMissing.of()
         private var transaction: JsonField<Transaction> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -571,6 +595,7 @@ private constructor(
             challengeMetadata = threeDSAuthentication.challengeMetadata
             challengeOrchestratedBy = threeDSAuthentication.challengeOrchestratedBy
             decisionMadeBy = threeDSAuthentication.decisionMadeBy
+            psd2Context = threeDSAuthentication.psd2Context
             threeRiRequestType = threeDSAuthentication.threeRiRequestType
             transaction = threeDSAuthentication.transaction
             additionalProperties = threeDSAuthentication.additionalProperties.toMutableMap()
@@ -907,6 +932,27 @@ private constructor(
         }
 
         /**
+         * PSD2/SCA context for EEA and UK transactions. Present when Lithic determines the
+         * transaction is in scope for PSD2 Strong Customer Authentication. Absent for out-of-scope
+         * transactions.
+         */
+        fun psd2Context(psd2Context: Psd2Context?) = psd2Context(JsonField.ofNullable(psd2Context))
+
+        /** Alias for calling [Builder.psd2Context] with `psd2Context.orElse(null)`. */
+        fun psd2Context(psd2Context: Optional<Psd2Context>) = psd2Context(psd2Context.getOrNull())
+
+        /**
+         * Sets [Builder.psd2Context] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.psd2Context] with a well-typed [Psd2Context] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun psd2Context(psd2Context: JsonField<Psd2Context>) = apply {
+            this.psd2Context = psd2Context
+        }
+
+        /**
          * Type of 3DS Requestor Initiated (3RI) request — i.e., a 3DS authentication that takes
          * place at the initiation of the merchant rather than the cardholder. The most common
          * example of this is where a merchant is authenticating before billing for a recurring
@@ -1017,6 +1063,7 @@ private constructor(
                 challengeMetadata,
                 challengeOrchestratedBy,
                 decisionMadeBy,
+                psd2Context,
                 threeRiRequestType,
                 transaction,
                 additionalProperties.toMutableMap(),
@@ -1056,6 +1103,7 @@ private constructor(
         challengeMetadata().ifPresent { it.validate() }
         challengeOrchestratedBy().ifPresent { it.validate() }
         decisionMadeBy().ifPresent { it.validate() }
+        psd2Context().ifPresent { it.validate() }
         threeRiRequestType().ifPresent { it.validate() }
         transaction().ifPresent { it.validate() }
         validated = true
@@ -1094,6 +1142,7 @@ private constructor(
             (challengeMetadata.asKnown().getOrNull()?.validity() ?: 0) +
             (challengeOrchestratedBy.asKnown().getOrNull()?.validity() ?: 0) +
             (decisionMadeBy.asKnown().getOrNull()?.validity() ?: 0) +
+            (psd2Context.asKnown().getOrNull()?.validity() ?: 0) +
             (threeRiRequestType.asKnown().getOrNull()?.validity() ?: 0) +
             (transaction.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -7845,6 +7894,646 @@ private constructor(
     }
 
     /**
+     * PSD2/SCA context for EEA and UK transactions. Present when Lithic determines the transaction
+     * is in scope for PSD2 Strong Customer Authentication. Absent for out-of-scope transactions.
+     */
+    class Psd2Context
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val acquirerExemption: JsonField<AcquirerExemption>,
+        private val lithicExemptionValidation: JsonField<LithicExemptionValidation>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("acquirer_exemption")
+            @ExcludeMissing
+            acquirerExemption: JsonField<AcquirerExemption> = JsonMissing.of(),
+            @JsonProperty("lithic_exemption_validation")
+            @ExcludeMissing
+            lithicExemptionValidation: JsonField<LithicExemptionValidation> = JsonMissing.of(),
+        ) : this(acquirerExemption, lithicExemptionValidation, mutableMapOf())
+
+        /**
+         * SCA exemption declared by the acquirer in the 3DS authentication request.
+         * * `NONE` - No exemption claimed
+         * * `TRANSACTION_RISK_ANALYSIS` - Transaction Risk Analysis (TRA) exemption; acquirer
+         *   asserts low fraud risk
+         * * `LOW_VALUE` - Low-value payment exemption; transaction is below the EUR 30 threshold
+         * * `RECURRING_PAYMENT` - Recurring payment with a fixed amount to the same payee
+         * * `MERCHANT_INITIATED_TRANSACTION` - Merchant-initiated transaction (MIT); cardholder not
+         *   present
+         * * `TRUSTED_BENEFICIARY` - Trusted beneficiary; merchant is on cardholder's whitelist
+         * * `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION` - SCA already performed by a delegated
+         *   third-party authenticator
+         * * `SECURE_CORPORATE_PAYMENT` - Secure corporate payment using a dedicated corporate card
+         *   or process
+         * * `AUTHENTICATION_OUTAGE_EXCEPTION` - Authentication outage exception; scheme-level
+         *   fallback during ACS downtime
+         * * `BUNDLED` - Mastercard only; bundled exemption code where the exact exemption type
+         *   cannot be distinguished
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun acquirerExemption(): Optional<AcquirerExemption> =
+            acquirerExemption.getOptional("acquirer_exemption")
+
+        /**
+         * Lithic's validation of the acquirer-declared exemption. Absent when no acquirer exemption
+         * was declared.
+         * * `ACCEPTED` - Lithic signals support the acquirer's claim
+         * * `REJECTED` - Lithic signals contradict the claim, or a required signal is missing
+         * * `NOT_VALIDATED` - Exemption was declared but Lithic has no basis to evaluate it;
+         *   treated as `REJECTED` for challenge purposes
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun lithicExemptionValidation(): Optional<LithicExemptionValidation> =
+            lithicExemptionValidation.getOptional("lithic_exemption_validation")
+
+        /**
+         * Returns the raw JSON value of [acquirerExemption].
+         *
+         * Unlike [acquirerExemption], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("acquirer_exemption")
+        @ExcludeMissing
+        fun _acquirerExemption(): JsonField<AcquirerExemption> = acquirerExemption
+
+        /**
+         * Returns the raw JSON value of [lithicExemptionValidation].
+         *
+         * Unlike [lithicExemptionValidation], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("lithic_exemption_validation")
+        @ExcludeMissing
+        fun _lithicExemptionValidation(): JsonField<LithicExemptionValidation> =
+            lithicExemptionValidation
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Psd2Context]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Psd2Context]. */
+        class Builder internal constructor() {
+
+            private var acquirerExemption: JsonField<AcquirerExemption> = JsonMissing.of()
+            private var lithicExemptionValidation: JsonField<LithicExemptionValidation> =
+                JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(psd2Context: Psd2Context) = apply {
+                acquirerExemption = psd2Context.acquirerExemption
+                lithicExemptionValidation = psd2Context.lithicExemptionValidation
+                additionalProperties = psd2Context.additionalProperties.toMutableMap()
+            }
+
+            /**
+             * SCA exemption declared by the acquirer in the 3DS authentication request.
+             * * `NONE` - No exemption claimed
+             * * `TRANSACTION_RISK_ANALYSIS` - Transaction Risk Analysis (TRA) exemption; acquirer
+             *   asserts low fraud risk
+             * * `LOW_VALUE` - Low-value payment exemption; transaction is below the EUR 30
+             *   threshold
+             * * `RECURRING_PAYMENT` - Recurring payment with a fixed amount to the same payee
+             * * `MERCHANT_INITIATED_TRANSACTION` - Merchant-initiated transaction (MIT); cardholder
+             *   not present
+             * * `TRUSTED_BENEFICIARY` - Trusted beneficiary; merchant is on cardholder's whitelist
+             * * `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION` - SCA already performed by a delegated
+             *   third-party authenticator
+             * * `SECURE_CORPORATE_PAYMENT` - Secure corporate payment using a dedicated corporate
+             *   card or process
+             * * `AUTHENTICATION_OUTAGE_EXCEPTION` - Authentication outage exception; scheme-level
+             *   fallback during ACS downtime
+             * * `BUNDLED` - Mastercard only; bundled exemption code where the exact exemption type
+             *   cannot be distinguished
+             */
+            fun acquirerExemption(acquirerExemption: AcquirerExemption) =
+                acquirerExemption(JsonField.of(acquirerExemption))
+
+            /**
+             * Sets [Builder.acquirerExemption] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.acquirerExemption] with a well-typed
+             * [AcquirerExemption] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun acquirerExemption(acquirerExemption: JsonField<AcquirerExemption>) = apply {
+                this.acquirerExemption = acquirerExemption
+            }
+
+            /**
+             * Lithic's validation of the acquirer-declared exemption. Absent when no acquirer
+             * exemption was declared.
+             * * `ACCEPTED` - Lithic signals support the acquirer's claim
+             * * `REJECTED` - Lithic signals contradict the claim, or a required signal is missing
+             * * `NOT_VALIDATED` - Exemption was declared but Lithic has no basis to evaluate it;
+             *   treated as `REJECTED` for challenge purposes
+             */
+            fun lithicExemptionValidation(lithicExemptionValidation: LithicExemptionValidation) =
+                lithicExemptionValidation(JsonField.of(lithicExemptionValidation))
+
+            /**
+             * Sets [Builder.lithicExemptionValidation] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lithicExemptionValidation] with a well-typed
+             * [LithicExemptionValidation] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
+            fun lithicExemptionValidation(
+                lithicExemptionValidation: JsonField<LithicExemptionValidation>
+            ) = apply { this.lithicExemptionValidation = lithicExemptionValidation }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Psd2Context].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Psd2Context =
+                Psd2Context(
+                    acquirerExemption,
+                    lithicExemptionValidation,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LithicInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Psd2Context = apply {
+            if (validated) {
+                return@apply
+            }
+
+            acquirerExemption().ifPresent { it.validate() }
+            lithicExemptionValidation().ifPresent { it.validate() }
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (acquirerExemption.asKnown().getOrNull()?.validity() ?: 0) +
+                (lithicExemptionValidation.asKnown().getOrNull()?.validity() ?: 0)
+
+        /**
+         * SCA exemption declared by the acquirer in the 3DS authentication request.
+         * * `NONE` - No exemption claimed
+         * * `TRANSACTION_RISK_ANALYSIS` - Transaction Risk Analysis (TRA) exemption; acquirer
+         *   asserts low fraud risk
+         * * `LOW_VALUE` - Low-value payment exemption; transaction is below the EUR 30 threshold
+         * * `RECURRING_PAYMENT` - Recurring payment with a fixed amount to the same payee
+         * * `MERCHANT_INITIATED_TRANSACTION` - Merchant-initiated transaction (MIT); cardholder not
+         *   present
+         * * `TRUSTED_BENEFICIARY` - Trusted beneficiary; merchant is on cardholder's whitelist
+         * * `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION` - SCA already performed by a delegated
+         *   third-party authenticator
+         * * `SECURE_CORPORATE_PAYMENT` - Secure corporate payment using a dedicated corporate card
+         *   or process
+         * * `AUTHENTICATION_OUTAGE_EXCEPTION` - Authentication outage exception; scheme-level
+         *   fallback during ACS downtime
+         * * `BUNDLED` - Mastercard only; bundled exemption code where the exact exemption type
+         *   cannot be distinguished
+         */
+        class AcquirerExemption
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val NONE = of("NONE")
+
+                @JvmField val TRANSACTION_RISK_ANALYSIS = of("TRANSACTION_RISK_ANALYSIS")
+
+                @JvmField val LOW_VALUE = of("LOW_VALUE")
+
+                @JvmField val RECURRING_PAYMENT = of("RECURRING_PAYMENT")
+
+                @JvmField val MERCHANT_INITIATED_TRANSACTION = of("MERCHANT_INITIATED_TRANSACTION")
+
+                @JvmField val TRUSTED_BENEFICIARY = of("TRUSTED_BENEFICIARY")
+
+                @JvmField
+                val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION =
+                    of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION")
+
+                @JvmField val SECURE_CORPORATE_PAYMENT = of("SECURE_CORPORATE_PAYMENT")
+
+                @JvmField
+                val AUTHENTICATION_OUTAGE_EXCEPTION = of("AUTHENTICATION_OUTAGE_EXCEPTION")
+
+                @JvmField val BUNDLED = of("BUNDLED")
+
+                @JvmStatic fun of(value: String) = AcquirerExemption(JsonField.of(value))
+            }
+
+            /** An enum containing [AcquirerExemption]'s known values. */
+            enum class Known {
+                NONE,
+                TRANSACTION_RISK_ANALYSIS,
+                LOW_VALUE,
+                RECURRING_PAYMENT,
+                MERCHANT_INITIATED_TRANSACTION,
+                TRUSTED_BENEFICIARY,
+                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
+                SECURE_CORPORATE_PAYMENT,
+                AUTHENTICATION_OUTAGE_EXCEPTION,
+                BUNDLED,
+            }
+
+            /**
+             * An enum containing [AcquirerExemption]'s known values, as well as an [_UNKNOWN]
+             * member.
+             *
+             * An instance of [AcquirerExemption] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                NONE,
+                TRANSACTION_RISK_ANALYSIS,
+                LOW_VALUE,
+                RECURRING_PAYMENT,
+                MERCHANT_INITIATED_TRANSACTION,
+                TRUSTED_BENEFICIARY,
+                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
+                SECURE_CORPORATE_PAYMENT,
+                AUTHENTICATION_OUTAGE_EXCEPTION,
+                BUNDLED,
+                /**
+                 * An enum member indicating that [AcquirerExemption] was instantiated with an
+                 * unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    NONE -> Value.NONE
+                    TRANSACTION_RISK_ANALYSIS -> Value.TRANSACTION_RISK_ANALYSIS
+                    LOW_VALUE -> Value.LOW_VALUE
+                    RECURRING_PAYMENT -> Value.RECURRING_PAYMENT
+                    MERCHANT_INITIATED_TRANSACTION -> Value.MERCHANT_INITIATED_TRANSACTION
+                    TRUSTED_BENEFICIARY -> Value.TRUSTED_BENEFICIARY
+                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
+                        Value.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
+                    SECURE_CORPORATE_PAYMENT -> Value.SECURE_CORPORATE_PAYMENT
+                    AUTHENTICATION_OUTAGE_EXCEPTION -> Value.AUTHENTICATION_OUTAGE_EXCEPTION
+                    BUNDLED -> Value.BUNDLED
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    NONE -> Known.NONE
+                    TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
+                    LOW_VALUE -> Known.LOW_VALUE
+                    RECURRING_PAYMENT -> Known.RECURRING_PAYMENT
+                    MERCHANT_INITIATED_TRANSACTION -> Known.MERCHANT_INITIATED_TRANSACTION
+                    TRUSTED_BENEFICIARY -> Known.TRUSTED_BENEFICIARY
+                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
+                        Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
+                    SECURE_CORPORATE_PAYMENT -> Known.SECURE_CORPORATE_PAYMENT
+                    AUTHENTICATION_OUTAGE_EXCEPTION -> Known.AUTHENTICATION_OUTAGE_EXCEPTION
+                    BUNDLED -> Known.BUNDLED
+                    else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): AcquirerExemption = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is AcquirerExemption && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        /**
+         * Lithic's validation of the acquirer-declared exemption. Absent when no acquirer exemption
+         * was declared.
+         * * `ACCEPTED` - Lithic signals support the acquirer's claim
+         * * `REJECTED` - Lithic signals contradict the claim, or a required signal is missing
+         * * `NOT_VALIDATED` - Exemption was declared but Lithic has no basis to evaluate it;
+         *   treated as `REJECTED` for challenge purposes
+         */
+        class LithicExemptionValidation
+        @JsonCreator
+        private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val ACCEPTED = of("ACCEPTED")
+
+                @JvmField val REJECTED = of("REJECTED")
+
+                @JvmField val NOT_VALIDATED = of("NOT_VALIDATED")
+
+                @JvmStatic fun of(value: String) = LithicExemptionValidation(JsonField.of(value))
+            }
+
+            /** An enum containing [LithicExemptionValidation]'s known values. */
+            enum class Known {
+                ACCEPTED,
+                REJECTED,
+                NOT_VALIDATED,
+            }
+
+            /**
+             * An enum containing [LithicExemptionValidation]'s known values, as well as an
+             * [_UNKNOWN] member.
+             *
+             * An instance of [LithicExemptionValidation] can contain an unknown value in a couple
+             * of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                ACCEPTED,
+                REJECTED,
+                NOT_VALIDATED,
+                /**
+                 * An enum member indicating that [LithicExemptionValidation] was instantiated with
+                 * an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    ACCEPTED -> Value.ACCEPTED
+                    REJECTED -> Value.REJECTED
+                    NOT_VALIDATED -> Value.NOT_VALIDATED
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    ACCEPTED -> Known.ACCEPTED
+                    REJECTED -> Known.REJECTED
+                    NOT_VALIDATED -> Known.NOT_VALIDATED
+                    else ->
+                        throw LithicInvalidDataException(
+                            "Unknown LithicExemptionValidation: $value"
+                        )
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): LithicExemptionValidation = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is LithicExemptionValidation && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Psd2Context &&
+                acquirerExemption == other.acquirerExemption &&
+                lithicExemptionValidation == other.lithicExemptionValidation &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(acquirerExemption, lithicExemptionValidation, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Psd2Context{acquirerExemption=$acquirerExemption, lithicExemptionValidation=$lithicExemptionValidation, additionalProperties=$additionalProperties}"
+    }
+
+    /**
      * Type of 3DS Requestor Initiated (3RI) request — i.e., a 3DS authentication that takes place
      * at the initiation of the merchant rather than the cardholder. The most common example of this
      * is where a merchant is authenticating before billing for a recurring transaction such as a
@@ -8698,6 +9387,7 @@ private constructor(
             challengeMetadata == other.challengeMetadata &&
             challengeOrchestratedBy == other.challengeOrchestratedBy &&
             decisionMadeBy == other.decisionMadeBy &&
+            psd2Context == other.psd2Context &&
             threeRiRequestType == other.threeRiRequestType &&
             transaction == other.transaction &&
             additionalProperties == other.additionalProperties
@@ -8723,6 +9413,7 @@ private constructor(
             challengeMetadata,
             challengeOrchestratedBy,
             decisionMadeBy,
+            psd2Context,
             threeRiRequestType,
             transaction,
             additionalProperties,
@@ -8732,5 +9423,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ThreeDSAuthentication{token=$token, accountType=$accountType, authenticationResult=$authenticationResult, cardExpiryCheck=$cardExpiryCheck, cardToken=$cardToken, cardholder=$cardholder, channel=$channel, created=$created, merchant=$merchant, messageCategory=$messageCategory, threeDSRequestorChallengeIndicator=$threeDSRequestorChallengeIndicator, additionalData=$additionalData, app=$app, authenticationRequestType=$authenticationRequestType, browser=$browser, challengeMetadata=$challengeMetadata, challengeOrchestratedBy=$challengeOrchestratedBy, decisionMadeBy=$decisionMadeBy, threeRiRequestType=$threeRiRequestType, transaction=$transaction, additionalProperties=$additionalProperties}"
+        "ThreeDSAuthentication{token=$token, accountType=$accountType, authenticationResult=$authenticationResult, cardExpiryCheck=$cardExpiryCheck, cardToken=$cardToken, cardholder=$cardholder, channel=$channel, created=$created, merchant=$merchant, messageCategory=$messageCategory, threeDSRequestorChallengeIndicator=$threeDSRequestorChallengeIndicator, additionalData=$additionalData, app=$app, authenticationRequestType=$authenticationRequestType, browser=$browser, challengeMetadata=$challengeMetadata, challengeOrchestratedBy=$challengeOrchestratedBy, decisionMadeBy=$decisionMadeBy, psd2Context=$psd2Context, threeRiRequestType=$threeRiRequestType, transaction=$transaction, additionalProperties=$additionalProperties}"
 }
