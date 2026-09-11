@@ -52,6 +52,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -232,6 +233,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -431,6 +433,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -566,6 +569,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -682,6 +686,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -817,6 +822,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -1153,6 +1159,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -1704,6 +1711,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -2064,6 +2072,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -2222,6 +2231,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -2388,6 +2398,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -2550,6 +2561,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -2746,6 +2758,7 @@ internal class ParsedWebhookEventTest {
             .contains(bookTransferTransactionUpdated)
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -2894,6 +2907,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).contains(cardCreated)
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -2995,6 +3009,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).contains(cardConverted)
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -3071,6 +3086,111 @@ internal class ParsedWebhookEventTest {
     }
 
     @Test
+    fun ofCardPinUpdated() {
+        val cardPinUpdated =
+            CardPinUpdatedWebhookEvent.builder()
+                .cardToken("4df9a19c-9e1e-40d1-b27a-05e01152ee07")
+                .eventType(CardPinUpdatedWebhookEvent.EventType.CARD_PIN_UPDATED)
+                .pinStatus(CardPinUpdatedWebhookEvent.PinStatus.OK)
+                .statusReason(CardPinUpdatedWebhookEvent.StatusReason.PIN_SET)
+                .build()
+
+        val parsedWebhookEvent = ParsedWebhookEvent.ofCardPinUpdated(cardPinUpdated)
+
+        assertThat(parsedWebhookEvent.accountHolderCreated()).isEmpty
+        assertThat(parsedWebhookEvent.kybPayload()).isEmpty
+        assertThat(parsedWebhookEvent.kycPayload()).isEmpty
+        assertThat(parsedWebhookEvent.legacyPayload()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderVerification()).isEmpty
+        assertThat(parsedWebhookEvent.accountHolderDocumentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.cardAuthorizationChallengeResponse()).isEmpty
+        assertThat(parsedWebhookEvent.authRulesBacktestReportCreated()).isEmpty
+        assertThat(parsedWebhookEvent.balanceUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).contains(cardPinUpdated)
+        assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
+        assertThat(parsedWebhookEvent.cardReissued()).isEmpty
+        assertThat(parsedWebhookEvent.cardShipped()).isEmpty
+        assertThat(parsedWebhookEvent.cardUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataCreated()).isEmpty
+        assertThat(parsedWebhookEvent.cardTransactionEnhancedDataUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimCreated()).isEmpty
+        assertThat(parsedWebhookEvent.claimUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentUploaded()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentAccepted()).isEmpty
+        assertThat(parsedWebhookEvent.claimDocumentRejected()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCode())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationTwoFactorAuthenticationCodeSent())
+            .isEmpty
+        assertThat(parsedWebhookEvent.digitalWalletTokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeEvidenceUploadFailed()).isEmpty
+        assertThat(parsedWebhookEvent.embedSessionGenerated()).isEmpty
+        assertThat(parsedWebhookEvent.embedViewed()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalBankAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentCreated()).isEmpty
+        assertThat(parsedWebhookEvent.externalPaymentUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountCreated()).isEmpty
+        assertThat(parsedWebhookEvent.financialAccountUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.fundingEventCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeCreated()).isEmpty
+        assertThat(parsedWebhookEvent.loanTapeUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.managementOperationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.internalTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalCreated()).isEmpty
+        assertThat(parsedWebhookEvent.networkTotalUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.paymentTransactionUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.settlementReportUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.statementsCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationCreated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationChallenge()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationResult()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCode()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationTwoFactorAuthenticationCodeSent()).isEmpty
+        assertThat(parsedWebhookEvent.tokenizationUpdated()).isEmpty
+        assertThat(parsedWebhookEvent.threeDSAuthenticationApprovalRequest()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionCreated()).isEmpty
+        assertThat(parsedWebhookEvent.disputeTransactionUpdated()).isEmpty
+    }
+
+    @Test
+    fun ofCardPinUpdatedRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val parsedWebhookEvent =
+            ParsedWebhookEvent.ofCardPinUpdated(
+                CardPinUpdatedWebhookEvent.builder()
+                    .cardToken("4df9a19c-9e1e-40d1-b27a-05e01152ee07")
+                    .eventType(CardPinUpdatedWebhookEvent.EventType.CARD_PIN_UPDATED)
+                    .pinStatus(CardPinUpdatedWebhookEvent.PinStatus.OK)
+                    .statusReason(CardPinUpdatedWebhookEvent.StatusReason.PIN_SET)
+                    .build()
+            )
+
+        val roundtrippedParsedWebhookEvent =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(parsedWebhookEvent),
+                jacksonTypeRef<ParsedWebhookEvent>(),
+            )
+
+        assertThat(roundtrippedParsedWebhookEvent).isEqualTo(parsedWebhookEvent)
+    }
+
+    @Test
     fun ofCardRenewed() {
         val cardRenewed =
             CardRenewedWebhookEvent.builder()
@@ -3099,6 +3219,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).contains(cardRenewed)
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -3203,6 +3324,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).contains(cardReissued)
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -3308,6 +3430,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).contains(cardShipped)
@@ -3415,6 +3538,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -3744,6 +3868,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -4141,6 +4266,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -4354,6 +4480,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -4527,6 +4654,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -4661,6 +4789,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -4794,6 +4923,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -4928,6 +5058,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -5062,6 +5193,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -5262,6 +5394,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -5478,6 +5611,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -5638,6 +5772,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -5780,6 +5915,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -5947,6 +6083,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -6112,6 +6249,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -6238,6 +6376,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -6356,6 +6495,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -6472,6 +6612,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -6613,6 +6754,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -6780,6 +6922,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -6943,6 +7086,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -7103,6 +7247,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -7269,6 +7414,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -7440,6 +7586,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -7588,6 +7735,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -7862,6 +8010,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -8304,6 +8453,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -8637,6 +8787,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -8847,6 +8998,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -9027,6 +9179,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -9177,6 +9330,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -9322,6 +9476,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -9458,6 +9613,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -9645,6 +9801,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -9883,6 +10040,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -10074,6 +10232,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -10323,6 +10482,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -10686,6 +10846,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -11068,6 +11229,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -11479,6 +11641,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -11820,6 +11983,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -12022,6 +12186,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -12172,6 +12337,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -12311,6 +12477,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -12473,6 +12640,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -12756,6 +12924,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -13061,6 +13230,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
@@ -13285,6 +13455,7 @@ internal class ParsedWebhookEventTest {
         assertThat(parsedWebhookEvent.bookTransferTransactionUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardCreated()).isEmpty
         assertThat(parsedWebhookEvent.cardConverted()).isEmpty
+        assertThat(parsedWebhookEvent.cardPinUpdated()).isEmpty
         assertThat(parsedWebhookEvent.cardRenewed()).isEmpty
         assertThat(parsedWebhookEvent.cardReissued()).isEmpty
         assertThat(parsedWebhookEvent.cardShipped()).isEmpty
