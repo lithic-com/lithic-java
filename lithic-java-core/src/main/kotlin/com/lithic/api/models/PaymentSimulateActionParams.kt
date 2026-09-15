@@ -790,6 +790,8 @@ private constructor(
 
             @JvmField val ACH_RETURN_SETTLED = of("ACH_RETURN_SETTLED")
 
+            @JvmField val STABLECOIN_REVIEWED = of("STABLECOIN_REVIEWED")
+
             @JvmStatic fun of(value: String) = SupportedSimulationTypes(JsonField.of(value))
         }
 
@@ -805,6 +807,7 @@ private constructor(
             ACH_RETURN_INITIATED,
             ACH_RETURN_PROCESSED,
             ACH_RETURN_SETTLED,
+            STABLECOIN_REVIEWED,
         }
 
         /**
@@ -829,6 +832,7 @@ private constructor(
             ACH_RETURN_INITIATED,
             ACH_RETURN_PROCESSED,
             ACH_RETURN_SETTLED,
+            STABLECOIN_REVIEWED,
             /**
              * An enum member indicating that [SupportedSimulationTypes] was instantiated with an
              * unknown value.
@@ -855,6 +859,7 @@ private constructor(
                 ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
                 ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
                 ACH_RETURN_SETTLED -> Value.ACH_RETURN_SETTLED
+                STABLECOIN_REVIEWED -> Value.STABLECOIN_REVIEWED
                 else -> Value._UNKNOWN
             }
 
@@ -879,6 +884,7 @@ private constructor(
                 ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
                 ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
                 ACH_RETURN_SETTLED -> Known.ACH_RETURN_SETTLED
+                STABLECOIN_REVIEWED -> Known.STABLECOIN_REVIEWED
                 else -> throw LithicInvalidDataException("Unknown SupportedSimulationTypes: $value")
             }
 
