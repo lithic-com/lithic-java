@@ -292,7 +292,8 @@ interface CardServiceAsync {
      * Initiate print and shipment of a duplicate physical card (e.g. card is physically damaged).
      * The PAN, expiry, and CVC2 will remain the same and the original card can continue to be used
      * until the new card is activated. Only applies to cards of type `PHYSICAL`. A card can be
-     * reissued or renewed a total of 8 times.
+     * reissued or renewed a total of 8 times. Returns `409` if the card is still ongoing
+     * manufacturing when using Thales as a manufacturer.
      */
     fun reissue(cardToken: String): CompletableFuture<Card> =
         reissue(cardToken, CardReissueParams.none())
@@ -333,7 +334,8 @@ interface CardServiceAsync {
      * card is activated. A `PHYSICAL` card can be reissued or renewed a total of 8 times. For
      * `VIRTUAL`, the card will retain the same card token and PAN and receive an updated expiry and
      * CVC2 code. `product_id`, `shipping_method`, `shipping_address`, `carrier` are only relevant
-     * for renewing `PHYSICAL` cards.
+     * for renewing `PHYSICAL` cards. Returns `409` if the card is still ongoing manufacturing when
+     * using Thales as a manufacturer.
      */
     fun renew(cardToken: String, params: CardRenewParams): CompletableFuture<Card> =
         renew(cardToken, params, RequestOptions.none())
