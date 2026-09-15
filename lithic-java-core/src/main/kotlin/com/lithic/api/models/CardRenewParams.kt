@@ -29,6 +29,7 @@ import kotlin.jvm.optionals.getOrNull
  * `PHYSICAL` card can be reissued or renewed a total of 8 times. For `VIRTUAL`, the card will
  * retain the same card token and PAN and receive an updated expiry and CVC2 code. `product_id`,
  * `shipping_method`, `shipping_address`, `carrier` are only relevant for renewing `PHYSICAL` cards.
+ * Returns `409` if the card is still ongoing manufacturing when using Thales as a manufacturer.
  */
 class CardRenewParams
 private constructor(
