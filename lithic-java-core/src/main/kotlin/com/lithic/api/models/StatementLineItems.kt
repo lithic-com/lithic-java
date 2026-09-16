@@ -1369,6 +1369,10 @@ private constructor(
 
                 @JvmField val EXTERNAL_WIRE_SETTLED = of("EXTERNAL_WIRE_SETTLED")
 
+                @JvmField val FEE = of("FEE")
+
+                @JvmField val FEE_REVERSAL = of("FEE_REVERSAL")
+
                 @JvmField val FINANCIAL_AUTHORIZATION = of("FINANCIAL_AUTHORIZATION")
 
                 @JvmField val FINANCIAL_CREDIT_AUTHORIZATION = of("FINANCIAL_CREDIT_AUTHORIZATION")
@@ -1512,6 +1516,8 @@ private constructor(
                 EXTERNAL_WIRE_RELEASED,
                 EXTERNAL_WIRE_REVERSED,
                 EXTERNAL_WIRE_SETTLED,
+                FEE,
+                FEE_REVERSAL,
                 FINANCIAL_AUTHORIZATION,
                 FINANCIAL_CREDIT_AUTHORIZATION,
                 INSTALLMENT_FEE,
@@ -1629,6 +1635,8 @@ private constructor(
                 EXTERNAL_WIRE_RELEASED,
                 EXTERNAL_WIRE_REVERSED,
                 EXTERNAL_WIRE_SETTLED,
+                FEE,
+                FEE_REVERSAL,
                 FINANCIAL_AUTHORIZATION,
                 FINANCIAL_CREDIT_AUTHORIZATION,
                 INSTALLMENT_FEE,
@@ -1748,6 +1756,8 @@ private constructor(
                     EXTERNAL_WIRE_RELEASED -> Value.EXTERNAL_WIRE_RELEASED
                     EXTERNAL_WIRE_REVERSED -> Value.EXTERNAL_WIRE_REVERSED
                     EXTERNAL_WIRE_SETTLED -> Value.EXTERNAL_WIRE_SETTLED
+                    FEE -> Value.FEE
+                    FEE_REVERSAL -> Value.FEE_REVERSAL
                     FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
                     FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
                     INSTALLMENT_FEE -> Value.INSTALLMENT_FEE
@@ -1865,6 +1875,8 @@ private constructor(
                     EXTERNAL_WIRE_RELEASED -> Known.EXTERNAL_WIRE_RELEASED
                     EXTERNAL_WIRE_REVERSED -> Known.EXTERNAL_WIRE_REVERSED
                     EXTERNAL_WIRE_SETTLED -> Known.EXTERNAL_WIRE_SETTLED
+                    FEE -> Known.FEE
+                    FEE_REVERSAL -> Known.FEE_REVERSAL
                     FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
                     FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
                     INSTALLMENT_FEE -> Known.INSTALLMENT_FEE
