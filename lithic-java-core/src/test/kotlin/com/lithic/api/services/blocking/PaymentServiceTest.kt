@@ -6,6 +6,7 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.PaymentCreateParams
 import com.lithic.api.models.PaymentCreateStablecoinParams
+import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentReturnParams
 import com.lithic.api.models.PaymentSimulateActionParams
 import com.lithic.api.models.PaymentSimulateReceiptParams
@@ -123,7 +124,13 @@ internal class PaymentServiceTest {
                 .build()
         val paymentService = client.payments()
 
-        val response = paymentService.retry("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val response =
+            paymentService.retry(
+                PaymentRetryParams.builder()
+                    .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .method(PaymentRetryParams.Method.ACH_SAME_DAY)
+                    .build()
+            )
 
         response.validate()
     }
