@@ -20,6 +20,7 @@ import com.lithic.api.services.async.financialAccounts.FinancialTransactionServi
 import com.lithic.api.services.async.financialAccounts.InterestTierScheduleServiceAsync
 import com.lithic.api.services.async.financialAccounts.LoanTapeConfigurationServiceAsync
 import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsync
+import com.lithic.api.services.async.financialAccounts.OpenToBuyServiceAsync
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -39,6 +40,8 @@ interface FinancialAccountServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): FinancialAccountServiceAsync
 
     fun balances(): BalanceServiceAsync
+
+    fun openToBuy(): OpenToBuyServiceAsync
 
     fun financialTransactions(): FinancialTransactionServiceAsync
 
@@ -233,6 +236,8 @@ interface FinancialAccountServiceAsync {
         ): FinancialAccountServiceAsync.WithRawResponse
 
         fun balances(): BalanceServiceAsync.WithRawResponse
+
+        fun openToBuy(): OpenToBuyServiceAsync.WithRawResponse
 
         fun financialTransactions(): FinancialTransactionServiceAsync.WithRawResponse
 
