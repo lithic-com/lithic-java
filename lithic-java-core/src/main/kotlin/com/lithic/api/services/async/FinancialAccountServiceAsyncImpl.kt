@@ -38,6 +38,8 @@ import com.lithic.api.services.async.financialAccounts.LoanTapeConfigurationServ
 import com.lithic.api.services.async.financialAccounts.LoanTapeConfigurationServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsync
 import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsyncImpl
+import com.lithic.api.services.async.financialAccounts.OpenToBuyServiceAsync
+import com.lithic.api.services.async.financialAccounts.OpenToBuyServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
@@ -52,6 +54,10 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
     }
 
     private val balances: BalanceServiceAsync by lazy { BalanceServiceAsyncImpl(clientOptions) }
+
+    private val openToBuy: OpenToBuyServiceAsync by lazy {
+        OpenToBuyServiceAsyncImpl(clientOptions)
+    }
 
     private val financialTransactions: FinancialTransactionServiceAsync by lazy {
         FinancialTransactionServiceAsyncImpl(clientOptions)
@@ -83,6 +89,8 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
         FinancialAccountServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun balances(): BalanceServiceAsync = balances
+
+    override fun openToBuy(): OpenToBuyServiceAsync = openToBuy
 
     override fun financialTransactions(): FinancialTransactionServiceAsync = financialTransactions
 
@@ -148,6 +156,10 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
             BalanceServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val openToBuy: OpenToBuyServiceAsync.WithRawResponse by lazy {
+            OpenToBuyServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val financialTransactions:
             FinancialTransactionServiceAsync.WithRawResponse by lazy {
             FinancialTransactionServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -182,6 +194,8 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
             )
 
         override fun balances(): BalanceServiceAsync.WithRawResponse = balances
+
+        override fun openToBuy(): OpenToBuyServiceAsync.WithRawResponse = openToBuy
 
         override fun financialTransactions(): FinancialTransactionServiceAsync.WithRawResponse =
             financialTransactions
