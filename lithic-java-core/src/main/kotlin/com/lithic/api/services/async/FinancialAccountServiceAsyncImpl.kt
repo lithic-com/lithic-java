@@ -32,6 +32,8 @@ import com.lithic.api.services.async.financialAccounts.CreditConfigurationServic
 import com.lithic.api.services.async.financialAccounts.CreditConfigurationServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsyncImpl
+import com.lithic.api.services.async.financialAccounts.InstallmentPlanServiceAsync
+import com.lithic.api.services.async.financialAccounts.InstallmentPlanServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.InterestTierScheduleServiceAsync
 import com.lithic.api.services.async.financialAccounts.InterestTierScheduleServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.LoanTapeConfigurationServiceAsync
@@ -73,6 +75,10 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
 
     private val loanTapes: LoanTapeServiceAsync by lazy { LoanTapeServiceAsyncImpl(clientOptions) }
 
+    private val installmentPlans: InstallmentPlanServiceAsync by lazy {
+        InstallmentPlanServiceAsyncImpl(clientOptions)
+    }
+
     private val loanTapeConfiguration: LoanTapeConfigurationServiceAsync by lazy {
         LoanTapeConfigurationServiceAsyncImpl(clientOptions)
     }
@@ -99,6 +105,8 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
     override fun statements(): StatementServiceAsync = statements
 
     override fun loanTapes(): LoanTapeServiceAsync = loanTapes
+
+    override fun installmentPlans(): InstallmentPlanServiceAsync = installmentPlans
 
     override fun loanTapeConfiguration(): LoanTapeConfigurationServiceAsync = loanTapeConfiguration
 
@@ -177,6 +185,10 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
             LoanTapeServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val installmentPlans: InstallmentPlanServiceAsync.WithRawResponse by lazy {
+            InstallmentPlanServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val loanTapeConfiguration:
             LoanTapeConfigurationServiceAsync.WithRawResponse by lazy {
             LoanTapeConfigurationServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -206,6 +218,9 @@ internal constructor(private val clientOptions: ClientOptions) : FinancialAccoun
         override fun statements(): StatementServiceAsync.WithRawResponse = statements
 
         override fun loanTapes(): LoanTapeServiceAsync.WithRawResponse = loanTapes
+
+        override fun installmentPlans(): InstallmentPlanServiceAsync.WithRawResponse =
+            installmentPlans
 
         override fun loanTapeConfiguration(): LoanTapeConfigurationServiceAsync.WithRawResponse =
             loanTapeConfiguration
