@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.134.0 (2026-09-18)
+
+Full Changelog: [v0.133.0...v0.134.0](https://github.com/lithic-com/lithic-java/compare/v0.133.0...v0.134.0)
+
+### Features
+
+* [CARDS-5174] Add reiusse/renew 409 error ([3d90574](https://github.com/lithic-com/lithic-java/commit/3d90574a2bd217af7a1e3161c55a17c2d3f7b6bc))
+* [TRE-14464] Update /retry payments endpoint to accept method ([5e294b4](https://github.com/lithic-com/lithic-java/commit/5e294b48832067d094d6c316c239a33bb10a527a))
+* [TRE-14524] Add Open to buy API spec ([b0e8d1f](https://github.com/lithic-com/lithic-java/commit/b0e8d1fba80804352d37aedf40fb809cc4fc2754))
+* Add missing blockchain/stablecoin endpoints to the spec ([5cdc715](https://github.com/lithic-com/lithic-java/commit/5cdc715990d26e494c33d6dfd5bd6581ce21b6c7))
+* **api:** add card.pin_updated webhook event ([8ab17b8](https://github.com/lithic-com/lithic-java/commit/8ab17b8600e670de5baedfb831bf3aa327c3163a))
+* **api:** add EXTERNAL_STABLECOIN category/events to payments and account activity models ([71a8dc7](https://github.com/lithic-com/lithic-java/commit/71a8dc7df0db29dc489ba45c3c677e3d1dbeafa1))
+* **api:** add FEE/FEE_REVERSAL event types to FinancialEvent/ManagementOperation/StatementLineItems ([ea12080](https://github.com/lithic-com/lithic-java/commit/ea12080f1eac92e1a9bdb3c35ed0b67f3bcf3891))
+* **api:** add psd2Context field to ThreeDSAuthentication responses ([5b86204](https://github.com/lithic-com/lithic-java/commit/5b862041a8be447059faa1cdf44fabcc82ae5764))
+* **api:** add retrieve/list installment plan methods to financial_accounts ([d474e8a](https://github.com/lithic-com/lithic-java/commit/d474e8a168c193f57ada6c99cfe20ad09b8a13bf))
+* **api:** add STABLECOIN_REVIEWED simulation type to payment simulate action ([eb203cb](https://github.com/lithic-com/lithic-java/commit/eb203cb3d42ad2e5af7924be34535db8f7ffe936))
+* AUTH-3759: Add DECLINE_SCA_REQUIRED and SCA_REQUIRED enum entries ([816b323](https://github.com/lithic-com/lithic-java/commit/816b3238971ee1e9f6b2997f5a54c7a598959dd9))
+* TRE-14349: add installment plan management operation event types ([97fabed](https://github.com/lithic-com/lithic-java/commit/97fabed2eefe8fe7c76fa4c45a66ed8495a28f9d))
+* TRE-14429: Document the stablecoin payments endpoint ([585fdd5](https://github.com/lithic-com/lithic-java/commit/585fdd50392d686c01877f07189ed696345267c8))
+* **types:** add OTHER enum value to AuthRuleType ([498c5fe](https://github.com/lithic-com/lithic-java/commit/498c5fe9b52733f1723a1f5014b354c0b52a3d3b))
+
 ## 0.133.0 (2026-08-31)
 
 Full Changelog: [v0.132.0...v0.133.0](https://github.com/lithic-com/lithic-java/compare/v0.132.0...v0.133.0)
