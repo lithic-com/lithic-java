@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.lithic.api.services.async.financialAccounts
+package com.lithic.api.services.async.financialAccounts.installmentPlans
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
@@ -15,81 +15,66 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepareAsync
-import com.lithic.api.models.FinancialAccountInstallmentPlanListPageAsync
-import com.lithic.api.models.FinancialAccountInstallmentPlanListPageResponse
-import com.lithic.api.models.FinancialAccountInstallmentPlanListParams
-import com.lithic.api.models.FinancialAccountInstallmentPlanRetrieveParams
-import com.lithic.api.models.InstallmentPlan
-import com.lithic.api.services.async.financialAccounts.installmentPlans.StatementServiceAsync
-import com.lithic.api.services.async.financialAccounts.installmentPlans.StatementServiceAsyncImpl
+import com.lithic.api.models.FinancialAccountInstallmentPlanStatementListPageAsync
+import com.lithic.api.models.FinancialAccountInstallmentPlanStatementListPageResponse
+import com.lithic.api.models.FinancialAccountInstallmentPlanStatementListParams
+import com.lithic.api.models.FinancialAccountInstallmentPlanStatementRetrieveParams
+import com.lithic.api.models.InstallmentPlanStatement
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
-class InstallmentPlanServiceAsyncImpl
-internal constructor(private val clientOptions: ClientOptions) : InstallmentPlanServiceAsync {
+class StatementServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    StatementServiceAsync {
 
-    private val withRawResponse: InstallmentPlanServiceAsync.WithRawResponse by lazy {
+    private val withRawResponse: StatementServiceAsync.WithRawResponse by lazy {
         WithRawResponseImpl(clientOptions)
     }
 
-    private val statements: StatementServiceAsync by lazy {
-        StatementServiceAsyncImpl(clientOptions)
-    }
+    override fun withRawResponse(): StatementServiceAsync.WithRawResponse = withRawResponse
 
-    override fun withRawResponse(): InstallmentPlanServiceAsync.WithRawResponse = withRawResponse
-
-    override fun withOptions(
-        modifier: Consumer<ClientOptions.Builder>
-    ): InstallmentPlanServiceAsync =
-        InstallmentPlanServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
-
-    override fun statements(): StatementServiceAsync = statements
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StatementServiceAsync =
+        StatementServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
-        params: FinancialAccountInstallmentPlanRetrieveParams,
+        params: FinancialAccountInstallmentPlanStatementRetrieveParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<InstallmentPlan> =
+    ): CompletableFuture<InstallmentPlanStatement> =
         // get
-        // /v1/financial_accounts/{financial_account_token}/installment_plans/{installment_plan_token}
+        // /v1/financial_accounts/{financial_account_token}/installment_plans/{installment_plan_token}/statements/{statement_token}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
     override fun list(
-        params: FinancialAccountInstallmentPlanListParams,
+        params: FinancialAccountInstallmentPlanStatementListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<FinancialAccountInstallmentPlanListPageAsync> =
-        // get /v1/financial_accounts/{financial_account_token}/installment_plans
+    ): CompletableFuture<FinancialAccountInstallmentPlanStatementListPageAsync> =
+        // get
+        // /v1/financial_accounts/{financial_account_token}/installment_plans/{installment_plan_token}/statements
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        InstallmentPlanServiceAsync.WithRawResponse {
+        StatementServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
-        private val statements: StatementServiceAsync.WithRawResponse by lazy {
-            StatementServiceAsyncImpl.WithRawResponseImpl(clientOptions)
-        }
-
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
-        ): InstallmentPlanServiceAsync.WithRawResponse =
-            InstallmentPlanServiceAsyncImpl.WithRawResponseImpl(
+        ): StatementServiceAsync.WithRawResponse =
+            StatementServiceAsyncImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        override fun statements(): StatementServiceAsync.WithRawResponse = statements
-
-        private val retrieveHandler: Handler<InstallmentPlan> =
-            jsonHandler<InstallmentPlan>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<InstallmentPlanStatement> =
+            jsonHandler<InstallmentPlanStatement>(clientOptions.jsonMapper)
 
         override fun retrieve(
-            params: FinancialAccountInstallmentPlanRetrieveParams,
+            params: FinancialAccountInstallmentPlanStatementRetrieveParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<InstallmentPlan>> {
+        ): CompletableFuture<HttpResponseFor<InstallmentPlanStatement>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
-            checkRequired("installmentPlanToken", params.installmentPlanToken().getOrNull())
+            checkRequired("statementToken", params.statementToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -100,6 +85,8 @@ internal constructor(private val clientOptions: ClientOptions) : InstallmentPlan
                         params._pathParam(0),
                         "installment_plans",
                         params._pathParam(1),
+                        "statements",
+                        params._pathParam(2),
                     )
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -119,16 +106,20 @@ internal constructor(private val clientOptions: ClientOptions) : InstallmentPlan
                 }
         }
 
-        private val listHandler: Handler<FinancialAccountInstallmentPlanListPageResponse> =
-            jsonHandler<FinancialAccountInstallmentPlanListPageResponse>(clientOptions.jsonMapper)
+        private val listHandler: Handler<FinancialAccountInstallmentPlanStatementListPageResponse> =
+            jsonHandler<FinancialAccountInstallmentPlanStatementListPageResponse>(
+                clientOptions.jsonMapper
+            )
 
         override fun list(
-            params: FinancialAccountInstallmentPlanListParams,
+            params: FinancialAccountInstallmentPlanStatementListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<FinancialAccountInstallmentPlanListPageAsync>> {
+        ): CompletableFuture<
+            HttpResponseFor<FinancialAccountInstallmentPlanStatementListPageAsync>
+        > {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
-            checkRequired("financialAccountToken", params.financialAccountToken().getOrNull())
+            checkRequired("installmentPlanToken", params.installmentPlanToken().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -138,6 +129,8 @@ internal constructor(private val clientOptions: ClientOptions) : InstallmentPlan
                         "financial_accounts",
                         params._pathParam(0),
                         "installment_plans",
+                        params._pathParam(1),
+                        "statements",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -154,8 +147,8 @@ internal constructor(private val clientOptions: ClientOptions) : InstallmentPlan
                                 }
                             }
                             .let {
-                                FinancialAccountInstallmentPlanListPageAsync.builder()
-                                    .service(InstallmentPlanServiceAsyncImpl(clientOptions))
+                                FinancialAccountInstallmentPlanStatementListPageAsync.builder()
+                                    .service(StatementServiceAsyncImpl(clientOptions))
                                     .streamHandlerExecutor(clientOptions.streamHandlerExecutor)
                                     .params(params)
                                     .response(it)

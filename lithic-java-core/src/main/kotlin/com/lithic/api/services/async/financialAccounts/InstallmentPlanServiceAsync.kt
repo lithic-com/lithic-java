@@ -9,6 +9,7 @@ import com.lithic.api.models.FinancialAccountInstallmentPlanListPageAsync
 import com.lithic.api.models.FinancialAccountInstallmentPlanListParams
 import com.lithic.api.models.FinancialAccountInstallmentPlanRetrieveParams
 import com.lithic.api.models.InstallmentPlan
+import com.lithic.api.services.async.financialAccounts.installmentPlans.StatementServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -25,6 +26,8 @@ interface InstallmentPlanServiceAsync {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): InstallmentPlanServiceAsync
+
+    fun statements(): StatementServiceAsync
 
     /** Get a specific installment plan for a given financial account. */
     fun retrieve(
@@ -118,6 +121,8 @@ interface InstallmentPlanServiceAsync {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): InstallmentPlanServiceAsync.WithRawResponse
+
+        fun statements(): StatementServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get
