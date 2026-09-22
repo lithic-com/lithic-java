@@ -16,17 +16,17 @@ internal class AddressTest {
                 .address1("123 Old Forest Way")
                 .city("Omaha")
                 .country("USA")
+                .address2("address2")
                 .postalCode("68022")
                 .state("NE")
-                .address2("address2")
                 .build()
 
         assertThat(address.address1()).isEqualTo("123 Old Forest Way")
         assertThat(address.city()).isEqualTo("Omaha")
         assertThat(address.country()).isEqualTo("USA")
-        assertThat(address.postalCode()).isEqualTo("68022")
-        assertThat(address.state()).isEqualTo("NE")
         assertThat(address.address2()).contains("address2")
+        assertThat(address.postalCode()).contains("68022")
+        assertThat(address.state()).contains("NE")
     }
 
     @Test
@@ -37,9 +37,9 @@ internal class AddressTest {
                 .address1("123 Old Forest Way")
                 .city("Omaha")
                 .country("USA")
+                .address2("address2")
                 .postalCode("68022")
                 .state("NE")
-                .address2("address2")
                 .build()
 
         val roundtrippedAddress =

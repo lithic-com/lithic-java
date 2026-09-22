@@ -14,6 +14,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class AddressUpdate
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -64,8 +65,8 @@ private constructor(
     fun city(): Optional<String> = city.getOptional("city")
 
     /**
-     * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1 alpha-3
-     * three-character format.
+     * Valid country code, entered in uppercase ISO 3166-1 alpha-3 three-character format. Supported
+     * countries depend on the onboarding workflow used for the account holder.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -73,8 +74,12 @@ private constructor(
     fun country(): Optional<String> = country.getOptional("country")
 
     /**
-     * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit ZIP or
-     * nine-digit ZIP+4.
+     * Valid postal code. For USA addresses, enter either a five-digit postal code or a nine-digit
+     * postal code (ZIP+4) using the format 12345-1234. Required for all countries except the
+     * following, which do not use postal codes: ABW, AGO, ARE, ATG, BDI, BEN, BFA, BHS, BLZ, BOL,
+     * BWA, CIV, CMR, COD, COG, COK, COM, DJI, DMA, ERI, FJI, GAB, GMB, GNQ, GRD, GUY, HKG, KIR,
+     * MAC, MLI, MRT, NIU, NRU, QAT, RWA, SLB, SLE, SSD, SUR, SXM, SYC, TGO, TKL, TLS, TON, TUV,
+     * UGA, VUT, YEM, ZWE
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -82,8 +87,17 @@ private constructor(
     fun postalCode(): Optional<String> = postalCode.getOptional("postal_code")
 
     /**
-     * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-     * 3166-2 two-character format.
+     * Valid state, province, or subdivision code, entered as the uppercase ISO 3166-2 code for the
+     * country without the country prefix. For example, `CA` for California. Optional unless the
+     * address is in one of the following countries, where it is required:
+     * - `USA`
+     * - `CAN`
+     * - `AUS`
+     * - `CHN`
+     * - `KOR`
+     * - `MEX`
+     * - `MYS`
+     * - `NZL`
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -206,8 +220,8 @@ private constructor(
         fun city(city: JsonField<String>) = apply { this.city = city }
 
         /**
-         * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1
-         * alpha-3 three-character format.
+         * Valid country code, entered in uppercase ISO 3166-1 alpha-3 three-character format.
+         * Supported countries depend on the onboarding workflow used for the account holder.
          */
         fun country(country: String) = country(JsonField.of(country))
 
@@ -220,10 +234,17 @@ private constructor(
         fun country(country: JsonField<String>) = apply { this.country = country }
 
         /**
-         * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit
-         * ZIP or nine-digit ZIP+4.
+         * Valid postal code. For USA addresses, enter either a five-digit postal code or a
+         * nine-digit postal code (ZIP+4) using the format 12345-1234. Required for all countries
+         * except the following, which do not use postal codes: ABW, AGO, ARE, ATG, BDI, BEN, BFA,
+         * BHS, BLZ, BOL, BWA, CIV, CMR, COD, COG, COK, COM, DJI, DMA, ERI, FJI, GAB, GMB, GNQ, GRD,
+         * GUY, HKG, KIR, MAC, MLI, MRT, NIU, NRU, QAT, RWA, SLB, SLE, SSD, SUR, SXM, SYC, TGO, TKL,
+         * TLS, TON, TUV, UGA, VUT, YEM, ZWE
          */
-        fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
+        fun postalCode(postalCode: String?) = postalCode(JsonField.ofNullable(postalCode))
+
+        /** Alias for calling [Builder.postalCode] with `postalCode.orElse(null)`. */
+        fun postalCode(postalCode: Optional<String>) = postalCode(postalCode.getOrNull())
 
         /**
          * Sets [Builder.postalCode] to an arbitrary JSON value.
@@ -235,10 +256,22 @@ private constructor(
         fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
         /**
-         * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-         * 3166-2 two-character format.
+         * Valid state, province, or subdivision code, entered as the uppercase ISO 3166-2 code for
+         * the country without the country prefix. For example, `CA` for California. Optional unless
+         * the address is in one of the following countries, where it is required:
+         * - `USA`
+         * - `CAN`
+         * - `AUS`
+         * - `CHN`
+         * - `KOR`
+         * - `MEX`
+         * - `MYS`
+         * - `NZL`
          */
-        fun state(state: String) = state(JsonField.of(state))
+        fun state(state: String?) = state(JsonField.ofNullable(state))
+
+        /** Alias for calling [Builder.state] with `state.orElse(null)`. */
+        fun state(state: Optional<String>) = state(state.getOrNull())
 
         /**
          * Sets [Builder.state] to an arbitrary JSON value.

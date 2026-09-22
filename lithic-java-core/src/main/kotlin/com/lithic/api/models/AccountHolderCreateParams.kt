@@ -1583,7 +1583,8 @@ private constructor(
 
                 /**
                  * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-                 * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
+                 * acceptable; APO/FPO are acceptable. Only USA addresses are supported for the KYB
+                 * and KYC workflows.
                  *
                  * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g.
                  *   if the server responded with an unexpected value).
@@ -1777,8 +1778,8 @@ private constructor(
 
                     /**
                      * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
-                     * acceptable; APO/FPO are acceptable. Only USA addresses are currently
-                     * supported.
+                     * acceptable; APO/FPO are acceptable. Only USA addresses are supported for the
+                     * KYB and KYC workflows.
                      */
                     fun address(address: Address) = address(JsonField.of(address))
 
