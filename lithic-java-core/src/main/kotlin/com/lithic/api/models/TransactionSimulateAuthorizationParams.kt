@@ -64,6 +64,15 @@ private constructor(
     fun pan(): String = body.pan()
 
     /**
+     * 3-character alphabetic ISO 4217 currency code for the cardholder billing amount. Permitted
+     * values are USD, GBP, EUR and CAD, and any other ISO 4217 code returns a 422. Defaults to USD
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun billingCurrency(): Optional<String> = body.billingCurrency()
+
+    /**
      * Merchant category code for the transaction to be simulated. A four-digit number listed in
      * ISO 18245. Supported merchant category codes can be found
      * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
@@ -115,8 +124,10 @@ private constructor(
     fun merchantAmount(): Optional<Long> = body.merchantAmount()
 
     /**
-     * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
-     * defaults to GBP if another ISO 4217 code is provided
+     * 3-character alphabetic ISO 4217 currency code for the merchant amount. Only used when
+     * merchant_amount is set, and defaults to GBP in that case. Without merchant_amount, the
+     * merchant amount uses the billing currency. Permitted values are USD, GBP, EUR and CAD, and
+     * any other ISO 4217 code returns a 422
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -139,6 +150,17 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun pin(): Optional<String> = body.pin()
+
+    /**
+     * 3-character alphabetic ISO 4217 currency code for the settlement amount. Permitted values are
+     * USD, GBP, EUR and CAD, and any other ISO 4217 code returns a 422. Defaults to the value of
+     * billing_currency. Only single message (financial) authorizations carry a settlement amount,
+     * and the value is ignored for dual message authorizations
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun settlementCurrency(): Optional<String> = body.settlementCurrency()
 
     /**
      * Type of event to simulate.
@@ -179,6 +201,13 @@ private constructor(
      * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _pan(): JsonField<String> = body._pan()
+
+    /**
+     * Returns the raw JSON value of [billingCurrency].
+     *
+     * Unlike [billingCurrency], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _billingCurrency(): JsonField<String> = body._billingCurrency()
 
     /**
      * Returns the raw JSON value of [mcc].
@@ -250,6 +279,14 @@ private constructor(
     fun _pin(): JsonField<String> = body._pin()
 
     /**
+     * Returns the raw JSON value of [settlementCurrency].
+     *
+     * Unlike [settlementCurrency], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _settlementCurrency(): JsonField<String> = body._settlementCurrency()
+
+    /**
      * Returns the raw JSON value of [status].
      *
      * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
@@ -307,8 +344,8 @@ private constructor(
          * - [amount]
          * - [descriptor]
          * - [pan]
+         * - [billingCurrency]
          * - [mcc]
-         * - [merchantAcceptorCity]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -351,6 +388,26 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
+
+        /**
+         * 3-character alphabetic ISO 4217 currency code for the cardholder billing amount.
+         * Permitted values are USD, GBP, EUR and CAD, and any other ISO 4217 code returns a 422.
+         * Defaults to USD
+         */
+        fun billingCurrency(billingCurrency: String) = apply {
+            body.billingCurrency(billingCurrency)
+        }
+
+        /**
+         * Sets [Builder.billingCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.billingCurrency] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun billingCurrency(billingCurrency: JsonField<String>) = apply {
+            body.billingCurrency(billingCurrency)
+        }
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
@@ -449,8 +506,10 @@ private constructor(
         }
 
         /**
-         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
-         * and defaults to GBP if another ISO 4217 code is provided
+         * 3-character alphabetic ISO 4217 currency code for the merchant amount. Only used when
+         * merchant_amount is set, and defaults to GBP in that case. Without merchant_amount, the
+         * merchant amount uses the billing currency. Permitted values are USD, GBP, EUR and CAD,
+         * and any other ISO 4217 code returns a 422
          */
         fun merchantCurrency(merchantCurrency: String) = apply {
             body.merchantCurrency(merchantCurrency)
@@ -497,6 +556,27 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun pin(pin: JsonField<String>) = apply { body.pin(pin) }
+
+        /**
+         * 3-character alphabetic ISO 4217 currency code for the settlement amount. Permitted values
+         * are USD, GBP, EUR and CAD, and any other ISO 4217 code returns a 422. Defaults to the
+         * value of billing_currency. Only single message (financial) authorizations carry a
+         * settlement amount, and the value is ignored for dual message authorizations
+         */
+        fun settlementCurrency(settlementCurrency: String) = apply {
+            body.settlementCurrency(settlementCurrency)
+        }
+
+        /**
+         * Sets [Builder.settlementCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.settlementCurrency] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun settlementCurrency(settlementCurrency: JsonField<String>) = apply {
+            body.settlementCurrency(settlementCurrency)
+        }
 
         /**
          * Type of event to simulate.
@@ -673,6 +753,7 @@ private constructor(
         private val amount: JsonField<Long>,
         private val descriptor: JsonField<String>,
         private val pan: JsonField<String>,
+        private val billingCurrency: JsonField<String>,
         private val mcc: JsonField<String>,
         private val merchantAcceptorCity: JsonField<String>,
         private val merchantAcceptorCountry: JsonField<String>,
@@ -682,6 +763,7 @@ private constructor(
         private val merchantCurrency: JsonField<String>,
         private val partialApprovalCapable: JsonField<Boolean>,
         private val pin: JsonField<String>,
+        private val settlementCurrency: JsonField<String>,
         private val status: JsonField<Status>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -693,6 +775,9 @@ private constructor(
             @ExcludeMissing
             descriptor: JsonField<String> = JsonMissing.of(),
             @JsonProperty("pan") @ExcludeMissing pan: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("billing_currency")
+            @ExcludeMissing
+            billingCurrency: JsonField<String> = JsonMissing.of(),
             @JsonProperty("mcc") @ExcludeMissing mcc: JsonField<String> = JsonMissing.of(),
             @JsonProperty("merchant_acceptor_city")
             @ExcludeMissing
@@ -716,11 +801,15 @@ private constructor(
             @ExcludeMissing
             partialApprovalCapable: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("pin") @ExcludeMissing pin: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("settlement_currency")
+            @ExcludeMissing
+            settlementCurrency: JsonField<String> = JsonMissing.of(),
             @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
         ) : this(
             amount,
             descriptor,
             pan,
+            billingCurrency,
             mcc,
             merchantAcceptorCity,
             merchantAcceptorCountry,
@@ -730,6 +819,7 @@ private constructor(
             merchantCurrency,
             partialApprovalCapable,
             pin,
+            settlementCurrency,
             status,
             mutableMapOf(),
         )
@@ -760,6 +850,16 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun pan(): String = pan.getRequired("pan")
+
+        /**
+         * 3-character alphabetic ISO 4217 currency code for the cardholder billing amount.
+         * Permitted values are USD, GBP, EUR and CAD, and any other ISO 4217 code returns a 422.
+         * Defaults to USD
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun billingCurrency(): Optional<String> = billingCurrency.getOptional("billing_currency")
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
@@ -817,8 +917,10 @@ private constructor(
         fun merchantAmount(): Optional<Long> = merchantAmount.getOptional("merchant_amount")
 
         /**
-         * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
-         * and defaults to GBP if another ISO 4217 code is provided
+         * 3-character alphabetic ISO 4217 currency code for the merchant amount. Only used when
+         * merchant_amount is set, and defaults to GBP in that case. Without merchant_amount, the
+         * merchant amount uses the billing currency. Permitted values are USD, GBP, EUR and CAD,
+         * and any other ISO 4217 code returns a 422
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -843,6 +945,18 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun pin(): Optional<String> = pin.getOptional("pin")
+
+        /**
+         * 3-character alphabetic ISO 4217 currency code for the settlement amount. Permitted values
+         * are USD, GBP, EUR and CAD, and any other ISO 4217 code returns a 422. Defaults to the
+         * value of billing_currency. Only single message (financial) authorizations carry a
+         * settlement amount, and the value is ignored for dual message authorizations
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun settlementCurrency(): Optional<String> =
+            settlementCurrency.getOptional("settlement_currency")
 
         /**
          * Type of event to simulate.
@@ -885,6 +999,16 @@ private constructor(
          * Unlike [pan], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
+
+        /**
+         * Returns the raw JSON value of [billingCurrency].
+         *
+         * Unlike [billingCurrency], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("billing_currency")
+        @ExcludeMissing
+        fun _billingCurrency(): JsonField<String> = billingCurrency
 
         /**
          * Returns the raw JSON value of [mcc].
@@ -971,6 +1095,16 @@ private constructor(
         @JsonProperty("pin") @ExcludeMissing fun _pin(): JsonField<String> = pin
 
         /**
+         * Returns the raw JSON value of [settlementCurrency].
+         *
+         * Unlike [settlementCurrency], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("settlement_currency")
+        @ExcludeMissing
+        fun _settlementCurrency(): JsonField<String> = settlementCurrency
+
+        /**
          * Returns the raw JSON value of [status].
          *
          * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
@@ -1010,6 +1144,7 @@ private constructor(
             private var amount: JsonField<Long>? = null
             private var descriptor: JsonField<String>? = null
             private var pan: JsonField<String>? = null
+            private var billingCurrency: JsonField<String> = JsonMissing.of()
             private var mcc: JsonField<String> = JsonMissing.of()
             private var merchantAcceptorCity: JsonField<String> = JsonMissing.of()
             private var merchantAcceptorCountry: JsonField<String> = JsonMissing.of()
@@ -1019,6 +1154,7 @@ private constructor(
             private var merchantCurrency: JsonField<String> = JsonMissing.of()
             private var partialApprovalCapable: JsonField<Boolean> = JsonMissing.of()
             private var pin: JsonField<String> = JsonMissing.of()
+            private var settlementCurrency: JsonField<String> = JsonMissing.of()
             private var status: JsonField<Status> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1027,6 +1163,7 @@ private constructor(
                 amount = body.amount
                 descriptor = body.descriptor
                 pan = body.pan
+                billingCurrency = body.billingCurrency
                 mcc = body.mcc
                 merchantAcceptorCity = body.merchantAcceptorCity
                 merchantAcceptorCountry = body.merchantAcceptorCountry
@@ -1036,6 +1173,7 @@ private constructor(
                 merchantCurrency = body.merchantCurrency
                 partialApprovalCapable = body.partialApprovalCapable
                 pin = body.pin
+                settlementCurrency = body.settlementCurrency
                 status = body.status
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
@@ -1080,6 +1218,25 @@ private constructor(
              * value.
              */
             fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+
+            /**
+             * 3-character alphabetic ISO 4217 currency code for the cardholder billing amount.
+             * Permitted values are USD, GBP, EUR and CAD, and any other ISO 4217 code returns
+             * a 422. Defaults to USD
+             */
+            fun billingCurrency(billingCurrency: String) =
+                billingCurrency(JsonField.of(billingCurrency))
+
+            /**
+             * Sets [Builder.billingCurrency] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.billingCurrency] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun billingCurrency(billingCurrency: JsonField<String>) = apply {
+                this.billingCurrency = billingCurrency
+            }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
@@ -1175,8 +1332,10 @@ private constructor(
             }
 
             /**
-             * 3-character alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP,
-             * EUR and defaults to GBP if another ISO 4217 code is provided
+             * 3-character alphabetic ISO 4217 currency code for the merchant amount. Only used when
+             * merchant_amount is set, and defaults to GBP in that case. Without merchant_amount,
+             * the merchant amount uses the billing currency. Permitted values are USD, GBP, EUR and
+             * CAD, and any other ISO 4217 code returns a 422
              */
             fun merchantCurrency(merchantCurrency: String) =
                 merchantCurrency(JsonField.of(merchantCurrency))
@@ -1222,6 +1381,26 @@ private constructor(
              * value.
              */
             fun pin(pin: JsonField<String>) = apply { this.pin = pin }
+
+            /**
+             * 3-character alphabetic ISO 4217 currency code for the settlement amount. Permitted
+             * values are USD, GBP, EUR and CAD, and any other ISO 4217 code returns a 422. Defaults
+             * to the value of billing_currency. Only single message (financial) authorizations
+             * carry a settlement amount, and the value is ignored for dual message authorizations
+             */
+            fun settlementCurrency(settlementCurrency: String) =
+                settlementCurrency(JsonField.of(settlementCurrency))
+
+            /**
+             * Sets [Builder.settlementCurrency] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.settlementCurrency] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun settlementCurrency(settlementCurrency: JsonField<String>) = apply {
+                this.settlementCurrency = settlementCurrency
+            }
 
             /**
              * Type of event to simulate.
@@ -1288,6 +1467,7 @@ private constructor(
                     checkRequired("amount", amount),
                     checkRequired("descriptor", descriptor),
                     checkRequired("pan", pan),
+                    billingCurrency,
                     mcc,
                     merchantAcceptorCity,
                     merchantAcceptorCountry,
@@ -1297,6 +1477,7 @@ private constructor(
                     merchantCurrency,
                     partialApprovalCapable,
                     pin,
+                    settlementCurrency,
                     status,
                     additionalProperties.toMutableMap(),
                 )
@@ -1321,6 +1502,7 @@ private constructor(
             amount()
             descriptor()
             pan()
+            billingCurrency()
             mcc()
             merchantAcceptorCity()
             merchantAcceptorCountry()
@@ -1330,6 +1512,7 @@ private constructor(
             merchantCurrency()
             partialApprovalCapable()
             pin()
+            settlementCurrency()
             status().ifPresent { it.validate() }
             validated = true
         }
@@ -1353,6 +1536,7 @@ private constructor(
             (if (amount.asKnown().isPresent) 1 else 0) +
                 (if (descriptor.asKnown().isPresent) 1 else 0) +
                 (if (pan.asKnown().isPresent) 1 else 0) +
+                (if (billingCurrency.asKnown().isPresent) 1 else 0) +
                 (if (mcc.asKnown().isPresent) 1 else 0) +
                 (if (merchantAcceptorCity.asKnown().isPresent) 1 else 0) +
                 (if (merchantAcceptorCountry.asKnown().isPresent) 1 else 0) +
@@ -1362,6 +1546,7 @@ private constructor(
                 (if (merchantCurrency.asKnown().isPresent) 1 else 0) +
                 (if (partialApprovalCapable.asKnown().isPresent) 1 else 0) +
                 (if (pin.asKnown().isPresent) 1 else 0) +
+                (if (settlementCurrency.asKnown().isPresent) 1 else 0) +
                 (status.asKnown().getOrNull()?.validity() ?: 0)
 
         override fun equals(other: Any?): Boolean {
@@ -1373,6 +1558,7 @@ private constructor(
                 amount == other.amount &&
                 descriptor == other.descriptor &&
                 pan == other.pan &&
+                billingCurrency == other.billingCurrency &&
                 mcc == other.mcc &&
                 merchantAcceptorCity == other.merchantAcceptorCity &&
                 merchantAcceptorCountry == other.merchantAcceptorCountry &&
@@ -1382,6 +1568,7 @@ private constructor(
                 merchantCurrency == other.merchantCurrency &&
                 partialApprovalCapable == other.partialApprovalCapable &&
                 pin == other.pin &&
+                settlementCurrency == other.settlementCurrency &&
                 status == other.status &&
                 additionalProperties == other.additionalProperties
         }
@@ -1391,6 +1578,7 @@ private constructor(
                 amount,
                 descriptor,
                 pan,
+                billingCurrency,
                 mcc,
                 merchantAcceptorCity,
                 merchantAcceptorCountry,
@@ -1400,6 +1588,7 @@ private constructor(
                 merchantCurrency,
                 partialApprovalCapable,
                 pin,
+                settlementCurrency,
                 status,
                 additionalProperties,
             )
@@ -1408,7 +1597,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorCity=$merchantAcceptorCity, merchantAcceptorCountry=$merchantAcceptorCountry, merchantAcceptorId=$merchantAcceptorId, merchantAcceptorState=$merchantAcceptorState, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, pin=$pin, status=$status, additionalProperties=$additionalProperties}"
+            "Body{amount=$amount, descriptor=$descriptor, pan=$pan, billingCurrency=$billingCurrency, mcc=$mcc, merchantAcceptorCity=$merchantAcceptorCity, merchantAcceptorCountry=$merchantAcceptorCountry, merchantAcceptorId=$merchantAcceptorId, merchantAcceptorState=$merchantAcceptorState, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, pin=$pin, settlementCurrency=$settlementCurrency, status=$status, additionalProperties=$additionalProperties}"
     }
 
     /**
