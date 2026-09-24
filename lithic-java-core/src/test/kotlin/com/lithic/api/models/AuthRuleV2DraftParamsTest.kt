@@ -12,14 +12,29 @@ internal class AuthRuleV2DraftParamsTest {
         AuthRuleV2DraftParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .parameters(
-                ConditionalBlockParameters.builder()
-                    .addCondition(
-                        AuthRuleCondition.builder()
-                            .attribute(ConditionalAttribute.MCC)
-                            .operation(ConditionalOperation.IS_ONE_OF)
-                            .value("string")
+                VelocityLimitParams.builder()
+                    .period(
+                        VelocityLimitPeriod.TrailingWindowObject.builder()
+                            .duration(10L)
+                            .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                             .build()
                     )
+                    .scope(VelocityLimitParams.VelocityScope.CARD)
+                    .filters(
+                        VelocityLimitFilters.builder()
+                            .addExcludeCountry("USD")
+                            .addExcludeMcc("5542")
+                            .addIncludeCountry("USD")
+                            .addIncludeMcc("5542")
+                            .addIncludePanEntryMode(
+                                VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                            )
+                            .build()
+                    )
+                    .limitAmount(10000L)
+                    .limitCashAmount(5000L)
+                    .limitCashCount(0L)
+                    .limitCount(0L)
                     .build()
             )
             .build()
@@ -43,14 +58,29 @@ internal class AuthRuleV2DraftParamsTest {
             AuthRuleV2DraftParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .parameters(
-                    ConditionalBlockParameters.builder()
-                        .addCondition(
-                            AuthRuleCondition.builder()
-                                .attribute(ConditionalAttribute.MCC)
-                                .operation(ConditionalOperation.IS_ONE_OF)
-                                .value("string")
+                    VelocityLimitParams.builder()
+                        .period(
+                            VelocityLimitPeriod.TrailingWindowObject.builder()
+                                .duration(10L)
+                                .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                                 .build()
                         )
+                        .scope(VelocityLimitParams.VelocityScope.CARD)
+                        .filters(
+                            VelocityLimitFilters.builder()
+                                .addExcludeCountry("USD")
+                                .addExcludeMcc("5542")
+                                .addIncludeCountry("USD")
+                                .addIncludeMcc("5542")
+                                .addIncludePanEntryMode(
+                                    VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                                )
+                                .build()
+                        )
+                        .limitAmount(10000L)
+                        .limitCashAmount(5000L)
+                        .limitCashCount(0L)
+                        .limitCount(0L)
                         .build()
                 )
                 .build()
@@ -59,15 +89,30 @@ internal class AuthRuleV2DraftParamsTest {
 
         assertThat(body.parameters())
             .contains(
-                AuthRuleV2DraftParams.Parameters.ofConditionalBlock(
-                    ConditionalBlockParameters.builder()
-                        .addCondition(
-                            AuthRuleCondition.builder()
-                                .attribute(ConditionalAttribute.MCC)
-                                .operation(ConditionalOperation.IS_ONE_OF)
-                                .value("string")
+                AuthRuleV2DraftParams.Parameters.ofVelocityLimitParams(
+                    VelocityLimitParams.builder()
+                        .period(
+                            VelocityLimitPeriod.TrailingWindowObject.builder()
+                                .duration(10L)
+                                .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                                 .build()
                         )
+                        .scope(VelocityLimitParams.VelocityScope.CARD)
+                        .filters(
+                            VelocityLimitFilters.builder()
+                                .addExcludeCountry("USD")
+                                .addExcludeMcc("5542")
+                                .addIncludeCountry("USD")
+                                .addIncludeMcc("5542")
+                                .addIncludePanEntryMode(
+                                    VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                                )
+                                .build()
+                        )
+                        .limitAmount(10000L)
+                        .limitCashAmount(5000L)
+                        .limitCashCount(0L)
+                        .limitCount(0L)
                         .build()
                 )
             )

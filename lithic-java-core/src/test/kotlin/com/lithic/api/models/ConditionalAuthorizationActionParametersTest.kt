@@ -15,27 +15,15 @@ internal class ConditionalAuthorizationActionParametersTest {
             ConditionalAuthorizationActionParameters.builder()
                 .action(ConditionalAuthorizationActionParameters.AuthorizationAction.DECLINE)
                 .addCondition(
-                    ConditionalAuthorizationActionParameters.Condition.builder()
-                        .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
+                    AuthRuleCondition.builder()
+                        .attribute(ConditionalAttribute.MCC)
                         .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
                         .parameters(
-                            ConditionalAuthorizationActionParameters.Condition.Parameters.builder()
-                                .interval(
-                                    ConditionalAuthorizationActionParameters.Condition.Parameters
-                                        .Interval
-                                        .LIFETIME
-                                )
-                                .scope(
-                                    ConditionalAuthorizationActionParameters.Condition.Parameters
-                                        .Scope
-                                        .CARD
-                                )
-                                .unit(
-                                    ConditionalAuthorizationActionParameters.Condition.Parameters
-                                        .Unit
-                                        .MPH
-                                )
+                            AuthRuleCondition.Parameters.builder()
+                                .interval(AuthRuleCondition.Parameters.Interval.LIFETIME)
+                                .scope(AuthRuleCondition.Parameters.Scope.CARD)
+                                .unit(AuthRuleCondition.Parameters.Unit.MPH)
                                 .build()
                         )
                         .build()
@@ -46,25 +34,15 @@ internal class ConditionalAuthorizationActionParametersTest {
             .isEqualTo(ConditionalAuthorizationActionParameters.AuthorizationAction.DECLINE)
         assertThat(conditionalAuthorizationActionParameters.conditions())
             .containsExactly(
-                ConditionalAuthorizationActionParameters.Condition.builder()
-                    .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
+                AuthRuleCondition.builder()
+                    .attribute(ConditionalAttribute.MCC)
                     .operation(ConditionalOperation.IS_ONE_OF)
                     .value("string")
                     .parameters(
-                        ConditionalAuthorizationActionParameters.Condition.Parameters.builder()
-                            .interval(
-                                ConditionalAuthorizationActionParameters.Condition.Parameters
-                                    .Interval
-                                    .LIFETIME
-                            )
-                            .scope(
-                                ConditionalAuthorizationActionParameters.Condition.Parameters.Scope
-                                    .CARD
-                            )
-                            .unit(
-                                ConditionalAuthorizationActionParameters.Condition.Parameters.Unit
-                                    .MPH
-                            )
+                        AuthRuleCondition.Parameters.builder()
+                            .interval(AuthRuleCondition.Parameters.Interval.LIFETIME)
+                            .scope(AuthRuleCondition.Parameters.Scope.CARD)
+                            .unit(AuthRuleCondition.Parameters.Unit.MPH)
                             .build()
                     )
                     .build()
@@ -78,27 +56,15 @@ internal class ConditionalAuthorizationActionParametersTest {
             ConditionalAuthorizationActionParameters.builder()
                 .action(ConditionalAuthorizationActionParameters.AuthorizationAction.DECLINE)
                 .addCondition(
-                    ConditionalAuthorizationActionParameters.Condition.builder()
-                        .attribute(ConditionalAuthorizationActionParameters.Condition.Attribute.MCC)
+                    AuthRuleCondition.builder()
+                        .attribute(ConditionalAttribute.MCC)
                         .operation(ConditionalOperation.IS_ONE_OF)
                         .value("string")
                         .parameters(
-                            ConditionalAuthorizationActionParameters.Condition.Parameters.builder()
-                                .interval(
-                                    ConditionalAuthorizationActionParameters.Condition.Parameters
-                                        .Interval
-                                        .LIFETIME
-                                )
-                                .scope(
-                                    ConditionalAuthorizationActionParameters.Condition.Parameters
-                                        .Scope
-                                        .CARD
-                                )
-                                .unit(
-                                    ConditionalAuthorizationActionParameters.Condition.Parameters
-                                        .Unit
-                                        .MPH
-                                )
+                            AuthRuleCondition.Parameters.builder()
+                                .interval(AuthRuleCondition.Parameters.Interval.LIFETIME)
+                                .scope(AuthRuleCondition.Parameters.Scope.CARD)
+                                .unit(AuthRuleCondition.Parameters.Unit.MPH)
                                 .build()
                         )
                         .build()

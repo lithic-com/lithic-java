@@ -15,7 +15,7 @@ import kotlin.jvm.optionals.getOrNull
  * This only calculates the features for the active version.
  * - VelocityLimit Rules calculates the current Velocity Feature data. This requires a `card_token`
  *   or `account_token` matching what the rule is Scoped to.
- * - ConditionalBlock Rules calculates the CARD_TRANSACTION_COUNT_* attributes on the rule. This
+ * - ConditionalAction Rules calculates the CARD_TRANSACTION_COUNT_* attributes on the rule. This
  *   requires a `card_token`
  */
 class AuthRuleV2RetrieveFeaturesParams

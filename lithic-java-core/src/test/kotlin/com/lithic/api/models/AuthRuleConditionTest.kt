@@ -16,11 +16,26 @@ internal class AuthRuleConditionTest {
                 .attribute(ConditionalAttribute.MCC)
                 .operation(ConditionalOperation.IS_ONE_OF)
                 .value("string")
+                .parameters(
+                    AuthRuleCondition.Parameters.builder()
+                        .interval(AuthRuleCondition.Parameters.Interval.LIFETIME)
+                        .scope(AuthRuleCondition.Parameters.Scope.CARD)
+                        .unit(AuthRuleCondition.Parameters.Unit.MPH)
+                        .build()
+                )
                 .build()
 
         assertThat(authRuleCondition.attribute()).isEqualTo(ConditionalAttribute.MCC)
         assertThat(authRuleCondition.operation()).isEqualTo(ConditionalOperation.IS_ONE_OF)
         assertThat(authRuleCondition.value()).isEqualTo(ConditionalValue.ofRegex("string"))
+        assertThat(authRuleCondition.parameters())
+            .contains(
+                AuthRuleCondition.Parameters.builder()
+                    .interval(AuthRuleCondition.Parameters.Interval.LIFETIME)
+                    .scope(AuthRuleCondition.Parameters.Scope.CARD)
+                    .unit(AuthRuleCondition.Parameters.Unit.MPH)
+                    .build()
+            )
     }
 
     @Test
@@ -31,6 +46,13 @@ internal class AuthRuleConditionTest {
                 .attribute(ConditionalAttribute.MCC)
                 .operation(ConditionalOperation.IS_ONE_OF)
                 .value("string")
+                .parameters(
+                    AuthRuleCondition.Parameters.builder()
+                        .interval(AuthRuleCondition.Parameters.Interval.LIFETIME)
+                        .scope(AuthRuleCondition.Parameters.Scope.CARD)
+                        .unit(AuthRuleCondition.Parameters.Unit.MPH)
+                        .build()
+                )
                 .build()
 
         val roundtrippedAuthRuleCondition =

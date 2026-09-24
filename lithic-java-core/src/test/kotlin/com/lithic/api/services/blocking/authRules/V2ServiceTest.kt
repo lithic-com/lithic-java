@@ -4,16 +4,15 @@ package com.lithic.api.services.blocking.authRules
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.AuthRuleCondition
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
-import com.lithic.api.models.ConditionalAttribute
-import com.lithic.api.models.ConditionalBlockParameters
-import com.lithic.api.models.ConditionalOperation
 import com.lithic.api.models.EventStream
+import com.lithic.api.models.VelocityLimitFilters
+import com.lithic.api.models.VelocityLimitParams
+import com.lithic.api.models.VelocityLimitPeriod
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -34,19 +33,32 @@ internal class V2ServiceTest {
             v2Service.create(
                 AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
                     .parameters(
-                        ConditionalBlockParameters.builder()
-                            .addCondition(
-                                AuthRuleCondition.builder()
-                                    .attribute(ConditionalAttribute.MCC)
-                                    .operation(ConditionalOperation.IS_ONE_OF)
-                                    .value("string")
+                        VelocityLimitParams.builder()
+                            .period(
+                                VelocityLimitPeriod.TrailingWindowObject.builder()
+                                    .duration(10L)
+                                    .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                                     .build()
                             )
+                            .scope(VelocityLimitParams.VelocityScope.CARD)
+                            .filters(
+                                VelocityLimitFilters.builder()
+                                    .addExcludeCountry("USD")
+                                    .addExcludeMcc("5542")
+                                    .addIncludeCountry("USD")
+                                    .addIncludeMcc("5542")
+                                    .addIncludePanEntryMode(
+                                        VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                                    )
+                                    .build()
+                            )
+                            .limitAmount(10000L)
+                            .limitCashAmount(5000L)
+                            .limitCashCount(0L)
+                            .limitCount(0L)
                             .build()
                     )
-                    .type(
-                        AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.CONDITIONAL_BLOCK
-                    )
+                    .type(AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.VELOCITY_LIMIT)
                     .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .eventStream(EventStream.AUTHORIZATION)
@@ -138,14 +150,29 @@ internal class V2ServiceTest {
                 AuthRuleV2DraftParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .parameters(
-                        ConditionalBlockParameters.builder()
-                            .addCondition(
-                                AuthRuleCondition.builder()
-                                    .attribute(ConditionalAttribute.MCC)
-                                    .operation(ConditionalOperation.IS_ONE_OF)
-                                    .value("string")
+                        VelocityLimitParams.builder()
+                            .period(
+                                VelocityLimitPeriod.TrailingWindowObject.builder()
+                                    .duration(10L)
+                                    .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                                     .build()
                             )
+                            .scope(VelocityLimitParams.VelocityScope.CARD)
+                            .filters(
+                                VelocityLimitFilters.builder()
+                                    .addExcludeCountry("USD")
+                                    .addExcludeMcc("5542")
+                                    .addIncludeCountry("USD")
+                                    .addIncludeMcc("5542")
+                                    .addIncludePanEntryMode(
+                                        VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                                    )
+                                    .build()
+                            )
+                            .limitAmount(10000L)
+                            .limitCashAmount(5000L)
+                            .limitCashCount(0L)
+                            .limitCount(0L)
                             .build()
                     )
                     .build()

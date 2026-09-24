@@ -187,13 +187,6 @@ private constructor(
         fun parameters(parameters: JsonField<Parameters>) = apply { this.parameters = parameters }
 
         /**
-         * Alias for calling [parameters] with `Parameters.ofConditionalBlock(conditionalBlock)`.
-         */
-        @Deprecated("deprecated")
-        fun parameters(conditionalBlock: ConditionalBlockParameters) =
-            parameters(Parameters.ofConditionalBlock(conditionalBlock))
-
-        /**
          * Alias for calling [parameters] with
          * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
          */
@@ -385,7 +378,6 @@ private constructor(
     @JsonSerialize(using = Parameters.Serializer::class)
     class Parameters
     private constructor(
-        private val conditionalBlock: ConditionalBlockParameters? = null,
         private val velocityLimitParams: VelocityLimitParams? = null,
         private val merchantLock: MerchantLockParameters? = null,
         private val conditional3dsAction: Conditional3dsActionParameters? = null,
@@ -405,11 +397,6 @@ private constructor(
             null,
         private val _json: JsonValue? = null,
     ) {
-
-        /** Deprecated: Use CONDITIONAL_ACTION instead. */
-        @Deprecated("deprecated")
-        fun conditionalBlock(): Optional<ConditionalBlockParameters> =
-            Optional.ofNullable(conditionalBlock)
 
         fun velocityLimitParams(): Optional<VelocityLimitParams> =
             Optional.ofNullable(velocityLimitParams)
@@ -444,8 +431,6 @@ private constructor(
             Optional<ConditionalAuthorizationAdjustmentParameters> =
             Optional.ofNullable(conditionalAuthorizationAdjustment)
 
-        @Deprecated("deprecated") fun isConditionalBlock(): Boolean = conditionalBlock != null
-
         fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
 
         fun isMerchantLock(): Boolean = merchantLock != null
@@ -468,11 +453,6 @@ private constructor(
 
         fun isConditionalAuthorizationAdjustment(): Boolean =
             conditionalAuthorizationAdjustment != null
-
-        /** Deprecated: Use CONDITIONAL_ACTION instead. */
-        @Deprecated("deprecated")
-        fun asConditionalBlock(): ConditionalBlockParameters =
-            conditionalBlock.getOrThrow("conditionalBlock")
 
         fun asVelocityLimitParams(): VelocityLimitParams =
             velocityLimitParams.getOrThrow("velocityLimitParams")
@@ -521,8 +501,8 @@ private constructor(
          *
          * Optional<String> result = parameters.accept(new Parameters.Visitor<Optional<String>>() {
          *     @Override
-         *     public Optional<String> visitConditionalBlock(ConditionalBlockParameters conditionalBlock) {
-         *         return Optional.of(conditionalBlock.toString());
+         *     public Optional<String> visitVelocityLimitParams(VelocityLimitParams velocityLimitParams) {
+         *         return Optional.of(velocityLimitParams.toString());
          *     }
          *
          *     // ...
@@ -540,7 +520,6 @@ private constructor(
          */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
-                conditionalBlock != null -> visitor.visitConditionalBlock(conditionalBlock)
                 velocityLimitParams != null -> visitor.visitVelocityLimitParams(velocityLimitParams)
                 merchantLock != null -> visitor.visitMerchantLock(merchantLock)
                 conditional3dsAction != null ->
@@ -585,12 +564,6 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
-                    override fun visitConditionalBlock(
-                        conditionalBlock: ConditionalBlockParameters
-                    ) {
-                        conditionalBlock.validate()
-                    }
-
                     override fun visitVelocityLimitParams(
                         velocityLimitParams: VelocityLimitParams
                     ) {
@@ -672,10 +645,6 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
-                    override fun visitConditionalBlock(
-                        conditionalBlock: ConditionalBlockParameters
-                    ) = conditionalBlock.validity()
-
                     override fun visitVelocityLimitParams(
                         velocityLimitParams: VelocityLimitParams
                     ) = velocityLimitParams.validity()
@@ -727,7 +696,6 @@ private constructor(
             }
 
             return other is Parameters &&
-                conditionalBlock == other.conditionalBlock &&
                 velocityLimitParams == other.velocityLimitParams &&
                 merchantLock == other.merchantLock &&
                 conditional3dsAction == other.conditional3dsAction &&
@@ -743,7 +711,6 @@ private constructor(
 
         override fun hashCode(): Int =
             Objects.hash(
-                conditionalBlock,
                 velocityLimitParams,
                 merchantLock,
                 conditional3dsAction,
@@ -758,7 +725,6 @@ private constructor(
 
         override fun toString(): String =
             when {
-                conditionalBlock != null -> "Parameters{conditionalBlock=$conditionalBlock}"
                 velocityLimitParams != null ->
                     "Parameters{velocityLimitParams=$velocityLimitParams}"
                 merchantLock != null -> "Parameters{merchantLock=$merchantLock}"
@@ -782,12 +748,6 @@ private constructor(
             }
 
         companion object {
-
-            /** Deprecated: Use CONDITIONAL_ACTION instead. */
-            @Deprecated("deprecated")
-            @JvmStatic
-            fun ofConditionalBlock(conditionalBlock: ConditionalBlockParameters) =
-                Parameters(conditionalBlock = conditionalBlock)
 
             @JvmStatic
             fun ofVelocityLimitParams(velocityLimitParams: VelocityLimitParams) =
@@ -845,10 +805,6 @@ private constructor(
          */
         interface Visitor<out T> {
 
-            /** Deprecated: Use CONDITIONAL_ACTION instead. */
-            @Deprecated("deprecated")
-            fun visitConditionalBlock(conditionalBlock: ConditionalBlockParameters): T
-
             fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
 
             fun visitMerchantLock(merchantLock: MerchantLockParameters): T
@@ -903,8 +859,6 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())
-                                ?.let { Parameters(conditionalBlock = it, _json = json) },
                             tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
                                 Parameters(velocityLimitParams = it, _json = json)
                             },
@@ -986,7 +940,6 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
-                    value.conditionalBlock != null -> generator.writeObject(value.conditionalBlock)
                     value.velocityLimitParams != null ->
                         generator.writeObject(value.velocityLimitParams)
                     value.merchantLock != null -> generator.writeObject(value.merchantLock)

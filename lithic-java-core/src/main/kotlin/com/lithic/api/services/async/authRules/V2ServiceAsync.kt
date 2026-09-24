@@ -360,8 +360,8 @@ interface V2ServiceAsync {
      * This only calculates the features for the active version.
      * - VelocityLimit Rules calculates the current Velocity Feature data. This requires a
      *   `card_token` or `account_token` matching what the rule is Scoped to.
-     * - ConditionalBlock Rules calculates the CARD_TRANSACTION_COUNT_* attributes on the rule. This
-     *   requires a `card_token`
+     * - ConditionalAction Rules calculates the CARD_TRANSACTION_COUNT_* attributes on the rule.
+     *   This requires a `card_token`
      */
     fun retrieveFeatures(authRuleToken: String): CompletableFuture<V2RetrieveFeaturesResponse> =
         retrieveFeatures(authRuleToken, AuthRuleV2RetrieveFeaturesParams.none())

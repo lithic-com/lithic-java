@@ -18,14 +18,29 @@ internal class V2ListVersionsResponseTest {
                     AuthRuleVersion.builder()
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .parameters(
-                            ConditionalBlockParameters.builder()
-                                .addCondition(
-                                    AuthRuleCondition.builder()
-                                        .attribute(ConditionalAttribute.MCC)
-                                        .operation(ConditionalOperation.IS_ONE_OF)
-                                        .value("string")
+                            VelocityLimitParams.builder()
+                                .period(
+                                    VelocityLimitPeriod.TrailingWindowObject.builder()
+                                        .duration(10L)
+                                        .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                                         .build()
                                 )
+                                .scope(VelocityLimitParams.VelocityScope.CARD)
+                                .filters(
+                                    VelocityLimitFilters.builder()
+                                        .addExcludeCountry("USD")
+                                        .addExcludeMcc("5542")
+                                        .addIncludeCountry("USD")
+                                        .addIncludeMcc("5542")
+                                        .addIncludePanEntryMode(
+                                            VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                                        )
+                                        .build()
+                                )
+                                .limitAmount(10000L)
+                                .limitCashAmount(5000L)
+                                .limitCashCount(0L)
+                                .limitCount(0L)
                                 .build()
                         )
                         .state(AuthRuleVersion.AuthRuleVersionState.ACTIVE)
@@ -39,14 +54,29 @@ internal class V2ListVersionsResponseTest {
                 AuthRuleVersion.builder()
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .parameters(
-                        ConditionalBlockParameters.builder()
-                            .addCondition(
-                                AuthRuleCondition.builder()
-                                    .attribute(ConditionalAttribute.MCC)
-                                    .operation(ConditionalOperation.IS_ONE_OF)
-                                    .value("string")
+                        VelocityLimitParams.builder()
+                            .period(
+                                VelocityLimitPeriod.TrailingWindowObject.builder()
+                                    .duration(10L)
+                                    .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                                     .build()
                             )
+                            .scope(VelocityLimitParams.VelocityScope.CARD)
+                            .filters(
+                                VelocityLimitFilters.builder()
+                                    .addExcludeCountry("USD")
+                                    .addExcludeMcc("5542")
+                                    .addIncludeCountry("USD")
+                                    .addIncludeMcc("5542")
+                                    .addIncludePanEntryMode(
+                                        VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                                    )
+                                    .build()
+                            )
+                            .limitAmount(10000L)
+                            .limitCashAmount(5000L)
+                            .limitCashCount(0L)
+                            .limitCount(0L)
                             .build()
                     )
                     .state(AuthRuleVersion.AuthRuleVersionState.ACTIVE)
@@ -64,14 +94,29 @@ internal class V2ListVersionsResponseTest {
                     AuthRuleVersion.builder()
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .parameters(
-                            ConditionalBlockParameters.builder()
-                                .addCondition(
-                                    AuthRuleCondition.builder()
-                                        .attribute(ConditionalAttribute.MCC)
-                                        .operation(ConditionalOperation.IS_ONE_OF)
-                                        .value("string")
+                            VelocityLimitParams.builder()
+                                .period(
+                                    VelocityLimitPeriod.TrailingWindowObject.builder()
+                                        .duration(10L)
+                                        .type(VelocityLimitPeriod.TrailingWindowObject.Type.CUSTOM)
                                         .build()
                                 )
+                                .scope(VelocityLimitParams.VelocityScope.CARD)
+                                .filters(
+                                    VelocityLimitFilters.builder()
+                                        .addExcludeCountry("USD")
+                                        .addExcludeMcc("5542")
+                                        .addIncludeCountry("USD")
+                                        .addIncludeMcc("5542")
+                                        .addIncludePanEntryMode(
+                                            VelocityLimitFilters.IncludePanEntryMode.AUTO_ENTRY
+                                        )
+                                        .build()
+                                )
+                                .limitAmount(10000L)
+                                .limitCashAmount(5000L)
+                                .limitCashCount(0L)
+                                .limitCount(0L)
                                 .build()
                         )
                         .state(AuthRuleVersion.AuthRuleVersionState.ACTIVE)
