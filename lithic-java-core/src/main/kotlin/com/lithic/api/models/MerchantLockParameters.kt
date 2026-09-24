@@ -14,6 +14,7 @@ import com.lithic.api.core.checkKnown
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
@@ -23,6 +24,7 @@ class MerchantLockParameters
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val merchants: JsonField<List<Merchant>>,
+    private val lockedAt: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -30,8 +32,11 @@ private constructor(
     private constructor(
         @JsonProperty("merchants")
         @ExcludeMissing
-        merchants: JsonField<List<Merchant>> = JsonMissing.of()
-    ) : this(merchants, mutableMapOf())
+        merchants: JsonField<List<Merchant>> = JsonMissing.of(),
+        @JsonProperty("locked_at")
+        @ExcludeMissing
+        lockedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+    ) : this(merchants, lockedAt, mutableMapOf())
 
     /**
      * A list of merchant locks defining specific merchants or groups of merchants (based on
@@ -43,6 +48,14 @@ private constructor(
     fun merchants(): List<Merchant> = merchants.getRequired("merchants")
 
     /**
+     * Timestamp of when the merchant lock was created
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun lockedAt(): Optional<OffsetDateTime> = lockedAt.getOptional("locked_at")
+
+    /**
      * Returns the raw JSON value of [merchants].
      *
      * Unlike [merchants], this method doesn't throw if the JSON field has an unexpected type.
@@ -50,6 +63,13 @@ private constructor(
     @JsonProperty("merchants")
     @ExcludeMissing
     fun _merchants(): JsonField<List<Merchant>> = merchants
+
+    /**
+     * Returns the raw JSON value of [lockedAt].
+     *
+     * Unlike [lockedAt], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("locked_at") @ExcludeMissing fun _lockedAt(): JsonField<OffsetDateTime> = lockedAt
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -80,11 +100,13 @@ private constructor(
     class Builder internal constructor() {
 
         private var merchants: JsonField<MutableList<Merchant>>? = null
+        private var lockedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(merchantLockParameters: MerchantLockParameters) = apply {
             merchants = merchantLockParameters.merchants.map { it.toMutableList() }
+            lockedAt = merchantLockParameters.lockedAt
             additionalProperties = merchantLockParameters.additionalProperties.toMutableMap()
         }
 
@@ -116,6 +138,18 @@ private constructor(
                     checkKnown("merchants", it).add(merchant)
                 }
         }
+
+        /** Timestamp of when the merchant lock was created */
+        fun lockedAt(lockedAt: OffsetDateTime) = lockedAt(JsonField.of(lockedAt))
+
+        /**
+         * Sets [Builder.lockedAt] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.lockedAt] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun lockedAt(lockedAt: JsonField<OffsetDateTime>) = apply { this.lockedAt = lockedAt }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -151,6 +185,7 @@ private constructor(
         fun build(): MerchantLockParameters =
             MerchantLockParameters(
                 checkRequired("merchants", merchants).map { it.toImmutable() },
+                lockedAt,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -171,6 +206,7 @@ private constructor(
         }
 
         merchants().forEach { it.validate() }
+        lockedAt()
         validated = true
     }
 
@@ -189,7 +225,8 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (merchants.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+        (merchants.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (if (lockedAt.asKnown().isPresent) 1 else 0)
 
     /**
      * Represents a specific merchant lock based on their ID or descriptor. Each merchant object
@@ -449,13 +486,14 @@ private constructor(
 
         return other is MerchantLockParameters &&
             merchants == other.merchants &&
+            lockedAt == other.lockedAt &&
             additionalProperties == other.additionalProperties
     }
 
-    private val hashCode: Int by lazy { Objects.hash(merchants, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(merchants, lockedAt, additionalProperties) }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "MerchantLockParameters{merchants=$merchants, additionalProperties=$additionalProperties}"
+        "MerchantLockParameters{merchants=$merchants, lockedAt=$lockedAt, additionalProperties=$additionalProperties}"
 }
