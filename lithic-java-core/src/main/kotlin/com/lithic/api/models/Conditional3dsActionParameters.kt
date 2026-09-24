@@ -407,12 +407,23 @@ private constructor(
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
          *   cardholder. Use an integer value.
-         * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
-         *   level, with a higher value indicating a higher amount of risk. Use an integer value.
+         * * `RISK_SCORE`: Mastercard, and Visa in some markets: Assessment by the network of the
+         *   authentication risk level, with a higher value indicating a higher amount of risk. Use
+         *   an integer value.
          * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
          * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with
          *   the cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
          *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
+         * * `CARD_STATE`: The current state of the card associated with the authentication. Valid
+         *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
+         * * `CARD_TYPE`: The type of the card associated with the authentication. Valid values are
+         *   `MERCHANT_LOCKED`, `PHYSICAL`, `SINGLE_USE`, `VIRTUAL`.
+         * * `CARD_PROGRAM_FAMILY`: The program family of the card associated with the
+         *   authentication. Valid values are `CONSUMER`, `COMMERCIAL`.
+         * * `PIN_STATUS`: The current state of card's PIN. Valid values are `NOT_SET`, `OK`,
+         *   `BLOCKED`.
+         * * `CARD_AGE`: The age of the card in seconds at the time of the authentication. Use an
+         *   integer value.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -521,13 +532,24 @@ private constructor(
              *   field in the settlement/cardholder billing currency. This is the amount the issuer
              *   should authorize against unless the issuer is paying the acquirer fee on behalf of
              *   the cardholder. Use an integer value.
-             * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
-             *   level, with a higher value indicating a higher amount of risk. Use an integer
-             *   value.
+             * * `RISK_SCORE`: Mastercard, and Visa in some markets: Assessment by the network of
+             *   the authentication risk level, with a higher value indicating a higher amount of
+             *   risk. Use an integer value.
              * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
              * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data
              *   with the cardholder KYC data if it exists. Valid values are `MATCH`,
              *   `MATCH_ADDRESS_ONLY`, `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
+             * * `CARD_STATE`: The current state of the card associated with the authentication.
+             *   Valid values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`,
+             *   `PENDING_FULFILLMENT`.
+             * * `CARD_TYPE`: The type of the card associated with the authentication. Valid values
+             *   are `MERCHANT_LOCKED`, `PHYSICAL`, `SINGLE_USE`, `VIRTUAL`.
+             * * `CARD_PROGRAM_FAMILY`: The program family of the card associated with the
+             *   authentication. Valid values are `CONSUMER`, `COMMERCIAL`.
+             * * `PIN_STATUS`: The current state of card's PIN. Valid values are `NOT_SET`, `OK`,
+             *   `BLOCKED`.
+             * * `CARD_AGE`: The age of the card in seconds at the time of the authentication. Use
+             *   an integer value.
              */
             fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -682,12 +704,23 @@ private constructor(
          *   field in the settlement/cardholder billing currency. This is the amount the issuer
          *   should authorize against unless the issuer is paying the acquirer fee on behalf of the
          *   cardholder. Use an integer value.
-         * * `RISK_SCORE`: Mastercard only: Assessment by the network of the authentication risk
-         *   level, with a higher value indicating a higher amount of risk. Use an integer value.
+         * * `RISK_SCORE`: Mastercard, and Visa in some markets: Assessment by the network of the
+         *   authentication risk level, with a higher value indicating a higher amount of risk. Use
+         *   an integer value.
          * * `MESSAGE_CATEGORY`: The category of the authentication being processed.
          * * `ADDRESS_MATCH`: Lithic's evaluation result comparing transaction's address data with
          *   the cardholder KYC data if it exists. Valid values are `MATCH`, `MATCH_ADDRESS_ONLY`,
          *   `MATCH_ZIP_ONLY`,`MISMATCH`,`NOT_PRESENT`.
+         * * `CARD_STATE`: The current state of the card associated with the authentication. Valid
+         *   values are `CLOSED`, `OPEN`, `PAUSED`, `PENDING_ACTIVATION`, `PENDING_FULFILLMENT`.
+         * * `CARD_TYPE`: The type of the card associated with the authentication. Valid values are
+         *   `MERCHANT_LOCKED`, `PHYSICAL`, `SINGLE_USE`, `VIRTUAL`.
+         * * `CARD_PROGRAM_FAMILY`: The program family of the card associated with the
+         *   authentication. Valid values are `CONSUMER`, `COMMERCIAL`.
+         * * `PIN_STATUS`: The current state of card's PIN. Valid values are `NOT_SET`, `OK`,
+         *   `BLOCKED`.
+         * * `CARD_AGE`: The age of the card in seconds at the time of the authentication. Use an
+         *   integer value.
          */
         class Attribute @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
@@ -722,6 +755,16 @@ private constructor(
 
                 @JvmField val ADDRESS_MATCH = of("ADDRESS_MATCH")
 
+                @JvmField val CARD_STATE = of("CARD_STATE")
+
+                @JvmField val CARD_TYPE = of("CARD_TYPE")
+
+                @JvmField val CARD_PROGRAM_FAMILY = of("CARD_PROGRAM_FAMILY")
+
+                @JvmField val PIN_STATUS = of("PIN_STATUS")
+
+                @JvmField val CARD_AGE = of("CARD_AGE")
+
                 @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
             }
 
@@ -736,6 +779,11 @@ private constructor(
                 RISK_SCORE,
                 MESSAGE_CATEGORY,
                 ADDRESS_MATCH,
+                CARD_STATE,
+                CARD_TYPE,
+                CARD_PROGRAM_FAMILY,
+                PIN_STATUS,
+                CARD_AGE,
             }
 
             /**
@@ -757,6 +805,11 @@ private constructor(
                 RISK_SCORE,
                 MESSAGE_CATEGORY,
                 ADDRESS_MATCH,
+                CARD_STATE,
+                CARD_TYPE,
+                CARD_PROGRAM_FAMILY,
+                PIN_STATUS,
+                CARD_AGE,
                 /**
                  * An enum member indicating that [Attribute] was instantiated with an unknown
                  * value.
@@ -782,6 +835,11 @@ private constructor(
                     RISK_SCORE -> Value.RISK_SCORE
                     MESSAGE_CATEGORY -> Value.MESSAGE_CATEGORY
                     ADDRESS_MATCH -> Value.ADDRESS_MATCH
+                    CARD_STATE -> Value.CARD_STATE
+                    CARD_TYPE -> Value.CARD_TYPE
+                    CARD_PROGRAM_FAMILY -> Value.CARD_PROGRAM_FAMILY
+                    PIN_STATUS -> Value.PIN_STATUS
+                    CARD_AGE -> Value.CARD_AGE
                     else -> Value._UNKNOWN
                 }
 
@@ -805,6 +863,11 @@ private constructor(
                     RISK_SCORE -> Known.RISK_SCORE
                     MESSAGE_CATEGORY -> Known.MESSAGE_CATEGORY
                     ADDRESS_MATCH -> Known.ADDRESS_MATCH
+                    CARD_STATE -> Known.CARD_STATE
+                    CARD_TYPE -> Known.CARD_TYPE
+                    CARD_PROGRAM_FAMILY -> Known.CARD_PROGRAM_FAMILY
+                    PIN_STATUS -> Known.PIN_STATUS
+                    CARD_AGE -> Known.CARD_AGE
                     else -> throw LithicInvalidDataException("Unknown Attribute: $value")
                 }
 
