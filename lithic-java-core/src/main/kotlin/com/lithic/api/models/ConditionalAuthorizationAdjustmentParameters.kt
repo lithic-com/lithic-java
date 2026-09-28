@@ -860,6 +860,9 @@ private constructor(
          *   code.
          * * `CARD_AGE`: The age of the card in seconds at the time of the authorization. Use an
          *   integer value.
+         * * `IS_DOMESTIC`: Whether the merchant's country matches the card program's issuing
+         *   country. Valid values are `TRUE`, `FALSE`. For programs with no issuing country
+         *   configured, this attribute does not evaluate.
          * * `ACCOUNT_AGE`: The age of the account holder's account in seconds at the time of the
          *   authorization. Use an integer value. For programs where Lithic does not manage or
          *   retain account holder data, this attribute does not evaluate.
@@ -1086,6 +1089,9 @@ private constructor(
              *   postal code.
              * * `CARD_AGE`: The age of the card in seconds at the time of the authorization. Use an
              *   integer value.
+             * * `IS_DOMESTIC`: Whether the merchant's country matches the card program's issuing
+             *   country. Valid values are `TRUE`, `FALSE`. For programs with no issuing country
+             *   configured, this attribute does not evaluate.
              * * `ACCOUNT_AGE`: The age of the account holder's account in seconds at the time of
              *   the authorization. Use an integer value. For programs where Lithic does not manage
              *   or retain account holder data, this attribute does not evaluate.
@@ -1359,6 +1365,9 @@ private constructor(
          *   code.
          * * `CARD_AGE`: The age of the card in seconds at the time of the authorization. Use an
          *   integer value.
+         * * `IS_DOMESTIC`: Whether the merchant's country matches the card program's issuing
+         *   country. Valid values are `TRUE`, `FALSE`. For programs with no issuing country
+         *   configured, this attribute does not evaluate.
          * * `ACCOUNT_AGE`: The age of the account holder's account in seconds at the time of the
          *   authorization. Use an integer value. For programs where Lithic does not manage or
          *   retain account holder data, this attribute does not evaluate.
@@ -1468,6 +1477,8 @@ private constructor(
 
                 @JvmField val CARD_AGE = of("CARD_AGE")
 
+                @JvmField val IS_DOMESTIC = of("IS_DOMESTIC")
+
                 @JvmField val ACCOUNT_AGE = of("ACCOUNT_AGE")
 
                 @JvmField val AMOUNT_Z_SCORE = of("AMOUNT_Z_SCORE")
@@ -1526,6 +1537,7 @@ private constructor(
                 SERVICE_LOCATION_STATE,
                 SERVICE_LOCATION_POSTAL_CODE,
                 CARD_AGE,
+                IS_DOMESTIC,
                 ACCOUNT_AGE,
                 AMOUNT_Z_SCORE,
                 AVG_TRANSACTION_AMOUNT,
@@ -1577,6 +1589,7 @@ private constructor(
                 SERVICE_LOCATION_STATE,
                 SERVICE_LOCATION_POSTAL_CODE,
                 CARD_AGE,
+                IS_DOMESTIC,
                 ACCOUNT_AGE,
                 AMOUNT_Z_SCORE,
                 AVG_TRANSACTION_AMOUNT,
@@ -1632,6 +1645,7 @@ private constructor(
                     SERVICE_LOCATION_STATE -> Value.SERVICE_LOCATION_STATE
                     SERVICE_LOCATION_POSTAL_CODE -> Value.SERVICE_LOCATION_POSTAL_CODE
                     CARD_AGE -> Value.CARD_AGE
+                    IS_DOMESTIC -> Value.IS_DOMESTIC
                     ACCOUNT_AGE -> Value.ACCOUNT_AGE
                     AMOUNT_Z_SCORE -> Value.AMOUNT_Z_SCORE
                     AVG_TRANSACTION_AMOUNT -> Value.AVG_TRANSACTION_AMOUNT
@@ -1685,6 +1699,7 @@ private constructor(
                     SERVICE_LOCATION_STATE -> Known.SERVICE_LOCATION_STATE
                     SERVICE_LOCATION_POSTAL_CODE -> Known.SERVICE_LOCATION_POSTAL_CODE
                     CARD_AGE -> Known.CARD_AGE
+                    IS_DOMESTIC -> Known.IS_DOMESTIC
                     ACCOUNT_AGE -> Known.ACCOUNT_AGE
                     AMOUNT_Z_SCORE -> Known.AMOUNT_Z_SCORE
                     AVG_TRANSACTION_AMOUNT -> Known.AVG_TRANSACTION_AMOUNT
