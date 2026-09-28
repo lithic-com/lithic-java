@@ -38,6 +38,7 @@ private constructor(
     private val interestDetails: JsonField<LoanTape.InterestDetails>,
     private val minimumPaymentBalance: JsonField<LoanTape.BalanceDetails>,
     private val paymentAllocation: JsonField<LoanTape.PaymentAllocation>,
+    private val paymentOnlyAllocation: JsonField<LoanTape.PaymentAllocation>,
     private val periodTotals: JsonField<StatementTotals>,
     private val previousStatementBalance: JsonField<LoanTape.BalanceDetails>,
     private val startingBalance: JsonField<Long>,
@@ -93,6 +94,9 @@ private constructor(
         @JsonProperty("payment_allocation")
         @ExcludeMissing
         paymentAllocation: JsonField<LoanTape.PaymentAllocation> = JsonMissing.of(),
+        @JsonProperty("payment_only_allocation")
+        @ExcludeMissing
+        paymentOnlyAllocation: JsonField<LoanTape.PaymentAllocation> = JsonMissing.of(),
         @JsonProperty("period_totals")
         @ExcludeMissing
         periodTotals: JsonField<StatementTotals> = JsonMissing.of(),
@@ -132,6 +136,7 @@ private constructor(
         interestDetails,
         minimumPaymentBalance,
         paymentAllocation,
+        paymentOnlyAllocation,
         periodTotals,
         previousStatementBalance,
         startingBalance,
@@ -161,6 +166,7 @@ private constructor(
             .interestDetails(interestDetails)
             .minimumPaymentBalance(minimumPaymentBalance)
             .paymentAllocation(paymentAllocation)
+            .paymentOnlyAllocation(paymentOnlyAllocation)
             .periodTotals(periodTotals)
             .previousStatementBalance(previousStatementBalance)
             .startingBalance(startingBalance)
@@ -286,6 +292,15 @@ private constructor(
      */
     fun paymentAllocation(): LoanTape.PaymentAllocation =
         paymentAllocation.getRequired("payment_allocation")
+
+    /**
+     * Allocation of payments only, excluding credits
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun paymentOnlyAllocation(): Optional<LoanTape.PaymentAllocation> =
+        paymentOnlyAllocation.getOptional("payment_only_allocation")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -486,6 +501,16 @@ private constructor(
     fun _paymentAllocation(): JsonField<LoanTape.PaymentAllocation> = paymentAllocation
 
     /**
+     * Returns the raw JSON value of [paymentOnlyAllocation].
+     *
+     * Unlike [paymentOnlyAllocation], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("payment_only_allocation")
+    @ExcludeMissing
+    fun _paymentOnlyAllocation(): JsonField<LoanTape.PaymentAllocation> = paymentOnlyAllocation
+
+    /**
      * Returns the raw JSON value of [periodTotals].
      *
      * Unlike [periodTotals], this method doesn't throw if the JSON field has an unexpected type.
@@ -591,6 +616,7 @@ private constructor(
          * .interestDetails()
          * .minimumPaymentBalance()
          * .paymentAllocation()
+         * .paymentOnlyAllocation()
          * .periodTotals()
          * .previousStatementBalance()
          * .startingBalance()
@@ -621,6 +647,7 @@ private constructor(
         private var interestDetails: JsonField<LoanTape.InterestDetails>? = null
         private var minimumPaymentBalance: JsonField<LoanTape.BalanceDetails>? = null
         private var paymentAllocation: JsonField<LoanTape.PaymentAllocation>? = null
+        private var paymentOnlyAllocation: JsonField<LoanTape.PaymentAllocation>? = null
         private var periodTotals: JsonField<StatementTotals>? = null
         private var previousStatementBalance: JsonField<LoanTape.BalanceDetails>? = null
         private var startingBalance: JsonField<Long>? = null
@@ -649,6 +676,7 @@ private constructor(
             interestDetails = loanTapeUpdatedWebhookEvent.interestDetails
             minimumPaymentBalance = loanTapeUpdatedWebhookEvent.minimumPaymentBalance
             paymentAllocation = loanTapeUpdatedWebhookEvent.paymentAllocation
+            paymentOnlyAllocation = loanTapeUpdatedWebhookEvent.paymentOnlyAllocation
             periodTotals = loanTapeUpdatedWebhookEvent.periodTotals
             previousStatementBalance = loanTapeUpdatedWebhookEvent.previousStatementBalance
             startingBalance = loanTapeUpdatedWebhookEvent.startingBalance
@@ -869,6 +897,29 @@ private constructor(
             this.paymentAllocation = paymentAllocation
         }
 
+        /** Allocation of payments only, excluding credits */
+        fun paymentOnlyAllocation(paymentOnlyAllocation: LoanTape.PaymentAllocation?) =
+            paymentOnlyAllocation(JsonField.ofNullable(paymentOnlyAllocation))
+
+        /**
+         * Alias for calling [Builder.paymentOnlyAllocation] with
+         * `paymentOnlyAllocation.orElse(null)`.
+         */
+        fun paymentOnlyAllocation(paymentOnlyAllocation: Optional<LoanTape.PaymentAllocation>) =
+            paymentOnlyAllocation(paymentOnlyAllocation.getOrNull())
+
+        /**
+         * Sets [Builder.paymentOnlyAllocation] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentOnlyAllocation] with a well-typed
+         * [LoanTape.PaymentAllocation] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
+        fun paymentOnlyAllocation(paymentOnlyAllocation: JsonField<LoanTape.PaymentAllocation>) =
+            apply {
+                this.paymentOnlyAllocation = paymentOnlyAllocation
+            }
+
         fun periodTotals(periodTotals: StatementTotals) = periodTotals(JsonField.of(periodTotals))
 
         /**
@@ -1034,6 +1085,7 @@ private constructor(
          * .interestDetails()
          * .minimumPaymentBalance()
          * .paymentAllocation()
+         * .paymentOnlyAllocation()
          * .periodTotals()
          * .previousStatementBalance()
          * .startingBalance()
@@ -1062,6 +1114,7 @@ private constructor(
                 checkRequired("interestDetails", interestDetails),
                 checkRequired("minimumPaymentBalance", minimumPaymentBalance),
                 checkRequired("paymentAllocation", paymentAllocation),
+                checkRequired("paymentOnlyAllocation", paymentOnlyAllocation),
                 checkRequired("periodTotals", periodTotals),
                 checkRequired("previousStatementBalance", previousStatementBalance),
                 checkRequired("startingBalance", startingBalance),
@@ -1105,6 +1158,7 @@ private constructor(
         interestDetails().ifPresent { it.validate() }
         minimumPaymentBalance().validate()
         paymentAllocation().validate()
+        paymentOnlyAllocation().ifPresent { it.validate() }
         periodTotals().validate()
         previousStatementBalance().validate()
         startingBalance()
@@ -1147,6 +1201,7 @@ private constructor(
             (interestDetails.asKnown().getOrNull()?.validity() ?: 0) +
             (minimumPaymentBalance.asKnown().getOrNull()?.validity() ?: 0) +
             (paymentAllocation.asKnown().getOrNull()?.validity() ?: 0) +
+            (paymentOnlyAllocation.asKnown().getOrNull()?.validity() ?: 0) +
             (periodTotals.asKnown().getOrNull()?.validity() ?: 0) +
             (previousStatementBalance.asKnown().getOrNull()?.validity() ?: 0) +
             (if (startingBalance.asKnown().isPresent) 1 else 0) +
@@ -1309,6 +1364,7 @@ private constructor(
             interestDetails == other.interestDetails &&
             minimumPaymentBalance == other.minimumPaymentBalance &&
             paymentAllocation == other.paymentAllocation &&
+            paymentOnlyAllocation == other.paymentOnlyAllocation &&
             periodTotals == other.periodTotals &&
             previousStatementBalance == other.previousStatementBalance &&
             startingBalance == other.startingBalance &&
@@ -1338,6 +1394,7 @@ private constructor(
             interestDetails,
             minimumPaymentBalance,
             paymentAllocation,
+            paymentOnlyAllocation,
             periodTotals,
             previousStatementBalance,
             startingBalance,
@@ -1354,5 +1411,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "LoanTapeUpdatedWebhookEvent{token=$token, accountStanding=$accountStanding, availableCredit=$availableCredit, balances=$balances, created=$created, creditLimit=$creditLimit, creditProductToken=$creditProductToken, date=$date, dayTotals=$dayTotals, endingBalance=$endingBalance, excessCredits=$excessCredits, financialAccountToken=$financialAccountToken, interestDetails=$interestDetails, minimumPaymentBalance=$minimumPaymentBalance, paymentAllocation=$paymentAllocation, periodTotals=$periodTotals, previousStatementBalance=$previousStatementBalance, startingBalance=$startingBalance, updated=$updated, version=$version, ytdTotals=$ytdTotals, dayOfPeriod=$dayOfPeriod, tier=$tier, eventType=$eventType, additionalProperties=$additionalProperties}"
+        "LoanTapeUpdatedWebhookEvent{token=$token, accountStanding=$accountStanding, availableCredit=$availableCredit, balances=$balances, created=$created, creditLimit=$creditLimit, creditProductToken=$creditProductToken, date=$date, dayTotals=$dayTotals, endingBalance=$endingBalance, excessCredits=$excessCredits, financialAccountToken=$financialAccountToken, interestDetails=$interestDetails, minimumPaymentBalance=$minimumPaymentBalance, paymentAllocation=$paymentAllocation, paymentOnlyAllocation=$paymentOnlyAllocation, periodTotals=$periodTotals, previousStatementBalance=$previousStatementBalance, startingBalance=$startingBalance, updated=$updated, version=$version, ytdTotals=$ytdTotals, dayOfPeriod=$dayOfPeriod, tier=$tier, eventType=$eventType, additionalProperties=$additionalProperties}"
 }
