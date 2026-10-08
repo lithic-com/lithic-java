@@ -2255,7 +2255,8 @@ private constructor(
 
         /**
          * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
-         * with a resource for your own purposes.
+         * with a resource for your own purposes. A resource can have at most 50 tags, with keys up
+         * to 40 characters and values up to 500 characters
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -3152,7 +3153,8 @@ private constructor(
 
             /**
              * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
-             * with a resource for your own purposes.
+             * with a resource for your own purposes. A resource can have at most 50 tags, with keys
+             * up to 40 characters and values up to 500 characters
              */
             fun tags(tags: Transaction.Tags) = tags(JsonField.of(tags))
 

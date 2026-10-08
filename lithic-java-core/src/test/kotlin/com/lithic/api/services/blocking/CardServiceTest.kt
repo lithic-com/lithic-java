@@ -4,6 +4,7 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.core.JsonValue
 import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.CardEmbedParams
@@ -73,6 +74,11 @@ internal class CardServiceTest {
                     .spendLimit(1000L)
                     .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                     .state(CardCreateParams.State.OPEN)
+                    .tags(
+                        CardCreateParams.Tags.builder()
+                            .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                            .build()
+                    )
                     .build()
             )
 
@@ -116,6 +122,11 @@ internal class CardServiceTest {
                     .spendLimitDuration(SpendLimitDuration.FOREVER)
                     .state(CardUpdateParams.State.OPEN)
                     .substatus(CardUpdateParams.Substatus.LOST)
+                    .tags(
+                        CardUpdateParams.TagsPatch.builder()
+                            .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                            .build()
+                    )
                     .build()
             )
 

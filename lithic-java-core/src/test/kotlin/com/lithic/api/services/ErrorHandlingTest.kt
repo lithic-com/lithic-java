@@ -110,6 +110,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -168,6 +173,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -226,6 +236,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -284,6 +299,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -342,6 +362,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -400,6 +425,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -458,6 +488,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -516,6 +551,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -574,6 +614,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -632,6 +677,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -690,6 +740,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -748,6 +803,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -806,6 +866,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -864,6 +929,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -922,6 +992,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -980,6 +1055,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }
@@ -1036,6 +1116,11 @@ internal class ErrorHandlingTest {
                         .spendLimit(1000L)
                         .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                         .state(CardCreateParams.State.OPEN)
+                        .tags(
+                            CardCreateParams.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .build()
                 )
             }

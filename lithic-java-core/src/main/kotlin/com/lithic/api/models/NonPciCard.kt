@@ -35,6 +35,7 @@ private constructor(
     private val spendLimit: JsonField<Long>,
     private val spendLimitDuration: JsonField<SpendLimitDuration>,
     private val state: JsonField<State>,
+    private val tags: JsonField<Tags>,
     private val type: JsonField<Type>,
     private val authRuleTokens: JsonField<List<String>>,
     private val bulkOrderToken: JsonField<String>,
@@ -77,6 +78,7 @@ private constructor(
         @ExcludeMissing
         spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
         @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+        @JsonProperty("tags") @ExcludeMissing tags: JsonField<Tags> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing type: JsonField<Type> = JsonMissing.of(),
         @JsonProperty("auth_rule_tokens")
         @ExcludeMissing
@@ -119,6 +121,7 @@ private constructor(
         spendLimit,
         spendLimitDuration,
         state,
+        tags,
         type,
         authRuleTokens,
         bulkOrderToken,
@@ -237,6 +240,16 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun state(): State = state.getRequired("state")
+
+    /**
+     * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata with a
+     * resource for your own purposes. A resource can have at most 50 tags, with keys up to 40
+     * characters and values up to 500 characters
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun tags(): Tags = tags.getRequired("tags")
 
     /**
      * Card types: * `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
@@ -476,6 +489,13 @@ private constructor(
     @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
     /**
+     * Returns the raw JSON value of [tags].
+     *
+     * Unlike [tags], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tags") @ExcludeMissing fun _tags(): JsonField<Tags> = tags
+
+    /**
      * Returns the raw JSON value of [type].
      *
      * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -627,6 +647,7 @@ private constructor(
          * .spendLimit()
          * .spendLimitDuration()
          * .state()
+         * .tags()
          * .type()
          * ```
          */
@@ -646,6 +667,7 @@ private constructor(
         private var spendLimit: JsonField<Long>? = null
         private var spendLimitDuration: JsonField<SpendLimitDuration>? = null
         private var state: JsonField<State>? = null
+        private var tags: JsonField<Tags>? = null
         private var type: JsonField<Type>? = null
         private var authRuleTokens: JsonField<MutableList<String>>? = null
         private var bulkOrderToken: JsonField<String> = JsonMissing.of()
@@ -675,6 +697,7 @@ private constructor(
             spendLimit = nonPciCard.spendLimit
             spendLimitDuration = nonPciCard.spendLimitDuration
             state = nonPciCard.state
+            tags = nonPciCard.tags
             type = nonPciCard.type
             authRuleTokens = nonPciCard.authRuleTokens.map { it.toMutableList() }
             bulkOrderToken = nonPciCard.bulkOrderToken
@@ -850,6 +873,21 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun state(state: JsonField<State>) = apply { this.state = state }
+
+        /**
+         * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
+         * with a resource for your own purposes. A resource can have at most 50 tags, with keys up
+         * to 40 characters and values up to 500 characters
+         */
+        fun tags(tags: Tags) = tags(JsonField.of(tags))
+
+        /**
+         * Sets [Builder.tags] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tags] with a well-typed [Tags] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun tags(tags: JsonField<Tags>) = apply { this.tags = tags }
 
         /**
          * Card types: * `VIRTUAL` - Card will authorize at any merchant and can be added to a
@@ -1191,6 +1229,7 @@ private constructor(
          * .spendLimit()
          * .spendLimitDuration()
          * .state()
+         * .tags()
          * .type()
          * ```
          *
@@ -1208,6 +1247,7 @@ private constructor(
                 checkRequired("spendLimit", spendLimit),
                 checkRequired("spendLimitDuration", spendLimitDuration),
                 checkRequired("state", state),
+                checkRequired("tags", tags),
                 checkRequired("type", type),
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 bulkOrderToken,
@@ -1252,6 +1292,7 @@ private constructor(
         spendLimit()
         spendLimitDuration().validate()
         state().validate()
+        tags().validate()
         type().validate()
         authRuleTokens()
         bulkOrderToken()
@@ -1295,6 +1336,7 @@ private constructor(
             (if (spendLimit.asKnown().isPresent) 1 else 0) +
             (spendLimitDuration.asKnown().getOrNull()?.validity() ?: 0) +
             (state.asKnown().getOrNull()?.validity() ?: 0) +
+            (tags.asKnown().getOrNull()?.validity() ?: 0) +
             (type.asKnown().getOrNull()?.validity() ?: 0) +
             (authRuleTokens.asKnown().getOrNull()?.size ?: 0) +
             (if (bulkOrderToken.asKnown().isPresent) 1 else 0) +
@@ -2348,6 +2390,119 @@ private constructor(
     }
 
     /**
+     * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata with a
+     * resource for your own purposes. A resource can have at most 50 tags, with keys up to 40
+     * characters and values up to 500 characters
+     */
+    class Tags
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Tags]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Tags]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(tags: Tags) = apply {
+                additionalProperties = tags.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Tags].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Tags = Tags(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LithicInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Tags = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Tags && additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "Tags{additionalProperties=$additionalProperties}"
+    }
+
+    /**
      * Card types: * `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
      * wallet like Apple Pay or Google Pay (if the card program is digital wallet-enabled). *
      * `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding, credit,
@@ -2740,6 +2895,7 @@ private constructor(
             spendLimit == other.spendLimit &&
             spendLimitDuration == other.spendLimitDuration &&
             state == other.state &&
+            tags == other.tags &&
             type == other.type &&
             authRuleTokens == other.authRuleTokens &&
             bulkOrderToken == other.bulkOrderToken &&
@@ -2770,6 +2926,7 @@ private constructor(
             spendLimit,
             spendLimitDuration,
             state,
+            tags,
             type,
             authRuleTokens,
             bulkOrderToken,
@@ -2792,5 +2949,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "NonPciCard{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, bulkOrderToken=$bulkOrderToken, cardholderCurrency=$cardholderCurrency, comment=$comment, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, networkProgramToken=$networkProgramToken, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, substatus=$substatus, additionalProperties=$additionalProperties}"
+        "NonPciCard{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, tags=$tags, type=$type, authRuleTokens=$authRuleTokens, bulkOrderToken=$bulkOrderToken, cardholderCurrency=$cardholderCurrency, comment=$comment, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, networkProgramToken=$networkProgramToken, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, substatus=$substatus, additionalProperties=$additionalProperties}"
 }

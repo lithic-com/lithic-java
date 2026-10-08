@@ -15,6 +15,7 @@ import com.lithic.api.core.Params
 import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.Objects
@@ -271,6 +272,16 @@ private constructor(
     fun state(): Optional<State> = body.state()
 
     /**
+     * Key-value pairs to tag the card with. A replacement card does not inherit tags from the card
+     * it replaces. A card can have at most 50 tags, with keys up to 40 characters and values up to
+     * 500 characters
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun tags(): Optional<Tags> = body.tags()
+
+    /**
      * Returns the raw JSON value of [type].
      *
      * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -415,6 +426,13 @@ private constructor(
      * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _state(): JsonField<State> = body._state()
+
+    /**
+     * Returns the raw JSON value of [tags].
+     *
+     * Unlike [tags], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _tags(): JsonField<Tags> = body._tags()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -860,6 +878,21 @@ private constructor(
          */
         fun state(state: JsonField<State>) = apply { body.state(state) }
 
+        /**
+         * Key-value pairs to tag the card with. A replacement card does not inherit tags from the
+         * card it replaces. A card can have at most 50 tags, with keys up to 40 characters and
+         * values up to 500 characters
+         */
+        fun tags(tags: Tags) = apply { body.tags(tags) }
+
+        /**
+         * Sets [Builder.tags] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tags] with a well-typed [Tags] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun tags(tags: JsonField<Tags>) = apply { body.tags(tags) }
+
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
         }
@@ -1033,6 +1066,7 @@ private constructor(
         private val spendLimit: JsonField<Long>,
         private val spendLimitDuration: JsonField<SpendLimitDuration>,
         private val state: JsonField<State>,
+        private val tags: JsonField<Tags>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -1086,6 +1120,7 @@ private constructor(
             @ExcludeMissing
             spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
             @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+            @JsonProperty("tags") @ExcludeMissing tags: JsonField<Tags> = JsonMissing.of(),
         ) : this(
             type,
             accountToken,
@@ -1107,6 +1142,7 @@ private constructor(
             spendLimit,
             spendLimitDuration,
             state,
+            tags,
             mutableMapOf(),
         )
 
@@ -1360,6 +1396,16 @@ private constructor(
         fun state(): Optional<State> = state.getOptional("state")
 
         /**
+         * Key-value pairs to tag the card with. A replacement card does not inherit tags from the
+         * card it replaces. A card can have at most 50 tags, with keys up to 40 characters and
+         * values up to 500 characters
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun tags(): Optional<Tags> = tags.getOptional("tags")
+
+        /**
          * Returns the raw JSON value of [type].
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -1532,6 +1578,13 @@ private constructor(
          */
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
+        /**
+         * Returns the raw JSON value of [tags].
+         *
+         * Unlike [tags], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tags") @ExcludeMissing fun _tags(): JsonField<Tags> = tags
+
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
             additionalProperties.put(key, value)
@@ -1580,6 +1633,7 @@ private constructor(
             private var spendLimit: JsonField<Long> = JsonMissing.of()
             private var spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of()
             private var state: JsonField<State> = JsonMissing.of()
+            private var tags: JsonField<Tags> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1604,6 +1658,7 @@ private constructor(
                 spendLimit = body.spendLimit
                 spendLimitDuration = body.spendLimitDuration
                 state = body.state
+                tags = body.tags
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -2004,6 +2059,22 @@ private constructor(
              */
             fun state(state: JsonField<State>) = apply { this.state = state }
 
+            /**
+             * Key-value pairs to tag the card with. A replacement card does not inherit tags from
+             * the card it replaces. A card can have at most 50 tags, with keys up to 40 characters
+             * and values up to 500 characters
+             */
+            fun tags(tags: Tags) = tags(JsonField.of(tags))
+
+            /**
+             * Sets [Builder.tags] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tags] with a well-typed [Tags] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun tags(tags: JsonField<Tags>) = apply { this.tags = tags }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -2057,6 +2128,7 @@ private constructor(
                     spendLimit,
                     spendLimitDuration,
                     state,
+                    tags,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -2097,6 +2169,7 @@ private constructor(
             spendLimit()
             spendLimitDuration().ifPresent { it.validate() }
             state().ifPresent { it.validate() }
+            tags().ifPresent { it.validate() }
             validated = true
         }
 
@@ -2135,7 +2208,8 @@ private constructor(
                 (shippingMethod.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (spendLimit.asKnown().isPresent) 1 else 0) +
                 (spendLimitDuration.asKnown().getOrNull()?.validity() ?: 0) +
-                (state.asKnown().getOrNull()?.validity() ?: 0)
+                (state.asKnown().getOrNull()?.validity() ?: 0) +
+                (tags.asKnown().getOrNull()?.validity() ?: 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -2163,6 +2237,7 @@ private constructor(
                 spendLimit == other.spendLimit &&
                 spendLimitDuration == other.spendLimitDuration &&
                 state == other.state &&
+                tags == other.tags &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -2188,6 +2263,7 @@ private constructor(
                 spendLimit,
                 spendLimitDuration,
                 state,
+                tags,
                 additionalProperties,
             )
         }
@@ -2195,7 +2271,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{type=$type, accountToken=$accountToken, bulkOrderToken=$bulkOrderToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementComment=$replacementComment, replacementFor=$replacementFor, replacementSubstatus=$replacementSubstatus, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
+            "Body{type=$type, accountToken=$accountToken, bulkOrderToken=$bulkOrderToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementComment=$replacementComment, replacementFor=$replacementFor, replacementSubstatus=$replacementSubstatus, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, tags=$tags, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -2906,6 +2982,119 @@ private constructor(
         override fun hashCode() = value.hashCode()
 
         override fun toString() = value.toString()
+    }
+
+    /**
+     * Key-value pairs to tag the card with. A replacement card does not inherit tags from the card
+     * it replaces. A card can have at most 50 tags, with keys up to 40 characters and values up to
+     * 500 characters
+     */
+    class Tags
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Tags]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Tags]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(tags: Tags) = apply {
+                additionalProperties = tags.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Tags].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Tags = Tags(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LithicInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): Tags = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Tags && additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "Tags{additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

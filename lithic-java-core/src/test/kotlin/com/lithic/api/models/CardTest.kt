@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
@@ -35,6 +36,11 @@ internal class CardTest {
                 .spendLimit(1000L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(NonPciCard.State.CLOSED)
+                .tags(
+                    NonPciCard.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .type(NonPciCard.Type.MERCHANT_LOCKED)
                 .addAuthRuleToken("string")
                 .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -75,6 +81,12 @@ internal class CardTest {
         assertThat(card.spendLimit()).isEqualTo(1000L)
         assertThat(card.spendLimitDuration()).isEqualTo(SpendLimitDuration.ANNUALLY)
         assertThat(card.state()).isEqualTo(NonPciCard.State.CLOSED)
+        assertThat(card.tags())
+            .isEqualTo(
+                NonPciCard.Tags.builder()
+                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                    .build()
+            )
         assertThat(card.type()).isEqualTo(NonPciCard.Type.MERCHANT_LOCKED)
         assertThat(card.authRuleTokens().getOrNull()).containsExactly("string")
         assertThat(card.bulkOrderToken()).contains("5e9483eb-8103-4e16-9794-2106111b2eca")
@@ -119,6 +131,11 @@ internal class CardTest {
                 .spendLimit(1000L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(NonPciCard.State.CLOSED)
+                .tags(
+                    NonPciCard.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .type(NonPciCard.Type.MERCHANT_LOCKED)
                 .addAuthRuleToken("string")
                 .bulkOrderToken("5e9483eb-8103-4e16-9794-2106111b2eca")

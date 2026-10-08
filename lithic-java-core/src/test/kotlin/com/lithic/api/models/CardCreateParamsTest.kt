@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.http.Headers
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -46,6 +47,11 @@ internal class CardCreateParamsTest {
             .spendLimit(1000L)
             .spendLimitDuration(SpendLimitDuration.TRANSACTION)
             .state(CardCreateParams.State.OPEN)
+            .tags(
+                CardCreateParams.Tags.builder()
+                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                    .build()
+            )
             .build()
     }
 
@@ -88,6 +94,11 @@ internal class CardCreateParamsTest {
                 .spendLimit(1000L)
                 .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                 .state(CardCreateParams.State.OPEN)
+                .tags(
+                    CardCreateParams.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .build()
 
         val headers = params._headers()
@@ -148,6 +159,11 @@ internal class CardCreateParamsTest {
                 .spendLimit(1000L)
                 .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                 .state(CardCreateParams.State.OPEN)
+                .tags(
+                    CardCreateParams.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .build()
 
         val body = params._body()
@@ -187,6 +203,12 @@ internal class CardCreateParamsTest {
         assertThat(body.spendLimit()).contains(1000L)
         assertThat(body.spendLimitDuration()).contains(SpendLimitDuration.TRANSACTION)
         assertThat(body.state()).contains(CardCreateParams.State.OPEN)
+        assertThat(body.tags())
+            .contains(
+                CardCreateParams.Tags.builder()
+                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                    .build()
+            )
     }
 
     @Test

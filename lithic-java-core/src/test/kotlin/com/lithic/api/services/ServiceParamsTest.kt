@@ -80,6 +80,11 @@ internal class ServiceParamsTest {
                 .spendLimit(1000L)
                 .spendLimitDuration(SpendLimitDuration.TRANSACTION)
                 .state(CardCreateParams.State.OPEN)
+                .tags(
+                    CardCreateParams.Tags.builder()
+                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                        .build()
+                )
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")
                 .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
