@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.135.0](https://github.com/lithic-com/lithic-java/compare/v0.134.0...v0.135.0) (2026-10-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api:** the CONDITIONAL_BLOCK rule type and the ConditionalBlockParameters model are removed. All rules are now CONDITIONAL_ACTION.
+
+### Features
+
+* **api:** accept billing_currency and settlement_currency on transaction simulation endpoints ([a2e17d8](https://github.com/lithic-com/lithic-java/commit/a2e17d883aca93c7c0737b57d51f20b1c9c839b0))
+* **api:** add installment plan statement endpoints to financial accounts ([1de9eb3](https://github.com/lithic-com/lithic-java/commit/1de9eb3dfa851865b6494c26ef641ea95a1e2089))
+* **api:** add payment-only allocation breakdown to the loan tape ([d55e086](https://github.com/lithic-com/lithic-java/commit/d55e086119798216d2165db8995d4c20320f3dcb))
+* **api:** add tags to card create and update parameters and card responses ([8d18090](https://github.com/lithic-com/lithic-java/commit/8d180906480f256819d34d46898a299a2c6ebf0d))
+* **api:** expose the full conditional attribute set for authorization rules ([94ffc50](https://github.com/lithic-com/lithic-java/commit/94ffc507af84805a942016f71d01c1a4ebefecaa))
+* **api:** remove CONDITIONAL_BLOCK from authorization rules ([aff4596](https://github.com/lithic-com/lithic-java/commit/aff4596f8e1854e3f8f28864fae0a21e09c8ff01))
+* **api:** support international addresses and address2 for KYB_DELEGATED and KYC_EXEMPT workflows ([9602b11](https://github.com/lithic-com/lithic-java/commit/9602b1140ebf5d3f936097f9e738736f0a093f7d))
+
 ## 0.134.0 (2026-09-18)
 
 Full Changelog: [v0.133.0...v0.134.0](https://github.com/lithic-com/lithic-java/compare/v0.133.0...v0.134.0)
