@@ -981,6 +981,11 @@ internal class ParsedWebhookEventTest {
                             CardAuthorization.AsaRequestCard.SpendLimitDuration.ANNUALLY
                         )
                         .state(CardAuthorization.AsaRequestCard.State.CLOSED)
+                        .tags(
+                            CardAuthorization.AsaRequestCard.Tags.builder()
+                                .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                .build()
+                        )
                         .type(CardAuthorization.AsaRequestCard.CardType.SINGLE_USE)
                         .build()
                 )
@@ -1271,6 +1276,11 @@ internal class ParsedWebhookEventTest {
                                 CardAuthorization.AsaRequestCard.SpendLimitDuration.ANNUALLY
                             )
                             .state(CardAuthorization.AsaRequestCard.State.CLOSED)
+                            .tags(
+                                CardAuthorization.AsaRequestCard.Tags.builder()
+                                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                    .build()
+                            )
                             .type(CardAuthorization.AsaRequestCard.CardType.SINGLE_USE)
                             .build()
                     )
@@ -1505,6 +1515,11 @@ internal class ParsedWebhookEventTest {
                                     CardAuthorization.AsaRequestCard.SpendLimitDuration.ANNUALLY
                                 )
                                 .state(CardAuthorization.AsaRequestCard.State.CLOSED)
+                                .tags(
+                                    CardAuthorization.AsaRequestCard.Tags.builder()
+                                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                        .build()
+                                )
                                 .type(CardAuthorization.AsaRequestCard.CardType.SINGLE_USE)
                                 .build()
                         )
@@ -1827,6 +1842,14 @@ internal class ParsedWebhookEventTest {
                                         CardAuthorization.AsaRequestCard.SpendLimitDuration.ANNUALLY
                                     )
                                     .state(CardAuthorization.AsaRequestCard.State.CLOSED)
+                                    .tags(
+                                        CardAuthorization.AsaRequestCard.Tags.builder()
+                                            .putAdditionalProperty(
+                                                "risk-level",
+                                                JsonValue.from("high"),
+                                            )
+                                            .build()
+                                    )
                                     .type(CardAuthorization.AsaRequestCard.CardType.SINGLE_USE)
                                     .build()
                             )

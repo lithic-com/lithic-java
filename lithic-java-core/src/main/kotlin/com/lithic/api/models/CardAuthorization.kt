@@ -2747,6 +2747,7 @@ private constructor(
         private val spendLimit: JsonField<Long>,
         private val spendLimitDuration: JsonField<SpendLimitDuration>,
         private val state: JsonField<State>,
+        private val tags: JsonField<Tags>,
         private val type: JsonField<CardType>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -2765,8 +2766,19 @@ private constructor(
             @ExcludeMissing
             spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
             @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+            @JsonProperty("tags") @ExcludeMissing tags: JsonField<Tags> = JsonMissing.of(),
             @JsonProperty("type") @ExcludeMissing type: JsonField<CardType> = JsonMissing.of(),
-        ) : this(token, lastFour, memo, spendLimit, spendLimitDuration, state, type, mutableMapOf())
+        ) : this(
+            token,
+            lastFour,
+            memo,
+            spendLimit,
+            spendLimitDuration,
+            state,
+            tags,
+            type,
+            mutableMapOf(),
+        )
 
         /**
          * Globally unique identifier for the card.
@@ -2824,6 +2836,16 @@ private constructor(
         fun state(): State = state.getRequired("state")
 
         /**
+         * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
+         * with a resource for your own purposes. A resource can have at most 50 tags, with keys up
+         * to 40 characters and values up to 500 characters
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun tags(): Tags = tags.getRequired("tags")
+
+        /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
@@ -2875,6 +2897,13 @@ private constructor(
         @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
         /**
+         * Returns the raw JSON value of [tags].
+         *
+         * Unlike [tags], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tags") @ExcludeMissing fun _tags(): JsonField<Tags> = tags
+
+        /**
          * Returns the raw JSON value of [type].
          *
          * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
@@ -2906,6 +2935,7 @@ private constructor(
              * .spendLimit()
              * .spendLimitDuration()
              * .state()
+             * .tags()
              * .type()
              * ```
              */
@@ -2921,6 +2951,7 @@ private constructor(
             private var spendLimit: JsonField<Long>? = null
             private var spendLimitDuration: JsonField<SpendLimitDuration>? = null
             private var state: JsonField<State>? = null
+            private var tags: JsonField<Tags>? = null
             private var type: JsonField<CardType>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -2932,6 +2963,7 @@ private constructor(
                 spendLimit = asaRequestCard.spendLimit
                 spendLimitDuration = asaRequestCard.spendLimitDuration
                 state = asaRequestCard.state
+                tags = asaRequestCard.tags
                 type = asaRequestCard.type
                 additionalProperties = asaRequestCard.additionalProperties.toMutableMap()
             }
@@ -3022,6 +3054,22 @@ private constructor(
              */
             fun state(state: JsonField<State>) = apply { this.state = state }
 
+            /**
+             * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
+             * with a resource for your own purposes. A resource can have at most 50 tags, with keys
+             * up to 40 characters and values up to 500 characters
+             */
+            fun tags(tags: Tags) = tags(JsonField.of(tags))
+
+            /**
+             * Sets [Builder.tags] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tags] with a well-typed [Tags] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun tags(tags: JsonField<Tags>) = apply { this.tags = tags }
+
             fun type(type: CardType) = type(JsonField.of(type))
 
             /**
@@ -3065,6 +3113,7 @@ private constructor(
              * .spendLimit()
              * .spendLimitDuration()
              * .state()
+             * .tags()
              * .type()
              * ```
              *
@@ -3078,6 +3127,7 @@ private constructor(
                     checkRequired("spendLimit", spendLimit),
                     checkRequired("spendLimitDuration", spendLimitDuration),
                     checkRequired("state", state),
+                    checkRequired("tags", tags),
                     checkRequired("type", type),
                     additionalProperties.toMutableMap(),
                 )
@@ -3105,6 +3155,7 @@ private constructor(
             spendLimit()
             spendLimitDuration().validate()
             state().validate()
+            tags().validate()
             type().validate()
             validated = true
         }
@@ -3131,6 +3182,7 @@ private constructor(
                 (if (spendLimit.asKnown().isPresent) 1 else 0) +
                 (spendLimitDuration.asKnown().getOrNull()?.validity() ?: 0) +
                 (state.asKnown().getOrNull()?.validity() ?: 0) +
+                (tags.asKnown().getOrNull()?.validity() ?: 0) +
                 (type.asKnown().getOrNull()?.validity() ?: 0)
 
         /**
@@ -3451,6 +3503,123 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Key-value pairs for tagging resources. Tags allow you to associate arbitrary metadata
+         * with a resource for your own purposes. A resource can have at most 50 tags, with keys up
+         * to 40 characters and values up to 500 characters
+         */
+        class Tags
+        @JsonCreator
+        private constructor(
+            @com.fasterxml.jackson.annotation.JsonValue
+            private val additionalProperties: Map<String, JsonValue>
+        ) {
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Tags]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Tags]. */
+            class Builder internal constructor() {
+
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(tags: Tags) = apply {
+                    additionalProperties = tags.additionalProperties.toMutableMap()
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Tags].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Tags = Tags(additionalProperties.toImmutable())
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): Tags = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Tags && additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() = "Tags{additionalProperties=$additionalProperties}"
+        }
+
         class CardType @JsonCreator private constructor(private val value: JsonField<String>) :
             Enum {
 
@@ -3627,6 +3796,7 @@ private constructor(
                 spendLimit == other.spendLimit &&
                 spendLimitDuration == other.spendLimitDuration &&
                 state == other.state &&
+                tags == other.tags &&
                 type == other.type &&
                 additionalProperties == other.additionalProperties
         }
@@ -3639,6 +3809,7 @@ private constructor(
                 spendLimit,
                 spendLimitDuration,
                 state,
+                tags,
                 type,
                 additionalProperties,
             )
@@ -3647,7 +3818,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "AsaRequestCard{token=$token, lastFour=$lastFour, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, additionalProperties=$additionalProperties}"
+            "AsaRequestCard{token=$token, lastFour=$lastFour, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, tags=$tags, type=$type, additionalProperties=$additionalProperties}"
     }
 
     /** Merchant information including full location details. */

@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -66,6 +67,11 @@ internal class CardAuthorizationChallengeWebhookEventTest {
                                     CardAuthorization.AsaRequestCard.SpendLimitDuration.ANNUALLY
                                 )
                                 .state(CardAuthorization.AsaRequestCard.State.CLOSED)
+                                .tags(
+                                    CardAuthorization.AsaRequestCard.Tags.builder()
+                                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                        .build()
+                                )
                                 .type(CardAuthorization.AsaRequestCard.CardType.SINGLE_USE)
                                 .build()
                         )
@@ -306,6 +312,11 @@ internal class CardAuthorizationChallengeWebhookEventTest {
                                 CardAuthorization.AsaRequestCard.SpendLimitDuration.ANNUALLY
                             )
                             .state(CardAuthorization.AsaRequestCard.State.CLOSED)
+                            .tags(
+                                CardAuthorization.AsaRequestCard.Tags.builder()
+                                    .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                    .build()
+                            )
                             .type(CardAuthorization.AsaRequestCard.CardType.SINGLE_USE)
                             .build()
                     )
@@ -541,6 +552,11 @@ internal class CardAuthorizationChallengeWebhookEventTest {
                                     CardAuthorization.AsaRequestCard.SpendLimitDuration.ANNUALLY
                                 )
                                 .state(CardAuthorization.AsaRequestCard.State.CLOSED)
+                                .tags(
+                                    CardAuthorization.AsaRequestCard.Tags.builder()
+                                        .putAdditionalProperty("risk-level", JsonValue.from("high"))
+                                        .build()
+                                )
                                 .type(CardAuthorization.AsaRequestCard.CardType.SINGLE_USE)
                                 .build()
                         )
