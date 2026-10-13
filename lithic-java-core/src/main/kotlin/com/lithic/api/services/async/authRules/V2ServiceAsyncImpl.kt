@@ -32,6 +32,7 @@ import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
+import com.lithic.api.models.AuthRuleV2UpdateEntitiesParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.V2ListVersionsResponse
 import com.lithic.api.models.V2RetrieveFeaturesResponse
@@ -134,6 +135,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     ): CompletableFuture<V2RetrieveReportResponse> =
         // get /v2/auth_rules/{auth_rule_token}/report
         withRawResponse().retrieveReport(params, requestOptions).thenApply { it.parse() }
+
+    override fun updateEntities(
+        params: AuthRuleV2UpdateEntitiesParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AuthRule> =
+        // patch /v2/auth_rules/{auth_rule_token}/entities
+        withRawResponse().updateEntities(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         V2ServiceAsync.WithRawResponse {
@@ -513,6 +521,40 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                     errorHandler.handle(response).parseable {
                         response
                             .use { retrieveReportHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val updateEntitiesHandler: Handler<AuthRule> =
+            jsonHandler<AuthRule>(clientOptions.jsonMapper)
+
+        override fun updateEntities(
+            params: AuthRuleV2UpdateEntitiesParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<AuthRule>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("authRuleToken", params.authRuleToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v2", "auth_rules", params._pathParam(0), "entities")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { updateEntitiesHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

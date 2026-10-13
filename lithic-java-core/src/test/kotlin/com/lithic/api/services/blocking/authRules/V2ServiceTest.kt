@@ -4,10 +4,13 @@ package com.lithic.api.services.blocking.authRules
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.models.AuthRuleEntities
+import com.lithic.api.models.AuthRuleEntity
 import com.lithic.api.models.AuthRuleV2CreateParams
 import com.lithic.api.models.AuthRuleV2DraftParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
+import com.lithic.api.models.AuthRuleV2UpdateEntitiesParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.EventStream
 import com.lithic.api.models.VelocityLimitFilters
@@ -31,7 +34,21 @@ internal class V2ServiceTest {
 
         val authRule =
             v2Service.create(
-                AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
+                AuthRuleV2CreateParams.Body.Rule.builder()
+                    .entities(
+                        AuthRuleEntities.builder()
+                            .addExclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .addInclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .build()
+                    )
                     .parameters(
                         VelocityLimitParams.builder()
                             .period(
@@ -58,9 +75,7 @@ internal class V2ServiceTest {
                             .limitCount(0L)
                             .build()
                     )
-                    .type(AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.VELOCITY_LIMIT)
-                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .type(AuthRuleV2CreateParams.Body.Rule.AuthRuleType.VELOCITY_LIMIT)
                     .eventStream(EventStream.AUTHORIZATION)
                     .name("name")
                     .build()
@@ -97,11 +112,23 @@ internal class V2ServiceTest {
                 AuthRuleV2UpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .body(
-                        AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                            .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        AuthRuleV2UpdateParams.Body.Rule.builder()
+                            .entities(
+                                AuthRuleEntities.builder()
+                                    .addExclude(
+                                        AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                            .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                            .build()
+                                    )
+                                    .addInclude(
+                                        AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                            .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .name("name")
-                            .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                            .state(AuthRuleV2UpdateParams.Body.Rule.State.INACTIVE)
                             .build()
                     )
                     .build()
@@ -263,5 +290,52 @@ internal class V2ServiceTest {
             )
 
         response.validate()
+    }
+
+    @Test
+    fun updateEntities() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val v2Service = client.authRules().v2()
+
+        val authRule =
+            v2Service.updateEntities(
+                AuthRuleV2UpdateEntitiesParams.builder()
+                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .add(
+                        AuthRuleEntities.builder()
+                            .addExclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .addInclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .build()
+                    )
+                    .remove(
+                        AuthRuleEntities.builder()
+                            .addExclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .addInclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .build()
+                    )
+                    .build()
+            )
+
+        authRule.validate()
     }
 }

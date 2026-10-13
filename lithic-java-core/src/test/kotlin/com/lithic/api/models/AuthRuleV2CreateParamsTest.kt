@@ -11,7 +11,21 @@ internal class AuthRuleV2CreateParamsTest {
     fun create() {
         AuthRuleV2CreateParams.builder()
             .body(
-                AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
+                AuthRuleV2CreateParams.Body.Rule.builder()
+                    .entities(
+                        AuthRuleEntities.builder()
+                            .addExclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .addInclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .build()
+                    )
                     .parameters(
                         VelocityLimitParams.builder()
                             .period(
@@ -38,9 +52,7 @@ internal class AuthRuleV2CreateParamsTest {
                             .limitCount(0L)
                             .build()
                     )
-                    .type(AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.VELOCITY_LIMIT)
-                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .type(AuthRuleV2CreateParams.Body.Rule.AuthRuleType.VELOCITY_LIMIT)
                     .eventStream(EventStream.AUTHORIZATION)
                     .name("name")
                     .build()
@@ -53,7 +65,21 @@ internal class AuthRuleV2CreateParamsTest {
         val params =
             AuthRuleV2CreateParams.builder()
                 .body(
-                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
+                    AuthRuleV2CreateParams.Body.Rule.builder()
+                        .entities(
+                            AuthRuleEntities.builder()
+                                .addExclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .addInclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .build()
+                        )
                         .parameters(
                             VelocityLimitParams.builder()
                                 .period(
@@ -80,11 +106,7 @@ internal class AuthRuleV2CreateParamsTest {
                                 .limitCount(0L)
                                 .build()
                         )
-                        .type(
-                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.VELOCITY_LIMIT
-                        )
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .type(AuthRuleV2CreateParams.Body.Rule.AuthRuleType.VELOCITY_LIMIT)
                         .eventStream(EventStream.AUTHORIZATION)
                         .name("name")
                         .build()
@@ -95,8 +117,22 @@ internal class AuthRuleV2CreateParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2CreateParams.Body.ofAccountLevelRule(
-                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
+                AuthRuleV2CreateParams.Body.ofRule(
+                    AuthRuleV2CreateParams.Body.Rule.builder()
+                        .entities(
+                            AuthRuleEntities.builder()
+                                .addExclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .addInclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .build()
+                        )
                         .parameters(
                             VelocityLimitParams.builder()
                                 .period(
@@ -123,11 +159,7 @@ internal class AuthRuleV2CreateParamsTest {
                                 .limitCount(0L)
                                 .build()
                         )
-                        .type(
-                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.VELOCITY_LIMIT
-                        )
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .type(AuthRuleV2CreateParams.Body.Rule.AuthRuleType.VELOCITY_LIMIT)
                         .eventStream(EventStream.AUTHORIZATION)
                         .name("name")
                         .build()
@@ -140,7 +172,8 @@ internal class AuthRuleV2CreateParamsTest {
         val params =
             AuthRuleV2CreateParams.builder()
                 .body(
-                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
+                    AuthRuleV2CreateParams.Body.Rule.builder()
+                        .entities(AuthRuleEntities.builder().build())
                         .parameters(
                             VelocityLimitParams.builder()
                                 .period(
@@ -152,9 +185,7 @@ internal class AuthRuleV2CreateParamsTest {
                                 .scope(VelocityLimitParams.VelocityScope.CARD)
                                 .build()
                         )
-                        .type(
-                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.VELOCITY_LIMIT
-                        )
+                        .type(AuthRuleV2CreateParams.Body.Rule.AuthRuleType.VELOCITY_LIMIT)
                         .build()
                 )
                 .build()
@@ -163,8 +194,9 @@ internal class AuthRuleV2CreateParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2CreateParams.Body.ofAccountLevelRule(
-                    AuthRuleV2CreateParams.Body.AccountLevelRule.builder()
+                AuthRuleV2CreateParams.Body.ofRule(
+                    AuthRuleV2CreateParams.Body.Rule.builder()
+                        .entities(AuthRuleEntities.builder().build())
                         .parameters(
                             VelocityLimitParams.builder()
                                 .period(
@@ -176,9 +208,7 @@ internal class AuthRuleV2CreateParamsTest {
                                 .scope(VelocityLimitParams.VelocityScope.CARD)
                                 .build()
                         )
-                        .type(
-                            AuthRuleV2CreateParams.Body.AccountLevelRule.AuthRuleType.VELOCITY_LIMIT
-                        )
+                        .type(AuthRuleV2CreateParams.Body.Rule.AuthRuleType.VELOCITY_LIMIT)
                         .build()
                 )
             )

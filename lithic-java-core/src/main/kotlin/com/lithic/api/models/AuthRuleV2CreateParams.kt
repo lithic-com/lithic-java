@@ -42,6 +42,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
+    /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
     fun body(): Body = body
 
     /** Additional headers to send with the request. */
@@ -79,16 +80,23 @@ private constructor(
             additionalQueryParams = authRuleV2CreateParams.additionalQueryParams.toBuilder()
         }
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
         fun body(body: Body) = apply { this.body = body }
 
+        /** Alias for calling [body] with `Body.ofRule(rule)`. */
+        fun body(rule: Body.Rule) = body(Body.ofRule(rule))
+
         /** Alias for calling [body] with `Body.ofAccountLevelRule(accountLevelRule)`. */
+        @Deprecated("deprecated")
         fun body(accountLevelRule: Body.AccountLevelRule) =
             body(Body.ofAccountLevelRule(accountLevelRule))
 
         /** Alias for calling [body] with `Body.ofCardLevelRule(cardLevelRule)`. */
+        @Deprecated("deprecated")
         fun body(cardLevelRule: Body.CardLevelRule) = body(Body.ofCardLevelRule(cardLevelRule))
 
         /** Alias for calling [body] with `Body.ofProgramLevelRule(programLevelRule)`. */
+        @Deprecated("deprecated")
         fun body(programLevelRule: Body.ProgramLevelRule) =
             body(Body.ofProgramLevelRule(programLevelRule))
 
@@ -216,32 +224,52 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
+    /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
     @JsonDeserialize(using = Body.Deserializer::class)
     @JsonSerialize(using = Body.Serializer::class)
     class Body
     private constructor(
+        private val rule: Rule? = null,
         private val accountLevelRule: AccountLevelRule? = null,
         private val cardLevelRule: CardLevelRule? = null,
         private val programLevelRule: ProgramLevelRule? = null,
         private val _json: JsonValue? = null,
     ) {
 
+        fun rule(): Optional<Rule> = Optional.ofNullable(rule)
+
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun accountLevelRule(): Optional<AccountLevelRule> = Optional.ofNullable(accountLevelRule)
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun cardLevelRule(): Optional<CardLevelRule> = Optional.ofNullable(cardLevelRule)
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun programLevelRule(): Optional<ProgramLevelRule> = Optional.ofNullable(programLevelRule)
 
-        fun isAccountLevelRule(): Boolean = accountLevelRule != null
+        fun isRule(): Boolean = rule != null
 
-        fun isCardLevelRule(): Boolean = cardLevelRule != null
+        @Deprecated("deprecated") fun isAccountLevelRule(): Boolean = accountLevelRule != null
 
-        fun isProgramLevelRule(): Boolean = programLevelRule != null
+        @Deprecated("deprecated") fun isCardLevelRule(): Boolean = cardLevelRule != null
 
+        @Deprecated("deprecated") fun isProgramLevelRule(): Boolean = programLevelRule != null
+
+        fun asRule(): Rule = rule.getOrThrow("rule")
+
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun asAccountLevelRule(): AccountLevelRule = accountLevelRule.getOrThrow("accountLevelRule")
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun asCardLevelRule(): CardLevelRule = cardLevelRule.getOrThrow("cardLevelRule")
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun asProgramLevelRule(): ProgramLevelRule = programLevelRule.getOrThrow("programLevelRule")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
@@ -258,8 +286,8 @@ private constructor(
          *
          * Optional<String> result = body.accept(new Body.Visitor<Optional<String>>() {
          *     @Override
-         *     public Optional<String> visitAccountLevelRule(AccountLevelRule accountLevelRule) {
-         *         return Optional.of(accountLevelRule.toString());
+         *     public Optional<String> visitRule(Rule rule) {
+         *         return Optional.of(rule.toString());
          *     }
          *
          *     // ...
@@ -277,6 +305,7 @@ private constructor(
          */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
+                rule != null -> visitor.visitRule(rule)
                 accountLevelRule != null -> visitor.visitAccountLevelRule(accountLevelRule)
                 cardLevelRule != null -> visitor.visitCardLevelRule(cardLevelRule)
                 programLevelRule != null -> visitor.visitProgramLevelRule(programLevelRule)
@@ -301,6 +330,10 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
+                    override fun visitRule(rule: Rule) {
+                        rule.validate()
+                    }
+
                     override fun visitAccountLevelRule(accountLevelRule: AccountLevelRule) {
                         accountLevelRule.validate()
                     }
@@ -335,6 +368,8 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
+                    override fun visitRule(rule: Rule) = rule.validity()
+
                     override fun visitAccountLevelRule(accountLevelRule: AccountLevelRule) =
                         accountLevelRule.validity()
 
@@ -354,16 +389,18 @@ private constructor(
             }
 
             return other is Body &&
+                rule == other.rule &&
                 accountLevelRule == other.accountLevelRule &&
                 cardLevelRule == other.cardLevelRule &&
                 programLevelRule == other.programLevelRule
         }
 
         override fun hashCode(): Int =
-            Objects.hash(accountLevelRule, cardLevelRule, programLevelRule)
+            Objects.hash(rule, accountLevelRule, cardLevelRule, programLevelRule)
 
         override fun toString(): String =
             when {
+                rule != null -> "Body{rule=$rule}"
                 accountLevelRule != null -> "Body{accountLevelRule=$accountLevelRule}"
                 cardLevelRule != null -> "Body{cardLevelRule=$cardLevelRule}"
                 programLevelRule != null -> "Body{programLevelRule=$programLevelRule}"
@@ -373,13 +410,21 @@ private constructor(
 
         companion object {
 
+            @JvmStatic fun ofRule(rule: Rule) = Body(rule = rule)
+
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             @JvmStatic
             fun ofAccountLevelRule(accountLevelRule: AccountLevelRule) =
                 Body(accountLevelRule = accountLevelRule)
 
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             @JvmStatic
             fun ofCardLevelRule(cardLevelRule: CardLevelRule) = Body(cardLevelRule = cardLevelRule)
 
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             @JvmStatic
             fun ofProgramLevelRule(programLevelRule: ProgramLevelRule) =
                 Body(programLevelRule = programLevelRule)
@@ -388,10 +433,17 @@ private constructor(
         /** An interface that defines how to map each variant of [Body] to a value of type [T]. */
         interface Visitor<out T> {
 
+            fun visitRule(rule: Rule): T
+
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             fun visitAccountLevelRule(accountLevelRule: AccountLevelRule): T
 
-            fun visitCardLevelRule(cardLevelRule: CardLevelRule): T
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated") fun visitCardLevelRule(cardLevelRule: CardLevelRule): T
 
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             fun visitProgramLevelRule(programLevelRule: ProgramLevelRule): T
 
             /**
@@ -415,6 +467,9 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
+                            tryDeserialize(node, jacksonTypeRef<Rule>())?.let {
+                                Body(rule = it, _json = json)
+                            },
                             tryDeserialize(node, jacksonTypeRef<AccountLevelRule>())?.let {
                                 Body(accountLevelRule = it, _json = json)
                             },
@@ -449,6 +504,7 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
+                    value.rule != null -> generator.writeObject(value.rule)
                     value.accountLevelRule != null -> generator.writeObject(value.accountLevelRule)
                     value.cardLevelRule != null -> generator.writeObject(value.cardLevelRule)
                     value.programLevelRule != null -> generator.writeObject(value.programLevelRule)
@@ -458,6 +514,1352 @@ private constructor(
             }
         }
 
+        class Rule
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val entities: JsonField<AuthRuleEntities>,
+            private val parameters: JsonField<Parameters>,
+            private val type: JsonField<AuthRuleType>,
+            private val eventStream: JsonField<EventStream>,
+            private val name: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("entities")
+                @ExcludeMissing
+                entities: JsonField<AuthRuleEntities> = JsonMissing.of(),
+                @JsonProperty("parameters")
+                @ExcludeMissing
+                parameters: JsonField<Parameters> = JsonMissing.of(),
+                @JsonProperty("type")
+                @ExcludeMissing
+                type: JsonField<AuthRuleType> = JsonMissing.of(),
+                @JsonProperty("event_stream")
+                @ExcludeMissing
+                eventStream: JsonField<EventStream> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+            ) : this(entities, parameters, type, eventStream, name, mutableMapOf())
+
+            /**
+             * The entities an Auth Rule applies to (`include`) and does not apply to (`exclude`).
+             * An exclusion overrides an inclusion, so a card excluded here is skipped even when the
+             * program, its account or one of its tags is included.
+             *
+             * The rule's resulting entities must satisfy these constraints after any write:
+             * - `include` must contain at least one entity.
+             * - If `PROGRAM` is included, it must be the only included entity.
+             * - `PROGRAM` cannot be excluded.
+             * - An entity cannot appear in both `include` and `exclude`, or twice in the same list.
+             * - A rule can have at most 1,000 entities across `include` and `exclude`, not counting
+             *   `PROGRAM`.
+             * - Entity types must be valid for the rule's event stream.
+             * - `CARD`, `ACCOUNT` and `BUSINESS_ACCOUNT` tokens must belong to your program.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun entities(): AuthRuleEntities = entities.getRequired("entities")
+
+            /**
+             * Parameters for the Auth Rule
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun parameters(): Parameters = parameters.getRequired("parameters")
+
+            /**
+             * The type of Auth Rule. For certain rule types, this determines the event stream
+             * during which it will be evaluated. For rules that can be applied to one of several
+             * event streams, the effective one is defined by the separate `event_stream` field.
+             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+             * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or
+             *   ACH_PAYMENT_UPDATE event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or
+             *   ACH_PAYMENT_UPDATE event stream.
+             * - `OTHER`: A rule whose type is not exposed through this API. Rules of this type are
+             *   read-only; `OTHER` cannot be used when creating a rule.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun type(): AuthRuleType = type.getRequired("type")
+
+            /**
+             * The event stream during which the rule will be evaluated.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun eventStream(): Optional<EventStream> = eventStream.getOptional("event_stream")
+
+            /**
+             * Auth Rule Name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * Returns the raw JSON value of [entities].
+             *
+             * Unlike [entities], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("entities")
+            @ExcludeMissing
+            fun _entities(): JsonField<AuthRuleEntities> = entities
+
+            /**
+             * Returns the raw JSON value of [parameters].
+             *
+             * Unlike [parameters], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("parameters")
+            @ExcludeMissing
+            fun _parameters(): JsonField<Parameters> = parameters
+
+            /**
+             * Returns the raw JSON value of [type].
+             *
+             * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<AuthRuleType> = type
+
+            /**
+             * Returns the raw JSON value of [eventStream].
+             *
+             * Unlike [eventStream], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("event_stream")
+            @ExcludeMissing
+            fun _eventStream(): JsonField<EventStream> = eventStream
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [Rule].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .entities()
+                 * .parameters()
+                 * .type()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Rule]. */
+            class Builder internal constructor() {
+
+                private var entities: JsonField<AuthRuleEntities>? = null
+                private var parameters: JsonField<Parameters>? = null
+                private var type: JsonField<AuthRuleType>? = null
+                private var eventStream: JsonField<EventStream> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(rule: Rule) = apply {
+                    entities = rule.entities
+                    parameters = rule.parameters
+                    type = rule.type
+                    eventStream = rule.eventStream
+                    name = rule.name
+                    additionalProperties = rule.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * The entities an Auth Rule applies to (`include`) and does not apply to
+                 * (`exclude`). An exclusion overrides an inclusion, so a card excluded here is
+                 * skipped even when the program, its account or one of its tags is included.
+                 *
+                 * The rule's resulting entities must satisfy these constraints after any write:
+                 * - `include` must contain at least one entity.
+                 * - If `PROGRAM` is included, it must be the only included entity.
+                 * - `PROGRAM` cannot be excluded.
+                 * - An entity cannot appear in both `include` and `exclude`, or twice in the same
+                 *   list.
+                 * - A rule can have at most 1,000 entities across `include` and `exclude`, not
+                 *   counting `PROGRAM`.
+                 * - Entity types must be valid for the rule's event stream.
+                 * - `CARD`, `ACCOUNT` and `BUSINESS_ACCOUNT` tokens must belong to your program.
+                 */
+                fun entities(entities: AuthRuleEntities) = entities(JsonField.of(entities))
+
+                /**
+                 * Sets [Builder.entities] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.entities] with a well-typed [AuthRuleEntities]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun entities(entities: JsonField<AuthRuleEntities>) = apply {
+                    this.entities = entities
+                }
+
+                /** Parameters for the Auth Rule */
+                fun parameters(parameters: Parameters) = parameters(JsonField.of(parameters))
+
+                /**
+                 * Sets [Builder.parameters] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.parameters] with a well-typed [Parameters] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun parameters(parameters: JsonField<Parameters>) = apply {
+                    this.parameters = parameters
+                }
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofVelocityLimitParams(velocityLimitParams)`.
+                 */
+                fun parameters(velocityLimitParams: VelocityLimitParams) =
+                    parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
+
+                /**
+                 * Alias for calling [parameters] with `Parameters.ofMerchantLock(merchantLock)`.
+                 */
+                fun parameters(merchantLock: MerchantLockParameters) =
+                    parameters(Parameters.ofMerchantLock(merchantLock))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditional3dsAction(conditional3dsAction)`.
+                 */
+                fun parameters(conditional3dsAction: Conditional3dsActionParameters) =
+                    parameters(Parameters.ofConditional3dsAction(conditional3dsAction))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)`.
+                 */
+                fun parameters(
+                    conditionalAuthorizationAction: ConditionalAuthorizationActionParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalAuthorizationAction(conditionalAuthorizationAction)
+                    )
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalAchAction(conditionalAchAction)`.
+                 */
+                fun parameters(conditionalAchAction: ConditionalAchActionParameters) =
+                    parameters(Parameters.ofConditionalAchAction(conditionalAchAction))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalTokenizationAction(conditionalTokenizationAction)`.
+                 */
+                fun parameters(
+                    conditionalTokenizationAction: ConditionalTokenizationActionParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalTokenizationAction(conditionalTokenizationAction)
+                    )
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalCardTransactionUpdateAction(conditionalCardTransactionUpdateAction)`.
+                 */
+                fun parameters(
+                    conditionalCardTransactionUpdateAction:
+                        ConditionalCardTransactionUpdateActionParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalCardTransactionUpdateAction(
+                            conditionalCardTransactionUpdateAction
+                        )
+                    )
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalAchPaymentUpdateAction(conditionalAchPaymentUpdateAction)`.
+                 */
+                fun parameters(
+                    conditionalAchPaymentUpdateAction: ConditionalAchPaymentUpdateActionParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalAchPaymentUpdateAction(
+                            conditionalAchPaymentUpdateAction
+                        )
+                    )
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofTypescriptCode(typescriptCode)`.
+                 */
+                fun parameters(typescriptCode: TypescriptCodeParameters) =
+                    parameters(Parameters.ofTypescriptCode(typescriptCode))
+
+                /**
+                 * Alias for calling [parameters] with
+                 * `Parameters.ofConditionalAuthorizationAdjustment(conditionalAuthorizationAdjustment)`.
+                 */
+                fun parameters(
+                    conditionalAuthorizationAdjustment: ConditionalAuthorizationAdjustmentParameters
+                ) =
+                    parameters(
+                        Parameters.ofConditionalAuthorizationAdjustment(
+                            conditionalAuthorizationAdjustment
+                        )
+                    )
+
+                /**
+                 * The type of Auth Rule. For certain rule types, this determines the event stream
+                 * during which it will be evaluated. For rules that can be applied to one of
+                 * several event streams, the effective one is defined by the separate
+                 * `event_stream` field.
+                 * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+                 * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+                 * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+                 *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or
+                 *   ACH_PAYMENT_UPDATE event stream.
+                 * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+                 *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or
+                 *   ACH_PAYMENT_UPDATE event stream.
+                 * - `OTHER`: A rule whose type is not exposed through this API. Rules of this type
+                 *   are read-only; `OTHER` cannot be used when creating a rule.
+                 */
+                fun type(type: AuthRuleType) = type(JsonField.of(type))
+
+                /**
+                 * Sets [Builder.type] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.type] with a well-typed [AuthRuleType] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
+
+                /** The event stream during which the rule will be evaluated. */
+                fun eventStream(eventStream: EventStream) = eventStream(JsonField.of(eventStream))
+
+                /**
+                 * Sets [Builder.eventStream] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.eventStream] with a well-typed [EventStream]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun eventStream(eventStream: JsonField<EventStream>) = apply {
+                    this.eventStream = eventStream
+                }
+
+                /** Auth Rule Name */
+                fun name(name: String?) = name(JsonField.ofNullable(name))
+
+                /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+                fun name(name: Optional<String>) = name(name.getOrNull())
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Rule].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .entities()
+                 * .parameters()
+                 * .type()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): Rule =
+                    Rule(
+                        checkRequired("entities", entities),
+                        checkRequired("parameters", parameters),
+                        checkRequired("type", type),
+                        eventStream,
+                        name,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): Rule = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                entities().validate()
+                parameters().validate()
+                type().validate()
+                eventStream().ifPresent { it.validate() }
+                name()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (entities.asKnown().getOrNull()?.validity() ?: 0) +
+                    (parameters.asKnown().getOrNull()?.validity() ?: 0) +
+                    (type.asKnown().getOrNull()?.validity() ?: 0) +
+                    (eventStream.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (name.asKnown().isPresent) 1 else 0)
+
+            /** Parameters for the Auth Rule */
+            @JsonDeserialize(using = Parameters.Deserializer::class)
+            @JsonSerialize(using = Parameters.Serializer::class)
+            class Parameters
+            private constructor(
+                private val velocityLimitParams: VelocityLimitParams? = null,
+                private val merchantLock: MerchantLockParameters? = null,
+                private val conditional3dsAction: Conditional3dsActionParameters? = null,
+                private val conditionalAuthorizationAction:
+                    ConditionalAuthorizationActionParameters? =
+                    null,
+                private val conditionalAchAction: ConditionalAchActionParameters? = null,
+                private val conditionalTokenizationAction:
+                    ConditionalTokenizationActionParameters? =
+                    null,
+                private val conditionalCardTransactionUpdateAction:
+                    ConditionalCardTransactionUpdateActionParameters? =
+                    null,
+                private val conditionalAchPaymentUpdateAction:
+                    ConditionalAchPaymentUpdateActionParameters? =
+                    null,
+                private val typescriptCode: TypescriptCodeParameters? = null,
+                private val conditionalAuthorizationAdjustment:
+                    ConditionalAuthorizationAdjustmentParameters? =
+                    null,
+                private val _json: JsonValue? = null,
+            ) {
+
+                fun velocityLimitParams(): Optional<VelocityLimitParams> =
+                    Optional.ofNullable(velocityLimitParams)
+
+                fun merchantLock(): Optional<MerchantLockParameters> =
+                    Optional.ofNullable(merchantLock)
+
+                fun conditional3dsAction(): Optional<Conditional3dsActionParameters> =
+                    Optional.ofNullable(conditional3dsAction)
+
+                fun conditionalAuthorizationAction():
+                    Optional<ConditionalAuthorizationActionParameters> =
+                    Optional.ofNullable(conditionalAuthorizationAction)
+
+                fun conditionalAchAction(): Optional<ConditionalAchActionParameters> =
+                    Optional.ofNullable(conditionalAchAction)
+
+                fun conditionalTokenizationAction():
+                    Optional<ConditionalTokenizationActionParameters> =
+                    Optional.ofNullable(conditionalTokenizationAction)
+
+                fun conditionalCardTransactionUpdateAction():
+                    Optional<ConditionalCardTransactionUpdateActionParameters> =
+                    Optional.ofNullable(conditionalCardTransactionUpdateAction)
+
+                fun conditionalAchPaymentUpdateAction():
+                    Optional<ConditionalAchPaymentUpdateActionParameters> =
+                    Optional.ofNullable(conditionalAchPaymentUpdateAction)
+
+                /** Parameters for defining a TypeScript code rule */
+                fun typescriptCode(): Optional<TypescriptCodeParameters> =
+                    Optional.ofNullable(typescriptCode)
+
+                fun conditionalAuthorizationAdjustment():
+                    Optional<ConditionalAuthorizationAdjustmentParameters> =
+                    Optional.ofNullable(conditionalAuthorizationAdjustment)
+
+                fun isVelocityLimitParams(): Boolean = velocityLimitParams != null
+
+                fun isMerchantLock(): Boolean = merchantLock != null
+
+                fun isConditional3dsAction(): Boolean = conditional3dsAction != null
+
+                fun isConditionalAuthorizationAction(): Boolean =
+                    conditionalAuthorizationAction != null
+
+                fun isConditionalAchAction(): Boolean = conditionalAchAction != null
+
+                fun isConditionalTokenizationAction(): Boolean =
+                    conditionalTokenizationAction != null
+
+                fun isConditionalCardTransactionUpdateAction(): Boolean =
+                    conditionalCardTransactionUpdateAction != null
+
+                fun isConditionalAchPaymentUpdateAction(): Boolean =
+                    conditionalAchPaymentUpdateAction != null
+
+                fun isTypescriptCode(): Boolean = typescriptCode != null
+
+                fun isConditionalAuthorizationAdjustment(): Boolean =
+                    conditionalAuthorizationAdjustment != null
+
+                fun asVelocityLimitParams(): VelocityLimitParams =
+                    velocityLimitParams.getOrThrow("velocityLimitParams")
+
+                fun asMerchantLock(): MerchantLockParameters =
+                    merchantLock.getOrThrow("merchantLock")
+
+                fun asConditional3dsAction(): Conditional3dsActionParameters =
+                    conditional3dsAction.getOrThrow("conditional3dsAction")
+
+                fun asConditionalAuthorizationAction(): ConditionalAuthorizationActionParameters =
+                    conditionalAuthorizationAction.getOrThrow("conditionalAuthorizationAction")
+
+                fun asConditionalAchAction(): ConditionalAchActionParameters =
+                    conditionalAchAction.getOrThrow("conditionalAchAction")
+
+                fun asConditionalTokenizationAction(): ConditionalTokenizationActionParameters =
+                    conditionalTokenizationAction.getOrThrow("conditionalTokenizationAction")
+
+                fun asConditionalCardTransactionUpdateAction():
+                    ConditionalCardTransactionUpdateActionParameters =
+                    conditionalCardTransactionUpdateAction.getOrThrow(
+                        "conditionalCardTransactionUpdateAction"
+                    )
+
+                fun asConditionalAchPaymentUpdateAction():
+                    ConditionalAchPaymentUpdateActionParameters =
+                    conditionalAchPaymentUpdateAction.getOrThrow(
+                        "conditionalAchPaymentUpdateAction"
+                    )
+
+                /** Parameters for defining a TypeScript code rule */
+                fun asTypescriptCode(): TypescriptCodeParameters =
+                    typescriptCode.getOrThrow("typescriptCode")
+
+                fun asConditionalAuthorizationAdjustment():
+                    ConditionalAuthorizationAdjustmentParameters =
+                    conditionalAuthorizationAdjustment.getOrThrow(
+                        "conditionalAuthorizationAdjustment"
+                    )
+
+                fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.lithic.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = parameters.accept(new Parameters.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitVelocityLimitParams(VelocityLimitParams velocityLimitParams) {
+                 *         return Optional.of(velocityLimitParams.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws LithicInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
+                fun <T> accept(visitor: Visitor<T>): T =
+                    when {
+                        velocityLimitParams != null ->
+                            visitor.visitVelocityLimitParams(velocityLimitParams)
+                        merchantLock != null -> visitor.visitMerchantLock(merchantLock)
+                        conditional3dsAction != null ->
+                            visitor.visitConditional3dsAction(conditional3dsAction)
+                        conditionalAuthorizationAction != null ->
+                            visitor.visitConditionalAuthorizationAction(
+                                conditionalAuthorizationAction
+                            )
+                        conditionalAchAction != null ->
+                            visitor.visitConditionalAchAction(conditionalAchAction)
+                        conditionalTokenizationAction != null ->
+                            visitor.visitConditionalTokenizationAction(
+                                conditionalTokenizationAction
+                            )
+                        conditionalCardTransactionUpdateAction != null ->
+                            visitor.visitConditionalCardTransactionUpdateAction(
+                                conditionalCardTransactionUpdateAction
+                            )
+                        conditionalAchPaymentUpdateAction != null ->
+                            visitor.visitConditionalAchPaymentUpdateAction(
+                                conditionalAchPaymentUpdateAction
+                            )
+                        typescriptCode != null -> visitor.visitTypescriptCode(typescriptCode)
+                        conditionalAuthorizationAdjustment != null ->
+                            visitor.visitConditionalAuthorizationAdjustment(
+                                conditionalAuthorizationAdjustment
+                            )
+                        else -> visitor.unknown(_json)
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): Parameters = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    accept(
+                        object : Visitor<Unit> {
+                            override fun visitVelocityLimitParams(
+                                velocityLimitParams: VelocityLimitParams
+                            ) {
+                                velocityLimitParams.validate()
+                            }
+
+                            override fun visitMerchantLock(merchantLock: MerchantLockParameters) {
+                                merchantLock.validate()
+                            }
+
+                            override fun visitConditional3dsAction(
+                                conditional3dsAction: Conditional3dsActionParameters
+                            ) {
+                                conditional3dsAction.validate()
+                            }
+
+                            override fun visitConditionalAuthorizationAction(
+                                conditionalAuthorizationAction:
+                                    ConditionalAuthorizationActionParameters
+                            ) {
+                                conditionalAuthorizationAction.validate()
+                            }
+
+                            override fun visitConditionalAchAction(
+                                conditionalAchAction: ConditionalAchActionParameters
+                            ) {
+                                conditionalAchAction.validate()
+                            }
+
+                            override fun visitConditionalTokenizationAction(
+                                conditionalTokenizationAction:
+                                    ConditionalTokenizationActionParameters
+                            ) {
+                                conditionalTokenizationAction.validate()
+                            }
+
+                            override fun visitConditionalCardTransactionUpdateAction(
+                                conditionalCardTransactionUpdateAction:
+                                    ConditionalCardTransactionUpdateActionParameters
+                            ) {
+                                conditionalCardTransactionUpdateAction.validate()
+                            }
+
+                            override fun visitConditionalAchPaymentUpdateAction(
+                                conditionalAchPaymentUpdateAction:
+                                    ConditionalAchPaymentUpdateActionParameters
+                            ) {
+                                conditionalAchPaymentUpdateAction.validate()
+                            }
+
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) {
+                                typescriptCode.validate()
+                            }
+
+                            override fun visitConditionalAuthorizationAdjustment(
+                                conditionalAuthorizationAdjustment:
+                                    ConditionalAuthorizationAdjustmentParameters
+                            ) {
+                                conditionalAuthorizationAdjustment.validate()
+                            }
+                        }
+                    )
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    accept(
+                        object : Visitor<Int> {
+                            override fun visitVelocityLimitParams(
+                                velocityLimitParams: VelocityLimitParams
+                            ) = velocityLimitParams.validity()
+
+                            override fun visitMerchantLock(merchantLock: MerchantLockParameters) =
+                                merchantLock.validity()
+
+                            override fun visitConditional3dsAction(
+                                conditional3dsAction: Conditional3dsActionParameters
+                            ) = conditional3dsAction.validity()
+
+                            override fun visitConditionalAuthorizationAction(
+                                conditionalAuthorizationAction:
+                                    ConditionalAuthorizationActionParameters
+                            ) = conditionalAuthorizationAction.validity()
+
+                            override fun visitConditionalAchAction(
+                                conditionalAchAction: ConditionalAchActionParameters
+                            ) = conditionalAchAction.validity()
+
+                            override fun visitConditionalTokenizationAction(
+                                conditionalTokenizationAction:
+                                    ConditionalTokenizationActionParameters
+                            ) = conditionalTokenizationAction.validity()
+
+                            override fun visitConditionalCardTransactionUpdateAction(
+                                conditionalCardTransactionUpdateAction:
+                                    ConditionalCardTransactionUpdateActionParameters
+                            ) = conditionalCardTransactionUpdateAction.validity()
+
+                            override fun visitConditionalAchPaymentUpdateAction(
+                                conditionalAchPaymentUpdateAction:
+                                    ConditionalAchPaymentUpdateActionParameters
+                            ) = conditionalAchPaymentUpdateAction.validity()
+
+                            override fun visitTypescriptCode(
+                                typescriptCode: TypescriptCodeParameters
+                            ) = typescriptCode.validity()
+
+                            override fun visitConditionalAuthorizationAdjustment(
+                                conditionalAuthorizationAdjustment:
+                                    ConditionalAuthorizationAdjustmentParameters
+                            ) = conditionalAuthorizationAdjustment.validity()
+
+                            override fun unknown(json: JsonValue?) = 0
+                        }
+                    )
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Parameters &&
+                        velocityLimitParams == other.velocityLimitParams &&
+                        merchantLock == other.merchantLock &&
+                        conditional3dsAction == other.conditional3dsAction &&
+                        conditionalAuthorizationAction == other.conditionalAuthorizationAction &&
+                        conditionalAchAction == other.conditionalAchAction &&
+                        conditionalTokenizationAction == other.conditionalTokenizationAction &&
+                        conditionalCardTransactionUpdateAction ==
+                            other.conditionalCardTransactionUpdateAction &&
+                        conditionalAchPaymentUpdateAction ==
+                            other.conditionalAchPaymentUpdateAction &&
+                        typescriptCode == other.typescriptCode &&
+                        conditionalAuthorizationAdjustment ==
+                            other.conditionalAuthorizationAdjustment
+                }
+
+                override fun hashCode(): Int =
+                    Objects.hash(
+                        velocityLimitParams,
+                        merchantLock,
+                        conditional3dsAction,
+                        conditionalAuthorizationAction,
+                        conditionalAchAction,
+                        conditionalTokenizationAction,
+                        conditionalCardTransactionUpdateAction,
+                        conditionalAchPaymentUpdateAction,
+                        typescriptCode,
+                        conditionalAuthorizationAdjustment,
+                    )
+
+                override fun toString(): String =
+                    when {
+                        velocityLimitParams != null ->
+                            "Parameters{velocityLimitParams=$velocityLimitParams}"
+                        merchantLock != null -> "Parameters{merchantLock=$merchantLock}"
+                        conditional3dsAction != null ->
+                            "Parameters{conditional3dsAction=$conditional3dsAction}"
+                        conditionalAuthorizationAction != null ->
+                            "Parameters{conditionalAuthorizationAction=$conditionalAuthorizationAction}"
+                        conditionalAchAction != null ->
+                            "Parameters{conditionalAchAction=$conditionalAchAction}"
+                        conditionalTokenizationAction != null ->
+                            "Parameters{conditionalTokenizationAction=$conditionalTokenizationAction}"
+                        conditionalCardTransactionUpdateAction != null ->
+                            "Parameters{conditionalCardTransactionUpdateAction=$conditionalCardTransactionUpdateAction}"
+                        conditionalAchPaymentUpdateAction != null ->
+                            "Parameters{conditionalAchPaymentUpdateAction=$conditionalAchPaymentUpdateAction}"
+                        typescriptCode != null -> "Parameters{typescriptCode=$typescriptCode}"
+                        conditionalAuthorizationAdjustment != null ->
+                            "Parameters{conditionalAuthorizationAdjustment=$conditionalAuthorizationAdjustment}"
+                        _json != null -> "Parameters{_unknown=$_json}"
+                        else -> throw IllegalStateException("Invalid Parameters")
+                    }
+
+                companion object {
+
+                    @JvmStatic
+                    fun ofVelocityLimitParams(velocityLimitParams: VelocityLimitParams) =
+                        Parameters(velocityLimitParams = velocityLimitParams)
+
+                    @JvmStatic
+                    fun ofMerchantLock(merchantLock: MerchantLockParameters) =
+                        Parameters(merchantLock = merchantLock)
+
+                    @JvmStatic
+                    fun ofConditional3dsAction(
+                        conditional3dsAction: Conditional3dsActionParameters
+                    ) = Parameters(conditional3dsAction = conditional3dsAction)
+
+                    @JvmStatic
+                    fun ofConditionalAuthorizationAction(
+                        conditionalAuthorizationAction: ConditionalAuthorizationActionParameters
+                    ) = Parameters(conditionalAuthorizationAction = conditionalAuthorizationAction)
+
+                    @JvmStatic
+                    fun ofConditionalAchAction(
+                        conditionalAchAction: ConditionalAchActionParameters
+                    ) = Parameters(conditionalAchAction = conditionalAchAction)
+
+                    @JvmStatic
+                    fun ofConditionalTokenizationAction(
+                        conditionalTokenizationAction: ConditionalTokenizationActionParameters
+                    ) = Parameters(conditionalTokenizationAction = conditionalTokenizationAction)
+
+                    @JvmStatic
+                    fun ofConditionalCardTransactionUpdateAction(
+                        conditionalCardTransactionUpdateAction:
+                            ConditionalCardTransactionUpdateActionParameters
+                    ) =
+                        Parameters(
+                            conditionalCardTransactionUpdateAction =
+                                conditionalCardTransactionUpdateAction
+                        )
+
+                    @JvmStatic
+                    fun ofConditionalAchPaymentUpdateAction(
+                        conditionalAchPaymentUpdateAction:
+                            ConditionalAchPaymentUpdateActionParameters
+                    ) =
+                        Parameters(
+                            conditionalAchPaymentUpdateAction = conditionalAchPaymentUpdateAction
+                        )
+
+                    /** Parameters for defining a TypeScript code rule */
+                    @JvmStatic
+                    fun ofTypescriptCode(typescriptCode: TypescriptCodeParameters) =
+                        Parameters(typescriptCode = typescriptCode)
+
+                    @JvmStatic
+                    fun ofConditionalAuthorizationAdjustment(
+                        conditionalAuthorizationAdjustment:
+                            ConditionalAuthorizationAdjustmentParameters
+                    ) =
+                        Parameters(
+                            conditionalAuthorizationAdjustment = conditionalAuthorizationAdjustment
+                        )
+                }
+
+                /**
+                 * An interface that defines how to map each variant of [Parameters] to a value of
+                 * type [T].
+                 */
+                interface Visitor<out T> {
+
+                    fun visitVelocityLimitParams(velocityLimitParams: VelocityLimitParams): T
+
+                    fun visitMerchantLock(merchantLock: MerchantLockParameters): T
+
+                    fun visitConditional3dsAction(
+                        conditional3dsAction: Conditional3dsActionParameters
+                    ): T
+
+                    fun visitConditionalAuthorizationAction(
+                        conditionalAuthorizationAction: ConditionalAuthorizationActionParameters
+                    ): T
+
+                    fun visitConditionalAchAction(
+                        conditionalAchAction: ConditionalAchActionParameters
+                    ): T
+
+                    fun visitConditionalTokenizationAction(
+                        conditionalTokenizationAction: ConditionalTokenizationActionParameters
+                    ): T
+
+                    fun visitConditionalCardTransactionUpdateAction(
+                        conditionalCardTransactionUpdateAction:
+                            ConditionalCardTransactionUpdateActionParameters
+                    ): T
+
+                    fun visitConditionalAchPaymentUpdateAction(
+                        conditionalAchPaymentUpdateAction:
+                            ConditionalAchPaymentUpdateActionParameters
+                    ): T
+
+                    /** Parameters for defining a TypeScript code rule */
+                    fun visitTypescriptCode(typescriptCode: TypescriptCodeParameters): T
+
+                    fun visitConditionalAuthorizationAdjustment(
+                        conditionalAuthorizationAdjustment:
+                            ConditionalAuthorizationAdjustmentParameters
+                    ): T
+
+                    /**
+                     * Maps an unknown variant of [Parameters] to a value of type [T].
+                     *
+                     * An instance of [Parameters] can contain an unknown variant if it was
+                     * deserialized from data that doesn't match any known variant. For example, if
+                     * the SDK is on an older version than the API, then the API may respond with
+                     * new variants that the SDK is unaware of.
+                     *
+                     * @throws LithicInvalidDataException in the default implementation.
+                     */
+                    fun unknown(json: JsonValue?): T {
+                        throw LithicInvalidDataException("Unknown Parameters: $json")
+                    }
+                }
+
+                internal class Deserializer : BaseDeserializer<Parameters>(Parameters::class) {
+
+                    override fun ObjectCodec.deserialize(node: JsonNode): Parameters {
+                        val json = JsonValue.fromJsonNode(node)
+
+                        val bestMatches =
+                            sequenceOf(
+                                    tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())
+                                        ?.let {
+                                            Parameters(velocityLimitParams = it, _json = json)
+                                        },
+                                    tryDeserialize(node, jacksonTypeRef<MerchantLockParameters>())
+                                        ?.let { Parameters(merchantLock = it, _json = json) },
+                                    tryDeserialize(
+                                            node,
+                                            jacksonTypeRef<Conditional3dsActionParameters>(),
+                                        )
+                                        ?.let {
+                                            Parameters(conditional3dsAction = it, _json = json)
+                                        },
+                                    tryDeserialize(
+                                            node,
+                                            jacksonTypeRef<
+                                                ConditionalAuthorizationActionParameters
+                                            >(),
+                                        )
+                                        ?.let {
+                                            Parameters(
+                                                conditionalAuthorizationAction = it,
+                                                _json = json,
+                                            )
+                                        },
+                                    tryDeserialize(
+                                            node,
+                                            jacksonTypeRef<ConditionalAchActionParameters>(),
+                                        )
+                                        ?.let {
+                                            Parameters(conditionalAchAction = it, _json = json)
+                                        },
+                                    tryDeserialize(
+                                            node,
+                                            jacksonTypeRef<
+                                                ConditionalTokenizationActionParameters
+                                            >(),
+                                        )
+                                        ?.let {
+                                            Parameters(
+                                                conditionalTokenizationAction = it,
+                                                _json = json,
+                                            )
+                                        },
+                                    tryDeserialize(
+                                            node,
+                                            jacksonTypeRef<
+                                                ConditionalCardTransactionUpdateActionParameters
+                                            >(),
+                                        )
+                                        ?.let {
+                                            Parameters(
+                                                conditionalCardTransactionUpdateAction = it,
+                                                _json = json,
+                                            )
+                                        },
+                                    tryDeserialize(
+                                            node,
+                                            jacksonTypeRef<
+                                                ConditionalAchPaymentUpdateActionParameters
+                                            >(),
+                                        )
+                                        ?.let {
+                                            Parameters(
+                                                conditionalAchPaymentUpdateAction = it,
+                                                _json = json,
+                                            )
+                                        },
+                                    tryDeserialize(node, jacksonTypeRef<TypescriptCodeParameters>())
+                                        ?.let { Parameters(typescriptCode = it, _json = json) },
+                                    tryDeserialize(
+                                            node,
+                                            jacksonTypeRef<
+                                                ConditionalAuthorizationAdjustmentParameters
+                                            >(),
+                                        )
+                                        ?.let {
+                                            Parameters(
+                                                conditionalAuthorizationAdjustment = it,
+                                                _json = json,
+                                            )
+                                        },
+                                )
+                                .filterNotNull()
+                                .allMaxBy { it.validity() }
+                                .toList()
+                        return when (bestMatches.size) {
+                            // This can happen if what we're deserializing is completely
+                            // incompatible with all the possible variants (e.g. deserializing from
+                            // boolean).
+                            0 -> Parameters(_json = json)
+                            1 -> bestMatches.single()
+                            // If there's more than one match with the highest validity, then use
+                            // the first completely valid match, or simply the first match if none
+                            // are completely valid.
+                            else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                        }
+                    }
+                }
+
+                internal class Serializer : BaseSerializer<Parameters>(Parameters::class) {
+
+                    override fun serialize(
+                        value: Parameters,
+                        generator: JsonGenerator,
+                        provider: SerializerProvider,
+                    ) {
+                        when {
+                            value.velocityLimitParams != null ->
+                                generator.writeObject(value.velocityLimitParams)
+                            value.merchantLock != null -> generator.writeObject(value.merchantLock)
+                            value.conditional3dsAction != null ->
+                                generator.writeObject(value.conditional3dsAction)
+                            value.conditionalAuthorizationAction != null ->
+                                generator.writeObject(value.conditionalAuthorizationAction)
+                            value.conditionalAchAction != null ->
+                                generator.writeObject(value.conditionalAchAction)
+                            value.conditionalTokenizationAction != null ->
+                                generator.writeObject(value.conditionalTokenizationAction)
+                            value.conditionalCardTransactionUpdateAction != null ->
+                                generator.writeObject(value.conditionalCardTransactionUpdateAction)
+                            value.conditionalAchPaymentUpdateAction != null ->
+                                generator.writeObject(value.conditionalAchPaymentUpdateAction)
+                            value.typescriptCode != null ->
+                                generator.writeObject(value.typescriptCode)
+                            value.conditionalAuthorizationAdjustment != null ->
+                                generator.writeObject(value.conditionalAuthorizationAdjustment)
+                            value._json != null -> generator.writeObject(value._json)
+                            else -> throw IllegalStateException("Invalid Parameters")
+                        }
+                    }
+                }
+            }
+
+            /**
+             * The type of Auth Rule. For certain rule types, this determines the event stream
+             * during which it will be evaluated. For rules that can be applied to one of several
+             * event streams, the effective one is defined by the separate `event_stream` field.
+             * - `VELOCITY_LIMIT`: AUTHORIZATION event stream.
+             * - `MERCHANT_LOCK`: AUTHORIZATION event stream.
+             * - `CONDITIONAL_ACTION`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or
+             *   ACH_PAYMENT_UPDATE event stream.
+             * - `TYPESCRIPT_CODE`: AUTHORIZATION, THREE_DS_AUTHENTICATION, TOKENIZATION,
+             *   ACH_CREDIT_RECEIPT, ACH_DEBIT_RECEIPT, CARD_TRANSACTION_UPDATE, or
+             *   ACH_PAYMENT_UPDATE event stream.
+             * - `OTHER`: A rule whose type is not exposed through this API. Rules of this type are
+             *   read-only; `OTHER` cannot be used when creating a rule.
+             */
+            class AuthRuleType
+            @JsonCreator
+            private constructor(private val value: JsonField<String>) : Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val VELOCITY_LIMIT = of("VELOCITY_LIMIT")
+
+                    @JvmField val MERCHANT_LOCK = of("MERCHANT_LOCK")
+
+                    @JvmField val CONDITIONAL_ACTION = of("CONDITIONAL_ACTION")
+
+                    @JvmField val TYPESCRIPT_CODE = of("TYPESCRIPT_CODE")
+
+                    @JvmField val OTHER = of("OTHER")
+
+                    @JvmStatic fun of(value: String) = AuthRuleType(JsonField.of(value))
+                }
+
+                /** An enum containing [AuthRuleType]'s known values. */
+                enum class Known {
+                    VELOCITY_LIMIT,
+                    MERCHANT_LOCK,
+                    CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
+                    OTHER,
+                }
+
+                /**
+                 * An enum containing [AuthRuleType]'s known values, as well as an [_UNKNOWN]
+                 * member.
+                 *
+                 * An instance of [AuthRuleType] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    VELOCITY_LIMIT,
+                    MERCHANT_LOCK,
+                    CONDITIONAL_ACTION,
+                    TYPESCRIPT_CODE,
+                    OTHER,
+                    /**
+                     * An enum member indicating that [AuthRuleType] was instantiated with an
+                     * unknown value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        VELOCITY_LIMIT -> Value.VELOCITY_LIMIT
+                        MERCHANT_LOCK -> Value.MERCHANT_LOCK
+                        CONDITIONAL_ACTION -> Value.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Value.TYPESCRIPT_CODE
+                        OTHER -> Value.OTHER
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        VELOCITY_LIMIT -> Known.VELOCITY_LIMIT
+                        MERCHANT_LOCK -> Known.MERCHANT_LOCK
+                        CONDITIONAL_ACTION -> Known.CONDITIONAL_ACTION
+                        TYPESCRIPT_CODE -> Known.TYPESCRIPT_CODE
+                        OTHER -> Known.OTHER
+                        else -> throw LithicInvalidDataException("Unknown AuthRuleType: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): AuthRuleType = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is AuthRuleType && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Rule &&
+                    entities == other.entities &&
+                    parameters == other.parameters &&
+                    type == other.type &&
+                    eventStream == other.eventStream &&
+                    name == other.name &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(entities, parameters, type, eventStream, name, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Rule{entities=$entities, parameters=$parameters, type=$type, eventStream=$eventStream, name=$name, additionalProperties=$additionalProperties}"
+        }
+
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         class AccountLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
@@ -529,20 +1931,26 @@ private constructor(
             fun type(): AuthRuleType = type.getRequired("type")
 
             /**
+             * Deprecated: Use `entities.include` with `ACCOUNT` entities instead.
+             *
              * Account tokens to which the Auth Rule applies.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun accountTokens(): Optional<List<String>> =
                 accountTokens.getOptional("account_tokens")
 
             /**
+             * Deprecated: Use `entities.include` with `BUSINESS_ACCOUNT` entities instead.
+             *
              * Business Account tokens to which the Auth Rule applies.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun businessAccountTokens(): Optional<List<String>> =
                 businessAccountTokens.getOptional("business_account_tokens")
 
@@ -585,6 +1993,7 @@ private constructor(
              * Unlike [accountTokens], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("account_tokens")
             @ExcludeMissing
             fun _accountTokens(): JsonField<List<String>> = accountTokens
@@ -595,6 +2004,7 @@ private constructor(
              * Unlike [businessAccountTokens], this method doesn't throw if the JSON field has an
              * unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("business_account_tokens")
             @ExcludeMissing
             fun _businessAccountTokens(): JsonField<List<String>> = businessAccountTokens
@@ -802,7 +2212,12 @@ private constructor(
                  */
                 fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
 
-                /** Account tokens to which the Auth Rule applies. */
+                /**
+                 * Deprecated: Use `entities.include` with `ACCOUNT` entities instead.
+                 *
+                 * Account tokens to which the Auth Rule applies.
+                 */
+                @Deprecated("deprecated")
                 fun accountTokens(accountTokens: List<String>) =
                     accountTokens(JsonField.of(accountTokens))
 
@@ -813,6 +2228,7 @@ private constructor(
                  * value instead. This method is primarily for setting the field to an undocumented
                  * or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun accountTokens(accountTokens: JsonField<List<String>>) = apply {
                     this.accountTokens = accountTokens.map { it.toMutableList() }
                 }
@@ -822,6 +2238,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addAccountToken(accountToken: String) = apply {
                     accountTokens =
                         (accountTokens ?: JsonField.of(mutableListOf())).also {
@@ -829,7 +2246,12 @@ private constructor(
                         }
                 }
 
-                /** Business Account tokens to which the Auth Rule applies. */
+                /**
+                 * Deprecated: Use `entities.include` with `BUSINESS_ACCOUNT` entities instead.
+                 *
+                 * Business Account tokens to which the Auth Rule applies.
+                 */
+                @Deprecated("deprecated")
                 fun businessAccountTokens(businessAccountTokens: List<String>) =
                     businessAccountTokens(JsonField.of(businessAccountTokens))
 
@@ -840,6 +2262,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun businessAccountTokens(businessAccountTokens: JsonField<List<String>>) = apply {
                     this.businessAccountTokens = businessAccountTokens.map { it.toMutableList() }
                 }
@@ -849,6 +2272,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addBusinessAccountToken(businessAccountToken: String) = apply {
                     businessAccountTokens =
                         (businessAccountTokens ?: JsonField.of(mutableListOf())).also {
@@ -1859,6 +3283,8 @@ private constructor(
                 "AccountLevelRule{parameters=$parameters, type=$type, accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, eventStream=$eventStream, name=$name, additionalProperties=$additionalProperties}"
         }
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         class CardLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
@@ -1888,12 +3314,16 @@ private constructor(
             ) : this(cardTokens, parameters, type, eventStream, name, mutableMapOf())
 
             /**
-             * Card tokens to which the Auth Rule applies.
+             * Deprecated: Use `entities.include` with `CARD` entities instead.
+             *
+             * Card tokens to which the Auth Rule applies. Cards the rule applies to through a
+             * `CARD_TAG` entity are not listed.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
              */
+            @Deprecated("deprecated")
             fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
 
             /**
@@ -1948,6 +3378,7 @@ private constructor(
              * Unlike [cardTokens], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("card_tokens")
             @ExcludeMissing
             fun _cardTokens(): JsonField<List<String>> = cardTokens
@@ -2033,7 +3464,13 @@ private constructor(
                     additionalProperties = cardLevelRule.additionalProperties.toMutableMap()
                 }
 
-                /** Card tokens to which the Auth Rule applies. */
+                /**
+                 * Deprecated: Use `entities.include` with `CARD` entities instead.
+                 *
+                 * Card tokens to which the Auth Rule applies. Cards the rule applies to through a
+                 * `CARD_TAG` entity are not listed.
+                 */
+                @Deprecated("deprecated")
                 fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
 
                 /**
@@ -2043,6 +3480,7 @@ private constructor(
                  * value instead. This method is primarily for setting the field to an undocumented
                  * or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
                     this.cardTokens = cardTokens.map { it.toMutableList() }
                 }
@@ -2052,6 +3490,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addCardToken(cardToken: String) = apply {
                     cardTokens =
                         (cardTokens ?: JsonField.of(mutableListOf())).also {
@@ -3188,6 +4627,8 @@ private constructor(
                 "CardLevelRule{cardTokens=$cardTokens, parameters=$parameters, type=$type, eventStream=$eventStream, name=$name, additionalProperties=$additionalProperties}"
         }
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         class ProgramLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
@@ -3248,12 +4689,15 @@ private constructor(
             fun parameters(): Parameters = parameters.getRequired("parameters")
 
             /**
+             * Deprecated: Use `entities.include` with a `PROGRAM` entity instead.
+             *
              * Whether the Auth Rule applies to all authorizations on the card program.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
              *   value).
              */
+            @Deprecated("deprecated")
             fun programLevel(): Boolean = programLevel.getRequired("program_level")
 
             /**
@@ -3286,29 +4730,39 @@ private constructor(
             fun eventStream(): Optional<EventStream> = eventStream.getOptional("event_stream")
 
             /**
+             * Deprecated: Use `entities.exclude` with `ACCOUNT` entities instead.
+             *
              * Account tokens to which the Auth Rule does not apply.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun excludedAccountTokens(): Optional<List<String>> =
                 excludedAccountTokens.getOptional("excluded_account_tokens")
 
             /**
+             * Deprecated: Use `entities.exclude` with `BUSINESS_ACCOUNT` entities instead.
+             *
              * Business account tokens to which the Auth Rule does not apply.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun excludedBusinessAccountTokens(): Optional<List<String>> =
                 excludedBusinessAccountTokens.getOptional("excluded_business_account_tokens")
 
             /**
-             * Card tokens to which the Auth Rule does not apply.
+             * Deprecated: Use `entities.exclude` with `CARD` entities instead.
+             *
+             * Card tokens to which the Auth Rule does not apply. Cards excluded through a
+             * `CARD_TAG` entity are not listed.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun excludedCardTokens(): Optional<List<String>> =
                 excludedCardTokens.getOptional("excluded_card_tokens")
 
@@ -3336,6 +4790,7 @@ private constructor(
              * Unlike [programLevel], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("program_level")
             @ExcludeMissing
             fun _programLevel(): JsonField<Boolean> = programLevel
@@ -3363,6 +4818,7 @@ private constructor(
              * Unlike [excludedAccountTokens], this method doesn't throw if the JSON field has an
              * unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("excluded_account_tokens")
             @ExcludeMissing
             fun _excludedAccountTokens(): JsonField<List<String>> = excludedAccountTokens
@@ -3373,6 +4829,7 @@ private constructor(
              * Unlike [excludedBusinessAccountTokens], this method doesn't throw if the JSON field
              * has an unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("excluded_business_account_tokens")
             @ExcludeMissing
             fun _excludedBusinessAccountTokens(): JsonField<List<String>> =
@@ -3384,6 +4841,7 @@ private constructor(
              * Unlike [excludedCardTokens], this method doesn't throw if the JSON field has an
              * unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("excluded_card_tokens")
             @ExcludeMissing
             fun _excludedCardTokens(): JsonField<List<String>> = excludedCardTokens
@@ -3561,7 +5019,12 @@ private constructor(
                         )
                     )
 
-                /** Whether the Auth Rule applies to all authorizations on the card program. */
+                /**
+                 * Deprecated: Use `entities.include` with a `PROGRAM` entity instead.
+                 *
+                 * Whether the Auth Rule applies to all authorizations on the card program.
+                 */
+                @Deprecated("deprecated")
                 fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
 
                 /**
@@ -3571,6 +5034,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun programLevel(programLevel: JsonField<Boolean>) = apply {
                     this.programLevel = programLevel
                 }
@@ -3616,7 +5080,12 @@ private constructor(
                     this.eventStream = eventStream
                 }
 
-                /** Account tokens to which the Auth Rule does not apply. */
+                /**
+                 * Deprecated: Use `entities.exclude` with `ACCOUNT` entities instead.
+                 *
+                 * Account tokens to which the Auth Rule does not apply.
+                 */
+                @Deprecated("deprecated")
                 fun excludedAccountTokens(excludedAccountTokens: List<String>) =
                     excludedAccountTokens(JsonField.of(excludedAccountTokens))
 
@@ -3627,6 +5096,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun excludedAccountTokens(excludedAccountTokens: JsonField<List<String>>) = apply {
                     this.excludedAccountTokens = excludedAccountTokens.map { it.toMutableList() }
                 }
@@ -3636,6 +5106,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addExcludedAccountToken(excludedAccountToken: String) = apply {
                     excludedAccountTokens =
                         (excludedAccountTokens ?: JsonField.of(mutableListOf())).also {
@@ -3643,7 +5114,12 @@ private constructor(
                         }
                 }
 
-                /** Business account tokens to which the Auth Rule does not apply. */
+                /**
+                 * Deprecated: Use `entities.exclude` with `BUSINESS_ACCOUNT` entities instead.
+                 *
+                 * Business account tokens to which the Auth Rule does not apply.
+                 */
+                @Deprecated("deprecated")
                 fun excludedBusinessAccountTokens(excludedBusinessAccountTokens: List<String>) =
                     excludedBusinessAccountTokens(JsonField.of(excludedBusinessAccountTokens))
 
@@ -3654,6 +5130,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun excludedBusinessAccountTokens(
                     excludedBusinessAccountTokens: JsonField<List<String>>
                 ) = apply {
@@ -3666,6 +5143,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addExcludedBusinessAccountToken(excludedBusinessAccountToken: String) = apply {
                     excludedBusinessAccountTokens =
                         (excludedBusinessAccountTokens ?: JsonField.of(mutableListOf())).also {
@@ -3674,7 +5152,13 @@ private constructor(
                         }
                 }
 
-                /** Card tokens to which the Auth Rule does not apply. */
+                /**
+                 * Deprecated: Use `entities.exclude` with `CARD` entities instead.
+                 *
+                 * Card tokens to which the Auth Rule does not apply. Cards excluded through a
+                 * `CARD_TAG` entity are not listed.
+                 */
+                @Deprecated("deprecated")
                 fun excludedCardTokens(excludedCardTokens: List<String>) =
                     excludedCardTokens(JsonField.of(excludedCardTokens))
 
@@ -3685,6 +5169,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
                     this.excludedCardTokens = excludedCardTokens.map { it.toMutableList() }
                 }
@@ -3694,6 +5179,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addExcludedCardToken(excludedCardToken: String) = apply {
                     excludedCardTokens =
                         (excludedCardTokens ?: JsonField.of(mutableListOf())).also {

@@ -19,6 +19,7 @@ import com.lithic.api.models.AuthRuleV2PromoteParams
 import com.lithic.api.models.AuthRuleV2RetrieveFeaturesParams
 import com.lithic.api.models.AuthRuleV2RetrieveParams
 import com.lithic.api.models.AuthRuleV2RetrieveReportParams
+import com.lithic.api.models.AuthRuleV2UpdateEntitiesParams
 import com.lithic.api.models.AuthRuleV2UpdateParams
 import com.lithic.api.models.V2ListVersionsResponse
 import com.lithic.api.models.V2RetrieveFeaturesResponse
@@ -63,6 +64,17 @@ interface V2ServiceAsync {
     /** @see create */
     fun create(body: AuthRuleV2CreateParams.Body): CompletableFuture<AuthRule> =
         create(body, RequestOptions.none())
+
+    /** @see create */
+    fun create(
+        rule: AuthRuleV2CreateParams.Body.Rule,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AuthRule> =
+        create(AuthRuleV2CreateParams.Body.ofRule(rule), requestOptions)
+
+    /** @see create */
+    fun create(rule: AuthRuleV2CreateParams.Body.Rule): CompletableFuture<AuthRule> =
+        create(rule, RequestOptions.none())
 
     /** @see create */
     fun create(
@@ -138,9 +150,9 @@ interface V2ServiceAsync {
     /**
      * Updates a V2 Auth rule's properties
      *
-     * If `account_tokens`, `card_tokens`, `program_level`, `excluded_card_tokens`,
-     * `excluded_account_tokens`, or `excluded_business_account_tokens` is provided, this will
-     * replace existing associations with the provided list of entities.
+     * If `entities` is provided, this will replace the rule's existing entities with the provided
+     * `include` and `exclude` lists. To change entities incrementally, use `PATCH
+     * /v2/auth_rules/{auth_rule_token}/entities` instead.
      */
     fun update(authRuleToken: String, params: AuthRuleV2UpdateParams): CompletableFuture<AuthRule> =
         update(authRuleToken, params, RequestOptions.none())
@@ -438,6 +450,46 @@ interface V2ServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<V2RetrieveReportResponse>
 
+    /**
+     * Adds entities to and removes entities from a V2 Auth rule's `include` and `exclude` lists
+     *
+     * To replace all of the rule's entities at once, provide `entities` to `PATCH
+     * /v2/auth_rules/{auth_rule_token}` instead.
+     */
+    fun updateEntities(authRuleToken: String): CompletableFuture<AuthRule> =
+        updateEntities(authRuleToken, AuthRuleV2UpdateEntitiesParams.none())
+
+    /** @see updateEntities */
+    fun updateEntities(
+        authRuleToken: String,
+        params: AuthRuleV2UpdateEntitiesParams = AuthRuleV2UpdateEntitiesParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AuthRule> =
+        updateEntities(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
+
+    /** @see updateEntities */
+    fun updateEntities(
+        authRuleToken: String,
+        params: AuthRuleV2UpdateEntitiesParams = AuthRuleV2UpdateEntitiesParams.none(),
+    ): CompletableFuture<AuthRule> = updateEntities(authRuleToken, params, RequestOptions.none())
+
+    /** @see updateEntities */
+    fun updateEntities(
+        params: AuthRuleV2UpdateEntitiesParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AuthRule>
+
+    /** @see updateEntities */
+    fun updateEntities(params: AuthRuleV2UpdateEntitiesParams): CompletableFuture<AuthRule> =
+        updateEntities(params, RequestOptions.none())
+
+    /** @see updateEntities */
+    fun updateEntities(
+        authRuleToken: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AuthRule> =
+        updateEntities(authRuleToken, AuthRuleV2UpdateEntitiesParams.none(), requestOptions)
+
     /** A view of [V2ServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
@@ -474,6 +526,18 @@ interface V2ServiceAsync {
         fun create(
             body: AuthRuleV2CreateParams.Body
         ): CompletableFuture<HttpResponseFor<AuthRule>> = create(body, RequestOptions.none())
+
+        /** @see create */
+        fun create(
+            rule: AuthRuleV2CreateParams.Body.Rule,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AuthRule>> =
+            create(AuthRuleV2CreateParams.Body.ofRule(rule), requestOptions)
+
+        /** @see create */
+        fun create(
+            rule: AuthRuleV2CreateParams.Body.Rule
+        ): CompletableFuture<HttpResponseFor<AuthRule>> = create(rule, RequestOptions.none())
 
         /** @see create */
         fun create(
@@ -866,5 +930,46 @@ interface V2ServiceAsync {
             params: AuthRuleV2RetrieveReportParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<V2RetrieveReportResponse>>
+
+        /**
+         * Returns a raw HTTP response for `patch /v2/auth_rules/{auth_rule_token}/entities`, but is
+         * otherwise the same as [V2ServiceAsync.updateEntities].
+         */
+        fun updateEntities(authRuleToken: String): CompletableFuture<HttpResponseFor<AuthRule>> =
+            updateEntities(authRuleToken, AuthRuleV2UpdateEntitiesParams.none())
+
+        /** @see updateEntities */
+        fun updateEntities(
+            authRuleToken: String,
+            params: AuthRuleV2UpdateEntitiesParams = AuthRuleV2UpdateEntitiesParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AuthRule>> =
+            updateEntities(params.toBuilder().authRuleToken(authRuleToken).build(), requestOptions)
+
+        /** @see updateEntities */
+        fun updateEntities(
+            authRuleToken: String,
+            params: AuthRuleV2UpdateEntitiesParams = AuthRuleV2UpdateEntitiesParams.none(),
+        ): CompletableFuture<HttpResponseFor<AuthRule>> =
+            updateEntities(authRuleToken, params, RequestOptions.none())
+
+        /** @see updateEntities */
+        fun updateEntities(
+            params: AuthRuleV2UpdateEntitiesParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AuthRule>>
+
+        /** @see updateEntities */
+        fun updateEntities(
+            params: AuthRuleV2UpdateEntitiesParams
+        ): CompletableFuture<HttpResponseFor<AuthRule>> =
+            updateEntities(params, RequestOptions.none())
+
+        /** @see updateEntities */
+        fun updateEntities(
+            authRuleToken: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<AuthRule>> =
+            updateEntities(authRuleToken, AuthRuleV2UpdateEntitiesParams.none(), requestOptions)
     }
 }

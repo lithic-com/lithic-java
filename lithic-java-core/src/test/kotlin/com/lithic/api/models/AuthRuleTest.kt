@@ -82,6 +82,20 @@ internal class AuthRuleTest {
                         .version(0L)
                         .build()
                 )
+                .entities(
+                    AuthRuleEntitiesResponse.builder()
+                        .addExclude(
+                            AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                .build()
+                        )
+                        .addInclude(
+                            AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                .build()
+                        )
+                        .build()
+                )
                 .eventStream(EventStream.AUTHORIZATION)
                 .lithicManaged(true)
                 .name("name")
@@ -162,6 +176,21 @@ internal class AuthRuleTest {
                     )
                     .state(AuthRule.DraftVersion.State.PENDING)
                     .version(0L)
+                    .build()
+            )
+        assertThat(authRule.entities())
+            .isEqualTo(
+                AuthRuleEntitiesResponse.builder()
+                    .addExclude(
+                        AuthRuleEntity.AuthRuleProgramEntity.builder()
+                            .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                            .build()
+                    )
+                    .addInclude(
+                        AuthRuleEntity.AuthRuleProgramEntity.builder()
+                            .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                            .build()
+                    )
                     .build()
             )
         assertThat(authRule.eventStream()).isEqualTo(EventStream.AUTHORIZATION)
@@ -249,6 +278,20 @@ internal class AuthRuleTest {
                         )
                         .state(AuthRule.DraftVersion.State.PENDING)
                         .version(0L)
+                        .build()
+                )
+                .entities(
+                    AuthRuleEntitiesResponse.builder()
+                        .addExclude(
+                            AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                .build()
+                        )
+                        .addInclude(
+                            AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                .build()
+                        )
                         .build()
                 )
                 .eventStream(EventStream.AUTHORIZATION)

@@ -12,11 +12,23 @@ internal class AuthRuleV2UpdateParamsTest {
         AuthRuleV2UpdateParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .body(
-                AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                    .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                AuthRuleV2UpdateParams.Body.Rule.builder()
+                    .entities(
+                        AuthRuleEntities.builder()
+                            .addExclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .addInclude(
+                                AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                    .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                    .build()
+                            )
+                            .build()
+                    )
                     .name("name")
-                    .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                    .state(AuthRuleV2UpdateParams.Body.Rule.State.INACTIVE)
                     .build()
             )
             .build()
@@ -27,7 +39,7 @@ internal class AuthRuleV2UpdateParamsTest {
         val params =
             AuthRuleV2UpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .body(AuthRuleV2UpdateParams.Body.AccountLevelRule.builder().build())
+                .body(AuthRuleV2UpdateParams.Body.Rule.builder().build())
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -41,11 +53,23 @@ internal class AuthRuleV2UpdateParamsTest {
             AuthRuleV2UpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .body(
-                    AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    AuthRuleV2UpdateParams.Body.Rule.builder()
+                        .entities(
+                            AuthRuleEntities.builder()
+                                .addExclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .addInclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .build()
+                        )
                         .name("name")
-                        .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                        .state(AuthRuleV2UpdateParams.Body.Rule.State.INACTIVE)
                         .build()
                 )
                 .build()
@@ -54,12 +78,24 @@ internal class AuthRuleV2UpdateParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2UpdateParams.Body.ofAccountLevelRule(
-                    AuthRuleV2UpdateParams.Body.AccountLevelRule.builder()
-                        .addAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .addBusinessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                AuthRuleV2UpdateParams.Body.ofRule(
+                    AuthRuleV2UpdateParams.Body.Rule.builder()
+                        .entities(
+                            AuthRuleEntities.builder()
+                                .addExclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .addInclude(
+                                    AuthRuleEntity.AuthRuleProgramEntity.builder()
+                                        .type(AuthRuleEntity.AuthRuleProgramEntity.Type.PROGRAM)
+                                        .build()
+                                )
+                                .build()
+                        )
                         .name("name")
-                        .state(AuthRuleV2UpdateParams.Body.AccountLevelRule.State.INACTIVE)
+                        .state(AuthRuleV2UpdateParams.Body.Rule.State.INACTIVE)
                         .build()
                 )
             )
@@ -70,15 +106,15 @@ internal class AuthRuleV2UpdateParamsTest {
         val params =
             AuthRuleV2UpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .body(AuthRuleV2UpdateParams.Body.AccountLevelRule.builder().build())
+                .body(AuthRuleV2UpdateParams.Body.Rule.builder().build())
                 .build()
 
         val body = params._body()
 
         assertThat(body)
             .isEqualTo(
-                AuthRuleV2UpdateParams.Body.ofAccountLevelRule(
-                    AuthRuleV2UpdateParams.Body.AccountLevelRule.builder().build()
+                AuthRuleV2UpdateParams.Body.ofRule(
+                    AuthRuleV2UpdateParams.Body.Rule.builder().build()
                 )
             )
     }

@@ -37,9 +37,9 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Updates a V2 Auth rule's properties
  *
- * If `account_tokens`, `card_tokens`, `program_level`, `excluded_card_tokens`,
- * `excluded_account_tokens`, or `excluded_business_account_tokens` is provided, this will replace
- * existing associations with the provided list of entities.
+ * If `entities` is provided, this will replace the rule's existing entities with the provided
+ * `include` and `exclude` lists. To change entities incrementally, use `PATCH
+ * /v2/auth_rules/{auth_rule_token}/entities` instead.
  */
 class AuthRuleV2UpdateParams
 private constructor(
@@ -51,6 +51,10 @@ private constructor(
 
     fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
 
+    /**
+     * Replaces the rule's existing entities with the provided `include` and `exclude` lists. A
+     * missing list is treated as empty, so `include` must always be provided.
+     */
     fun body(): Body = body
 
     /** Additional headers to send with the request. */
@@ -96,16 +100,26 @@ private constructor(
         fun authRuleToken(authRuleToken: Optional<String>) =
             authRuleToken(authRuleToken.getOrNull())
 
+        /**
+         * Replaces the rule's existing entities with the provided `include` and `exclude` lists. A
+         * missing list is treated as empty, so `include` must always be provided.
+         */
         fun body(body: Body) = apply { this.body = body }
 
+        /** Alias for calling [body] with `Body.ofRule(rule)`. */
+        fun body(rule: Body.Rule) = body(Body.ofRule(rule))
+
         /** Alias for calling [body] with `Body.ofAccountLevelRule(accountLevelRule)`. */
+        @Deprecated("deprecated")
         fun body(accountLevelRule: Body.AccountLevelRule) =
             body(Body.ofAccountLevelRule(accountLevelRule))
 
         /** Alias for calling [body] with `Body.ofCardLevelRule(cardLevelRule)`. */
+        @Deprecated("deprecated")
         fun body(cardLevelRule: Body.CardLevelRule) = body(Body.ofCardLevelRule(cardLevelRule))
 
         /** Alias for calling [body] with `Body.ofProgramLevelRule(programLevelRule)`. */
+        @Deprecated("deprecated")
         fun body(programLevelRule: Body.ProgramLevelRule) =
             body(Body.ofProgramLevelRule(programLevelRule))
 
@@ -240,32 +254,63 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
+    /**
+     * Replaces the rule's existing entities with the provided `include` and `exclude` lists. A
+     * missing list is treated as empty, so `include` must always be provided.
+     */
     @JsonDeserialize(using = Body.Deserializer::class)
     @JsonSerialize(using = Body.Serializer::class)
     class Body
     private constructor(
+        private val rule: Rule? = null,
         private val accountLevelRule: AccountLevelRule? = null,
         private val cardLevelRule: CardLevelRule? = null,
         private val programLevelRule: ProgramLevelRule? = null,
         private val _json: JsonValue? = null,
     ) {
 
+        /**
+         * Replaces the rule's existing entities with the provided `include` and `exclude` lists. A
+         * missing list is treated as empty, so `include` must always be provided.
+         */
+        fun rule(): Optional<Rule> = Optional.ofNullable(rule)
+
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun accountLevelRule(): Optional<AccountLevelRule> = Optional.ofNullable(accountLevelRule)
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun cardLevelRule(): Optional<CardLevelRule> = Optional.ofNullable(cardLevelRule)
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun programLevelRule(): Optional<ProgramLevelRule> = Optional.ofNullable(programLevelRule)
 
-        fun isAccountLevelRule(): Boolean = accountLevelRule != null
+        fun isRule(): Boolean = rule != null
 
-        fun isCardLevelRule(): Boolean = cardLevelRule != null
+        @Deprecated("deprecated") fun isAccountLevelRule(): Boolean = accountLevelRule != null
 
-        fun isProgramLevelRule(): Boolean = programLevelRule != null
+        @Deprecated("deprecated") fun isCardLevelRule(): Boolean = cardLevelRule != null
 
+        @Deprecated("deprecated") fun isProgramLevelRule(): Boolean = programLevelRule != null
+
+        /**
+         * Replaces the rule's existing entities with the provided `include` and `exclude` lists. A
+         * missing list is treated as empty, so `include` must always be provided.
+         */
+        fun asRule(): Rule = rule.getOrThrow("rule")
+
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun asAccountLevelRule(): AccountLevelRule = accountLevelRule.getOrThrow("accountLevelRule")
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun asCardLevelRule(): CardLevelRule = cardLevelRule.getOrThrow("cardLevelRule")
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         fun asProgramLevelRule(): ProgramLevelRule = programLevelRule.getOrThrow("programLevelRule")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
@@ -282,8 +327,8 @@ private constructor(
          *
          * Optional<String> result = body.accept(new Body.Visitor<Optional<String>>() {
          *     @Override
-         *     public Optional<String> visitAccountLevelRule(AccountLevelRule accountLevelRule) {
-         *         return Optional.of(accountLevelRule.toString());
+         *     public Optional<String> visitRule(Rule rule) {
+         *         return Optional.of(rule.toString());
          *     }
          *
          *     // ...
@@ -301,6 +346,7 @@ private constructor(
          */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
+                rule != null -> visitor.visitRule(rule)
                 accountLevelRule != null -> visitor.visitAccountLevelRule(accountLevelRule)
                 cardLevelRule != null -> visitor.visitCardLevelRule(cardLevelRule)
                 programLevelRule != null -> visitor.visitProgramLevelRule(programLevelRule)
@@ -325,6 +371,10 @@ private constructor(
 
             accept(
                 object : Visitor<Unit> {
+                    override fun visitRule(rule: Rule) {
+                        rule.validate()
+                    }
+
                     override fun visitAccountLevelRule(accountLevelRule: AccountLevelRule) {
                         accountLevelRule.validate()
                     }
@@ -359,6 +409,8 @@ private constructor(
         internal fun validity(): Int =
             accept(
                 object : Visitor<Int> {
+                    override fun visitRule(rule: Rule) = rule.validity()
+
                     override fun visitAccountLevelRule(accountLevelRule: AccountLevelRule) =
                         accountLevelRule.validity()
 
@@ -378,16 +430,18 @@ private constructor(
             }
 
             return other is Body &&
+                rule == other.rule &&
                 accountLevelRule == other.accountLevelRule &&
                 cardLevelRule == other.cardLevelRule &&
                 programLevelRule == other.programLevelRule
         }
 
         override fun hashCode(): Int =
-            Objects.hash(accountLevelRule, cardLevelRule, programLevelRule)
+            Objects.hash(rule, accountLevelRule, cardLevelRule, programLevelRule)
 
         override fun toString(): String =
             when {
+                rule != null -> "Body{rule=$rule}"
                 accountLevelRule != null -> "Body{accountLevelRule=$accountLevelRule}"
                 cardLevelRule != null -> "Body{cardLevelRule=$cardLevelRule}"
                 programLevelRule != null -> "Body{programLevelRule=$programLevelRule}"
@@ -397,13 +451,25 @@ private constructor(
 
         companion object {
 
+            /**
+             * Replaces the rule's existing entities with the provided `include` and `exclude`
+             * lists. A missing list is treated as empty, so `include` must always be provided.
+             */
+            @JvmStatic fun ofRule(rule: Rule) = Body(rule = rule)
+
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             @JvmStatic
             fun ofAccountLevelRule(accountLevelRule: AccountLevelRule) =
                 Body(accountLevelRule = accountLevelRule)
 
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             @JvmStatic
             fun ofCardLevelRule(cardLevelRule: CardLevelRule) = Body(cardLevelRule = cardLevelRule)
 
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             @JvmStatic
             fun ofProgramLevelRule(programLevelRule: ProgramLevelRule) =
                 Body(programLevelRule = programLevelRule)
@@ -412,10 +478,21 @@ private constructor(
         /** An interface that defines how to map each variant of [Body] to a value of type [T]. */
         interface Visitor<out T> {
 
+            /**
+             * Replaces the rule's existing entities with the provided `include` and `exclude`
+             * lists. A missing list is treated as empty, so `include` must always be provided.
+             */
+            fun visitRule(rule: Rule): T
+
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             fun visitAccountLevelRule(accountLevelRule: AccountLevelRule): T
 
-            fun visitCardLevelRule(cardLevelRule: CardLevelRule): T
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated") fun visitCardLevelRule(cardLevelRule: CardLevelRule): T
 
+            /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+            @Deprecated("deprecated")
             fun visitProgramLevelRule(programLevelRule: ProgramLevelRule): T
 
             /**
@@ -439,6 +516,9 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
+                            tryDeserialize(node, jacksonTypeRef<Rule>())?.let {
+                                Body(rule = it, _json = json)
+                            },
                             tryDeserialize(node, jacksonTypeRef<AccountLevelRule>())?.let {
                                 Body(accountLevelRule = it, _json = json)
                             },
@@ -473,6 +553,7 @@ private constructor(
                 provider: SerializerProvider,
             ) {
                 when {
+                    value.rule != null -> generator.writeObject(value.rule)
                     value.accountLevelRule != null -> generator.writeObject(value.accountLevelRule)
                     value.cardLevelRule != null -> generator.writeObject(value.cardLevelRule)
                     value.programLevelRule != null -> generator.writeObject(value.programLevelRule)
@@ -482,6 +563,427 @@ private constructor(
             }
         }
 
+        /**
+         * Replaces the rule's existing entities with the provided `include` and `exclude` lists. A
+         * missing list is treated as empty, so `include` must always be provided.
+         */
+        class Rule
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val entities: JsonField<AuthRuleEntities>,
+            private val name: JsonField<String>,
+            private val state: JsonField<State>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("entities")
+                @ExcludeMissing
+                entities: JsonField<AuthRuleEntities> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("state") @ExcludeMissing state: JsonField<State> = JsonMissing.of(),
+            ) : this(entities, name, state, mutableMapOf())
+
+            /**
+             * The entities an Auth Rule applies to (`include`) and does not apply to (`exclude`).
+             * An exclusion overrides an inclusion, so a card excluded here is skipped even when the
+             * program, its account or one of its tags is included.
+             *
+             * The rule's resulting entities must satisfy these constraints after any write:
+             * - `include` must contain at least one entity.
+             * - If `PROGRAM` is included, it must be the only included entity.
+             * - `PROGRAM` cannot be excluded.
+             * - An entity cannot appear in both `include` and `exclude`, or twice in the same list.
+             * - A rule can have at most 1,000 entities across `include` and `exclude`, not counting
+             *   `PROGRAM`.
+             * - Entity types must be valid for the rule's event stream.
+             * - `CARD`, `ACCOUNT` and `BUSINESS_ACCOUNT` tokens must belong to your program.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun entities(): Optional<AuthRuleEntities> = entities.getOptional("entities")
+
+            /**
+             * Auth Rule Name
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun name(): Optional<String> = name.getOptional("name")
+
+            /**
+             * The desired state of the Auth Rule.
+             *
+             * Note that only deactivating an Auth Rule through this endpoint is supported at this
+             * time. If you need to (re-)activate an Auth Rule the /promote endpoint should be used
+             * to promote a draft to the currently active version.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun state(): Optional<State> = state.getOptional("state")
+
+            /**
+             * Returns the raw JSON value of [entities].
+             *
+             * Unlike [entities], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("entities")
+            @ExcludeMissing
+            fun _entities(): JsonField<AuthRuleEntities> = entities
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [state].
+             *
+             * Unlike [state], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Rule]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Rule]. */
+            class Builder internal constructor() {
+
+                private var entities: JsonField<AuthRuleEntities> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var state: JsonField<State> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(rule: Rule) = apply {
+                    entities = rule.entities
+                    name = rule.name
+                    state = rule.state
+                    additionalProperties = rule.additionalProperties.toMutableMap()
+                }
+
+                /**
+                 * The entities an Auth Rule applies to (`include`) and does not apply to
+                 * (`exclude`). An exclusion overrides an inclusion, so a card excluded here is
+                 * skipped even when the program, its account or one of its tags is included.
+                 *
+                 * The rule's resulting entities must satisfy these constraints after any write:
+                 * - `include` must contain at least one entity.
+                 * - If `PROGRAM` is included, it must be the only included entity.
+                 * - `PROGRAM` cannot be excluded.
+                 * - An entity cannot appear in both `include` and `exclude`, or twice in the same
+                 *   list.
+                 * - A rule can have at most 1,000 entities across `include` and `exclude`, not
+                 *   counting `PROGRAM`.
+                 * - Entity types must be valid for the rule's event stream.
+                 * - `CARD`, `ACCOUNT` and `BUSINESS_ACCOUNT` tokens must belong to your program.
+                 */
+                fun entities(entities: AuthRuleEntities) = entities(JsonField.of(entities))
+
+                /**
+                 * Sets [Builder.entities] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.entities] with a well-typed [AuthRuleEntities]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun entities(entities: JsonField<AuthRuleEntities>) = apply {
+                    this.entities = entities
+                }
+
+                /** Auth Rule Name */
+                fun name(name: String?) = name(JsonField.ofNullable(name))
+
+                /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+                fun name(name: Optional<String>) = name(name.getOrNull())
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /**
+                 * The desired state of the Auth Rule.
+                 *
+                 * Note that only deactivating an Auth Rule through this endpoint is supported at
+                 * this time. If you need to (re-)activate an Auth Rule the /promote endpoint should
+                 * be used to promote a draft to the currently active version.
+                 */
+                fun state(state: State) = state(JsonField.of(state))
+
+                /**
+                 * Sets [Builder.state] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.state] with a well-typed [State] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun state(state: JsonField<State>) = apply { this.state = state }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Rule].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Rule = Rule(entities, name, state, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): Rule = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                entities().ifPresent { it.validate() }
+                name()
+                state().ifPresent { it.validate() }
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (entities.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (name.asKnown().isPresent) 1 else 0) +
+                    (state.asKnown().getOrNull()?.validity() ?: 0)
+
+            /**
+             * The desired state of the Auth Rule.
+             *
+             * Note that only deactivating an Auth Rule through this endpoint is supported at this
+             * time. If you need to (re-)activate an Auth Rule the /promote endpoint should be used
+             * to promote a draft to the currently active version.
+             */
+            class State @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val INACTIVE = of("INACTIVE")
+
+                    @JvmStatic fun of(value: String) = State(JsonField.of(value))
+                }
+
+                /** An enum containing [State]'s known values. */
+                enum class Known {
+                    INACTIVE
+                }
+
+                /**
+                 * An enum containing [State]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [State] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    INACTIVE,
+                    /**
+                     * An enum member indicating that [State] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        INACTIVE -> Value.INACTIVE
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        INACTIVE -> Known.INACTIVE
+                        else -> throw LithicInvalidDataException("Unknown State: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws LithicInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        LithicInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws LithicInvalidDataException if any value type in this object doesn't match
+                 *   its expected type.
+                 */
+                fun validate(): State = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: LithicInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is State && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Rule &&
+                    entities == other.entities &&
+                    name == other.name &&
+                    state == other.state &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(entities, name, state, additionalProperties)
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Rule{entities=$entities, name=$name, state=$state, additionalProperties=$additionalProperties}"
+        }
+
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         class AccountLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
@@ -505,20 +1007,26 @@ private constructor(
             ) : this(accountTokens, businessAccountTokens, name, state, mutableMapOf())
 
             /**
+             * Deprecated: Use `entities.include` with `ACCOUNT` entities instead.
+             *
              * Account tokens to which the Auth Rule applies.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun accountTokens(): Optional<List<String>> =
                 accountTokens.getOptional("account_tokens")
 
             /**
+             * Deprecated: Use `entities.include` with `BUSINESS_ACCOUNT` entities instead.
+             *
              * Business Account tokens to which the Auth Rule applies.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun businessAccountTokens(): Optional<List<String>> =
                 businessAccountTokens.getOptional("business_account_tokens")
 
@@ -548,6 +1056,7 @@ private constructor(
              * Unlike [accountTokens], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("account_tokens")
             @ExcludeMissing
             fun _accountTokens(): JsonField<List<String>> = accountTokens
@@ -558,6 +1067,7 @@ private constructor(
              * Unlike [businessAccountTokens], this method doesn't throw if the JSON field has an
              * unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("business_account_tokens")
             @ExcludeMissing
             fun _businessAccountTokens(): JsonField<List<String>> = businessAccountTokens
@@ -613,7 +1123,12 @@ private constructor(
                     additionalProperties = accountLevelRule.additionalProperties.toMutableMap()
                 }
 
-                /** Account tokens to which the Auth Rule applies. */
+                /**
+                 * Deprecated: Use `entities.include` with `ACCOUNT` entities instead.
+                 *
+                 * Account tokens to which the Auth Rule applies.
+                 */
+                @Deprecated("deprecated")
                 fun accountTokens(accountTokens: List<String>) =
                     accountTokens(JsonField.of(accountTokens))
 
@@ -624,6 +1139,7 @@ private constructor(
                  * value instead. This method is primarily for setting the field to an undocumented
                  * or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun accountTokens(accountTokens: JsonField<List<String>>) = apply {
                     this.accountTokens = accountTokens.map { it.toMutableList() }
                 }
@@ -633,6 +1149,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addAccountToken(accountToken: String) = apply {
                     accountTokens =
                         (accountTokens ?: JsonField.of(mutableListOf())).also {
@@ -640,7 +1157,12 @@ private constructor(
                         }
                 }
 
-                /** Business Account tokens to which the Auth Rule applies. */
+                /**
+                 * Deprecated: Use `entities.include` with `BUSINESS_ACCOUNT` entities instead.
+                 *
+                 * Business Account tokens to which the Auth Rule applies.
+                 */
+                @Deprecated("deprecated")
                 fun businessAccountTokens(businessAccountTokens: List<String>) =
                     businessAccountTokens(JsonField.of(businessAccountTokens))
 
@@ -651,6 +1173,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun businessAccountTokens(businessAccountTokens: JsonField<List<String>>) = apply {
                     this.businessAccountTokens = businessAccountTokens.map { it.toMutableList() }
                 }
@@ -660,6 +1183,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addBusinessAccountToken(businessAccountToken: String) = apply {
                     businessAccountTokens =
                         (businessAccountTokens ?: JsonField.of(mutableListOf())).also {
@@ -953,6 +1477,8 @@ private constructor(
                 "AccountLevelRule{accountTokens=$accountTokens, businessAccountTokens=$businessAccountTokens, name=$name, state=$state, additionalProperties=$additionalProperties}"
         }
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         class CardLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
@@ -972,11 +1498,15 @@ private constructor(
             ) : this(cardTokens, name, state, mutableMapOf())
 
             /**
-             * Card tokens to which the Auth Rule applies.
+             * Deprecated: Use `entities.include` with `CARD` entities instead.
+             *
+             * Card tokens to which the Auth Rule applies. Cards the rule applies to through a
+             * `CARD_TAG` entity are not listed.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun cardTokens(): Optional<List<String>> = cardTokens.getOptional("card_tokens")
 
             /**
@@ -1005,6 +1535,7 @@ private constructor(
              * Unlike [cardTokens], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("card_tokens")
             @ExcludeMissing
             fun _cardTokens(): JsonField<List<String>> = cardTokens
@@ -1057,7 +1588,13 @@ private constructor(
                     additionalProperties = cardLevelRule.additionalProperties.toMutableMap()
                 }
 
-                /** Card tokens to which the Auth Rule applies. */
+                /**
+                 * Deprecated: Use `entities.include` with `CARD` entities instead.
+                 *
+                 * Card tokens to which the Auth Rule applies. Cards the rule applies to through a
+                 * `CARD_TAG` entity are not listed.
+                 */
+                @Deprecated("deprecated")
                 fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
 
                 /**
@@ -1067,6 +1604,7 @@ private constructor(
                  * value instead. This method is primarily for setting the field to an undocumented
                  * or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
                     this.cardTokens = cardTokens.map { it.toMutableList() }
                 }
@@ -1076,6 +1614,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addCardToken(cardToken: String) = apply {
                     cardTokens =
                         (cardTokens ?: JsonField.of(mutableListOf())).also {
@@ -1359,6 +1898,8 @@ private constructor(
                 "CardLevelRule{cardTokens=$cardTokens, name=$name, state=$state, additionalProperties=$additionalProperties}"
         }
 
+        /** Deprecated: Use `entities` instead. Cannot be combined with `entities`. */
+        @Deprecated("deprecated")
         class ProgramLevelRule
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
@@ -1398,29 +1939,39 @@ private constructor(
             )
 
             /**
+             * Deprecated: Use `entities.exclude` with `ACCOUNT` entities instead.
+             *
              * Account tokens to which the Auth Rule does not apply.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun excludedAccountTokens(): Optional<List<String>> =
                 excludedAccountTokens.getOptional("excluded_account_tokens")
 
             /**
+             * Deprecated: Use `entities.exclude` with `BUSINESS_ACCOUNT` entities instead.
+             *
              * Business account tokens to which the Auth Rule does not apply.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun excludedBusinessAccountTokens(): Optional<List<String>> =
                 excludedBusinessAccountTokens.getOptional("excluded_business_account_tokens")
 
             /**
-             * Card tokens to which the Auth Rule does not apply.
+             * Deprecated: Use `entities.exclude` with `CARD` entities instead.
+             *
+             * Card tokens to which the Auth Rule does not apply. Cards excluded through a
+             * `CARD_TAG` entity are not listed.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun excludedCardTokens(): Optional<List<String>> =
                 excludedCardTokens.getOptional("excluded_card_tokens")
 
@@ -1433,11 +1984,14 @@ private constructor(
             fun name(): Optional<String> = name.getOptional("name")
 
             /**
+             * Deprecated: Use `entities.include` with a `PROGRAM` entity instead.
+             *
              * Whether the Auth Rule applies to all authorizations on the card program.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
+            @Deprecated("deprecated")
             fun programLevel(): Optional<Boolean> = programLevel.getOptional("program_level")
 
             /**
@@ -1458,6 +2012,7 @@ private constructor(
              * Unlike [excludedAccountTokens], this method doesn't throw if the JSON field has an
              * unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("excluded_account_tokens")
             @ExcludeMissing
             fun _excludedAccountTokens(): JsonField<List<String>> = excludedAccountTokens
@@ -1468,6 +2023,7 @@ private constructor(
              * Unlike [excludedBusinessAccountTokens], this method doesn't throw if the JSON field
              * has an unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("excluded_business_account_tokens")
             @ExcludeMissing
             fun _excludedBusinessAccountTokens(): JsonField<List<String>> =
@@ -1479,6 +2035,7 @@ private constructor(
              * Unlike [excludedCardTokens], this method doesn't throw if the JSON field has an
              * unexpected type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("excluded_card_tokens")
             @ExcludeMissing
             fun _excludedCardTokens(): JsonField<List<String>> = excludedCardTokens
@@ -1496,6 +2053,7 @@ private constructor(
              * Unlike [programLevel], this method doesn't throw if the JSON field has an unexpected
              * type.
              */
+            @Deprecated("deprecated")
             @JsonProperty("program_level")
             @ExcludeMissing
             fun _programLevel(): JsonField<Boolean> = programLevel
@@ -1550,7 +2108,12 @@ private constructor(
                     additionalProperties = programLevelRule.additionalProperties.toMutableMap()
                 }
 
-                /** Account tokens to which the Auth Rule does not apply. */
+                /**
+                 * Deprecated: Use `entities.exclude` with `ACCOUNT` entities instead.
+                 *
+                 * Account tokens to which the Auth Rule does not apply.
+                 */
+                @Deprecated("deprecated")
                 fun excludedAccountTokens(excludedAccountTokens: List<String>) =
                     excludedAccountTokens(JsonField.of(excludedAccountTokens))
 
@@ -1561,6 +2124,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun excludedAccountTokens(excludedAccountTokens: JsonField<List<String>>) = apply {
                     this.excludedAccountTokens = excludedAccountTokens.map { it.toMutableList() }
                 }
@@ -1570,6 +2134,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addExcludedAccountToken(excludedAccountToken: String) = apply {
                     excludedAccountTokens =
                         (excludedAccountTokens ?: JsonField.of(mutableListOf())).also {
@@ -1577,7 +2142,12 @@ private constructor(
                         }
                 }
 
-                /** Business account tokens to which the Auth Rule does not apply. */
+                /**
+                 * Deprecated: Use `entities.exclude` with `BUSINESS_ACCOUNT` entities instead.
+                 *
+                 * Business account tokens to which the Auth Rule does not apply.
+                 */
+                @Deprecated("deprecated")
                 fun excludedBusinessAccountTokens(excludedBusinessAccountTokens: List<String>) =
                     excludedBusinessAccountTokens(JsonField.of(excludedBusinessAccountTokens))
 
@@ -1588,6 +2158,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun excludedBusinessAccountTokens(
                     excludedBusinessAccountTokens: JsonField<List<String>>
                 ) = apply {
@@ -1600,6 +2171,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addExcludedBusinessAccountToken(excludedBusinessAccountToken: String) = apply {
                     excludedBusinessAccountTokens =
                         (excludedBusinessAccountTokens ?: JsonField.of(mutableListOf())).also {
@@ -1608,7 +2180,13 @@ private constructor(
                         }
                 }
 
-                /** Card tokens to which the Auth Rule does not apply. */
+                /**
+                 * Deprecated: Use `entities.exclude` with `CARD` entities instead.
+                 *
+                 * Card tokens to which the Auth Rule does not apply. Cards excluded through a
+                 * `CARD_TAG` entity are not listed.
+                 */
+                @Deprecated("deprecated")
                 fun excludedCardTokens(excludedCardTokens: List<String>) =
                     excludedCardTokens(JsonField.of(excludedCardTokens))
 
@@ -1619,6 +2197,7 @@ private constructor(
                  * `List<String>` value instead. This method is primarily for setting the field to
                  * an undocumented or not yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
                     this.excludedCardTokens = excludedCardTokens.map { it.toMutableList() }
                 }
@@ -1628,6 +2207,7 @@ private constructor(
                  *
                  * @throws IllegalStateException if the field was previously set to a non-list.
                  */
+                @Deprecated("deprecated")
                 fun addExcludedCardToken(excludedCardToken: String) = apply {
                     excludedCardTokens =
                         (excludedCardTokens ?: JsonField.of(mutableListOf())).also {
@@ -1650,7 +2230,12 @@ private constructor(
                  */
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
-                /** Whether the Auth Rule applies to all authorizations on the card program. */
+                /**
+                 * Deprecated: Use `entities.include` with a `PROGRAM` entity instead.
+                 *
+                 * Whether the Auth Rule applies to all authorizations on the card program.
+                 */
+                @Deprecated("deprecated")
                 fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
 
                 /**
@@ -1660,6 +2245,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun programLevel(programLevel: JsonField<Boolean>) = apply {
                     this.programLevel = programLevel
                 }
