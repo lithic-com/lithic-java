@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.136.0](https://github.com/lithic-com/lithic-java/compare/v0.135.0...v0.136.0) (2026-10-16)
+
+
+### Features
+
+* **api:** add INSTANCE_TO_INSTANCE to book transfer type and financial event type enums ([bf66dfe](https://github.com/lithic-com/lithic-java/commit/bf66dfecaeffbe0f2613413e949f698d9d13a86f))
+
 ## [0.135.0](https://github.com/lithic-com/lithic-java/compare/v0.134.0...v0.135.0) (2026-10-13)
 
 
