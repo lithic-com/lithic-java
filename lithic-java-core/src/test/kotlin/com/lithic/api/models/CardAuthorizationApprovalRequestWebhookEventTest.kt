@@ -160,7 +160,7 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                         .status(CardAuthorization.LatestChallenge.Status.COMPLETED)
                         .build()
                 )
-                .network(CardAuthorization.Network.AMEX)
+                .network(CardAuthorization.Network.ALLPOINT)
                 .networkRiskScore(0L)
                 .networkSpecificData(
                     CardAuthorization.AsaNetworkSpecificData.builder()
@@ -389,7 +389,7 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                     .build()
             )
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.network())
-            .contains(CardAuthorization.Network.AMEX)
+            .contains(CardAuthorization.Network.ALLPOINT)
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.networkRiskScore()).contains(0L)
         assertThat(cardAuthorizationApprovalRequestWebhookEvent.networkSpecificData())
             .contains(
@@ -610,7 +610,7 @@ internal class CardAuthorizationApprovalRequestWebhookEventTest {
                         .status(CardAuthorization.LatestChallenge.Status.COMPLETED)
                         .build()
                 )
-                .network(CardAuthorization.Network.AMEX)
+                .network(CardAuthorization.Network.ALLPOINT)
                 .networkRiskScore(0L)
                 .networkSpecificData(
                     CardAuthorization.AsaNetworkSpecificData.builder()

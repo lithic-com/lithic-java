@@ -160,7 +160,7 @@ internal class CardAuthorizationTest {
                         .status(CardAuthorization.LatestChallenge.Status.COMPLETED)
                         .build()
                 )
-                .network(CardAuthorization.Network.AMEX)
+                .network(CardAuthorization.Network.ALLPOINT)
                 .networkRiskScore(0L)
                 .networkSpecificData(
                     CardAuthorization.AsaNetworkSpecificData.builder()
@@ -380,7 +380,7 @@ internal class CardAuthorizationTest {
                     .status(CardAuthorization.LatestChallenge.Status.COMPLETED)
                     .build()
             )
-        assertThat(cardAuthorization.network()).contains(CardAuthorization.Network.AMEX)
+        assertThat(cardAuthorization.network()).contains(CardAuthorization.Network.ALLPOINT)
         assertThat(cardAuthorization.networkRiskScore()).contains(0L)
         assertThat(cardAuthorization.networkSpecificData())
             .contains(
@@ -596,7 +596,7 @@ internal class CardAuthorizationTest {
                         .status(CardAuthorization.LatestChallenge.Status.COMPLETED)
                         .build()
                 )
-                .network(CardAuthorization.Network.AMEX)
+                .network(CardAuthorization.Network.ALLPOINT)
                 .networkRiskScore(0L)
                 .networkSpecificData(
                     CardAuthorization.AsaNetworkSpecificData.builder()
