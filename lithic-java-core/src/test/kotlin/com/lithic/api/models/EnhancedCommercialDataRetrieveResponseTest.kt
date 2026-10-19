@@ -25,6 +25,8 @@ internal class EnhancedCommercialDataRetrieveResponseTest {
                                         .description("description")
                                         .productCode("product_code")
                                         .quantity("quantity")
+                                        .totalAmount("total_amount")
+                                        .unitAmount("unit_amount")
                                         .build()
                                 )
                                 .tax(
@@ -85,6 +87,8 @@ internal class EnhancedCommercialDataRetrieveResponseTest {
                                     .description("description")
                                     .productCode("product_code")
                                     .quantity("quantity")
+                                    .totalAmount("total_amount")
+                                    .unitAmount("unit_amount")
                                     .build()
                             )
                             .tax(
@@ -149,6 +153,8 @@ internal class EnhancedCommercialDataRetrieveResponseTest {
                                         .description("description")
                                         .productCode("product_code")
                                         .quantity("quantity")
+                                        .totalAmount("total_amount")
+                                        .unitAmount("unit_amount")
                                         .build()
                                 )
                                 .tax(

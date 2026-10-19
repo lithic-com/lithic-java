@@ -688,6 +688,8 @@ private constructor(
             private val description: JsonField<String>,
             private val productCode: JsonField<String>,
             private val quantity: JsonField<String>,
+            private val totalAmount: JsonField<String>,
+            private val unitAmount: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
@@ -705,15 +707,30 @@ private constructor(
                 @JsonProperty("quantity")
                 @ExcludeMissing
                 quantity: JsonField<String> = JsonMissing.of(),
-            ) : this(amount, description, productCode, quantity, mutableMapOf())
+                @JsonProperty("total_amount")
+                @ExcludeMissing
+                totalAmount: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("unit_amount")
+                @ExcludeMissing
+                unitAmount: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                amount,
+                description,
+                productCode,
+                quantity,
+                totalAmount,
+                unitAmount,
+                mutableMapOf(),
+            )
 
             /**
-             * The price of the item purchased in merchant currency.
+             * Deprecated: Use unit_amount instead. The price of the item purchased in merchant
+             * currency.
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
              *   the server responded with an unexpected value).
              */
-            fun amount(): Optional<String> = amount.getOptional("amount")
+            @Deprecated("deprecated") fun amount(): Optional<String> = amount.getOptional("amount")
 
             /**
              * A human-readable description of the item.
@@ -740,11 +757,30 @@ private constructor(
             fun quantity(): Optional<String> = quantity.getOptional("quantity")
 
             /**
+             * The total cost for the line item in merchant currency, covering all units purchased.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun totalAmount(): Optional<String> = totalAmount.getOptional("total_amount")
+
+            /**
+             * The price per individual unit in merchant currency.
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun unitAmount(): Optional<String> = unitAmount.getOptional("unit_amount")
+
+            /**
              * Returns the raw JSON value of [amount].
              *
              * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
              */
-            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<String> = amount
+            @Deprecated("deprecated")
+            @JsonProperty("amount")
+            @ExcludeMissing
+            fun _amount(): JsonField<String> = amount
 
             /**
              * Returns the raw JSON value of [description].
@@ -774,6 +810,26 @@ private constructor(
              */
             @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<String> = quantity
 
+            /**
+             * Returns the raw JSON value of [totalAmount].
+             *
+             * Unlike [totalAmount], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("total_amount")
+            @ExcludeMissing
+            fun _totalAmount(): JsonField<String> = totalAmount
+
+            /**
+             * Returns the raw JSON value of [unitAmount].
+             *
+             * Unlike [unitAmount], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("unit_amount")
+            @ExcludeMissing
+            fun _unitAmount(): JsonField<String> = unitAmount
+
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
                 additionalProperties.put(key, value)
@@ -799,6 +855,8 @@ private constructor(
                 private var description: JsonField<String> = JsonMissing.of()
                 private var productCode: JsonField<String> = JsonMissing.of()
                 private var quantity: JsonField<String> = JsonMissing.of()
+                private var totalAmount: JsonField<String> = JsonMissing.of()
+                private var unitAmount: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -807,13 +865,20 @@ private constructor(
                     description = lineItem.description
                     productCode = lineItem.productCode
                     quantity = lineItem.quantity
+                    totalAmount = lineItem.totalAmount
+                    unitAmount = lineItem.unitAmount
                     additionalProperties = lineItem.additionalProperties.toMutableMap()
                 }
 
-                /** The price of the item purchased in merchant currency. */
+                /**
+                 * Deprecated: Use unit_amount instead. The price of the item purchased in merchant
+                 * currency.
+                 */
+                @Deprecated("deprecated")
                 fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
 
                 /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                @Deprecated("deprecated")
                 fun amount(amount: Optional<String>) = amount(amount.getOrNull())
 
                 /**
@@ -823,6 +888,7 @@ private constructor(
                  * instead. This method is primarily for setting the field to an undocumented or not
                  * yet supported value.
                  */
+                @Deprecated("deprecated")
                 fun amount(amount: JsonField<String>) = apply { this.amount = amount }
 
                 /** A human-readable description of the item. */
@@ -878,6 +944,45 @@ private constructor(
                  */
                 fun quantity(quantity: JsonField<String>) = apply { this.quantity = quantity }
 
+                /**
+                 * The total cost for the line item in merchant currency, covering all units
+                 * purchased.
+                 */
+                fun totalAmount(totalAmount: String?) =
+                    totalAmount(JsonField.ofNullable(totalAmount))
+
+                /** Alias for calling [Builder.totalAmount] with `totalAmount.orElse(null)`. */
+                fun totalAmount(totalAmount: Optional<String>) =
+                    totalAmount(totalAmount.getOrNull())
+
+                /**
+                 * Sets [Builder.totalAmount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.totalAmount] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun totalAmount(totalAmount: JsonField<String>) = apply {
+                    this.totalAmount = totalAmount
+                }
+
+                /** The price per individual unit in merchant currency. */
+                fun unitAmount(unitAmount: String?) = unitAmount(JsonField.ofNullable(unitAmount))
+
+                /** Alias for calling [Builder.unitAmount] with `unitAmount.orElse(null)`. */
+                fun unitAmount(unitAmount: Optional<String>) = unitAmount(unitAmount.getOrNull())
+
+                /**
+                 * Sets [Builder.unitAmount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.unitAmount] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun unitAmount(unitAmount: JsonField<String>) = apply {
+                    this.unitAmount = unitAmount
+                }
+
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
                     putAllAdditionalProperties(additionalProperties)
@@ -911,6 +1016,8 @@ private constructor(
                         description,
                         productCode,
                         quantity,
+                        totalAmount,
+                        unitAmount,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -936,6 +1043,8 @@ private constructor(
                 description()
                 productCode()
                 quantity()
+                totalAmount()
+                unitAmount()
                 validated = true
             }
 
@@ -958,7 +1067,9 @@ private constructor(
                 (if (amount.asKnown().isPresent) 1 else 0) +
                     (if (description.asKnown().isPresent) 1 else 0) +
                     (if (productCode.asKnown().isPresent) 1 else 0) +
-                    (if (quantity.asKnown().isPresent) 1 else 0)
+                    (if (quantity.asKnown().isPresent) 1 else 0) +
+                    (if (totalAmount.asKnown().isPresent) 1 else 0) +
+                    (if (unitAmount.asKnown().isPresent) 1 else 0)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -970,17 +1081,27 @@ private constructor(
                     description == other.description &&
                     productCode == other.productCode &&
                     quantity == other.quantity &&
+                    totalAmount == other.totalAmount &&
+                    unitAmount == other.unitAmount &&
                     additionalProperties == other.additionalProperties
             }
 
             private val hashCode: Int by lazy {
-                Objects.hash(amount, description, productCode, quantity, additionalProperties)
+                Objects.hash(
+                    amount,
+                    description,
+                    productCode,
+                    quantity,
+                    totalAmount,
+                    unitAmount,
+                    additionalProperties,
+                )
             }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "LineItem{amount=$amount, description=$description, productCode=$productCode, quantity=$quantity, additionalProperties=$additionalProperties}"
+                "LineItem{amount=$amount, description=$description, productCode=$productCode, quantity=$quantity, totalAmount=$totalAmount, unitAmount=$unitAmount, additionalProperties=$additionalProperties}"
         }
 
         class TaxData
