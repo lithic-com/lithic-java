@@ -4663,6 +4663,7 @@ internal class ParsedWebhookEventTest {
                     ClaimCreatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
                 )
                 .reason(ClaimCreatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                .referenceId("reference_id")
                 .status(ClaimCreatedWebhookEvent.Status.INITIALIZING)
                 .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -4763,6 +4764,7 @@ internal class ParsedWebhookEventTest {
                         ClaimCreatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
                     )
                     .reason(ClaimCreatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                    .referenceId("reference_id")
                     .status(ClaimCreatedWebhookEvent.Status.INITIALIZING)
                     .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -4798,6 +4800,7 @@ internal class ParsedWebhookEventTest {
                     ClaimUpdatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
                 )
                 .reason(ClaimUpdatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                .referenceId("reference_id")
                 .status(ClaimUpdatedWebhookEvent.Status.INITIALIZING)
                 .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -4898,6 +4901,7 @@ internal class ParsedWebhookEventTest {
                         ClaimUpdatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
                     )
                     .reason(ClaimUpdatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                    .referenceId("reference_id")
                     .status(ClaimUpdatedWebhookEvent.Status.INITIALIZING)
                     .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

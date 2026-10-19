@@ -30,6 +30,7 @@ internal class ClaimCreatedWebhookEventTest {
                     ClaimCreatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
                 )
                 .reason(ClaimCreatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                .referenceId("reference_id")
                 .status(ClaimCreatedWebhookEvent.Status.INITIALIZING)
                 .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -58,6 +59,7 @@ internal class ClaimCreatedWebhookEventTest {
             .containsExactly(ClaimCreatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE)
         assertThat(claimCreatedWebhookEvent.reason())
             .isEqualTo(ClaimCreatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+        assertThat(claimCreatedWebhookEvent.referenceId()).contains("reference_id")
         assertThat(claimCreatedWebhookEvent.status())
             .isEqualTo(ClaimCreatedWebhookEvent.Status.INITIALIZING)
         assertThat(claimCreatedWebhookEvent.submitted())
@@ -87,6 +89,7 @@ internal class ClaimCreatedWebhookEventTest {
                     ClaimCreatedWebhookEvent.OutstandingRequirement.QUESTIONNAIRE
                 )
                 .reason(ClaimCreatedWebhookEvent.Reason.CARD_NOT_PRESENT)
+                .referenceId("reference_id")
                 .status(ClaimCreatedWebhookEvent.Status.INITIALIZING)
                 .submitted(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
