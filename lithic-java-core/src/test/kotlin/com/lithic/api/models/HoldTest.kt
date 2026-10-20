@@ -17,7 +17,6 @@ internal class HoldTest {
             Hold.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .status(Hold.HoldStatus.PENDING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("currency")
                 .addEvent(
@@ -37,12 +36,12 @@ internal class HoldTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pendingAmount(0L)
                 .result(Hold.TransactionResult.APPROVED)
+                .status(Hold.HoldStatus.PENDING)
                 .userDefinedId("user_defined_id")
                 .build()
 
         assertThat(hold.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(hold.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(hold.status()).isEqualTo(Hold.HoldStatus.PENDING)
         assertThat(hold.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(hold.currency()).contains("currency")
         assertThat(hold.events().getOrNull())
@@ -64,6 +63,7 @@ internal class HoldTest {
         assertThat(hold.financialAccountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(hold.pendingAmount()).contains(0L)
         assertThat(hold.result()).contains(Hold.TransactionResult.APPROVED)
+        assertThat(hold.status()).contains(Hold.HoldStatus.PENDING)
         assertThat(hold.userDefinedId()).contains("user_defined_id")
     }
 
@@ -74,7 +74,6 @@ internal class HoldTest {
             Hold.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .status(Hold.HoldStatus.PENDING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("currency")
                 .addEvent(
@@ -94,6 +93,7 @@ internal class HoldTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pendingAmount(0L)
                 .result(Hold.TransactionResult.APPROVED)
+                .status(Hold.HoldStatus.PENDING)
                 .userDefinedId("user_defined_id")
                 .build()
 
