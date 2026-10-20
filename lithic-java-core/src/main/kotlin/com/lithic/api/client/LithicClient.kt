@@ -32,6 +32,7 @@ import com.lithic.api.services.blocking.FraudService
 import com.lithic.api.services.blocking.FundingEventService
 import com.lithic.api.services.blocking.HoldService
 import com.lithic.api.services.blocking.InternalTransactionService
+import com.lithic.api.services.blocking.IpRangeService
 import com.lithic.api.services.blocking.ManagementOperationService
 import com.lithic.api.services.blocking.NetworkProgramService
 import com.lithic.api.services.blocking.PaymentService
@@ -118,6 +119,8 @@ interface LithicClient {
     fun transactions(): TransactionService
 
     fun responderEndpoints(): ResponderEndpointService
+
+    fun ipRanges(): IpRangeService
 
     fun externalBankAccounts(): ExternalBankAccountService
 
@@ -232,6 +235,8 @@ interface LithicClient {
         fun transactions(): TransactionService.WithRawResponse
 
         fun responderEndpoints(): ResponderEndpointService.WithRawResponse
+
+        fun ipRanges(): IpRangeService.WithRawResponse
 
         fun externalBankAccounts(): ExternalBankAccountService.WithRawResponse
 

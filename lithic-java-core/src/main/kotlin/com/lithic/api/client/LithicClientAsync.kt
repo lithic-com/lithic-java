@@ -31,6 +31,7 @@ import com.lithic.api.services.async.FraudServiceAsync
 import com.lithic.api.services.async.FundingEventServiceAsync
 import com.lithic.api.services.async.HoldServiceAsync
 import com.lithic.api.services.async.InternalTransactionServiceAsync
+import com.lithic.api.services.async.IpRangeServiceAsync
 import com.lithic.api.services.async.ManagementOperationServiceAsync
 import com.lithic.api.services.async.NetworkProgramServiceAsync
 import com.lithic.api.services.async.PaymentServiceAsync
@@ -118,6 +119,8 @@ interface LithicClientAsync {
     fun transactions(): TransactionServiceAsync
 
     fun responderEndpoints(): ResponderEndpointServiceAsync
+
+    fun ipRanges(): IpRangeServiceAsync
 
     fun externalBankAccounts(): ExternalBankAccountServiceAsync
 
@@ -235,6 +238,8 @@ interface LithicClientAsync {
         fun transactions(): TransactionServiceAsync.WithRawResponse
 
         fun responderEndpoints(): ResponderEndpointServiceAsync.WithRawResponse
+
+        fun ipRanges(): IpRangeServiceAsync.WithRawResponse
 
         fun externalBankAccounts(): ExternalBankAccountServiceAsync.WithRawResponse
 
