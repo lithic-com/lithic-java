@@ -957,6 +957,8 @@ private constructor(
 
                 @JvmField val STABLECOIN = of("STABLECOIN")
 
+                @JvmField val INTRA_BANK = of("INTRA_BANK")
+
                 @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
                 @JvmField val FEE = of("FEE")
@@ -1009,6 +1011,7 @@ private constructor(
                 ACH,
                 WIRE,
                 STABLECOIN,
+                INTRA_BANK,
                 BALANCE_OR_FUNDING,
                 FEE,
                 REWARD,
@@ -1048,6 +1051,7 @@ private constructor(
                 ACH,
                 WIRE,
                 STABLECOIN,
+                INTRA_BANK,
                 BALANCE_OR_FUNDING,
                 FEE,
                 REWARD,
@@ -1089,6 +1093,7 @@ private constructor(
                     ACH -> Value.ACH
                     WIRE -> Value.WIRE
                     STABLECOIN -> Value.STABLECOIN
+                    INTRA_BANK -> Value.INTRA_BANK
                     BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
                     FEE -> Value.FEE
                     REWARD -> Value.REWARD
@@ -1128,6 +1133,7 @@ private constructor(
                     ACH -> Known.ACH
                     WIRE -> Known.WIRE
                     STABLECOIN -> Known.STABLECOIN
+                    INTRA_BANK -> Known.INTRA_BANK
                     BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
                     FEE -> Known.FEE
                     REWARD -> Known.REWARD
@@ -1387,6 +1393,12 @@ private constructor(
 
                 @JvmField val INTERNAL_ADJUSTMENT = of("INTERNAL_ADJUSTMENT")
 
+                @JvmField val INTRA_BANK_CANCELED = of("INTRA_BANK_CANCELED")
+
+                @JvmField val INTRA_BANK_INITIATED = of("INTRA_BANK_INITIATED")
+
+                @JvmField val INTRA_BANK_SETTLED = of("INTRA_BANK_SETTLED")
+
                 @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
 
                 @JvmField val LATE_PAYMENT_REVERSAL = of("LATE_PAYMENT_REVERSAL")
@@ -1527,6 +1539,9 @@ private constructor(
                 INTEREST,
                 INTEREST_REVERSAL,
                 INTERNAL_ADJUSTMENT,
+                INTRA_BANK_CANCELED,
+                INTRA_BANK_INITIATED,
+                INTRA_BANK_SETTLED,
                 LATE_PAYMENT,
                 LATE_PAYMENT_REVERSAL,
                 LOSS_WRITE_OFF,
@@ -1647,6 +1662,9 @@ private constructor(
                 INTEREST,
                 INTEREST_REVERSAL,
                 INTERNAL_ADJUSTMENT,
+                INTRA_BANK_CANCELED,
+                INTRA_BANK_INITIATED,
+                INTRA_BANK_SETTLED,
                 LATE_PAYMENT,
                 LATE_PAYMENT_REVERSAL,
                 LOSS_WRITE_OFF,
@@ -1769,6 +1787,9 @@ private constructor(
                     INTEREST -> Value.INTEREST
                     INTEREST_REVERSAL -> Value.INTEREST_REVERSAL
                     INTERNAL_ADJUSTMENT -> Value.INTERNAL_ADJUSTMENT
+                    INTRA_BANK_CANCELED -> Value.INTRA_BANK_CANCELED
+                    INTRA_BANK_INITIATED -> Value.INTRA_BANK_INITIATED
+                    INTRA_BANK_SETTLED -> Value.INTRA_BANK_SETTLED
                     LATE_PAYMENT -> Value.LATE_PAYMENT
                     LATE_PAYMENT_REVERSAL -> Value.LATE_PAYMENT_REVERSAL
                     LOSS_WRITE_OFF -> Value.LOSS_WRITE_OFF
@@ -1889,6 +1910,9 @@ private constructor(
                     INTEREST -> Known.INTEREST
                     INTEREST_REVERSAL -> Known.INTEREST_REVERSAL
                     INTERNAL_ADJUSTMENT -> Known.INTERNAL_ADJUSTMENT
+                    INTRA_BANK_CANCELED -> Known.INTRA_BANK_CANCELED
+                    INTRA_BANK_INITIATED -> Known.INTRA_BANK_INITIATED
+                    INTRA_BANK_SETTLED -> Known.INTRA_BANK_SETTLED
                     LATE_PAYMENT -> Known.LATE_PAYMENT
                     LATE_PAYMENT_REVERSAL -> Known.LATE_PAYMENT_REVERSAL
                     LOSS_WRITE_OFF -> Known.LOSS_WRITE_OFF
