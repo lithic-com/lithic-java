@@ -16,6 +16,7 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Entry in the Tier Schedule of an account */
 class InterestTierSchedule
@@ -191,7 +192,10 @@ private constructor(
         fun penaltyRates(penaltyRates: JsonValue) = apply { this.penaltyRates = penaltyRates }
 
         /** Name of a tier contained in the credit product. Mutually exclusive with tier_rates */
-        fun tierName(tierName: String) = tierName(JsonField.of(tierName))
+        fun tierName(tierName: String?) = tierName(JsonField.ofNullable(tierName))
+
+        /** Alias for calling [Builder.tierName] with `tierName.orElse(null)`. */
+        fun tierName(tierName: Optional<String>) = tierName(tierName.getOrNull())
 
         /**
          * Sets [Builder.tierName] to an arbitrary JSON value.

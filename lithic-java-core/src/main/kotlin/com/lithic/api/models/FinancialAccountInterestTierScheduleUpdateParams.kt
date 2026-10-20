@@ -144,7 +144,10 @@ private constructor(
         fun penaltyRates(penaltyRates: JsonValue) = apply { body.penaltyRates(penaltyRates) }
 
         /** Name of a tier contained in the credit product. Mutually exclusive with tier_rates */
-        fun tierName(tierName: String) = apply { body.tierName(tierName) }
+        fun tierName(tierName: String?) = apply { body.tierName(tierName) }
+
+        /** Alias for calling [Builder.tierName] with `tierName.orElse(null)`. */
+        fun tierName(tierName: Optional<String>) = tierName(tierName.getOrNull())
 
         /**
          * Sets [Builder.tierName] to an arbitrary JSON value.
@@ -410,7 +413,10 @@ private constructor(
             /**
              * Name of a tier contained in the credit product. Mutually exclusive with tier_rates
              */
-            fun tierName(tierName: String) = tierName(JsonField.of(tierName))
+            fun tierName(tierName: String?) = tierName(JsonField.ofNullable(tierName))
+
+            /** Alias for calling [Builder.tierName] with `tierName.orElse(null)`. */
+            fun tierName(tierName: Optional<String>) = tierName(tierName.getOrNull())
 
             /**
              * Sets [Builder.tierName] to an arbitrary JSON value.
