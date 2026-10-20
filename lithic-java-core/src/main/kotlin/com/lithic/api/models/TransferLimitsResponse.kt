@@ -227,6 +227,7 @@ private constructor(
         private val companyId: JsonField<String>,
         private val dailyLimit: JsonField<DirectionalLimits>,
         private val date: JsonField<LocalDate>,
+        private val financialEntityId: JsonField<String>,
         private val isFbo: JsonField<Boolean>,
         private val monthlyLimit: JsonField<DirectionalLimits>,
         private val programLimitPerTransaction: JsonField<DirectionalLimits>,
@@ -242,6 +243,9 @@ private constructor(
             @ExcludeMissing
             dailyLimit: JsonField<DirectionalLimits> = JsonMissing.of(),
             @JsonProperty("date") @ExcludeMissing date: JsonField<LocalDate> = JsonMissing.of(),
+            @JsonProperty("financial_entity_id")
+            @ExcludeMissing
+            financialEntityId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("is_fbo") @ExcludeMissing isFbo: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("monthly_limit")
             @ExcludeMissing
@@ -253,6 +257,7 @@ private constructor(
             companyId,
             dailyLimit,
             date,
+            financialEntityId,
             isFbo,
             monthlyLimit,
             programLimitPerTransaction,
@@ -282,6 +287,14 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun date(): LocalDate = date.getRequired("date")
+
+        /**
+         * Financial entity ID the limits are scoped to
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun financialEntityId(): String = financialEntityId.getRequired("financial_entity_id")
 
         /**
          * Whether the company is a FBO; based on the company ID prefix
@@ -332,6 +345,16 @@ private constructor(
         @JsonProperty("date") @ExcludeMissing fun _date(): JsonField<LocalDate> = date
 
         /**
+         * Returns the raw JSON value of [financialEntityId].
+         *
+         * Unlike [financialEntityId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("financial_entity_id")
+        @ExcludeMissing
+        fun _financialEntityId(): JsonField<String> = financialEntityId
+
+        /**
          * Returns the raw JSON value of [isFbo].
          *
          * Unlike [isFbo], this method doesn't throw if the JSON field has an unexpected type.
@@ -380,6 +403,7 @@ private constructor(
              * .companyId()
              * .dailyLimit()
              * .date()
+             * .financialEntityId()
              * .isFbo()
              * .monthlyLimit()
              * .programLimitPerTransaction()
@@ -394,6 +418,7 @@ private constructor(
             private var companyId: JsonField<String>? = null
             private var dailyLimit: JsonField<DirectionalLimits>? = null
             private var date: JsonField<LocalDate>? = null
+            private var financialEntityId: JsonField<String>? = null
             private var isFbo: JsonField<Boolean>? = null
             private var monthlyLimit: JsonField<DirectionalLimits>? = null
             private var programLimitPerTransaction: JsonField<DirectionalLimits>? = null
@@ -404,6 +429,7 @@ private constructor(
                 companyId = transferLimitItem.companyId
                 dailyLimit = transferLimitItem.dailyLimit
                 date = transferLimitItem.date
+                financialEntityId = transferLimitItem.financialEntityId
                 isFbo = transferLimitItem.isFbo
                 monthlyLimit = transferLimitItem.monthlyLimit
                 programLimitPerTransaction = transferLimitItem.programLimitPerTransaction
@@ -447,6 +473,21 @@ private constructor(
              * supported value.
              */
             fun date(date: JsonField<LocalDate>) = apply { this.date = date }
+
+            /** Financial entity ID the limits are scoped to */
+            fun financialEntityId(financialEntityId: String) =
+                financialEntityId(JsonField.of(financialEntityId))
+
+            /**
+             * Sets [Builder.financialEntityId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.financialEntityId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun financialEntityId(financialEntityId: JsonField<String>) = apply {
+                this.financialEntityId = financialEntityId
+            }
 
             /** Whether the company is a FBO; based on the company ID prefix */
             fun isFbo(isFbo: Boolean) = isFbo(JsonField.of(isFbo))
@@ -519,6 +560,7 @@ private constructor(
              * .companyId()
              * .dailyLimit()
              * .date()
+             * .financialEntityId()
              * .isFbo()
              * .monthlyLimit()
              * .programLimitPerTransaction()
@@ -531,6 +573,7 @@ private constructor(
                     checkRequired("companyId", companyId),
                     checkRequired("dailyLimit", dailyLimit),
                     checkRequired("date", date),
+                    checkRequired("financialEntityId", financialEntityId),
                     checkRequired("isFbo", isFbo),
                     checkRequired("monthlyLimit", monthlyLimit),
                     checkRequired("programLimitPerTransaction", programLimitPerTransaction),
@@ -557,6 +600,7 @@ private constructor(
             companyId()
             dailyLimit().validate()
             date()
+            financialEntityId()
             isFbo()
             monthlyLimit().validate()
             programLimitPerTransaction().validate()
@@ -582,6 +626,7 @@ private constructor(
             (if (companyId.asKnown().isPresent) 1 else 0) +
                 (dailyLimit.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (date.asKnown().isPresent) 1 else 0) +
+                (if (financialEntityId.asKnown().isPresent) 1 else 0) +
                 (if (isFbo.asKnown().isPresent) 1 else 0) +
                 (monthlyLimit.asKnown().getOrNull()?.validity() ?: 0) +
                 (programLimitPerTransaction.asKnown().getOrNull()?.validity() ?: 0)
@@ -1058,6 +1103,7 @@ private constructor(
                 companyId == other.companyId &&
                 dailyLimit == other.dailyLimit &&
                 date == other.date &&
+                financialEntityId == other.financialEntityId &&
                 isFbo == other.isFbo &&
                 monthlyLimit == other.monthlyLimit &&
                 programLimitPerTransaction == other.programLimitPerTransaction &&
@@ -1069,6 +1115,7 @@ private constructor(
                 companyId,
                 dailyLimit,
                 date,
+                financialEntityId,
                 isFbo,
                 monthlyLimit,
                 programLimitPerTransaction,
@@ -1079,7 +1126,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransferLimitItem{companyId=$companyId, dailyLimit=$dailyLimit, date=$date, isFbo=$isFbo, monthlyLimit=$monthlyLimit, programLimitPerTransaction=$programLimitPerTransaction, additionalProperties=$additionalProperties}"
+            "TransferLimitItem{companyId=$companyId, dailyLimit=$dailyLimit, date=$date, financialEntityId=$financialEntityId, isFbo=$isFbo, monthlyLimit=$monthlyLimit, programLimitPerTransaction=$programLimitPerTransaction, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
