@@ -75,6 +75,13 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                                         .principal(0L)
                                         .build()
                                 )
+                                .installments(
+                                    CategoryBalances.builder()
+                                        .fees(0L)
+                                        .interest(0L)
+                                        .principal(0L)
+                                        .build()
+                                )
                                 .build()
                         )
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -286,6 +293,13 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                                     .build()
                             )
                             .pastStatementsDue(
+                                CategoryBalances.builder()
+                                    .fees(0L)
+                                    .interest(0L)
+                                    .principal(0L)
+                                    .build()
+                            )
+                            .installments(
                                 CategoryBalances.builder()
                                     .fees(0L)
                                     .interest(0L)
@@ -507,6 +521,13 @@ internal class FinancialAccountLoanTapeListPageResponseTest {
                                         .build()
                                 )
                                 .pastStatementsDue(
+                                    CategoryBalances.builder()
+                                        .fees(0L)
+                                        .interest(0L)
+                                        .principal(0L)
+                                        .build()
+                                )
+                                .installments(
                                     CategoryBalances.builder()
                                         .fees(0L)
                                         .interest(0L)
