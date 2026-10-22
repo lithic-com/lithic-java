@@ -35,10 +35,14 @@ private constructor(
 
     override fun items(): List<FinancialTransaction> = data()
 
-    override fun hasNextPage(): Boolean = false
+    override fun hasNextPage(): Boolean = items().isNotEmpty()
 
     fun nextPageParams(): FinancialTransactionListParams =
-        throw IllegalStateException("Cannot construct next page params")
+        if (params.endingBefore().isPresent) {
+            params.toBuilder().endingBefore(items().first()._token().getOptional("token")).build()
+        } else {
+            params.toBuilder().startingAfter(items().last()._token().getOptional("token")).build()
+        }
 
     override fun nextPage(): FinancialTransactionListPage = service.list(nextPageParams())
 

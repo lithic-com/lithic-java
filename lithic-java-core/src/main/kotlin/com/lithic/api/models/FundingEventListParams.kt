@@ -5,6 +5,9 @@ package com.lithic.api.models
 import com.lithic.api.core.Params
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -12,7 +15,10 @@ import kotlin.jvm.optionals.getOrNull
 /** Get all funding events for program */
 class FundingEventListParams
 private constructor(
+    private val begin: OffsetDateTime?,
+    private val end: OffsetDateTime?,
     private val endingBefore: String?,
+    private val networkSettlementDate: LocalDate?,
     private val pageSize: Long?,
     private val startingAfter: String?,
     private val additionalHeaders: Headers,
@@ -20,10 +26,28 @@ private constructor(
 ) : Params {
 
     /**
+     * Date string in RFC 3339 format. Only entries created after the specified time will be
+     * included. UTC time zone.
+     */
+    fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
+
+    /**
+     * Date string in RFC 3339 format. Only entries created before the specified time will be
+     * included. UTC time zone.
+     */
+    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
+
+    /**
      * A cursor representing an item's token before which a page of results should end. Used to
      * retrieve the previous page of results before this item.
      */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+
+    /**
+     * Only funding events with a settlement breakout for this network settlement date will be
+     * included.
+     */
+    fun networkSettlementDate(): Optional<LocalDate> = Optional.ofNullable(networkSettlementDate)
 
     /** Page size (for pagination). */
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
@@ -53,7 +77,10 @@ private constructor(
     /** A builder for [FundingEventListParams]. */
     class Builder internal constructor() {
 
+        private var begin: OffsetDateTime? = null
+        private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
+        private var networkSettlementDate: LocalDate? = null
         private var pageSize: Long? = null
         private var startingAfter: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -61,12 +88,33 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(fundingEventListParams: FundingEventListParams) = apply {
+            begin = fundingEventListParams.begin
+            end = fundingEventListParams.end
             endingBefore = fundingEventListParams.endingBefore
+            networkSettlementDate = fundingEventListParams.networkSettlementDate
             pageSize = fundingEventListParams.pageSize
             startingAfter = fundingEventListParams.startingAfter
             additionalHeaders = fundingEventListParams.additionalHeaders.toBuilder()
             additionalQueryParams = fundingEventListParams.additionalQueryParams.toBuilder()
         }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified time will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
+
+        /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.getOrNull())
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified time will be
+         * included. UTC time zone.
+         */
+        fun end(end: OffsetDateTime?) = apply { this.end = end }
+
+        /** Alias for calling [Builder.end] with `end.orElse(null)`. */
+        fun end(end: Optional<OffsetDateTime>) = end(end.getOrNull())
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -76,6 +124,21 @@ private constructor(
 
         /** Alias for calling [Builder.endingBefore] with `endingBefore.orElse(null)`. */
         fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.getOrNull())
+
+        /**
+         * Only funding events with a settlement breakout for this network settlement date will be
+         * included.
+         */
+        fun networkSettlementDate(networkSettlementDate: LocalDate?) = apply {
+            this.networkSettlementDate = networkSettlementDate
+        }
+
+        /**
+         * Alias for calling [Builder.networkSettlementDate] with
+         * `networkSettlementDate.orElse(null)`.
+         */
+        fun networkSettlementDate(networkSettlementDate: Optional<LocalDate>) =
+            networkSettlementDate(networkSettlementDate.getOrNull())
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
@@ -205,7 +268,10 @@ private constructor(
          */
         fun build(): FundingEventListParams =
             FundingEventListParams(
+                begin,
+                end,
                 endingBefore,
+                networkSettlementDate,
                 pageSize,
                 startingAfter,
                 additionalHeaders.build(),
@@ -218,7 +284,10 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                begin?.let { put("begin", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                end?.let { put("end", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
                 endingBefore?.let { put("ending_before", it) }
+                networkSettlementDate?.let { put("network_settlement_date", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
                 startingAfter?.let { put("starting_after", it) }
                 putAll(additionalQueryParams)
@@ -231,7 +300,10 @@ private constructor(
         }
 
         return other is FundingEventListParams &&
+            begin == other.begin &&
+            end == other.end &&
             endingBefore == other.endingBefore &&
+            networkSettlementDate == other.networkSettlementDate &&
             pageSize == other.pageSize &&
             startingAfter == other.startingAfter &&
             additionalHeaders == other.additionalHeaders &&
@@ -240,7 +312,10 @@ private constructor(
 
     override fun hashCode(): Int =
         Objects.hash(
+            begin,
+            end,
             endingBefore,
+            networkSettlementDate,
             pageSize,
             startingAfter,
             additionalHeaders,
@@ -248,5 +323,5 @@ private constructor(
         )
 
     override fun toString() =
-        "FundingEventListParams{endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "FundingEventListParams{begin=$begin, end=$end, endingBefore=$endingBefore, networkSettlementDate=$networkSettlementDate, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
