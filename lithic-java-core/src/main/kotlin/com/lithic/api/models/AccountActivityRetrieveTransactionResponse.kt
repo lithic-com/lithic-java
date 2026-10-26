@@ -2242,10 +2242,13 @@ private constructor(
         fun networkRiskScore(): Optional<Long> = networkRiskScore.getOptional("network_risk_score")
 
         /**
-         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         * Point of sale data for the transaction. Null when no point of sale data is available,
+         * such as clearing-only records that never went through authorization
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
          */
-        fun pos(): Transaction.Pos = pos.getRequired("pos")
+        fun pos(): Optional<Transaction.Pos> = pos.getOptional("pos")
 
         /**
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -3104,7 +3107,14 @@ private constructor(
                 this.networkRiskScore = networkRiskScore
             }
 
-            fun pos(pos: Transaction.Pos) = pos(JsonField.of(pos))
+            /**
+             * Point of sale data for the transaction. Null when no point of sale data is available,
+             * such as clearing-only records that never went through authorization
+             */
+            fun pos(pos: Transaction.Pos?) = pos(JsonField.ofNullable(pos))
+
+            /** Alias for calling [Builder.pos] with `pos.orElse(null)`. */
+            fun pos(pos: Optional<Transaction.Pos>) = pos(pos.getOrNull())
 
             /**
              * Sets [Builder.pos] to an arbitrary JSON value.
@@ -3386,7 +3396,7 @@ private constructor(
             merchantCurrency()
             network().ifPresent { it.validate() }
             networkRiskScore()
-            pos().validate()
+            pos().ifPresent { it.validate() }
             result().validate()
             serviceLocation().ifPresent { it.validate() }
             settledAmount()

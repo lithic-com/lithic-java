@@ -324,7 +324,7 @@ internal class TransactionTest {
         assertThat(transaction.network()).contains(Transaction.Network.MASTERCARD)
         assertThat(transaction.networkRiskScore()).contains(5L)
         assertThat(transaction.pos())
-            .isEqualTo(
+            .contains(
                 Transaction.Pos.builder()
                     .entryMode(
                         Transaction.Pos.PosEntryMode.builder()

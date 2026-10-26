@@ -330,7 +330,7 @@ internal class CardTransactionUpdatedWebhookEventTest {
             .contains(Transaction.Network.MASTERCARD)
         assertThat(cardTransactionUpdatedWebhookEvent.networkRiskScore()).contains(5L)
         assertThat(cardTransactionUpdatedWebhookEvent.pos())
-            .isEqualTo(
+            .contains(
                 Transaction.Pos.builder()
                     .entryMode(
                         Transaction.Pos.PosEntryMode.builder()

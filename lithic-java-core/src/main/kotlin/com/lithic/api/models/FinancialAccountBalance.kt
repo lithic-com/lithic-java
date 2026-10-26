@@ -16,6 +16,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Balance of a Financial Account */
@@ -111,19 +112,20 @@ private constructor(
      * Globally unique identifier for the last financial transaction event that impacted this
      * balance.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun lastTransactionEventToken(): String =
-        lastTransactionEventToken.getRequired("last_transaction_event_token")
+    fun lastTransactionEventToken(): Optional<String> =
+        lastTransactionEventToken.getOptional("last_transaction_event_token")
 
     /**
      * Globally unique identifier for the last financial transaction that impacted this balance.
      *
-     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun lastTransactionToken(): String = lastTransactionToken.getRequired("last_transaction_token")
+    fun lastTransactionToken(): Optional<String> =
+        lastTransactionToken.getOptional("last_transaction_token")
 
     /**
      * Funds not available for spend due to card authorizations or pending ACH release. Shown in the
@@ -355,8 +357,15 @@ private constructor(
          * Globally unique identifier for the last financial transaction event that impacted this
          * balance.
          */
-        fun lastTransactionEventToken(lastTransactionEventToken: String) =
-            lastTransactionEventToken(JsonField.of(lastTransactionEventToken))
+        fun lastTransactionEventToken(lastTransactionEventToken: String?) =
+            lastTransactionEventToken(JsonField.ofNullable(lastTransactionEventToken))
+
+        /**
+         * Alias for calling [Builder.lastTransactionEventToken] with
+         * `lastTransactionEventToken.orElse(null)`.
+         */
+        fun lastTransactionEventToken(lastTransactionEventToken: Optional<String>) =
+            lastTransactionEventToken(lastTransactionEventToken.getOrNull())
 
         /**
          * Sets [Builder.lastTransactionEventToken] to an arbitrary JSON value.
@@ -372,8 +381,15 @@ private constructor(
         /**
          * Globally unique identifier for the last financial transaction that impacted this balance.
          */
-        fun lastTransactionToken(lastTransactionToken: String) =
-            lastTransactionToken(JsonField.of(lastTransactionToken))
+        fun lastTransactionToken(lastTransactionToken: String?) =
+            lastTransactionToken(JsonField.ofNullable(lastTransactionToken))
+
+        /**
+         * Alias for calling [Builder.lastTransactionToken] with
+         * `lastTransactionToken.orElse(null)`.
+         */
+        fun lastTransactionToken(lastTransactionToken: Optional<String>) =
+            lastTransactionToken(lastTransactionToken.getOrNull())
 
         /**
          * Sets [Builder.lastTransactionToken] to an arbitrary JSON value.
