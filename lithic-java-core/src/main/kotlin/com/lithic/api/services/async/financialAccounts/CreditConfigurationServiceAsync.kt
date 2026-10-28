@@ -71,7 +71,11 @@ interface CreditConfigurationServiceAsync {
             requestOptions,
         )
 
-    /** Update an account's credit configuration */
+    /**
+     * Update an account's credit configuration. A credit product can only be attached while the
+     * financial account is in the `PENDING` state; once a credit product has been assigned the
+     * account transitions to `OPEN` and `credit_product_token` can no longer be changed
+     */
     fun update(financialAccountToken: String): CompletableFuture<FinancialAccountCreditConfig> =
         update(financialAccountToken, FinancialAccountCreditConfigurationUpdateParams.none())
 

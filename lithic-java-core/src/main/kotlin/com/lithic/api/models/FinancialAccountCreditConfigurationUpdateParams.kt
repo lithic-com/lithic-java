@@ -19,7 +19,11 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Update an account's credit configuration */
+/**
+ * Update an account's credit configuration. A credit product can only be attached while the
+ * financial account is in the `PENDING` state; once a credit product has been assigned the account
+ * transitions to `OPEN` and `credit_product_token` can no longer be changed
+ */
 class FinancialAccountCreditConfigurationUpdateParams
 private constructor(
     private val financialAccountToken: String?,
@@ -44,7 +48,10 @@ private constructor(
     fun creditLimit(): Optional<Long> = body.creditLimit()
 
     /**
-     * Globally unique identifier for the credit product
+     * Globally unique identifier for the credit product. This can only be set while the financial
+     * account is in the `PENDING` state. Because assigning a credit product transitions the account
+     * to `OPEN`, a credit product can be attached only once; updating it on an account in any other
+     * state returns a `403`
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -199,7 +206,12 @@ private constructor(
          */
         fun creditLimit(creditLimit: JsonField<Long>) = apply { body.creditLimit(creditLimit) }
 
-        /** Globally unique identifier for the credit product */
+        /**
+         * Globally unique identifier for the credit product. This can only be set while the
+         * financial account is in the `PENDING` state. Because assigning a credit product
+         * transitions the account to `OPEN`, a credit product can be attached only once; updating
+         * it on an account in any other state returns a `403`
+         */
         fun creditProductToken(creditProductToken: String) = apply {
             body.creditProductToken(creditProductToken)
         }
@@ -434,7 +446,10 @@ private constructor(
         fun creditLimit(): Optional<Long> = creditLimit.getOptional("credit_limit")
 
         /**
-         * Globally unique identifier for the credit product
+         * Globally unique identifier for the credit product. This can only be set while the
+         * financial account is in the `PENDING` state. Because assigning a credit product
+         * transitions the account to `OPEN`, a credit product can be attached only once; updating
+         * it on an account in any other state returns a `403`
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -577,7 +592,12 @@ private constructor(
              */
             fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
-            /** Globally unique identifier for the credit product */
+            /**
+             * Globally unique identifier for the credit product. This can only be set while the
+             * financial account is in the `PENDING` state. Because assigning a credit product
+             * transitions the account to `OPEN`, a credit product can be attached only once;
+             * updating it on an account in any other state returns a `403`
+             */
             fun creditProductToken(creditProductToken: String) =
                 creditProductToken(JsonField.of(creditProductToken))
 
