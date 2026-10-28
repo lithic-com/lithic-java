@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.136.0](https://github.com/lithic-com/lithic-java/compare/v0.135.0...v0.136.0) (2026-10-28)
+
+
+### Features
+
+* **api:** add ALLPOINT to card transaction and authorization network enums ([207c0bd](https://github.com/lithic-com/lithic-java/commit/207c0bd833f8d08a799cdd3e6f75fcc40fec6f9b))
+* **api:** add financial_entity_id to transfer limits response items ([9f1074f](https://github.com/lithic-com/lithic-java/commit/9f1074f11628c08ee1b5f05f4c8fdb7c50f06c81))
+* **api:** add installments balance to loan tape balances on financial accounts ([7c2eed8](https://github.com/lithic-com/lithic-java/commit/7c2eed88ce9fac0921640e824735160e6e1d372f))
+* **api:** add INSTANCE_TO_INSTANCE to book transfer type and financial event type enums ([bf66dfe](https://github.com/lithic-com/lithic-java/commit/bf66dfecaeffbe0f2613413e949f698d9d13a86f))
+* **api:** add intra-bank transaction category and intra_bank financial event types ([93c76da](https://github.com/lithic-com/lithic-java/commit/93c76da7bb5eb767bd0e348f2b9d2441d959e120))
+* **api:** add ip_ranges.retrieve to get static IPs for Lithic ASA responder ([12f133e](https://github.com/lithic-com/lithic-java/commit/12f133eee2bfaeca3026b8756342d838c3b5e908))
+* **api:** add page_size to financial transaction lists and date filters to funding events list ([3537f85](https://github.com/lithic-com/lithic-java/commit/3537f858f562783f306b3446ccf07e62d292905a))
+* **api:** add reference_id field to claims for matching with the dashboard ([91c5c46](https://github.com/lithic-com/lithic-java/commit/91c5c462a9f4dc62e7a8219a800aad8b627342d1))
+* **api:** add unit_amount and total_amount to enhanced commercial data line items, deprecate amount ([ec08581](https://github.com/lithic-com/lithic-java/commit/ec08581e010c142a23023bfcc26690f9fafecb01))
+
+
+### Bug Fixes
+
+* **api:** correct status enum types on hold and card transaction models ([1779599](https://github.com/lithic-com/lithic-java/commit/1779599950b6106ebbf96ed4d42937877fc88d55))
+* **api:** financial account balance last transaction tokens are nullable (breaks java/kotlin types) ([a174d1e](https://github.com/lithic-com/lithic-java/commit/a174d1eaf24b0944b2f4e51fc949c31157329d63))
+* **api:** make tier_name, tier_rates, and penalty_rates nullable on account tier schedules ([93252aa](https://github.com/lithic-com/lithic-java/commit/93252aabdbbdb2602ddf743a8b1113ec2a6413b2))
+
+
+### Documentation
+
+* **api:** clarify credit product can only be assigned once to pending financial accounts ([f3e9ed9](https://github.com/lithic-com/lithic-java/commit/f3e9ed977825e7203df37c58520a0db43dde0b6c))
+
 ## [0.135.0](https://github.com/lithic-com/lithic-java/compare/v0.134.0...v0.135.0) (2026-10-13)
 
 
