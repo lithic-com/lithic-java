@@ -28,7 +28,7 @@ private constructor(
     fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
     /**
-     * Date string in RFC 3339 format. Only entries created after the specified date will be
+     * Date string in RFC 3339 format. Only entries created on or after the specified date will be
      * included.
      */
     fun begin(): Optional<LocalDate> = Optional.ofNullable(begin)
@@ -119,8 +119,8 @@ private constructor(
             financialAccountToken(financialAccountToken.getOrNull())
 
         /**
-         * Date string in RFC 3339 format. Only entries created after the specified date will be
-         * included.
+         * Date string in RFC 3339 format. Only entries created on or after the specified date will
+         * be included.
          */
         fun begin(begin: LocalDate?) = apply { this.begin = begin }
 

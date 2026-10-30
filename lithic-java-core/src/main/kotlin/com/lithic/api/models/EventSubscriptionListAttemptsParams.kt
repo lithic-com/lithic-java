@@ -32,7 +32,7 @@ private constructor(
     fun eventSubscriptionToken(): Optional<String> = Optional.ofNullable(eventSubscriptionToken)
 
     /**
-     * Date string in RFC 3339 format. Only entries created after the specified time will be
+     * Date string in RFC 3339 format. Only entries created on or after the specified time will be
      * included. UTC time zone.
      */
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
@@ -120,8 +120,8 @@ private constructor(
             eventSubscriptionToken(eventSubscriptionToken.getOrNull())
 
         /**
-         * Date string in RFC 3339 format. Only entries created after the specified time will be
-         * included. UTC time zone.
+         * Date string in RFC 3339 format. Only entries created on or after the specified time will
+         * be included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 

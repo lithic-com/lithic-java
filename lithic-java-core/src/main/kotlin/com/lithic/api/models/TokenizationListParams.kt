@@ -32,7 +32,7 @@ private constructor(
     /** Filters for tokenizations associated with a specific account. */
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
-    /** Filter for tokenizations created after this date. */
+    /** Filter for tokenizations created on or after this date. */
     fun begin(): Optional<LocalDate> = Optional.ofNullable(begin)
 
     /** Filters for tokenizations associated with a specific card. */
@@ -113,7 +113,7 @@ private constructor(
         /** Alias for calling [Builder.accountToken] with `accountToken.orElse(null)`. */
         fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.getOrNull())
 
-        /** Filter for tokenizations created after this date. */
+        /** Filter for tokenizations created on or after this date. */
         fun begin(begin: LocalDate?) = apply { this.begin = begin }
 
         /** Alias for calling [Builder.begin] with `begin.orElse(null)`. */

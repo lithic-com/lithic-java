@@ -37,7 +37,7 @@ private constructor(
     fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
 
     /**
-     * Date string in RFC 3339 format. Only events evaluated after the specified time will be
+     * Date string in RFC 3339 format. Only events evaluated on or after the specified time will be
      * included. UTC time zone.
      */
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
@@ -126,8 +126,8 @@ private constructor(
             authRuleToken(authRuleToken.getOrNull())
 
         /**
-         * Date string in RFC 3339 format. Only events evaluated after the specified time will be
-         * included. UTC time zone.
+         * Date string in RFC 3339 format. Only events evaluated on or after the specified time will
+         * be included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
