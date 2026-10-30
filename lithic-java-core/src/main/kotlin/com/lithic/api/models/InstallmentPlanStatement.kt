@@ -16,6 +16,7 @@ import com.lithic.api.core.checkRequired
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
@@ -29,7 +30,10 @@ class InstallmentPlanStatement
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val token: JsonField<String>,
+    private val closedAt: JsonField<LocalDate>,
+    private val created: JsonField<OffsetDateTime>,
     private val feeAmount: JsonField<Long>,
+    private val installmentPlanAdjustment: JsonField<Long>,
     private val installmentPlanToken: JsonField<String>,
     private val installmentPlanTotal: JsonField<Long>,
     private val installments: JsonField<List<InstallmentPlanStatementInstallment>>,
@@ -37,17 +41,29 @@ private constructor(
     private val installmentsPaid: JsonField<Long>,
     private val numInstallments: JsonField<Long>,
     private val principalAmount: JsonField<Long>,
+    private val sourceAmounts: JsonField<TransactionCategoryBalances>,
+    private val sourceId: JsonField<String>,
     private val sourceType: JsonField<InstallmentPlanSource>,
     private val startDate: JsonField<LocalDate>,
     private val state: JsonField<InstallmentPlanState>,
     private val totalPaid: JsonField<Long>,
+    private val updated: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
     @JsonCreator
     private constructor(
         @JsonProperty("token") @ExcludeMissing token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("closed_at")
+        @ExcludeMissing
+        closedAt: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("fee_amount") @ExcludeMissing feeAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("installment_plan_adjustment")
+        @ExcludeMissing
+        installmentPlanAdjustment: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("installment_plan_token")
         @ExcludeMissing
         installmentPlanToken: JsonField<String> = JsonMissing.of(),
@@ -69,6 +85,10 @@ private constructor(
         @JsonProperty("principal_amount")
         @ExcludeMissing
         principalAmount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("source_amounts")
+        @ExcludeMissing
+        sourceAmounts: JsonField<TransactionCategoryBalances> = JsonMissing.of(),
+        @JsonProperty("source_id") @ExcludeMissing sourceId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("source_type")
         @ExcludeMissing
         sourceType: JsonField<InstallmentPlanSource> = JsonMissing.of(),
@@ -79,9 +99,15 @@ private constructor(
         @ExcludeMissing
         state: JsonField<InstallmentPlanState> = JsonMissing.of(),
         @JsonProperty("total_paid") @ExcludeMissing totalPaid: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        updated: JsonField<OffsetDateTime> = JsonMissing.of(),
     ) : this(
         token,
+        closedAt,
+        created,
         feeAmount,
+        installmentPlanAdjustment,
         installmentPlanToken,
         installmentPlanTotal,
         installments,
@@ -89,10 +115,13 @@ private constructor(
         installmentsPaid,
         numInstallments,
         principalAmount,
+        sourceAmounts,
+        sourceId,
         sourceType,
         startDate,
         state,
         totalPaid,
+        updated,
         mutableMapOf(),
     )
 
@@ -107,12 +136,38 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /**
+     * Date the plan was paid off or cancelled, or null if it was still open as of this statement
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun closedAt(): Optional<LocalDate> = closedAt.getOptional("closed_at")
+
+    /**
+     * Timestamp of when the installment plan was created
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun created(): OffsetDateTime = created.getRequired("created")
+
+    /**
      * Enrollment fee charged when the plan was created in cents
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun feeAmount(): Long = feeAmount.getRequired("fee_amount")
+
+    /**
+     * Amount credited to this plan after the plan was recalculated, as of this statement. The plan
+     * amount is not changed, and this credit reduces the amount owed
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun installmentPlanAdjustment(): Long =
+        installmentPlanAdjustment.getRequired("installment_plan_adjustment")
 
     /**
      * Globally unique identifier for the installment plan this snapshot is of
@@ -173,6 +228,24 @@ private constructor(
     fun principalAmount(): Long = principalAmount.getRequired("principal_amount")
 
     /**
+     * Balance the plan was opened on, broken out by category, or null if it was not recorded
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun sourceAmounts(): Optional<TransactionCategoryBalances> =
+        sourceAmounts.getOptional("source_amounts")
+
+    /**
+     * Identifier of the record the plan was opened from, such as the closing statement for an
+     * unpaid balance
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun sourceId(): String = sourceId.getRequired("source_id")
+
+    /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
@@ -205,6 +278,14 @@ private constructor(
     fun totalPaid(): Long = totalPaid.getRequired("total_paid")
 
     /**
+     * Timestamp of when the installment plan was last updated as of this statement
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun updated(): OffsetDateTime = updated.getRequired("updated")
+
+    /**
      * Returns the raw JSON value of [token].
      *
      * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
@@ -212,11 +293,35 @@ private constructor(
     @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
+     * Returns the raw JSON value of [closedAt].
+     *
+     * Unlike [closedAt], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("closed_at") @ExcludeMissing fun _closedAt(): JsonField<LocalDate> = closedAt
+
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
+
+    /**
      * Returns the raw JSON value of [feeAmount].
      *
      * Unlike [feeAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("fee_amount") @ExcludeMissing fun _feeAmount(): JsonField<Long> = feeAmount
+
+    /**
+     * Returns the raw JSON value of [installmentPlanAdjustment].
+     *
+     * Unlike [installmentPlanAdjustment], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("installment_plan_adjustment")
+    @ExcludeMissing
+    fun _installmentPlanAdjustment(): JsonField<Long> = installmentPlanAdjustment
 
     /**
      * Returns the raw JSON value of [installmentPlanToken].
@@ -286,6 +391,22 @@ private constructor(
     fun _principalAmount(): JsonField<Long> = principalAmount
 
     /**
+     * Returns the raw JSON value of [sourceAmounts].
+     *
+     * Unlike [sourceAmounts], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("source_amounts")
+    @ExcludeMissing
+    fun _sourceAmounts(): JsonField<TransactionCategoryBalances> = sourceAmounts
+
+    /**
+     * Returns the raw JSON value of [sourceId].
+     *
+     * Unlike [sourceId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("source_id") @ExcludeMissing fun _sourceId(): JsonField<String> = sourceId
+
+    /**
      * Returns the raw JSON value of [sourceType].
      *
      * Unlike [sourceType], this method doesn't throw if the JSON field has an unexpected type.
@@ -315,6 +436,13 @@ private constructor(
      */
     @JsonProperty("total_paid") @ExcludeMissing fun _totalPaid(): JsonField<Long> = totalPaid
 
+    /**
+     * Returns the raw JSON value of [updated].
+     *
+     * Unlike [updated], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -335,7 +463,10 @@ private constructor(
          * The following fields are required:
          * ```java
          * .token()
+         * .closedAt()
+         * .created()
          * .feeAmount()
+         * .installmentPlanAdjustment()
          * .installmentPlanToken()
          * .installmentPlanTotal()
          * .installments()
@@ -343,10 +474,13 @@ private constructor(
          * .installmentsPaid()
          * .numInstallments()
          * .principalAmount()
+         * .sourceAmounts()
+         * .sourceId()
          * .sourceType()
          * .startDate()
          * .state()
          * .totalPaid()
+         * .updated()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -356,7 +490,10 @@ private constructor(
     class Builder internal constructor() {
 
         private var token: JsonField<String>? = null
+        private var closedAt: JsonField<LocalDate>? = null
+        private var created: JsonField<OffsetDateTime>? = null
         private var feeAmount: JsonField<Long>? = null
+        private var installmentPlanAdjustment: JsonField<Long>? = null
         private var installmentPlanToken: JsonField<String>? = null
         private var installmentPlanTotal: JsonField<Long>? = null
         private var installments: JsonField<MutableList<InstallmentPlanStatementInstallment>>? =
@@ -365,16 +502,22 @@ private constructor(
         private var installmentsPaid: JsonField<Long>? = null
         private var numInstallments: JsonField<Long>? = null
         private var principalAmount: JsonField<Long>? = null
+        private var sourceAmounts: JsonField<TransactionCategoryBalances>? = null
+        private var sourceId: JsonField<String>? = null
         private var sourceType: JsonField<InstallmentPlanSource>? = null
         private var startDate: JsonField<LocalDate>? = null
         private var state: JsonField<InstallmentPlanState>? = null
         private var totalPaid: JsonField<Long>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(installmentPlanStatement: InstallmentPlanStatement) = apply {
             token = installmentPlanStatement.token
+            closedAt = installmentPlanStatement.closedAt
+            created = installmentPlanStatement.created
             feeAmount = installmentPlanStatement.feeAmount
+            installmentPlanAdjustment = installmentPlanStatement.installmentPlanAdjustment
             installmentPlanToken = installmentPlanStatement.installmentPlanToken
             installmentPlanTotal = installmentPlanStatement.installmentPlanTotal
             installments = installmentPlanStatement.installments.map { it.toMutableList() }
@@ -382,10 +525,13 @@ private constructor(
             installmentsPaid = installmentPlanStatement.installmentsPaid
             numInstallments = installmentPlanStatement.numInstallments
             principalAmount = installmentPlanStatement.principalAmount
+            sourceAmounts = installmentPlanStatement.sourceAmounts
+            sourceId = installmentPlanStatement.sourceId
             sourceType = installmentPlanStatement.sourceType
             startDate = installmentPlanStatement.startDate
             state = installmentPlanStatement.state
             totalPaid = installmentPlanStatement.totalPaid
+            updated = installmentPlanStatement.updated
             additionalProperties = installmentPlanStatement.additionalProperties.toMutableMap()
         }
 
@@ -404,6 +550,36 @@ private constructor(
          */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
+        /**
+         * Date the plan was paid off or cancelled, or null if it was still open as of this
+         * statement
+         */
+        fun closedAt(closedAt: LocalDate?) = closedAt(JsonField.ofNullable(closedAt))
+
+        /** Alias for calling [Builder.closedAt] with `closedAt.orElse(null)`. */
+        fun closedAt(closedAt: Optional<LocalDate>) = closedAt(closedAt.getOrNull())
+
+        /**
+         * Sets [Builder.closedAt] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.closedAt] with a well-typed [LocalDate] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun closedAt(closedAt: JsonField<LocalDate>) = apply { this.closedAt = closedAt }
+
+        /** Timestamp of when the installment plan was created */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
         /** Enrollment fee charged when the plan was created in cents */
         fun feeAmount(feeAmount: Long) = feeAmount(JsonField.of(feeAmount))
 
@@ -414,6 +590,24 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun feeAmount(feeAmount: JsonField<Long>) = apply { this.feeAmount = feeAmount }
+
+        /**
+         * Amount credited to this plan after the plan was recalculated, as of this statement. The
+         * plan amount is not changed, and this credit reduces the amount owed
+         */
+        fun installmentPlanAdjustment(installmentPlanAdjustment: Long) =
+            installmentPlanAdjustment(JsonField.of(installmentPlanAdjustment))
+
+        /**
+         * Sets [Builder.installmentPlanAdjustment] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.installmentPlanAdjustment] with a well-typed [Long]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun installmentPlanAdjustment(installmentPlanAdjustment: JsonField<Long>) = apply {
+            this.installmentPlanAdjustment = installmentPlanAdjustment
+        }
 
         /** Globally unique identifier for the installment plan this snapshot is of */
         fun installmentPlanToken(installmentPlanToken: String) =
@@ -531,6 +725,41 @@ private constructor(
             this.principalAmount = principalAmount
         }
 
+        /**
+         * Balance the plan was opened on, broken out by category, or null if it was not recorded
+         */
+        fun sourceAmounts(sourceAmounts: TransactionCategoryBalances?) =
+            sourceAmounts(JsonField.ofNullable(sourceAmounts))
+
+        /** Alias for calling [Builder.sourceAmounts] with `sourceAmounts.orElse(null)`. */
+        fun sourceAmounts(sourceAmounts: Optional<TransactionCategoryBalances>) =
+            sourceAmounts(sourceAmounts.getOrNull())
+
+        /**
+         * Sets [Builder.sourceAmounts] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.sourceAmounts] with a well-typed
+         * [TransactionCategoryBalances] value instead. This method is primarily for setting the
+         * field to an undocumented or not yet supported value.
+         */
+        fun sourceAmounts(sourceAmounts: JsonField<TransactionCategoryBalances>) = apply {
+            this.sourceAmounts = sourceAmounts
+        }
+
+        /**
+         * Identifier of the record the plan was opened from, such as the closing statement for an
+         * unpaid balance
+         */
+        fun sourceId(sourceId: String) = sourceId(JsonField.of(sourceId))
+
+        /**
+         * Sets [Builder.sourceId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.sourceId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun sourceId(sourceId: JsonField<String>) = apply { this.sourceId = sourceId }
+
         fun sourceType(sourceType: InstallmentPlanSource) = sourceType(JsonField.of(sourceType))
 
         /**
@@ -583,6 +812,18 @@ private constructor(
          */
         fun totalPaid(totalPaid: JsonField<Long>) = apply { this.totalPaid = totalPaid }
 
+        /** Timestamp of when the installment plan was last updated as of this statement */
+        fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
+
+        /**
+         * Sets [Builder.updated] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.updated] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -610,7 +851,10 @@ private constructor(
          * The following fields are required:
          * ```java
          * .token()
+         * .closedAt()
+         * .created()
          * .feeAmount()
+         * .installmentPlanAdjustment()
          * .installmentPlanToken()
          * .installmentPlanTotal()
          * .installments()
@@ -618,10 +862,13 @@ private constructor(
          * .installmentsPaid()
          * .numInstallments()
          * .principalAmount()
+         * .sourceAmounts()
+         * .sourceId()
          * .sourceType()
          * .startDate()
          * .state()
          * .totalPaid()
+         * .updated()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -629,7 +876,10 @@ private constructor(
         fun build(): InstallmentPlanStatement =
             InstallmentPlanStatement(
                 checkRequired("token", token),
+                checkRequired("closedAt", closedAt),
+                checkRequired("created", created),
                 checkRequired("feeAmount", feeAmount),
+                checkRequired("installmentPlanAdjustment", installmentPlanAdjustment),
                 checkRequired("installmentPlanToken", installmentPlanToken),
                 checkRequired("installmentPlanTotal", installmentPlanTotal),
                 checkRequired("installments", installments).map { it.toImmutable() },
@@ -637,10 +887,13 @@ private constructor(
                 checkRequired("installmentsPaid", installmentsPaid),
                 checkRequired("numInstallments", numInstallments),
                 checkRequired("principalAmount", principalAmount),
+                checkRequired("sourceAmounts", sourceAmounts),
+                checkRequired("sourceId", sourceId),
                 checkRequired("sourceType", sourceType),
                 checkRequired("startDate", startDate),
                 checkRequired("state", state),
                 checkRequired("totalPaid", totalPaid),
+                checkRequired("updated", updated),
                 additionalProperties.toMutableMap(),
             )
     }
@@ -661,7 +914,10 @@ private constructor(
         }
 
         token()
+        closedAt()
+        created()
         feeAmount()
+        installmentPlanAdjustment()
         installmentPlanToken()
         installmentPlanTotal()
         installments().forEach { it.validate() }
@@ -669,10 +925,13 @@ private constructor(
         installmentsPaid()
         numInstallments()
         principalAmount()
+        sourceAmounts().ifPresent { it.validate() }
+        sourceId()
         sourceType().validate()
         startDate()
         state().validate()
         totalPaid()
+        updated()
         validated = true
     }
 
@@ -692,7 +951,10 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (token.asKnown().isPresent) 1 else 0) +
+            (if (closedAt.asKnown().isPresent) 1 else 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
             (if (feeAmount.asKnown().isPresent) 1 else 0) +
+            (if (installmentPlanAdjustment.asKnown().isPresent) 1 else 0) +
             (if (installmentPlanToken.asKnown().isPresent) 1 else 0) +
             (if (installmentPlanTotal.asKnown().isPresent) 1 else 0) +
             (installments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
@@ -700,29 +962,30 @@ private constructor(
             (if (installmentsPaid.asKnown().isPresent) 1 else 0) +
             (if (numInstallments.asKnown().isPresent) 1 else 0) +
             (if (principalAmount.asKnown().isPresent) 1 else 0) +
+            (sourceAmounts.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (sourceId.asKnown().isPresent) 1 else 0) +
             (sourceType.asKnown().getOrNull()?.validity() ?: 0) +
             (if (startDate.asKnown().isPresent) 1 else 0) +
             (state.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (totalPaid.asKnown().isPresent) 1 else 0)
+            (if (totalPaid.asKnown().isPresent) 1 else 0) +
+            (if (updated.asKnown().isPresent) 1 else 0)
 
-    /**
-     * One installment of a plan as of the statement. Amounts are totalled across transaction
-     * categories rather than broken out by them, which the installment plan endpoint does
-     */
+    /** One installment of a plan as of the statement */
     class InstallmentPlanStatementInstallment
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amountDue: JsonField<Long>,
-        private val amountDueDetails: JsonField<CategoryBalances>,
+        private val amountDueDetails: JsonField<TransactionCategoryBalances>,
         private val amountOutstanding: JsonField<Long>,
-        private val amountOutstandingDetails: JsonField<CategoryBalances>,
+        private val amountOutstandingDetails: JsonField<TransactionCategoryBalances>,
         private val amountPaid: JsonField<Long>,
-        private val amountPaidDetails: JsonField<CategoryBalances>,
+        private val amountPaidDetails: JsonField<TransactionCategoryBalances>,
         private val dateAssessed: JsonField<LocalDate>,
         private val dueDate: JsonField<LocalDate>,
         private val installmentNum: JsonField<Long>,
         private val paymentDueDate: JsonField<LocalDate>,
-        private val payments: JsonField<List<InstallmentPlanStatementPayment>>,
+        private val payments: JsonField<List<InstallmentPayment>>,
+        private val installmentAdjustment: JsonField<Long>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -733,19 +996,19 @@ private constructor(
             amountDue: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("amount_due_details")
             @ExcludeMissing
-            amountDueDetails: JsonField<CategoryBalances> = JsonMissing.of(),
+            amountDueDetails: JsonField<TransactionCategoryBalances> = JsonMissing.of(),
             @JsonProperty("amount_outstanding")
             @ExcludeMissing
             amountOutstanding: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("amount_outstanding_details")
             @ExcludeMissing
-            amountOutstandingDetails: JsonField<CategoryBalances> = JsonMissing.of(),
+            amountOutstandingDetails: JsonField<TransactionCategoryBalances> = JsonMissing.of(),
             @JsonProperty("amount_paid")
             @ExcludeMissing
             amountPaid: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("amount_paid_details")
             @ExcludeMissing
-            amountPaidDetails: JsonField<CategoryBalances> = JsonMissing.of(),
+            amountPaidDetails: JsonField<TransactionCategoryBalances> = JsonMissing.of(),
             @JsonProperty("date_assessed")
             @ExcludeMissing
             dateAssessed: JsonField<LocalDate> = JsonMissing.of(),
@@ -760,7 +1023,10 @@ private constructor(
             paymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
             @JsonProperty("payments")
             @ExcludeMissing
-            payments: JsonField<List<InstallmentPlanStatementPayment>> = JsonMissing.of(),
+            payments: JsonField<List<InstallmentPayment>> = JsonMissing.of(),
+            @JsonProperty("installment_adjustment")
+            @ExcludeMissing
+            installmentAdjustment: JsonField<Long> = JsonMissing.of(),
         ) : this(
             amountDue,
             amountDueDetails,
@@ -773,6 +1039,7 @@ private constructor(
             installmentNum,
             paymentDueDate,
             payments,
+            installmentAdjustment,
             mutableMapOf(),
         )
 
@@ -788,7 +1055,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun amountDueDetails(): CategoryBalances =
+        fun amountDueDetails(): TransactionCategoryBalances =
             amountDueDetails.getRequired("amount_due_details")
 
         /**
@@ -803,7 +1070,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun amountOutstandingDetails(): CategoryBalances =
+        fun amountOutstandingDetails(): TransactionCategoryBalances =
             amountOutstandingDetails.getRequired("amount_outstanding_details")
 
         /**
@@ -818,7 +1085,7 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun amountPaidDetails(): CategoryBalances =
+        fun amountPaidDetails(): TransactionCategoryBalances =
             amountPaidDetails.getRequired("amount_paid_details")
 
         /**
@@ -860,7 +1127,16 @@ private constructor(
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun payments(): List<InstallmentPlanStatementPayment> = payments.getRequired("payments")
+        fun payments(): List<InstallmentPayment> = payments.getRequired("payments")
+
+        /**
+         * Amount from installment_plan_adjustment credited to this installment as of this statement
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun installmentAdjustment(): Optional<Long> =
+            installmentAdjustment.getOptional("installment_adjustment")
 
         /**
          * Returns the raw JSON value of [amountDue].
@@ -877,7 +1153,7 @@ private constructor(
          */
         @JsonProperty("amount_due_details")
         @ExcludeMissing
-        fun _amountDueDetails(): JsonField<CategoryBalances> = amountDueDetails
+        fun _amountDueDetails(): JsonField<TransactionCategoryBalances> = amountDueDetails
 
         /**
          * Returns the raw JSON value of [amountOutstanding].
@@ -897,7 +1173,8 @@ private constructor(
          */
         @JsonProperty("amount_outstanding_details")
         @ExcludeMissing
-        fun _amountOutstandingDetails(): JsonField<CategoryBalances> = amountOutstandingDetails
+        fun _amountOutstandingDetails(): JsonField<TransactionCategoryBalances> =
+            amountOutstandingDetails
 
         /**
          * Returns the raw JSON value of [amountPaid].
@@ -914,7 +1191,7 @@ private constructor(
          */
         @JsonProperty("amount_paid_details")
         @ExcludeMissing
-        fun _amountPaidDetails(): JsonField<CategoryBalances> = amountPaidDetails
+        fun _amountPaidDetails(): JsonField<TransactionCategoryBalances> = amountPaidDetails
 
         /**
          * Returns the raw JSON value of [dateAssessed].
@@ -960,7 +1237,17 @@ private constructor(
          */
         @JsonProperty("payments")
         @ExcludeMissing
-        fun _payments(): JsonField<List<InstallmentPlanStatementPayment>> = payments
+        fun _payments(): JsonField<List<InstallmentPayment>> = payments
+
+        /**
+         * Returns the raw JSON value of [installmentAdjustment].
+         *
+         * Unlike [installmentAdjustment], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("installment_adjustment")
+        @ExcludeMissing
+        fun _installmentAdjustment(): JsonField<Long> = installmentAdjustment
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1002,16 +1289,17 @@ private constructor(
         class Builder internal constructor() {
 
             private var amountDue: JsonField<Long>? = null
-            private var amountDueDetails: JsonField<CategoryBalances>? = null
+            private var amountDueDetails: JsonField<TransactionCategoryBalances>? = null
             private var amountOutstanding: JsonField<Long>? = null
-            private var amountOutstandingDetails: JsonField<CategoryBalances>? = null
+            private var amountOutstandingDetails: JsonField<TransactionCategoryBalances>? = null
             private var amountPaid: JsonField<Long>? = null
-            private var amountPaidDetails: JsonField<CategoryBalances>? = null
+            private var amountPaidDetails: JsonField<TransactionCategoryBalances>? = null
             private var dateAssessed: JsonField<LocalDate>? = null
             private var dueDate: JsonField<LocalDate>? = null
             private var installmentNum: JsonField<Long>? = null
             private var paymentDueDate: JsonField<LocalDate>? = null
-            private var payments: JsonField<MutableList<InstallmentPlanStatementPayment>>? = null
+            private var payments: JsonField<MutableList<InstallmentPayment>>? = null
+            private var installmentAdjustment: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1030,6 +1318,7 @@ private constructor(
                 installmentNum = installmentPlanStatementInstallment.installmentNum
                 paymentDueDate = installmentPlanStatementInstallment.paymentDueDate
                 payments = installmentPlanStatementInstallment.payments.map { it.toMutableList() }
+                installmentAdjustment = installmentPlanStatementInstallment.installmentAdjustment
                 additionalProperties =
                     installmentPlanStatementInstallment.additionalProperties.toMutableMap()
             }
@@ -1046,17 +1335,17 @@ private constructor(
              */
             fun amountDue(amountDue: JsonField<Long>) = apply { this.amountDue = amountDue }
 
-            fun amountDueDetails(amountDueDetails: CategoryBalances) =
+            fun amountDueDetails(amountDueDetails: TransactionCategoryBalances) =
                 amountDueDetails(JsonField.of(amountDueDetails))
 
             /**
              * Sets [Builder.amountDueDetails] to an arbitrary JSON value.
              *
              * You should usually call [Builder.amountDueDetails] with a well-typed
-             * [CategoryBalances] value instead. This method is primarily for setting the field to
-             * an undocumented or not yet supported value.
+             * [TransactionCategoryBalances] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
              */
-            fun amountDueDetails(amountDueDetails: JsonField<CategoryBalances>) = apply {
+            fun amountDueDetails(amountDueDetails: JsonField<TransactionCategoryBalances>) = apply {
                 this.amountDueDetails = amountDueDetails
             }
 
@@ -1075,20 +1364,19 @@ private constructor(
                 this.amountOutstanding = amountOutstanding
             }
 
-            fun amountOutstandingDetails(amountOutstandingDetails: CategoryBalances) =
+            fun amountOutstandingDetails(amountOutstandingDetails: TransactionCategoryBalances) =
                 amountOutstandingDetails(JsonField.of(amountOutstandingDetails))
 
             /**
              * Sets [Builder.amountOutstandingDetails] to an arbitrary JSON value.
              *
              * You should usually call [Builder.amountOutstandingDetails] with a well-typed
-             * [CategoryBalances] value instead. This method is primarily for setting the field to
-             * an undocumented or not yet supported value.
+             * [TransactionCategoryBalances] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
              */
-            fun amountOutstandingDetails(amountOutstandingDetails: JsonField<CategoryBalances>) =
-                apply {
-                    this.amountOutstandingDetails = amountOutstandingDetails
-                }
+            fun amountOutstandingDetails(
+                amountOutstandingDetails: JsonField<TransactionCategoryBalances>
+            ) = apply { this.amountOutstandingDetails = amountOutstandingDetails }
 
             /** Amount paid towards the installment in cents */
             fun amountPaid(amountPaid: Long) = amountPaid(JsonField.of(amountPaid))
@@ -1102,19 +1390,20 @@ private constructor(
              */
             fun amountPaid(amountPaid: JsonField<Long>) = apply { this.amountPaid = amountPaid }
 
-            fun amountPaidDetails(amountPaidDetails: CategoryBalances) =
+            fun amountPaidDetails(amountPaidDetails: TransactionCategoryBalances) =
                 amountPaidDetails(JsonField.of(amountPaidDetails))
 
             /**
              * Sets [Builder.amountPaidDetails] to an arbitrary JSON value.
              *
              * You should usually call [Builder.amountPaidDetails] with a well-typed
-             * [CategoryBalances] value instead. This method is primarily for setting the field to
-             * an undocumented or not yet supported value.
+             * [TransactionCategoryBalances] value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
              */
-            fun amountPaidDetails(amountPaidDetails: JsonField<CategoryBalances>) = apply {
-                this.amountPaidDetails = amountPaidDetails
-            }
+            fun amountPaidDetails(amountPaidDetails: JsonField<TransactionCategoryBalances>) =
+                apply {
+                    this.amountPaidDetails = amountPaidDetails
+                }
 
             /**
              * Date the installment was actually assessed onto the account, or null if it had not
@@ -1180,30 +1469,47 @@ private constructor(
             }
 
             /** Payments applied to this installment, oldest first */
-            fun payments(payments: List<InstallmentPlanStatementPayment>) =
-                payments(JsonField.of(payments))
+            fun payments(payments: List<InstallmentPayment>) = payments(JsonField.of(payments))
 
             /**
              * Sets [Builder.payments] to an arbitrary JSON value.
              *
              * You should usually call [Builder.payments] with a well-typed
-             * `List<InstallmentPlanStatementPayment>` value instead. This method is primarily for
-             * setting the field to an undocumented or not yet supported value.
+             * `List<InstallmentPayment>` value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
              */
-            fun payments(payments: JsonField<List<InstallmentPlanStatementPayment>>) = apply {
+            fun payments(payments: JsonField<List<InstallmentPayment>>) = apply {
                 this.payments = payments.map { it.toMutableList() }
             }
 
             /**
-             * Adds a single [InstallmentPlanStatementPayment] to [payments].
+             * Adds a single [InstallmentPayment] to [payments].
              *
              * @throws IllegalStateException if the field was previously set to a non-list.
              */
-            fun addPayment(payment: InstallmentPlanStatementPayment) = apply {
+            fun addPayment(payment: InstallmentPayment) = apply {
                 payments =
                     (payments ?: JsonField.of(mutableListOf())).also {
                         checkKnown("payments", it).add(payment)
                     }
+            }
+
+            /**
+             * Amount from installment_plan_adjustment credited to this installment as of this
+             * statement
+             */
+            fun installmentAdjustment(installmentAdjustment: Long) =
+                installmentAdjustment(JsonField.of(installmentAdjustment))
+
+            /**
+             * Sets [Builder.installmentAdjustment] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.installmentAdjustment] with a well-typed [Long]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun installmentAdjustment(installmentAdjustment: JsonField<Long>) = apply {
+                this.installmentAdjustment = installmentAdjustment
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1260,6 +1566,7 @@ private constructor(
                     checkRequired("installmentNum", installmentNum),
                     checkRequired("paymentDueDate", paymentDueDate),
                     checkRequired("payments", payments).map { it.toImmutable() },
+                    installmentAdjustment,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1291,6 +1598,7 @@ private constructor(
             installmentNum()
             paymentDueDate()
             payments().forEach { it.validate() }
+            installmentAdjustment()
             validated = true
         }
 
@@ -1320,21 +1628,30 @@ private constructor(
                 (if (dueDate.asKnown().isPresent) 1 else 0) +
                 (if (installmentNum.asKnown().isPresent) 1 else 0) +
                 (if (paymentDueDate.asKnown().isPresent) 1 else 0) +
-                (payments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+                (payments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (installmentAdjustment.asKnown().isPresent) 1 else 0)
 
-        class InstallmentPlanStatementPayment
+        class InstallmentPayment
         @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val amount: JsonField<Long>,
+            private val amountDetails: JsonField<TransactionCategoryBalances>,
             private val date: JsonField<LocalDate>,
+            private val isAdjustment: JsonField<Boolean>,
             private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
             @JsonCreator
             private constructor(
                 @JsonProperty("amount") @ExcludeMissing amount: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("amount_details")
+                @ExcludeMissing
+                amountDetails: JsonField<TransactionCategoryBalances> = JsonMissing.of(),
                 @JsonProperty("date") @ExcludeMissing date: JsonField<LocalDate> = JsonMissing.of(),
-            ) : this(amount, date, mutableMapOf())
+                @JsonProperty("is_adjustment")
+                @ExcludeMissing
+                isAdjustment: JsonField<Boolean> = JsonMissing.of(),
+            ) : this(amount, amountDetails, date, isAdjustment, mutableMapOf())
 
             /**
              * Amount applied to the installment in cents
@@ -1346,6 +1663,14 @@ private constructor(
             fun amount(): Long = amount.getRequired("amount")
 
             /**
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun amountDetails(): TransactionCategoryBalances =
+                amountDetails.getRequired("amount_details")
+
+            /**
              * Date the payment was applied to the installment
              *
              * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -1355,6 +1680,15 @@ private constructor(
             fun date(): LocalDate = date.getRequired("date")
 
             /**
+             * True when the source of the payment is an adjustment of an underlying account or
+             * transaction
+             *
+             * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if
+             *   the server responded with an unexpected value).
+             */
+            fun isAdjustment(): Optional<Boolean> = isAdjustment.getOptional("is_adjustment")
+
+            /**
              * Returns the raw JSON value of [amount].
              *
              * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
@@ -1362,11 +1696,31 @@ private constructor(
             @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
             /**
+             * Returns the raw JSON value of [amountDetails].
+             *
+             * Unlike [amountDetails], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("amount_details")
+            @ExcludeMissing
+            fun _amountDetails(): JsonField<TransactionCategoryBalances> = amountDetails
+
+            /**
              * Returns the raw JSON value of [date].
              *
              * Unlike [date], this method doesn't throw if the JSON field has an unexpected type.
              */
             @JsonProperty("date") @ExcludeMissing fun _date(): JsonField<LocalDate> = date
+
+            /**
+             * Returns the raw JSON value of [isAdjustment].
+             *
+             * Unlike [isAdjustment], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("is_adjustment")
+            @ExcludeMissing
+            fun _isAdjustment(): JsonField<Boolean> = isAdjustment
 
             @JsonAnySetter
             private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1383,33 +1737,34 @@ private constructor(
             companion object {
 
                 /**
-                 * Returns a mutable builder for constructing an instance of
-                 * [InstallmentPlanStatementPayment].
+                 * Returns a mutable builder for constructing an instance of [InstallmentPayment].
                  *
                  * The following fields are required:
                  * ```java
                  * .amount()
+                 * .amountDetails()
                  * .date()
                  * ```
                  */
                 @JvmStatic fun builder() = Builder()
             }
 
-            /** A builder for [InstallmentPlanStatementPayment]. */
+            /** A builder for [InstallmentPayment]. */
             class Builder internal constructor() {
 
                 private var amount: JsonField<Long>? = null
+                private var amountDetails: JsonField<TransactionCategoryBalances>? = null
                 private var date: JsonField<LocalDate>? = null
+                private var isAdjustment: JsonField<Boolean> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
-                internal fun from(
-                    installmentPlanStatementPayment: InstallmentPlanStatementPayment
-                ) = apply {
-                    amount = installmentPlanStatementPayment.amount
-                    date = installmentPlanStatementPayment.date
-                    additionalProperties =
-                        installmentPlanStatementPayment.additionalProperties.toMutableMap()
+                internal fun from(installmentPayment: InstallmentPayment) = apply {
+                    amount = installmentPayment.amount
+                    amountDetails = installmentPayment.amountDetails
+                    date = installmentPayment.date
+                    isAdjustment = installmentPayment.isAdjustment
+                    additionalProperties = installmentPayment.additionalProperties.toMutableMap()
                 }
 
                 /** Amount applied to the installment in cents */
@@ -1424,6 +1779,20 @@ private constructor(
                  */
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
+                fun amountDetails(amountDetails: TransactionCategoryBalances) =
+                    amountDetails(JsonField.of(amountDetails))
+
+                /**
+                 * Sets [Builder.amountDetails] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amountDetails] with a well-typed
+                 * [TransactionCategoryBalances] value instead. This method is primarily for setting
+                 * the field to an undocumented or not yet supported value.
+                 */
+                fun amountDetails(amountDetails: JsonField<TransactionCategoryBalances>) = apply {
+                    this.amountDetails = amountDetails
+                }
+
                 /** Date the payment was applied to the installment */
                 fun date(date: LocalDate) = date(JsonField.of(date))
 
@@ -1435,6 +1804,23 @@ private constructor(
                  * yet supported value.
                  */
                 fun date(date: JsonField<LocalDate>) = apply { this.date = date }
+
+                /**
+                 * True when the source of the payment is an adjustment of an underlying account or
+                 * transaction
+                 */
+                fun isAdjustment(isAdjustment: Boolean) = isAdjustment(JsonField.of(isAdjustment))
+
+                /**
+                 * Sets [Builder.isAdjustment] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.isAdjustment] with a well-typed [Boolean] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun isAdjustment(isAdjustment: JsonField<Boolean>) = apply {
+                    this.isAdjustment = isAdjustment
+                }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1459,22 +1845,25 @@ private constructor(
                 }
 
                 /**
-                 * Returns an immutable instance of [InstallmentPlanStatementPayment].
+                 * Returns an immutable instance of [InstallmentPayment].
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  *
                  * The following fields are required:
                  * ```java
                  * .amount()
+                 * .amountDetails()
                  * .date()
                  * ```
                  *
                  * @throws IllegalStateException if any required field is unset.
                  */
-                fun build(): InstallmentPlanStatementPayment =
-                    InstallmentPlanStatementPayment(
+                fun build(): InstallmentPayment =
+                    InstallmentPayment(
                         checkRequired("amount", amount),
+                        checkRequired("amountDetails", amountDetails),
                         checkRequired("date", date),
+                        isAdjustment,
                         additionalProperties.toMutableMap(),
                     )
             }
@@ -1491,13 +1880,15 @@ private constructor(
              * @throws LithicInvalidDataException if any value type in this object doesn't match its
              *   expected type.
              */
-            fun validate(): InstallmentPlanStatementPayment = apply {
+            fun validate(): InstallmentPayment = apply {
                 if (validated) {
                     return@apply
                 }
 
                 amount()
+                amountDetails().validate()
                 date()
+                isAdjustment()
                 validated = true
             }
 
@@ -1518,25 +1909,31 @@ private constructor(
             @JvmSynthetic
             internal fun validity(): Int =
                 (if (amount.asKnown().isPresent) 1 else 0) +
-                    (if (date.asKnown().isPresent) 1 else 0)
+                    (amountDetails.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (date.asKnown().isPresent) 1 else 0) +
+                    (if (isAdjustment.asKnown().isPresent) 1 else 0)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
                 }
 
-                return other is InstallmentPlanStatementPayment &&
+                return other is InstallmentPayment &&
                     amount == other.amount &&
+                    amountDetails == other.amountDetails &&
                     date == other.date &&
+                    isAdjustment == other.isAdjustment &&
                     additionalProperties == other.additionalProperties
             }
 
-            private val hashCode: Int by lazy { Objects.hash(amount, date, additionalProperties) }
+            private val hashCode: Int by lazy {
+                Objects.hash(amount, amountDetails, date, isAdjustment, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "InstallmentPlanStatementPayment{amount=$amount, date=$date, additionalProperties=$additionalProperties}"
+                "InstallmentPayment{amount=$amount, amountDetails=$amountDetails, date=$date, isAdjustment=$isAdjustment, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1556,6 +1953,7 @@ private constructor(
                 installmentNum == other.installmentNum &&
                 paymentDueDate == other.paymentDueDate &&
                 payments == other.payments &&
+                installmentAdjustment == other.installmentAdjustment &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -1572,6 +1970,7 @@ private constructor(
                 installmentNum,
                 paymentDueDate,
                 payments,
+                installmentAdjustment,
                 additionalProperties,
             )
         }
@@ -1579,7 +1978,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "InstallmentPlanStatementInstallment{amountDue=$amountDue, amountDueDetails=$amountDueDetails, amountOutstanding=$amountOutstanding, amountOutstandingDetails=$amountOutstandingDetails, amountPaid=$amountPaid, amountPaidDetails=$amountPaidDetails, dateAssessed=$dateAssessed, dueDate=$dueDate, installmentNum=$installmentNum, paymentDueDate=$paymentDueDate, payments=$payments, additionalProperties=$additionalProperties}"
+            "InstallmentPlanStatementInstallment{amountDue=$amountDue, amountDueDetails=$amountDueDetails, amountOutstanding=$amountOutstanding, amountOutstandingDetails=$amountOutstandingDetails, amountPaid=$amountPaid, amountPaidDetails=$amountPaidDetails, dateAssessed=$dateAssessed, dueDate=$dueDate, installmentNum=$installmentNum, paymentDueDate=$paymentDueDate, payments=$payments, installmentAdjustment=$installmentAdjustment, additionalProperties=$additionalProperties}"
     }
 
     class InstallmentPlanSource
@@ -1892,7 +2291,10 @@ private constructor(
 
         return other is InstallmentPlanStatement &&
             token == other.token &&
+            closedAt == other.closedAt &&
+            created == other.created &&
             feeAmount == other.feeAmount &&
+            installmentPlanAdjustment == other.installmentPlanAdjustment &&
             installmentPlanToken == other.installmentPlanToken &&
             installmentPlanTotal == other.installmentPlanTotal &&
             installments == other.installments &&
@@ -1900,17 +2302,23 @@ private constructor(
             installmentsPaid == other.installmentsPaid &&
             numInstallments == other.numInstallments &&
             principalAmount == other.principalAmount &&
+            sourceAmounts == other.sourceAmounts &&
+            sourceId == other.sourceId &&
             sourceType == other.sourceType &&
             startDate == other.startDate &&
             state == other.state &&
             totalPaid == other.totalPaid &&
+            updated == other.updated &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
         Objects.hash(
             token,
+            closedAt,
+            created,
             feeAmount,
+            installmentPlanAdjustment,
             installmentPlanToken,
             installmentPlanTotal,
             installments,
@@ -1918,10 +2326,13 @@ private constructor(
             installmentsPaid,
             numInstallments,
             principalAmount,
+            sourceAmounts,
+            sourceId,
             sourceType,
             startDate,
             state,
             totalPaid,
+            updated,
             additionalProperties,
         )
     }
@@ -1929,5 +2340,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "InstallmentPlanStatement{token=$token, feeAmount=$feeAmount, installmentPlanToken=$installmentPlanToken, installmentPlanTotal=$installmentPlanTotal, installments=$installments, installmentsOutstanding=$installmentsOutstanding, installmentsPaid=$installmentsPaid, numInstallments=$numInstallments, principalAmount=$principalAmount, sourceType=$sourceType, startDate=$startDate, state=$state, totalPaid=$totalPaid, additionalProperties=$additionalProperties}"
+        "InstallmentPlanStatement{token=$token, closedAt=$closedAt, created=$created, feeAmount=$feeAmount, installmentPlanAdjustment=$installmentPlanAdjustment, installmentPlanToken=$installmentPlanToken, installmentPlanTotal=$installmentPlanTotal, installments=$installments, installmentsOutstanding=$installmentsOutstanding, installmentsPaid=$installmentsPaid, numInstallments=$numInstallments, principalAmount=$principalAmount, sourceAmounts=$sourceAmounts, sourceId=$sourceId, sourceType=$sourceType, startDate=$startDate, state=$state, totalPaid=$totalPaid, updated=$updated, additionalProperties=$additionalProperties}"
 }
