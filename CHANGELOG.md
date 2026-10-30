@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.137.0](https://github.com/lithic-com/lithic-java/compare/v0.136.0...v0.137.0) (2026-10-30)
+
+
+### Features
+
+* **api:** add source, adjustment, and timestamp fields to installment plan statements ([32bc054](https://github.com/lithic-com/lithic-java/commit/32bc054f7ea33bf082fbff5727fb02bd370d99ab))
+
+
+### Chores
+
+* **ci:** Removing pre-release configuration ([500a226](https://github.com/lithic-com/lithic-java/commit/500a226c0e000ed29f223a3545ba57dd300b3b6e))
+* **ci:** Removing pre-release configuration ([56ee4e7](https://github.com/lithic-com/lithic-java/commit/56ee4e7d4209b9d25f78fc09bba51c1b23b7fd1d))
+
+
+### Documentation
+
+* **api:** clarify that begin filters on list endpoints are inclusive (on or after) ([4c5d0af](https://github.com/lithic-com/lithic-java/commit/4c5d0afe277a4f31ae87d75bb279bc82e1f02e7d))
+
 ## [0.136.0](https://github.com/lithic-com/lithic-java/compare/v0.135.0...v0.136.0) (2026-10-28)
 
 
