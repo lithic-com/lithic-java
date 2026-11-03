@@ -15,6 +15,7 @@ internal class BacktestResultsTest {
         val backtestResults =
             BacktestResults.builder()
                 .backtestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .results(
                     BacktestResults.Results.builder()
                         .currentVersion(
@@ -61,6 +62,8 @@ internal class BacktestResultsTest {
 
         assertThat(backtestResults.backtestToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(backtestResults.created())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(backtestResults.results())
             .isEqualTo(
                 BacktestResults.Results.builder()
@@ -113,6 +116,7 @@ internal class BacktestResultsTest {
         val backtestResults =
             BacktestResults.builder()
                 .backtestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .results(
                     BacktestResults.Results.builder()
                         .currentVersion(

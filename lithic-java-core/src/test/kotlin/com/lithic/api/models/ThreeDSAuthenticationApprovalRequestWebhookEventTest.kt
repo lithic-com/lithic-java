@@ -93,6 +93,7 @@ internal class ThreeDSAuthenticationApprovalRequestWebhookEventTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
@@ -249,6 +250,8 @@ internal class ThreeDSAuthenticationApprovalRequestWebhookEventTest {
                     .threeDSRequestorChallengeIndicator()
             )
             .isEqualTo(ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE)
+        assertThat(threeDSAuthenticationApprovalRequestWebhookEvent.updated())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(threeDSAuthenticationApprovalRequestWebhookEvent.additionalData())
             .contains(
                 ThreeDSAuthentication.AdditionalData.builder()
@@ -411,6 +414,7 @@ internal class ThreeDSAuthenticationApprovalRequestWebhookEventTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(

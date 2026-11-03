@@ -93,6 +93,7 @@ internal class ThreeDSAuthenticationCreatedWebhookEventTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
@@ -246,6 +247,8 @@ internal class ThreeDSAuthenticationCreatedWebhookEventTest {
             .isEqualTo(ThreeDSAuthentication.MessageCategory.NON_PAYMENT_AUTHENTICATION)
         assertThat(threeDSAuthenticationCreatedWebhookEvent.threeDSRequestorChallengeIndicator())
             .isEqualTo(ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE)
+        assertThat(threeDSAuthenticationCreatedWebhookEvent.updated())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(threeDSAuthenticationCreatedWebhookEvent.additionalData())
             .contains(
                 ThreeDSAuthentication.AdditionalData.builder()
@@ -407,6 +410,7 @@ internal class ThreeDSAuthenticationCreatedWebhookEventTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(

@@ -2187,6 +2187,7 @@ internal class ParsedWebhookEventTest {
         val authRulesBacktestReportCreated =
             AuthRulesBacktestReportCreatedWebhookEvent.builder()
                 .backtestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .results(
                     BacktestResults.Results.builder()
                         .currentVersion(
@@ -2317,6 +2318,7 @@ internal class ParsedWebhookEventTest {
             ParsedWebhookEvent.ofAuthRulesBacktestReportCreated(
                 AuthRulesBacktestReportCreatedWebhookEvent.builder()
                     .backtestToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .results(
                         BacktestResults.Results.builder()
                             .currentVersion(
@@ -10934,6 +10936,7 @@ internal class ParsedWebhookEventTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
@@ -11167,6 +11170,7 @@ internal class ParsedWebhookEventTest {
                     .threeDSRequestorChallengeIndicator(
                         ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                     )
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .additionalData(
                         ThreeDSAuthentication.AdditionalData.builder()
                             .networkDecision(
@@ -11335,6 +11339,7 @@ internal class ParsedWebhookEventTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
@@ -11568,6 +11573,7 @@ internal class ParsedWebhookEventTest {
                     .threeDSRequestorChallengeIndicator(
                         ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                     )
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .additionalData(
                         ThreeDSAuthentication.AdditionalData.builder()
                             .networkDecision(
@@ -11744,6 +11750,7 @@ internal class ParsedWebhookEventTest {
                         .threeDSRequestorChallengeIndicator(
                             ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                         )
+                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .additionalData(
                             ThreeDSAuthentication.AdditionalData.builder()
                                 .networkDecision(
@@ -11831,6 +11838,7 @@ internal class ParsedWebhookEventTest {
                         .appRequestorUrl("https://example.com")
                         .build()
                 )
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .eventType(
                     ThreeDSAuthenticationChallengeWebhookEvent.EventType
                         .THREE_DS_AUTHENTICATION_CHALLENGE
@@ -12008,6 +12016,7 @@ internal class ParsedWebhookEventTest {
                                 ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator
                                     .NO_PREFERENCE
                             )
+                            .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .additionalData(
                                 ThreeDSAuthentication.AdditionalData.builder()
                                     .networkDecision(
@@ -12097,6 +12106,7 @@ internal class ParsedWebhookEventTest {
                             .appRequestorUrl("https://example.com")
                             .build()
                     )
+                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .eventType(
                         ThreeDSAuthenticationChallengeWebhookEvent.EventType
                             .THREE_DS_AUTHENTICATION_CHALLENGE
@@ -13068,6 +13078,7 @@ internal class ParsedWebhookEventTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
@@ -13303,6 +13314,7 @@ internal class ParsedWebhookEventTest {
                     .threeDSRequestorChallengeIndicator(
                         ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                     )
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .additionalData(
                         ThreeDSAuthentication.AdditionalData.builder()
                             .networkDecision(

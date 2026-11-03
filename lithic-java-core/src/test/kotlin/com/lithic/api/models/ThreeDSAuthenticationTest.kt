@@ -93,6 +93,7 @@ internal class ThreeDSAuthenticationTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(
@@ -241,6 +242,8 @@ internal class ThreeDSAuthenticationTest {
             .isEqualTo(ThreeDSAuthentication.MessageCategory.NON_PAYMENT_AUTHENTICATION)
         assertThat(threeDSAuthentication.threeDSRequestorChallengeIndicator())
             .isEqualTo(ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE)
+        assertThat(threeDSAuthentication.updated())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(threeDSAuthentication.additionalData())
             .contains(
                 ThreeDSAuthentication.AdditionalData.builder()
@@ -398,6 +401,7 @@ internal class ThreeDSAuthenticationTest {
                 .threeDSRequestorChallengeIndicator(
                     ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                 )
+                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .additionalData(
                     ThreeDSAuthentication.AdditionalData.builder()
                         .networkDecision(

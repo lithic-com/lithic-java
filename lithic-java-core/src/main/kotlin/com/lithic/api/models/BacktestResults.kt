@@ -22,6 +22,7 @@ class BacktestResults
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val backtestToken: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val results: JsonField<Results>,
     private val simulationParameters: JsonField<BacktestSimulationParameters>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -32,11 +33,14 @@ private constructor(
         @JsonProperty("backtest_token")
         @ExcludeMissing
         backtestToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("results") @ExcludeMissing results: JsonField<Results> = JsonMissing.of(),
         @JsonProperty("simulation_parameters")
         @ExcludeMissing
         simulationParameters: JsonField<BacktestSimulationParameters> = JsonMissing.of(),
-    ) : this(backtestToken, results, simulationParameters, mutableMapOf())
+    ) : this(backtestToken, created, results, simulationParameters, mutableMapOf())
 
     /**
      * Auth Rule Backtest Token
@@ -45,6 +49,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun backtestToken(): String = backtestToken.getRequired("backtest_token")
+
+    /**
+     * Date and time when the backtest was requested
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -67,6 +79,13 @@ private constructor(
     @JsonProperty("backtest_token")
     @ExcludeMissing
     fun _backtestToken(): JsonField<String> = backtestToken
+
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
      * Returns the raw JSON value of [results].
@@ -105,6 +124,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .backtestToken()
+         * .created()
          * .results()
          * .simulationParameters()
          * ```
@@ -116,6 +136,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var backtestToken: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
         private var results: JsonField<Results>? = null
         private var simulationParameters: JsonField<BacktestSimulationParameters>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -123,6 +144,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(backtestResults: BacktestResults) = apply {
             backtestToken = backtestResults.backtestToken
+            created = backtestResults.created
             results = backtestResults.results
             simulationParameters = backtestResults.simulationParameters
             additionalProperties = backtestResults.additionalProperties.toMutableMap()
@@ -141,6 +163,18 @@ private constructor(
         fun backtestToken(backtestToken: JsonField<String>) = apply {
             this.backtestToken = backtestToken
         }
+
+        /** Date and time when the backtest was requested */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun results(results: Results) = results(JsonField.of(results))
 
@@ -194,6 +228,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .backtestToken()
+         * .created()
          * .results()
          * .simulationParameters()
          * ```
@@ -203,6 +238,7 @@ private constructor(
         fun build(): BacktestResults =
             BacktestResults(
                 checkRequired("backtestToken", backtestToken),
+                checkRequired("created", created),
                 checkRequired("results", results),
                 checkRequired("simulationParameters", simulationParameters),
                 additionalProperties.toMutableMap(),
@@ -225,6 +261,7 @@ private constructor(
         }
 
         backtestToken()
+        created()
         results().validate()
         simulationParameters().validate()
         validated = true
@@ -246,6 +283,7 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (backtestToken.asKnown().isPresent) 1 else 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
             (results.asKnown().getOrNull()?.validity() ?: 0) +
             (simulationParameters.asKnown().getOrNull()?.validity() ?: 0)
 
@@ -674,17 +712,18 @@ private constructor(
 
         return other is BacktestResults &&
             backtestToken == other.backtestToken &&
+            created == other.created &&
             results == other.results &&
             simulationParameters == other.simulationParameters &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(backtestToken, results, simulationParameters, additionalProperties)
+        Objects.hash(backtestToken, created, results, simulationParameters, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BacktestResults{backtestToken=$backtestToken, results=$results, simulationParameters=$simulationParameters, additionalProperties=$additionalProperties}"
+        "BacktestResults{backtestToken=$backtestToken, created=$created, results=$results, simulationParameters=$simulationParameters, additionalProperties=$additionalProperties}"
 }

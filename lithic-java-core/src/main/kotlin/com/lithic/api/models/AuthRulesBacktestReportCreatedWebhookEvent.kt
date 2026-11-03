@@ -13,6 +13,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.checkRequired
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
@@ -21,6 +22,7 @@ class AuthRulesBacktestReportCreatedWebhookEvent
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val backtestToken: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val results: JsonField<BacktestResults.Results>,
     private val simulationParameters: JsonField<BacktestResults.BacktestSimulationParameters>,
     private val eventType: JsonField<EventType>,
@@ -32,6 +34,9 @@ private constructor(
         @JsonProperty("backtest_token")
         @ExcludeMissing
         backtestToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("results")
         @ExcludeMissing
         results: JsonField<BacktestResults.Results> = JsonMissing.of(),
@@ -42,11 +47,12 @@ private constructor(
         @JsonProperty("event_type")
         @ExcludeMissing
         eventType: JsonField<EventType> = JsonMissing.of(),
-    ) : this(backtestToken, results, simulationParameters, eventType, mutableMapOf())
+    ) : this(backtestToken, created, results, simulationParameters, eventType, mutableMapOf())
 
     fun toBacktestResults(): BacktestResults =
         BacktestResults.builder()
             .backtestToken(backtestToken)
+            .created(created)
             .results(results)
             .simulationParameters(simulationParameters)
             .build()
@@ -58,6 +64,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun backtestToken(): String = backtestToken.getRequired("backtest_token")
+
+    /**
+     * Date and time when the backtest was requested
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -88,6 +102,13 @@ private constructor(
     @JsonProperty("backtest_token")
     @ExcludeMissing
     fun _backtestToken(): JsonField<String> = backtestToken
+
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
      * Returns the raw JSON value of [results].
@@ -137,6 +158,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .backtestToken()
+         * .created()
          * .results()
          * .simulationParameters()
          * .eventType()
@@ -149,6 +171,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var backtestToken: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
         private var results: JsonField<BacktestResults.Results>? = null
         private var simulationParameters: JsonField<BacktestResults.BacktestSimulationParameters>? =
             null
@@ -160,6 +183,7 @@ private constructor(
             authRulesBacktestReportCreatedWebhookEvent: AuthRulesBacktestReportCreatedWebhookEvent
         ) = apply {
             backtestToken = authRulesBacktestReportCreatedWebhookEvent.backtestToken
+            created = authRulesBacktestReportCreatedWebhookEvent.created
             results = authRulesBacktestReportCreatedWebhookEvent.results
             simulationParameters = authRulesBacktestReportCreatedWebhookEvent.simulationParameters
             eventType = authRulesBacktestReportCreatedWebhookEvent.eventType
@@ -180,6 +204,18 @@ private constructor(
         fun backtestToken(backtestToken: JsonField<String>) = apply {
             this.backtestToken = backtestToken
         }
+
+        /** Date and time when the backtest was requested */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun results(results: BacktestResults.Results) = results(JsonField.of(results))
 
@@ -246,6 +282,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .backtestToken()
+         * .created()
          * .results()
          * .simulationParameters()
          * .eventType()
@@ -256,6 +293,7 @@ private constructor(
         fun build(): AuthRulesBacktestReportCreatedWebhookEvent =
             AuthRulesBacktestReportCreatedWebhookEvent(
                 checkRequired("backtestToken", backtestToken),
+                checkRequired("created", created),
                 checkRequired("results", results),
                 checkRequired("simulationParameters", simulationParameters),
                 checkRequired("eventType", eventType),
@@ -279,6 +317,7 @@ private constructor(
         }
 
         backtestToken()
+        created()
         results().validate()
         simulationParameters().validate()
         eventType().validate()
@@ -301,6 +340,7 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (backtestToken.asKnown().isPresent) 1 else 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
             (results.asKnown().getOrNull()?.validity() ?: 0) +
             (simulationParameters.asKnown().getOrNull()?.validity() ?: 0) +
             (eventType.asKnown().getOrNull()?.validity() ?: 0)
@@ -444,6 +484,7 @@ private constructor(
 
         return other is AuthRulesBacktestReportCreatedWebhookEvent &&
             backtestToken == other.backtestToken &&
+            created == other.created &&
             results == other.results &&
             simulationParameters == other.simulationParameters &&
             eventType == other.eventType &&
@@ -451,11 +492,18 @@ private constructor(
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(backtestToken, results, simulationParameters, eventType, additionalProperties)
+        Objects.hash(
+            backtestToken,
+            created,
+            results,
+            simulationParameters,
+            eventType,
+            additionalProperties,
+        )
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AuthRulesBacktestReportCreatedWebhookEvent{backtestToken=$backtestToken, results=$results, simulationParameters=$simulationParameters, eventType=$eventType, additionalProperties=$additionalProperties}"
+        "AuthRulesBacktestReportCreatedWebhookEvent{backtestToken=$backtestToken, created=$created, results=$results, simulationParameters=$simulationParameters, eventType=$eventType, additionalProperties=$additionalProperties}"
 }

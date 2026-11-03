@@ -24,6 +24,7 @@ class ThreeDSAuthenticationChallengeWebhookEvent
 private constructor(
     private val authenticationObject: JsonField<ThreeDSAuthentication>,
     private val challenge: JsonField<Challenge>,
+    private val created: JsonField<OffsetDateTime>,
     private val eventType: JsonField<EventType>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -36,10 +37,13 @@ private constructor(
         @JsonProperty("challenge")
         @ExcludeMissing
         challenge: JsonField<Challenge> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("event_type")
         @ExcludeMissing
         eventType: JsonField<EventType> = JsonMissing.of(),
-    ) : this(authenticationObject, challenge, eventType, mutableMapOf())
+    ) : this(authenticationObject, challenge, created, eventType, mutableMapOf())
 
     /**
      * Represents a 3DS authentication
@@ -57,6 +61,15 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun challenge(): Challenge = challenge.getRequired("challenge")
+
+    /**
+     * Date and time when the challenge event was emitted. Permitted values: Date string in the ISO
+     * 8601 format yyyy-MM-dd'T'hh:mm:ssZ.
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
@@ -80,6 +93,13 @@ private constructor(
      * Unlike [challenge], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("challenge") @ExcludeMissing fun _challenge(): JsonField<Challenge> = challenge
+
+    /**
+     * Returns the raw JSON value of [created].
+     *
+     * Unlike [created], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
      * Returns the raw JSON value of [eventType].
@@ -110,6 +130,7 @@ private constructor(
          * ```java
          * .authenticationObject()
          * .challenge()
+         * .created()
          * .eventType()
          * ```
          */
@@ -121,6 +142,7 @@ private constructor(
 
         private var authenticationObject: JsonField<ThreeDSAuthentication>? = null
         private var challenge: JsonField<Challenge>? = null
+        private var created: JsonField<OffsetDateTime>? = null
         private var eventType: JsonField<EventType>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -130,6 +152,7 @@ private constructor(
         ) = apply {
             authenticationObject = threeDSAuthenticationChallengeWebhookEvent.authenticationObject
             challenge = threeDSAuthenticationChallengeWebhookEvent.challenge
+            created = threeDSAuthenticationChallengeWebhookEvent.created
             eventType = threeDSAuthenticationChallengeWebhookEvent.eventType
             additionalProperties =
                 threeDSAuthenticationChallengeWebhookEvent.additionalProperties.toMutableMap()
@@ -161,6 +184,21 @@ private constructor(
          * value.
          */
         fun challenge(challenge: JsonField<Challenge>) = apply { this.challenge = challenge }
+
+        /**
+         * Date and time when the challenge event was emitted. Permitted values: Date string in the
+         * ISO 8601 format yyyy-MM-dd'T'hh:mm:ssZ.
+         */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /**
+         * Sets [Builder.created] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.created] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
@@ -201,6 +239,7 @@ private constructor(
          * ```java
          * .authenticationObject()
          * .challenge()
+         * .created()
          * .eventType()
          * ```
          *
@@ -210,6 +249,7 @@ private constructor(
             ThreeDSAuthenticationChallengeWebhookEvent(
                 checkRequired("authenticationObject", authenticationObject),
                 checkRequired("challenge", challenge),
+                checkRequired("created", created),
                 checkRequired("eventType", eventType),
                 additionalProperties.toMutableMap(),
             )
@@ -232,6 +272,7 @@ private constructor(
 
         authenticationObject().validate()
         challenge().validate()
+        created()
         eventType().validate()
         validated = true
     }
@@ -253,6 +294,7 @@ private constructor(
     internal fun validity(): Int =
         (authenticationObject.asKnown().getOrNull()?.validity() ?: 0) +
             (challenge.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (created.asKnown().isPresent) 1 else 0) +
             (eventType.asKnown().getOrNull()?.validity() ?: 0)
 
     /** Represents a challenge object for 3DS authentication */
@@ -860,16 +902,17 @@ private constructor(
         return other is ThreeDSAuthenticationChallengeWebhookEvent &&
             authenticationObject == other.authenticationObject &&
             challenge == other.challenge &&
+            created == other.created &&
             eventType == other.eventType &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(authenticationObject, challenge, eventType, additionalProperties)
+        Objects.hash(authenticationObject, challenge, created, eventType, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ThreeDSAuthenticationChallengeWebhookEvent{authenticationObject=$authenticationObject, challenge=$challenge, eventType=$eventType, additionalProperties=$additionalProperties}"
+        "ThreeDSAuthenticationChallengeWebhookEvent{authenticationObject=$authenticationObject, challenge=$challenge, created=$created, eventType=$eventType, additionalProperties=$additionalProperties}"
 }

@@ -101,6 +101,7 @@ internal class ThreeDSAuthenticationChallengeWebhookEventTest {
                         .threeDSRequestorChallengeIndicator(
                             ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                         )
+                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .additionalData(
                             ThreeDSAuthentication.AdditionalData.builder()
                                 .networkDecision(
@@ -188,6 +189,7 @@ internal class ThreeDSAuthenticationChallengeWebhookEventTest {
                         .appRequestorUrl("https://example.com")
                         .build()
                 )
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .eventType(
                     ThreeDSAuthenticationChallengeWebhookEvent.EventType
                         .THREE_DS_AUTHENTICATION_CHALLENGE
@@ -280,6 +282,7 @@ internal class ThreeDSAuthenticationChallengeWebhookEventTest {
                     .threeDSRequestorChallengeIndicator(
                         ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                     )
+                    .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .additionalData(
                         ThreeDSAuthentication.AdditionalData.builder()
                             .networkDecision(
@@ -363,6 +366,8 @@ internal class ThreeDSAuthenticationChallengeWebhookEventTest {
                     .appRequestorUrl("https://example.com")
                     .build()
             )
+        assertThat(threeDSAuthenticationChallengeWebhookEvent.created())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(threeDSAuthenticationChallengeWebhookEvent.eventType())
             .isEqualTo(
                 ThreeDSAuthenticationChallengeWebhookEvent.EventType
@@ -462,6 +467,7 @@ internal class ThreeDSAuthenticationChallengeWebhookEventTest {
                         .threeDSRequestorChallengeIndicator(
                             ThreeDSAuthentication.ThreeDSRequestorChallengeIndicator.NO_PREFERENCE
                         )
+                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .additionalData(
                             ThreeDSAuthentication.AdditionalData.builder()
                                 .networkDecision(
@@ -549,6 +555,7 @@ internal class ThreeDSAuthenticationChallengeWebhookEventTest {
                         .appRequestorUrl("https://example.com")
                         .build()
                 )
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .eventType(
                     ThreeDSAuthenticationChallengeWebhookEvent.EventType
                         .THREE_DS_AUTHENTICATION_CHALLENGE
