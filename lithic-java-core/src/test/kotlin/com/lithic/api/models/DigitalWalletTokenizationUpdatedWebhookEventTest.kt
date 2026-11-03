@@ -60,6 +60,12 @@ internal class DigitalWalletTokenizationUpdatedWebhookEventTest {
                                 .build()
                         )
                         .paymentAccountReferenceId("payment_account_reference_id")
+                        .addTfaMethod(
+                            Tokenization.TfaMethod.builder()
+                                .destination("XXXX1234")
+                                .method(Tokenization.TfaMethod.Method.SMS)
+                                .build()
+                        )
                         .build()
                 )
                 .build()
@@ -111,6 +117,12 @@ internal class DigitalWalletTokenizationUpdatedWebhookEventTest {
                             .build()
                     )
                     .paymentAccountReferenceId("payment_account_reference_id")
+                    .addTfaMethod(
+                        Tokenization.TfaMethod.builder()
+                            .destination("XXXX1234")
+                            .method(Tokenization.TfaMethod.Method.SMS)
+                            .build()
+                    )
                     .build()
             )
     }
@@ -166,6 +178,12 @@ internal class DigitalWalletTokenizationUpdatedWebhookEventTest {
                                 .build()
                         )
                         .paymentAccountReferenceId("payment_account_reference_id")
+                        .addTfaMethod(
+                            Tokenization.TfaMethod.builder()
+                                .destination("XXXX1234")
+                                .method(Tokenization.TfaMethod.Method.SMS)
+                                .build()
+                        )
                         .build()
                 )
                 .build()

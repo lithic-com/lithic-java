@@ -38,6 +38,7 @@ private constructor(
     private val digitalCardArtToken: JsonField<String>,
     private val events: JsonField<List<TokenizationEvent>>,
     private val paymentAccountReferenceId: JsonField<String>,
+    private val tfaMethods: JsonField<List<TfaMethod>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -75,6 +76,9 @@ private constructor(
         @JsonProperty("payment_account_reference_id")
         @ExcludeMissing
         paymentAccountReferenceId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("tfa_methods")
+        @ExcludeMissing
+        tfaMethods: JsonField<List<TfaMethod>> = JsonMissing.of(),
     ) : this(
         token,
         accountToken,
@@ -90,6 +94,7 @@ private constructor(
         digitalCardArtToken,
         events,
         paymentAccountReferenceId,
+        tfaMethods,
         mutableMapOf(),
     )
 
@@ -214,6 +219,15 @@ private constructor(
         paymentAccountReferenceId.getOptional("payment_account_reference_id")
 
     /**
+     * Available authentication methods for an agent tokenization pending two-factor authentication.
+     * Empty when no methods are available or authentication is no longer pending
+     *
+     * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun tfaMethods(): Optional<List<TfaMethod>> = tfaMethods.getOptional("tfa_methods")
+
+    /**
      * Returns the raw JSON value of [token].
      *
      * Unlike [token], this method doesn't throw if the JSON field has an unexpected type.
@@ -334,6 +348,15 @@ private constructor(
     @ExcludeMissing
     fun _paymentAccountReferenceId(): JsonField<String> = paymentAccountReferenceId
 
+    /**
+     * Returns the raw JSON value of [tfaMethods].
+     *
+     * Unlike [tfaMethods], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tfa_methods")
+    @ExcludeMissing
+    fun _tfaMethods(): JsonField<List<TfaMethod>> = tfaMethods
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -385,6 +408,7 @@ private constructor(
         private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
         private var events: JsonField<MutableList<TokenizationEvent>>? = null
         private var paymentAccountReferenceId: JsonField<String> = JsonMissing.of()
+        private var tfaMethods: JsonField<MutableList<TfaMethod>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -403,6 +427,7 @@ private constructor(
             digitalCardArtToken = tokenization.digitalCardArtToken
             events = tokenization.events.map { it.toMutableList() }
             paymentAccountReferenceId = tokenization.paymentAccountReferenceId
+            tfaMethods = tokenization.tfaMethods.map { it.toMutableList() }
             additionalProperties = tokenization.additionalProperties.toMutableMap()
         }
 
@@ -638,6 +663,36 @@ private constructor(
             this.paymentAccountReferenceId = paymentAccountReferenceId
         }
 
+        /**
+         * Available authentication methods for an agent tokenization pending two-factor
+         * authentication. Empty when no methods are available or authentication is no longer
+         * pending
+         */
+        fun tfaMethods(tfaMethods: List<TfaMethod>) = tfaMethods(JsonField.of(tfaMethods))
+
+        /**
+         * Sets [Builder.tfaMethods] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tfaMethods] with a well-typed `List<TfaMethod>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun tfaMethods(tfaMethods: JsonField<List<TfaMethod>>) = apply {
+            this.tfaMethods = tfaMethods.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [TfaMethod] to [tfaMethods].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addTfaMethod(tfaMethod: TfaMethod) = apply {
+            tfaMethods =
+                (tfaMethods ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("tfaMethods", it).add(tfaMethod)
+                }
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -694,6 +749,7 @@ private constructor(
                 digitalCardArtToken,
                 (events ?: JsonMissing.of()).map { it.toImmutable() },
                 paymentAccountReferenceId,
+                (tfaMethods ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -727,6 +783,7 @@ private constructor(
         digitalCardArtToken()
         events().ifPresent { it.forEach { it.validate() } }
         paymentAccountReferenceId()
+        tfaMethods().ifPresent { it.forEach { it.validate() } }
         validated = true
     }
 
@@ -758,7 +815,8 @@ private constructor(
             (if (deviceId.asKnown().isPresent) 1 else 0) +
             (if (digitalCardArtToken.asKnown().isPresent) 1 else 0) +
             (events.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
-            (if (paymentAccountReferenceId.asKnown().isPresent) 1 else 0)
+            (if (paymentAccountReferenceId.asKnown().isPresent) 1 else 0) +
+            (tfaMethods.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
     /** The status of the tokenization request */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
@@ -1146,6 +1204,8 @@ private constructor(
 
             @JvmField val MERCHANT = of("MERCHANT")
 
+            @JvmField val AGENT_PAY = of("AGENT_PAY")
+
             @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
         }
 
@@ -1153,6 +1213,7 @@ private constructor(
         enum class Known {
             DIGITAL_WALLET,
             MERCHANT,
+            AGENT_PAY,
         }
 
         /**
@@ -1167,6 +1228,7 @@ private constructor(
         enum class Value {
             DIGITAL_WALLET,
             MERCHANT,
+            AGENT_PAY,
             /**
              * An enum member indicating that [TokenizationChannel] was instantiated with an unknown
              * value.
@@ -1185,6 +1247,7 @@ private constructor(
             when (this) {
                 DIGITAL_WALLET -> Value.DIGITAL_WALLET
                 MERCHANT -> Value.MERCHANT
+                AGENT_PAY -> Value.AGENT_PAY
                 else -> Value._UNKNOWN
             }
 
@@ -1201,6 +1264,7 @@ private constructor(
             when (this) {
                 DIGITAL_WALLET -> Known.DIGITAL_WALLET
                 MERCHANT -> Known.MERCHANT
+                AGENT_PAY -> Known.AGENT_PAY
                 else -> throw LithicInvalidDataException("Unknown TokenizationChannel: $value")
             }
 
@@ -2105,6 +2169,361 @@ private constructor(
             "TokenizationEvent{token=$token, createdAt=$createdAt, result=$result, ruleResults=$ruleResults, tokenizationDeclineReasons=$tokenizationDeclineReasons, tokenizationTfaReasons=$tokenizationTfaReasons, type=$type, additionalProperties=$additionalProperties}"
     }
 
+    class TfaMethod
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val destination: JsonField<String>,
+        private val method: JsonField<Method>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("destination")
+            @ExcludeMissing
+            destination: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("method") @ExcludeMissing method: JsonField<Method> = JsonMissing.of(),
+        ) : this(destination, method, mutableMapOf())
+
+        /**
+         * Destination for the authentication code, as provided by the card network
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun destination(): String = destination.getRequired("destination")
+
+        /**
+         * Method used to deliver the one-time authentication code
+         *
+         * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun method(): Method = method.getRequired("method")
+
+        /**
+         * Returns the raw JSON value of [destination].
+         *
+         * Unlike [destination], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("destination")
+        @ExcludeMissing
+        fun _destination(): JsonField<String> = destination
+
+        /**
+         * Returns the raw JSON value of [method].
+         *
+         * Unlike [method], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("method") @ExcludeMissing fun _method(): JsonField<Method> = method
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of [TfaMethod].
+             *
+             * The following fields are required:
+             * ```java
+             * .destination()
+             * .method()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [TfaMethod]. */
+        class Builder internal constructor() {
+
+            private var destination: JsonField<String>? = null
+            private var method: JsonField<Method>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(tfaMethod: TfaMethod) = apply {
+                destination = tfaMethod.destination
+                method = tfaMethod.method
+                additionalProperties = tfaMethod.additionalProperties.toMutableMap()
+            }
+
+            /** Destination for the authentication code, as provided by the card network */
+            fun destination(destination: String) = destination(JsonField.of(destination))
+
+            /**
+             * Sets [Builder.destination] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.destination] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun destination(destination: JsonField<String>) = apply {
+                this.destination = destination
+            }
+
+            /** Method used to deliver the one-time authentication code */
+            fun method(method: Method) = method(JsonField.of(method))
+
+            /**
+             * Sets [Builder.method] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.method] with a well-typed [Method] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun method(method: JsonField<Method>) = apply { this.method = method }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [TfaMethod].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .destination()
+             * .method()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): TfaMethod =
+                TfaMethod(
+                    checkRequired("destination", destination),
+                    checkRequired("method", method),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws LithicInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): TfaMethod = apply {
+            if (validated) {
+                return@apply
+            }
+
+            destination()
+            method().validate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: LithicInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (destination.asKnown().isPresent) 1 else 0) +
+                (method.asKnown().getOrNull()?.validity() ?: 0)
+
+        /** Method used to deliver the one-time authentication code */
+        class Method @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val SMS = of("SMS")
+
+                @JvmField val EMAIL = of("EMAIL")
+
+                @JvmStatic fun of(value: String) = Method(JsonField.of(value))
+            }
+
+            /** An enum containing [Method]'s known values. */
+            enum class Known {
+                SMS,
+                EMAIL,
+            }
+
+            /**
+             * An enum containing [Method]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [Method] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                SMS,
+                EMAIL,
+                /**
+                 * An enum member indicating that [Method] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    SMS -> Value.SMS
+                    EMAIL -> Value.EMAIL
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws LithicInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    SMS -> Known.SMS
+                    EMAIL -> Known.EMAIL
+                    else -> throw LithicInvalidDataException("Unknown Method: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws LithicInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    LithicInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws LithicInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
+            fun validate(): Method = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: LithicInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Method && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TfaMethod &&
+                destination == other.destination &&
+                method == other.method &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(destination, method, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "TfaMethod{destination=$destination, method=$method, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -2125,6 +2544,7 @@ private constructor(
             digitalCardArtToken == other.digitalCardArtToken &&
             events == other.events &&
             paymentAccountReferenceId == other.paymentAccountReferenceId &&
+            tfaMethods == other.tfaMethods &&
             additionalProperties == other.additionalProperties
     }
 
@@ -2144,6 +2564,7 @@ private constructor(
             digitalCardArtToken,
             events,
             paymentAccountReferenceId,
+            tfaMethods,
             additionalProperties,
         )
     }
@@ -2151,5 +2572,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Tokenization{token=$token, accountToken=$accountToken, cardToken=$cardToken, createdAt=$createdAt, dpan=$dpan, status=$status, tokenRequestorName=$tokenRequestorName, tokenUniqueReference=$tokenUniqueReference, tokenizationChannel=$tokenizationChannel, updatedAt=$updatedAt, deviceId=$deviceId, digitalCardArtToken=$digitalCardArtToken, events=$events, paymentAccountReferenceId=$paymentAccountReferenceId, additionalProperties=$additionalProperties}"
+        "Tokenization{token=$token, accountToken=$accountToken, cardToken=$cardToken, createdAt=$createdAt, dpan=$dpan, status=$status, tokenRequestorName=$tokenRequestorName, tokenUniqueReference=$tokenUniqueReference, tokenizationChannel=$tokenizationChannel, updatedAt=$updatedAt, deviceId=$deviceId, digitalCardArtToken=$digitalCardArtToken, events=$events, paymentAccountReferenceId=$paymentAccountReferenceId, tfaMethods=$tfaMethods, additionalProperties=$additionalProperties}"
 }

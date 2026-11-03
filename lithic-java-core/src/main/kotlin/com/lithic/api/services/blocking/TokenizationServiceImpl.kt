@@ -19,6 +19,9 @@ import com.lithic.api.core.http.parseable
 import com.lithic.api.core.prepare
 import com.lithic.api.models.Tokenization
 import com.lithic.api.models.TokenizationActivateParams
+import com.lithic.api.models.TokenizationCreateParams
+import com.lithic.api.models.TokenizationCreatePaymentCredentialsParams
+import com.lithic.api.models.TokenizationCreatePaymentCredentialsResponse
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPage
 import com.lithic.api.models.TokenizationListPageResponse
@@ -26,7 +29,11 @@ import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
+import com.lithic.api.models.TokenizationSelectTfaMethodParams
+import com.lithic.api.models.TokenizationSelectTfaMethodResponse
 import com.lithic.api.models.TokenizationSimulateParams
+import com.lithic.api.models.TokenizationSubmitTfaParams
+import com.lithic.api.models.TokenizationSubmitTfaResponse
 import com.lithic.api.models.TokenizationUnpauseParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
 import java.util.function.Consumer
@@ -43,6 +50,13 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): TokenizationService =
         TokenizationServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
+    override fun create(
+        params: TokenizationCreateParams,
+        requestOptions: RequestOptions,
+    ): Tokenization =
+        // post /v1/cards/{card_token}/tokenizations
+        withRawResponse().create(params, requestOptions).parse()
 
     override fun retrieve(
         params: TokenizationRetrieveParams,
@@ -63,6 +77,13 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
         withRawResponse().activate(params, requestOptions)
     }
 
+    override fun createPaymentCredentials(
+        params: TokenizationCreatePaymentCredentialsParams,
+        requestOptions: RequestOptions,
+    ): TokenizationCreatePaymentCredentialsResponse =
+        // post /v1/tokenizations/{tokenization_token}/payment_credentials
+        withRawResponse().createPaymentCredentials(params, requestOptions).parse()
+
     override fun deactivate(params: TokenizationDeactivateParams, requestOptions: RequestOptions) {
         // post /v1/tokenizations/{tokenization_token}/deactivate
         withRawResponse().deactivate(params, requestOptions)
@@ -81,12 +102,26 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
         withRawResponse().resendActivationCode(params, requestOptions)
     }
 
+    override fun selectTfaMethod(
+        params: TokenizationSelectTfaMethodParams,
+        requestOptions: RequestOptions,
+    ): TokenizationSelectTfaMethodResponse =
+        // post /v1/tokenizations/{tokenization_token}/select_tfa_method
+        withRawResponse().selectTfaMethod(params, requestOptions).parse()
+
     override fun simulate(
         params: TokenizationSimulateParams,
         requestOptions: RequestOptions,
     ): Tokenization =
         // post /v1/simulate/tokenizations
         withRawResponse().simulate(params, requestOptions).parse()
+
+    override fun submitTfa(
+        params: TokenizationSubmitTfaParams,
+        requestOptions: RequestOptions,
+    ): TokenizationSubmitTfaResponse =
+        // post /v1/tokenizations/{tokenization_token}/submit_tfa
+        withRawResponse().submitTfa(params, requestOptions).parse()
 
     override fun unpause(params: TokenizationUnpauseParams, requestOptions: RequestOptions) {
         // post /v1/tokenizations/{tokenization_token}/unpause
@@ -112,6 +147,37 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             TokenizationServiceImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
+
+        private val createHandler: Handler<Tokenization> =
+            jsonHandler<Tokenization>(clientOptions.jsonMapper)
+
+        override fun create(
+            params: TokenizationCreateParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Tokenization> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("cardToken", params.cardToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "cards", params._pathParam(0), "tokenizations")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { createHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
 
         private val retrieveHandler: Handler<Tokenization> =
             jsonHandler<Tokenization>(clientOptions.jsonMapper)
@@ -201,6 +267,43 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             }
         }
 
+        private val createPaymentCredentialsHandler:
+            Handler<TokenizationCreatePaymentCredentialsResponse> =
+            jsonHandler<TokenizationCreatePaymentCredentialsResponse>(clientOptions.jsonMapper)
+
+        override fun createPaymentCredentials(
+            params: TokenizationCreatePaymentCredentialsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TokenizationCreatePaymentCredentialsResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("tokenizationToken", params.tokenizationToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "v1",
+                        "tokenizations",
+                        params._pathParam(0),
+                        "payment_credentials",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { createPaymentCredentialsHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
         private val deactivateHandler: Handler<Void?> = emptyHandler()
 
         override fun deactivate(
@@ -278,6 +381,42 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             }
         }
 
+        private val selectTfaMethodHandler: Handler<TokenizationSelectTfaMethodResponse> =
+            jsonHandler<TokenizationSelectTfaMethodResponse>(clientOptions.jsonMapper)
+
+        override fun selectTfaMethod(
+            params: TokenizationSelectTfaMethodParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TokenizationSelectTfaMethodResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("tokenizationToken", params.tokenizationToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "v1",
+                        "tokenizations",
+                        params._pathParam(0),
+                        "select_tfa_method",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { selectTfaMethodHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
         private val simulateHandler: Handler<Tokenization> =
             jsonHandler<Tokenization>(clientOptions.jsonMapper)
 
@@ -298,6 +437,37 @@ class TokenizationServiceImpl internal constructor(private val clientOptions: Cl
             return errorHandler.handle(response).parseable {
                 response
                     .use { simulateHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val submitTfaHandler: Handler<TokenizationSubmitTfaResponse> =
+            jsonHandler<TokenizationSubmitTfaResponse>(clientOptions.jsonMapper)
+
+        override fun submitTfa(
+            params: TokenizationSubmitTfaParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TokenizationSubmitTfaResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("tokenizationToken", params.tokenizationToken().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "tokenizations", params._pathParam(0), "submit_tfa")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { submitTfaHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

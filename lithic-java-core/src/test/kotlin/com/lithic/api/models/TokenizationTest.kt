@@ -46,6 +46,12 @@ internal class TokenizationTest {
                         .build()
                 )
                 .paymentAccountReferenceId("payment_account_reference_id")
+                .addTfaMethod(
+                    Tokenization.TfaMethod.builder()
+                        .destination("XXXX1234")
+                        .method(Tokenization.TfaMethod.Method.SMS)
+                        .build()
+                )
                 .build()
 
         assertThat(tokenization.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -86,6 +92,13 @@ internal class TokenizationTest {
             )
         assertThat(tokenization.paymentAccountReferenceId())
             .contains("payment_account_reference_id")
+        assertThat(tokenization.tfaMethods().getOrNull())
+            .containsExactly(
+                Tokenization.TfaMethod.builder()
+                    .destination("XXXX1234")
+                    .method(Tokenization.TfaMethod.Method.SMS)
+                    .build()
+            )
     }
 
     @Test
@@ -124,6 +137,12 @@ internal class TokenizationTest {
                         .build()
                 )
                 .paymentAccountReferenceId("payment_account_reference_id")
+                .addTfaMethod(
+                    Tokenization.TfaMethod.builder()
+                        .destination("XXXX1234")
+                        .method(Tokenization.TfaMethod.Method.SMS)
+                        .build()
+                )
                 .build()
 
         val roundtrippedTokenization =
