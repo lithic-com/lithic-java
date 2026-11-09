@@ -8,20 +8,13 @@ import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Tokenization
 import com.lithic.api.models.TokenizationActivateParams
-import com.lithic.api.models.TokenizationCreateParams
-import com.lithic.api.models.TokenizationCreatePaymentCredentialsParams
-import com.lithic.api.models.TokenizationCreatePaymentCredentialsResponse
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPageAsync
 import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
-import com.lithic.api.models.TokenizationSelectTfaMethodParams
-import com.lithic.api.models.TokenizationSelectTfaMethodResponse
 import com.lithic.api.models.TokenizationSimulateParams
-import com.lithic.api.models.TokenizationSubmitTfaParams
-import com.lithic.api.models.TokenizationSubmitTfaResponse
 import com.lithic.api.models.TokenizationUnpauseParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
 import java.util.concurrent.CompletableFuture
@@ -40,41 +33,6 @@ interface TokenizationServiceAsync {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): TokenizationServiceAsync
-
-    /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Create a tokenization for an OPEN card. Contact your Lithic representative to configure
-     * tokenization for your program and card network.
-     *
-     * If the status is PENDING_2FA, select an available tfa_methods entry and submit the
-     * cardholder's authentication code. An ACTIVE tokenization can then be used to create payment
-     * credentials.
-     *
-     * Additional attempts to create the same tokenizations on a card will result in a 409 Conflict.
-     */
-    fun create(
-        cardToken: String,
-        params: TokenizationCreateParams,
-    ): CompletableFuture<Tokenization> = create(cardToken, params, RequestOptions.none())
-
-    /** @see create */
-    fun create(
-        cardToken: String,
-        params: TokenizationCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<Tokenization> =
-        create(params.toBuilder().cardToken(cardToken).build(), requestOptions)
-
-    /** @see create */
-    fun create(params: TokenizationCreateParams): CompletableFuture<Tokenization> =
-        create(params, RequestOptions.none())
-
-    /** @see create */
-    fun create(
-        params: TokenizationCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<Tokenization>
 
     /** Get tokenization */
     fun retrieve(tokenizationToken: String): CompletableFuture<Tokenization> =
@@ -171,43 +129,6 @@ interface TokenizationServiceAsync {
         requestOptions: RequestOptions,
     ): CompletableFuture<Void?> =
         activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
-
-    /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Create payment credentials and a purchase mandate for an ACTIVE tokenization.
-     *
-     * The credential value, expiration date, and CVV are only available in this response and cannot
-     * be retrieved later.
-     */
-    fun createPaymentCredentials(
-        tokenizationToken: String,
-        params: TokenizationCreatePaymentCredentialsParams,
-    ): CompletableFuture<TokenizationCreatePaymentCredentialsResponse> =
-        createPaymentCredentials(tokenizationToken, params, RequestOptions.none())
-
-    /** @see createPaymentCredentials */
-    fun createPaymentCredentials(
-        tokenizationToken: String,
-        params: TokenizationCreatePaymentCredentialsParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationCreatePaymentCredentialsResponse> =
-        createPaymentCredentials(
-            params.toBuilder().tokenizationToken(tokenizationToken).build(),
-            requestOptions,
-        )
-
-    /** @see createPaymentCredentials */
-    fun createPaymentCredentials(
-        params: TokenizationCreatePaymentCredentialsParams
-    ): CompletableFuture<TokenizationCreatePaymentCredentialsResponse> =
-        createPaymentCredentials(params, RequestOptions.none())
-
-    /** @see createPaymentCredentials */
-    fun createPaymentCredentials(
-        params: TokenizationCreatePaymentCredentialsParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationCreatePaymentCredentialsResponse>
 
     /**
      * This endpoint is used to ask the card network to deactivate a tokenization. A successful
@@ -350,45 +271,6 @@ interface TokenizationServiceAsync {
         )
 
     /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Select an available SMS or EMAIL authentication method for a tokenization with status
-     * PENDING_2FA. Use a method returned in the tokenization's list of tfa_methods. The card
-     * network initiates delivery of the authentication code to the corresponding destination.
-     *
-     * A successful response confirms method selection, not tokenization activation. Submit the code
-     * using submit_tfa after the cardholder receives it.
-     */
-    fun selectTfaMethod(
-        tokenizationToken: String,
-        params: TokenizationSelectTfaMethodParams,
-    ): CompletableFuture<TokenizationSelectTfaMethodResponse> =
-        selectTfaMethod(tokenizationToken, params, RequestOptions.none())
-
-    /** @see selectTfaMethod */
-    fun selectTfaMethod(
-        tokenizationToken: String,
-        params: TokenizationSelectTfaMethodParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationSelectTfaMethodResponse> =
-        selectTfaMethod(
-            params.toBuilder().tokenizationToken(tokenizationToken).build(),
-            requestOptions,
-        )
-
-    /** @see selectTfaMethod */
-    fun selectTfaMethod(
-        params: TokenizationSelectTfaMethodParams
-    ): CompletableFuture<TokenizationSelectTfaMethodResponse> =
-        selectTfaMethod(params, RequestOptions.none())
-
-    /** @see selectTfaMethod */
-    fun selectTfaMethod(
-        params: TokenizationSelectTfaMethodParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationSelectTfaMethodResponse>
-
-    /**
      * This endpoint is used to simulate a card's tokenization in the Digital Wallet and merchant
      * tokenization ecosystem.
      */
@@ -400,41 +282,6 @@ interface TokenizationServiceAsync {
         params: TokenizationSimulateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Tokenization>
-
-    /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Submit the cardholder's one-time authentication code for a tokenization with status
-     * PENDING_2FA. A successful select_tfa_method request must precede submission. Send the code as
-     * a string to preserve leading zeros.
-     *
-     * A successful response means that the network accepted the authentication code. The activation
-     * of a tokenization will occur asynchronously initiated by the card network.
-     */
-    fun submitTfa(
-        tokenizationToken: String,
-        params: TokenizationSubmitTfaParams,
-    ): CompletableFuture<TokenizationSubmitTfaResponse> =
-        submitTfa(tokenizationToken, params, RequestOptions.none())
-
-    /** @see submitTfa */
-    fun submitTfa(
-        tokenizationToken: String,
-        params: TokenizationSubmitTfaParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationSubmitTfaResponse> =
-        submitTfa(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
-
-    /** @see submitTfa */
-    fun submitTfa(
-        params: TokenizationSubmitTfaParams
-    ): CompletableFuture<TokenizationSubmitTfaResponse> = submitTfa(params, RequestOptions.none())
-
-    /** @see submitTfa */
-    fun submitTfa(
-        params: TokenizationSubmitTfaParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<TokenizationSubmitTfaResponse>
 
     /**
      * This endpoint is used to ask the card network to unpause a tokenization. A successful
@@ -548,35 +395,6 @@ interface TokenizationServiceAsync {
         ): TokenizationServiceAsync.WithRawResponse
 
         /**
-         * Returns a raw HTTP response for `post /v1/cards/{card_token}/tokenizations`, but is
-         * otherwise the same as [TokenizationServiceAsync.create].
-         */
-        fun create(
-            cardToken: String,
-            params: TokenizationCreateParams,
-        ): CompletableFuture<HttpResponseFor<Tokenization>> =
-            create(cardToken, params, RequestOptions.none())
-
-        /** @see create */
-        fun create(
-            cardToken: String,
-            params: TokenizationCreateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<Tokenization>> =
-            create(params.toBuilder().cardToken(cardToken).build(), requestOptions)
-
-        /** @see create */
-        fun create(
-            params: TokenizationCreateParams
-        ): CompletableFuture<HttpResponseFor<Tokenization>> = create(params, RequestOptions.none())
-
-        /** @see create */
-        fun create(
-            params: TokenizationCreateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<Tokenization>>
-
-        /**
          * Returns a raw HTTP response for `get /v1/tokenizations/{tokenization_token}`, but is
          * otherwise the same as [TokenizationServiceAsync.retrieve].
          */
@@ -686,40 +504,6 @@ interface TokenizationServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponse> =
             activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `post
-         * /v1/tokenizations/{tokenization_token}/payment_credentials`, but is otherwise the same as
-         * [TokenizationServiceAsync.createPaymentCredentials].
-         */
-        fun createPaymentCredentials(
-            tokenizationToken: String,
-            params: TokenizationCreatePaymentCredentialsParams,
-        ): CompletableFuture<HttpResponseFor<TokenizationCreatePaymentCredentialsResponse>> =
-            createPaymentCredentials(tokenizationToken, params, RequestOptions.none())
-
-        /** @see createPaymentCredentials */
-        fun createPaymentCredentials(
-            tokenizationToken: String,
-            params: TokenizationCreatePaymentCredentialsParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationCreatePaymentCredentialsResponse>> =
-            createPaymentCredentials(
-                params.toBuilder().tokenizationToken(tokenizationToken).build(),
-                requestOptions,
-            )
-
-        /** @see createPaymentCredentials */
-        fun createPaymentCredentials(
-            params: TokenizationCreatePaymentCredentialsParams
-        ): CompletableFuture<HttpResponseFor<TokenizationCreatePaymentCredentialsResponse>> =
-            createPaymentCredentials(params, RequestOptions.none())
-
-        /** @see createPaymentCredentials */
-        fun createPaymentCredentials(
-            params: TokenizationCreatePaymentCredentialsParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationCreatePaymentCredentialsResponse>>
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/deactivate`,
@@ -852,40 +636,6 @@ interface TokenizationServiceAsync {
             )
 
         /**
-         * Returns a raw HTTP response for `post
-         * /v1/tokenizations/{tokenization_token}/select_tfa_method`, but is otherwise the same as
-         * [TokenizationServiceAsync.selectTfaMethod].
-         */
-        fun selectTfaMethod(
-            tokenizationToken: String,
-            params: TokenizationSelectTfaMethodParams,
-        ): CompletableFuture<HttpResponseFor<TokenizationSelectTfaMethodResponse>> =
-            selectTfaMethod(tokenizationToken, params, RequestOptions.none())
-
-        /** @see selectTfaMethod */
-        fun selectTfaMethod(
-            tokenizationToken: String,
-            params: TokenizationSelectTfaMethodParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationSelectTfaMethodResponse>> =
-            selectTfaMethod(
-                params.toBuilder().tokenizationToken(tokenizationToken).build(),
-                requestOptions,
-            )
-
-        /** @see selectTfaMethod */
-        fun selectTfaMethod(
-            params: TokenizationSelectTfaMethodParams
-        ): CompletableFuture<HttpResponseFor<TokenizationSelectTfaMethodResponse>> =
-            selectTfaMethod(params, RequestOptions.none())
-
-        /** @see selectTfaMethod */
-        fun selectTfaMethod(
-            params: TokenizationSelectTfaMethodParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationSelectTfaMethodResponse>>
-
-        /**
          * Returns a raw HTTP response for `post /v1/simulate/tokenizations`, but is otherwise the
          * same as [TokenizationServiceAsync.simulate].
          */
@@ -899,39 +649,6 @@ interface TokenizationServiceAsync {
             params: TokenizationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Tokenization>>
-
-        /**
-         * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/submit_tfa`,
-         * but is otherwise the same as [TokenizationServiceAsync.submitTfa].
-         */
-        fun submitTfa(
-            tokenizationToken: String,
-            params: TokenizationSubmitTfaParams,
-        ): CompletableFuture<HttpResponseFor<TokenizationSubmitTfaResponse>> =
-            submitTfa(tokenizationToken, params, RequestOptions.none())
-
-        /** @see submitTfa */
-        fun submitTfa(
-            tokenizationToken: String,
-            params: TokenizationSubmitTfaParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationSubmitTfaResponse>> =
-            submitTfa(
-                params.toBuilder().tokenizationToken(tokenizationToken).build(),
-                requestOptions,
-            )
-
-        /** @see submitTfa */
-        fun submitTfa(
-            params: TokenizationSubmitTfaParams
-        ): CompletableFuture<HttpResponseFor<TokenizationSubmitTfaResponse>> =
-            submitTfa(params, RequestOptions.none())
-
-        /** @see submitTfa */
-        fun submitTfa(
-            params: TokenizationSubmitTfaParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<TokenizationSubmitTfaResponse>>
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/unpause`,

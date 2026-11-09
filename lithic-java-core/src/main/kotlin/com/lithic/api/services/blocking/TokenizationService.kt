@@ -9,20 +9,13 @@ import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponseFor
 import com.lithic.api.models.Tokenization
 import com.lithic.api.models.TokenizationActivateParams
-import com.lithic.api.models.TokenizationCreateParams
-import com.lithic.api.models.TokenizationCreatePaymentCredentialsParams
-import com.lithic.api.models.TokenizationCreatePaymentCredentialsResponse
 import com.lithic.api.models.TokenizationDeactivateParams
 import com.lithic.api.models.TokenizationListPage
 import com.lithic.api.models.TokenizationListParams
 import com.lithic.api.models.TokenizationPauseParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
 import com.lithic.api.models.TokenizationRetrieveParams
-import com.lithic.api.models.TokenizationSelectTfaMethodParams
-import com.lithic.api.models.TokenizationSelectTfaMethodResponse
 import com.lithic.api.models.TokenizationSimulateParams
-import com.lithic.api.models.TokenizationSubmitTfaParams
-import com.lithic.api.models.TokenizationSubmitTfaResponse
 import com.lithic.api.models.TokenizationUnpauseParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
 import java.util.function.Consumer
@@ -40,38 +33,6 @@ interface TokenizationService {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): TokenizationService
-
-    /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Create a tokenization for an OPEN card. Contact your Lithic representative to configure
-     * tokenization for your program and card network.
-     *
-     * If the status is PENDING_2FA, select an available tfa_methods entry and submit the
-     * cardholder's authentication code. An ACTIVE tokenization can then be used to create payment
-     * credentials.
-     *
-     * Additional attempts to create the same tokenizations on a card will result in a 409 Conflict.
-     */
-    fun create(cardToken: String, params: TokenizationCreateParams): Tokenization =
-        create(cardToken, params, RequestOptions.none())
-
-    /** @see create */
-    fun create(
-        cardToken: String,
-        params: TokenizationCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): Tokenization = create(params.toBuilder().cardToken(cardToken).build(), requestOptions)
-
-    /** @see create */
-    fun create(params: TokenizationCreateParams): Tokenization =
-        create(params, RequestOptions.none())
-
-    /** @see create */
-    fun create(
-        params: TokenizationCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): Tokenization
 
     /** Get tokenization */
     fun retrieve(tokenizationToken: String): Tokenization =
@@ -159,43 +120,6 @@ interface TokenizationService {
     /** @see activate */
     fun activate(tokenizationToken: String, requestOptions: RequestOptions) =
         activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
-
-    /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Create payment credentials and a purchase mandate for an ACTIVE tokenization.
-     *
-     * The credential value, expiration date, and CVV are only available in this response and cannot
-     * be retrieved later.
-     */
-    fun createPaymentCredentials(
-        tokenizationToken: String,
-        params: TokenizationCreatePaymentCredentialsParams,
-    ): TokenizationCreatePaymentCredentialsResponse =
-        createPaymentCredentials(tokenizationToken, params, RequestOptions.none())
-
-    /** @see createPaymentCredentials */
-    fun createPaymentCredentials(
-        tokenizationToken: String,
-        params: TokenizationCreatePaymentCredentialsParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationCreatePaymentCredentialsResponse =
-        createPaymentCredentials(
-            params.toBuilder().tokenizationToken(tokenizationToken).build(),
-            requestOptions,
-        )
-
-    /** @see createPaymentCredentials */
-    fun createPaymentCredentials(
-        params: TokenizationCreatePaymentCredentialsParams
-    ): TokenizationCreatePaymentCredentialsResponse =
-        createPaymentCredentials(params, RequestOptions.none())
-
-    /** @see createPaymentCredentials */
-    fun createPaymentCredentials(
-        params: TokenizationCreatePaymentCredentialsParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationCreatePaymentCredentialsResponse
 
     /**
      * This endpoint is used to ask the card network to deactivate a tokenization. A successful
@@ -325,44 +249,6 @@ interface TokenizationService {
         )
 
     /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Select an available SMS or EMAIL authentication method for a tokenization with status
-     * PENDING_2FA. Use a method returned in the tokenization's list of tfa_methods. The card
-     * network initiates delivery of the authentication code to the corresponding destination.
-     *
-     * A successful response confirms method selection, not tokenization activation. Submit the code
-     * using submit_tfa after the cardholder receives it.
-     */
-    fun selectTfaMethod(
-        tokenizationToken: String,
-        params: TokenizationSelectTfaMethodParams,
-    ): TokenizationSelectTfaMethodResponse =
-        selectTfaMethod(tokenizationToken, params, RequestOptions.none())
-
-    /** @see selectTfaMethod */
-    fun selectTfaMethod(
-        tokenizationToken: String,
-        params: TokenizationSelectTfaMethodParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationSelectTfaMethodResponse =
-        selectTfaMethod(
-            params.toBuilder().tokenizationToken(tokenizationToken).build(),
-            requestOptions,
-        )
-
-    /** @see selectTfaMethod */
-    fun selectTfaMethod(
-        params: TokenizationSelectTfaMethodParams
-    ): TokenizationSelectTfaMethodResponse = selectTfaMethod(params, RequestOptions.none())
-
-    /** @see selectTfaMethod */
-    fun selectTfaMethod(
-        params: TokenizationSelectTfaMethodParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationSelectTfaMethodResponse
-
-    /**
      * This endpoint is used to simulate a card's tokenization in the Digital Wallet and merchant
      * tokenization ecosystem.
      */
@@ -374,39 +260,6 @@ interface TokenizationService {
         params: TokenizationSimulateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Tokenization
-
-    /**
-     * > 🚧 Beta API > This endpoint is in beta and subject to change.
-     *
-     * Submit the cardholder's one-time authentication code for a tokenization with status
-     * PENDING_2FA. A successful select_tfa_method request must precede submission. Send the code as
-     * a string to preserve leading zeros.
-     *
-     * A successful response means that the network accepted the authentication code. The activation
-     * of a tokenization will occur asynchronously initiated by the card network.
-     */
-    fun submitTfa(
-        tokenizationToken: String,
-        params: TokenizationSubmitTfaParams,
-    ): TokenizationSubmitTfaResponse = submitTfa(tokenizationToken, params, RequestOptions.none())
-
-    /** @see submitTfa */
-    fun submitTfa(
-        tokenizationToken: String,
-        params: TokenizationSubmitTfaParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationSubmitTfaResponse =
-        submitTfa(params.toBuilder().tokenizationToken(tokenizationToken).build(), requestOptions)
-
-    /** @see submitTfa */
-    fun submitTfa(params: TokenizationSubmitTfaParams): TokenizationSubmitTfaResponse =
-        submitTfa(params, RequestOptions.none())
-
-    /** @see submitTfa */
-    fun submitTfa(
-        params: TokenizationSubmitTfaParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TokenizationSubmitTfaResponse
 
     /**
      * This endpoint is used to ask the card network to unpause a tokenization. A successful
@@ -510,37 +363,6 @@ interface TokenizationService {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): TokenizationService.WithRawResponse
-
-        /**
-         * Returns a raw HTTP response for `post /v1/cards/{card_token}/tokenizations`, but is
-         * otherwise the same as [TokenizationService.create].
-         */
-        @MustBeClosed
-        fun create(
-            cardToken: String,
-            params: TokenizationCreateParams,
-        ): HttpResponseFor<Tokenization> = create(cardToken, params, RequestOptions.none())
-
-        /** @see create */
-        @MustBeClosed
-        fun create(
-            cardToken: String,
-            params: TokenizationCreateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Tokenization> =
-            create(params.toBuilder().cardToken(cardToken).build(), requestOptions)
-
-        /** @see create */
-        @MustBeClosed
-        fun create(params: TokenizationCreateParams): HttpResponseFor<Tokenization> =
-            create(params, RequestOptions.none())
-
-        /** @see create */
-        @MustBeClosed
-        fun create(
-            params: TokenizationCreateParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Tokenization>
 
         /**
          * Returns a raw HTTP response for `get /v1/tokenizations/{tokenization_token}`, but is
@@ -658,44 +480,6 @@ interface TokenizationService {
         @MustBeClosed
         fun activate(tokenizationToken: String, requestOptions: RequestOptions): HttpResponse =
             activate(tokenizationToken, TokenizationActivateParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `post
-         * /v1/tokenizations/{tokenization_token}/payment_credentials`, but is otherwise the same as
-         * [TokenizationService.createPaymentCredentials].
-         */
-        @MustBeClosed
-        fun createPaymentCredentials(
-            tokenizationToken: String,
-            params: TokenizationCreatePaymentCredentialsParams,
-        ): HttpResponseFor<TokenizationCreatePaymentCredentialsResponse> =
-            createPaymentCredentials(tokenizationToken, params, RequestOptions.none())
-
-        /** @see createPaymentCredentials */
-        @MustBeClosed
-        fun createPaymentCredentials(
-            tokenizationToken: String,
-            params: TokenizationCreatePaymentCredentialsParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationCreatePaymentCredentialsResponse> =
-            createPaymentCredentials(
-                params.toBuilder().tokenizationToken(tokenizationToken).build(),
-                requestOptions,
-            )
-
-        /** @see createPaymentCredentials */
-        @MustBeClosed
-        fun createPaymentCredentials(
-            params: TokenizationCreatePaymentCredentialsParams
-        ): HttpResponseFor<TokenizationCreatePaymentCredentialsResponse> =
-            createPaymentCredentials(params, RequestOptions.none())
-
-        /** @see createPaymentCredentials */
-        @MustBeClosed
-        fun createPaymentCredentials(
-            params: TokenizationCreatePaymentCredentialsParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationCreatePaymentCredentialsResponse>
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/deactivate`,
@@ -837,44 +621,6 @@ interface TokenizationService {
             )
 
         /**
-         * Returns a raw HTTP response for `post
-         * /v1/tokenizations/{tokenization_token}/select_tfa_method`, but is otherwise the same as
-         * [TokenizationService.selectTfaMethod].
-         */
-        @MustBeClosed
-        fun selectTfaMethod(
-            tokenizationToken: String,
-            params: TokenizationSelectTfaMethodParams,
-        ): HttpResponseFor<TokenizationSelectTfaMethodResponse> =
-            selectTfaMethod(tokenizationToken, params, RequestOptions.none())
-
-        /** @see selectTfaMethod */
-        @MustBeClosed
-        fun selectTfaMethod(
-            tokenizationToken: String,
-            params: TokenizationSelectTfaMethodParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationSelectTfaMethodResponse> =
-            selectTfaMethod(
-                params.toBuilder().tokenizationToken(tokenizationToken).build(),
-                requestOptions,
-            )
-
-        /** @see selectTfaMethod */
-        @MustBeClosed
-        fun selectTfaMethod(
-            params: TokenizationSelectTfaMethodParams
-        ): HttpResponseFor<TokenizationSelectTfaMethodResponse> =
-            selectTfaMethod(params, RequestOptions.none())
-
-        /** @see selectTfaMethod */
-        @MustBeClosed
-        fun selectTfaMethod(
-            params: TokenizationSelectTfaMethodParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationSelectTfaMethodResponse>
-
-        /**
          * Returns a raw HTTP response for `post /v1/simulate/tokenizations`, but is otherwise the
          * same as [TokenizationService.simulate].
          */
@@ -888,42 +634,6 @@ interface TokenizationService {
             params: TokenizationSimulateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Tokenization>
-
-        /**
-         * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/submit_tfa`,
-         * but is otherwise the same as [TokenizationService.submitTfa].
-         */
-        @MustBeClosed
-        fun submitTfa(
-            tokenizationToken: String,
-            params: TokenizationSubmitTfaParams,
-        ): HttpResponseFor<TokenizationSubmitTfaResponse> =
-            submitTfa(tokenizationToken, params, RequestOptions.none())
-
-        /** @see submitTfa */
-        @MustBeClosed
-        fun submitTfa(
-            tokenizationToken: String,
-            params: TokenizationSubmitTfaParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationSubmitTfaResponse> =
-            submitTfa(
-                params.toBuilder().tokenizationToken(tokenizationToken).build(),
-                requestOptions,
-            )
-
-        /** @see submitTfa */
-        @MustBeClosed
-        fun submitTfa(
-            params: TokenizationSubmitTfaParams
-        ): HttpResponseFor<TokenizationSubmitTfaResponse> = submitTfa(params, RequestOptions.none())
-
-        /** @see submitTfa */
-        @MustBeClosed
-        fun submitTfa(
-            params: TokenizationSubmitTfaParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TokenizationSubmitTfaResponse>
 
         /**
          * Returns a raw HTTP response for `post /v1/tokenizations/{tokenization_token}/unpause`,

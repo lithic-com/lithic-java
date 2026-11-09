@@ -4,41 +4,14 @@ package com.lithic.api.services.async
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClientAsync
-import com.lithic.api.models.TokenizationCreateParams
-import com.lithic.api.models.TokenizationCreatePaymentCredentialsParams
 import com.lithic.api.models.TokenizationResendActivationCodeParams
-import com.lithic.api.models.TokenizationSelectTfaMethodParams
 import com.lithic.api.models.TokenizationSimulateParams
-import com.lithic.api.models.TokenizationSubmitTfaParams
 import com.lithic.api.models.TokenizationUpdateDigitalCardArtParams
-import java.time.OffsetDateTime
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
 internal class TokenizationServiceAsyncTest {
-
-    @Test
-    fun create() {
-        val client =
-            LithicOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val tokenizationServiceAsync = client.tokenizations()
-
-        val tokenizationFuture =
-            tokenizationServiceAsync.create(
-                TokenizationCreateParams.builder()
-                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .agentToken("20f418a7-27c2-486c-aeee-3ad2beb87c91")
-                    .type(TokenizationCreateParams.Type.AGENT)
-                    .build()
-            )
-
-        val tokenization = tokenizationFuture.get()
-        tokenization.validate()
-    }
 
     @Test
     fun retrieve() {
@@ -83,59 +56,6 @@ internal class TokenizationServiceAsyncTest {
         val future = tokenizationServiceAsync.activate("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = future.get()
-    }
-
-    @Test
-    fun createPaymentCredentials() {
-        val client =
-            LithicOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val tokenizationServiceAsync = client.tokenizations()
-
-        val responseFuture =
-            tokenizationServiceAsync.createPaymentCredentials(
-                TokenizationCreatePaymentCredentialsParams.builder()
-                    .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .device(
-                        TokenizationCreatePaymentCredentialsParams.PaymentCredentialsDevice
-                            .builder()
-                            .applicationName("Example app")
-                            .brand("Example brand")
-                            .ipAddress("192.0.2.1")
-                            .type("Mobile")
-                            .build()
-                    )
-                    .mandate(
-                        TokenizationCreatePaymentCredentialsParams.PaymentCredentialsMandate
-                            .builder()
-                            .amount(1250L)
-                            .expiresAt(OffsetDateTime.parse("2026-10-29T15:00:00Z"))
-                            .frequency(
-                                TokenizationCreatePaymentCredentialsParams.PaymentCredentialsMandate
-                                    .Frequency
-                                    .ONE_TIME
-                            )
-                            .merchant(
-                                TokenizationCreatePaymentCredentialsParams.PaymentCredentialsMandate
-                                    .Merchant
-                                    .builder()
-                                    .name("Example merchant")
-                                    .url("https://merchant.example")
-                                    .build()
-                            )
-                            .build()
-                    )
-                    .type(
-                        TokenizationCreatePaymentCredentialsParams.PaymentCredentialsType
-                            .HUMAN_IN_THE_LOOP
-                    )
-                    .build()
-            )
-
-        val response = responseFuture.get()
-        response.validate()
     }
 
     @Test
@@ -190,27 +110,6 @@ internal class TokenizationServiceAsyncTest {
     }
 
     @Test
-    fun selectTfaMethod() {
-        val client =
-            LithicOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val tokenizationServiceAsync = client.tokenizations()
-
-        val responseFuture =
-            tokenizationServiceAsync.selectTfaMethod(
-                TokenizationSelectTfaMethodParams.builder()
-                    .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .method(TokenizationSelectTfaMethodParams.Method.SMS)
-                    .build()
-            )
-
-        val response = responseFuture.get()
-        response.validate()
-    }
-
-    @Test
     fun simulate() {
         val client =
             LithicOkHttpClientAsync.builder()
@@ -237,27 +136,6 @@ internal class TokenizationServiceAsyncTest {
 
         val tokenization = tokenizationFuture.get()
         tokenization.validate()
-    }
-
-    @Test
-    fun submitTfa() {
-        val client =
-            LithicOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val tokenizationServiceAsync = client.tokenizations()
-
-        val responseFuture =
-            tokenizationServiceAsync.submitTfa(
-                TokenizationSubmitTfaParams.builder()
-                    .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .value("01929")
-                    .build()
-            )
-
-        val response = responseFuture.get()
-        response.validate()
     }
 
     @Test
