@@ -163,6 +163,8 @@ private constructor(
     /**
      * 6-digit North American Industry Classification System (NAICS) code for the business.
      *
+     * This parameter is required if workflow type is `KYB_BASIC`
+     *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -474,7 +476,11 @@ private constructor(
             this.kybPassedTimestamp = kybPassedTimestamp
         }
 
-        /** 6-digit North American Industry Classification System (NAICS) code for the business. */
+        /**
+         * 6-digit North American Industry Classification System (NAICS) code for the business.
+         *
+         * This parameter is required if workflow type is `KYB_BASIC`
+         */
         fun naicsCode(naicsCode: String) = naicsCode(JsonField.of(naicsCode))
 
         /**
