@@ -6,7 +6,7 @@
 ### Features
 
 * **api:** add source, adjustment, and timestamp fields to installment plan statements ([32bc054](https://github.com/lithic-com/lithic-java/commit/32bc054f7ea33bf082fbff5727fb02bd370d99ab))
-* **api:** add tokenization create, 2fa, and payment credentials endpoints to tokenizations ([7128194](https://github.com/lithic-com/lithic-java/commit/7128194e4dd5c8618dd83a25ffab70dee99971f9))
+* **api:** add AGENT_PAY tokenization channel and tfa_methods to tokenizations ([7128194](https://github.com/lithic-com/lithic-java/commit/7128194e4dd5c8618dd83a25ffab70dee99971f9))
 * **api:** add updated to 3DS authentications and created to backtests and challenge events ([10fb9d3](https://github.com/lithic-com/lithic-java/commit/10fb9d36fdf25451259586a1e3d220c984ce06cf))
 * **api:** support hold adjustment actions in conditional authorization auth rule parameters ([3247b82](https://github.com/lithic-com/lithic-java/commit/3247b82d51248240a9db8cb7bcc74a10bc9394b6))
 
