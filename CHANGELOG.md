@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.137.0](https://github.com/lithic-com/lithic-java/compare/v0.136.0...v0.137.0) (2026-11-09)
+
+
+### Features
+
+* **api:** add source, adjustment, and timestamp fields to installment plan statements ([32bc054](https://github.com/lithic-com/lithic-java/commit/32bc054f7ea33bf082fbff5727fb02bd370d99ab))
+* **api:** add tokenization create, 2fa, and payment credentials endpoints to tokenizations ([7128194](https://github.com/lithic-com/lithic-java/commit/7128194e4dd5c8618dd83a25ffab70dee99971f9))
+* **api:** add updated to 3DS authentications and created to backtests and challenge events ([10fb9d3](https://github.com/lithic-com/lithic-java/commit/10fb9d36fdf25451259586a1e3d220c984ce06cf))
+* **api:** support hold adjustment actions in conditional authorization auth rule parameters ([3247b82](https://github.com/lithic-com/lithic-java/commit/3247b82d51248240a9db8cb7bcc74a10bc9394b6))
+
+
+### Bug Fixes
+
+* **api:** correct event_type on create management operation to creatable, non-reversal types ([f932a48](https://github.com/lithic-com/lithic-java/commit/f932a48cebd0e301fc06b63fdd428d8be88906e2))
+* **api:** remove incorrect defaults for daily and monthly spend limits on account update ([aeb6560](https://github.com/lithic-com/lithic-java/commit/aeb65609496301f93bd9d5e13f0dac08b40fe67a))
+
+
+### Chores
+
+* **ci:** Removing pre-release configuration ([500a226](https://github.com/lithic-com/lithic-java/commit/500a226c0e000ed29f223a3545ba57dd300b3b6e))
+* **ci:** Removing pre-release configuration ([56ee4e7](https://github.com/lithic-com/lithic-java/commit/56ee4e7d4209b9d25f78fc09bba51c1b23b7fd1d))
+
+
+### Documentation
+
+* **api:** clarify that begin filters on list endpoints are inclusive (on or after) ([4c5d0af](https://github.com/lithic-com/lithic-java/commit/4c5d0afe277a4f31ae87d75bb279bc82e1f02e7d))
+* **api:** note naics_code is required for KYB_BASIC account holder enrollment ([ddc2fbd](https://github.com/lithic-com/lithic-java/commit/ddc2fbda64ccd6659f5b669fb1117b0f7a7c9f70))
+
 ## [0.136.0](https://github.com/lithic-com/lithic-java/compare/v0.135.0...v0.136.0) (2026-10-28)
 
 
