@@ -131,7 +131,8 @@ private constructor(
     fun isComplete(): Boolean = isComplete.getRequired("is_complete")
 
     /**
-     * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or INTERLINK.
+     * Card network where the transaction took place. ALLPOINT, AMEX, VISA, MASTERCARD, MAESTRO, or
+     * INTERLINK.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -421,8 +422,8 @@ private constructor(
         fun isComplete(isComplete: JsonField<Boolean>) = apply { this.isComplete = isComplete }
 
         /**
-         * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or
-         * INTERLINK.
+         * Card network where the transaction took place. ALLPOINT, AMEX, VISA, MASTERCARD, MAESTRO,
+         * or INTERLINK.
          */
         fun network(network: Network) = network(JsonField.of(network))
 
@@ -938,7 +939,8 @@ private constructor(
     }
 
     /**
-     * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or INTERLINK.
+     * Card network where the transaction took place. ALLPOINT, AMEX, VISA, MASTERCARD, MAESTRO, or
+     * INTERLINK.
      */
     class Network @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
@@ -953,6 +955,8 @@ private constructor(
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         companion object {
+
+            @JvmField val ALLPOINT = of("ALLPOINT")
 
             @JvmField val AMEX = of("AMEX")
 
@@ -969,6 +973,7 @@ private constructor(
 
         /** An enum containing [Network]'s known values. */
         enum class Known {
+            ALLPOINT,
             AMEX,
             VISA,
             MASTERCARD,
@@ -986,6 +991,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            ALLPOINT,
             AMEX,
             VISA,
             MASTERCARD,
@@ -1004,6 +1010,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                ALLPOINT -> Value.ALLPOINT
                 AMEX -> Value.AMEX
                 VISA -> Value.VISA
                 MASTERCARD -> Value.MASTERCARD
@@ -1023,6 +1030,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                ALLPOINT -> Known.ALLPOINT
                 AMEX -> Known.AMEX
                 VISA -> Known.VISA
                 MASTERCARD -> Known.MASTERCARD

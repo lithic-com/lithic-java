@@ -156,7 +156,8 @@ private constructor(
     fun isComplete(): Boolean = isComplete.getRequired("is_complete")
 
     /**
-     * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or INTERLINK.
+     * Card network where the transaction took place. ALLPOINT, AMEX, VISA, MASTERCARD, MAESTRO, or
+     * INTERLINK.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -472,8 +473,8 @@ private constructor(
         fun isComplete(isComplete: JsonField<Boolean>) = apply { this.isComplete = isComplete }
 
         /**
-         * Card network where the transaction took place. AMEX, VISA, MASTERCARD, MAESTRO, or
-         * INTERLINK.
+         * Card network where the transaction took place. ALLPOINT, AMEX, VISA, MASTERCARD, MAESTRO,
+         * or INTERLINK.
          */
         fun network(network: NetworkTotal.Network) = network(JsonField.of(network))
 

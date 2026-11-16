@@ -394,6 +394,8 @@ private constructor(
 
         companion object {
 
+            @JvmField val ALLPOINT = of("ALLPOINT")
+
             @JvmField val AMEX = of("AMEX")
 
             @JvmField val VISA = of("VISA")
@@ -409,6 +411,7 @@ private constructor(
 
         /** An enum containing [Network]'s known values. */
         enum class Known {
+            ALLPOINT,
             AMEX,
             VISA,
             MASTERCARD,
@@ -426,6 +429,7 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            ALLPOINT,
             AMEX,
             VISA,
             MASTERCARD,
@@ -444,6 +448,7 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                ALLPOINT -> Value.ALLPOINT
                 AMEX -> Value.AMEX
                 VISA -> Value.VISA
                 MASTERCARD -> Value.MASTERCARD
@@ -463,6 +468,7 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                ALLPOINT -> Known.ALLPOINT
                 AMEX -> Known.AMEX
                 VISA -> Known.VISA
                 MASTERCARD -> Known.MASTERCARD

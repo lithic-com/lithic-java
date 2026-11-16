@@ -2365,10 +2365,11 @@ private constructor(
         ) : this(amount, pastDue, mutableMapOf())
 
         /**
-         * Payment due at the end of the billing period in cents. Negative amount indicates
-         * something is owed. If the amount owed is positive there was a net credit. If
-         * auto-collections are enabled this is the amount that will be requested on the payment due
-         * date
+         * Payment due at the end of the billing period in cents, excluding any past due amount. A
+         * positive amount indicates something is owed. A negative amount indicates a net credit.
+         * The minimum payment for the statement is the sum of `amount` and `past_due`. If
+         * auto-collections are enabled, this sum is the amount that will be requested on the
+         * payment due date
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -2438,10 +2439,11 @@ private constructor(
             }
 
             /**
-             * Payment due at the end of the billing period in cents. Negative amount indicates
-             * something is owed. If the amount owed is positive there was a net credit. If
-             * auto-collections are enabled this is the amount that will be requested on the payment
-             * due date
+             * Payment due at the end of the billing period in cents, excluding any past due amount.
+             * A positive amount indicates something is owed. A negative amount indicates a net
+             * credit. The minimum payment for the statement is the sum of `amount` and `past_due`.
+             * If auto-collections are enabled, this sum is the amount that will be requested on the
+             * payment due date
              */
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
