@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.138.0](https://github.com/lithic-com/lithic-java/compare/v0.137.0...v0.138.0) (2026-11-20)
+
+
+### Features
+
+* **api:** Fix statement amount_due.amount description ([a3e7f0d](https://github.com/lithic-com/lithic-java/commit/a3e7f0dffb2b423d3a8cbc0bc918cad9d6e5447b))
+
 ## [0.137.0](https://github.com/lithic-com/lithic-java/compare/v0.136.0...v0.137.0) (2026-11-09)
 
 
