@@ -151,7 +151,9 @@ private constructor(
     fun eventType(): EventType = eventType.getRequired("event_type")
 
     /**
-     * Requirements that must be fulfilled before the claim can be submitted
+     * What the client still needs to provide for the claim. The claim can be submitted once
+     * `QUESTIONNAIRE` is no longer in the array. `DOCUMENTS` stays in the array, before and after
+     * submission, while any required document is still outstanding
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -513,7 +515,11 @@ private constructor(
          */
         fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
-        /** Requirements that must be fulfilled before the claim can be submitted */
+        /**
+         * What the client still needs to provide for the claim. The claim can be submitted once
+         * `QUESTIONNAIRE` is no longer in the array. `DOCUMENTS` stays in the array, before and
+         * after submission, while any required document is still outstanding
+         */
         fun outstandingRequirements(outstandingRequirements: List<OutstandingRequirement>) =
             outstandingRequirements(JsonField.of(outstandingRequirements))
 
