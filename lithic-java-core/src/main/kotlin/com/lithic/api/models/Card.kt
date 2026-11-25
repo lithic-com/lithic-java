@@ -352,7 +352,9 @@ private constructor(
         digitalCardArtToken.getOptional("digital_card_art_token")
 
     /**
-     * Two digit (MM) expiry month.
+     * Two digit (MM) expiry month. Cards expire at the end of this month in UTC. A card with expiry
+     * month 01 can be used through 23:59:59 UTC on January 31 and is declined from 00:00:00 UTC on
+     * February 1.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -1104,7 +1106,11 @@ private constructor(
             this.digitalCardArtToken = digitalCardArtToken
         }
 
-        /** Two digit (MM) expiry month. */
+        /**
+         * Two digit (MM) expiry month. Cards expire at the end of this month in UTC. A card with
+         * expiry month 01 can be used through 23:59:59 UTC on January 31 and is declined from
+         * 00:00:00 UTC on February 1.
+         */
         fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
 
         /**

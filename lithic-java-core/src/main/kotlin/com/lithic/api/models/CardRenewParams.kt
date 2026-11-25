@@ -60,6 +60,8 @@ private constructor(
     /**
      * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an expiration
      * date five years in the future will be generated. Five years is the maximum expiration date.
+     * Cards expire at the end of this month in UTC. A card with expiry month 01 can be used through
+     * 23:59:59 UTC on January 31 and is declined from 00:00:00 UTC on February 1.
      *
      * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -235,7 +237,9 @@ private constructor(
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date five years in the future will be generated. Five years is the maximum
-         * expiration date.
+         * expiration date. Cards expire at the end of this month in UTC. A card with expiry month
+         * 01 can be used through 23:59:59 UTC on January 31 and is declined from 00:00:00 UTC on
+         * February 1.
          */
         fun expMonth(expMonth: String) = apply { body.expMonth(expMonth) }
 
@@ -515,7 +519,9 @@ private constructor(
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date five years in the future will be generated. Five years is the maximum
-         * expiration date.
+         * expiration date. Cards expire at the end of this month in UTC. A card with expiry month
+         * 01 can be used through 23:59:59 UTC on January 31 and is declined from 00:00:00 UTC on
+         * February 1.
          *
          * @throws LithicInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -688,7 +694,9 @@ private constructor(
             /**
              * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date five years in the future will be generated. Five years is the maximum
-             * expiration date.
+             * expiration date. Cards expire at the end of this month in UTC. A card with expiry
+             * month 01 can be used through 23:59:59 UTC on January 31 and is declined from 00:00:00
+             * UTC on February 1.
              */
             fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
 
