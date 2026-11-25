@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.138.0](https://github.com/lithic-com/lithic-java/compare/v0.137.0...v0.138.0) (2026-11-25)
+
+
+### Features
+
+* **api:** Document UTC end-of-month card expiry cutoff ([f82393d](https://github.com/lithic-com/lithic-java/commit/f82393d53adc6891b849a35c8749ab2c6853fb28))
+* **api:** Fix statement amount_due.amount description ([a3e7f0d](https://github.com/lithic-com/lithic-java/commit/a3e7f0dffb2b423d3a8cbc0bc918cad9d6e5447b))
+
+
+### Documentation
+
+* **api:** clarify auth rule draft version state and error cover dry run of typescript rules ([2e21d2e](https://github.com/lithic-com/lithic-java/commit/2e21d2e706727fc78e4b2414181e6d21a0a70792))
+* **api:** clarify when dispute claims can be submitted in outstanding_requirements description ([8df7d91](https://github.com/lithic-com/lithic-java/commit/8df7d914feebcc2c573e1143113c851e03efaf11))
+
 ## [0.137.0](https://github.com/lithic-com/lithic-java/compare/v0.136.0...v0.137.0) (2026-11-09)
 
 
